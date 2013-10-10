@@ -21,13 +21,11 @@ import pa._v38.interfaces.modules.I5_2_receive;
 import pa._v38.interfaces.modules.I5_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
-
 import pa._v38.tools.toText;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 
@@ -67,6 +65,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	private boolean mnChartColumnsChanged =true;
 
 	private Hashtable<Object, Object> moDriveChartData;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	/**
 	 * Constructor, and filles the primal repression memory
 	 * 

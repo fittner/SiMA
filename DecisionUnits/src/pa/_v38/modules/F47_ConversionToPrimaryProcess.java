@@ -9,20 +9,20 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import pa._v38.interfaces.modules.I6_9_receive;
+
+import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsActionTools;
-import pa._v38.tools.datastructures.clsMeshTools;
-
+import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 import config.clsProperties;
 
 /**
@@ -38,7 +38,7 @@ import config.clsProperties;
  * 03.03.2012, 15:22:59
  * 
  */
-public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_9_receive, I5_19_send {
+public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_11_receive, I5_19_send {    //Instead of I6_9_receive
 	public static final String P_MODULENUMBER = "47";
 	//FIXME AW: Extends ModulebaseKB is a hack until results from the planning can be used. Then it should be changed 
 	//to clsModuleBase
@@ -47,9 +47,11 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	/** A list of primarty data structure containers, which form the input for phantsies in F46 */
 	private ArrayList<clsThingPresentationMesh> moReturnedTPMemory_OUT;
 	/** The list of generated actions */
-	private ArrayList<clsWordPresentationMesh> moActionCommands_IN;
+	private clsWordPresentationMesh moActionCommands_IN;
 	/** The list of associated memories of the generated actions */
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 * Constructor of F47. Apply properties
@@ -82,7 +84,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 		
 		text += toText.listToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
-		text += toText.listToTEXT("moActionCommands_IN", moActionCommands_IN);
+		text += toText.valueToTEXT("moActionCommands_IN", moActionCommands_IN);
 		
 		return text;
 	}		
@@ -111,10 +113,24 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 			
 		try {
 			moReturnedTPMemory_OUT = getMemoryFromSecondaryProcess(moActionCommands_IN);
-			clsLogger.jlog.debug("Phantasy image: " + moReturnedTPMemory_OUT.toString());
+			log.debug("Phantasy image: " + moReturnedTPMemory_OUT.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+	      //=== Perform system tests ===//
+        if (clsTester.getTester().isActivated()) {
+            log.warn("Systemtester is activated");
+            try {
+                
+                if (moReturnedTPMemory_OUT.isEmpty()==false) {
+                    clsTester.getTester().exeTestAssociationAssignment(moReturnedTPMemory_OUT.get(0));
+                }
+                
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
 	}
 
 	/* (non-Javadoc)
@@ -155,13 +171,13 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * ${tags}
 	 * 
 	 */
-	private ArrayList<clsThingPresentationMesh> getMemoryFromSecondaryProcess(ArrayList<clsWordPresentationMesh> poActionCommands) throws Exception {
+	private ArrayList<clsThingPresentationMesh> getMemoryFromSecondaryProcess(clsWordPresentationMesh poActionCommands) throws Exception {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		
-		if (poActionCommands.isEmpty()==false) {
+		if (poActionCommands!=null) {
 			//Get the first action
-			clsWordPresentationMesh oAction = poActionCommands.get(0);
+			clsWordPresentationMesh oAction = poActionCommands;
 			
 			clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructure(oAction);
 			
@@ -358,16 +374,31 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * 
 	 * @see pa.interfaces.receive._v38.I7_3_receive#receive_I7_3(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
-		//TODO AW: Replace secondarydatastructurecontainer with only datastructurecontainer
-		//moActionCommands_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
-		//Disable deepcopy here, as the exact instance is asked for
-		moActionCommands_IN = poActionCommands;
-
-		
-	}
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
+//		//TODO AW: Replace secondarydatastructurecontainer with only datastructurecontainer
+//		//moActionCommands_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
+//		//Disable deepcopy here, as the exact instance is asked for
+//		moActionCommands_IN = poActionCommands;
+//
+//		
+//	}
+	
+	
+    /* (non-Javadoc)
+    *
+    * @since 02.10.2013 13:04:49
+    * 
+    * @see pa._v38.interfaces.modules.I6_11_receive#receive_I6_11(java.util.ArrayList)
+    */
+   @Override
+   public void receive_I6_11(clsWordPresentationMesh poActionCommands) {
+       moActionCommands_IN = poActionCommands;
+       
+   }   
+	
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -378,6 +409,6 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	@Override
 	public void setDescription() {
 		moDescription = "Contents of various action plans can be used to reduce libido tension in E45. Before they can be processed by primary process functions, they have to be converted back again. The preconscious parts of the contents - the word presentations - are removed by this module.";
-	}	
+	}
 		
 }

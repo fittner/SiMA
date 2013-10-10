@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTriple;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  * @author zeilinger
  * 14.08.2010, 16:11:11
- * 
+ * @deprecated
  */
 public class clsAffect extends clsHomeostaticRepresentation{
 	private double moContent = 0.0; 

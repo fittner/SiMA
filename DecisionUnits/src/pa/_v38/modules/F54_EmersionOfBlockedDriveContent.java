@@ -21,9 +21,9 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import datatypes.helpstructures.clsPair;
 
 /**
  * Repressed drives are attached to incoming drives.
@@ -39,6 +39,8 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	public static final String P_MODULENUMBER = "54";
 	private ArrayList<clsDriveMesh> moDrives;
 	private ArrayList<clsDriveMesh> moInput;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 

@@ -23,10 +23,10 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 
+import datatypes.helpstructures.clsPentagon;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsPentagon;
-import pa._v38.tools.clsTriple;
 
 
 /**
@@ -34,6 +34,7 @@ import pa._v38.tools.clsTriple;
  * 
  * @author hinterleitner 19.05.2012, 16:28:04
  * @author havlicek 13.07.2012 17:32:05
+ * 
  */
 public class clsDrive {
 

@@ -12,8 +12,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_7_send;
@@ -27,11 +25,11 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import testfunctions.clsTester;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import datatypes.helpstructures.clsTriple;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 
@@ -47,7 +45,7 @@ implements I5_6_receive, I5_7_send  {
 	public static final String P_MODULENUMBER = "37";
 	
 	/** Specialized Logger for this class */
-	private Logger log = Logger.getLogger(this.getClass());
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	public static final String P_ACTIVATION_THRESHOLD = "ACTIVATION_THRESHOLD";
 	public static final String P_ACTIVATION_LIMIT = "ACTIVATION_LIMIT";

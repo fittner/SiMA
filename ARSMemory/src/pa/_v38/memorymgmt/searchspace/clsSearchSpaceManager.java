@@ -9,9 +9,9 @@ package pa._v38.memorymgmt.searchspace;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
-import pa._v38.logger.clsLogger;
+import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -25,9 +25,9 @@ import pa._v38.memorymgmt.framessearchspace.enums.eDataSources;
 import pa._v38.memorymgmt.framessearchspace.enums.eSearchMethod;
 import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
 import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsPair;
+import testfunctions.clsTester;
 import config.clsProperties;
+import datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -41,14 +41,15 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 	public static final String P_SEARCH_METHOD = "database_search";
 	public static final String P_SOURCE_NAME = "source_name";
 	private static final String P_DB_URL = "/ARSMemory/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj";
-	
+	//IH
+	//private static final String P_DB_URL = "/ARSMemory/config/_v38/bw/pa.memory/AGENT_IH/BASIC_IH.pprj";
 	public String moDatabaseSource; 
 	public String moSearchMethod; 
 	public String moSourceName;
 	
 	private clsSearchSpaceHandler moSearchSpaceHandler;
 	
-	private Logger log = Logger.getLogger("pa._v38.memorymgmt");
+	private Logger log = clsLogger.getLog("Memory");
 	
 	
 	
@@ -236,7 +237,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			try {
 				clsTester.getTester().exeTestAssociationAssignment(oResult);
 			} catch (Exception e) {
-				clsLogger.jlog.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
 		
@@ -272,7 +273,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			try {
 				clsTester.getTester().exeTestAssociationAssignment(oMatchedDataStructures);
 			} catch (Exception e) {
-				clsLogger.jlog.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
 		

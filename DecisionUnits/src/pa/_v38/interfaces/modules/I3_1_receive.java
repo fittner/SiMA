@@ -8,8 +8,8 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.tools.clsPair;
 
 /**
  * The total amount of libido tension as well as the pair of opposites are transmitted from F41 to F43.

@@ -14,6 +14,7 @@ import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.itfAPBeatable;
 import bw.body.itfget.itfGetBody;
 import bw.entities.base.clsEntity;
+import bw.factories.eImages;
 import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.actions.clsActionAttackLightning;
@@ -123,7 +124,7 @@ public class clsExecutorBeat extends clsActionExecutor{
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//Is something in range
-		itfAPBeatable oAttackEntity = (itfAPBeatable) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPBeatable.class);
+		itfAPBeatable oAttackEntity = (itfAPBeatable) findEntityInRange(moEntity, oBody, moRangeSensor ,itfAPBeatable.class);
 
 
 		if (oAttackEntity==null) {
@@ -131,11 +132,11 @@ public class clsExecutorBeat extends clsActionExecutor{
 			return false;
 		} 
 		//setting a overlay image, normal eating
-//		moEntity.setOverlayImage(eImages.Overlay_Action_Beat);
+		moEntity.setOverlayImage(eImages.Overlay_Action_Beat);
 		//Attack!
 		oAttackEntity.beat(oCommand.getForce() * mrForceScalingFactor);
 		
-        clsAction oAction = new clsAction(1,ePercievedActionType.EAT);
+        clsAction oAction = new clsAction(1,ePercievedActionType.BEAT);
         oAction.attachEntity((clsEntity)oAttackEntity);
         moEntity.addAction(oAction);
 		

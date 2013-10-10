@@ -18,6 +18,7 @@ import bw.body.io.actuators.actionProxies.*;
 import du.enums.eSensorExtType;
 import du.itf.actions.*;
 import bw.entities.base.clsMobile;
+import bw.factories.eImages;
 import bw.body.itfget.itfGetBody;
 
 /**
@@ -102,7 +103,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class) ;
+		itfAPCarryable oEntity = (itfAPCarryable) findEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class) ;
 
 		//nothing there = waste energy
 		if (oEntity==null) return 0;
@@ -121,7 +122,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class);
+		itfAPCarryable oEntity = (itfAPCarryable) findEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class);
 		
 		
 		if (oEntity==null){
@@ -145,7 +146,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		}
 		
                
-        //moEntity.setOverlayImage(eImages.Overlay_Action_PickUp);
+        moEntity.setOverlayImage(eImages.Overlay_Action_PickUp);
         
 		//Attach action to entity
         clsAction oAction = new clsAction(1,ePercievedActionType.PICKUP);

@@ -1,5 +1,4 @@
 /**
- * @author Benny D�nz
  * 05.07.2009, 12:07:04
  * 
  * $Rev::                      $: Revision of last commit

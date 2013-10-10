@@ -9,6 +9,8 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -16,12 +18,11 @@ import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.tools.ElementNotFoundException;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.datastructures.clsActDataStructureTools;
-import pa._v38.tools.datastructures.clsActTools;
-import pa._v38.tools.datastructures.clsEntityTools;
-import pa._v38.tools.datastructures.clsMeshTools;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsActTools;
+import secondaryprocess.datamanipulation.clsEntityTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 
 /**
  * A mesh of >=1 word presentations. If a word presentation is a word, then the word presentation is a sentence 
@@ -33,6 +34,7 @@ import pa._v38.tools.datastructures.clsMeshTools;
 public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 
 	//private String moContent = "UNDEFINED";
+    private final static clsWordPresentationMesh moNullObject = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.NULLOBJECT), new ArrayList<clsAssociation>(), eContentType.NULLOBJECT.toString()); 
 	
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -51,20 +53,34 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		
 		// TODO (wendt) - Auto-generated constructor stub
 	}
+    
+    
+    /**
+     * @since 05.07.2012 22:04:13
+     * 
+     * @return the moNullObjectWPM
+     */
+    public static clsWordPresentationMesh getNullObject() {
+        return moNullObject;
+    }
+    
+    /**
+     * Create an instance of this type
+     *
+     * @author wendt
+     * @since 03.10.2013 15:13:41
+     *
+     * @return
+     */
+    public static clsWordPresentationMesh createInstance(eContentType contentType, String content) {
+        //Create identifiyer. All goals must have the content type "MENTALSITUATION"
+        clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, contentType);
 
-//	public String getMoContent() {
-//		return moContent;
-//	}
-//
-//	/**
-//	 * @author zeilinger
-//	 * 17.03.2011, 00:52:49
-//	 * 
-//	 * @param moContent the moContent to set
-//	 */
-//	public void setMoContent(String moContent) {
-//		this.moContent = moContent;
-//	}
+        //Create the basic goal structure
+        clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), content);    //Here the current step could be used
+
+        return oRetVal;
+    }
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -224,6 +240,15 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		
 		try {
 			//Clone the data structure without associated content. They only exists as empty lists
+		    
+		    //Check if structure already exists in the list
+		    for (clsPair<clsDataStructurePA, clsDataStructurePA> pair : poClonedNodeList) {
+		        if (this.equals(pair.a)) {
+		            //Return clone if this data structure already exists
+		            return pair.b;
+		        }
+		    }
+		    
 			oClone = (clsWordPresentationMesh)super.clone();
 			oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>();
 			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
@@ -264,7 +289,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			if (moExternalAssociatedContent != null) {
 				//Add internal associations to oClone 
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
-        			try { 
+        			try {
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     					
@@ -287,6 +312,22 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			
 		} catch (CloneNotSupportedException e) {
            return e;
+        }
+		
+        //=== Perform system tests ===//
+        clsTester.getTester().setActivated(false);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                log.warn("System tester active");
+                log.debug("Testing original {}", this.getMoContent());
+                clsTester.getTester().exeTestCheckLooseAssociations(this);
+                clsTester.getTester().exeTestAssociationAssignment(this);
+                log.debug("Testing clone {}", this.getMoContent());
+                clsTester.getTester().exeTestCheckLooseAssociations(oClone);
+                clsTester.getTester().exeTestAssociationAssignment(this);
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
         }
 		
 		return oClone;
@@ -321,13 +362,17 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					double rPIMatch = clsActTools.getPIMatchFlag(this);
 					oResult += "(PIMatch=" + rPIMatch + 
 					")(MomConf=" + clsActTools.getMomentConfidenceLevel(this) + 
-					")(Timeout=" + clsActTools.getMovementTimeoutValue(this) + ");"; 
+					")(Timeout=" + clsActTools.getMovementTimeoutValue(this) + ");";
+					oResult += "\nACTION: " + clsActTools.getRecommendedAction(this);
 				} else {  
 					oResult += this.moContentType + ":" + this.moContent;
 					if (this.moInternalAssociatedContent.isEmpty()==false) {
 						oResult += "\nINT ASS: ";
 						for (clsAssociation oEntry : this.moInternalAssociatedContent) {
-							oResult += oEntry.getLeafElement().toString() + ";";
+							if (oEntry instanceof clsAssociationWordPresentation) {
+							    oResult += "\nTPM part:";
+							}
+						    oResult += oEntry.getLeafElement().toString() + ";";
 						}
 					}
 					
@@ -645,7 +690,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
             if (oDS instanceof clsWordPresentationMesh) {
                 clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
                 
-                if (oWPM.getMoContent().equals(poAddWPM.getMoContent()) && oWPM.getMoContentType().equals(poAddWPM.getMoContentType())) {
+                if (oWPM.equals(poAddWPM)==true) {
                     bWPFound = true;    //Do nothing as it is already set
                     break;
                 }
@@ -1005,14 +1050,14 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oContentType
      * @return
      */
-    protected ArrayList<clsWordPresentationMeshFeeling> getNonUniquePropertyWPM(ePredicate oPredicate) {
-        ArrayList<clsWordPresentationMeshFeeling> oRetVal = new ArrayList<clsWordPresentationMeshFeeling>();
+    protected ArrayList<clsWordPresentationMesh> getNonUniquePropertyWPM(ePredicate oPredicate) {
+        ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
     
         ArrayList<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(oPredicate);
         
         if (oDS!=null) {
             for (clsSecondaryDataStructure oF : oDS) {
-                oRetVal.add((clsWordPresentationMeshFeeling) oF);
+                oRetVal.add((clsWordPresentationMesh) oF);
             }
         }
         

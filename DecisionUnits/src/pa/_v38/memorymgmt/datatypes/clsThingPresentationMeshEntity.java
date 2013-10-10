@@ -8,11 +8,11 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.datastructures.clsMeshTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

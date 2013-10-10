@@ -38,13 +38,14 @@ import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.clsShape3DCreator;
+//import bw.entities.tools.clsShape3DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 //import bw.utils.inspectors.entity.clsInspectorARSin;
 import bw.body.io.clsExternalIO;
+import bw.body.io.actuators.actionProxies.itfAPAttackableBite;
 import bw.body.io.actuators.actionProxies.itfAPBeatable;
 import bw.body.io.actuators.actionProxies.itfAPKissable;
 
@@ -56,7 +57,7 @@ import bw.body.io.actuators.actionProxies.itfAPKissable;
  * @author langr
  * 
  */
-public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable, itfAPBeatable {
+public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable, itfAPBeatable, itfAPAttackableBite {
 	public static final String P_SHAPE_ALIVE		= "shape_alive";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	public static final String P_ALIVE              = "alive";
@@ -143,10 +144,10 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		
-		moAlive2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp, true); 
+		moAlive2D = clsShape2DCreator.createShapeWithOverlays(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp, true); 
 		moDead2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
-		moAlive3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
-		moDead3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
+		//moAlive3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
+		//moDead3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
 		
 		mnAlive = poProp.getPropertyBoolean(pre+P_ALIVE);
 		mnImmortal = poProp.getPropertyBoolean(pre+P_IMMORTAL);
@@ -269,10 +270,10 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		} else {
 			if (mnAlive != ((clsComplexBody)moBody).isAlive()) {
 				mnAlive = ((clsComplexBody)moBody).isAlive();
-				updateShape();
+				
 			}
 		}
-		
+		updateShape();
 		return mnAlive;
 	}	
 	
@@ -283,11 +284,15 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 			set3DShape(moDead3D);
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		} else {
+			
+			
 			clsEventLogger.add(new Event(this, getId(), eEvent.ALIVE, ""));
 			set2DShape(moAlive2D, getTotalWeight());
 			set3DShape(moAlive3D);
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}
+		 
+		 setLifeValue(((clsComplexBody)moBody).getRelativeHealthValue());
 	}	
 	
 	/**
@@ -379,5 +384,36 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		return oNewEntity;
 
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 16.09.2013 13:44:47
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPAttackableBite#tryBite(double)
+	 */
+	@Override
+	public double tryBite(double pfForce) {
+		return 0.0;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 16.09.2013 13:44:47
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPAttackableBite#bite(double)
+	 */
+	@Override
+	public void bite(double pfForce) {
+		double rHurtFactor = 0.5;
+		
+			if(moBody instanceof clsComplexBody){
+				clsComplexBody oBody = (clsComplexBody) moBody;
+				oBody.getInternalSystem().getHealthSystem().hurt(pfForce * rHurtFactor);
+				
+				
+			}
+		}
+		
+	
 
 }

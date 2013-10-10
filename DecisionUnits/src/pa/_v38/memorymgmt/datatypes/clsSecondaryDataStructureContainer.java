@@ -9,14 +9,14 @@ package pa._v38.memorymgmt.datatypes;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import pa._v38.tools.clsPair;
+import datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 23.05.2010, 21:42:31
- * 
+ * @deprecated
  */
 public class clsSecondaryDataStructureContainer extends clsDataStructureContainer {
 		

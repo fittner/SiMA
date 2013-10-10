@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.tools.clsTriple;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -18,7 +18,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:15
- * 
+ * @deprecated
  */
 public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	/** External associations to location, DMs or other TPMs (Images) are placed here; @since 29.11.2011 11:13:42 */

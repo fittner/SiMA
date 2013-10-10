@@ -7,10 +7,12 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.SortedMap;
+
 import config.clsProperties;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.interfaces.modules.I5_17_receive;
 import pa._v38.interfaces.modules.I5_16_receive;
 import pa._v38.interfaces.modules.I6_14_receive;
@@ -24,12 +26,8 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-//import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
-//import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-//import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 //import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 //import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -61,10 +59,8 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 //import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 //import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsMeshTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * - Converts separated quota of affect into affects for the secondary process.
@@ -112,6 +108,8 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 
 	private boolean add;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	/**
 	 * DOCUMENT (gelbard) - insert description 
 	 * 
@@ -230,7 +228,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	 * @see pa.interfaces.I5_3#receive_I5_3(int)
 	 */
 	@Override
-	public void receive_I6_5(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
+	public void receive_I6_5(ArrayList<clsWordPresentationMeshAimOfDrive> poDriveList) {
 		//moDriveList_Input_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
 		//moDriveList_Input = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);
 	}

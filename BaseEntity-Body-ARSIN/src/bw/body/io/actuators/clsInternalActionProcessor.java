@@ -45,6 +45,7 @@ public class clsInternalActionProcessor implements itfInternalActionProcessor {
 	 static double srInventoryStaminaDemand = 0.25f;		//Stamina demand for a full inventory  
 	 static double srInventoryEnergyRelation = 0.2f;		//Relation energy to stamina
 
+	 static int snExecutionHistoryOutputLength = 10;
 
 	 private static final int mnUniqueId = clsUniqueIdGenerator.getUniqueId();
 
@@ -196,7 +197,9 @@ public class clsInternalActionProcessor implements itfInternalActionProcessor {
 		
 		if (moInternalExecutionHistory.isEmpty()==false) {
 			if (moInternalExecutionHistory.get(0).meResult.toString().equals("EXECUTIONRESULT_EXECUTED")==false) {
-				System.out.println(this.moInternalExecutionHistory.toString());
+				//Kollmann: writing the whole execution history floods the console, we need to restrict the output
+				int nTempSize = moInternalExecutionHistory.size();
+				System.out.println(moInternalExecutionHistory.subList(Math.max(nTempSize - snExecutionHistoryOutputLength, 0), nTempSize));
 			}
 		}
 	}

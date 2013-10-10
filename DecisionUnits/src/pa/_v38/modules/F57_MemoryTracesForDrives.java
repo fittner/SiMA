@@ -25,10 +25,10 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (hinterleitner)  
@@ -56,6 +56,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moTimeChartData;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 * DOCUMENT (zeilinger) 

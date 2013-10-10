@@ -35,6 +35,7 @@ import bw.entities.base.clsMobile;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
+import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
@@ -119,7 +120,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
 		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 5000);
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1);
 
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPE_FRESH);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
@@ -133,7 +134,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "carrot_grayscale.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
-		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 5.0 );
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 15.0 );
 		
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_LIBIDINOUS_STIMULATION, 0.03);
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_AGGRESSIV_STIMULATION, 0.07);
@@ -152,8 +153,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 150);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
 		
-		oProp.setProperty(pre+P_REGROW_STEPS_MIN, 250);
-		oProp.setProperty(pre+P_REGROW_STEPS_MAX, 1000);
+		oProp.setProperty(pre+P_REGROW_STEPS_MIN,100);
+		oProp.setProperty(pre+P_REGROW_STEPS_MAX, 125);
 
 		return oProp;
 	}
@@ -281,7 +282,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	}
 
 	private void updateShape() {
-		if (getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
+	/*	if (getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			// state has changed recently to no_food_left
 			// update shape to the gray carrot
 			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
@@ -293,7 +294,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 			clsEventLogger.add(new Event(this, getId(), eEvent.RESPAWN, ""));
 			mnShapeUpdated = true;
 			set2DShape(moFresh2D, getTotalWeight());
-		}		
+		}	
+	*/	
 	}
 	
 	private void regrowIt() {
@@ -302,6 +304,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 			if (mnStepsUntilRegrow <= 0) {
 				try {
 					getFlesh().setWeight(mrInitialFleshWeight);
+						clsRegisterEntity.addEntity(getMobileObject2D());
+						setVariableWeight(getFlesh().getWeight());
 					mnShapeUpdated = false;
 					mnStepsUntilRegrow = mnRegrowRate;
 				} catch (exFoodWeightBelowZero e) {
@@ -321,7 +325,10 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	@Override
 	public void updateInternalState() {
 		updateShape();
-		regrowIt();
+		if(getFlesh().getTotallyConsumed()){
+			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
+			regrowIt();
+		}
 	}
 	
 	/* (non-Javadoc)

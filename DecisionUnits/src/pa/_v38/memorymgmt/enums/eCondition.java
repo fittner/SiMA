@@ -30,6 +30,7 @@ public enum eCondition {
 	// --- Decision codelets preprocessing --- //
 	IS_CONTINUED_GOAL,
 	IS_UNPROCESSED_GOAL,
+	IS_NEW_GOAL,
 	
 	// --- Executed actions as preconditions --- //
 	//Actions - Movement single
@@ -49,7 +50,8 @@ public enum eCondition {
 	EXECUTED_BEAT,
 	EXECUTED_PICKUP,
 	EXECUTED_BITE,
-	EXECUTED_SUCK, 
+	EXECUTED_SUCK,
+	EXECUTED_DIVIDE,
 	//Actions - Unreal
 	EXECUTED_UNREAL_MOVE_TO,
 	//Internal actions
@@ -93,7 +95,8 @@ public enum eCondition {
 	COMPOSED_CODELET,
 	
 	//Special condition by emotions
-	PANIC;
+	PANIC,
+	SPEECH;
 	
 
 	

@@ -10,7 +10,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import bw.ARSIN.clsARSIN;
 import bw.entities.base.clsEntity;
+import bw.factories.clsRegisterEntity;
 
 import entities.clsApple;
 import entities.clsAppleGreen;
@@ -129,6 +131,7 @@ public class clsEntityFactory {
 				Constructor<clsEntity> oContructor=moEntities.get(pnEntityType).getConstructor(itfDecisionUnit.class, String.class, clsProperties.class, int.class);
 				oEntity = oContructor.newInstance(poDU,pre,poPropEntity,uid);
 			}
+
 			oEntity.registerEntity();
 
 		} catch (Exception e) {

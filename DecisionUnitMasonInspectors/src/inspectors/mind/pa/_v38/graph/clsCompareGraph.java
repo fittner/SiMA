@@ -17,11 +17,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
@@ -30,6 +32,7 @@ import org.jgraph.graph.DefaultPort;
 import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
+
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -46,8 +49,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
+
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
 import com.jgraph.components.labels.RichTextValue;
@@ -57,6 +59,9 @@ import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
+
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsSensorIntern;

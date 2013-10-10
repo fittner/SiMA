@@ -12,6 +12,8 @@ import java.util.SortedMap;
 
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import du.enums.eFastMessengerSources;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
@@ -33,8 +35,6 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -83,6 +83,8 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 	private boolean mnChartColumnsChanged = true;
 
 	private HashMap<String, Double> moDriveChartData;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 * Constructor

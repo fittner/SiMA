@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTriple;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -25,7 +25,7 @@ public abstract class clsPhysicalRepresentation extends clsPrimaryDataStructure{
 	 * @author zeilinger
 	 * 24.05.2010, 12:39:08
 	 * @param poWordPresentationAssociation 
-	 *
+	 *@deprecated
 	 */
 	public clsPhysicalRepresentation(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier); 

@@ -9,8 +9,8 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import java.util.SortedMap;
+
 import pa._v38.modules.eImplementationStage;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.modules.I3_3_receive;
@@ -27,11 +27,11 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
 import du.enums.pa.eDriveComponent;
@@ -65,6 +65,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	private HashMap<eDrive, eOrifice> moOrificeMap;
 	private HashMap<eDrive, eOrgan> moOrganMap;
 	private HashMap<eDrive, ePartialDrive> moPartialDriveMapping;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 *F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 

@@ -2,9 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/j3dcore.jar"/>
-	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/j3dutils.jar"/>
-	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/mason.jar" sourcepath="S:/MASON"/>
-	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/vecmath.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Libraries"/>
+	<classpathentry kind="lib" path="/Libraries/j3dcore.jar"/>
+	<classpathentry kind="lib" path="/Libraries/j3dutils.jar"/>
+	<classpathentry kind="lib" path="/Libraries/mason.jar"/>
+	<classpathentry kind="lib" path="/Libraries/vecmath.jar"/>
+	<classpathentry kind="lib" path="/Libraries/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jansi-1.9.jar"/>
+	<classpathentry kind="lib" path="/Libraries/slf4j-1.7.5/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="lib" path="/Libraries/slf4j-1.7.5/slf4j-log4j12-1.7.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

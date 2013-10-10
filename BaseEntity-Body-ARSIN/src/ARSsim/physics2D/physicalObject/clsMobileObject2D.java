@@ -25,7 +25,7 @@ import sim.portrayal.LocationWrapper;
 
 
 import ARSsim.motionplatform.clsMotionPlatform;
-import ARSsim.physics2D.shape.clsCircleImage;
+import ARSsim.physics2D.shape.clsAnimatedCircleImage;
 import ARSsim.physics2D.util.clsPose;
 
 import bw.entities.base.clsEntity;
@@ -69,7 +69,7 @@ public class clsMobileObject2D extends
 	//added by SK: the following members are used for surfaces
 	//values identical to superclass but are declared private there 
 	protected final double mrZeroVelocity = 0.01;
-	protected final double mrGravity = 0.1;
+	protected final double mrGravity = 0.1; 
 	protected double mrNormalForce = 80 * mrGravity; //assumes an arsin with 80kg and the given gravity resulting in N = 8
 	//other things used for friction
 	protected clsSurfaceHandler moSurfaceHandler = clsSurfaceHandler.getInstance();
@@ -489,8 +489,8 @@ public class clsMobileObject2D extends
 	@Override
 	public void setOverlayImage(eImages poOverlay) {
 		Shape oShape = this.getShape();
-		if(oShape instanceof clsCircleImage){
-			((clsCircleImage) oShape).setOverlayImage(poOverlay);
+		if(oShape instanceof clsAnimatedCircleImage){
+			((clsAnimatedCircleImage) oShape).setOverlayImage(poOverlay);
 		}
 		
 	}
@@ -498,8 +498,8 @@ public class clsMobileObject2D extends
 	@Override
 	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay) {
 		Shape oShape = this.getShape();
-		if(oShape instanceof clsCircleImage){
-			((clsCircleImage) oShape).setFacialExpressionOverlayImage(poOverlay);
+		if(oShape instanceof clsAnimatedCircleImage){
+			((clsAnimatedCircleImage) oShape).setFacialExpressionOverlayImage(poOverlay);
 		}
 		
 	}
@@ -508,16 +508,16 @@ public class clsMobileObject2D extends
 	@Override
 	public void setThoughtExpressionOverlayImage(eSpeechExpression poOverlay) {
 		Shape oShape = this.getShape();
-		if(oShape instanceof clsCircleImage){
-			((clsCircleImage) oShape).setThoughtExpressionOverlayImage(poOverlay);
+		if(oShape instanceof clsAnimatedCircleImage){
+			((clsAnimatedCircleImage) oShape).setThoughtExpressionOverlayImage(poOverlay);
 		}
 		
 	}
 	@Override
 	public void setCarriedItem(BufferedImage poOverlay) {
 		Shape oShape = this.getShape();
-		if(oShape instanceof clsCircleImage){
-			((clsCircleImage) oShape).setCarriedItem(poOverlay);
+		if(oShape instanceof clsAnimatedCircleImage){
+			((clsAnimatedCircleImage) oShape).setCarriedItem(poOverlay);
 		}
 		
 	}
@@ -531,9 +531,26 @@ public class clsMobileObject2D extends
 	@Override
 	public void setSpeechExpressionOverlayImage(eSpeechExpression poOverlay) {
 		Shape oShape = this.getShape();
-		if(oShape instanceof clsCircleImage){
-			((clsCircleImage) oShape).setSpeechExpressionOverlayImage(poOverlay);
+		if(oShape instanceof clsAnimatedCircleImage){
+			((clsAnimatedCircleImage) oShape).setSpeechExpressionOverlayImage(poOverlay);
 		}
 		
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.09.2013 15:22:00
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setLifeValue(double)
+	 */
+	@Override
+	public void setLifeValue(double value) {
+		Shape oShape = this.getShape();
+		if(oShape instanceof clsAnimatedCircleImage){
+			((clsAnimatedCircleImage) oShape).setLifeValue(value);
+		}
+		
+	}
+	
+	
 }

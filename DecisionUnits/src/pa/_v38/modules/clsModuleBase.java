@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedMap;
 
+import org.slf4j.Logger;
+
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
@@ -61,6 +63,8 @@ public abstract class clsModuleBase implements
 	/** List of all interfaces. Filled at startup by introspection.; @since 12.07.2011 15:02:08 */
 	private ArrayList<eInterfaces> moInterfaces;
 	
+	protected final Logger log;
+	
 	/**
 	 * This constructor creates all functional modules with the provided properties. Further, all attributes of the module like process type, 
 	 * psychic instance, module naumber, description, and interfaces list are set.
@@ -80,6 +84,9 @@ public abstract class clsModuleBase implements
 		setModuleNumber();
 		setDescription();
 		setInterfacesList();
+		
+		 log = logger.clsLogger.getLog("F" + mnModuleNumber);
+		//System.out.println("Set logger: "+ log.getName() + ", root " + log.ROOT_LOGGER_NAME);
 		
 		if (mnModuleNumber == null || mnModuleNumber == 0) {
 			throw new java.lang.Exception("mnModuleNumber not set.");

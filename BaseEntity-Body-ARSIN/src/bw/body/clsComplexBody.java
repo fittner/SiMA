@@ -60,6 +60,7 @@ import bw.utils.tools.clsFood;
  * @author langr
  * 
  */
+
 public class clsComplexBody extends clsBaseBody implements 
 							itfGetInternalEnergyConsumption, itfGetBrain,
 							itfGetInternalIO, itfGetExternalIO {
@@ -347,6 +348,12 @@ public class clsComplexBody extends clsBaseBody implements
 	
 	public boolean isAlive() {
 		return moInternalSystem.getHealthSystem().getIsAlive();
+	}
+	
+	public double getRelativeHealthValue(){
+		double rMax = moInternalSystem.getHealthSystem().getHealth().getMaxContent();
+		double oRetVal = moInternalSystem.getHealthSystem().getHealth().getContent()/rMax;
+		return oRetVal;
 	}
 	
 	/**

@@ -8,7 +8,6 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import java.util.SortedMap;
 import java.util.Map.Entry;
 
@@ -29,11 +28,11 @@ import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.memorymgmt.enums.eDriveProperty;
 import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import du.enums.eFastMessengerSources;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
@@ -88,6 +87,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	//charts
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData; 
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
     
     
 	/**

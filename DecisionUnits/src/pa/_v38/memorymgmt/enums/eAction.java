@@ -36,7 +36,7 @@ public enum eAction {
 	DROP,
 	NONE,
 	BEAT,
-	SHARE_THE_FOOD_WITH_OTHERS,
+	DIVIDE,
 	
 	//Unreal actions
 	UNREAL_MOVE_TO,
@@ -63,7 +63,9 @@ public enum eAction {
 	SEARCH1,
 	FLEE,
 	STRAFE_RIGHT,
-	STRAFE_LEFT;
+	STRAFE_LEFT,
+	SPEAK,
+	SPEAK_EAT;
 	
 	public static eAction getAction(String poAction) {
 		return eAction.valueOf(poAction);

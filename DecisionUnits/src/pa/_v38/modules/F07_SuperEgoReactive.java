@@ -32,13 +32,11 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsPair;
-//import pa._v38.tools.clsQuadruppel;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
-//import du.enums.pa.eContext;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 
@@ -62,7 +60,7 @@ import statictools.clsGetARSPath;
 public class F07_SuperEgoReactive extends clsModuleBase
 	implements I5_12_receive, I5_10_receive, I5_11_send, I5_13_send, itfGraphInterface{
 
-	public static final String P_MODULENUMBER = "7";
+	public static final String P_MODULENUMBER = "07";
 	
 	public static final String P_SUPER_EGO_STRENGTH = "SUPER_EGO_STRENGTH";
 	public static final String P_SUPER_EGO_RULES_FILE = "SUPER_EGO_RULES_FILE";
@@ -93,14 +91,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
 	private ArrayList<String> Test= new ArrayList<String>() ;
-	private ArrayList<String> moSuperEgoOutputRules = new ArrayList <String> (); //für die Ausgabe
-//	private ArrayList<clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>> moSuperEgoDrivesRules =
-//			new ArrayList<clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>>();
-//	
-//	private ArrayList<clsPair<String,String>>  moSuperEgoEmotionsRules =new ArrayList<clsPair<String,String>> ();
-//	private ArrayList<clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>> moSuperEgoPerceptionsRules =new ArrayList<clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>>();
-	
-// Ivy begin ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //	
+//	Ivy begin ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //
+	private ArrayList<String> moSuperEgoOutputRules = new ArrayList <String> (); //für die Ausgabe	
 	
 	/**
 	 * DOCUMENT (Jordakieva) - die Klasse speichert die Über-Ich-Regeln (Perceptions, Drives, Emotions), welche extern aus einer Datei ausgelesen werden
@@ -382,10 +374,6 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	}
 	
 	
-// Ivy // ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //
-	
-	
-	
 	/**
 	 * DOCUMENT (zeilinger) - insert description Ivy: liest die SuperEgoRules Datei aus
 	 * 
@@ -414,9 +402,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		applyProperties(poPrefix, poProp); 
 		
-		threshold_psychicEnergy = poPersonalityParameterContainer.getPersonalityParameter("F0"+P_MODULENUMBER,P_PSYCHIC_ENERGY_THESHOLD).getParameterInt();
-		msPriorityPsychicEnergy = poPersonalityParameterContainer.getPersonalityParameter("F0"+P_MODULENUMBER,P_PSYCHIC_ENERGY_PRIORITY).getParameterInt();
-		moSuperEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F0"+P_MODULENUMBER,P_SUPER_EGO_STRENGTH).getParameterDouble();
+		threshold_psychicEnergy = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PSYCHIC_ENERGY_THESHOLD).getParameterInt();
+		msPriorityPsychicEnergy = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PSYCHIC_ENERGY_PRIORITY).getParameterInt();
+		moSuperEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SUPER_EGO_STRENGTH).getParameterDouble();
 		
 // Ivy begin ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //
 		
@@ -724,15 +712,36 @@ public class F07_SuperEgoReactive extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
-	 * 02.05.2011, 15:49:48
+	 * @author kollmann
+	 * 17.09.2013, 14:00
 	 * 
 	 * @see pa._v38.modules.clsModuleBase#process_draft()
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (zeilinger) - Auto-generated method stub
-		
+//		try {
+//			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.clone();
+//		} catch (CloneNotSupportedException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		//clear the list of forbidden drives, every turn
+//		moForbiddenDrives.clear();
+//		
+//		if(moSuperEgoStrength >= 0.5) //if super ego is strong enough - 0.5 is an arbitrary value
+//		{
+//			//simple_rule to deal with eating in BODOs vicinity
+//
+//			ArrayList<String> oEntities = new ArrayList<String> ();
+//
+//			oEntities.add("BODO");
+//
+//			simple_rule(eDriveComponent.LIBIDINOUS,
+//				eOrgan.STOMACH,
+//				0.0, //FIXME Kollmann: The super-rule for divide should only fire above a certain QoA
+//				0.1, // Kollmann: When the stomach is full -> LIB/STOM has a QoA ~ 0.04 
+//				oEntities);
+//		}
 	}
 
 	/* (non-Javadoc)
@@ -748,6 +757,99 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 	}
 	
+//	
+//	/**
+//	 * DOCUMENT (Kollmann) - alternative call to simple_rule without any perceivable entities
+//	 *
+//	 * @since 17.09.2013 14:16:37
+//	 *
+//	 * @param poComponent the drive component (poComponent.LIBIDINOUSE or poComponent.AGGRESIVE)
+//	 * @param poOrgan the drive source
+//	 * @param pnMinQuota the minimum quota of affect the drive needs to activate the rule
+//	 * @param pnMaxQuota the maximum (>=) QoA the drive can have to activate the rule
+//	 * @return true if the rule was triggered, false otherwise
+//	 */
+//	protected boolean simple_rule(eDriveComponent poComponent, eOrgan poOrgan, double pnMinQuota, double pnMaxQuota)
+//	{
+//	    return simple_rule(poComponent, poOrgan, pnMinQuota, pnMaxQuota, new ArrayList<String>());
+//	}
+//	
+//	/**
+//	 * DOCUMENT (Kollmann) - Checks if the rule, defined by the parameters, is present and, if it is,
+//	 *                       adds the corresponding eDriveComponent/eOrgan combination to the list of
+//	 *                       forbidden drives
+//	 *
+//	 * @since 17.09.2013 14:18:15
+//	 *
+//	 * @param poComponent the drive component (poComponent.LIBIDINOUSE or poComponent.AGGRESIVE) 
+//	 * @param poOrgan the drive source
+//	 * @param pnMinQuota the minimum QoA the drive needs to activate the rule
+//	 * @param pnMaxQuota the maximum QoA the drive can have to activate the rule
+//	 * @param poPerceivedEntities - a list of perceivable entities - the rule will only trigger if all
+//	 *                              these entities are currently perceived
+//	 * @return true if the rule was triggered, false otherwise
+//	 */
+//	protected boolean simple_rule(eDriveComponent poComponent, eOrgan poOrgan, double pnMinQuota, double pnMaxQuota,
+//			ArrayList<String> poPerceivedEntities)
+//	{
+//		boolean rule_triggered = false;
+//		clsPair<eDriveComponent, eOrgan> oDrive;
+//		
+//		clsQuadruppel<String, eDriveComponent, eOrgan, Double> oForbiddenDrive = null;
+//		clsTriple<String, clsQuadruppel<String, eDriveComponent, eOrgan, Double>, ArrayList<String>> oDriveRules=null;
+//		ArrayList<String> oContentTypeDrives= new ArrayList<String> ();
+//				
+//		//check for a fitting drive
+//		for(clsDriveMesh oDrives : moDrives){
+//			if (oDrives.getDriveComponent().equals(poComponent) &&
+//				oDrives.getActualDriveSourceAsENUM().equals(poOrgan) &&
+//				oDrives.getQuotaOfAffect() >= pnMinQuota &&
+//				oDrives.getQuotaOfAffect() <= pnMaxQuota)
+//			{		
+//				//logging for inspectors
+//				oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>(
+//						pnMinQuota + " =< " + poComponent.toString() + "/" + poOrgan.toString() + " >= " + pnMaxQuota,
+//						poComponent,
+//						poOrgan,
+//						pnMinQuota);
+//				
+//				//check if entities are perceived
+//				for(String oEntity : poPerceivedEntities)
+//				{
+//					if(searchInTPM(eContentType.ENTITY, oEntity))
+//					{
+//						oContentTypeDrives.add("ENTITY=" + oEntity);
+//					}
+//				}
+//	
+//				if(oContentTypeDrives.size() > poPerceivedEntities.size()) //should never happen
+//				{
+//					System.err.println("PROBLEM: found more perceivide entities than specified entities");
+//				}else if(oContentTypeDrives.size() == poPerceivedEntities.size())
+//				{
+//				  //forbid drive, if not yet forbidden
+//					oDrive = new clsPair<eDriveComponent, eOrgan>(poComponent, poOrgan);
+//					
+//					if (!moForbiddenDrives.contains(oDrive)) // no duplicate entries
+//					{
+//						moForbiddenDrives.add(oDrive);
+//						rule_triggered = true;
+//					}
+//					
+//					//log forbidding of drive
+//					oDriveRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>("SuperEgoStrength >= 0.5", oForbiddenDrive, oContentTypeDrives);
+//					if(!moSuperEgoDrivesRules.contains(oDriveRules))
+//					{
+//						// add rule info to inspector 
+//						moSuperEgoDrivesRules.add(oDriveRules);
+//					}
+//				}
+//			}
+//		}
+//		
+//		
+//		return rule_triggered;
+//	}
 	
 	/* (non-Javadoc)
 	 *
@@ -763,22 +865,11 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		moForbiddenDrives     .clear();
 		moForbiddenPerceptions.clear();
 		moForbiddenEmotions   .clear();
-		
-//		String oSuperEgoStrength= null;
-//		
-//		clsQuadruppel<String, eDriveComponent, eOrgan, Double> oForbiddenDrive = null;
-//		clsTriple<String, clsQuadruppel<String, eDriveComponent, eOrgan, Double>, ArrayList<String>> oDriveRules=null;
-//		clsTriple<String, clsQuadruppel<String, eDriveComponent, eOrgan, Double>, ArrayList<String>> oPerceptionRules=null;
-//		clsPair<String,String> oEmotionRules=null;
-//		
-//		
-//		ArrayList<String> oContentTypeDrives= new ArrayList<String> ();
-//		ArrayList<String> oContentTypePerceptions= new ArrayList<String> ();
-		
+				
 // Ivy ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //
 
 		moSuperEgoOutputRules.clear();
-		
+				
         int nRules = oRegeln.size(); //number of rules
         
         if (nRules > 0) {
@@ -887,7 +978,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
                                                 oRegeln.get(i).oForbiddenEmotionRule.get(tmp).b[0].toString() + " " +
                                                     oRegeln.get(i).oForbiddenEmotionRule.get(tmp).b[1].toString());
                                     moSuperEgoOutputRules.add("----------------------------------------------");
-
+		
                                     
                                     for (int fd = 0; fd < oRegeln.get(i).FDriveSize(); fd++) {
                                         if (!moForbiddenDrives.contains(oRegeln.get(i).getForbiddenDrive(fd))) 
@@ -910,203 +1001,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
                 System.err.println("Index nicht vorhanden");
             }
         }
-//        System.out.println("JUHUU :D!");
- 
-// Ivy // ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //
-		
-//		
-//		
-//		// sample rule for repression of drives
-//		// (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH) means "EAT"
-//		if (moSuperEgoStrength >= 0.5) {
-//			
-//			oSuperEgoStrength="SuperEgoStrength >= 0.5";
-//			
-//			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
-//				searchInTPM (eContentType.ENTITY, "BODO") &&
-//				searchInTPM (eContentType.ENTITY, "CAKE")) {
-//				
-//				// To view the Rules for drives on the Simulator --> state  
-//				oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>("Drive Component="+" Hunger",eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0);
-//				oContentTypeDrives.add("Entity = BODO");
-//				oContentTypeDrives.add("CAKE");
-//				oDriveRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>(oSuperEgoStrength,oForbiddenDrive,oContentTypeDrives);
-//							
-//				// If all the conditions above are true then Super-Ego can fire.
-//				// That means, an internalized rule was detected to be true.
-//				// So the Super-Ego conflicts now with Ego. And Super-Ego requests from Ego to activate defense.
-//				
-//				
-//				// The following drive was found by Super-Ego as inappropriate or forbidden.
-//				// Therefore the Super-Ego marks the drive as forbidden and sends the mark to the Ego.
-//				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.LIBIDINOUS, eOrgan.STOMACH);
-//				if (!moForbiddenDrives.contains(oDrive)) // no duplicate entries
-//					moForbiddenDrives.add(oDrive);
-//				
-//				if(!moSuperEgoDrivesRules.contains(oDriveRules)){
-//					// add Rules for drives on the Simulator --> state 
-//					moSuperEgoDrivesRules.add(oDriveRules);
-//					}
-//
-//			}
-//		} 
-//		
-//		
-//		// sample rule for denial of perceptions
-//		// (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH) means "EAT"
-//		if (moSuperEgoStrength >= 0.5) { //0.8
-//			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
-//				searchInTPM (eContentType.ENTITY, "BODO") &&
-//				searchInTPM (eContentType.ENTITY, "CAKE"))
-//				
-//								
-//				// If all the conditions above are true then Super-Ego can fire.
-//				// That means, an internalized rule was detected to be true.
-//				// So the Super-Ego conflicts now with Ego. And Super-Ego requests from Ego to activate defense.
-//				
-//				
-//				
-//				// The following perception was found by Super-Ego as inappropriate or forbidden.
-//				// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
-//				if (!moForbiddenPerceptions.contains(new clsPair<eContentType, String> (eContentType.ENTITY, "CAKE"))){
-//					moForbiddenPerceptions.add(new clsPair<eContentType, String> (eContentType.ENTITY, "CAKE"));
-//					
-//					// To view the Rules for Perceptions on the Simulator --> state
-//					oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>("Drive Component="+" Hunger",eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0);
-//					oContentTypePerceptions.add("EntityOfPerception= CAKE");
-//					oPerceptionRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>(oSuperEgoStrength,oForbiddenDrive,oContentTypePerceptions);
-//				
-//					
-//					if(!moSuperEgoPerceptionsRules.contains(oPerceptionRules)){
-//						// add Rules for Perceptions on the Simulator --> state
-//						moSuperEgoPerceptionsRules.add(oPerceptionRules);
-//						}
-//				}
-//		}
-//
-//		
-//		// sample rule for conversion of emotion anger into emotion fear (reversal of affect)
-//		if (moSuperEgoStrength >= 0.5) {
-//			if (searchInEmotions (eEmotionType.ANGER)) {
-//				// To view the Rules for Emotions on the Simulator --> state
-//				oEmotionRules= new clsPair<String,String> ("moSuperEgoStrength >= 0.5","ANGER");
-//				if (!moForbiddenEmotions.contains(eEmotionType.ANGER))
-//					moForbiddenEmotions.add(eEmotionType.ANGER);
-//			
-//				
-//					
-//        		if(!moSuperEgoEmotionsRules.contains(oEmotionRules)){
-//        			// add Rules for Emotions on the Simulator --> state
-//        			moSuperEgoEmotionsRules.add(oEmotionRules);
-//        		}
-//			}
-//		} 
-//				
-//		
-//
-//		// sample rule for conversion of aggressive drive energy into anxiety
-//		// (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH) means "BITE"
-//		// (by repressing the aggressive drive energy, anxiety is produced)
-//
-//		if (moSuperEgoStrength >= 0.5) {//0.8
-//			if (searchInDM (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.39)) {
-//
-//				
-//				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.AGGRESSIVE, eOrgan.STOMACH);
-//				oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>("Drive Component="+"Hunger",eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.39);
-//				oDriveRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>(oSuperEgoStrength,oForbiddenDrive,null);
-//					
-//				if (!moForbiddenDrives.contains(oDrive))
-//					moForbiddenDrives.add(oDrive);
-//				if(!moSuperEgoDrivesRules.contains(oDriveRules)){
-//					moSuperEgoDrivesRules.add(oDriveRules);
-//					}
-//
-//			}
-//		}
-        		
 	}
-	
-//	/* (non-Javadoc)
-//	 *
-//	 * @author gelbard
-//	 * 03.07.2011, 17:06:49
-//	 * 
-//	 * searches in the input-perception for example for an ENTITY like ARSIN
-//	 * 
-//	 */
-//	private boolean searchInTPM (eContentType oContentType, String oContent) {
-//		
-//		// search in perceptions
-//		ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getMoInternalAssociatedContent();
-//		for(clsAssociation oAssociation : oInternalAssociations){
-//			if (oAssociation.getMoAssociationElementB() instanceof clsThingPresentationMesh)
-//				if( ((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContentType().equals(oContentType) &&
-//					((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContent().equals(oContent) )
-//					return true;
-//		}
-//	
-//		return false;
-//	}
-//	
-//	/* (non-Javadoc)
-//	 *
-//	 * @author gelbard
-//	 * 15.06.2012, 17:06:50
-//	 * 
-//	 * searches in the input-DriveMesh for example for NOURISH
-//	 * and check for a certain quota of affect
-//	 * 
-//	 */
-//	private boolean searchInDM (eDriveComponent oDriveComponent, eOrgan oDriveSource, double oQuotaOfAffect) {		
-//		
-//	    // search in drives
-//		for(clsDriveMesh oDrives : moDrives){
-//			// check DriveMesh
-//			// oDrives.getDriveComponent() = eDriveComponent.LIBIDINOUS or eDriveComponent.AGGRESSIVE
-//			// oDrives.getActualDriveSourceAsENUM() = for example eOrgan.STOMACH
-//			if (oDrives.getDriveComponent().equals(oDriveComponent) &&
-//				oDrives.getActualDriveSourceAsENUM().equals(oDriveSource) &&
-//				oDrives.getQuotaOfAffect() >= oQuotaOfAffect){
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-//	
-//	/* (non-Javadoc)
-//	 *
-//	 * @author gelbard
-//	 * 10.08.2012, 17:06:50
-//	 * 
-//	 * searches emotions for example for eEmotionType.ANGER
-//	 * 
-//	 */
-//	private boolean searchInEmotions (eEmotionType oEmotionType) {	
-//		
-//	   	for(clsEmotion oOneEmotion : moEmotions_Input) {
-//	   		if(oOneEmotion.getMoContent() == oEmotionType) {
-//	   			return true;
-//	   		}
-//	   	}
-//	   	
-//	   	return false;
-//	}
-//	
-//	// to Get the last Emotion
-//	private ArrayList<clsEmotion>  GetLastEmotionInput(ArrayList<clsEmotion> moEmotions_Input){
-//		clsEmotion oLastEmotion = null;
-//		ArrayList<clsEmotion> LastList_clsEmotion = new ArrayList<clsEmotion>();
-//		asdf
-//		//for (clsEmotion oOneEmotion:  moEmotions_Input){
-//		for (int i =0; i<moEmotions_Input.size();i++){
-//			
-//			oLastEmotion = moEmotions_Input.get(moEmotions_Input.size()-1);
-//			LastList_clsEmotion.add(oLastEmotion);
-//		}
-//		
-//		return LastList_clsEmotion;
-//	}
 
 	/* (non-Javadoc)
 	 *

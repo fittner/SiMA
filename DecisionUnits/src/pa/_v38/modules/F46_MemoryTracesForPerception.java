@@ -11,16 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPhantasyTools;
-import pa._v38.tools.clsPrimarySpatialTools;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsEntityTools;
-import pa._v38.tools.datastructures.clsMeshTools;
 import pa._v38.interfaces.itfGraphInterface;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_6_send;
@@ -44,9 +35,15 @@ import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import secondaryprocess.datamanipulation.clsEntityTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.clsPhantasyTools;
+import testfunctions.clsTester;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 
 /**
  * Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). 
@@ -86,7 +83,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	/* Module-Parameters */
 	
 	
-	private Logger log = Logger.getLogger(this.getClass().getName());
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	/**
 	 * Association of TPMs (TP + Emotion, fantasies) with thing presentations 
 	 * raw data (from external perception). In a first step these are attached with a value to get a meaning. 
@@ -191,6 +188,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
+		    log.warn("Systemtester activated");
 			try {
 				clsTester.getTester().exeTestAssociationAssignment(oPerceivedImage);
 			} catch (Exception e) {
@@ -202,6 +200,15 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		
 		//Get the phantasy input
 		clsThingPresentationMesh oBestPhantasyInput = this.processPhantasyInput(moReturnedPhantasy_IN);
+		
+		if (clsTester.getTester().isActivated()) {
+            log.warn("Systemtester activated");
+            try {
+                clsTester.getTester().exeTestAssociationAssignment(oBestPhantasyInput);
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
 		
 		//Activate memories (Spread activation)
 		activateMemories(oPerceivedImage, oBestPhantasyInput);
@@ -596,7 +603,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		} else {						//Activate with returned memory
 			//Add SELF to the image if it does not exist
 			if (clsMeshTools.getSELF(poReturnedPhantasyImage).isNullObject()==true) {
-				clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "", "");
+			    //FIXME AW SELF should be loaded somewhere else.
+				clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "CIRCLE", "#FFFFBF");
 				ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
 				oSELFList.add(oSELF);
 				clsMeshTools.addTPMToTPMImage(poReturnedPhantasyImage, oSELFList);

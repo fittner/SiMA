@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsPair;
-import pa._v38.logger.clsLogger;
+
+
+
+import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -23,6 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.itfInternalAssociatedDataStructure;	
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
+import testfunctions.clsTester;
 
 
 /**
@@ -142,7 +144,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			try {
 				clsTester.getTester().exeTestAssociationAssignment(oMatchedDataStructures);
 			} catch (Exception e) {
-				clsLogger.jlog.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+				//clsLogger.jlog.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
 		
@@ -301,7 +303,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 						oSearchFringe.add(oAssReturnObject.getMoAssociationElementA());
 					}
 					else {
-						clsLogger.jlog.debug("Wrong Returntype: " + oAssReturnObject.getMoAssociationElementA().getMoDataStructureType() + " instead of " + rReturnTypeInternAss);
+						//clsLogger.jlog.debug("Wrong Returntype: " + oAssReturnObject.getMoAssociationElementA().getMoDataStructureType() + " instead of " + rReturnTypeInternAss);
 					}
 				}
 			}

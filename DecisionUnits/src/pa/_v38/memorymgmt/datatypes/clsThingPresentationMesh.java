@@ -9,14 +9,14 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPrimarySpatialTools;
-import pa._v38.tools.clsTriple;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 
 /**
  * DOCUMENT (zeilinger) - The term Thing Presentation Mesh (TPM) describes a mesh of TPs which are connected via attribute associations. 
@@ -696,8 +696,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 		//Add by AW
 		String oResult = "";
 		if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.PHI)) {
-			//"::"+this.moDataStructureType+"::";  
-			oResult += this.moContentType + ":" + this.moContent;
+			//"::"+this.moDataStructureType+"::"; 
+		    oResult += this.moContentType + ":" + this.moContent;
 			
 			oResult += "\nINT ASS: ";
 			for (clsAssociation oEntry : moInternalAssociatedContent) {
@@ -721,7 +721,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 				}
 			}
 		} else if (this.moContentType.equals(eContentType.ENTITY)) {
-			oResult += this.moContentType + ":" + this.moContent;
+			oResult += this.moContent;
 			
 			clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPosition = clsPrimarySpatialTools.getPosition(this);
 			

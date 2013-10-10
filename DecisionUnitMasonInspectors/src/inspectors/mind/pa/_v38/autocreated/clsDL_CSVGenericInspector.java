@@ -9,7 +9,7 @@ package inspectors.mind.pa._v38.autocreated;
 
 import java.awt.BorderLayout;
 
-import pa._v38.logger.clsDLEntry_Abstract;
+import OLDREMOVETHISpa._v38.logger.clsDLEntry_Abstract;
 import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;

@@ -8,10 +8,10 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.tools.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -43,7 +43,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         
         double nResult = 0;
         
-        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASIMPORTANCE);
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASINTENSITY);
         
         if (oFeelingParameter.isEmpty()==false) {
             nResult = Double.valueOf(oFeelingParameter);
@@ -53,7 +53,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     }
     
     public void setIntensity(double poIntensity){
-        this.setUniqueProperty(String.valueOf(poIntensity), eContentType.IMPORTANCE, ePredicate.HASIMPORTANCE, true);
+        this.setUniqueProperty(String.valueOf(poIntensity), eContentType.INTENSITY, ePredicate.HASINTENSITY, true);
     }
     
     public double getLibido(){

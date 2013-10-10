@@ -63,7 +63,7 @@ public class clsARSDecisionUnitFactory {
 				oDecisionUnit = new pa.clsPsychoAnalysis(poPrefix, poProp, uid, poSearchSpace, poMemory);
 				break;
 			case ActionlessTestPA:
-				oDecisionUnit = new testbrains.clsActionlessTestPA(poPrefix, poProp, uid, poSearchSpace, poMemory);
+				oDecisionUnit = new MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA(poPrefix, poProp, uid, poSearchSpace, poMemory);
 				break;
 			default:
 				throw new java.lang.IllegalArgumentException("eDecisionType."+nDecisionType.name());

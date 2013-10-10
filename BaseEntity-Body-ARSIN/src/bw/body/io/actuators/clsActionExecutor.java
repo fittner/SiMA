@@ -114,7 +114,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	/*
 	 * Support function for finding an entity in a given Range (Self-Referenced passed so entities own body can be ignored)
 	 */
-	protected clsEntity findSingleEntityInRange(clsEntity poSelfReference, clsComplexBody poBody, eSensorExtType peSensor, Class<?> poInterface) {
+	protected clsEntity findEntityInRange(clsEntity poSelfReference, clsComplexBody poBody, eSensorExtType peSensor, Class<?> poInterface) {
 
 		ArrayList<clsCollidingObject> oSearch=null;
 		if (peSensor== eSensorExtType.EATABLE_AREA) oSearch = ((clsSensorEatableArea) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
@@ -136,8 +136,10 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 			
 			if (oIntEntity !=null && oIntEntity != poSelfReference) {
 				if (poInterface.isAssignableFrom(oIntEntity.getClass())  ) {
-					if (oEntity !=null) return null;
-					oEntity=oIntEntity;
+					return oIntEntity;
+					//Change if you just want to get an entity if only a single entity is in range
+					//if (oEntity !=null) return null;
+					//oEntity=oIntEntity;
 				}
 			}
 		}

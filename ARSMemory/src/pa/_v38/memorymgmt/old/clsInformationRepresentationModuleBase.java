@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.old;
 
 import java.util.ArrayList;
 
-import pa._v38.tools.clsPair;
+import datatypes.helpstructures.clsPair;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;

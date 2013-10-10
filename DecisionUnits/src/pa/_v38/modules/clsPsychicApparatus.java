@@ -12,16 +12,12 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.log4j.Level;
-
-
+import OLDREMOVETHISpa._v38.logger.clsDataLogger;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
-import pa._v38.tools.clsPair;
-import pa._v38.decisionpreparation.clsDecisionEngine;
+import datatypes.helpstructures.clsPair;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsDataLogger;
-import pa._v38.logger.clsLogger;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -29,8 +25,9 @@ import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
-import pa._v38.systemtest.clsTester;
+import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
 import statictools.clsGetARSPath;
+import testfunctions.clsTester;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the
@@ -120,10 +117,10 @@ public class clsPsychicApparatus {
 	public DT4_PleasureStorage moPleasureStorage;
 	
 	/** (wendt) The instance of the short time memory; @since 15.11.2011 12:38:18 */
-	public clsShortTermMemory moShortTimeMemory;
+	public clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
 	
-	/** (wendt) Instance of the goal memory; @since 24.05.2012 15:21:26 */
-	public clsShortTermMemory moGoalMemory;
+//	/** (wendt) Instance of the goal memory; @since 24.05.2012 15:21:26 */
+//	public clsShortTermMemory moGoalMemory;
 	
 	/** (havlicek) The instance of ShortTermMemory for managing the concepts; @since 12.10.2012 17:12:15 */
 	public clsShortTermMemory moConceptMemory;
@@ -144,7 +141,7 @@ public class clsPsychicApparatus {
 	/** List of interfaces and the modules it connects to pair(source,target).; @since 13.07.2011 17:50:47 */
 	public HashMap<eInterfaces, clsPair<ArrayList<Integer>, ArrayList<Integer>>> moInterfaces_Recv_Send;
 	/** The data logger. Can log everything from any module that implements the corresponding interfaces. 
-	 * @see pa._v38.logger 
+	 * @see OLDREMOVETHISpa._v38.logger 
 	 * @since 13.07.2011 17:52:06 */
 	public clsDataLogger moDataLogger;
 	
@@ -168,7 +165,7 @@ public class clsPsychicApparatus {
 		this.uid = uid;
 		
 		// --- Set logger properties --- //
-		clsLogger.initLogger(Level.ERROR);	//Init root logger level
+		//clsLogger.initLogger(Level.ERROR);	//Init root logger level
 //		clsLogger.jlog.removeAllAppenders();
 //		clsLogger.jlog.setLevel(Level.DEBUG);
 //		//clsLogger.jlog.setLevel(Level.INFO);
@@ -188,9 +185,9 @@ public class clsPsychicApparatus {
 		moPsychicEnergyStorage = new DT3_PsychicEnergyStorage();
 		moPleasureStorage = new DT4_PleasureStorage();
 		//Initialize short time memory
-		moShortTimeMemory = new clsShortTermMemory(60, 7);
+		moShortTimeMemory = new clsShortTermMemory<clsWordPresentationMeshMentalSituation>(60, 7, clsWordPresentationMeshMentalSituation.getNullObject());
 		moEnvironmentalImageStorage = new clsEnvironmentalImageMemory(4, 30);	//Memorize 3 turns, 30 entities
-		moConceptMemory = new clsShortTermMemory(60, 7);
+		moConceptMemory = new clsShortTermMemory<clsWordPresentationMeshMentalSituation>(60, 7, clsWordPresentationMeshMentalSituation.getNullObject());
 		
 		//Init codelethandler
 		moDecisionEngine = new clsDecisionEngine(moEnvironmentalImageStorage, moShortTimeMemory);
@@ -318,7 +315,7 @@ public class clsPsychicApparatus {
 			moF30_MotilityControl = new F30_MotilityControl(pre + F30_MotilityControl.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moPsychicEnergyStorage);
 			moF31_NeuroDeSymbolizationActionCommands = new F31_NeuroDeSymbolizationActionCommands(pre + F31_NeuroDeSymbolizationActionCommands.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF32_Actuators = new F32_Actuators(pre + F32_Actuators.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF53_RealityCheckActionPlanning = new F53_RealityCheckActionPlanning(pre + F53_RealityCheckActionPlanning.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPsychicEnergyStorage);
+			moF53_RealityCheckActionPlanning = new F53_RealityCheckActionPlanning(pre + F53_RealityCheckActionPlanning.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moPsychicEnergyStorage);
 			moF35_EmersionOfBlockedContent = new F35_EmersionOfBlockedContent(pre + F35_EmersionOfBlockedContent.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moBlockedContentStorage);
 			moF37_PrimalRepressionForPerception = new F37_PrimalRepressionForPerception(pre + F37_PrimalRepressionForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage, moPersonalityParameterContainer);
 			moF39_SeekingSystem_LibidoSource = new F39_SeekingSystem_LibidoSource(pre + F39_SeekingSystem_LibidoSource.P_MODULENUMBER, poProp, moModules, moInterfaceData,  moPersonalityParameterContainer);

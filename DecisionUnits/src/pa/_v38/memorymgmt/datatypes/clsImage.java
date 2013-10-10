@@ -6,9 +6,9 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.planningHelpers.eDirection;
-import pa._v38.tools.planningHelpers.eDistance;
-import pa._v38.tools.planningHelpers.eEntity;
+import secondaryprocess.algorithm.planningHelpers.eDirection;
+import secondaryprocess.algorithm.planningHelpers.eDistance;
+import secondaryprocess.algorithm.planningHelpers.eEntity;
 
 
 
@@ -18,7 +18,7 @@ import pa._v38.tools.planningHelpers.eEntity;
  * 
  * @author perner
  * 03.07.2011, 15:39:58
- * 
+ * @deprecated
  */
 public class clsImage {
 

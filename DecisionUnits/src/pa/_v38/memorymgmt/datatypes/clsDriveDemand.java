@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTriple;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -30,7 +30,7 @@ public class clsDriveDemand extends clsHomeostaticRepresentation{
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 13:24:07
-	 *
+	 *@deprecated
 	 */
 	public clsDriveDemand(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prDemandTension) {
 		super(poDataStructureIdentifier); 

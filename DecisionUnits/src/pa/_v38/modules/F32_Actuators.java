@@ -9,6 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
 import config.clsProperties;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.itfActionProcessor;
@@ -29,6 +30,8 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	
 	private ArrayList<clsActionCommand> moOutputActions;
 	private ArrayList<clsActionCommand> moActionCommandList_Input;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 * Constructor of Actuators

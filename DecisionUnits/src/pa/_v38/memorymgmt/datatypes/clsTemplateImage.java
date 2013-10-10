@@ -3,13 +3,14 @@
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:45
+ * 
  */
 package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -24,7 +25,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:45
- * 
+ * @deprecated
  */
 public class clsTemplateImage extends clsPhysicalStructureComposition {
 	private String moContent = "UNDEFINED";	

@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
+
 import config.clsProperties;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionSleepIntensity;
 import du.enums.eActionTurnDirection;
+import du.enums.eInternalActionIntensity;
 import du.itf.actions.clsActionBeat;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionDivide;
@@ -24,6 +26,7 @@ import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequence;
 import du.itf.actions.clsActionSequenceFactory;
+import du.itf.actions.clsActionSpeech;
 import du.itf.actions.clsActionTurnVision;
 //import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionSleep;
@@ -33,13 +36,12 @@ import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I1_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsActionTools;
-import pa._v38.tools.datastructures.clsMeshTools;
+import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * Conversion of neuro-symbols into raw data. F31_NeuroDeSymbolizationActionCommands should be just an empty function which forwards data to F32.
@@ -61,8 +63,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<String> inputActionHistory;
 	private ArrayList<String> realActionHistory;
 	private static final boolean bUSEUNREAL = false;
-	
+	private eInternalActionIntensity moAbstractSpeech;
+
 	private int mnTestCounter =0;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 * Constructor of NeuroDeSymbolization
@@ -183,7 +188,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	    moActionCommandList_Output.clear();
 		
 
-        //if(testSequence())  return;
+
 		
         if( moActionCommands_Input.size() > 0 ) {
 			for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
@@ -229,7 +234,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					mnCounter = 0;
 				}
 			    
-				clsLogger.jlog.debug(
+				log.debug(
 						 "LastAction: " + lastAction.getMoContent() + ", " + 
 						 "LastRealAction: " + lastRealAction.getMoContent() + ", " + 
 				         "ThisAction: " + oActionWPM.getMoContent() + ", " + 
@@ -275,7 +280,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if(oAction.equals("MOVE_BACKWARD")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0) );
 				} else if(oAction.equals("TURN_LEFT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 10.0));
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 20.0));
 				} else if(oAction.equals("TURN_LEFT45")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 45.0));
 				} else if(oAction.equals("TURN_LEFT90")){
@@ -283,7 +288,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if(oAction.equals("TURN_LEFT180")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 180.0));
 				} else if(oAction.equals("TURN_RIGHT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 10.0));
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20.0));
 				} else if(oAction.equals("TURN_RIGHT45")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 45.0));
 				} else if(oAction.equals("TURN_RIGHT90")){
@@ -303,7 +308,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 						mnCounter = 0;
 					} 					
 				} else if(oAction.equals("EAT")) {
-					moActionCommandList_Output.add( new clsActionEat() );
+					moActionCommandList_Output.add( new clsActionEat(1.0) );
 				//} else if(oAction.equals("BITE")) {
 				//		moActionCommandList_Output.add( new clsActionEat() );
 				} else if (oAction.equals("BEAT")) {
@@ -374,7 +379,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					
 				} else if (oAction.equals(eAction.PICKUP.toString())) {
 					moActionCommandList_Output.add( new clsActionPickUp() );
+				} else if (oAction.equals(eAction.SPEAK.toString())) {
+                    moActionCommandList_Output.add( new clsActionSpeech(moAbstractSpeech) );
 				}
+				
 				else {
 					throw new UnknownError("Action " + oAction + " not known");
 				}
@@ -394,7 +402,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 			*/
 		}
 		
-		clsLogger.jlog.debug("=== END OF SECONDARY PROCESS ===\n");
+		log.debug("=== END OF SECONDARY PROCESS ===\n");
 	}
 
 	/* (non-Javadoc)
@@ -471,7 +479,19 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		throw new java.lang.NoSuchMethodError();
+	    moActionCommandList_Output.clear();
+	    //moActionCommandList_Output.add(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
+	
+
+	    /*if(mnTestCounter%2==0){
+	        moActionCommandList_Output.add(new clsActionAttackBite(1.0));
+	    }
+	    else if (mnTestCounter%2 == 1){
+	        moActionCommandList_Output.add(new clsActionBeat(1.0));
+	    }
+	    mnTestCounter++;*/
+	    //return;
+	    if(testSequence())  return;
 	}
 
 	/* (non-Javadoc)
@@ -595,17 +615,45 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	
 	private boolean testSequence(){
 	       //TODO: Just for test. Delete this 2 lines
-        //moActionCommandList_Output.add(new clsActionPickUp());
-        //if (true) return;
+        moActionCommandList_Output.add(new clsActionDivide(0.5));
+        if (true) return true;
        if(mnTestCounter<=1) moActionCommandList_Output.add(new clsActionPickUp());
        else if(mnTestCounter<=10) moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
        else if (mnTestCounter<=20){
             moActionCommandList_Output.add( new clsActionDrop() );
-            mnTestCounter=0;
+            
         }
+       else{
+           moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
+       }
         mnTestCounter++;
 	    return true;
     }
+	
+	
+	private boolean testSequence_drop(){
+           //TODO: Just for test. Delete this 2 lines
+        //moActionCommandList_Output.add(new clsActionPickUp());
+        //if (true) return;
+       if(mnTestCounter<=1) moActionCommandList_Output.add(new clsActionPickUp());
+       else if(mnTestCounter<=2) moActionCommandList_Output.add( new clsActionTurn(eActionTurnDirection.TURN_RIGHT,15));
+       else if (mnTestCounter <=5) moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
+       else if (mnTestCounter<=6){
+            moActionCommandList_Output.add( new clsActionDrop() );
+            mnTestCounter =-1;
+       }
+ //       }
+ //      else{
+ //          moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
+  //     }
+        mnTestCounter++;
+        return true;
+    }
+	
+	private boolean testSequenceEat(){
+		moActionCommandList_Output.add(new clsActionEat(1.0));
+		return true;
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter

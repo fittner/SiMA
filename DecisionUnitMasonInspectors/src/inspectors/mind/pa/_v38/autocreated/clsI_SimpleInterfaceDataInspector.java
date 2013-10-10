@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.tools.clsPair;
+import datatypes.helpstructures.clsPair;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.eInterfaces;
 import panels.TextOutputPanel;

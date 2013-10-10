@@ -10,10 +10,13 @@ package bw.body.io.actuators.actionExecutors;
 
 import config.clsProperties;
 import java.util.ArrayList;
+
+import bfg.utils.enums.ePercievedActionType;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.base.clsEntity;
+import bw.factories.eImages;
 import bw.utils.enums.eBodyParts;
 import bw.body.io.actuators.actionProxies.*;
 import bw.body.itfget.itfGetBody;
@@ -62,7 +65,7 @@ public class clsExecutorAttackBite extends clsActionExecutor{
 		clsProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
-		oProp.setProperty(pre+P_FORCECALINGFACTOR, 1f);
+		oProp.setProperty(pre+P_FORCECALINGFACTOR, 3f);
 		
 		return oProp;
 	}
@@ -115,7 +118,7 @@ public class clsExecutorAttackBite extends clsActionExecutor{
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//Is something in range
-		itfAPAttackableBite oOpponent = (itfAPAttackableBite) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPAttackableBite.class) ;
+		itfAPAttackableBite oOpponent = (itfAPAttackableBite) findEntityInRange(moEntity, oBody, moRangeSensor ,itfAPAttackableBite.class) ;
 
 		if (oOpponent==null) {
 			//Nothing in range then send fast Messenger
@@ -130,9 +133,13 @@ public class clsExecutorAttackBite extends clsActionExecutor{
 			oBody.getInternalSystem().getHealthSystem().hurt(rDamage);
 			return false;
 		}
-
+		moEntity.setOverlayImage(eImages.Overlay_Action_AttackBite);
 		//Bite!
 		oOpponent.bite(oCommand.getForce()*mrForceScalingFactor);
+		
+        clsAction oAction = new clsAction(1,ePercievedActionType.ATTACK_BITE);
+        oAction.attachEntity((clsEntity)oOpponent);
+        moEntity.addAction(oAction);
 		
 		return true;
 	}	

@@ -14,6 +14,7 @@ import java.util.HashMap;
 //import java.util.Map.Entry;
 import java.util.SortedMap;
 
+
 //import pa._v38.interfaces.itfInspectorBarChart;
 import pa._v38.interfaces.itfInspectorBarChartF06;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
@@ -40,10 +41,10 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 //import du.enums.pa.ePartialDrive;
@@ -1004,7 +1005,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		oOppositeTP.put("REPRESS","GUARD_DOR");
 		oOppositeTP.put("DEPOSIT","THROW_OUT_GARBAGE");
 		//Just for Test
-		oOppositeTP.put("EAT","SHARE_THE_FOOD_WITH_OTHERS");
+		oOppositeTP.put("EAT","DIVIDE");
 		 
 		
 		

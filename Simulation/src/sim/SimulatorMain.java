@@ -23,13 +23,18 @@ import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.clsEventLoggerInspector;
 import java.awt.Color;
 import java.awt.Dimension;
+
 import config.clsProperties;
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
-import javax.swing.JFrame;
-import java.awt.Graphics2D;
-import sim.portrayal.DrawInfo2D;
 
+import javax.swing.JFrame;
+
+import org.slf4j.Logger;
+
+import java.awt.Graphics2D;
+
+import sim.portrayal.DrawInfo2D;
 import du.itf.sensors.clsInspectorPerceptionItem;
 import factories.clsSingletonSimState;
 
@@ -90,6 +95,7 @@ public class SimulatorMain extends GUIState {
 	NetworkPortrayal2D moTPMNetworkPortrayal = new NetworkPortrayal2D();
 	private ContinuousPortrayal2D moTPMNodePortrayal = new ContinuousPortrayal2D();
 	
+	private static final Logger log = clsSimLogger.getLog("sim");
 
 
 	
@@ -148,9 +154,9 @@ public class SimulatorMain extends GUIState {
 		SimulatorMain oMainWithUI = new SimulatorMain(args);
 		
 		//check if autostarting and pausing the simulation is needed
-		String oAutostart = clsMain.argumentForKey("-autostart", args, 0);
-		Boolean nAutostart = new Boolean(oAutostart);
-		
+		//String oAutostart = clsMain.argumentForKey("-autostart", args, 0);
+		//Boolean nAutostart = new Boolean(oAutostart);
+		Boolean nAutostart = true;
 		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI, nAutostart) ); // 2011/06/14 CM+TD: adapted to new ARSsim.display.Console constructor
 		Dimension windowSize = clsSingletonMasonGetter.getConsole().getSize();
 		windowSize.height+=300;
@@ -166,9 +172,9 @@ public class SimulatorMain extends GUIState {
 		//clsSingletonMasonGetter.getConsole().getTabPane().addTab("PropertyInspector", oMagnumPI);
 		//oMagnumPI.setPropertyObjecttoShowHere(oProp);
 		if (clsSingletonSimState.getSimState()!=null) {
-			System.out.println(clsSingletonSimState.getSimState().schedule.getSteps());
+			log.trace("Simulation step: {}", String.valueOf(clsSingletonSimState.getSimState().schedule.getSteps()));
 		}
-		
+
 	}
 
 	

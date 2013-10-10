@@ -1,4 +1,5 @@
 /**
+
  * CHANGELOG
  *
  * 2011/06/20 TD - removed deprecated methods
@@ -167,26 +168,14 @@ public class clsMain extends SimState{
     	return clsSingletonProperties.showTPMNetworkGrid();
     }
     
-    public void setShowFaciaExpressionOverlay(boolean value){
-    	clsSingletonProperties.setShowFacialExpressionOverlay(value);
-    }
-       
-    public void setShowCarriedItem(boolean value){
-    	clsSingletonProperties.setShowCarriedItem(value) ;
-    }
-    public boolean getShowFaciaExpressionOverlay(){
-    	return clsSingletonProperties.showFacialExpressionOverlay();
-    }
     public void setShowSpeechExpressionOverlay(boolean value){
     	clsSingletonProperties.setShowSpeechExpressionOverlay(value);
     }
-    
     public boolean getShowSpeechExpressionOverlay(){
     	return clsSingletonProperties.showSpeechExpressionOverlay();
     }
-    
-    
-    public void setThoughtExpressionOverlay(boolean value){
+       
+    public void setShowThoughtExpressionOverlay(boolean value){
     	clsSingletonProperties.setShowThoughtExpressionOverlay(value);
     }
     
@@ -194,5 +183,17 @@ public class clsMain extends SimState{
     	return clsSingletonProperties.showThoughtExpressionOverlay();
     }
     
+    public void setShowLifeIndicator(boolean value){
+    	clsSingletonProperties.setShowLifeIndicator(value);
+    }
+    public boolean getShowLifeIndicator(){
+    	return clsSingletonProperties.showLifeIndicator();
+    }
     
+    public void setShowFacialExpressionOverlay(boolean value){
+    	clsSingletonProperties.setShowFacialExpressionOverlay(value);
+    }
+    public boolean getShowFacialExpressionOverlay(){
+    	return clsSingletonProperties.showFacialExpressionOverlay();
+    }
  }

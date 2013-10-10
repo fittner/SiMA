@@ -8,11 +8,11 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 
 /**
  * DOCUMENT (schaat) - insert description 
@@ -145,6 +145,21 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		
 		return oResult; 
 	}
+	
+	/**
+     * Alternative clone for cloning directed graphs
+     * 
+     * (wendt)
+     *
+     * @since 01.12.2011 16:29:38
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+    }
 	
 	
 	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {

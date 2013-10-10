@@ -25,8 +25,11 @@ public class Console extends sim.display.Console {
 	 */
 	public Console(GUIState simulation, boolean pnAutoPause) {
 		super(simulation);
+		//this.pressPlay();
 		if (pnAutoPause) {
 			this.pressPause(); // TD+CM: autostart as paused
+
 		}
 	}
+	
 }

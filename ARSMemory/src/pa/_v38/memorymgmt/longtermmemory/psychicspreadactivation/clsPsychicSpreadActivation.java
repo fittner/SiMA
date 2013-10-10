@@ -10,19 +10,18 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
-
 import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivationNode;
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.datastructures.clsMeshTools;
+import secondaryprocess.datamanipulation.clsImportanceTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -37,7 +36,7 @@ public class clsPsychicSpreadActivation {
 	private double mrActivationThreshold = 0.1;
 	
 	private itfSearchSpaceAccess moModuleBase;
-	private Logger log = Logger.getLogger("pa._v38.memorymgmt.psychicspreadactivation");
+	private Logger log = Logger.getLogger("memory");
 	
 	public clsPsychicSpreadActivation(itfSearchSpaceAccess poModuleBase, double prConsumeValue, double prActivationThreshold) {
 		moDefaultConsumeValue = prConsumeValue;
@@ -108,12 +107,12 @@ public class clsPsychicSpreadActivation {
 			}
 		}
 		
-		log.trace("Create direct associations between " + poOriginImage.getMoContent() + " and ");
+		log.debug("Create direct associations between " + poOriginImage.getMoContent() + " and ");
 		if (poOriginImage.getMoContentType().equals(eContentType.PI) || poOriginImage.getMoContentType().equals(eContentType.PHI)) {
 			for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
 				clsMeshTools.createAssociationPrimary(poOriginImage, (clsThingPresentationMesh) oPair.b, oPair.a);
 				//Now all matched images are linked with the PI
-				log.trace(((clsThingPresentationMesh)oPair.b).getMoContent() + ", value " + oPair.a + ", ");
+				log.debug(((clsThingPresentationMesh)oPair.b).getMoContent() + ", matching value: " + oPair.a + ", ");
 			}
 		}
 	}

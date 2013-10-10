@@ -8,13 +8,13 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.tools.planningHelpers.PlanningNode;
+import secondaryprocess.algorithm.planningHelpers.PlanningNode;
 
 /**
  * DOCUMENT (perner) - insert description
  * 
  * @author perner 30.03.2012, 16:28:04
- * 
+ * @deprecated
  */
 public class clsPlan {
 

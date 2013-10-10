@@ -9,8 +9,12 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
+import logger.clsLogger;
+
+import org.slf4j.Logger;
+
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -43,12 +47,13 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 06.07.2011, 10:59:56
  * 
  */
-public abstract class clsDataStructurePA implements Cloneable, itfComparable{
+public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 
 	protected int moDS_ID;
 	protected eDataType moDataStructureType;
 	protected eContentType moContentType;
 	protected String moDebugInfo;
+	//protected String content = "UNDEFINED";
 	//AW 20110706: New Identifier for instances
 	/*As there are no possibility to identify a root element with a unique key, an instance ID have to be used
 	 * in order to be able to assign the root elements in the associated data structures in the containers with
@@ -58,6 +63,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * A more efficient alternative would be to dispose the containers and to use real PA structures instead...
 	 */
 	protected int moDSInstance_ID;
+	
+	protected static final Logger log = clsLogger.getLog("DataStructure");
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -293,6 +300,27 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		//return oMatchScore;
 		return oMatchScoreNorm;
 	}
+	
+	 /**
+     * Check if two instances, which are not the same instance are the same
+     *
+     * @author wendt
+     * @since 08.10.2013 10:14:28
+     *
+     * @param ds
+     * @return
+     */
+    public <E extends clsDataStructurePA> boolean isEquivalentDataStructure(E ds) {
+        boolean isEqual = false;
+        
+        if (ds.getClass().getName().equals(this.getClass().getName()) &&
+            ds.getMoDS_ID()==this.moDS_ID &&
+            ds.getMoContentType()==this.getMoContentType()) {
+            isEqual=true;
+        }
+        
+        return isEqual;
+    }
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -318,5 +346,11 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		}
 		return oClone;
 	}
+	
+//	@Override
+//    public abstract Object clone() throws CloneNotSupportedException; // {
+        //return super.clone();
+	    
+	//};
 
 }

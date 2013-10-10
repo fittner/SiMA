@@ -9,7 +9,7 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import pa._v38.tools.clsTriple;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -20,7 +20,7 @@ import pa._v38.memorymgmt.enums.ePredicate;
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:15
- * 
+ * @deprecated
  */
 public abstract class clsLogicalStructureComposition extends clsSecondaryDataStructure implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	/** Add internal associations to WP or other WPM, which are defining this structure; @since 29.11.2011 11:26:20 */

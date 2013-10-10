@@ -9,14 +9,21 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsProperties;
-import pa._v38.interfaces.modules.I6_9_receive;
+
 import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.I6_10_send;
+import pa._v38.interfaces.modules.I6_13_receive;
+import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
+import config.clsProperties;
 
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 
@@ -25,11 +32,20 @@ import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
  * 27.04.2012, 10:18:11
  * 
  */
-public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I6_9_receive, I6_10_send {
+public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I6_9_receive, I6_10_send, I6_13_receive {
 	
 	public static final String P_MODULENUMBER = "53";
 	
+	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private clsWordPresentationMesh moWording_IN;
+	
+	private ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoals;
+	
+	/** (wendt) Goal memory; @since 24.05.2012 15:25:09 */
+    private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 * DOCUMENT (Kohlhauser) - insert description 
@@ -49,12 +65,15 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			itfModuleMemoryAccess poLongTermMemory,
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTermMemory,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		// TODO (zeilinger) - Auto-generated constructor stub
 		
 		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
 		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+		 this.moShortTimeMemory = poShortTermMemory;
+		 
 	}
 	
 	/* (non-Javadoc)
@@ -95,7 +114,19 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+	    log.debug("=== module {} start ===", this.getClass().getName());
+	    
+//        // --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
+//        EffortFunctionality.applyEffortOfGoal(this.selectableGoals);
+//        log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(selectableGoals));
+        
+        //Apply effort of wording
+        
+        //Apply effort/bonus of drive aim action
+        //TODO Stefan, use this function
+        ShortTermMemoryFunctionality.getCurrentAimOfDrivesFromMentalSituation(moShortTimeMemory);
+        
+        
 	}
 
 	/* (non-Javadoc)
@@ -107,7 +138,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void send() {
-		send_I6_10(0);
+		send_I6_10(selectableGoals);
 	}
 
 	/* (non-Javadoc)
@@ -142,8 +173,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
-		// TODO (KOHLHAUSER) - Auto-generated method stub		
+	public void receive_I6_9(ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoals) {
+	    selectableGoals = poSelectableGoals;
 	}
 
 	/* (non-Javadoc)
@@ -154,10 +185,10 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 * @see pa.interfaces.send.I7_6_send#send_I7_6(int)
 	 */
 	@Override
-	public void send_I6_10(int pnData) {
-		((I6_10_receive)moModuleList.get(29)).receive_I6_10(pnData);
+	public void send_I6_10(ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoals) {
+		((I6_10_receive)moModuleList.get(29)).receive_I6_10(poSelectableGoals);
 		
-		putInterfaceData(I6_10_send.class, pnData);
+		putInterfaceData(I6_10_send.class, poSelectableGoals);
 	}
 
 	/* (non-Javadoc)
@@ -208,6 +239,42 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	@Override
 	public void setDescription() {
 		moDescription = "This module operates similarly to {E24}. The imaginary actions generated by {E27} are evaluated regarding which action plan is possible and the resulting requirements. {E34} provides the semantic knowledge necessary for this task. The result influences the final decision which action to choose in module {E28}.";
-	}	
+	}
+
+    /* (non-Javadoc)
+     *
+     * @since 06.09.2013 21:37:49
+     * 
+     * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(pa._v38.memorymgmt.datatypes.clsWording)
+     */
+    @Override
+    public void receive_I6_13(clsWordPresentationMesh moWording) {
+        moWording_IN = moWording; 
+        
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 06.09.2013 21:37:49
+     * 
+     * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
+     */
+    @Override
+    public void receive_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 12.09.2013 22:25:09
+     * 
+     * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(pa._v38.memorymgmt.datatypes.clsWording)
+     */
+    @Override
+    public void receive_I6_13(clsWording moWording) {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
+    }	
 	
 }

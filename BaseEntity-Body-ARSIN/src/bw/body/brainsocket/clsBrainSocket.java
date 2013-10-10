@@ -186,8 +186,8 @@ public class clsBrainSocket implements itfStepProcessing {
         oData.addSensorExt(eSensorExtType.ACOUSTIC_FAR, convertAcousticSensor(eSensorExtType.ACOUSTIC_FAR) );
         oData.addSensorExt(eSensorExtType.ACOUSTIC_SELF, convertAcousticSensor(eSensorExtType.ACOUSTIC_SELF) );
         
-		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
-		oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
+		//oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
+		//oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
 		//ad homeostasis sensor data
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
 		oData.addSensorInt(eSensorIntType.HEALTH, convertHealthSystem() );
