@@ -415,7 +415,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
         oRegeln = new ArrayList<clsReadSuperEgoRules> ();
         
 		try {
-		    oFileName = clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath() + System.getProperty("file.separator") + poPersonalityParameterContainer.getPersonalityParameter("F0"+P_MODULENUMBER,P_SUPER_EGO_RULES_FILE).getParameter();
+		    oFileName = clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath() + System.getProperty("file.separator") + poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SUPER_EGO_RULES_FILE).getParameter();
 		} catch (Exception e) {
 		    System.out.println("no SuperEgoReactife-filename in the default.properties");
 		}
@@ -598,7 +598,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		    if (oReadIn != null)
 		        try { oReadIn.close(); }
 		                catch (IOException e) { System.err.println("Fehler beim schließen der ÜberIchRegel-Datei"); }
-		} }
+		} } else System.err.println("Simulation gestartet ohne SuperEgoReactive-Regeln");
 
 		//Ivy Sandkiste ->|
 // Ivy // ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //
