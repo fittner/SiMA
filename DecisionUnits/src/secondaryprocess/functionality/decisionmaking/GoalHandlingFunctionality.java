@@ -19,10 +19,12 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import secondaryprocess.algorithm.aimofdrives.clsAimOfDrivesTools;
 import secondaryprocess.algorithm.goals.GoalGenerationTools;
 import secondaryprocess.algorithm.goals.clsGoalAlgorithmTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
@@ -98,6 +100,46 @@ public class GoalHandlingFunctionality {
     public static void applySocialRulesOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, ArrayList<clsAct> poRuleList) {
         //TODO FG and/or SSch!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
+    
+    /**
+     * The available reachable goals, may have aims (like EAT or DIVIDE) associated that might, or might not, fit the aims originally spezified in the drives.
+     * for example:
+     *    in primary process: a drive LIBIDINOUS/STOMACH might have an object CAKE associated and an action EAT
+     *                        then the super ego forces the action to be replaced by DVIDE
+     *    in secondy process: two acts are extracted from memory that might be able to satisfy the drive: one about hitting the cake, the other one about dividing it
+     *                        the act that contains information about dividing the cake should be prefered, since it corresponds with the original drive aim (DIVID)  
+     *                        from the primary process.
+     *                        
+     * To achieve this, this function extracts the actions from each aim of drives (poAimOfDrives) and then tries to find that action within each rechable goal.
+     * If the action was found, an importance value for the reachable goal is set, depending on where the action was found.
+     *    Different factors are (in decreasing order of importance) 
+     *    (HINT: an image is part of an act, which in turn is part of any reachable goal that is from memory)
+     *       * The action was found at the image  that is the current moment
+     *       * The action was found at the last image, or second to last image, if the last image has no action (the latter case means, that the last image is just
+     *         a post condition)
+     *       * The action was found anywhere else in the act
+     *
+     * @author kollmann
+     * @since 15.10.2013 00:00:00
+     *
+     * @param poReachableGoals list of reachable goals (coming from perception or memory)
+     * @param poAimOfDrives list of relevant drive aims
+     */
+    public static void applyAimImportanceOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poReachableGoals, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDrives) {
+        ArrayList<eAction> oActions;
+        double nImportance;
+        
+        //extrac the actions from all aim of drives
+        oActions = clsAimOfDrivesTools.extractActionsFromAimOfDrives(poAimOfDrives);
+        
+        for(eAction oAimAction : oActions)  {
+            for(clsWordPresentationMeshSelectableGoal oGoal : poReachableGoals) {
+                nImportance = clsGoalAlgorithmTools.calucateAimImportance(oGoal, oAimAction);
+                oGoal.setDriveDemandCorrectionImportance(oGoal.getDriveDemandCorrectionImportance() + nImportance);
+            }
+        }
+    }
+    
     
     /**
      * Select the goals with the highest importance for further processing. This function is intended to be used in F26

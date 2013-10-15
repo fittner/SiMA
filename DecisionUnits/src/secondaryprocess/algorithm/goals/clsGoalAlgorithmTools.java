@@ -26,6 +26,7 @@ import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
 import secondaryprocess.datamanipulation.clsImportanceTools;
@@ -41,8 +42,10 @@ public class clsGoalAlgorithmTools {
 
 	private static Logger log = clsLogger.getLog("DecisionPreparation");
 	
-
-	
+    private static final double mrBaseIncrease = 0.5; //TODO kollmann: this is just hack - make this adjustable via property file
+    private static final double mrLastIncrease = 0.5; //TODO kollmann: this is just hack - make this adjustable via property file
+    private static final double mrMomentIncrease = 1.0; //TODO kollmann: this is just hack - make this adjustable via property file
+    
 	   /**
      * Get the goal condition from the goal and set it
      * 
@@ -256,7 +259,72 @@ public class clsGoalAlgorithmTools {
 		return nResult;
 	}
 	
+    public static double calucateAimImportance(clsWordPresentationMeshGoal poGoal, eAction poAim) {
+    //  public static double getImpactOfAim(clsWordPresentationMeshGoal poGoal, clsWordPresentationMesh poAction)
+    //  {
+        double rResult = 0;
+        
+        //get the supportive data structure for the goal
+        clsWordPresentationMesh oSuppDataStructure = poGoal.getSupportiveDataStructure();
+        
+        if(oSuppDataStructure != null && !oSuppDataStructure.isNullObject()) {
+            log.debug("Supportive data structure " + oSuppDataStructure + " has type " + poGoal.getSupportiveDataStructureType());
+    
+            //if goal has no intention -> do not evaluate anything else, because poGoal is not an act
+            clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSuppDataStructure);
+            if(oIntention != null && !oIntention.isNullObject()) {
+                log.debug("Goal " + poGoal + " has intention " + oIntention);
+        
+                //get the current moment in the act (if there is one) for later comparison
+                clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oSuppDataStructure);
+        
+                //itterate over all sub images and check if they have an associated action
+                ArrayList<clsWordPresentationMesh> oSubImages = clsActTools.getAllSubImages(oIntention);
 
+                for(clsWordPresentationMesh oImage : oSubImages) {
+                    log.debug("Intention " + oIntention + " has image " + oImage);
+                    //extract the images action (if any)
+                    eAction oAction = clsActTools.getRecommendedAction(oImage);
+              
+                    //check NONE and NULLOBJECT, just in case the usage changes somehow - in both cases there should be no impact increment
+                    if(oAction != eAction.NONE && oAction != eAction.NULLOBJECT) {
+                        log.debug("Image " + oImage + " has action " + oAction);
+                  
+                        //if the images action fits, start increasing the importance value
+                        if(poAim == oAction) {
+                            rResult += mrBaseIncrease; // this is the base increase for a 'normal' occurance, if it is a special occurance, increase the value later on
+                      
+                            //now check how if the image where the action was found is either the current moment or the last image (before post-condition)
+                            if(oImage == oMoment) {
+                                log.debug("Image " + oImage + " is current moment");
+                                rResult += (mrMomentIncrease - mrBaseIncrease); 
+                            }
+                      
+                            //if the image is the last image
+                            if(clsActTools.isLastImage(oImage)) {
+                                log.debug("Image " + oImage + " is last image");
+                                rResult += (mrMomentIncrease - mrLastIncrease);
+                            } else {
+                                //if it is not the last image, check if it is the second to last image and the last image has no action
+                                clsWordPresentationMesh oNextImage = clsActTools.getNextImage(oImage);
+                                if(clsActTools.isLastImage(oNextImage) && clsActTools.getRecommendedAction(oNextImage) == eAction.NONE) {
+                                    //in this case, the last image is just a post-condition so thread the second to last image like the last image
+                                    log.debug("Image " + oImage + " is last image before post-condition");
+                                    rResult += (mrMomentIncrease - mrLastIncrease);
+                                }
+                            }
+                            log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match in " + oImage.getMoContent());
+                        }
+                    }
+                }
+            }
+        } 
+        log.debug("clsImportanceTools::getImpactOfAim(...) -> " + rResult);
+          
+        return rResult;
+    }
+    
+    
     
     /**
      * Remove all non reachable goals, which are kept in the STM
