@@ -1,0 +1,23 @@
+-- dieses Zeichen "--" definiert eine Kommentarzeile
+-- eine Zeile steht für eine Regel
+-- eine Regel kann entweder mit SuperEgoStrength beginnen, oder wenn nicht, wird für sie 0 angesetzt
+-- die SuperEgoStrength und die WENNs sind mit ';' zu trennen (WENN Arsin Hunger hat und Bodo + eine Torte sieht, DANN soll er den Hunger und die Torte unterdrücken)
+-- die DANNs sind mit '#' zu trennen
+-- zuerst die SuperEgo-Konstante, dann die ganze WENNs und danach die DANNs definieren
+-- die einzelnen Elemente der Tuppeln sind mit ' ' zu trennen
+-- QoA kann entweder nicht angegeben sein, oder nur einen Wert haben (dann ist es der max Wert), oder zwei Werte haben (wobei der echte QoA dazwischen liegen muss)
+
+-- Beispiel: WENN aggressive stomach vorkommt mit dem QoA unter 0.22587 und Arsin Bodo und eine CAKE sieht, DANN soll die CAKE und aggressive stomach verboten werden
+eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0.22587;eEmotionType ANXIETY;eContentType ENTITY CAKE;eContentType ENTITY BODO#eContentType ENTITY CAKE#eDriveComponent AGGRESSIVE#eOrgan STOMACH#eEmotionType ANGER#eEmotionType ANXIETY
+
+-- Beispiel: für alle aggressive stomach (da kein QoA angegeben wurde) und entity cake + bodo, DANN soll die CAKE und aggressive stomach verboten werden
+eDriveComponent AGGRESSIVE;eOrgan STOMACH;eContentType ENTITY CAKE;eEmotionType ANXIETY;QoA 0,5;eContentType ENTITY BODO#eDriveComponent AGGRESSIVE#eOrgan STOMACH#eContentType ENTITY CAKE
+
+-- Beispiel: mit min und max QoA
+eEmotionType ANGER;QoA 0.5 1;eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0.01587 0.3;eContentType ENTITY CAKE;eContentType ENTITY BODO#eDriveComponent AGGRESSIVE#eOrgan STOMACH#eContentType ENTITY CAKE#eEmotionType ANXIETY
+
+-- soller in kivy nicht anschlagen als regel Schritt min bis 3
+SuperEgoStrength 1;eDriveComponent AGGRESSIVE;eOrgan RECTUM;QoA 0.22587;eEmotionType ANXIETY;eContentType ENTITY CAKE;eContentType ENTITY BODO#eContentType ENTITY CAKE
+
+-- QoA zu hoch um anzuschlagen Schritt 10
+SuperEgoStrength 0,3;eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0,23678;eEmotionType ANXIETY;QoA 0,94#eContentType ENTITY CAKE
