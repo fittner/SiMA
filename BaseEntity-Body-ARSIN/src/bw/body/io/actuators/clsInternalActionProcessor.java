@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.slf4j.Logger;
+
 import config.clsProperties;
 
 import statictools.clsUniqueIdGenerator;
@@ -33,7 +35,7 @@ import bw.utils.enums.*;
  */
 public class clsInternalActionProcessor implements itfInternalActionProcessor {
 	
-
+	 protected final Logger log = logger.clsLogger.getLog("InternalActionProcessor");
 	 clsEntity moEntity;
 	 HashMap<String, clsInternalActionExecutor> moMap = new HashMap<String, clsInternalActionExecutor>();
 	 ArrayList<Class<?>> moDisabledInternalCommands=new ArrayList<Class<?>> ();
@@ -199,7 +201,8 @@ public class clsInternalActionProcessor implements itfInternalActionProcessor {
 			if (moInternalExecutionHistory.get(0).meResult.toString().equals("EXECUTIONRESULT_EXECUTED")==false) {
 				//Kollmann: writing the whole execution history floods the console, we need to restrict the output
 				int nTempSize = moInternalExecutionHistory.size();
-				System.out.println(moInternalExecutionHistory.subList(Math.max(nTempSize - snExecutionHistoryOutputLength, 0), nTempSize));
+				//System.out.println(moInternalExecutionHistory.subList(Math.max(nTempSize - snExecutionHistoryOutputLength, 0), nTempSize));
+				log.info(moInternalExecutionHistory.subList(Math.max(nTempSize - snExecutionHistoryOutputLength, 0), nTempSize).toString());
 			}
 		}
 	}

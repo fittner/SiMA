@@ -243,6 +243,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 //        clsWordPresentationMesh oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
         
 
+
     }
     
     /**

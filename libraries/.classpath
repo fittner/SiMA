@@ -16,5 +16,7 @@
 	<classpathentry kind="lib" path="protegeAPI.jar"/>
 	<classpathentry kind="lib" path="vecmath.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="slf4j-1.7.5/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="lib" path="slf4j-1.7.5/slf4j-log4j12-1.7.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

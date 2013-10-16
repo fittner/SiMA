@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+
+import org.slf4j.Logger;
+
 import config.clsProperties;
 
 import statictools.clsUniqueIdGenerator;
@@ -24,6 +27,7 @@ import bw.entities.base.clsMobile;
 import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.*;
 
+
 /**
  * The action processor provides functions to control the execution of commands
  * 
@@ -33,6 +37,7 @@ import bw.utils.enums.*;
  */
 public class clsActionProcessor implements itfActionProcessor {
 	
+	 protected final Logger log = logger.clsLogger.getLog("ActionProcessor");
 	 String msLogXML = "";
 	 clsEntity moEntity;
 	 HashMap<String, clsActionExecutor> moMap = new HashMap<String, clsActionExecutor>();
@@ -206,7 +211,8 @@ public class clsActionProcessor implements itfActionProcessor {
 		
 		if (moExecutionHistory.isEmpty()==false) {
 			if (moExecutionHistory.get(0).meResult.toString().equals("EXECUTIONRESULT_EXECUTED")==false) {
-				System.out.println(this.moExecutionHistory.toString());
+				log.info(this.moExecutionHistory.toString());
+				//System.out.println(this.moExecutionHistory.toString());
 			}
 		}
 	}
