@@ -168,6 +168,9 @@ public class GoalAlgorithmTools {
         case STRAFE_RIGHT:
             oActionCondition = eCondition.EXECUTED_STRAFE_RIGHT;
             break;
+        case DIVIDE:
+            oActionCondition = eCondition.EXECUTED_DIVIDE;
+            break;
         case NULLOBJECT:
             oActionCondition = eCondition.NULLOBJECT;
             break;

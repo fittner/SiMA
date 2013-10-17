@@ -134,7 +134,7 @@ public class GoalHandlingFunctionality {
         
         for(eAction oAimAction : oActions)  {
             for(clsWordPresentationMeshSelectableGoal oGoal : poReachableGoals) {
-                nImportance = clsGoalAlgorithmTools.calucateAimImportance(oGoal, oAimAction);
+                nImportance = GoalAlgorithmTools.calucateAimImportance(oGoal, oAimAction);
                 oGoal.setDriveDemandCorrectionImportance(oGoal.getDriveDemandCorrectionImportance() + nImportance);
             }
         }

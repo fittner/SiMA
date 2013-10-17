@@ -21,3 +21,7 @@ SuperEgoStrength 1;eDriveComponent AGGRESSIVE;eOrgan RECTUM;QoA 0.22587;eEmotion
 
 -- QoA zu hoch um anzuschlagen Schritt 10
 SuperEgoStrength 0,3;eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0,23678;eEmotionType ANXIETY;QoA 0,94#eContentType ENTITY CAKE
+
+
+-------------------- Super Ego Rule Kollmann ---------------
+eDriveComponent LIBIDINOUS;eOrgan STOMACH;eContentType ENTITY CAKE#eDriveComponent LIBIDINOUS#eOrgan STOMACH
