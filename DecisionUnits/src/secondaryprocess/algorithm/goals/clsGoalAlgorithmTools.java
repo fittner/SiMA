@@ -144,6 +144,9 @@ public class clsGoalAlgorithmTools {
         case FOCUS_ON:
             oActionCondition = eCondition.EXECUTED_FOCUS_ON;
             break;
+        case SPEAK_EAT:
+            oActionCondition = eCondition.EXECUTED_SPEAK_EAT;
+            break;
         case FOCUS_MOVE_FORWARD:
             oActionCondition = eCondition.EXECUTED_FOCUS_MOVE_FORWARD;
             break;

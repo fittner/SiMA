@@ -21,6 +21,7 @@ public enum eCondition {
 	// --- Precondition intentions --- //
 	START_WITH_FIRST_IMAGE,
 	OBSTACLE_SOLVING,
+	EXECUTE_ONCE,
 	
 	// --- Goaltype conditions --- //
 	IS_DRIVE_SOURCE,
@@ -53,6 +54,8 @@ public enum eCondition {
 	EXECUTED_BITE,
 	EXECUTED_SUCK,
 	EXECUTED_DIVIDE,
+	//SPEAK
+	EXECUTED_SPEAK_EAT,
 	//Actions - Unreal
 	//EXECUTED_UNREAL_MOVE_TO,
 	//Internal actions
