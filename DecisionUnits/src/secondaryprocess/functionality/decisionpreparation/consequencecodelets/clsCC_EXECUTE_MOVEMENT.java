@@ -50,12 +50,12 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 		
 		//Remove conditions for the movement
 		try {
-            this.moGoal.removeCondition(eCondition.SET_FOCUS_MOVEMENT);
-            this.moGoal.removeCondition(eCondition.SET_FOCUS_ON);
+            //this.moGoal.removeCondition(eCondition.SET_FOCUS_MOVEMENT);
+            //this.moGoal.removeCondition(eCondition.SET_FOCUS_ON);
             
             if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
-                this.moGoal.removeCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
-                this.moGoal.removeCondition(eCondition.SET_FOLLOW_ACT);
+                //this.moGoal.removeCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
+                //this.moGoal.removeCondition(eCondition.SET_FOLLOW_ACT);
                 
                 clsWordPresentationMesh oAct = this.moGoal.getSupportiveDataStructure();
                 clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oAct);
@@ -70,9 +70,10 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
                 }
             }
         } catch (Exception e) {
-            // TODO (wendt) - Auto-generated catch block
-            e.printStackTrace();
+            log.error("", e);
         }
+		
+		moGoal.setCondition(eCondition.SET_DECISION_PHASE_COMPLETE);
 		
 	}
 
@@ -84,12 +85,12 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_MOVE_FORWARD));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_TURN_LEFT));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_TURN_RIGHT));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_SEARCH1));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_STRAFE_LEFT));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_STRAFE_RIGHT));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_MOVE_FORWARD, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_TURN_LEFT, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_TURN_RIGHT, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_SEARCH1, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_STRAFE_LEFT, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_STRAFE_RIGHT, eCondition.IS_CONTINUED_PLANGOAL));
 	}
 
 	/* (non-Javadoc)
@@ -121,6 +122,20 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
             this.moGoal.removeCondition(eCondition.EXECUTED_SEARCH1);
             this.moGoal.removeCondition(eCondition.EXECUTED_STRAFE_LEFT);
             this.moGoal.removeCondition(eCondition.EXECUTED_STRAFE_RIGHT);
+            
+            //Remove init conditions for external action
+            this.moGoal.removeCondition(eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+            this.moGoal.removeCondition(eCondition.NEED_MOVEMENT);
+            this.moGoal.removeCondition(eCondition.NEED_SEARCH_INFO);
+            
+            //Remove focus
+            this.moGoal.removeCondition(eCondition.SET_FOCUS_ON);
+            this.moGoal.removeCondition(eCondition.SET_FOCUS_MOVEMENT);
+            
+            //If memory source, remove conditions
+            this.moGoal.removeCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
+            this.moGoal.removeCondition(eCondition.SET_FOLLOW_ACT);
+            
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();

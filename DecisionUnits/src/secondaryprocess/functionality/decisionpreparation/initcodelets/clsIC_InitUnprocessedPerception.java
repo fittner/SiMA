@@ -39,7 +39,7 @@ public class clsIC_InitUnprocessedPerception extends clsInitCodelet {
      */
     @Override
     protected void processGoal() {
-        moGoal.setCondition(eCondition.IS_NEW_GOAL);
+        //moGoal.setCondition(eCondition.IS_NEW_GOAL);
     }
 
     /* (non-Javadoc)
@@ -50,7 +50,7 @@ public class clsIC_InitUnprocessedPerception extends clsInitCodelet {
      */
     @Override
     protected void setPreconditions() {
-        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_UNPROCESSED_GOAL, eCondition.IS_PERCEPTIONAL_SOURCE));
+        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_NEW_GOAL, eCondition.IS_PERCEPTIONAL_SOURCE));
         
     }
 
@@ -86,7 +86,7 @@ public class clsIC_InitUnprocessedPerception extends clsInitCodelet {
      */
     @Override
     protected void removeTriggerCondition() throws ElementNotFoundException {
-        this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
+        //this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
         
     }
 

@@ -18,7 +18,7 @@ import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
 import secondaryprocess.algorithm.planning.ActionPlanAlgorithm;
 import secondaryprocess.datamanipulation.clsActionTools;
-import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -31,18 +31,22 @@ public class PlanningFunctionality {
     
     private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
     
-    public static void generatePlanForGoals(clsDecisionEngine decisionEngine, ArrayList<clsWordPresentationMeshSelectableGoal> goalList) {
+    public static void generatePlanForGoals(DecisionEngine decisionEngine, ArrayList<clsWordPresentationMeshSelectableGoal> goalList) {        
+        // --- SET NEW PRECONDITIONS FOR ACTIONS --- //
+        decisionEngine.generateDecision(goalList);
+        log.info("Generated decisions: {}", goalList);
         
-        for (clsWordPresentationMeshSelectableGoal goal : goalList) {
-            // --- SET NEW PRECONDITIONS FOR ACTIONS --- //
-            //Decision codelets
-            decisionEngine.generateDecision(goal);
-            log.info("Generated decisions: {}", goal);
-            
-            //Generate plans based on decision codelets
-            decisionEngine.generatePlanFromDecision(goal);
-            log.info("Generate plan based on decision: {}", goal);
+        //Set these goals as continued as they have gotten an initial action
+        try {
+            decisionEngine.declareGoalAsContinuedGoal(goalList);
+        } catch (Exception e1) {
+            log.error("Cannot declare goals as continued", e1);
         }
+        
+        //Generate plans based on decision codelets
+        decisionEngine.generatePlanFromDecision(goalList);
+        log.info("Generate plan based on decision: {}", goalList);
+        
     }
     
 //    /**

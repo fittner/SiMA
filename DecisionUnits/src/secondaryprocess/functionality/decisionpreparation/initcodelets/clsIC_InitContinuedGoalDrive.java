@@ -6,11 +6,9 @@
  */
 package secondaryprocess.functionality.decisionpreparation.initcodelets;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.ElementNotFoundException;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
-import secondaryprocess.functionality.decisionpreparation.clsCommonCodeletTools;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
 /**
@@ -41,18 +39,18 @@ public class clsIC_InitContinuedGoalDrive extends clsInitCodelet {
      */
     @Override
     protected void processGoal() {
-        clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousCorrespondingGoalFromShortTermMemory(moShortTermMemory, moGoal);
+        //clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousCorrespondingGoalFromShortTermMemory(moShortTermMemory, moGoal);
         
-        //Transfer previous stati in general
-        if (oPreviousGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==true) {
-            this.moGoal.setCondition(eCondition.SET_INTERNAL_INFO);
-        }
-        if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
-            this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);
-        }
-        if (oPreviousGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
-            this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
-        }
+//        //Transfer previous stati in general
+//        if (oPreviousGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==true) {
+//            this.moGoal.setCondition(eCondition.SET_INTERNAL_INFO);
+//        }
+//        if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
+//            this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);
+//        }
+//        if (oPreviousGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
+//            this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
+//        }
         
     }
 
@@ -64,7 +62,7 @@ public class clsIC_InitContinuedGoalDrive extends clsInitCodelet {
      */
     @Override
     protected void setPreconditions() {
-        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL, eCondition.IS_DRIVE_SOURCE, eCondition.IS_UNPROCESSED_GOAL));
+        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.IS_UNPROCESSED_GOAL));
         
     }
 
@@ -100,7 +98,7 @@ public class clsIC_InitContinuedGoalDrive extends clsInitCodelet {
      */
     @Override
     protected void removeTriggerCondition() throws ElementNotFoundException {
-        this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
+        
         
     }
 

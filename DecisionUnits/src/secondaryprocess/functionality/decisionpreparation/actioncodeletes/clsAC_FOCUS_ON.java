@@ -92,7 +92,7 @@ public class clsAC_FOCUS_ON extends clsActionCodelet {
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
 	    try {
-            this.moGoal.removeCondition(eCondition.NEED_GOAL_FOCUS);
+            //this.moGoal.removeCondition(eCondition.NEED_GOAL_FOCUS);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();

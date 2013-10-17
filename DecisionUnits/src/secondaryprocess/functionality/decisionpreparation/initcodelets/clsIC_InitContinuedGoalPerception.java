@@ -6,11 +6,9 @@
  */
 package secondaryprocess.functionality.decisionpreparation.initcodelets;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.ElementNotFoundException;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
-import secondaryprocess.functionality.decisionpreparation.clsCommonCodeletTools;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
 /**
@@ -41,21 +39,21 @@ public class clsIC_InitContinuedGoalPerception extends clsInitCodelet {
      */
     @Override
     protected void processGoal() {
-        clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousCorrespondingGoalFromShortTermMemory(moShortTermMemory, moGoal);
+        //clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousCorrespondingGoalFromShortTermMemory(moShortTermMemory, moGoal);
         
-        if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
-            this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);
-        }
-        if (oPreviousGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
-            this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
-        } else {
-            if (oPreviousGoal.checkIfConditionExists(eCondition.COMPOSED_CODELET)==true) {
-                this.moGoal.setCondition(eCondition.COMPOSED_CODELET);
-            }
-            if (oPreviousGoal.checkIfConditionExists(eCondition.GOTO_GOAL_IN_PERCEPTION)==true) {
-                this.moGoal.setCondition(eCondition.GOTO_GOAL_IN_PERCEPTION);
-            }
-        }
+//        if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
+//            this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);
+//        }
+//        if (oPreviousGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
+//            this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
+//        } else {
+//            if (oPreviousGoal.checkIfConditionExists(eCondition.COMPOSED_CODELET)==true) {
+//                this.moGoal.setCondition(eCondition.COMPOSED_CODELET);
+//            }
+//            if (oPreviousGoal.checkIfConditionExists(eCondition.GOTO_GOAL_IN_PERCEPTION)==true) {
+//                this.moGoal.setCondition(eCondition.GOTO_GOAL_IN_PERCEPTION);
+//            }
+//        }
         
         
     }
@@ -68,7 +66,7 @@ public class clsIC_InitContinuedGoalPerception extends clsInitCodelet {
      */
     @Override
     protected void setPreconditions() {
-        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL, eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_UNPROCESSED_GOAL));
+        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL, eCondition.IS_PERCEPTIONAL_SOURCE));
         
     }
 
@@ -104,7 +102,7 @@ public class clsIC_InitContinuedGoalPerception extends clsInitCodelet {
      */
     @Override
     protected void removeTriggerCondition() throws ElementNotFoundException {
-        this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
+        
         
     }
 

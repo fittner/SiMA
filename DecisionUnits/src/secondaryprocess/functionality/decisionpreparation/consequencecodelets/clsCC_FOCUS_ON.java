@@ -60,7 +60,7 @@ public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.EXECUTED_FOCUS_ON));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.EXECUTED_FOCUS_ON, eCondition.IS_CONTINUED_PLANGOAL));
 		
 	}
 
@@ -72,7 +72,7 @@ public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void setPostConditions() {
-		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.SET_FOCUS_ON));
+		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.SET_FOCUS_ON, eCondition.IS_CONTINUED_PLANGOAL));
 		
 	}
 
@@ -87,6 +87,7 @@ public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 	protected void removeTriggerCondition() {
 	    try {
             this.moGoal.removeCondition(eCondition.EXECUTED_FOCUS_ON);
+            this.moGoal.removeCondition(eCondition.NEED_GOAL_FOCUS);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();

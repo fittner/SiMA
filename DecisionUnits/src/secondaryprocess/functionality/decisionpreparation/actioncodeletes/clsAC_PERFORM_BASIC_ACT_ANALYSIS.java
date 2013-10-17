@@ -85,7 +85,7 @@ public class clsAC_PERFORM_BASIC_ACT_ANALYSIS extends clsActionCodelet {
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
 	    try {
-            this.moGoal.removeCondition(eCondition.NEED_BASIC_ACT_ANALYSIS);
+            //this.moGoal.removeCondition(eCondition.NEED_BASIC_ACT_ANALYSIS);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();

@@ -83,15 +83,6 @@ public class MeshProcessor implements MeshProcessorInterface {
 
         //Sort the fromMesh list for number of occurences 0, 1 or 2
         
-        
-
-        
-        
-          
-        
-        
-        
-        
        
        if (this.isSafeMode==true) {
            //Check if in the toMesh every element only occurs once, never 2 times the same ID

@@ -121,8 +121,8 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 	@Override
 	protected void removeTriggerCondition() {
 	    try {
-            this.moGoal.removeCondition(eCondition.NEED_SEARCH_INFO);
-            this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
+//            this.moGoal.removeCondition(eCondition.NEED_SEARCH_INFO);
+//            this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();

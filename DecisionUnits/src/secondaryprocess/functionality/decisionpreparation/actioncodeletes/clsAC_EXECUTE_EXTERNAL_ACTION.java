@@ -109,9 +109,9 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
 	    try {
-            this.moGoal.removeCondition(eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
-            this.moGoal.removeCondition(eCondition.NEED_MOVEMENT);
-            this.moGoal.removeCondition(eCondition.NEED_SEARCH_INFO);
+//            this.moGoal.removeCondition(eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+//            this.moGoal.removeCondition(eCondition.NEED_MOVEMENT);
+//            this.moGoal.removeCondition(eCondition.NEED_SEARCH_INFO);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();

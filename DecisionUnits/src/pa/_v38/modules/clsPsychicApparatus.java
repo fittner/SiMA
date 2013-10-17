@@ -25,7 +25,8 @@ import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
-import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
+import secondaryprocess.functionality.decisionpreparation.GoalInitiationProcessor.GoalInitiator;
 import statictools.clsGetARSPath;
 import testfunctions.clsTester;
 
@@ -126,7 +127,7 @@ public class clsPsychicApparatus {
 	public clsShortTermMemory moConceptMemory;
 	
 	//public clsCodeletHandler moCodeletHandler;
-	public clsDecisionEngine moDecisionEngine;
+	public DecisionEngine moDecisionEngine;
 	
 	/** (wendt) This is a temporary localization storage, which will save the last perceived objects for some steps; @since 15.11.2011 14:36:56 */
 	public clsEnvironmentalImageMemory moEnvironmentalImageStorage;
@@ -190,7 +191,7 @@ public class clsPsychicApparatus {
 		moConceptMemory = new clsShortTermMemory<clsWordPresentationMeshMentalSituation>(60, 7, clsWordPresentationMeshMentalSituation.getNullObject());
 		
 		//Init codelethandler
-		moDecisionEngine = new clsDecisionEngine(moEnvironmentalImageStorage, moShortTimeMemory);
+		moDecisionEngine = new DecisionEngine(moEnvironmentalImageStorage, moShortTimeMemory, new GoalInitiator());
 		//moCodeletHandler = new clsCodeletHandler(moEnvironmentalImageStorage, moShortTimeMemory);
 		//this.registerCodelets();
 		
@@ -311,7 +312,7 @@ public class clsPsychicApparatus {
 			moF23_ExternalPerception_focused = new F23_ExternalPerception_focused(pre + F23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moPsychicEnergyStorage);
 			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moDecisionEngine, moPsychicEnergyStorage, moPersonalityParameterContainer);
 			moF26_DecisionMaking = new F26_DecisionMaking(pre + F26_DecisionMaking.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moDecisionEngine, moPsychicEnergyStorage, moPersonalityParameterContainer);
-			moF29_EvaluationOfImaginaryActions = new F29_EvaluationOfImaginaryActions(pre + F29_EvaluationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moPsychicEnergyStorage);
+			moF29_EvaluationOfImaginaryActions = new F29_EvaluationOfImaginaryActions(pre + F29_EvaluationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moDecisionEngine, moPsychicEnergyStorage);
 			moF30_MotilityControl = new F30_MotilityControl(pre + F30_MotilityControl.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moPsychicEnergyStorage);
 			moF31_NeuroDeSymbolizationActionCommands = new F31_NeuroDeSymbolizationActionCommands(pre + F31_NeuroDeSymbolizationActionCommands.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF32_Actuators = new F32_Actuators(pre + F32_Actuators.P_MODULENUMBER, poProp, moModules, moInterfaceData);

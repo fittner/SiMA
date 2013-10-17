@@ -217,5 +217,17 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
         return this.getUniquePropertyWPM(ePredicate.HASACTION);
     }
     
+    @Override
+    public String toString(){
+        String oResult = "";
+        oResult += this.moContent + "\n";
+        oResult += "PLANGOAL: " + this.getPlanGoal() + "; ";
+        oResult += "CONTINUEDGOALS: " + this.getSelectableGoals();
+        oResult += "AIMOFDRIVES: " + this.getAimOfDrives();
+          
+       
+        return oResult; 
+    }
+    
 
 }

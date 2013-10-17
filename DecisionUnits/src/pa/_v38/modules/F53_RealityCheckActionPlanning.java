@@ -125,6 +125,9 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
         //Apply effort/bonus of drive aim action
         //TODO Stefan, use this function
         ShortTermMemoryFunctionality.getCurrentAimOfDrivesFromMentalSituation(moShortTimeMemory);
+        double x = 0.4;
+        //clsWordPresentationMeshSelectableGoal temp = clsWordPresentationMeshSelectableGoal.createInstance(eContentType.GOAL, "ksdglöjksö");
+        //temp.set
         
         
 	}

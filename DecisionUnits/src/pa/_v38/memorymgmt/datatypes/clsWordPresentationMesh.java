@@ -322,9 +322,9 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
                 log.debug("Testing original {}", this.getMoContent());
                 clsTester.getTester().exeTestCheckLooseAssociations(this);
                 clsTester.getTester().exeTestAssociationAssignment(this);
-                log.debug("Testing clone {}", this.getMoContent());
+                log.debug("Testing clone {}", oClone.getMoContent());
                 clsTester.getTester().exeTestCheckLooseAssociations(oClone);
-                clsTester.getTester().exeTestAssociationAssignment(this);
+                clsTester.getTester().exeTestAssociationAssignment(oClone);
             } catch (Exception e) {
                 log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
             }
@@ -439,21 +439,6 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 						oResult += oEntry.getLeafElement().toString() + ";";
 					}
 				}
-				
-//			} else if (this.moContentType.equals(eContentType.GOAL)) {
-//				//oResult += "::"+this.moDataStructureType+"::";  
-//				oResult += this.moContent;
-//				int nTotalAffectLevel = clsGoalTools.getAffectLevel(this) + clsGoalTools.getEffortLevel(this);
-//				oResult += ":" + nTotalAffectLevel;
-//				
-//				oResult += ":" + clsGoalTools.getGoalObject(this);
-//				
-//				oResult += ":" + clsGoalTools.getSupportiveDataStructure(this).getMoContent();
-//				
-//				ArrayList<eCondition> oConditionList = clsGoalTools.getCondition(this);
-//				if (oConditionList.isEmpty()==false) {
-//					oResult += " " + oConditionList.toString();
-//				}
 				
 			} else if (this.moContentType.equals(eContentType.ENTITY)) {
 				oResult += this.moContent;
