@@ -151,7 +151,7 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
 	    try {
-            this.moGoal.removeCondition(eCondition.NEED_INTERNAL_INFO);
+            //this.moGoal.removeCondition(eCondition.NEED_INTERNAL_INFO);
         } catch (Exception e) {
             log.error("", e);
         }

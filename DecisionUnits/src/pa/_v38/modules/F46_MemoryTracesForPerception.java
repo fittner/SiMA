@@ -217,6 +217,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		moPerceptionalMesh_OUT = oPerceivedImage;
 		
 		//=== Perform system tests ===//
+		clsTester.getTester().setActivated(false);
 		if (clsTester.getTester().isActivated()) {
 			try {
 				clsTester.getTester().exeTestNullPointer(oPerceivedImage);

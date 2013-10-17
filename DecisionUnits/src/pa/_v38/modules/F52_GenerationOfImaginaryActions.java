@@ -25,7 +25,7 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import secondaryprocess.functionality.PlanningFunctionality;
-import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import testfunctions.clsTester;
 import config.clsProperties;
 
@@ -62,7 +62,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<String> moTEMPWriteLastActions = new ArrayList<String>();
 	
 	//private clsCodeletHandler moCodeletHandler;
-	private clsDecisionEngine moDecisionEngine;
+	private DecisionEngine moDecisionEngine;
 	
 //	private ArrayList<clsWordPresentationMesh> moMotilityActions_IN;
 //	private ArrayList<clsWordPresentationMesh> moImaginaryActions_IN;
@@ -98,7 +98,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F52_GenerationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsDecisionEngine poDecisionEngine,
+	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine,
 		DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 

@@ -50,7 +50,6 @@ public class clsDCComposed_Goto extends clsDecisionCodelet {
 	@Override
 	protected void processGoal() {
 		this.moCodeletHandler.executeMatchingCodelets(this, moGoal, eCodeletType.DECISION, 1);
-		//this.moInternalCodeletHandler.executeMatchingCodelets(moGoal, eCodeletType.DECISION, 1);
 		
 	}
 

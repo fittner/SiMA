@@ -357,6 +357,9 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
         oResult += ":" + this.getFeelings().toString();
         oResult += ":" + this.getGoalObject();
         oResult += ":" + getSupportiveDataStructure().getMoContent();
+        if (this.getAssociatedPlanAction().isNullObject()==false) {
+            oResult += ":" + this.getAssociatedPlanAction().getMoContent();
+        }
             
         ArrayList<eCondition> oConditionList = getCondition();
         if (oConditionList.isEmpty()==false) {

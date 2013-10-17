@@ -40,7 +40,7 @@ public class clsIC_InitUnprocessedDrive extends clsInitCodelet {
     @Override
     protected void processGoal() {
         //moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
-        moGoal.setCondition(eCondition.IS_NEW_GOAL);
+        //moGoal.setCondition(eCondition.IS_NEW_GOAL);
     }
 
     /* (non-Javadoc)
@@ -51,7 +51,7 @@ public class clsIC_InitUnprocessedDrive extends clsInitCodelet {
      */
     @Override
     protected void setPreconditions() {
-        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_UNPROCESSED_GOAL, eCondition.IS_DRIVE_SOURCE));
+        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_NEW_GOAL, eCondition.IS_DRIVE_SOURCE));
         
     }
 
@@ -87,7 +87,7 @@ public class clsIC_InitUnprocessedDrive extends clsInitCodelet {
      */
     @Override
     protected void removeTriggerCondition() throws ElementNotFoundException {
-        this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
+        //this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
         
     }
 

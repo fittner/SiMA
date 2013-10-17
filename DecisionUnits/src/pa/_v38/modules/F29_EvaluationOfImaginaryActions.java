@@ -28,9 +28,11 @@ import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.toText;
 import secondaryprocess.functionality.PlanningFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import config.clsProperties;
 
@@ -60,6 +62,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
+	private final DecisionEngine moDecisionEngine;
+	
 	private String moTEMPDecisionString = "";
 	
     /**
@@ -73,7 +77,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @throws Exception
      */
     public F29_EvaluationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage,
+            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine decisionEngine,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
         super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
         
@@ -84,6 +88,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         
         this.moShortTermMemory = poShortTermMemory;
         this.moEnvironmentalImageStorage = poTempLocalizationStorage;
+        this.moDecisionEngine = decisionEngine;
+        
         
 
     }
@@ -202,7 +208,20 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         log.debug("=== module {} start ===", this.getClass().getName());
 
         //Select the best goal
+        //Delete previous plan goals
+        try {
+            this.moDecisionEngine.removeGoalAsPlanGoal(moSelectableGoals);
+        } catch (ElementNotFoundException e2) {
+            log.error("Cannot remove conditions", e2);
+        }
+        
         clsWordPresentationMeshSelectableGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
+        try {
+            this.moDecisionEngine.declareGoalAsPlanGoal(planGoal);
+        } catch (Exception e1) {
+            log.error("Cannot declare goal as plan goal",e1 );
+        }
+        
         log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: " + planGoal.getSupportiveDataStructure().toString() + "\n==============================");
         this.moTEMPDecisionString = setDecisionString(planGoal);
         

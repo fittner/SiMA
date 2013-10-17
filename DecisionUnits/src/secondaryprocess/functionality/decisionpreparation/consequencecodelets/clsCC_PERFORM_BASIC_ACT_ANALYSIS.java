@@ -79,7 +79,7 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS, eCondition.IS_CONTINUED_PLANGOAL));
 		
 	}
 
@@ -105,6 +105,8 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 	protected void removeTriggerCondition() {
 	    try {
             this.moGoal.removeCondition(eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS);
+            
+            this.moGoal.removeCondition(eCondition.NEED_BASIC_ACT_ANALYSIS);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();

@@ -54,10 +54,10 @@ public class clsCC_FOCUS_MOVEMENT extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_FOCUS_MOVE_FORWARD));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_FOCUS_TURN_LEFT));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_FOCUS_TURN_RIGHT));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_FOCUS_SEARCH1));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_FOCUS_MOVE_FORWARD, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_FOCUS_TURN_LEFT, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_FOCUS_TURN_RIGHT, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_FOCUS_SEARCH1, eCondition.IS_CONTINUED_PLANGOAL));
 		
 	}
 
@@ -69,7 +69,7 @@ public class clsCC_FOCUS_MOVEMENT extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void setPostConditions() {
-		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.SET_FOCUS_MOVEMENT));
+		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.SET_FOCUS_MOVEMENT, eCondition.IS_CONTINUED_PLANGOAL));
 		
 	}
 
@@ -87,6 +87,9 @@ public class clsCC_FOCUS_MOVEMENT extends clsConsequenceCodelet {
             this.moGoal.removeCondition(eCondition.EXECUTED_FOCUS_TURN_LEFT);
             this.moGoal.removeCondition(eCondition.EXECUTED_FOCUS_TURN_RIGHT);
             this.moGoal.removeCondition(eCondition.EXECUTED_FOCUS_SEARCH1);
+            
+            this.moGoal.removeCondition(eCondition.NEED_SEARCH_INFO);
+            this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();
