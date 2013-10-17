@@ -21,7 +21,7 @@ public enum eCondition {
 	// --- Precondition intentions --- //
 	START_WITH_FIRST_IMAGE,
 	OBSTACLE_SOLVING,
-	EXECUTE_ONCE,
+	CYCLIC_ACT,
 	
 	// --- Goaltype conditions --- //
 	IS_DRIVE_SOURCE,
@@ -83,6 +83,7 @@ public enum eCondition {
 	GOAL_NOT_REACHABLE,				//This is put on acts, where there is no match, in order to exclude the act
 	GOAL_REACHABLE,
 	GOAL_COMPLETED,
+	RESET_GOAL,
 	ACT_MATCH_TOO_LOW,		//This is used to suppress the pleasure level for goals, which are not suitable in a certain situation
 	SET_DECISION_PHASE_COMPLETE,
 		
