@@ -91,12 +91,12 @@ public class clsActPreparationTools {
 		
 		//Return the recommendation
 		//If the moment match > Threshold and there is an expectation
-		if (rCurrentMomentConfidence>=mrMomentConfidenceThreshold && rCurrentIntentionActConfidence >= mrActConfidenceThreshold && oCurrentExpectation.isNullObject()==false) {
-			oResult.add(eCondition.SET_FOLLOW_ACT);
 		//If the moment is the last image
-		} else if (bMomentIsLastImage==true) {
+		if (bMomentIsLastImage==true) {
 			oResult.add(eCondition.GOAL_COMPLETED);
 		//If there is some error and the images does not match very good
+		} else if (rCurrentMomentConfidence>=mrMomentConfidenceThreshold && rCurrentIntentionActConfidence >= mrActConfidenceThreshold && oCurrentExpectation.isNullObject()==false) {
+	            oResult.add(eCondition.SET_FOLLOW_ACT);
 		} else {
 			oResult.add(eCondition.GOAL_NOT_REACHABLE);
 		}
@@ -392,7 +392,11 @@ public class clsActPreparationTools {
 			//The possible moment is here the expectation, but its PImatch is low and it is within the establish zone, i. e. it may be erroneously put as an expectation. Prefer the past moment as the new moment
 			rReinforceFactor += 0.3;
 			log.debug("The possible moment is here the expectation, but its PImatch is low and it is within the establish zone, i. e. it may be erroneously put as an expectation. Prefer the past moment as the new moment");
-		} else if (bPossibleMomentIsPreviousExpectation==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==false) {
+		} else if (bPossibleMomentIsPreviousExpectation==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==true) {
+            //This is a perfect match of the expectation inside of the establish zone of the previous moment. Change the moment to the expectation
+            rReinforceFactor += 0.8;
+            log.debug("This is a perfect match of the expectation inside of the establish zone of the previous moment. Change the moment to the expectation"); 
+	    } else if (bPossibleMomentIsPreviousExpectation==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==false) {
 			//This is a perfect match of the expectation outside of the establish zone of the previous moment. Change the moment to the expectation
 			rReinforceFactor += 1.0;
 			log.debug("This is a perfect match of the expectation outside of the establish zone of the previous moment. Change the moment to the expectation");

@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.enums.eCondition;
-import secondaryprocess.algorithm.goals.clsGoalAlgorithmTools;
+import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 
 /**
@@ -85,7 +85,7 @@ public class GoalInitiator implements GoalInitiatorInterface {
     private void processNewGoal(clsWordPresentationMeshSelectableGoal goal) throws Exception {
         //Set goal type for new goal
         try {
-            clsGoalAlgorithmTools.setConditionFromGoalType(goal);
+            GoalAlgorithmTools.setConditionFromGoalType(goal);
         } catch (Exception e) {
             log.error("Could not set condition from goal type", e);
             throw new Exception(e.getMessage());

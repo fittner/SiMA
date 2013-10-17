@@ -8,7 +8,7 @@ package secondaryprocess.functionality.decisionpreparation.initcodelets;
 
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.ElementNotFoundException;
-import secondaryprocess.algorithm.goals.clsGoalAlgorithmTools;
+import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -42,7 +42,7 @@ public class clsIC_ApplyPreviousActionOnPlanGoal extends clsInitCodelet {
     @Override
     protected void processGoal() {
         //Append the previous action as precondition to trigger consequences
-        clsGoalAlgorithmTools.appendPreviousActionsAsPreconditions(this.moGoal, this.moShortTermMemory);
+        GoalAlgorithmTools.appendPreviousActionsAsPreconditions(this.moGoal, this.moShortTermMemory);
     }
 
     /* (non-Javadoc)
