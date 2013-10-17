@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -40,5 +41,28 @@ public class SortAndFilterTools {
             clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(oE);
             clsMeshTools.removeAllTemporaryAssociationsTPM(oTPM);
         }
+    }
+    
+    /**
+     *  Get all other data structures from a list which share the same supportive data structure
+     *
+     * @author wendt
+     * @since 17.10.2013 14:32:11
+     *
+     * @param input
+     * @param list
+     * @return
+     */
+    public static ArrayList<clsWordPresentationMeshSelectableGoal> getAllGoalsWithSameSupportiveDataStructure(clsWordPresentationMeshSelectableGoal input, ArrayList<clsWordPresentationMeshSelectableGoal> list) {
+        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+        
+        clsWordPresentationMesh support = input.getSupportiveDataStructure();
+        
+        for (clsWordPresentationMeshSelectableGoal compare : list) {
+            if (compare.getSupportiveDataStructure().getMoContent().equals(support.getMoContent())==true && support.equals(compare)==false) {
+                result.add(compare);
+            }
+        }
+        return result;
     }
 }

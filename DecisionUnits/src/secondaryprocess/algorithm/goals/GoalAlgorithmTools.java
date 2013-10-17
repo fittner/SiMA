@@ -37,7 +37,7 @@ import secondaryprocess.datamanipulation.clsImportanceTools;
  * 27.09.2012, 09:58:07
  * 
  */
-public class clsGoalAlgorithmTools {
+public class GoalAlgorithmTools {
 
 	private static Logger log = clsLogger.getLog("DecisionPreparation");
 	
@@ -82,7 +82,7 @@ public class clsGoalAlgorithmTools {
      * @throws Exception
      */
     public static void setConditionFromGoalType(clsWordPresentationMeshGoal poGoal) throws Exception {
-        eCondition oCondition = clsGoalAlgorithmTools.getConditionFromGoalType(poGoal.getGoalSource());
+        eCondition oCondition = GoalAlgorithmTools.getConditionFromGoalType(poGoal.getGoalSource());
         poGoal.removeCondition(eCondition.IS_DRIVE_SOURCE);
         poGoal.removeCondition(eCondition.IS_MEMORY_SOURCE);
         poGoal.removeCondition(eCondition.IS_PERCEPTIONAL_SOURCE);

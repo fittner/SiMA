@@ -24,7 +24,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import secondaryprocess.algorithm.goals.GoalGenerationTools;
-import secondaryprocess.algorithm.goals.clsGoalAlgorithmTools;
+import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 
 /**
@@ -47,7 +47,7 @@ public class GoalHandlingFunctionality {
      * @param shortTermMemory
      */
     public static void removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, clsShortTermMemory shortTermMemory) {
-        clsGoalAlgorithmTools.removeNonReachableGoals(reachableGoalList, shortTermMemory);
+        GoalAlgorithmTools.removeNonReachableGoals(reachableGoalList, shortTermMemory);
     }
     
     /**
@@ -58,7 +58,7 @@ public class GoalHandlingFunctionality {
      * @since 29.09.2013 12:55:38
      */
     public static void applyDriveDemandsOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poDriveDemandList) {
-        clsGoalAlgorithmTools.applyDriveDemandsOnDriveGoal(selectableGoalList, poDriveDemandList);
+        GoalAlgorithmTools.applyDriveDemandsOnDriveGoal(selectableGoalList, poDriveDemandList);
         
         //ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(selectableGoalList, poDriveDemandList, currentFeelingsList, affectThreashold);
     }

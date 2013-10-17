@@ -27,6 +27,7 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import secondaryprocess.functionality.EffortFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalConditionFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngineInterface;
 import secondaryprocess.functionality.shorttermmemory.EnvironmentalImageFunctionality;
@@ -321,6 +322,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//applyConsequencesOfActionsOnContinuedGoal(moReachableGoalList_IN, oContinuedGoal);
 		this.moDecisionEngine.applyConsequencesOfActionOnContinuedGoal(moReachableGoalList_OUT); //.a is the last plangoal
 		
+		//Apply the GOAL_NOT_REACHABLE AND COMPLETED on all other goals with the same supportive data structures
+		GoalConditionFunctionality.setCommonConditionsToGoals(moReachableGoalList_OUT);		
 		
         // --- SET NEW PRECONDITIONS FOR ACTIONS AS WELL AS DEFAULT CONDITIONS FOR NEW GOALS --- //
         //setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
@@ -336,13 +339,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		// --- ADD the previous goal to the goal list if not already added --- //
 		//this.moDecisionEngine.addContinuedGoalToGoalList(moReachableGoalList_IN, oContinuedGoalList);
 		
-		// --- ADD NON REACHABLE GOALS TO THE STM --- //
-		ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_OUT);
-		
 		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
         EffortFunctionality.applyEffortOfGoal(moReachableGoalList_OUT);
         log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		
+        // --- ADD NON REACHABLE GOALS TO THE STM --- //
+        ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_OUT);
+        
 		log.info("Provided selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		log.info("Provided continued goals: {}", PrintTools.printArrayListWithLineBreaks(this.moDecisionEngine.getContinuedGoals(moReachableGoalList_OUT)));
 		log.info("Provided plan goal: {}", this.moDecisionEngine.getPlanGoal(moReachableGoalList_OUT));

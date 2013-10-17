@@ -13,7 +13,7 @@ import logger.clsLogger;
 import org.slf4j.Logger;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
-import secondaryprocess.algorithm.goals.clsGoalAlgorithmTools;
+import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -34,9 +34,10 @@ public class EffortFunctionality {
    */
   public static void applyEffortOfGoal(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
       for (clsWordPresentationMeshSelectableGoal oGoal : poGoalList) {
+          
           //Get the penalty for the effort of distance, act confidence and conditions for all goal types
           //TODO: Replace this method with productions instead
-          double oImportanceValue = clsGoalAlgorithmTools.calculateEffortPenalty(oGoal);
+          double oImportanceValue = GoalAlgorithmTools.calculateEffortPenalty(oGoal);
           
           oGoal.addEffortImpactImportance(oImportanceValue);
       }
