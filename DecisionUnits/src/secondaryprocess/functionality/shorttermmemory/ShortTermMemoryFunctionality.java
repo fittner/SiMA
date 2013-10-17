@@ -211,9 +211,10 @@ public class ShortTermMemoryFunctionality {
      * @param poGoalList
      */
     public static void addNonReachableGoalsToSTM(clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
+        clsWordPresentationMeshMentalSituation oMentalSituation = shortTermMemory.findCurrentSingleMemory();
         for (clsWordPresentationMeshSelectableGoal oGoal : poGoalList) {
             if (oGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true || oGoal.checkIfConditionExists(eCondition.GOAL_COMPLETED)==true) {
-                clsWordPresentationMeshMentalSituation oMentalSituation = shortTermMemory.findCurrentSingleMemory();
+                
                 oMentalSituation.addExcludedSelectableGoal(oGoal);
                 
                 log.debug("Added non reachable goal to STM : " + oGoal.toString());

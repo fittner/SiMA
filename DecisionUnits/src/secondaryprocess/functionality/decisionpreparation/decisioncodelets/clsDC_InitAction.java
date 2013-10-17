@@ -100,7 +100,14 @@ public class clsDC_InitAction extends clsDecisionCodelet {
 	protected void removeTriggerCondition() throws ElementNotFoundException {
 	    this.moGoal.removeCondition(eCondition.IS_NEW_GOAL);
 	    this.moGoal.removeCondition(eCondition.SET_DECISION_PHASE_COMPLETE);
-		
+	    
+	    //FIXME: These conditions should be removed somewhere else, but it is not the case
+	    this.moGoal.removeCondition(eCondition.SET_INTERNAL_INFO);
+	    this.moGoal.removeCondition(eCondition.NEED_BASIC_ACT_ANALYSIS);
+	    this.moGoal.removeCondition(eCondition.SET_FOLLOW_ACT);
+	    this.moGoal.removeCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
+	    this.moGoal.removeCondition(eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+	    
 	}
 
 	/* (non-Javadoc)

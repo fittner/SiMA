@@ -105,6 +105,9 @@ public class GoalAlgorithmTools {
         case PICKUP:
             oActionCondition = eCondition.EXECUTED_PICKUP;
             break;
+        case DIVIDE:
+            oActionCondition = eCondition.EXECUTED_DIVIDE;
+            break;
         case DEPOSIT:
             oActionCondition = eCondition.EXECUTED_DEPOSIT;
             break;
@@ -210,7 +213,7 @@ public class GoalAlgorithmTools {
         try {
             oActionCondition = getPreconditionFromAction(oPreviousAction);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("You have to add the action {} to the codelets clsCC_EXECUTE_STATIC_ACTION or clsCC_EXECUTE_MOVEMENT and to this function getPreconditionFromAction.", oPreviousAction, e);
         }
 		
 		
@@ -284,31 +287,43 @@ public class GoalAlgorithmTools {
             for (clsWordPresentationMeshSelectableGoal oWPM : oTEMPLIST) {
                 oExcludedGoalList.add((clsWordPresentationMeshSelectableGoal) oWPM);
             }
-            
              
             oRemoveList.addAll(oExcludedGoalList);
-//          for (clsWordPresentationMesh oExcludedGoal : oExcludedGoalList) {
-//              if (clsGoalTools.checkIfConditionExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true) {
-//                  oRemoveList.add(oSTM.b);
-//              }
-//          }
-            
+        }
+        
+        for (clsWordPresentationMeshGoal oRemoveGoal : oRemoveList) {
+            try {
+                if (poGoalList.contains(oRemoveGoal)) {
+                    poGoalList.remove(oRemoveGoal);
+                    log.debug("Non reachable goal removed: " + oRemoveGoal.toString());
+                }
+                
+            } catch (IllegalStateException e) {
+                log.error("Cannot remove goal {}", oRemoveGoal, e);
+                System.exit(-1);
+            }
         }
                         
-        //Find all unreachable goals from STMList
-        while (Iter.hasNext()) {
-            clsWordPresentationMeshGoal oGoal = Iter.next();
-            
-            //Check if this is one of the STM goals, which shall be removed
-            for (clsWordPresentationMeshGoal oRemoveGoal : oRemoveList) {
-                if (oGoal.getGoalContentIdentifier().equals(oRemoveGoal.getGoalContentIdentifier())==true) {
-                    //if yes, remove this goal      
-                    Iter.remove();
-                    log.debug("Non reachable goal removed: " + oGoal.toString());
-                }
-            }
-            
-        }
+//        //Find all unreachable goals from STMList
+//        while (Iter.hasNext()) {
+//            clsWordPresentationMeshGoal oGoal = Iter.next();
+//            
+//            //Check if this is one of the STM goals, which shall be removed
+//            for (clsWordPresentationMeshGoal oRemoveGoal : oRemoveList) {
+//                if (oGoal.getGoalContentIdentifier().equals(oRemoveGoal.getGoalContentIdentifier())==true) {
+//                    //if yes, remove this goal      
+//                    try {
+//                        Iter.remove();
+//                        log.debug("Non reachable goal removed: " + oRemoveGoal.toString());
+//                    } catch (IllegalStateException e) {
+//                        log.error("Cannot remove goal {}", oRemoveGoal, e);
+//                        System.exit(-1);
+//                    }
+//                   
+//                }
+//            }
+//            
+//        }
         
     }
     
