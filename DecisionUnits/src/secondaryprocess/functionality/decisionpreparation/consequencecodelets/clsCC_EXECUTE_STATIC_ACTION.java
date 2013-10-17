@@ -60,6 +60,8 @@ public class clsCC_EXECUTE_STATIC_ACTION extends clsConsequenceCodelet {
         this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_REPRESS, eCondition.IS_CONTINUED_PLANGOAL));
         this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_SLEEP, eCondition.IS_CONTINUED_PLANGOAL));
         this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_RELAX, eCondition.IS_CONTINUED_PLANGOAL));
+        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_SPEAK_EAT, eCondition.IS_CONTINUED_PLANGOAL));
+        
         
     }
 
@@ -103,13 +105,15 @@ public class clsCC_EXECUTE_STATIC_ACTION extends clsConsequenceCodelet {
         this.moGoal.removeCondition(eCondition.EXECUTED_REPRESS);
         this.moGoal.removeCondition(eCondition.EXECUTED_SLEEP);
         this.moGoal.removeCondition(eCondition.EXECUTED_RELAX);
+        this.moGoal.removeCondition(eCondition.EXECUTED_SPEAK_EAT);
+        
         
         //Remove all needs
         this.moGoal.removeCondition(eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
         this.moGoal.removeCondition(eCondition.NEED_MOVEMENT);
         this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
         this.moGoal.removeCondition(eCondition.NEED_GOAL_FOCUS);
-        this.moGoal.removeCondition(eCondition.NEED_INTERNAL_INFO);
+        //this.moGoal.removeCondition(eCondition.NEED_INTERNAL_INFO);
         this.moGoal.removeCondition(eCondition.NEED_SEARCH_INFO);
         
         //Remove focus
