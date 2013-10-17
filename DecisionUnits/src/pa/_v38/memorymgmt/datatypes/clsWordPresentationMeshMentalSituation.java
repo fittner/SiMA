@@ -221,9 +221,10 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
     public String toString(){
         String oResult = "";
         oResult += this.moContent + "\n";
-        oResult += "PLANGOAL: " + this.getPlanGoal() + "; ";
-        oResult += "CONTINUEDGOALS: " + this.getSelectableGoals();
-        oResult += "AIMOFDRIVES: " + this.getAimOfDrives();
+        oResult += "PLANGOAL: " + this.getPlanGoal() + ";\n";
+        oResult += "CONTINUEDGOALS: " + this.getSelectableGoals() + ";\n ";
+        oResult += "AIMOFDRIVES: " + this.getAimOfDrives() + ";\n ";
+        oResult += "EXCLUDED GOALS" + this.getExcludedSelectableGoals() + ";\n";
           
        
         return oResult; 

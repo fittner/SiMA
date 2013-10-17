@@ -7,8 +7,6 @@
 package secondaryprocess.algorithm.goals;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
-
 import org.slf4j.Logger;
 
 import datatypes.helpstructures.clsPair;
@@ -39,7 +37,7 @@ import secondaryprocess.datamanipulation.clsImportanceTools;
  */
 public class GoalAlgorithmTools {
 
-	private static Logger log = clsLogger.getLog("DecisionPreparation");
+	private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
 	
 
 	
@@ -273,36 +271,44 @@ public class GoalAlgorithmTools {
      *
      * @param poGoalList
      */
-    public static void removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory) {
-        ListIterator<clsWordPresentationMeshSelectableGoal> Iter = poGoalList.listIterator();
-        
-        ArrayList<clsWordPresentationMeshGoal> oRemoveList = new ArrayList<clsWordPresentationMeshGoal>();
+    public static ArrayList<clsWordPresentationMeshSelectableGoal> removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory) {
+        //ListIterator<clsWordPresentationMeshSelectableGoal> Iter = poGoalList.listIterator();
+        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+        ArrayList<clsWordPresentationMeshSelectableGoal> oRemoveList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
         
         //Get all goals from STM
         ArrayList<clsPair<Integer, clsWordPresentationMeshMentalSituation>> oSTMList = shortTermMemory.getMoShortTimeMemory();
         for (clsPair<Integer, clsWordPresentationMeshMentalSituation> oSTM : oSTMList) {
             //Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
             ArrayList<clsWordPresentationMeshSelectableGoal> oTEMPLIST = oSTM.b.getExcludedSelectableGoals();  //clsMentalSituationTools.getExcludedGoal(oSTM.b);
-            ArrayList<clsWordPresentationMeshSelectableGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
-            for (clsWordPresentationMeshSelectableGoal oWPM : oTEMPLIST) {
-                oExcludedGoalList.add((clsWordPresentationMeshSelectableGoal) oWPM);
-            }
+            //ArrayList<clsWordPresentationMeshSelectableGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+            
+//            for (clsWordPresentationMeshSelectableGoal oWPM : oTEMPLIST) {
+//                oExcludedGoalList.add((clsWordPresentationMeshSelectableGoal) oWPM);
+//            }
              
-            oRemoveList.addAll(oExcludedGoalList);
+            oRemoveList.addAll(oTEMPLIST);
         }
         
-        for (clsWordPresentationMeshGoal oRemoveGoal : oRemoveList) {
-            try {
-                if (poGoalList.contains(oRemoveGoal)) {
-                    poGoalList.remove(oRemoveGoal);
-                    log.debug("Non reachable goal removed: " + oRemoveGoal.toString());
-                }
+        for (clsWordPresentationMeshSelectableGoal goal : poGoalList) { 
+            boolean isFound=false;
+            for (clsWordPresentationMeshSelectableGoal removeGoal : oRemoveList){
+                if (goal.isEquivalentDataStructure(removeGoal)==true) {
+                    isFound=true;
+                    log.debug("Non reachable goal removed: " + removeGoal.toString());
+                    break; 
+                }     
+                        
+            }
+            
+            if (isFound==false) {
+                result.add(goal);
+            } else {
                 
-            } catch (IllegalStateException e) {
-                log.error("Cannot remove goal {}", oRemoveGoal, e);
-                System.exit(-1);
             }
         }
+        
+        return result;
                         
 //        //Find all unreachable goals from STMList
 //        while (Iter.hasNext()) {

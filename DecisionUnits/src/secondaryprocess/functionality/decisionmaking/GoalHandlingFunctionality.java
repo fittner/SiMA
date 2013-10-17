@@ -46,8 +46,8 @@ public class GoalHandlingFunctionality {
      * @param reachableGoalList
      * @param shortTermMemory
      */
-    public static void removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, clsShortTermMemory shortTermMemory) {
-        GoalAlgorithmTools.removeNonReachableGoals(reachableGoalList, shortTermMemory);
+    public static ArrayList<clsWordPresentationMeshSelectableGoal> removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, clsShortTermMemory shortTermMemory) {
+        return GoalAlgorithmTools.removeNonReachableGoals(reachableGoalList, shortTermMemory);
     }
     
     /**

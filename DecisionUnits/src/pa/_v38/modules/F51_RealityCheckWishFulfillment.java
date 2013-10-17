@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import secondaryprocess.functionality.EffortFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalConditionFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngineInterface;
 import secondaryprocess.functionality.shorttermmemory.EnvironmentalImageFunctionality;
@@ -344,7 +345,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
         log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		
         // --- ADD NON REACHABLE GOALS TO THE STM --- //
+        //1. Remove non reachable goals
         ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_OUT);
+        moReachableGoalList_OUT = GoalHandlingFunctionality.removeNonReachableGoals(moReachableGoalList_OUT, this.moShortTimeMemory);
         
 		log.info("Provided selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		log.info("Provided continued goals: {}", PrintTools.printArrayListWithLineBreaks(this.moDecisionEngine.getContinuedGoals(moReachableGoalList_OUT)));

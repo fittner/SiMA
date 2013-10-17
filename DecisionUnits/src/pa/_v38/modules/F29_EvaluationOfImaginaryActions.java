@@ -23,6 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
@@ -30,6 +31,7 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.toText;
+import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.functionality.PlanningFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
@@ -243,6 +245,10 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         
         //Add text to inspector
         addTextToLastActionsTextSequence(moActionCommand, planGoal);
+        eAction selectedAction = eAction.valueOf(clsActionTools.getAction(moActionCommand));
+        if (selectedAction.equals(eAction.NONE.toString())==true) {
+            log.warn("Erroneous action taken. Action cannot be NONE. This must be an error in the codelets");
+        }
         
         
 //        //=== TEST ONLY ONE ACTION === //
