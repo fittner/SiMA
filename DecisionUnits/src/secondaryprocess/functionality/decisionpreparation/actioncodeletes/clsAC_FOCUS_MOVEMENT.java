@@ -69,7 +69,19 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
 		} else if (oChosenAction.equals(eAction.SEARCH1)) {
 			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
-		} //else if (oExternalActionWPM.getMoContent().equals(eAction.FLEE.toString())) {
+		} else {
+//		    //FIXME This concept has to be remade as here a condition is corrected, which it should not be
+//		    try {
+//                this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
+//                this.moGoal.removeCondition(eCondition.SET_FOCUS_MOVEMENT);
+//            } catch (ElementNotFoundException e) {
+//                log.error("", e);
+//            }
+		}
+		
+		
+		
+		//else if (oExternalActionWPM.getMoContent().equals(eAction.FLEE.toString())) {
 		//	oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
 		//}
 		
@@ -124,8 +136,7 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 //            this.moGoal.removeCondition(eCondition.NEED_SEARCH_INFO);
 //            this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
         } catch (Exception e) {
-            // TODO (wendt) - Auto-generated catch block
-            e.printStackTrace();
+            log.error("", e);
         }
 	    
 		

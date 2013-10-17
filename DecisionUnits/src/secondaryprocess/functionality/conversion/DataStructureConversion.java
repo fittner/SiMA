@@ -55,7 +55,7 @@ public class DataStructureConversion {
         // 1. Get all Images of the Mesh
         ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 4);
         
-        HackMethods.reduceImageListTPM("A10", oRITPMList);
+        HackMethods.reduceImageListTPM("A03", oRITPMList);
         
         // 2. Search for WPM for the image and add the found image to a list.
         // The WPM is connected with the TPM by an associationWP

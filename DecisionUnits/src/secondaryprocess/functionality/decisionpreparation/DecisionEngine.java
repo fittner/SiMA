@@ -26,6 +26,7 @@ import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_PERFORM_BASIC_ACT_ANALYSIS;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_SEND_TO_PHANTASY;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_EXECUTE_MOVEMENT;
+import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_EXECUTE_STATIC_ACTION;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_FOCUS_MOVEMENT;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_FOCUS_ON;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_PERFORM_BASIC_ACT_ANALYSIS;
@@ -38,7 +39,7 @@ import secondaryprocess.functionality.decisionpreparation.decisioncodelets.clsDC
 import secondaryprocess.functionality.decisionpreparation.decisioncodelets.clsDC_SetIntInfoToActAnalysis;
 import secondaryprocess.functionality.decisionpreparation.decisioncodelets.clsDC_XToMoveFocus;
 import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_ApplyPreviousActionOnPlanGoal;
-import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_CheckSetFocus;
+import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_CheckStillSetFocus;
 import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_InitContinuedGoalAct;
 import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_InitContinuedGoalDrive;
 import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_InitContinuedGoalPerception;
@@ -471,7 +472,7 @@ public class DecisionEngine implements DecisionEngineInterface {
      */
     private void registerCodelets() {
         //Decision codelets
-        clsIC_CheckSetFocus oCheckFocus = new clsIC_CheckSetFocus(moCodeletHandler);
+        clsIC_CheckStillSetFocus oCheckFocus = new clsIC_CheckStillSetFocus(moCodeletHandler);
         clsIC_InitContinuedGoalAct oContinousAnalysis = new clsIC_InitContinuedGoalAct(moCodeletHandler);
         clsIC_InitContinuedGoalDrive oContinousAnalysisDrive = new clsIC_InitContinuedGoalDrive(moCodeletHandler);
         clsIC_InitContinuedGoalPerception oContinousAnalysisPerception = new clsIC_InitContinuedGoalPerception(moCodeletHandler);
@@ -480,6 +481,8 @@ public class DecisionEngine implements DecisionEngineInterface {
         clsIC_InitUnprocessedPerception oInitUnprocessedPerception = new clsIC_InitUnprocessedPerception(moCodeletHandler);
         clsIC_ApplyPreviousActionOnPlanGoal applyPreviousGoalCodelet = new clsIC_ApplyPreviousActionOnPlanGoal(moCodeletHandler);
         
+        //Consequence codelets
+        clsCC_EXECUTE_STATIC_ACTION oDCStaticAction = new clsCC_EXECUTE_STATIC_ACTION(moCodeletHandler);
         clsCC_EXECUTE_MOVEMENT oDCActionMovement = new clsCC_EXECUTE_MOVEMENT(moCodeletHandler);
         clsCC_FOCUS_MOVEMENT oDCActionFocusMovement = new clsCC_FOCUS_MOVEMENT(moCodeletHandler);
         clsCC_FOCUS_ON oDCActionFocusOn = new clsCC_FOCUS_ON(moCodeletHandler);

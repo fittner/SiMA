@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.tools.ElementNotFoundException;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsCommonCodeletTools;
@@ -23,7 +24,7 @@ import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
  * 22.09.2012, 17:20:52
  * 
  */
-public class clsIC_CheckSetFocus extends clsInitCodelet {
+public class clsIC_CheckStillSetFocus extends clsInitCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -34,7 +35,7 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsIC_CheckSetFocus(clsCodeletHandler poCodeletHandler) {
+	public clsIC_CheckStillSetFocus(clsCodeletHandler poCodeletHandler) {
 		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	
@@ -49,9 +50,10 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 	@Override
 	protected void processGoal() {
 		
+	    //FIXME. This 
 		clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousPlanGoalFromShortTermMemory(moShortTermMemory);
 		
-		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_ON)) {
+		//if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_ON)) {
 			//If focus was set the last time, check if focus is still there in the STM
 			//Find the supportive structure in the STM
 			
@@ -70,7 +72,7 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 			if (bEntityInFocus==false) {
 			    this.moGoal.setCondition(eCondition.NEED_GOAL_FOCUS);
 			}
-		}
+		//}
 		
 		
 
@@ -111,7 +113,11 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		//Do not remove as this is continuous analysis
+	    try {
+            this.moGoal.removeCondition(eCondition.SET_FOCUS_ON);
+        } catch (ElementNotFoundException e) {
+            log.error("Error", e);
+        }
 		
 	}
 

@@ -212,7 +212,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// already done. Each image except the PI
 		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = DataStructureConversion.getWordPresentationsForImages(this.getLongTermMemory(), moPerceptionalMesh_IN);
 
-		log.debug("Perceived Image: " + oWPMConstruct.a);
+		log.info("Perceived Image: " + oWPMConstruct.a);
 		log.info("Found Acts:" + oWPMConstruct.b);
 		
 		// Assign the output to the meshes
