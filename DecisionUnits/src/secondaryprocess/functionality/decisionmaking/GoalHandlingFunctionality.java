@@ -266,6 +266,7 @@ public class GoalHandlingFunctionality {
      * @return 
      * @return
      */
+   
     @SuppressWarnings("deprecation")
     public static ArrayList<clsWordPresentationMeshGoal> extractGoalFromContext(ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_OUT) {
 ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
@@ -273,7 +274,7 @@ ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentati
         for (clsWordPresentationMeshGoal oAct : moReachableGoalList_OUT) {
             if (oAct.getMoInternalAssociatedContent().toString().contains("A07_SPEAK_EAT_L01")) {
                 oAct.setCondition(eCondition.IS_CONTEXT_SOURCE);
-                break;
+               
             } 
         
        
@@ -281,39 +282,6 @@ ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentati
     }
         return oRetVal;
     }
-
-    /**
-     * 
-     * 
-     * 
-     * (IH)
-     *
-     * @since 25.05.2012 20:47:31
-     *
-     * @param moReachableGoalList_OUT
-     * @return
-     */
-    public static ArrayList<clsWordPresentationMeshGoal> setConditionToContextSource(ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_OUT) {
-        ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
-        
-        for (clsWordPresentationMeshGoal oGoal : moReachableGoalList_OUT) {
-            if (oGoal.getMoContent().contains(":CAKE:MEMORYDRIVE")) {
-                oGoal.setCondition(eCondition.IS_CONTEXT_SOURCE);
-            }
-        }
-        
-        return oRetVal;
-    }
-
-
-
-
-
-
-
-
-
-
 
 
 

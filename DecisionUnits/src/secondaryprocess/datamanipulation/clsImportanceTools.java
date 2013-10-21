@@ -611,8 +611,9 @@ public class clsImportanceTools {
             nResult += 0;
         } else if (rActConfidence<1.0 && rActConfidence>=0.5) {
             nResult += -0.02;
+            //How to change rActConfidence 
         } else if (rActConfidence<0.5) {
-            nResult += -0.10;
+            nResult += 0.20;
         }
         
         
