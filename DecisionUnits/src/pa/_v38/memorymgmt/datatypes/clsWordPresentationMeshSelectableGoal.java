@@ -336,8 +336,8 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
         
         if (ds.getClass().getName().equals(this.getClass().getName()) &&
             ds.getMoDS_ID()==this.moDS_ID &&
-            ds.getMoContent()==this.getMoContent() &&
-            ds.getMoContentType()==this.getMoContentType() && 
+            ds.getMoContent().equals(this.getMoContent()) &&
+            ds.getMoContentType().equals(this.getMoContentType()) && 
             ds.getSupportiveDataStructure().getMoContent().equals(this.getSupportiveDataStructure().getMoContent())) {
             isEqual=true;
         }
@@ -357,6 +357,9 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
         oResult += ":" + this.getFeelings().toString();
         oResult += ":" + this.getGoalObject();
         oResult += ":" + getSupportiveDataStructure().getMoContent();
+        if (this.getAssociatedPlanAction().isNullObject()==false) {
+            oResult += ":" + this.getAssociatedPlanAction().getMoContent();
+        }
             
         ArrayList<eCondition> oConditionList = getCondition();
         if (oConditionList.isEmpty()==false) {

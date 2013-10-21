@@ -34,7 +34,6 @@ import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.modules.clsModuleBaseKB;
 import secondaryprocess.algorithm.goals.GoalArrangementTools;
-import secondaryprocess.algorithm.goals.clsGoalAlgorithmTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -86,37 +85,7 @@ public class clsGoalManipulationTools {
 		//--- Create goal ---//
 		//Create identifiyer. All goals must have the content type "GOAL"
 		clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.GOAL);
-		
-		//--- Create Goal object ---//
-		//Add Goalobject to the mesh
-//		oRetVal.setGoalObject(poGoalObject);
-//		//clsMeshTools.createAssociationSecondary(oRetVal, 1, poGoalObject, 0, 1.0, eContentType.DRIVEOBJECTASSOCIATION, ePredicate.HASDRIVEOBJECT, false);	
-//		
-		//--- Add Feelings --- //
-//		oRetVal.addFeelings(oFeelingsList);
-		//clsGoalTools.addFeelings(oRetVal, oFeelingsList);
-		
-		//Add Supportive Data Structure to goal if it is not null
-//		oRetVal.setSupportiveDataStructure(poSupportiveDataStructure);
-//		if (poSupportiveDataStructure == null) {
-//			try {
-//				throw new Exception("No nulls allowed");
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		} else if (poSupportiveDataStructure.isNullObject()==false) {
-//			clsMeshTools.createAssociationSecondary(oRetVal, 1, poSupportiveDataStructure, 0, 1.0, eContentType.SUPPORTDSASSOCIATION, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
-//		}
-		
-//		//--- Add goal type to mesh ---//
-//		oRetVal.setGoalType(poGoalType);
-//		//clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.GOALTYPEASSOCIATION, ePredicate.HASGOALTYPE, eContentType.GOALTYPE, poGoalType.toString(), true);
-//		
-//		
-//		//--- Add goal name to mesh ---//
-//		oRetVal.setGoalName(poGoalContent);
-//		//clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASGOALNAME, eContentType.GOALNAME, poGoalContent, true);
-//		
+	
 		//Create the basic goal structure
         clsWordPresentationMeshSelectableGoal oRetVal = new clsWordPresentationMeshSelectableGoal(oDataStructureIdentifier, new ArrayList<clsAssociation>(), oGoalID, poGoalObject, poGoalName, poGoalType, driveDemandImportance);
 		
@@ -229,9 +198,15 @@ public class clsGoalManipulationTools {
         return oResult;
     }
 	
+    public static void copyConditions(clsWordPresentationMeshSelectableGoal source, clsWordPresentationMeshSelectableGoal target) {
+        for (eCondition c : source.getCondition()) {
+            target.setCondition(c);
+        }
+        
+    }
 	
 	/**
-	 * Copy a goal without task status
+	 * Copy a goal without actions and importance, but with current task status
 	 * 
 	 * (wendt)
 	 *
@@ -240,7 +215,7 @@ public class clsGoalManipulationTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static clsWordPresentationMeshSelectableGoal copyGoalWithoutTaskStatusAndAction(clsWordPresentationMeshSelectableGoal poGoal) {
+	public static clsWordPresentationMeshSelectableGoal copyBareGoal(clsWordPresentationMeshSelectableGoal poGoal) {
 	    clsWordPresentationMeshSelectableGoal oResult = null;
 		try {   
 			oResult = (clsWordPresentationMeshSelectableGoal) poGoal.clone();
@@ -254,8 +229,7 @@ public class clsGoalManipulationTools {
 			
 			
 		} catch (CloneNotSupportedException e) {
-			System.out.println("previous goal could not be cloned");
-			e.printStackTrace();
+			log.error("previous goal could not be cloned", e);
 		}
 		
 		return oResult;
@@ -704,7 +678,7 @@ public class clsGoalManipulationTools {
      * @return the previous continued goal or the continued goal from the incoming goallist
      */
     public static clsWordPresentationMeshSelectableGoal getContinuedGoalFromPreviousGoal(clsWordPresentationMeshSelectableGoal poPreviousGoal, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
-        clsWordPresentationMeshSelectableGoal oResult = clsWordPresentationMeshSelectableGoal.getNullObject();  // clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+        clsWordPresentationMeshSelectableGoal oResult = clsWordPresentationMeshSelectableGoal.getNullObject();
         
         //Check if goal exists in the goal list
         ArrayList<clsWordPresentationMeshSelectableGoal> oEquivalentGoalList = clsGoalManipulationTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
@@ -713,11 +687,10 @@ public class clsGoalManipulationTools {
         if (oEquivalentGoalList.isEmpty()==true) {
             //--- COPY PREVIOUS GOAL ---//
             if (poPreviousGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==false) {
-                clsWordPresentationMeshSelectableGoal oNewGoalFromPrevious = clsGoalManipulationTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
+                clsWordPresentationMeshSelectableGoal oNewGoalFromPrevious = clsGoalManipulationTools.copyBareGoal(poPreviousGoal);
                 
                 oResult = oNewGoalFromPrevious;  
             }
-
         } else {
             //Assign the right spatially nearest goal from the previous goal if the goal is from the perception
             //eCondition oPreviousGoalType = poPreviousGoal.getc.getGoalType();
@@ -727,19 +700,10 @@ public class clsGoalManipulationTools {
             } else {
                 oResult = oEquivalentGoalList.get(0);   //drive or memory is always present
             }
-            
-            //Remove all conditions, in order not to use the init conditions on continued goals
-            oResult.removeAllConditions();
-            
         }
         
-        //This method sets the condition for the goal type from reading the goal.
-        try {
-            clsGoalAlgorithmTools.setConditionFromGoalType(oResult);
-        } catch (Exception e) {
-            log.error("", e);
-        }
-
+        //Copy all conditions from previous goal
+        clsGoalManipulationTools.copyConditions(poPreviousGoal, oResult);
         
         return oResult;
     }

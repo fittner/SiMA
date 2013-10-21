@@ -77,7 +77,7 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
             //moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
         }
         
-        moGoal.setCondition(eCondition.IS_NEW_GOAL);
+        //moGoal.setCondition(eCondition.IS_NEW_GOAL);
         
     }
 
@@ -89,7 +89,7 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
      */
     @Override
     protected void setPreconditions() {
-        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_UNPROCESSED_GOAL, eCondition.IS_MEMORY_SOURCE));
+        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_NEW_GOAL, eCondition.IS_MEMORY_SOURCE));
         
     }
 
@@ -125,7 +125,7 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
      */
     @Override
     protected void removeTriggerCondition() throws ElementNotFoundException {
-        this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
+        //this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
         
     }
 

@@ -55,22 +55,22 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
 		clsWordPresentationMeshGoal oPreviousPlanGoal = clsCommonCodeletTools.getPreviousCorrespondingGoalFromShortTermMemory(moShortTermMemory, moGoal);
 		
 		
-		//Transfer previous stati in general
-		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==true) {
-		    this.moGoal.setCondition(eCondition.SET_INTERNAL_INFO);
-		}
-		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
-		    this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);
-		}
-		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)==true) {
-		    this.moGoal.setCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
-		}
-		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_FOLLOW_ACT)==true) {
-		    this.moGoal.setCondition(eCondition.SET_FOLLOW_ACT);
-		}
+//		//Transfer previous stati in general
+//		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==true) {
+//		    this.moGoal.setCondition(eCondition.SET_INTERNAL_INFO);
+//		}
+//		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
+//		    this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);
+//		}
+//		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)==true) {
+//		    this.moGoal.setCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
+//		}
+//		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_FOLLOW_ACT)==true) {
+//		    this.moGoal.setCondition(eCondition.SET_FOLLOW_ACT);
+//		}
 		
 		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
-            this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
+            //this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
         } else {
           //Check if any of the goals in the STM has a "GOAL_COMPLETED". If it has and is the same goal as here, then this goal shall receive
             //goal not reachable
@@ -90,7 +90,7 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
             //Set the Act of the previous goal as the new act of the continued goal
             
             //=== Perform system tests ===//
-            clsTester.getTester().setActivated(true);
+            clsTester.getTester().setActivated(false);
             if (clsTester.getTester().isActivated()) {
                 try {
                     log.warn("System tester active");
@@ -175,7 +175,7 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL, eCondition.IS_MEMORY_SOURCE, eCondition.IS_UNPROCESSED_GOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL, eCondition.IS_MEMORY_SOURCE));
 	}
 
 	/* (non-Javadoc)
@@ -199,7 +199,7 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() throws ElementNotFoundException {
-	    this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
+	    
 		
 	}
 

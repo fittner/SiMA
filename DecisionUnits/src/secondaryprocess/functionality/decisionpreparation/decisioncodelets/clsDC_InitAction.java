@@ -42,16 +42,14 @@ public class clsDC_InitAction extends clsDecisionCodelet {
 	protected void processGoal() {
 		if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true) {
 			
-			if (this.moGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==false &&
-			        this.moGoal.checkIfConditionExists(eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
-			    this.moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
-			}
+			//if (this.moGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==false && this.moGoal.checkIfConditionExists(eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
+			this.moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
+			//}
 		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
             
-            if (this.moGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==false &&
-                    this.moGoal.checkIfConditionExists(eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
-                this.moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
-            }
+            //if (this.moGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==false && this.moGoal.checkIfConditionExists(eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
+            this.moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
+            //}
         } else if (this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
             this.moGoal.setCondition(eCondition.COMPOSED_CODELET);
             this.moGoal.setCondition(eCondition.GOTO_GOAL_IN_PERCEPTION);
@@ -73,6 +71,10 @@ public class clsDC_InitAction extends clsDecisionCodelet {
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.IS_NEW_GOAL));
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_NEW_GOAL));
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.IS_NEW_GOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.SET_DECISION_PHASE_COMPLETE));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.SET_DECISION_PHASE_COMPLETE));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.SET_DECISION_PHASE_COMPLETE));
+		
 		
 	}
 
@@ -97,7 +99,15 @@ public class clsDC_InitAction extends clsDecisionCodelet {
 	@Override
 	protected void removeTriggerCondition() throws ElementNotFoundException {
 	    this.moGoal.removeCondition(eCondition.IS_NEW_GOAL);
-		
+	    this.moGoal.removeCondition(eCondition.SET_DECISION_PHASE_COMPLETE);
+	    
+	    //FIXME: These conditions should be removed somewhere else, but it is not the case
+	    this.moGoal.removeCondition(eCondition.SET_INTERNAL_INFO);
+	    this.moGoal.removeCondition(eCondition.NEED_BASIC_ACT_ANALYSIS);
+	    this.moGoal.removeCondition(eCondition.SET_FOLLOW_ACT);
+	    this.moGoal.removeCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
+	    this.moGoal.removeCondition(eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+	    
 	}
 
 	/* (non-Javadoc)

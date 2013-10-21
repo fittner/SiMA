@@ -129,7 +129,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     protected void process_basic() {
         
         //=== Perform system tests ===//
-        clsTester.getTester().setActivated(true);
+        clsTester.getTester().setActivated(false);
         if (clsTester.getTester().isActivated()) {
             try {
                 log.warn("System tests activated");
@@ -172,7 +172,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         moAssociatedMemories_OUT = moAssociatedMemories_IN;
         
         //=== Perform system tests ===//
-        clsTester.getTester().setActivated(true);
+        clsTester.getTester().setActivated(false);
         if (clsTester.getTester().isActivated()) {
             try {
                 log.warn("System tests activated");

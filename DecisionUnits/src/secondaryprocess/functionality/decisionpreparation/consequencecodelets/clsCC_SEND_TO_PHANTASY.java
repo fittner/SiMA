@@ -77,8 +77,8 @@ public class clsCC_SEND_TO_PHANTASY extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.EXECUTED_SEND_TO_PHANTASY));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.EXECUTED_SEND_TO_PHANTASY));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.EXECUTED_SEND_TO_PHANTASY, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.EXECUTED_SEND_TO_PHANTASY, eCondition.IS_CONTINUED_PLANGOAL));
 		
 	}
 
@@ -104,6 +104,8 @@ public class clsCC_SEND_TO_PHANTASY extends clsConsequenceCodelet {
 	protected void removeTriggerCondition() {
 	    try {
             this.moGoal.removeCondition(eCondition.EXECUTED_SEND_TO_PHANTASY);
+            
+            this.moGoal.removeCondition(eCondition.NEED_INTERNAL_INFO);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();

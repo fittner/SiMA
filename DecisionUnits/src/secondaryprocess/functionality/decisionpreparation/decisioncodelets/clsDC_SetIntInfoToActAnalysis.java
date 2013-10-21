@@ -54,7 +54,7 @@ public class clsDC_SetIntInfoToActAnalysis extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_INTERNAL_INFO));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_INTERNAL_INFO, eCondition.IS_MEMORY_SOURCE));
 		
 	}
 

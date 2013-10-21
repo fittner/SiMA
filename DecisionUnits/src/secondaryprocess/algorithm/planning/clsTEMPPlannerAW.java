@@ -71,7 +71,7 @@ public class clsTEMPPlannerAW {
 			PlanningWizard.printPlanningStack(plGraph);
 
 		} catch (Exception e) {
-			log.error("FATAL initializing planning Wizard", e);
+			log.error("FATAL initializing planning Wizard");
 		}
 		
 		//moAvailablePlanFragments = poAvailablePlanFragments;

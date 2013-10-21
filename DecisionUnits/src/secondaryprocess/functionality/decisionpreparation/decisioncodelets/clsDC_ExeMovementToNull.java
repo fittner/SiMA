@@ -61,7 +61,8 @@ public class clsDC_ExeMovementToNull extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_MOVEMENT_EXECUTED));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_MOVEMENT_EXECUTED, eCondition.IS_PERCEPTIONAL_SOURCE));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_MOVEMENT_EXECUTED, eCondition.IS_MEMORY_SOURCE));
 		
 	}
 

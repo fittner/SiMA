@@ -10,7 +10,9 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.tools.ElementNotFoundException;
 import secondaryprocess.algorithm.acts.clsActPreparationTools;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -47,8 +49,6 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 	@Override
 	protected void processGoal() {
 		//Get Previous goal
-		//clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(this.moShortTermMemory.findPreviousSingleMemory());
-		//clsWordPresentationMesh oPreviousAction = clsMentalSituationTools.getAction(this.moShortTermMemory.findPreviousSingleMemory());
 		
 		//Perform basic act analysis as the act is complete
 		clsWordPresentationMesh oCurrentAct = this.moGoal.getSupportiveDataStructure();
@@ -62,6 +62,20 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		    this.moGoal.removeAllConditions();
 		    this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
 		    this.moGoal.setCondition(eCondition.IS_MEMORY_SOURCE);
+		} else if (oTaskStatusList.contains(eCondition.RESET_GOAL)==true) {
+		    //Delete Moment
+		    clsActDataStructureTools.setMoment(oCurrentAct, clsWordPresentationMesh.getNullObject());
+		    //Remove all unnecessary previous conditions
+		    try {
+                this.moGoal.removeCondition(eCondition.SET_FOLLOW_ACT);
+                this.moGoal.removeCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
+            } catch (ElementNotFoundException e) {
+                log.error("", e);
+            }
+		    
+		    
+		    this.moGoal.setCondition(eCondition.IS_MEMORY_SOURCE);
+		    this.moGoal.setCondition(eCondition.SET_INTERNAL_INFO);
 		} else {
 			for (eCondition oTaskStatus : oTaskStatusList) {
 			    this.moGoal.setCondition(oTaskStatus);
@@ -79,7 +93,7 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS, eCondition.IS_CONTINUED_PLANGOAL));
 		
 	}
 
@@ -105,6 +119,7 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 	protected void removeTriggerCondition() {
 	    try {
             this.moGoal.removeCondition(eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS);
+            this.moGoal.removeCondition(eCondition.NEED_BASIC_ACT_ANALYSIS);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();

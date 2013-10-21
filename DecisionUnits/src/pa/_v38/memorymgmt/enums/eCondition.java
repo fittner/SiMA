@@ -21,6 +21,7 @@ public enum eCondition {
 	// --- Precondition intentions --- //
 	START_WITH_FIRST_IMAGE,
 	OBSTACLE_SOLVING,
+	CYCLIC_ACT,
 	
 	// --- Goaltype conditions --- //
 	IS_DRIVE_SOURCE,
@@ -29,6 +30,7 @@ public enum eCondition {
 
 	// --- Decision codelets preprocessing --- //
 	IS_CONTINUED_GOAL,
+	IS_CONTINUED_PLANGOAL,
 	IS_UNPROCESSED_GOAL,
 	IS_NEW_GOAL,
 	
@@ -52,8 +54,10 @@ public enum eCondition {
 	EXECUTED_BITE,
 	EXECUTED_SUCK,
 	EXECUTED_DIVIDE,
+	//SPEAK
+	EXECUTED_SPEAK_EAT,
 	//Actions - Unreal
-	EXECUTED_UNREAL_MOVE_TO,
+	//EXECUTED_UNREAL_MOVE_TO,
 	//Internal actions
 	EXECUTED_SEND_TO_PHANTASY,	//Send to phantasy
 	EXECUTED_PERFORM_BASIC_ACT_ANALYSIS,
@@ -67,6 +71,8 @@ public enum eCondition {
 	//Actions - System
 	EXECUTED_NONE,
 	
+	
+	
 	//--- Post conditions for actions by decision codelets --- //
 	SET_FOCUS_ON,					//Focus set on the supportive data structure in the action
 	SET_FOCUS_MOVEMENT,		//It has been focused on in front of the agent		
@@ -77,7 +83,9 @@ public enum eCondition {
 	GOAL_NOT_REACHABLE,				//This is put on acts, where there is no match, in order to exclude the act
 	GOAL_REACHABLE,
 	GOAL_COMPLETED,
+	RESET_GOAL,
 	ACT_MATCH_TOO_LOW,		//This is used to suppress the pleasure level for goals, which are not suitable in a certain situation
+	SET_DECISION_PHASE_COMPLETE,
 		
 	//--- Preconditions for action codelets set by decision codelets --- //
 	//Initial (deafult)

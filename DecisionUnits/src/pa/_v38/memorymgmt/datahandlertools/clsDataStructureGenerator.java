@@ -226,7 +226,7 @@ public abstract class clsDataStructureGenerator {
 		clsAssociationTime oRetVal=null;
 		eContentType oContentType = poContentType; 
 		
-		oRetVal = new clsAssociationTime(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONPRI, oContentType), poRoot, poLeaf);
+		oRetVal = new clsAssociationTime(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONTEMP, oContentType), poRoot, poLeaf);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;

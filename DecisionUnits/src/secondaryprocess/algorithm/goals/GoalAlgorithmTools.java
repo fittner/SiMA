@@ -7,8 +7,6 @@
 package secondaryprocess.algorithm.goals;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
-
 import org.slf4j.Logger;
 
 import datatypes.helpstructures.clsPair;
@@ -37,9 +35,9 @@ import secondaryprocess.datamanipulation.clsImportanceTools;
  * 27.09.2012, 09:58:07
  * 
  */
-public class clsGoalAlgorithmTools {
+public class GoalAlgorithmTools {
 
-	private static Logger log = clsLogger.getLog("DecisionPreparation");
+	private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
 	
 
 	
@@ -82,7 +80,7 @@ public class clsGoalAlgorithmTools {
      * @throws Exception
      */
     public static void setConditionFromGoalType(clsWordPresentationMeshGoal poGoal) throws Exception {
-        eCondition oCondition = clsGoalAlgorithmTools.getConditionFromGoalType(poGoal.getGoalSource());
+        eCondition oCondition = GoalAlgorithmTools.getConditionFromGoalType(poGoal.getGoalSource());
         poGoal.removeCondition(eCondition.IS_DRIVE_SOURCE);
         poGoal.removeCondition(eCondition.IS_MEMORY_SOURCE);
         poGoal.removeCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
@@ -104,6 +102,9 @@ public class clsGoalAlgorithmTools {
             break;
         case PICKUP:
             oActionCondition = eCondition.EXECUTED_PICKUP;
+            break;
+        case DIVIDE:
+            oActionCondition = eCondition.EXECUTED_DIVIDE;
             break;
         case DEPOSIT:
             oActionCondition = eCondition.EXECUTED_DEPOSIT;
@@ -143,6 +144,9 @@ public class clsGoalAlgorithmTools {
             break;
         case FOCUS_ON:
             oActionCondition = eCondition.EXECUTED_FOCUS_ON;
+            break;
+        case SPEAK_EAT:
+            oActionCondition = eCondition.EXECUTED_SPEAK_EAT;
             break;
         case FOCUS_MOVE_FORWARD:
             oActionCondition = eCondition.EXECUTED_FOCUS_MOVE_FORWARD;
@@ -207,7 +211,7 @@ public class clsGoalAlgorithmTools {
         try {
             oActionCondition = getPreconditionFromAction(oPreviousAction);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("You have to add the action {} to the codelets clsCC_EXECUTE_STATIC_ACTION or clsCC_EXECUTE_MOVEMENT and to this function getPreconditionFromAction.", oPreviousAction, e);
         }
 		
 		
@@ -267,45 +271,65 @@ public class clsGoalAlgorithmTools {
      *
      * @param poGoalList
      */
-    public static void removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory) {
-        ListIterator<clsWordPresentationMeshSelectableGoal> Iter = poGoalList.listIterator();
-        
-        ArrayList<clsWordPresentationMeshGoal> oRemoveList = new ArrayList<clsWordPresentationMeshGoal>();
+    public static ArrayList<clsWordPresentationMeshSelectableGoal> removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory) {
+        //ListIterator<clsWordPresentationMeshSelectableGoal> Iter = poGoalList.listIterator();
+        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+        ArrayList<clsWordPresentationMeshSelectableGoal> oRemoveList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
         
         //Get all goals from STM
         ArrayList<clsPair<Integer, clsWordPresentationMeshMentalSituation>> oSTMList = shortTermMemory.getMoShortTimeMemory();
         for (clsPair<Integer, clsWordPresentationMeshMentalSituation> oSTM : oSTMList) {
             //Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
             ArrayList<clsWordPresentationMeshSelectableGoal> oTEMPLIST = oSTM.b.getExcludedSelectableGoals();  //clsMentalSituationTools.getExcludedGoal(oSTM.b);
-            ArrayList<clsWordPresentationMeshSelectableGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
-            for (clsWordPresentationMeshSelectableGoal oWPM : oTEMPLIST) {
-                oExcludedGoalList.add((clsWordPresentationMeshSelectableGoal) oWPM);
-            }
+            //ArrayList<clsWordPresentationMeshSelectableGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
             
+//            for (clsWordPresentationMeshSelectableGoal oWPM : oTEMPLIST) {
+//                oExcludedGoalList.add((clsWordPresentationMeshSelectableGoal) oWPM);
+//            }
              
-            oRemoveList.addAll(oExcludedGoalList);
-//          for (clsWordPresentationMesh oExcludedGoal : oExcludedGoalList) {
-//              if (clsGoalTools.checkIfConditionExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true) {
-//                  oRemoveList.add(oSTM.b);
-//              }
-//          }
-            
+            oRemoveList.addAll(oTEMPLIST);
         }
+        
+        for (clsWordPresentationMeshSelectableGoal goal : poGoalList) { 
+            boolean isFound=false;
+            for (clsWordPresentationMeshSelectableGoal removeGoal : oRemoveList){
+                if (goal.isEquivalentDataStructure(removeGoal)==true) {
+                    isFound=true;
+                    log.debug("Non reachable goal removed: " + removeGoal.toString());
+                    break; 
+                }     
                         
-        //Find all unreachable goals from STMList
-        while (Iter.hasNext()) {
-            clsWordPresentationMeshGoal oGoal = Iter.next();
-            
-            //Check if this is one of the STM goals, which shall be removed
-            for (clsWordPresentationMeshGoal oRemoveGoal : oRemoveList) {
-                if (oGoal.getGoalContentIdentifier().equals(oRemoveGoal.getGoalContentIdentifier())==true) {
-                    //if yes, remove this goal      
-                    Iter.remove();
-                    log.debug("Non reachable goal removed: " + oGoal.toString());
-                }
             }
             
+            if (isFound==false) {
+                result.add(goal);
+            } else {
+                
+            }
         }
+        
+        return result;
+                        
+//        //Find all unreachable goals from STMList
+//        while (Iter.hasNext()) {
+//            clsWordPresentationMeshGoal oGoal = Iter.next();
+//            
+//            //Check if this is one of the STM goals, which shall be removed
+//            for (clsWordPresentationMeshGoal oRemoveGoal : oRemoveList) {
+//                if (oGoal.getGoalContentIdentifier().equals(oRemoveGoal.getGoalContentIdentifier())==true) {
+//                    //if yes, remove this goal      
+//                    try {
+//                        Iter.remove();
+//                        log.debug("Non reachable goal removed: " + oRemoveGoal.toString());
+//                    } catch (IllegalStateException e) {
+//                        log.error("Cannot remove goal {}", oRemoveGoal, e);
+//                        System.exit(-1);
+//                    }
+//                   
+//                }
+//            }
+//            
+//        }
         
     }
     

@@ -14,7 +14,6 @@ import java.util.SortedMap;
 
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
-import datatypes.helpstructures.clsPair;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
@@ -28,7 +27,10 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import secondaryprocess.functionality.EffortFunctionality;
-import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
+import secondaryprocess.functionality.decisionmaking.GoalConditionFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngineInterface;
 import secondaryprocess.functionality.shorttermmemory.EnvironmentalImageFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import testfunctions.clsTester;
@@ -79,7 +81,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
 	//private clsCodeletHandler moCodeletHandler;
-	private clsDecisionEngine moDecisionEngine;
+	private DecisionEngineInterface moDecisionEngine;
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
@@ -96,11 +98,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @throws Exception
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsDecisionEngine poDecisionEngine,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
-	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		//super(poPrefix, poProp, poModuleList, poInterfaceData);
+
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
 		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
@@ -254,35 +254,50 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
                 log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
             }
         }
+        
+        // --- INIT GOALS --- //
+        log.trace("Incoming goals before init: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
+        moReachableGoalList_OUT = this.moDecisionEngine.initialzeGoals(moReachableGoalList_IN);
+        log.debug("Incoming goals after init: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
+        
+        //Init codelets
+        this.moDecisionEngine.setInitialSettings(moReachableGoalList_OUT);
+        log.debug("Incoming goals after applience of init operations: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
+        
 	
-		// --- INIT INCOMING GOALS --- //
-		try {
-		    log.trace("Incoming goals before init: " + moReachableGoalList_IN);
-            this.moDecisionEngine.initIncomingGoals(moReachableGoalList_IN);
-            log.debug("Incoming goals after init: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
-        } catch (Exception e) {
-            log.error("Error at init of goals. ", e);
-        }
+//		// --- INIT INCOMING GOALS --- //
+//		try {
+//		    log.trace("Incoming goals before init: " + moReachableGoalList_IN);
+//            this.moDecisionEngine.initIncomingGoals(moReachableGoalList_IN);
+//            log.debug("Incoming goals after init: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
+//        } catch (Exception e) {
+//            log.error("Error at init of goals. ", e);
+//        }
 		
 		
-		// --- INIT CONTINUED GOAL --- //
-		 clsPair<clsWordPresentationMeshSelectableGoal, ArrayList<clsWordPresentationMeshSelectableGoal>> oContinuedGoalList = null; //new ArrayList<clsWordPresentationMeshSelectableGoal>(); //clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
-		
-        //Init with special variables from F51
-		//TODO: It should not be necessary to poll the reachable goal list all the time
-        moDecisionEngine.getCodeletHandler().initF51(moReachableGoalList_IN);
-        try {
-            oContinuedGoalList = this.moDecisionEngine.initContinuedGoalList(moShortTimeMemory, moReachableGoalList_IN);
-            
-            
-            
-            //oContinuedGoal = this.moDecisionEngine.initContinuedGoal(moReachableGoalList_IN, moShortTimeMemory);
-            log.trace("Incoming goals after getting continued goal: " + moReachableGoalList_IN);
-            log.info("Continued selectable goallist: {}", PrintTools.printArrayListWithLineBreaks(oContinuedGoalList.b));
-            log.info("Continiued plan goal: {}", oContinuedGoalList.a);
-        } catch (Exception e) {
-            this.log.error(e.getMessage());
-        }
+//		// --- INIT CONTINUED GOAL --- //
+//		ArrayList<clsWordPresentationMeshSelectableGoal> oContinuedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>(); //new ArrayList<clsWordPresentationMeshSelectableGoal>(); //clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+//		clsWordPresentationMeshSelectableGoal planGoal = clsWordPresentationMeshSelectableGoal.getNullObject();
+//		
+//        //Init with special variables from F51
+//		//TODO: It should not be necessary to poll the reachable goal list all the time
+//        moDecisionEngine.getCodeletHandler().initF51(moReachableGoalList_IN);
+//        try {
+//            oContinuedGoalList = this.moDecisionEngine.initContinuedGoalList(moShortTimeMemory, moReachableGoalList_IN);
+//            for (clsWordPresentationMeshSelectableGoal continuedGoal : oContinuedGoalList) {
+//                if (continuedGoal.checkIfConditionExists(eCondition.IS_CONTINUED_PLANGOAL)) {
+//                    planGoal = continuedGoal;
+//                    break;
+//                }
+//            }
+//            
+//            //oContinuedGoal = this.moDecisionEngine.initContinuedGoal(moReachableGoalList_IN, moShortTimeMemory);
+//            log.trace("Incoming goals after getting continued goal: " + moReachableGoalList_IN);
+//            log.info("Continued selectable goallist: {}", PrintTools.printArrayListWithLineBreaks(oContinuedGoalList));
+//            log.info("Continiued plan goal: {}", planGoal);
+//        } catch (Exception e) {
+//            this.log.error(e.getMessage());
+//        }
 		
 		
 		
@@ -306,8 +321,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		// --- APPLY ACTION CONSEQUENCES ON THE CONTINUED GOAL --- //
 		//applyConsequencesOfActionsOnContinuedGoal(moReachableGoalList_IN, oContinuedGoal);
-		this.moDecisionEngine.applyConsequencesOfActionOnContinuedGoal(oContinuedGoalList.a); //.a is the last plangoal
+		this.moDecisionEngine.applyConsequencesOfActionOnContinuedGoal(moReachableGoalList_OUT); //.a is the last plangoal
 		
+		//Apply the GOAL_NOT_REACHABLE AND COMPLETED on all other goals with the same supportive data structures
+		GoalConditionFunctionality.setCommonConditionsToGoals(moReachableGoalList_OUT);		
 		
         // --- SET NEW PRECONDITIONS FOR ACTIONS AS WELL AS DEFAULT CONDITIONS FOR NEW GOALS --- //
         //setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
@@ -321,18 +338,20 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 
 		
 		// --- ADD the previous goal to the goal list if not already added --- //
-		this.moDecisionEngine.addContinuedGoalToGoalList(moReachableGoalList_IN, oContinuedGoalList.b);
-		
-		// --- ADD NON REACHABLE GOALS TO THE STM --- //
-		ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_IN);
+		//this.moDecisionEngine.addContinuedGoalToGoalList(moReachableGoalList_IN, oContinuedGoalList);
 		
 		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
-        EffortFunctionality.applyEffortOfGoal(moReachableGoalList_IN);
-        log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
+        EffortFunctionality.applyEffortOfGoal(moReachableGoalList_OUT);
+        log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		
-		moReachableGoalList_OUT = moReachableGoalList_IN;
+        // --- ADD NON REACHABLE GOALS TO THE STM --- //
+        //1. Remove non reachable goals
+        ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_OUT);
+        moReachableGoalList_OUT = GoalHandlingFunctionality.removeNonReachableGoals(moReachableGoalList_OUT, this.moShortTimeMemory);
+        
 		log.info("Provided selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
-		log.info("Provided continued goals: {}", PrintTools.printArrayListWithLineBreaks(oContinuedGoalList.b));
+		log.info("Provided continued goals: {}", PrintTools.printArrayListWithLineBreaks(this.moDecisionEngine.getContinuedGoals(moReachableGoalList_OUT)));
+		log.info("Provided plan goal: {}", this.moDecisionEngine.getPlanGoal(moReachableGoalList_OUT));
 	}
 	
 

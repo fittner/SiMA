@@ -442,7 +442,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
     		            nSuperEgo = Double.valueOf(oSuperEgo[1]);
     		        }
     		        
-    		        if (moSuperEgoStrength <= nSuperEgo) { //die Regel wird angenommen wenn das SuperEgo größer ist als das im property-File
+    		        if (moSuperEgoStrength >= nSuperEgo) { //die Regel wird angenommen wenn das SuperEgo größer ist als das im property-File
     		        
         		        String oeDrive ="", oeOrgan="", oeEmotion="";
         		        boolean schalter = false; //wenn true ist ein eDriveComponent gefunden

@@ -33,7 +33,7 @@ import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
-import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import testfunctions.clsTester;
 
@@ -74,7 +74,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	
 	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;
 	
-	private final clsDecisionEngine moDecisionEngine;
+	private final DecisionEngine moDecisionEngine;
 	
 	
 
@@ -106,7 +106,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	 * @throws Exception
 	 */
 	public F26_DecisionMaking(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage, clsDecisionEngine poDecisionEngine, DT3_PsychicEnergyStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine, DT3_PsychicEnergyStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
@@ -225,8 +225,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
         }
 	    
 	    
-	    //1. Remove non reachable goals
-	    GoalHandlingFunctionality.removeNonReachableGoals(moReachableGoalList_IN, moShortTermMemory);
+
 	    
 	    
 	    //FIXME SM: This is a temp variable, which shall be replaced with real feelings
@@ -268,7 +267,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		moDecidedGoalList_OUT = GoalHandlingFunctionality.selectSuitableReachableGoals(moReachableGoalList_IN, mnNumberOfGoalsToPass);
 		
 		//GoalProcessingFunctionality.initStatusOfSelectedGoals(moDecisionEngine, moDecidedGoalList_OUT);
-		//log.info("Selected goals: {}", PrintTools.printArrayListWithLineBreaks(moDecidedGoalList_OUT));
+		log.info("Selected goals: {}", PrintTools.printArrayListWithLineBreaks(moDecidedGoalList_OUT));
 		
 		//Add the aim of drives goal to the mental situation
 		ShortTermMemoryFunctionality.addUsableAimOfDrivesToMentalSituation(moDriveGoalList_IN, moDecidedGoalList_OUT, this.moShortTermMemory);
