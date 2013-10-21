@@ -183,6 +183,7 @@ public class clsActionProcessor implements itfActionProcessor {
 	 */
 	public void dispatch() {
 
+		log.debug("Command Stack: "+moCommandStack);
 		//Create the execution-stack
 		ArrayList<clsProcessorResult> oExecutionStack=CreateExecutionStack();		
 
