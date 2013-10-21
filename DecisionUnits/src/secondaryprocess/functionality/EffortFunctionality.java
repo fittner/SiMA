@@ -39,6 +39,15 @@ public class EffortFunctionality {
           //TODO: Replace this method with productions instead
           double oImportanceValue = GoalAlgorithmTools.calculateEffortPenalty(oGoal);
           
+          
+          
+          
+        //Add Context importantce
+        //nResult = clsImportanceTools.getEffortValueOfSpeechActConfidence(clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure()));
+          
+          
+          
+          
           oGoal.addEffortImpactImportance(oImportanceValue);
       }
       
