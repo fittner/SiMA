@@ -12,20 +12,21 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
-import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import secondaryprocess.algorithm.goals.GoalGenerationTools;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
+import secondaryprocess.algorithm.goals.GoalGenerationTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -254,4 +255,65 @@ public class GoalHandlingFunctionality {
         
         return oRetVal;
     }
+
+    /**
+     * DOCUMENT - insert description
+     *
+     * @author hinterleitner
+     * @since 20.10.2013 18:03:16
+     *
+     * @param moAssociatedMemories_IN
+     * @return 
+     * @return
+     */
+    public static ArrayList<clsWordPresentationMeshGoal> extractGoalFromContext(ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_OUT) {
+ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
+        
+        for (clsWordPresentationMeshGoal oAct : moReachableGoalList_OUT) {
+            if (oAct.getMoContent().contains("LIBIDINOUSLIBIDO:CAKE:MEMORYDRIVE")) {
+                oRetVal.add(oAct);
+            } 
+        
+       
+      
+    }
+        return oRetVal;
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * (IH)
+     *
+     * @since 25.05.2012 20:47:31
+     *
+     * @param moReachableGoalList_OUT
+     * @return
+     */
+    public static ArrayList<clsWordPresentationMeshGoal> setConditionToContextSource(ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_OUT) {
+        ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
+        
+        for (clsWordPresentationMeshGoal oGoal : moReachableGoalList_OUT) {
+            if (oGoal.getMoContent().equals(":CAKE:MEMORYDRIVE")) {
+                oGoal.setCondition(eCondition.IS_CONTEXT_SOURCE);
+            }
+        }
+        
+        return oRetVal;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+

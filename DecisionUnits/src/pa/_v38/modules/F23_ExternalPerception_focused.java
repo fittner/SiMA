@@ -231,6 +231,13 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//Extract basic goals directly from the drives, to be used if there is nothing in perception
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromAimOfDrives(aimOfDrives));
 		
+        //identifies context there 
+         GoalHandlingFunctionality.extractGoalFromContext(moReachableGoalList_OUT);
+         //sets Context to ContextSource for Calculation  
+         GoalHandlingFunctionality.setConditionToContextSource(moReachableGoalList_OUT);
+        
+         
+         
 		log.debug("Extracted goals : " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		
 		
