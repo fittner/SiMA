@@ -266,12 +266,14 @@ public class GoalHandlingFunctionality {
      * @return 
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static ArrayList<clsWordPresentationMeshGoal> extractGoalFromContext(ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_OUT) {
 ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
         
         for (clsWordPresentationMeshGoal oAct : moReachableGoalList_OUT) {
-            if (oAct.getMoContent().contains("LIBIDINOUSLIBIDO:CAKE:MEMORYDRIVE")) {
-                oRetVal.add(oAct);
+            if (oAct.getMoInternalAssociatedContent().toString().contains("A07_SPEAK_EAT_L01")) {
+                oAct.setCondition(eCondition.IS_CONTEXT_SOURCE);
+                break;
             } 
         
        
@@ -295,7 +297,7 @@ ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentati
         ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
         
         for (clsWordPresentationMeshGoal oGoal : moReachableGoalList_OUT) {
-            if (oGoal.getMoContent().equals(":CAKE:MEMORYDRIVE")) {
+            if (oGoal.getMoContent().contains(":CAKE:MEMORYDRIVE")) {
                 oGoal.setCondition(eCondition.IS_CONTEXT_SOURCE);
             }
         }

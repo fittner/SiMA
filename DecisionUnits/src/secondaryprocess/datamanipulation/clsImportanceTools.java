@@ -600,6 +600,25 @@ public class clsImportanceTools {
 		return nResult;
 	}
 	
+	
+	
+	public static double getEffortValueOfSpeechActConfidence(clsWordPresentationMesh poIntention) {
+        double nResult = 0;
+        
+        double rActConfidence = clsActTools.getActConfidenceLevel(poIntention);
+        
+        if (rActConfidence==1.0) {
+            nResult += 0;
+        } else if (rActConfidence<1.0 && rActConfidence>=0.5) {
+            nResult += -0.02;
+        } else if (rActConfidence<0.5) {
+            nResult += -0.10;
+        }
+        
+        
+        return nResult;
+    }
+	
     /**
      * DOCUMENT (wendt) - insert description
      *
