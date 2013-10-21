@@ -36,7 +36,7 @@ import bw.utils.enums.eShapeType;
  * 
  */
 
-public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSensorEngine, itfIsAlive {
+public abstract class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSensorEngine, itfIsAlive {
 	private boolean mnAlive;
 	
 	public clsAnimal(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {

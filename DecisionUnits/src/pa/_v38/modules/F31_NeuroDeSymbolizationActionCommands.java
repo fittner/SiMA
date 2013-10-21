@@ -280,7 +280,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if(oAction.equals("MOVE_BACKWARD")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0) );
 				} else if(oAction.equals("TURN_LEFT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 20.0));
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 10.0));
 				} else if(oAction.equals("TURN_LEFT45")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 45.0));
 				} else if(oAction.equals("TURN_LEFT90")){
@@ -288,7 +288,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if(oAction.equals("TURN_LEFT180")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 180.0));
 				} else if(oAction.equals("TURN_RIGHT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20.0));
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 10.0));
 				} else if(oAction.equals("TURN_RIGHT45")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 45.0));
 				} else if(oAction.equals("TURN_RIGHT90")){
@@ -401,8 +401,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 			}
 			*/
 		}
+		log.info("ActionCommandList: "+moActionCommandList_Output.toString());
 		
-		log.debug("=== END OF SECONDARY PROCESS ===\n");
+		//log.debug("=== END OF SECONDARY PROCESS ===\n");
 	}
 
 	/* (non-Javadoc)
@@ -615,7 +616,16 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	
 	private boolean testSequence(){
 	       //TODO: Just for test. Delete this 2 lines
-        moActionCommandList_Output.add(new clsActionDivide(0.5));
+
+       if(mnTestCounter==20) moActionCommandList_Output.add( new clsActionBeat(1.0));
+       else{
+           //moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
+       }
+        mnTestCounter++;
+	    
+	    // moActionCommandList_Output.add(new clsActionBeat(1.0));
+        //moActionCommandList_Output.add(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
+        
         if (true) return true;
        if(mnTestCounter<=1) moActionCommandList_Output.add(new clsActionPickUp());
        else if(mnTestCounter<=10) moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );

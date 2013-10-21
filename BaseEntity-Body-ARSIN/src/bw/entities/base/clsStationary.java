@@ -12,6 +12,8 @@ import javax.media.j3d.TransformGroup;
 import config.clsProperties;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
+import bw.body.clsBaseBody;
+import bw.body.clsSimpleBody;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.clsShape3DCreator;
 import bw.factories.clsRegisterEntity;
@@ -94,6 +96,22 @@ public abstract class clsStationary extends clsEntity {
 	
 	public clsStationaryObject2D getStationaryObject2D() {
 		return (clsStationaryObject2D)moPhysicalObject2D;
+	}
+	
+	@Override
+	protected clsBaseBody createBody(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
+
+		clsBaseBody	oRetVal = new clsSimpleBody(pre+P_BODY, poProp, this);
+
+		
+		return oRetVal;	
+		
+	}
+	
+	@Override
+	public boolean isAlive(){
+		return false;
 	}
 		
 	@Override

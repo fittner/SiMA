@@ -23,6 +23,7 @@ import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
 import bw.entities.base.clsMobile;
+import bw.entities.base.clsUnorganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBindingState;
@@ -37,7 +38,7 @@ import bw.utils.enums.eNutritions;
  * 08.07.2009, 10:33:20
  * 
  */
-public class clsLamp extends clsInanimate implements  itfAPCarryable {
+public class clsLamp extends clsUnorganic implements  itfAPCarryable {
 	public static final String CONFIG_FILE_NAME 	= "carrot.default.properties";
 	public static final String P_SHAPE_ON 		= "shape_fresh";
 	public static final String P_SHAPE_OFF 		= "shape_dead";
@@ -96,7 +97,6 @@ public class clsLamp extends clsInanimate implements  itfAPCarryable {
 		//add correct body
 		//properties for the body
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
-		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 5000);
@@ -114,22 +114,7 @@ public class clsLamp extends clsInanimate implements  itfAPCarryable {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_OFF+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 5.0 );
-		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 5);
-		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.name());
-		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONFRACTION, 0.0);
-		oProp.setProperty(pre+P_BODY+"."+"1."+clsFlesh.P_NUTRITIONTYPE, eNutritions.WATER.name());
-		oProp.setProperty(pre+P_BODY+"."+"1."+clsFlesh.P_NUTRITIONFRACTION, 0.0);
-		oProp.setProperty(pre+P_BODY+"."+"2."+clsFlesh.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.name());
-		oProp.setProperty(pre+P_BODY+"."+"2."+clsFlesh.P_NUTRITIONFRACTION, 0.0);	
-		oProp.setProperty(pre+P_BODY+"."+"3."+clsFlesh.P_NUTRITIONTYPE, eNutritions.VITAMIN.name());
-		oProp.setProperty(pre+P_BODY+"."+"3."+clsFlesh.P_NUTRITIONFRACTION, 0.0);	
-		oProp.setProperty(pre+P_BODY+"."+"4."+clsFlesh.P_NUTRITIONTYPE, eNutritions.MINERAL.name());
-		oProp.setProperty(pre+P_BODY+"."+"4."+clsFlesh.P_NUTRITIONFRACTION, 0.0);
-		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 150);
-		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
-		
-//		oProp.setProperty(pre+P_REGROW_STEPS_MIN, 250);
-	//	oProp.setProperty(pre+P_REGROW_STEPS_MAX, 1000);
+
 
 		return oProp;
 	}
@@ -169,44 +154,7 @@ public class clsLamp extends clsInanimate implements  itfAPCarryable {
 		//handle binding-state implications 		
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 08.07.2009, 10:59:18
-	 * 
-	 * @see bw.entities.clsEntity#execution()
-	 */
-	@Override
-	public void execution() {
-		// nothing to do
-		
-	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 08.07.2009, 10:59:18
-	 * 
-	 * @see bw.entities.clsEntity#processing()
-	 */
-	@Override
-	public void processing() {
-		// nothing to do
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 08.07.2009, 10:59:18
-	 * 
-	 * @see bw.entities.clsEntity#sensing()
-	 */
-	@Override
-	public void sensing() {
-		// nothing to do
-		
-	}
 
 	private void updateShape() {
 		

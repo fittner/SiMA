@@ -37,6 +37,7 @@ import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
 import bw.entities.base.clsMobile;
+import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
@@ -55,7 +56,7 @@ import bw.body.io.actuators.actionProxies.*;
  * Oct 03, 2012, 10:15:27 PM
  * 
  */
-public class clsSprout extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+public class clsSprout extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
 	
 	private boolean mnDestroyed = false;
 	

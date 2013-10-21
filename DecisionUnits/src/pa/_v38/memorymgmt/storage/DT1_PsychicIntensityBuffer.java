@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+
 import datatypes.helpstructures.clsPair;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
@@ -35,11 +37,12 @@ import pa._v38.tools.toText;
 public class DT1_PsychicIntensityBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_4_send, D1_5_send, D1_6_receive, D1_1_receive, D1_2_receive, D1_3_receive {
 	private double mrBufferedLibido;
 	private HashMap<eDrive,clsPair<Double,Double>> moLibidoBuffers;
+protected final Logger log;
 	
 	public DT1_PsychicIntensityBuffer() {
 		mrBufferedLibido = 0;
 		moLibidoBuffers = initBuffers();
-
+		log = logger.clsLogger.getLog("PsychicIntensityBuffer");
 	}
 	private HashMap<eDrive,clsPair<Double,Double>> initBuffers(){
 	    HashMap<eDrive,clsPair<Double,Double>> oRetVal = new HashMap<eDrive,clsPair<Double,Double>>();
@@ -138,6 +141,7 @@ public class DT1_PsychicIntensityBuffer implements itfInspectorInternalState, it
        moLibidoBuffers.put(peType, oValues);
 
        normalizeBuffers();
+       log.debug(moLibidoBuffers.toString());
    }
 	
    
@@ -165,6 +169,7 @@ public class DT1_PsychicIntensityBuffer implements itfInspectorInternalState, it
       moLibidoBuffers.put(peType, oDriveValues);
 
       normalizeBuffers();
+      log.debug(moLibidoBuffers.toString());
   }
   
   /**
@@ -191,6 +196,7 @@ public class DT1_PsychicIntensityBuffer implements itfInspectorInternalState, it
      moLibidoBuffers.put(peType, oDriveValues);
 
      normalizeBuffers();
+     log.debug(moLibidoBuffers.toString());
  }
 
  /**
@@ -234,6 +240,8 @@ public HashMap<eDrive,clsPair<Double,Double>> send_D1_5() {
 public void receive_D1_6(eDrive oDrive, Double oShiftFactor) {
     clsPair<Double,Double> newValues =shiftQoA_V2(moLibidoBuffers.get(oDrive),oShiftFactor);
     moLibidoBuffers.put(oDrive, newValues);
+    
+    log.debug(moLibidoBuffers.toString());
     
     return;
 }
@@ -361,6 +369,7 @@ public void receive_D1_6(eDrive oDrive, Double oShiftFactor) {
 		    oCaptions.add(drive.toString()+" Libidinous");
 		}
 		return oCaptions;
+		
 	}
 
 	/* (non-Javadoc)

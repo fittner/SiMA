@@ -29,6 +29,7 @@ import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
 import bw.entities.base.clsMobile;
+import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
@@ -46,7 +47,7 @@ import bw.body.io.actuators.actionProxies.*;
  * Jul 24, 2009, 10:15:27 PM
  * 
  */
-public class clsUnrealHealth extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+public class clsUnrealHealth extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
 	private boolean mnDestroyed = false;
 	
 	public clsUnrealHealth(String poPrefix, clsProperties poProp, int uid)
@@ -72,7 +73,6 @@ public class clsUnrealHealth extends clsInanimate implements itfGetFlesh, itfAPE
 		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
 		//add correct body
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
-		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
 
 		

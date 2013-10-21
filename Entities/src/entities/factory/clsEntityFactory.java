@@ -26,7 +26,6 @@ import entities.clsLamp;
 import entities.clsLynx;
 import entities.clsPlant;
 import entities.clsRectangleStationary;
-import entities.clsSchnitzel;
 import entities.clsSprout;
 import entities.clsStone;
 import entities.clsToilet;
@@ -68,7 +67,6 @@ public class clsEntityFactory {
 		moEntities.put(eEntityType.TOILET, clsToilet.class);
 		moEntities.put(eEntityType.RECTANGLE_STATIONARY, clsRectangleStationary.class);
 		moEntities.put(eEntityType.HEALTH, clsUnrealHealth.class);
-		moEntities.put(eEntityType.SCHNITZL, clsSchnitzel.class);
 		moEntities.put(eEntityType.LAMP, clsLamp.class);
 		moEntities.put(eEntityType.APPLEGREEN, clsAppleGreen.class);
 		moEntities.put(eEntityType.SPROUT, clsSprout.class);
