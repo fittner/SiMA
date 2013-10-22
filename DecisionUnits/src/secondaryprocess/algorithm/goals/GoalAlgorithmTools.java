@@ -269,9 +269,9 @@ public class GoalAlgorithmTools {
 	}
 	
     public static double calucateAimImportance(clsWordPresentationMeshGoal poGoal, eAction poAim) {
-    //  public static double getImpactOfAim(clsWordPresentationMeshGoal poGoal, clsWordPresentationMesh poAction)
-    //  {
         double rResult = 0;
+        //use different local logger for this function
+        Logger log = clsLogger.getLog("DecisionPreparation");
         
         //get the supportive data structure for the goal
         clsWordPresentationMesh oSuppDataStructure = poGoal.getSupportiveDataStructure();
