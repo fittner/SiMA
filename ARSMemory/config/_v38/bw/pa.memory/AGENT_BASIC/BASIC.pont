@@ -1,4 +1,4 @@
-; Mon Oct 21 16:01:31 CEST 2013
+; Tue Oct 22 10:22:36 CEST 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1198,10 +1198,6 @@
 
 (defclass WPM%3AACTION%3AL2
 	(is-a WPM%3AACTION)
-	(role concrete))
-
-(defclass WPM%3ACONTEXT
-	(is-a WPM)
 	(role concrete))
 
 (defclass EMOTION "Emotion"
