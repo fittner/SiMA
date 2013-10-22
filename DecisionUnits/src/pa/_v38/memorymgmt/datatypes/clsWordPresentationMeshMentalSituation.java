@@ -126,6 +126,40 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
     }
     
     /**
+     * add context
+     *
+     * @author wendt
+     * @since 03.10.2013 15:26:37
+     *
+     * @param poDataStructure
+     */
+    public void addContext(clsWordPresentationMesh poDataStructure) {
+        this.addReplaceNonUniqueProperty(poDataStructure, ePredicate.HASCONTEXT, true);       
+    }
+    
+    /**
+     * get all context
+     *
+     * @author wendt
+     * @since 03.10.2013 15:26:40
+     *
+     */
+    public ArrayList<clsWordPresentationMesh> getContexts() {
+        ArrayList<clsWordPresentationMesh> wordPresentationMeshList = this.getNonUniquePropertyWPM(ePredicate.HASCONTEXT);
+        ArrayList<clsWordPresentationMesh> result = new ArrayList<clsWordPresentationMesh>();
+        
+        for (clsWordPresentationMesh wpm : wordPresentationMeshList) {
+            if (wpm instanceof clsWordPresentationMeshSelectableGoal) {
+                result.add((clsWordPresentationMeshSelectableGoal) wpm);
+            } else {
+                throw new ClassCastException("This structure is no valid class for this association " + wpm);
+            }
+        }
+        
+        return result;    
+    }
+    
+    /**
      * add excluded selectable goal
      *
      * @author wendt

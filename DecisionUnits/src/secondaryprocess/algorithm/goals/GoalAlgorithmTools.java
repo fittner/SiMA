@@ -249,11 +249,10 @@ public class GoalAlgorithmTools {
 			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(poGoal.getGoalObject());
 			nResult += clsImportanceTools.getEffortValueOfDistance(oPosition.b, oPosition.c);
 		} 
-		if (poGoal.checkIfConditionExists(eCondition.IS_CONTEXT_SOURCE)) {
-            //Check how far away the goal is
-		    nResult = clsImportanceTools.getEffortValueOfSpeechActConfidence(clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure()));
-
-        }
+//		if (poGoal.checkIfConditionExists(eCondition.IS_CONTEXT_SOURCE)) {
+//            
+//
+//        }
 		
 		else if (poGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
 			if (poGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)) {
