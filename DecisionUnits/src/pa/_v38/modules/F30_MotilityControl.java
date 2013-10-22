@@ -303,6 +303,8 @@ public class F30_MotilityControl extends clsModuleBaseKB
 			
 			//when there are no actions, we do nothing
 		//}
+	    
+	    log.info(moActionCommands_Output.toString());
 	}
 	
 //    // AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation

@@ -16,10 +16,11 @@ import entities.factory.clsEntityFactory;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
+import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.utils.enums.eShapeType;
 
-public class clsSelf extends clsInanimate {
+public class clsSelf extends clsOrganic {
 		
 	public clsSelf(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid); 

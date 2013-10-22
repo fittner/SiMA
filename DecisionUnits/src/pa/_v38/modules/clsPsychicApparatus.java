@@ -92,7 +92,7 @@ public class clsPsychicApparatus {
 	public F55_SuperEgoProactive moF55_SuperEgoProactive; 
 	public F07_SuperEgoReactive moF07_SuperEgoReactive; 
 	public F52_GenerationOfImaginaryActions moF52_GenerationOfImaginaryActions; 
-	public F45_LibidoDischarge moF45_LibidoDischarge;
+	public F45_DischargeOfPsychicIntensity moF45_LibidoDischarge;
 	public F46_MemoryTracesForPerception moF46_MemoryTracesForPerception;
 	public F47_ConversionToPrimaryProcess moF47_ConversionToPrimaryProcess;
 	public F63_CompositionOfEmotions moF63_CompositionOfEmotions;
@@ -196,7 +196,7 @@ public class clsPsychicApparatus {
 		//this.registerCodelets();
 		
 		//Set testmode
-		clsTester.getTester().setActivated(false);
+		clsTester.getTester().setActivated(true);
 		
 		applyProperties(poPrefix, poProp);
 	
@@ -257,7 +257,7 @@ public class clsPsychicApparatus {
 		oProp.putAll( F55_SuperEgoProactive.getDefaultProperties( pre + F55_SuperEgoProactive.P_MODULENUMBER ));
 		oProp.putAll( F07_SuperEgoReactive.getDefaultProperties( pre + F07_SuperEgoReactive.P_MODULENUMBER ));
 		oProp.putAll( F52_GenerationOfImaginaryActions.getDefaultProperties( pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER ));
-		oProp.putAll( F45_LibidoDischarge.getDefaultProperties( pre + F45_LibidoDischarge.P_MODULENUMBER ));
+		oProp.putAll( F45_DischargeOfPsychicIntensity.getDefaultProperties( pre + F45_DischargeOfPsychicIntensity.P_MODULENUMBER ));
 		oProp.putAll( F46_MemoryTracesForPerception.getDefaultProperties( pre + F46_MemoryTracesForPerception.P_MODULENUMBER ));
 		oProp.putAll( F47_ConversionToPrimaryProcess.getDefaultProperties( pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER ));
 		oProp.putAll( F61_Localization.getDefaultProperties( pre + F61_Localization.P_MODULENUMBER ));
@@ -329,7 +329,7 @@ public class clsPsychicApparatus {
 			moF55_SuperEgoProactive = new F55_SuperEgoProactive(pre + F55_SuperEgoProactive.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage);
 			moF07_SuperEgoReactive = new F07_SuperEgoReactive(pre + F07_SuperEgoReactive.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer);
 			moF52_GenerationOfImaginaryActions = new F52_GenerationOfImaginaryActions(pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moDecisionEngine, moPsychicEnergyStorage);
-			moF45_LibidoDischarge = new F45_LibidoDischarge(pre + F45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moLongTermMemory, moPersonalityParameterContainer);
+			moF45_LibidoDischarge = new F45_DischargeOfPsychicIntensity(pre + F45_DischargeOfPsychicIntensity.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moLongTermMemory, moPersonalityParameterContainer);
 			moF46_MemoryTracesForPerception = new F46_MemoryTracesForPerception(pre + F46_MemoryTracesForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moEnvironmentalImageStorage, moPersonalityParameterContainer);
 			moF47_ConversionToPrimaryProcess = new F47_ConversionToPrimaryProcess(pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF63_CompositionOfEmotions = new F63_CompositionOfEmotions(pre + F63_CompositionOfEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moPsychicEnergyStorage, moPersonalityParameterContainer);

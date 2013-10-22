@@ -15,17 +15,16 @@ import javax.media.j3d.BranchGroup;
 import javax.media.j3d.TransformGroup;
 
 import bw.body.clsBaseBody;
-import bw.body.clsComplexBody;
-import bw.body.clsMeatBody;
+
+
 import bw.body.clsSimpleBody;
-import bw.body.clsUnrealBody;
+
 import bw.body.io.actuators.actionExecutors.clsAction;
 import bw.body.itfget.itfGetBody;
 import bw.entities.logger.clsPositionLogger;
 import bw.factories.clsSingletonProperties;
 import bw.factories.eImages;
 import bw.inspector.interfaces.itfEntityInspectorFactory;
-import bw.utils.enums.eBodyType;
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eFacialExpression;
@@ -145,9 +144,7 @@ public abstract class clsEntity implements itfGetBody {
 		return moPositionLogger;
 	}
 	
-	public boolean isAlive(){
-		return false;
-	}
+	public abstract boolean isAlive();
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
@@ -156,15 +153,15 @@ public abstract class clsEntity implements itfGetBody {
 
 		
 
-		oProp.putAll( clsSimpleBody.getDefaultProperties(pre+P_BODY) );
-		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.SIMPLE.toString());
+	//	oProp.putAll( clsSimpleBody.getDefaultProperties(pre+P_BODY) );
+	//	oProp.setProperty(pre+P_BODY_TYPE, eBodyType.SIMPLE.toString());
 		
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 		oProp.setProperty(pre+P_ID, -1);
 		
 		oProp.putAll( clsSimpleBody.getDefaultProperties(pre+P_BODY) );
-		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.SIMPLE.toString());
+	//	oProp.setProperty(pre+P_BODY_TYPE, eBodyType.SIMPLE.toString());
 		
 		return oProp;
 	}	
@@ -181,7 +178,7 @@ public abstract class clsEntity implements itfGetBody {
 		moBody = poBody;
 	}
 	
-	protected clsBaseBody createBody(String poPrefix, clsProperties poProp) {
+/*	protected clsBaseBody createBody(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		eBodyType oBodyType = eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
 		
@@ -205,8 +202,9 @@ public abstract class clsEntity implements itfGetBody {
 		return oRetVal;	
 	}
 	
+*/
+	protected  abstract  clsBaseBody createBody(String poPrefix, clsProperties poProp);
 
-	
 
 	/* (non-Javadoc)
 	 *

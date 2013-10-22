@@ -12,7 +12,6 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
-import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
@@ -20,14 +19,16 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import secondaryprocess.algorithm.aimofdrives.clsAimOfDrivesTools;
-import secondaryprocess.algorithm.goals.GoalGenerationTools;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
+import secondaryprocess.algorithm.goals.GoalGenerationTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -48,8 +49,8 @@ public class GoalHandlingFunctionality {
      * @param reachableGoalList
      * @param shortTermMemory
      */
-    public static void removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, clsShortTermMemory shortTermMemory) {
-        GoalAlgorithmTools.removeNonReachableGoals(reachableGoalList, shortTermMemory);
+    public static ArrayList<clsWordPresentationMeshSelectableGoal> removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, clsShortTermMemory shortTermMemory) {
+        return GoalAlgorithmTools.removeNonReachableGoals(reachableGoalList, shortTermMemory);
     }
     
     /**
@@ -296,4 +297,35 @@ public class GoalHandlingFunctionality {
         
         return oRetVal;
     }
+
+    /**
+     * DOCUMENT - insert description
+     *
+     * @author hinterleitner
+     * @since 20.10.2013 18:03:16
+     *
+     * @param moAssociatedMemories_IN
+     * @return 
+     * @return
+     */
+   
+    @SuppressWarnings("deprecation")
+    public static ArrayList<clsWordPresentationMeshGoal> extractGoalFromContext(ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_OUT) {
+ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
+        
+        for (clsWordPresentationMeshGoal oAct : moReachableGoalList_OUT) {
+            if (oAct.getMoInternalAssociatedContent().toString().contains("A07_SPEAK_EAT_L01")) {
+                oAct.setCondition(eCondition.IS_CONTEXT_SOURCE);
+               
+            } 
+        
+       
+      
+    }
+        return oRetVal;
+    }
+
+
+
 }
+

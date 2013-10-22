@@ -33,7 +33,7 @@ import bw.entities.tools.eImagePositioning;
  * 08.07.2009, 11:25:46
  * 
  */
-public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
+public class clsUraniumOre extends clsUnorganic implements itfAPCarryable {
 	public static final String P_RADIATION_INTENSITY = "radiation_intensity";
 	
 	public double mrRadiationIntensity;

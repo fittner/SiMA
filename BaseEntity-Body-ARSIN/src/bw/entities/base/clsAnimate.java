@@ -12,6 +12,8 @@ import java.util.TreeMap;
 
 import config.clsProperties;
 import du.itf.itfDecisionUnit;
+import bw.body.clsBaseBody;
+import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.itfGetBrain;
 import bw.body.itfGetExternalIO;
@@ -108,6 +110,21 @@ public abstract class clsAnimate extends clsMobile {
 		}
 	}
 	
+	
+	@Override
+	protected clsBaseBody createBody(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
+	
+		clsBaseBody oRetVal = new clsComplexBody(pre+P_BODY, poProp, this);
+
+	
+		return oRetVal;	
+	}
+	
+	@Override
+	public boolean isAlive(){
+		return true;
+	}
 	/**
 	 * 
 	 * (horvath) - returns the radiation sensor

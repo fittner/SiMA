@@ -15,6 +15,7 @@ import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import ARSsim.physics2D.util.clsPose;
 import bw.ARSIN.factory.clsARSINFactory;
+import bw.body.clsBaseBody;
 import bw.body.interBodyWorldSystems.clsCreateSpeech;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
@@ -204,5 +205,27 @@ public class clsSpeech extends clsPhysical {
 		
 		return oNewEntity;
 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 09.10.2013 12:05:28
+	 * 
+	 * @see bw.entities.base.clsEntity#isAlive()
+	 */
+	@Override
+	public boolean isAlive() {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 09.10.2013 12:05:28
+	 * 
+	 * @see bw.entities.base.clsEntity#createBody(java.lang.String, config.clsProperties)
+	 */
+	@Override
+	protected clsBaseBody createBody(String poPrefix, clsProperties poProp) {
+		return null;
 	}
 }

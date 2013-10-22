@@ -32,6 +32,7 @@ import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
 import bw.entities.base.clsMobile;
+import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
@@ -48,7 +49,7 @@ import bw.utils.tools.clsFood;
  * 08.07.2009, 10:33:20
  * 
  */
-public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfIsConsumeable {
+public class clsCarrot extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfIsConsumeable {
 	public static final String CONFIG_FILE_NAME 	= "carrot.default.properties";
 	public static final String P_SHAPE_FRESH 		= "shape_fresh";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";

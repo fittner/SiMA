@@ -39,7 +39,7 @@ public class clsActionSequence extends clsActionCommand {
 		Iterator<clsSequencedAction> oItSeq = moCommands.iterator();
 		while (oItSeq.hasNext()) {
 			clsSequencedAction oSeqAction = oItSeq.next();
-			sLog += oSeqAction.getAction().getLog();
+			sLog += oSeqAction.toString();
 		}
 		
 		return sLog;
@@ -104,7 +104,14 @@ public class clsActionSequence extends clsActionCommand {
 		public clsActionCommand getAction() {
 			return moAction;
 		}
-	
+		@Override
+		public String toString(){
+			String oRetVal = moAction.getLog() +"["+mnDuration+"]";
+			return oRetVal;
+			
+		}
 
 	}
+
+	
 }

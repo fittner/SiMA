@@ -17,6 +17,7 @@ import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
+import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 
@@ -35,7 +36,7 @@ import bw.utils.enums.eShapeType;
  * @author langr
  * 
  */
-public class clsPlant extends clsInanimate {
+public class clsPlant extends clsOrganic {
 		
 	public clsPlant(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);

@@ -7,8 +7,6 @@
 package secondaryprocess.algorithm.goals;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
-
 import org.slf4j.Logger;
 
 import datatypes.helpstructures.clsPair;
@@ -40,7 +38,7 @@ import secondaryprocess.datamanipulation.clsImportanceTools;
  */
 public class GoalAlgorithmTools {
 
-	private static Logger log = clsLogger.getLog("DecisionPreparation");
+	private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
 	
     private static final double mrBaseIncrease = 0.5; //TODO kollmann: this is just hack - make this adjustable via property file
     private static final double mrLastIncrease = 0.5; //TODO kollmann: this is just hack - make this adjustable via property file
@@ -253,8 +251,13 @@ public class GoalAlgorithmTools {
 			//Check how far away the goal is
 			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(poGoal.getGoalObject());
 			nResult += clsImportanceTools.getEffortValueOfDistance(oPosition.b, oPosition.c);
-
-		} else if (poGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
+		} 
+//		if (poGoal.checkIfConditionExists(eCondition.IS_CONTEXT_SOURCE)) {
+//            
+//
+//        }
+		
+		else if (poGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
 			if (poGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)) {
 				//There are only the acts: Check the act confidence. If it is low, then lower the pleasure value
 				nResult = clsImportanceTools.getEffortValueOfActConfidence(clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure()));
@@ -341,36 +344,44 @@ public class GoalAlgorithmTools {
      *
      * @param poGoalList
      */
-    public static void removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory) {
-        ListIterator<clsWordPresentationMeshSelectableGoal> Iter = poGoalList.listIterator();
-        
-        ArrayList<clsWordPresentationMeshGoal> oRemoveList = new ArrayList<clsWordPresentationMeshGoal>();
+    public static ArrayList<clsWordPresentationMeshSelectableGoal> removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory) {
+        //ListIterator<clsWordPresentationMeshSelectableGoal> Iter = poGoalList.listIterator();
+        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+        ArrayList<clsWordPresentationMeshSelectableGoal> oRemoveList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
         
         //Get all goals from STM
         ArrayList<clsPair<Integer, clsWordPresentationMeshMentalSituation>> oSTMList = shortTermMemory.getMoShortTimeMemory();
         for (clsPair<Integer, clsWordPresentationMeshMentalSituation> oSTM : oSTMList) {
             //Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
             ArrayList<clsWordPresentationMeshSelectableGoal> oTEMPLIST = oSTM.b.getExcludedSelectableGoals();  //clsMentalSituationTools.getExcludedGoal(oSTM.b);
-            ArrayList<clsWordPresentationMeshSelectableGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
-            for (clsWordPresentationMeshSelectableGoal oWPM : oTEMPLIST) {
-                oExcludedGoalList.add((clsWordPresentationMeshSelectableGoal) oWPM);
-            }
+            //ArrayList<clsWordPresentationMeshSelectableGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+            
+//            for (clsWordPresentationMeshSelectableGoal oWPM : oTEMPLIST) {
+//                oExcludedGoalList.add((clsWordPresentationMeshSelectableGoal) oWPM);
+//            }
              
-            oRemoveList.addAll(oExcludedGoalList);
+            oRemoveList.addAll(oTEMPLIST);
         }
         
-        for (clsWordPresentationMeshGoal oRemoveGoal : oRemoveList) {
-            try {
-                if (poGoalList.contains(oRemoveGoal)) {
-                    poGoalList.remove(oRemoveGoal);
-                    log.debug("Non reachable goal removed: " + oRemoveGoal.toString());
-                }
+        for (clsWordPresentationMeshSelectableGoal goal : poGoalList) { 
+            boolean isFound=false;
+            for (clsWordPresentationMeshSelectableGoal removeGoal : oRemoveList){
+                if (goal.isEquivalentDataStructure(removeGoal)==true) {
+                    isFound=true;
+                    log.debug("Non reachable goal removed: " + removeGoal.toString());
+                    break; 
+                }     
+                        
+            }
+            
+            if (isFound==false) {
+                result.add(goal);
+            } else {
                 
-            } catch (IllegalStateException e) {
-                log.error("Cannot remove goal {}", oRemoveGoal, e);
-                System.exit(-1);
             }
         }
+        
+        return result;
                         
 //        //Find all unreachable goals from STMList
 //        while (Iter.hasNext()) {

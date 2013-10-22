@@ -14,7 +14,6 @@ import du.itf.itfDecisionUnit;
 import ARSsim.physics2D.util.clsPose;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.utils.enums.eBodyAttributes;
-import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import bw.ARSIN.factory.clsARSINFactory;
 //import bw.utils.inspectors.entity.clsInspectorRemoteBot;
@@ -74,7 +73,6 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
 		
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) ); 
-		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
 		//add correct default sensor values (three range vision)
 		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS);

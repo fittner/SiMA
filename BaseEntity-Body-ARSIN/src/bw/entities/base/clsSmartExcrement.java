@@ -31,7 +31,7 @@ import bw.utils.enums.eShapeType;
  * 06.08.2009, 14:12:46
  * 
  */
-public class clsSmartExcrement extends clsInanimate {
+public class clsSmartExcrement extends clsOrganic {
 
 	public clsSmartExcrement(String poPrefix, clsProperties poProp, int uid, double prWeight)
     {
@@ -93,55 +93,8 @@ public class clsSmartExcrement extends clsInanimate {
 		return oProp;
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 14.05.2009, 18:16:27
-	 * 
-	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
-	 */
-	public clsFlesh getFlesh() {
-		return ((clsMeatBody)moBody).getFlesh();
-	}
-	
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 06.08.2009, 14:12:46
-	 * 
-	 * @see bw.entities.clsEntity#execution()
-	 */
-	@Override
-	public void execution() {
-		// nothing to do
 
-	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 06.08.2009, 14:12:46
-	 * 
-	 * @see bw.entities.clsEntity#processing()
-	 */
-	@Override
-	public void processing() {
-		// nothing to do
-
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 06.08.2009, 14:12:46
-	 * 
-	 * @see bw.entities.clsEntity#sensing()
-	 */
-	@Override
-	public void sensing() {
-		// nothing to do
-
-	}
 
 	/* (non-Javadoc)
 	 *

@@ -129,7 +129,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     protected void process_basic() {
         
         //=== Perform system tests ===//
-        clsTester.getTester().setActivated(true);
+        clsTester.getTester().setActivated(false);
         if (clsTester.getTester().isActivated()) {
             try {
                 log.warn("System tests activated");
@@ -168,11 +168,41 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
         this.moShortTermMemory.saveToShortTimeMemory(moConcept.returnContent());
         
+        
+        
+        
+        //TODO
+        //Konzepte in WPMs umwandeln, die mit dem CONCEPT-WPMs in Protege korrespondieren
+        //Protoge: Die Kontexts wie Images aufbauen. Was soll im Image vorhanden sein, damit man es als "House" erkennt
+        //
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
         moAssociatedMemories_OUT = moAssociatedMemories_IN;
         
         //=== Perform system tests ===//
-        clsTester.getTester().setActivated(true);
+        clsTester.getTester().setActivated(false);
         if (clsTester.getTester().isActivated()) {
             try {
                 log.warn("System tests activated");
