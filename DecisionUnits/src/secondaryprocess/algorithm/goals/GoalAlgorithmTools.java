@@ -322,7 +322,7 @@ public class GoalAlgorithmTools {
                                     rResult += (mrMomentIncrease - mrLastIncrease);
                                 }
                             }
-                            log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match in " + oImage.getMoContent());
+                            log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match for " + oAction + " in " + oImage.getMoContent());
                         }
                     }
                 }

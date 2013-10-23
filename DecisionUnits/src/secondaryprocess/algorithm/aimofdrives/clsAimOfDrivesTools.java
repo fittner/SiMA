@@ -27,6 +27,44 @@ import pa._v38.memorymgmt.enums.eContentType;
 public class clsAimOfDrivesTools {
     private static Logger log = clsLogger.getLog("DecisionPreparation");
     
+    public static eAction extractActionFromAimOfDrive(clsWordPresentationMeshAimOfDrive oAimOfDrive) {
+        clsWordPresentationMesh oRawAction = null;
+        eAction oAimAction = null;
+        
+        oRawAction = oAimOfDrive.getAssociatedDriveAimAction();
+        if(oRawAction != null && oRawAction.isNullObject() == false) {
+            if(oRawAction.getMoContentType() == eContentType.ACTION) {
+                try {
+                    oAimAction = eAction.valueOf(oRawAction.getMoContent());
+                } catch (IllegalArgumentException e) {
+                    log.error("Extracted action mesh {} could not be converted to eAction", e);
+                }
+            } else {
+                log.warn(oAimOfDrive.toString() + " returned an aim action that is not of content type eContentType.ACTION.");
+            }
+        }
+        
+        return oAimAction;
+    }
+    
+    public static eAction getAimOfDriveActionByName(ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDrives, String oName) {
+        //Variables for each lookup step might be slower, but are more comfortable for debugging
+        log.debug("getAimOfDriveActionByName({}, {})", poAimOfDrives, oName);
+        String oAimGoalName;
+        eAction oAimAction = null;
+        
+        for(clsWordPresentationMeshAimOfDrive oAim : poAimOfDrives) {
+            log.debug("\tchecking aim {}", oAim);
+            oAimGoalName = oAim.getGoalName();
+            if(oAimGoalName.equals(oName)) {
+                oAimAction = extractActionFromAimOfDrive(oAim);
+                log.debug("\t\tmatch found - has action {}", oAimAction);
+            }
+        }
+        
+        return oAimAction;
+    }
+    
     public static ArrayList<eAction> extractActionsFromAimOfDrives(ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDrives) {
         
         log.debug("extractActionsFromAimOfDrives({})", poAimOfDrives);
@@ -35,22 +73,9 @@ public class clsAimOfDrivesTools {
         
         for(clsWordPresentationMeshAimOfDrive oAim : poAimOfDrives) {
             log.debug("\tExtracting action from " + oAim.toString());
-            clsWordPresentationMesh oRawAction = oAim.getAssociatedDriveAimAction();
-            if(oRawAction != null && oRawAction.isNullObject() == false) {
-                if(oRawAction.getMoContentType() == eContentType.ACTION) {
-                    try {
-                        eAction oAimAction = eAction.valueOf(oRawAction.getMoContent());  
-                        log.debug("\t\tExtraced action: " + oAimAction);
-                        oActions.add(oAimAction);
-                    } catch (IllegalArgumentException e) {
-                        log.error("Extracted action mesh {} could not be converted to eAction", e);
-                    }
-                } else {
-                    log.warn(oAim.toString() + " returned an aim action that is not of content type eContentType.ACTION.");
-                }
-            } else {
-                log.debug(oAim.toString() + " has no associated aim action");
-            }
+            eAction oAimAction = extractActionFromAimOfDrive(oAim);
+            log.debug("\t\tExtraced action: " + oAimAction);
+            oActions.add(oAimAction);
         }
         
         return oActions;

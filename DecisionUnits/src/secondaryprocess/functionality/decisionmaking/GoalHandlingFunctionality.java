@@ -127,17 +127,15 @@ public class GoalHandlingFunctionality {
      * @param poAimOfDrives list of relevant drive aims
      */
     public static void applyAimImportanceOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poReachableGoals, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDrives) {
-        ArrayList<eAction> oActions;
         double nImportance;
+        String oGoalName;
+        eAction oAction;
         
-        //extrac the actions from all aim of drives
-        oActions = clsAimOfDrivesTools.extractActionsFromAimOfDrives(poAimOfDrives);
-        
-        for(eAction oAimAction : oActions)  {
-            for(clsWordPresentationMeshSelectableGoal oGoal : poReachableGoals) {
-                nImportance = GoalAlgorithmTools.calucateAimImportance(oGoal, oAimAction);
-                oGoal.setDriveDemandCorrectionImportance(oGoal.getDriveDemandCorrectionImportance() + nImportance);
-            }
+        for(clsWordPresentationMeshSelectableGoal oGoal : poReachableGoals) {
+            oGoalName = oGoal.getGoalName();
+            oAction = clsAimOfDrivesTools.getAimOfDriveActionByName(poAimOfDrives, oGoalName);
+            nImportance = GoalAlgorithmTools.calucateAimImportance(oGoal, oAction);
+            oGoal.setDriveDemandCorrectionImportance(oGoal.getDriveDemandCorrectionImportance() + nImportance);
         }
     }
     
