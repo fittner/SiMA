@@ -10,57 +10,37 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.interfaces.modules.I5_16_receive;
+import pa._v38.interfaces.modules.I5_17_receive;
+import pa._v38.interfaces.modules.I6_14_receive;
+import pa._v38.interfaces.modules.I6_14_send;
+import pa._v38.interfaces.modules.I6_2_receive;
+import pa._v38.interfaces.modules.I6_2_send;
+import pa._v38.interfaces.modules.I6_4_receive;
+import pa._v38.interfaces.modules.I6_5_receive;
+import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsAffect;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
+import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eEmotionType;
+import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import pa._v38.tools.toText;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import config.clsProperties;
 import datatypes.helpstructures.clsPair;
 import datatypes.helpstructures.clsTriple;
-import pa._v38.interfaces.modules.I5_17_receive;
-import pa._v38.interfaces.modules.I5_16_receive;
-import pa._v38.interfaces.modules.I6_14_receive;
-import pa._v38.interfaces.modules.I6_14_send;
-import pa._v38.interfaces.modules.I6_5_receive;
-import pa._v38.interfaces.modules.I6_4_receive;
-import pa._v38.interfaces.modules.I6_2_receive;
-import pa._v38.interfaces.modules.I6_2_send;
-import pa._v38.interfaces.modules.eInterfaces;
-//import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsAffect;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-//import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-//import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-//import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-//import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-//import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsEmotion;
-//import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-
-//import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-//import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-//import pa._v38.memorymgmt.enums.eAction;
-//import pa._v38.memorymgmt.enums.eAffectLevel;
-//import pa._v38.memorymgmt.enums.eContent;
-//import pa._v38.memorymgmt.enums.eAction;
-//import pa._v38.memorymgmt.enums.eAffectLevel;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
-//import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.enums.ePredicate;
-//import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eEmotionType;
-import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-//import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-//import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.toText;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * - Converts separated quota of affect into affects for the secondary process.
@@ -587,10 +567,15 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
    public void send_I6_14(ArrayList<clsEmotion> poEmotions_Input) {
        // TODO (schaat) - Auto-generated method stub
        ((I6_14_receive)moModuleList.get(67)).receive_I6_14(poEmotions_Input);
+       //IH
+       ((I6_14_receive)moModuleList.get(30)).receive_I6_14(poEmotions_Input);
        
        putInterfaceData(I6_14_send.class, poEmotions_Input);
    }
 
+
+   
+  
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -640,10 +625,6 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	public void setDescription() {
 		moDescription = "Until now, only quota of affects attached to thing presentations were available. Although the value of these quota of affects has immediate and strong influence on decision making they cannot become conscious. The qualitative counterpart of the quota of affects in the primary processes is the affect in the secondary processes. The affect is represented by a word presentation and thus can become conscious. Two different groups of affects are generated. Based on the output of the defense mechanisms, a set of affects is built. For these no explanation on their origin is available; they cannot be grasped. The other set uses the output of {E8} and {E21}. With the addition of word presentations ``explaining'' the contents attached to the quota of affects, the origin of the affect can be understood up to some extent. This results in more differentiated moods like unlust, fear, joy, sadness.";
 	}
-	
-	
-
-	
    
 
 }
