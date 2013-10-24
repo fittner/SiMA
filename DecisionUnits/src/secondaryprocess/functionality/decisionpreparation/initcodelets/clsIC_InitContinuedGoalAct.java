@@ -147,7 +147,7 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
             
             //Merge the acts
             MeshProcessor processor = new MeshProcessor();
-            processor.setSafeControlMode(true);
+            processor.setSafeControlMode(false);
             processor.complementMesh(oContinuedSupportiveDataStructure, poNewAct);
             
             
