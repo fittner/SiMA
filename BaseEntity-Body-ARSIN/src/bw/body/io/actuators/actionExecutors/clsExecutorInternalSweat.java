@@ -8,14 +8,17 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import config.clsProperties;
 import java.util.ArrayList;
+
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsInternalActionExecutor;
-import bw.entities.base.clsEntity;
 import bw.body.itfget.itfGetBody;
-import du.enums.eFacialExpression;
-import du.itf.actions.*;
+import bw.entities.base.clsEntity;
+import config.clsProperties;
+import du.enums.eSpeechExpression;
+import du.itf.actions.clsActionMove;
+import du.itf.actions.clsActionTurn;
+import du.itf.actions.clsInternalActionCommand;
 
 /**
  * Action Executor for eating
@@ -105,9 +108,9 @@ public class clsExecutorInternalSweat extends clsInternalActionExecutor{
 	public boolean execute(clsInternalActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		//Test for Speech 
-	//	moEntity.setFacialExpressionOverlayImage(eFacialExpression.EAT);
+		moEntity.setSpeechExpressionOverlayImage(eSpeechExpression.EAT);
 		//setFacialExpressionOverlayImage
-		moEntity.setFacialExpressionOverlayImage(eFacialExpression.ANGER);
+		//moEntity.setFacialExpressionOverlayImage(eFacialExpression.ANGER);
 		
 		
 		

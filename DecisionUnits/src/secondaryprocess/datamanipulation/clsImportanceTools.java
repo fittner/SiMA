@@ -542,6 +542,8 @@ public class clsImportanceTools {
 			nResult+= 0;
 		} else if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
 			nResult+= -0.10;
+		} else if (poCondition.equals(eCondition.IS_CONTEXT_SOURCE)) {
+            nResult+=0.2;
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_GOAL)) {
@@ -597,6 +599,26 @@ public class clsImportanceTools {
 		
 		return nResult;
 	}
+	
+	
+	
+	public static double getEffortValueOfSpeechActConfidence(clsWordPresentationMesh poIntention) {
+        double nResult = 0;
+        
+        double rActConfidence = clsActTools.getActConfidenceLevel(poIntention);
+        
+        if (rActConfidence==1.0) {
+            nResult += 0;
+        } else if (rActConfidence<1.0 && rActConfidence>=0.5) {
+            nResult += -0.02;
+            //How to change rActConfidence 
+        } else if (rActConfidence<0.5) {
+            nResult += 0.20;
+        }
+        
+        
+        return nResult;
+    }
 	
     /**
      * DOCUMENT (wendt) - insert description

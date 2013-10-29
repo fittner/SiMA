@@ -16,12 +16,14 @@ import pa._v38.interfaces.modules.I6_13_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import config.clsProperties;
 
@@ -123,13 +125,13 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
         //Apply effort of wording
         
         //Apply effort/bonus of drive aim action
-        //TODO Stefan, use this function
-        ShortTermMemoryFunctionality.getCurrentAimOfDrivesFromMentalSituation(moShortTimeMemory);
-        double x = 0.4;
-        //clsWordPresentationMeshSelectableGoal temp = clsWordPresentationMeshSelectableGoal.createInstance(eContentType.GOAL, "ksdglöjksö");
-        //temp.set
-        
-        
+
+        // kollmann:
+	    // Get the list of relevant AimOfDrives from short term memory (relevant means: AimOfDrives that are related to one of the reachable goals)
+	    // (AimOfDrive is the secondary process representation of drive meshes
+	    ArrayList<clsWordPresentationMeshAimOfDrive> oAimOfDrives = ShortTermMemoryFunctionality.getCurrentAimOfDrivesFromMentalSituation(moShortTimeMemory);
+
+	    GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(this.selectableGoals, oAimOfDrives);
 	}
 
 	/* (non-Javadoc)

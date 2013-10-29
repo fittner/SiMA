@@ -519,7 +519,8 @@ public class clsInternalActionProcessor implements itfInternalActionProcessor {
 		 
 		 @Override
 		public String toString() {
-			return "Command: " + this.getCommand() + " | Executor: " + this.moExecutor + " | Result: " + this.getResult(); 
+			return null;
+			//return "Command: " + this.getCommand() + " | Executor: " + this.moExecutor + " | Result: " + this.getResult(); 
 		}
 	 }
 

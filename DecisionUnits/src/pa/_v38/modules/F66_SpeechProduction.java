@@ -168,6 +168,36 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
         this.moShortTermMemory.saveToShortTimeMemory(moConcept.returnContent());
         
+        createMappingforWording(); 
+        
+        
+        //TODO
+        //Konzepte in WPMs umwandeln, die mit dem CONCEPT-WPMs in Protege korrespondieren
+        //Protoge: Die Kontexts wie Images aufbauen. Was soll im Image vorhanden sein, damit man es als "House" erkennt
+        //
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
         moAssociatedMemories_OUT = moAssociatedMemories_IN;
         
@@ -184,6 +214,18 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
                 log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
             }
         }
+    }
+
+    /**
+     * DOCUMENT - insert description
+     *
+     * @author hinterleitner
+     * @since 24.10.2013 22:50:33
+     *
+     */
+    private void createMappingforWording() {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
     }
 
     @Override
