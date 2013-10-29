@@ -454,7 +454,12 @@ public class clsActionProcessor implements itfActionProcessor {
 				 return false;
 			 }
 			 return true;
-		 }		 		 
+		 }
+		 @Override
+		 public String toString(){
+			 String oRetVal = moCommand.toString() +"["+meCallPriority+"]";
+			 return oRetVal;
+		 }
 	 }
 	 
 	 /*

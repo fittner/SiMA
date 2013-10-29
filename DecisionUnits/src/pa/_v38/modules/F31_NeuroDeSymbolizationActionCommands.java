@@ -492,7 +492,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	    }
 	    mnTestCounter++;*/
 	    //return;
-	    if(testSequence())  return;
+	  //  if(testSequence())  return;
 	}
 
 	/* (non-Javadoc)

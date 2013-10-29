@@ -243,7 +243,7 @@ public class clsExternalIO extends clsBaseIO {
 												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));
 		numsensors++;
 		// MW **
-		
+	
 		oProp.setProperty(pre+P_NUMSENSORS, numsensors);
 		
 		return oProp;

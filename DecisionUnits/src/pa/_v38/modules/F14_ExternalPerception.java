@@ -350,7 +350,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				
 		//Workaround of Bug Eatable/Manipulatable sensors bug
 		//TODO CM: Remove this function, if the eatable area objects are working.
-		solveBUGFIXEATABLEAREA(moEnvironmentalTP);
+	//	solveBUGFIXEATABLEAREA(moEnvironmentalTP);
 				
 		/* Construction of perceived images*/
 		/* Assign objects from storage to perception */

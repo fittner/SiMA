@@ -96,7 +96,7 @@ public class clsCake extends clsOrganic implements itfGetFlesh, itfAPEatable, it
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());	
 		
 	
-		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 100.0 );
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 50.0 );
 		
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_LIBIDINOUS_STIMULATION, 0.07);
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_AGGRESSIV_STIMULATION, 0.03);
