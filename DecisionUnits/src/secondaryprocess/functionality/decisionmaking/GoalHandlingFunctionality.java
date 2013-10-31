@@ -114,16 +114,14 @@ public class GoalHandlingFunctionality {
      *    in secondy process: two acts are extracted from memory that might be able to satisfy the drive: one about hitting the cake, the other one about dividing it
      *                        the act that contains information about dividing the cake should be prefered, since it corresponds with the original drive aim (DIVID)  
      *                        from the primary process.
-     *                        
-     * To achieve this, this function extracts the actions from each aim of drives (poAimOfDrives) and then tries to find that action within each rechable goal.
-     * If the action was found, an importance value for the reachable goal is set, depending on where the action was found.
-     *    Different factors are (in decreasing order of importance) 
-     *    (HINT: an image is part of an act, which in turn is part of any reachable goal that is from memory)
-     *       * The action was found at the image  that is the current moment
-     *       * The action was found at the last image, or second to last image, if the last image has no action (the latter case means, that the last image is just
-     *         a post condition)
-     *       * The action was found anywhere else in the act
-     *
+     * 
+     * To achieve this, the function iterates over all reachable goals and, if the goal is associated to an act in memory, tries to extract the actio associated with
+     * that act.
+     * 
+     * If an action is found, it is compared to the action associated to the aim of drive it is supposed to satisfie (e.g. LIBIDINOUSESTOMACH)
+     * 
+     * If no action is found, the importance is not changed
+     * 
      * @author kollmann
      * @since 15.10.2013 00:00:00
      *
