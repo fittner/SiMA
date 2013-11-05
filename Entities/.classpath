@@ -5,7 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/EntityBase-Body-ARSIN"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Libraries"/>
 	<classpathentry kind="lib" path="/Libraries/mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="/Libraries/mason.jar"/>
 	<classpathentry kind="output" path="bin"/>
