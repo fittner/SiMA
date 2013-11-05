@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="junit"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/EntityBase-Body-ARSIN"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/BaseEntity-Body-ARSIN"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
