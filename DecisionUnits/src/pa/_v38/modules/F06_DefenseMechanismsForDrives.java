@@ -1344,8 +1344,43 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	*/
 	@Override
 	protected void process_draft() {
-		// TODO (GELBARD) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
+        moDriveList_Output = (ArrayList<clsDriveMesh>) deepCopy(moDriveList_Input);
+        moEmotions_Output = clone(moEmotions_Input);     
+        
+        moTimeInputChartData();
+        
+        GetCombinedTimeDefenseYaxisData();  
+        
+        // If no Defense to defend return immediately (otherwise NullPointerException)
+           
+        if (moForbiddenDrives_Input == null ) {
+            return;
+        }
+           
+        moQuotasOfAffect_Output.clear();
+           
+        // check for a psychoanalytic conflict
+        // defense mechanisms are delayed by one cycle to produce a situation where conflict exists and no action plans are executed
+        if (!moForbiddenDrives_Input.isEmpty() && !defense_active)
+        {
+            // conflicting events exist -> activate conflict -> activate defense mechanisms but do not defend yet. (defense will work in the next cycle)
+            defense_active = true;
+            
+            // send quota of affect 999.9 via I5.17 to produce a "CONFLICT"-signal in F20
+            clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, 999.9)); 
+            moQuotasOfAffect_Output.add(oAffect);
+            
+            return;
+        } else if (moForbiddenDrives_Input.isEmpty()) {
+            // no conflicting events -> deactivate defense mechanisms
+            defense_active = false;
+            return;
+        } 
+                
+        defenseMechanism_Sublimation(moForbiddenDrives_Input);
+        
+        moTimeInputChartData();
+        GetCombinedTimeDefenseYaxisData();
 	}
 	
 	/* (non-Javadoc)

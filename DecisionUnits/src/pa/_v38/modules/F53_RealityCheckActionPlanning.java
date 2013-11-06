@@ -6,9 +6,15 @@
  */
 package pa._v38.modules;
 
+import general.datamanipulation.PrintTools;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+import logger.clsLogger;
+
+import org.slf4j.Logger;
 
 import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.I6_10_send;
@@ -23,6 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import config.clsProperties;
@@ -47,7 +54,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	/** (wendt) Goal memory; @since 24.05.2012 15:25:09 */
     private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
 	
-	//private final Logger log = clsLogger.getLog(this.getClass().getName());
+	private final Logger log = clsLogger.getLog("F" + P_MODULENUMBER);
 	
 	/**
 	 * DOCUMENT (Kohlhauser) - insert description 
@@ -125,13 +132,16 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
         //Apply effort of wording
         
         //Apply effort/bonus of drive aim action
-
         // kollmann:
 	    // Get the list of relevant AimOfDrives from short term memory (relevant means: AimOfDrives that are related to one of the reachable goals)
-	    // (AimOfDrive is the secondary process representation of drive meshes
+	    // (AimOfDrive is the secondary process representation of drive meshes)
 	    ArrayList<clsWordPresentationMeshAimOfDrive> oAimOfDrives = ShortTermMemoryFunctionality.getCurrentAimOfDrivesFromMentalSituation(moShortTimeMemory);
 
 	    GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(this.selectableGoals, oAimOfDrives);
+	    
+	    //Debug output - sort the list of goals by attractiveness and log it
+	    ArrayList <clsWordPresentationMeshSelectableGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(this.selectableGoals, this.selectableGoals.size());
+	    log.info("Sorted Goals:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
 	}
 
 	/* (non-Javadoc)
