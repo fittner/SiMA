@@ -22,6 +22,7 @@ import inspectors.mind.pa._v38.autocreated.cls_StackedBarChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v38.functionalmodel.clsPAInspectorFunctional;
 import inspectors.mind.pa._v38.graph.clsGraphCompareInterfaces;
+import inspectors.mind.pa._v38.graph.clsGraphForRules;
 import inspectors.mind.pa._v38.graph.clsGraphInterface;
 import inspectors.mind.pa._v38.graph.clsMeshInterface;
 import inspectors.mind.pa._v38.handcrafted.clsF26DecisionCalculation;
@@ -36,6 +37,7 @@ import pa._v38.interfaces.itfInspectorBarChart;
 import pa._v38.interfaces.itfInspectorBarChartF06;
 import pa._v38.interfaces.itfInspectorBarChartF19;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
+import pa._v38.interfaces.itfInspectorForRules;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
@@ -375,6 +377,12 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 					eSndList.add(eSnd);
 					poTI.addInspector( new clsGraphInterface(poPA, eSndList, false), "snd "+eSnd.toString());
 				}
+			}
+			// Ivy - the rules as a graph
+			if (oModule instanceof itfInspectorForRules) {
+				poTI.addInspector(
+						new clsGraphForRules (true, (itfInspectorForRules) oModule),
+						"Rules");				
 			}
 			
 

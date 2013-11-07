@@ -51,6 +51,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eActivationType;
+import pa._v38.modules.F07_SuperEgoReactive.clsReadSuperEgoRules;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import bfg.utils.enums.ePercievedActionType;
@@ -111,7 +112,7 @@ public class clsGraph extends JGraph {
 	protected boolean mbLayoutChangeIsRunning =false;
 	
 
-	
+	private int mnRuleNumber = 1; //Ivy
 	
 	protected ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
 	
@@ -597,6 +598,9 @@ public class clsGraph extends JGraph {
 			oRootCell = generateGraphCell(poParent, oO.toString()); 
  
 
+		} else if (oO instanceof clsReadSuperEgoRules) { //Ivy
+			clsReadSuperEgoRules bla = (clsReadSuperEgoRules) oO;
+			oRootCell = generateGraphCell(poParent, bla);
 		} else {
 			oRootCell = generateGraphCell(poParent, oO.toString());
 			System.out.println("[clsMeshBase.rIDAGGC] Unkown data structure, displaying toString(): "+oO.getClass());
@@ -1122,6 +1126,118 @@ public class clsGraph extends JGraph {
 			mbShowExternAssoc=true;
 		}
 		return oTPMrootCell;	
+	}
+	
+	/**
+	 * DOCUMENT (Jordakieva Ivy) - draws the stored rules which passed the Superego
+	 *
+	 * @since 05.11.2013 17:41:35
+	 *
+	 * @param poParentCell
+	 * @param poRule - one rule
+	 * @return oRootRulesCell - the finish "tree"
+	 */
+	private clsGraphCell generateGraphCell (clsGraphCell poParentCell, clsReadSuperEgoRules poRule) {
+		
+		clsReadSuperEgoRules oRule = poRule;
+		
+		clsGraphCell oRootRulesCell = createDefaultGraphVertex("Rule " + mnRuleNumber + ":", moColorTPMRoot); //rule number in the csv-File
+		this.moCellList.add(oRootRulesCell); //adding to the list of graphCells
+		mnRuleNumber++;
+		
+		ArrayList <clsGraphCell> oTheCells = new ArrayList <clsGraphCell> (); //saving away the finished Cells to be able to put the edges
+		
+		//for every Drive in this rule
+		for (int b = 0; b < oRule.driveSize(); b++) {
+			String oPart = oRule.getDriveRule(b).a.toString() + " " + oRule.getDriveRule(b).b.toString() + "\nbetween " + oRule.getDriveRule(b).c[0].toString() + " and " + oRule.getDriveRule(b).c[1].toString(); 
+			clsGraphCell oRuleChildren = createDefaultGraphVertex(oPart, moColorDMRoot); //creates a cell
+			this.moCellList.add(oRuleChildren); //adding the cell to the root
+			
+			DefaultEdge oEdge = new DefaultEdge (); //creates an edge
+			oEdge.setSource(oRootRulesCell.getChildAt(0)); //defining the from
+			oEdge.setTarget(oRuleChildren.getChildAt(0)); //defining the to
+			moCellList.add(oEdge); //adding the cell to the root
+			
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC); //Without this there will be no arrow, just the line		
+			oTheCells.add(oRuleChildren); //saving away the created cell - needing it for later
+		}
+		//for every Emotion in this rule
+		for (int b = 0; b < oRule.emotionSize(); b++) {
+			String oPart =  oRule.getEmotionRule(b).a.toString() + "\nbetween " + oRule.getEmotionRule(b).b[0].toString() + " and " + oRule.getEmotionRule(b).b[1].toString();  
+			clsGraphCell oRuleChildren = createDefaultGraphVertex(oPart, moColorEmotion);
+			this.moCellList.add(oRuleChildren);
+			
+			DefaultEdge oEdge = new DefaultEdge ();
+			oEdge.setSource(oRootRulesCell.getChildAt(0));
+			oEdge.setTarget(oRuleChildren.getChildAt(0));
+			moCellList.add(oEdge);
+			
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+			oTheCells.add(oRuleChildren);
+		}
+		//for every Perception in this rule
+		for (int b = 0; b < oRule.perceptionSize(); b++) {
+			String oPart = oRule.getPerceptionRule(b).a.toString() + " " + oRule.getPerceptionRule(b).b.toString();  
+			clsGraphCell oRuleChildren = createDefaultGraphVertex(oPart, moColorPair);
+			this.moCellList.add(oRuleChildren);
+			
+			DefaultEdge oEdge = new DefaultEdge ();
+			oEdge.setSource(oRootRulesCell.getChildAt(0));
+			oEdge.setTarget(oRuleChildren.getChildAt(0));
+			moCellList.add(oEdge);
+			
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+			oTheCells.add(oRuleChildren);
+		}
+		//making every saved away cell (oTheCells) to show an edge-cell named "then"
+		clsGraphCell oThen = createDefaultGraphVertex ("then", moColorTPMRoot);
+		for (int b = 0; b < oTheCells.size(); b++) {
+			DefaultEdge oEdge = new DefaultEdge ();
+			oEdge.setSource(oTheCells.get(b).getChildAt(0));
+			oEdge.setTarget(oThen.getChildAt(0));
+			moCellList.add (oThen);
+			moCellList.add (oEdge);
+			
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+		}
+		//for every forbiddenDrive in this rule pointing from "then"
+		for (int b = 0; b < oRule.FDriveSize(); b++) {
+			String oPart = oRule.getForbiddenDrive(b).a.toString() + " " + oRule.getForbiddenDrive(b).b.toString();
+			clsGraphCell oRuleChildren = createDefaultGraphVertex(oPart, moColorDMRoot);
+			this.moCellList.add(oRuleChildren);
+			
+			DefaultEdge oEdge = new DefaultEdge ();
+			
+			oEdge.setSource(oThen.getChildAt(0));
+			oEdge.setTarget(oRuleChildren.getChildAt(0));
+			moCellList.add(oEdge);
+		}
+		//for every forbiddenEmotion in this rule pointing from "then"
+		for (int b = 0; b < oRule.FEmotionSize(); b++) {
+			String oPart = oRule.getForbiddenEmotion(b).toString();
+			clsGraphCell oRuleChildren = createDefaultGraphVertex(oPart, moColorEmotion);
+			this.moCellList.add(oRuleChildren);
+			
+			DefaultEdge oEdge = new DefaultEdge ();
+			
+			oEdge.setSource(oThen.getChildAt(0));
+			oEdge.setTarget(oRuleChildren.getChildAt(0));
+			moCellList.add(oEdge);
+		}
+		//for every forbiddenObject in this rule pointing from "then"
+		for (int b = 0; b < oRule.FObjectSize(); b++) {
+			String oPart = oRule.getForbiddenObject(b).a.toString() + " " + oRule.getForbiddenObject(b).b.toString();
+			clsGraphCell oRuleChildren = createDefaultGraphVertex(oPart, moColorPair);
+			this.moCellList.add(oRuleChildren);
+			
+			DefaultEdge oEdge = new DefaultEdge ();
+			
+			oEdge.setSource(oThen.getChildAt(0));
+			oEdge.setTarget(oRuleChildren.getChildAt(0));
+			moCellList.add(oEdge);
+		}
+		
+		return oRootRulesCell;
 	}
 	
 	/** [TP]
