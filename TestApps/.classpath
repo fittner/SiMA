@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BaseEntity-Body-ARSIN"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitMasonInspectors"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
@@ -17,5 +16,6 @@
 	<classpathentry kind="lib" path="/Libraries/vecmath.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="/Libraries/mockito-all-1.9.5-rc1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EntityBase-Body-ARSIN"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
