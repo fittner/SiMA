@@ -10,17 +10,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.interfaces.modules.I6_14_receive;
+import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
+import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.eInternalActionIntensity;
 import du.itf.actions.clsActionShare;
 import du.itf.actions.clsInternalActionCommand;
 import du.itf.actions.clsInternalActionSweat;
 import du.itf.actions.itfInternalActionProcessor;
-
-import pa._v38.interfaces.modules.I6_14_receive;
-import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsEmotion;
-import pa._v38.tools.toText;
 
 
 /**
@@ -50,6 +49,7 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
     }
     public static final String P_MODULENUMBER = "67";
     private ArrayList<clsEmotion> moEmotions_Input;
+    ArrayList <clsEmotion> oEmotion =new ArrayList <clsEmotion> ();
     
     //list of internal actions, fill it with what you want to be shown
     private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
@@ -95,7 +95,7 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
     @Override
     protected void process_basic() {
         // TODO (schaat) - Auto-generated method stub
-        FillInternalActions(moEmotions_Input);
+      //  FillInternalActions(moEmotions_Input);
     }
     
     /**
@@ -236,5 +236,5 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
         moEmotions_Input =  (ArrayList<clsEmotion>) deepCopy(poEmotions_Input);
     }
     
-
+   
 }

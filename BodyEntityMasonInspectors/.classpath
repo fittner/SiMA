@@ -7,11 +7,10 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Entities"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/EntityBase-Body-ARSIN"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Libraries"/>
 	<classpathentry kind="lib" path="/Libraries/jcommon-1.0.14.jar"/>
 	<classpathentry kind="lib" path="/Libraries/jfreechart-1.0.11.jar"/>
 	<classpathentry kind="lib" path="/Libraries/mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="/Libraries/mason.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EntityBase-Body-ARSIN"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

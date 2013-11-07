@@ -20,6 +20,7 @@ import entities.factory.clsEntityFactory;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
+import bw.entities.base.clsUnorganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eShapeType;
@@ -31,7 +32,7 @@ import bw.utils.enums.eShapeType;
  * @author muchitsch
  * 
  */
-public class clsStone extends clsInanimate {
+public class clsStone extends clsUnorganic {
 	public static final String P_RADIUS_TO_MASS_CONVERSION = "conversion";
 	public static final String CONFIG_FILE_NAME="stone.default.properties";
 		

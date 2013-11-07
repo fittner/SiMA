@@ -27,6 +27,7 @@ public enum eCondition {
 	IS_DRIVE_SOURCE,
 	IS_PERCEPTIONAL_SOURCE,
 	IS_MEMORY_SOURCE,
+	IS_CONTEXT_SOURCE,
 
 	// --- Decision codelets preprocessing --- //
 	IS_CONTINUED_GOAL,

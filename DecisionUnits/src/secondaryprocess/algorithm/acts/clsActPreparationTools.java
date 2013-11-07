@@ -92,19 +92,6 @@ public class clsActPreparationTools {
 		//Return the recommendation
 		//If the moment match > Threshold and there is an expectation
 		//If the moment is the last image
-//		if (bMomentIsLastImage==true) {
-//		    if (clsActTools.checkIfConditionExists(oCurrentIntention, eCondition.CYCLIC_ACT)==true) {
-//		        //Goal completed but the last action shall be done again
-//		        //Do nothing
-//		    } else {
-//		        //Goal completed, close goal
-//		        oResult.add(eCondition.GOAL_COMPLETED);
-//		    }
-//			
-//		//If there is some error and the images does not match very good
-//		} else {
-//		    
-//		}
 		    
 		if (rCurrentMomentConfidence>=mrMomentConfidenceThreshold && rCurrentIntentionActConfidence >= mrActConfidenceThreshold && oCurrentExpectation.isNullObject()==false) {
 		    if (bMomentIsLastImage==true) {

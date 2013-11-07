@@ -7,6 +7,7 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
@@ -27,6 +28,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
+import pa._v38.tools.clsDriveMeshQoAComparator;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
@@ -109,6 +111,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	        moOrificeMap.put(eDrive.ORAL, eOrifice.ORAL_MUCOSA);
 	        moOrificeMap.put(eDrive.PHALLIC, eOrifice.PHALLUS);
 	        moOrificeMap.put(eDrive.GENITAL, eOrifice.MALE_GENITAL);
+	        
+	        log.debug("Mapping orifice -> drive: "+moOrificeMap.toString());
 	    }
        private void fillOrganMapping() {
            moOrganMap = new HashMap<eDrive, eOrgan>();
@@ -119,6 +123,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
            moOrganMap.put(eDrive.ORAL, eOrgan.LIBIDO);
            moOrganMap.put(eDrive.PHALLIC, eOrgan.LIBIDO);
            moOrganMap.put(eDrive.GENITAL, eOrgan.LIBIDO);
+           
+           log.debug("Mapping organ -> drive: "+moOrganMap.toString());
 
        }
        private void fillPartialDriveMapping() {
@@ -130,6 +136,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
            moPartialDriveMapping.put(eDrive.ORAL, ePartialDrive.ORAL);
            moPartialDriveMapping.put(eDrive.PHALLIC, ePartialDrive.PHALLIC);
            moPartialDriveMapping.put(eDrive.GENITAL, ePartialDrive.GENITAL);
+           
+           log.debug("Mapping partialdrive -> drive: "+moOrganMap.toString());
+
 
        }
 	
@@ -216,6 +225,11 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			mnChartColumnsChanged = true;
 		}
 		moDriveChartData.put(olKey, mnCurrentPleasure);
+		
+		ArrayList<clsDriveMesh> loggingData = (ArrayList<clsDriveMesh>) moAllDriveComponents_OUT.clone();
+		Collections.sort(loggingData, new clsDriveMeshQoAComparator());
+		
+		log.debug("Generated Drives: \n"+loggingData.toString());
 		
 
 	}

@@ -8,7 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AlternativeDecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Libraries"/>
 	<classpathentry kind="lib" path="/Libraries/jcommon-1.0.14.jar"/>
 	<classpathentry kind="lib" path="/Libraries/jfreechart-1.0.11.jar"/>
 	<classpathentry kind="lib" path="/Libraries/jgraphx.jar"/>

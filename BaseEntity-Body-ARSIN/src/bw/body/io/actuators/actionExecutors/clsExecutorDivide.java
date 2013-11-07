@@ -132,9 +132,9 @@ public class clsExecutorDivide extends clsActionExecutor{
 		
 		//3) attach eat to the self 
         
-        clsAction oAction = new clsAction(1,ePercievedActionType.EAT);
+        clsAction oAction = new clsAction(1,ePercievedActionType.DIVIDE);
         oAction.attachEntity((clsEntity) oDivideEntity);
-        //moEntity.addAction(oAction);
+        moEntity.addAction(oAction);
 		
 		return true;
 	}	

@@ -73,7 +73,7 @@ public class clsDC_InitAction extends clsDecisionCodelet {
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.IS_NEW_GOAL));
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.SET_DECISION_PHASE_COMPLETE));
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.SET_DECISION_PHASE_COMPLETE));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.SET_DECISION_PHASE_COMPLETE));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.SET_DECISION_PHASE_COMPLETE));
 		
 		
 	}

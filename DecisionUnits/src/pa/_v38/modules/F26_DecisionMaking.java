@@ -225,8 +225,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
         }
 	    
 	    
-	    //1. Remove non reachable goals
-	    GoalHandlingFunctionality.removeNonReachableGoals(moReachableGoalList_IN, moShortTermMemory);
+
 	    
 	    
 	    //FIXME SM: This is a temp variable, which shall be replaced with real feelings

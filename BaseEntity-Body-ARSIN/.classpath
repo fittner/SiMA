@@ -7,7 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitMasonInspectors"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Libraries"/>
 	<classpathentry kind="lib" path="/Libraries/j3dcore.jar"/>
 	<classpathentry kind="lib" path="/Libraries/j3dutils.jar"/>
 	<classpathentry kind="lib" path="/Libraries/jcommon-1.0.14.jar"/>
@@ -15,5 +14,7 @@
 	<classpathentry kind="lib" path="/Libraries/mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="/Libraries/mason.jar"/>
 	<classpathentry kind="lib" path="/Libraries/vecmath.jar"/>
+	<classpathentry kind="lib" path="/Libraries/slf4j-1.7.5/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="lib" path="/Libraries/slf4j-1.7.5/slf4j-log4j12-1.7.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

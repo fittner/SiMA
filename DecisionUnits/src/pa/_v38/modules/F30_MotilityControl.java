@@ -14,16 +14,23 @@ import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I2_5_send;
 import pa._v38.interfaces.modules.I6_11_receive;
+import pa._v38.interfaces.modules.I6_14_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsConcept.clsEntity;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eActionType;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-//import pa._v38.tools.clsDumper;
 import pa._v38.tools.toText;
 import secondaryprocess.functionality.PlanningFunctionality;
 import config.clsProperties;
+import du.enums.eInternalActionIntensity;
+import du.itf.actions.clsActionShare;
+import du.itf.actions.clsInternalActionCommand;
+import du.itf.actions.clsInternalActionSweat;
+import du.itf.actions.itfInternalActionProcessor;
 
 
 /**
@@ -33,15 +40,16 @@ import config.clsProperties;
  * 11.08.2012, 14:58:20
  * 
  */
-public class F30_MotilityControl extends clsModuleBaseKB 
-    implements I6_11_receive, I2_5_send, itfInspectorGenericActivityTimeChart {
+public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receive, I2_5_send, I6_14_receive, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "30";
 	
 	private clsWordPresentationMesh moActionCommand_Input;
 	private clsWordPresentationMesh moEnvironmentalPerception_IN; // AP added environmental perception
 	private ArrayList<clsWordPresentationMesh> moActionCommands_Output;
+	private ArrayList<clsEmotion> moEmotions_Input;
+	private clsEntity moEntity;
 	//private int mnCounter, lastTurnDirection, mnTurns;
-	
+	 private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
 	private clsShortTermMemory moShortTermMemory;
 	
 	private clsShortTermMemory moEnvironmentalImageStorage;
@@ -75,6 +83,7 @@ public class F30_MotilityControl extends clsModuleBaseKB
 		
         this.moShortTermMemory = poShortTermMemory;
         this.moEnvironmentalImageStorage = poTempLocalizationStorage;
+        
 
 	}
 	
@@ -106,11 +115,27 @@ public class F30_MotilityControl extends clsModuleBaseKB
 		}
 		// simple toString output
 		text += toText.listToTEXT("moActionCommands_Output", moActionCommands_Output);
+		 text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
 		// complex clsDumper output
 		//text += "moActionCommands_Output:" + clsDumper.dump(moActionCommands_Output,3,0,ignoreList) + "\n";
 		return text;
 	}	
 	
+
+	
+	 /**
+     * DOCUMENT (muchitsch) - insert description
+     *
+     * @since 31.10.2012 12:54:43
+     *
+     * @param poInternalActionContainer
+     */
+    public void getBodilyReactions( itfInternalActionProcessor poInternalActionContainer) {
+        
+        for( clsInternalActionCommand oCmd : moInternalActions ) {
+            poInternalActionContainer.call(oCmd);
+        }
+    }
 
 
 	/**
@@ -197,9 +222,15 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	    //Get the action if it is not an internal action
 	    moActionCommands_Output = new ArrayList<clsWordPresentationMesh>();
 	    clsWordPresentationMesh externalActionCommand = PlanningFunctionality.getActionOfType(moActionCommand_Input, eActionType.SINGLE_EXTERNAL);
+	   
+	    //DEBUG
+	    if (moActionCommand_Input.toString().contains("SEARCH")){
+	          executeOverlay(moEmotions_Input);
+	        }
 	    if (externalActionCommand.isNullObject()==false) {
-	        moActionCommands_Output.add(externalActionCommand);
+	        moActionCommands_Output.add(externalActionCommand);    
 	    }
+	   
 
 	
 	    
@@ -303,8 +334,30 @@ public class F30_MotilityControl extends clsModuleBaseKB
 			
 			//when there are no actions, we do nothing
 		//}
+	    
+	    log.info(moActionCommands_Output.toString());
 	}
 	
+/**
+     * DOCUMENT - insert description
+     *
+     * @author hinterleitner
+     * @since 22.10.2013 19:49:18
+     *
+     * @param moEmotions_Input2
+     */
+    private void executeOverlay(ArrayList<clsEmotion> moEmotions_Input2) {
+ 
+        clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
+        clsActionShare testnew1 = new clsActionShare(eInternalActionIntensity.HEAVY);
+        
+        //Speech Trigger
+        moInternalActions.add( test );
+       //Thought Trigger 
+        moInternalActions.add(testnew1 );
+        
+    }
+
 //    // AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
 //    /**
 //     * convert the act to a word presentation, temp function!!! DOCUMENT (wendt) - insert description
@@ -487,5 +540,21 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	@Override
 	public void setDescription() {
 		moDescription = "Motoric movement can be controlled by psychic functions up to some extend. Drive inhibitiona mechanism necessary for the defense mechanismsleads to the possibility to perform behavior in rehearsal. Module {E30} uses this concept to evaluate how the submitted action plan can be realized best. The resulting action commands are forwarded to {E31}. ";
-	}		
-}
+	}
+
+	  /* (non-Javadoc)
+    *
+    * @since Jul 5, 2013 2:44:20 PM
+    * 
+    * @see pa._v38.interfaces.modules.I6_14_receive#receive_I6_14(java.util.ArrayList)
+    */
+   @SuppressWarnings("unchecked")
+   @Override
+   public void receive_I6_14(ArrayList<clsEmotion> poEmotions_Input) {
+       // TODO (schaat) - Auto-generated method stub
+       moEmotions_Input =  (ArrayList<clsEmotion>) deepCopy(poEmotions_Input);
+   }
+   
+
+    }		
+

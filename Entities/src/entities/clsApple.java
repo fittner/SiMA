@@ -37,6 +37,7 @@ import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
 import bw.entities.base.clsMobile;
+import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
@@ -55,7 +56,7 @@ import bw.body.io.actuators.actionProxies.*;
  * Oct 03, 2012, 10:15:27 PM
  * 
  */
-public class clsApple extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
 	
 	private boolean mnDestroyed = false;
 	
@@ -82,10 +83,6 @@ public class clsApple extends clsInanimate implements itfGetFlesh, itfAPEatable,
 		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
 		//add correct body
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
-		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
-				
-
-		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 		
@@ -143,57 +140,7 @@ public class clsApple extends clsInanimate implements itfGetFlesh, itfAPEatable,
 		}
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 12.05.2009, 19:26:16
-	 * 
-	 * @see bw.entities.clsEntity#execution()
-	 */
-	@Override
-	public void execution() {
-		// no executions
-		
-	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 12.05.2009, 19:26:16
-	 * 
-	 * @see bw.entities.clsEntity#processing()
-	 */
-	@Override
-	public void processing() {
-		// no processing
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 12.05.2009, 19:26:16
-	 * 
-	 * @see bw.entities.clsEntity#sensing()
-	 */
-	@Override
-	public void sensing() {
-		// no sensing
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 14.05.2009, 18:16:27
-	 * 
-	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
-	 */
-	@Override
-	public clsFlesh getFlesh() {
-		return ((clsMeatBody)moBody).getFlesh();
-	}
-	
 	/*
 	 * Interface Eatable
 	 */
@@ -225,17 +172,6 @@ public class clsApple extends clsInanimate implements itfGetFlesh, itfAPEatable,
 		//handle binding-state implications 
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 08.09.2009, 17:25:18
-	 * 
-	 * @see bw.body.itfget.itfGetBody#getBody()
-	 */
-	@Override
-	public clsBaseBody getBody() {
-		return moBody;
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -281,5 +217,6 @@ public class clsApple extends clsInanimate implements itfGetFlesh, itfAPEatable,
 		return oNewEntity;
 
 	}
+
 	
 }

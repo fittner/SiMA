@@ -30,6 +30,7 @@ import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
 import bw.entities.base.clsMobile;
+import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
@@ -54,7 +55,7 @@ import bw.body.io.actuators.actionProxies.itfAPCarryable;
  * 08.07.2009, 14:48:08
  * 
  */
-public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfIsConsumeable {
+public class clsFungus extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfIsConsumeable {
 	private boolean mnDestroyed = false;
 	
 	public clsFungus(String poPrefix, clsProperties poProp, int uid)

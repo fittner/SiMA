@@ -179,7 +179,8 @@ public class clsSensorAcoustic extends clsSensorExt{
 			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 			
 		    // necessary for DU because it sets collision points
-			setColPos(peDetectedObjInAreaList);
+			//TODO: Commented out from LH (2013-10-29) because this statement corrupts the values of all other sensors
+			//setColPos(peDetectedObjInAreaList);
 			
 			calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList);	
 			calculateObjWithinDistance(peDetectedObjInAreaList);
@@ -193,6 +194,7 @@ public class clsSensorAcoustic extends clsSensorExt{
 		while(itr.hasNext()){
 			clsCollidingObject oCollidingObject = itr.next(); 
 			//TODO ()
+
 			oCollidingObject.meColPos = eSide.CENTER;
 		}
 	}

@@ -147,6 +147,50 @@ public class clsActDataStructureTools {
 		}
 	}
 	
+	   /**
+     * Set intention
+     * 
+     * (wendt)
+     *
+     * @since 23.05.2012 15:35:45
+     *
+     * @param poAct
+     * @param poNewMoment
+     */
+    public static void setContext(clsWordPresentationMesh poAct, clsWordPresentationMesh poNewContext) {
+        //Get intention
+        clsWordPresentationMesh Intention = clsActDataStructureTools.getIntention(poAct);
+        
+        clsMeshTools.setNonUniquePredicateWPM(Intention, ePredicate.HASCONTEXT, poNewContext, false);
+        
+    }
+    
+    /**
+     * Check if the moment exists in the predictions
+     * 
+     * (wendt)
+     *
+     * @since 22.05.2012 20:50:26
+     *
+     * @param poPrediction
+     * @param poImage
+     * @return
+     */
+    public static clsWordPresentationMesh getContext(clsWordPresentationMesh poAct) {
+        clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
+        
+        //Get intention
+        clsWordPresentationMesh Intention = clsActDataStructureTools.getIntention(poAct);
+        
+        clsWordPresentationMesh oPrelRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(Intention, ePredicate.HASCONTEXT, 2, false);
+        
+        if (oPrelRetVal!=null) {
+            oRetVal = oPrelRetVal;
+        }
+        
+        return oRetVal;
+    }
+	
 	/**
 	 * Check if the moment exists in the predictions
 	 * 
