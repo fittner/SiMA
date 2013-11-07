@@ -90,7 +90,7 @@ public class clsInspectorMappingDecision {
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_ARSinOverview(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "ARSin Overview");
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_PlanningOverview(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "Planning Overview");
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_PersonalityParameter((clsPsychoAnalysis) poDU), "Personality Parameters");
-        		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_ThoughtsIntention(), "Thoughts Intention - Overview");
+        		//oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_ThoughtsIntention(), "Thoughts Intention - Overview");
         	}
         	else {
         		//FIXME (muchitsch) - activate inspectors

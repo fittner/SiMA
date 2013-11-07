@@ -11,6 +11,6 @@
 	<classpathentry kind="lib" path="/Libraries/jfreechart-1.0.11.jar"/>
 	<classpathentry kind="lib" path="/Libraries/mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="/Libraries/mason.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/EntityBase-Body-ARSIN"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BaseEntity-Body-ARSIN"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
