@@ -1,4 +1,4 @@
-; Thu Nov 07 19:47:04 CET 2013
+; Thu Nov 07 20:25:56 CET 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -47,13 +47,13 @@
 
 ([BASIC_ProjectKB_Class21] of  String
 
-	(name "ANTENNA_LEFT")
-	(string_value "instance_association"))
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
 
 ([BASIC_ProjectKB_Class22] of  String
 
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
+	(name "ANTENNA_LEFT")
+	(string_value "instance_association"))
 
 ([BASIC_ProjectKB_Class23] of  String
 
@@ -62,13 +62,13 @@
 
 ([BASIC_ProjectKB_Class24] of  String
 
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
 
 ([BASIC_ProjectKB_Class25] of  String
 
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
 
 ([BASIC_ProjectKB_Class26] of  Map_Entry
 
@@ -619,7 +619,7 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_972241_Class5] of  Map
+([KB_824643_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
@@ -711,8 +711,8 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[STANDARD_SLOT_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
+		[STANDARD_SLOT_FORM_WIDGET]
 		[PAL_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
