@@ -18,6 +18,7 @@ import java.util.regex.PatternSyntaxException;
 import pa._v38.modules.eProcessType;
 import pa._v38.modules.ePsychicInstances;
 import pa._v38.interfaces.itfGraphInterface;
+import pa._v38.interfaces.itfInspectorForRules;
 import pa._v38.interfaces.modules.I5_10_receive;
 import pa._v38.interfaces.modules.I5_11_receive;
 import pa._v38.interfaces.modules.I5_11_send;
@@ -58,7 +59,7 @@ import statictools.clsGetARSPath;
  * 
  */
 public class F07_SuperEgoReactive extends clsModuleBase
-	implements I5_12_receive, I5_10_receive, I5_11_send, I5_13_send, itfGraphInterface{
+	implements I5_12_receive, I5_10_receive, I5_11_send, I5_13_send, itfGraphInterface, itfInspectorForRules{
 
 	public static final String P_MODULENUMBER = "07";
 	
@@ -101,7 +102,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * 04.10.2013, 12:21:01
 	 * 
 	 */
-	private class clsReadSuperEgoRules {
+	public class clsReadSuperEgoRules {
 	    
 	    private ArrayList <clsPair <eContentType, String>> oForbiddenPerceptionRule = new ArrayList <clsPair <eContentType, String>> ();
 	    private ArrayList <clsTriple <eDriveComponent, eOrgan, Double[]>> oForbiddenDriveRule = new ArrayList <clsTriple <eDriveComponent, eOrgan, Double[]>> ();
@@ -241,9 +242,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     * @param i - die Stelle
 	     * @return die verbotene Wahrnehmungs-Regel
 	     */
-	    private clsPair <eContentType, String> getPerceptionRule (int i) {
+	    public clsPair <eContentType, String> getPerceptionRule (int i) {
 	        if (oForbiddenPerceptionRule.size() < i) return null;
-	        else return oForbiddenPerceptionRule.get(i);
+	        return oForbiddenPerceptionRule.get(i);
 	    }
 	    /**
 	     * DOCUMENT (Jordakieva) - liefert die verbotene Trieb-Regel
@@ -253,9 +254,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     * @param i - die Stelle
 	     * @return die verbotene Trieb-Regel
 	     */
-	    private clsTriple <eDriveComponent, eOrgan, Double[]> getDriveRule (int i) {
+	    public clsTriple <eDriveComponent, eOrgan, Double[]> getDriveRule (int i) {
 	        if (oForbiddenDriveRule.size() < i) return null;
-	        else return oForbiddenDriveRule.get(i);
+	        return oForbiddenDriveRule.get(i);
 	    }
 	    /**
 	     * DOCUMENT (Jordakieva) - liefert die verbotene Emotions-Regel
@@ -265,9 +266,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     * @param i - die Stelle
 	     * @return die verbotene Emotions-Regel
 	     */
-	    private clsPair <eEmotionType, Double[]> getEmotionRule (int i) {
+	    public clsPair <eEmotionType, Double[]> getEmotionRule (int i) {
 	        if (oForbiddenEmotionRule.size() < i) return null;
-	        else return oForbiddenEmotionRule.get(i);
+	        return oForbiddenEmotionRule.get(i);
 	    }
 	    
 	    
@@ -280,7 +281,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     * @param i - die Stelle
 	     * @return liefert das zu verbietende Object in der einen Regel
 	     */
-	    private clsPair <eContentType, String> getForbiddenObject (int i) {
+	    public clsPair <eContentType, String> getForbiddenObject (int i) {
+	        if (oForbiddenObject.size() < i) return null;
 	        return oForbiddenObject.get(i);
 	    }
 	    /**
@@ -291,7 +293,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     * @param i - die Stelle
 	     * @return liefert der zu verbietende Trieb in der einen Regel
 	     */
-	    private clsPair <eDriveComponent, eOrgan> getForbiddenDrive (int i) {
+	    public clsPair <eDriveComponent, eOrgan> getForbiddenDrive (int i) {
+	        if (oForbiddenDrive.size() < i) return null;
             return oForbiddenDrive.get(i);
         }
 	    /**
@@ -302,7 +305,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     * @param i - die Stelle
 	     * @return liefert die zu verbietende Emotion in der einen Regel
 	     */
-	    private eEmotionType getForbiddenEmotion (int i) {
+	    public eEmotionType getForbiddenEmotion (int i) {
+	        if (oForbiddenEmotion.size() < i) return null;
             return oForbiddenEmotion.get(i);
         }
 	    
@@ -315,7 +319,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     *
 	     * @return Anzahl der Wahrnehmungen in der einen Regel
 	     */
-	    private int perceptionSize () {
+	    public int perceptionSize () {
 	        return oForbiddenPerceptionRule.size();
 	    }
 	    /**
@@ -325,7 +329,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     *
 	     * @return Anzahl der Triebe in der einen Regel
 	     */
-	    private int driveSize () {
+	    public int driveSize () {
 	        return oForbiddenDriveRule.size();
 	    }
 	    /**
@@ -335,7 +339,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     *
 	     * @return Anzahl der Emotionen in der einen Regel
 	     */
-	    private int emotionSize () {
+	    public int emotionSize () {
 	        return oForbiddenEmotionRule.size();
 	    }
 	    
@@ -348,7 +352,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     *
 	     * @return Anzahl der zu verbietende Objekte in der einen Regel
 	     */
-	    private int FObjectSize () {
+	    public int FObjectSize () {
 	        return oForbiddenObject.size();
 	    }
 	    /**
@@ -358,7 +362,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     *
 	     * @return  Anzahl der zu verbietende Triebe in der einen Regel
 	     */
-	    private int FDriveSize () {
+	    public int FDriveSize () {
             return oForbiddenDrive.size();
         }
 	    /**
@@ -368,7 +372,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	     *
 	     * @return Anzahl der zu verbietende Emotionen in der einen Regel
 	     */
-	    private int FEmotionSize () {
+	    public int FEmotionSize () {
 	        return oForbiddenEmotion.size();
 	    }
 	}
@@ -442,7 +446,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
     		            nSuperEgo = Double.valueOf(oSuperEgo[1]);
     		        }
     		        
-    		        if (moSuperEgoStrength >= nSuperEgo) { //die Regel wird angenommen wenn das SuperEgo größer ist als das im property-File
+    		        if (moSuperEgoStrength >= nSuperEgo) { //die Regel wird angenommen und abgespeichert nur wenn das SuperEgo größer ist als das im property-File
     		        
         		        String oeDrive ="", oeOrgan="", oeEmotion="";
         		        boolean schalter = false; //wenn true ist ein eDriveComponent gefunden
@@ -1105,4 +1109,16 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	public ArrayList<eInterfaces> getGraphInterfaces() {
 		return this.getInterfaces();
 	}
+
+    /* (non-Javadoc)
+     *
+     * @since 01.11.2013 16:52:14
+     * 
+     * @see pa._v38.interfaces.itfInspectorForRules#getDriverules()
+     */
+    @Override
+    public ArrayList<clsReadSuperEgoRules> getDriverules() {
+        
+        return oRegeln;
+    }
 }
