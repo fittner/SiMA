@@ -36,6 +36,7 @@ import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorManipulateArea;
+import bw.body.io.sensors.external.clsSensorOlfactoric;
 import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.io.sensors.external.clsSensorVision;
@@ -81,6 +82,8 @@ import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsIntestinePressure;
 import du.itf.sensors.clsManipulateArea;
 import du.itf.sensors.clsManipulateAreaEntry;
+import du.itf.sensors.clsOlfactoric;
+import du.itf.sensors.clsOlfactoricEntry;
 import du.itf.sensors.clsPositionChange;
 import du.itf.sensors.clsRadiation;
 import du.itf.sensors.clsSensorData;
@@ -181,6 +184,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
 		oData.addSensorExt(eSensorExtType.VISION_SELF, convertVisionSensor(eSensorExtType.VISION_SELF) );
 		//oData.addSensorExt(eSensorExtType.ACOUSTIC, convertAcousticSensor(eSensorExtType.ACOUSTIC) ); // MW
+		oData.addSensorExt(eSensorExtType.OLFACTORIC, convertOlfactoricSensor(eSensorExtType.OLFACTORIC) );
 		oData.addSensorExt(eSensorExtType.ACOUSTIC_NEAR, convertAcousticSensor(eSensorExtType.ACOUSTIC_NEAR) );
 		oData.addSensorExt(eSensorExtType.ACOUSTIC_MEDIUM, convertAcousticSensor(eSensorExtType.ACOUSTIC_MEDIUM) );
         oData.addSensorExt(eSensorExtType.ACOUSTIC_FAR, convertAcousticSensor(eSensorExtType.ACOUSTIC_FAR) );
@@ -814,6 +818,49 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		return oData;
 	}
 	
+private clsOlfactoric convertOlfactoricSensor(eSensorExtType poSensorType) {
+		
+	clsOlfactoric oData = new clsOlfactoric();
+	oData.setSensorType(poSensorType); 
+	clsSensorOlfactoric oSensor = (clsSensorOlfactoric) moSensorsExt.get(poSensorType);
+	
+	ArrayList<clsCollidingObject> oDetectedObjectList = oSensor.getSensorData();
+	
+	for (clsCollidingObject oCollider : oDetectedObjectList) {
+		clsVisionEntry oVisionEntry = convertVisionEntry(oCollider, poSensorType);
+		
+		if(oVisionEntry != null){
+			clsOlfactoricEntry oEntry = new clsOlfactoricEntry(oVisionEntry);
+		
+			if(oEntry != null && oCollider.moCollider != null){
+				convertOlfactoricEntry(oCollider, oEntry);
+				oData.add(oEntry);
+			}
+		}
+	}
+	
+	return oData;
+	}
+	
+private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, clsOlfactoricEntry oEntry) {
+	
+	clsEntity oEntity= getEntity(oCollider.moCollider); 
+	
+	if(oEntity != null){
+		
+		oEntry.setEntityType( getEntityType(oCollider.moCollider));
+		oEntry.setOdor(oEntity.getOdor());
+		 
+		clsAttributeAlive oAlive = (clsAttributeAlive)oEntity.getBody().getAttributes().getAttribute(eBodyAttributes.ALIVE);
+		
+		//oEntry.setIsAlive( oAlive.isAlive());
+		//oEntry.setIsConsumeable( oAlive.isConsumeable());
+	}
+	
+	return oEntry;
+}
+	
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -1026,23 +1073,23 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 
 	
 	
-	   private clsAcoustic convertAcousticSensor(eSensorExtType poAcType) {
-	        
-	        clsAcoustic oData = new clsAcoustic();
-	        oData.setSensorType(poAcType);
-	        clsSensorAcoustic oAcoustic = (clsSensorAcoustic)(moSensorsExt.get(poAcType));
-	        
-	        if(oAcoustic != null){
-	            ArrayList<clsCollidingObject> oDetectedObjectList = oAcoustic.getSensorData();
-	            
-	            for(clsCollidingObject oCollider : oDetectedObjectList){
-	                clsAcousticEntry oEntry = convertAcousticEntry(oCollider, poAcType);
-	                oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
-	                oData.add(oEntry);
-	            }
-	        }
-	        return oData;
-	    }
+   private clsAcoustic convertAcousticSensor(eSensorExtType poAcType) {
+        
+        clsAcoustic oData = new clsAcoustic();
+        oData.setSensorType(poAcType);
+        clsSensorAcoustic oAcoustic = (clsSensorAcoustic)(moSensorsExt.get(poAcType));
+        
+        if(oAcoustic != null){
+            ArrayList<clsCollidingObject> oDetectedObjectList = oAcoustic.getSensorData();
+            
+            for(clsCollidingObject oCollider : oDetectedObjectList){
+                clsAcousticEntry oEntry = convertAcousticEntry(oCollider, poAcType);
+                oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
+                oData.add(oEntry);
+            }
+        }
+        return oData;
+    }
 	   
 	   
 	   

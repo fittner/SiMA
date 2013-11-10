@@ -9,12 +9,13 @@
 package bw.body.io.sensors.external;
 
 import java.util.ArrayList;
-
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import config.clsProperties;
 
+
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
+
 import bw.utils.enums.eBodyParts;
 import sim.physics2D.util.Double2D;
 
@@ -25,8 +26,9 @@ import sim.physics2D.util.Double2D;
  * 18.07.2009, 17:15:35
  * 
  */
-public class clsSensorOlfactoric extends clsSensorExt{
+public class clsSensorOlfactoric extends clsSensorRingSegment{
 
+	private ArrayList<clsCollidingObject> moSensorDataDeliveredToDU = new ArrayList<clsCollidingObject>();
 
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
@@ -81,6 +83,22 @@ public class clsSensorOlfactoric extends clsSensorExt{
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
+	
+//	public void computeDataDeliveredToDU(){
+//		moSensorDataDeliveredToDU.clear(); 
+//		HashMap<Double, ArrayList<clsCollidingObject>> oDetectedObjectList = moSensorData.getMeDetectedObject(); 
+//			
+//		for(Map.Entry<Double, ArrayList<clsCollidingObject>> oEntry : oDetectedObjectList.entrySet()){
+//			for (clsCollidingObject oCollidingObject : oEntry.getValue()){
+//				if (oCollidingObject.moEntity.isEntityType(eEntityType.) && ((clsSpeech) oCollidingObject.moEntity).getAbstractSpeech().getProceedings().equals("S3"))
+//					moSensorDataDeliveredToDU.add(oCollidingObject); 
+//			}
+//		}
+//	}
+//	
+//	public ArrayList<clsCollidingObject> getSensorData() {
+//		return moSensorData; 
+//	}
 
 	/* (non-Javadoc)
 	 *

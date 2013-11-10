@@ -13,6 +13,7 @@ import pa._v38.symbolization.representationsymbol.clsSymbolAcoustic;
 import pa._v38.symbolization.representationsymbol.clsSymbolBump;
 import pa._v38.symbolization.representationsymbol.clsSymbolEatableArea;
 import pa._v38.symbolization.representationsymbol.clsSymbolManipulateArea;
+import pa._v38.symbolization.representationsymbol.clsSymbolOlfactoric;
 import pa._v38.symbolization.representationsymbol.clsSymbolPositionChange;
 import pa._v38.symbolization.representationsymbol.clsSymbolRadiation;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
@@ -22,6 +23,7 @@ import du.itf.sensors.clsAcoustic;
 import du.itf.sensors.clsBump;
 import du.itf.sensors.clsEatableArea;
 import du.itf.sensors.clsManipulateArea;
+import du.itf.sensors.clsOlfactoric;
 import du.itf.sensors.clsPositionChange;
 import du.itf.sensors.clsRadiation;
 import du.itf.sensors.clsSensorExtern;
@@ -65,6 +67,7 @@ public class clsSensorToSymbolConverter {
                     case ACOUSTIC_MEDIUM:oResult.put(eSymbolExtType.ACOUSTIC_MEDIUM, new clsSymbolAcoustic((clsAcoustic) oEntry.getValue()));break;
                     case ACOUSTIC_NEAR:oResult.put(eSymbolExtType.ACOUSTIC_NEAR, new clsSymbolAcoustic((clsAcoustic) oEntry.getValue()));break; 
                     case ACOUSTIC:oResult.put(eSymbolExtType.ACOUSTIC, new clsSymbolAcoustic((clsAcoustic) oEntry.getValue()));break; //IH
+                    case OLFACTORIC:oResult.put(eSymbolExtType.OLFACTORIC, new clsSymbolOlfactoric((clsOlfactoric) oEntry.getValue()));break;
                     default: throw new java.lang.IllegalArgumentException("unknown key "+oEntry.getKey());
                 }
             }
