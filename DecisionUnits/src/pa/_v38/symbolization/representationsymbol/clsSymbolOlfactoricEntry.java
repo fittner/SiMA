@@ -4,12 +4,13 @@ package pa._v38.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import bfg.utils.enums.eCount;
+
 
 import du.enums.eDistance;
-import du.enums.eOdor;
 import du.enums.eSaliency;
-import du.enums.eShapeType;
+//import du.enums.eOdor;
+//import du.enums.eSaliency;
+
 import du.itf.sensors.clsOlfactoricEntry;
 
 
@@ -27,17 +28,31 @@ public class clsSymbolOlfactoricEntry extends du.itf.sensors.clsOlfactoricEntry
 	public clsSymbolOlfactoricEntry(clsOlfactoricEntry oEntry) {
 		super();
 		
-		moSensorType = oEntry.getSensorType();
-		
-		moPolarcoordinate = oEntry.getPolarcoordinate();
-		mnEntityType = oEntry.getEntityType();
-		mnShapeType = oEntry.getShapeType();
-		moEntityId = oEntry.getEntityId();
-		mnNumEntitiesPresent = oEntry.getNumEntitiesPresent(); 
-		
-		moOdor = oEntry.getOdor();
-		moIntensity = oEntry.getIntensity();
-		moObjectPosition = oEntry.getObjectPosition(); 
+	
+	      moSensorType = oEntry.getSensorType();
+	        
+	        moPolarcoordinate = oEntry.getPolarcoordinate();
+	        mnEntityType = oEntry.getEntityType();
+	        mnShapeType = oEntry.getShapeType();
+	        moEntityId = oEntry.getEntityId();
+	        mnNumEntitiesPresent = oEntry.getNumEntitiesPresent(); 
+	        
+	        mnAlive = oEntry.getAlive();
+	        moColor = oEntry.getColor();
+	        moObjectPosition = oEntry.getObjectPosition(); 
+	        moAntennaPositionLeft = oEntry.getAntennaPositionLeft(); 
+	        moAntennaPositionRight = oEntry.getAntennaPositionRight();    
+	        moExactDebugX = oEntry.getExactDebugX();
+	        moExactDebugY = oEntry.getExactDebugY();
+	        moExactDebugAngle = oEntry.getExactDebugAngle();
+	        moBrightness = oEntry.getBrightness();
+	        moDebugSensorArousal = oEntry.getDebugSensorArousal();
+	        
+	        moActions = oEntry.getActions();
+	        
+	        moOdor = oEntry.getOdor();
+	        moIntensity = oEntry.getIntensity();
+
 			
 	}
 	
@@ -65,7 +80,20 @@ public class clsSymbolOlfactoricEntry extends du.itf.sensors.clsOlfactoricEntry
 	}
 	@Override
 	public Method[] getDataAccessMethods() {
-		return itfSymbolOlfactoricEntry.class.getMethods();
+		Method[] MA = new Method[1];
+		
+		try {
+		    MA[0] = itfSymbolOlfactoricEntry.class.getMethod("getOdor");
+        } catch (SecurityException e) {
+            // TODO (muchitsch) - Auto-generated catch block
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            // TODO (muchitsch) - Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+	    
+	    return MA; //itfSymbolOlfactoricEntry.class.getMethods();
 	}
 
 	/* (non-Javadoc)
@@ -100,29 +128,14 @@ public class clsSymbolOlfactoricEntry extends du.itf.sensors.clsOlfactoricEntry
 		return eDistance.FAR;
 	}
 
-    /* (non-Javadoc)
-     *
-     * @since 15.08.2013 14:00:29
-     * 
-     * @see pa._v38.symbolization.representationsymbol.itfSymbolOlfactoricEntry#getShapeType()
-     */
-    @Override
-    public eShapeType getShapeType() {
-        // TODO (muchitsch) - Auto-generated method stub
-        return null;
-    }
+  
+	@Override
+	public eSaliency getIntensity() {
+      // TODO (muchitsch) - Auto-generated method stub
+      return null;
+  }
+	
 
-    /* (non-Javadoc)
-     *
-     * @since 15.08.2013 14:00:29
-     * 
-     * @see pa._v38.symbolization.representationsymbol.itfSymbolOlfactoricEntry#getNumEntitiesPresent()
-     */
-    @Override
-    public eCount getNumEntitiesPresent() {
-        // TODO (muchitsch) - Auto-generated method stub
-        return null;
-    }
 
     /* (non-Javadoc)
      *
@@ -130,21 +143,21 @@ public class clsSymbolOlfactoricEntry extends du.itf.sensors.clsOlfactoricEntry
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolOlfactoricEntry#getIntensity()
      */
-    @Override
-    public eSaliency getIntensity() {
-        // TODO (muchitsch) - Auto-generated method stub
-        return null;
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 15.08.2013 14:00:29
-     * 
-     * @see pa._v38.symbolization.representationsymbol.itfSymbolOlfactoricEntry#getOdor()
-     */
-    @Override
-    public eOdor getOdor() {
-        // TODO (muchitsch) - Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    public eSaliency getIntensity() {
+//        // TODO (muchitsch) - Auto-generated method stub
+//        return null;
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 15.08.2013 14:00:29
+//     * 
+//     * @see pa._v38.symbolization.representationsymbol.itfSymbolOlfactoricEntry#getOdor()
+//     */
+//    @Override
+//    public eOdor getOdor() {
+//        // TODO (muchitsch) - Auto-generated method stub
+//        return null;
+//    }
 }

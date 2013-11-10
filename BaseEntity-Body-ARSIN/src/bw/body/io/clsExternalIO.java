@@ -250,14 +250,13 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.putAll( clsSensorOlfactoric.getDefaultProperties( pre+numsensors) );
         oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
         oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.OLFACTORIC.name());
-        oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, 50.0 ); 
+        oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, 60.0 ); 
         oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
         oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.OLFACTORIC.name());
         oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 60);
-        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 40 );
+        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 1 );
         oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-
-        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, 80);
+        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, 60);
         numsensors++;
         
 		oProp.setProperty(pre+P_NUMSENSORS, numsensors);

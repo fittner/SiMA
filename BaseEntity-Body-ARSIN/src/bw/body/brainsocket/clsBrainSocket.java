@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+
 import sim.field.grid.DoubleGrid2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Circle;
@@ -105,6 +106,7 @@ import du.itf.sensors.clsVisionEntry;
  */
 public class clsBrainSocket implements itfStepProcessing {
 	
+
 	private  final double _UNREAL_NEAR_DISTANCE = 250;
 	private  final double _UNREAL_MEDIUM_DISTANCE = 500;
 	//private  final double _UNREAL_FAR_DISTANCE =  750;
@@ -184,7 +186,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
 		oData.addSensorExt(eSensorExtType.VISION_SELF, convertVisionSensor(eSensorExtType.VISION_SELF) );
 		//oData.addSensorExt(eSensorExtType.ACOUSTIC, convertAcousticSensor(eSensorExtType.ACOUSTIC) ); // MW
-		oData.addSensorExt(eSensorExtType.OLFACTORIC, convertOlfactoricSensor(eSensorExtType.OLFACTORIC) );
+		//oData.addSensorExt(eSensorExtType.OLFACTORIC, convertOlfactoricSensor(eSensorExtType.OLFACTORIC) );
 		oData.addSensorExt(eSensorExtType.ACOUSTIC_NEAR, convertAcousticSensor(eSensorExtType.ACOUSTIC_NEAR) );
 		oData.addSensorExt(eSensorExtType.ACOUSTIC_MEDIUM, convertAcousticSensor(eSensorExtType.ACOUSTIC_MEDIUM) );
         oData.addSensorExt(eSensorExtType.ACOUSTIC_FAR, convertAcousticSensor(eSensorExtType.ACOUSTIC_FAR) );
@@ -819,12 +821,16 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 	}
 	
 private clsOlfactoric convertOlfactoricSensor(eSensorExtType poSensorType) {
-		
+	
+
+	 
 	clsOlfactoric oData = new clsOlfactoric();
 	oData.setSensorType(poSensorType); 
 	clsSensorOlfactoric oSensor = (clsSensorOlfactoric) moSensorsExt.get(poSensorType);
 	
 	ArrayList<clsCollidingObject> oDetectedObjectList = oSensor.getSensorData();
+	
+
 	
 	for (clsCollidingObject oCollider : oDetectedObjectList) {
 		clsVisionEntry oVisionEntry = convertVisionEntry(oCollider, poSensorType);
@@ -847,6 +853,8 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 	clsEntity oEntity= getEntity(oCollider.moCollider); 
 	
 	if(oEntity != null){
+		
+		
 		
 		oEntry.setEntityType( getEntityType(oCollider.moCollider));
 		oEntry.setOdor(oEntity.getOdor());

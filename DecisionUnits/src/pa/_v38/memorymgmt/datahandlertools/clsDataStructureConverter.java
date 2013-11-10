@@ -129,6 +129,12 @@ public class clsDataStructureConverter {
 		
 			//Method oTest = oM.getClass().getDeclaredMethod("", arg1)
 			
+//			if(oContentTypeTP.equals(eContentType.Odor)) {
+//                oContentTypeTP = eContentType.Odor; 
+//                oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oContentTP)); 
+//                oAssociatedContent.add(oTP); 
+//            }
+			
 			if (oM.getName().equals("getDebugSensorArousal")){
 //              oContentTypeTP = eContentType.Brightness;
 //              oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oContentTP)); 
@@ -166,6 +172,11 @@ public class clsDataStructureConverter {
 				{
 					try {
 						oContentTP = oM.invoke(poSymbolObject,new Object[0]);
+						if (oContentTP != null)
+						{
+		                  oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oContentTP)); 
+		                   oAssociatedContent.add(oTP); 
+						}
 					} catch (IllegalArgumentException e) {
 						e.printStackTrace();
 					} catch (IllegalAccessException e) {
@@ -174,8 +185,7 @@ public class clsDataStructureConverter {
 						e.printStackTrace();
 					}
 					
-					oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oContentTP)); 
-					oAssociatedContent.add(oTP); 
+
 				}
 		}
 		oTPM = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM,	new clsTriple<eContentType, Object, Object>(oContentType, oAssociatedContent, oContent)); 

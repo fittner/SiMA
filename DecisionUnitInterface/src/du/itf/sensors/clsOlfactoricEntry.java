@@ -2,7 +2,10 @@
 package du.itf.sensors;
 
 
+
 import java.lang.reflect.Field;
+
+
 import du.enums.eOdor;
 import du.enums.eSaliency;
 
@@ -17,6 +20,18 @@ public class clsOlfactoricEntry extends clsVisionEntry {
 	
 	protected eSaliency moIntensity = eSaliency.UNDEFINED;
 	protected eOdor moOdor = eOdor.UNDEFINED; 
+	
+//	protected boolean mnAlive = false;
+//	protected Color moColor = new Color(0,0,0);
+//	protected eSaliency moBrightness = eSaliency.UNDEFINED;
+//	protected eSide moObjectPosition = eSide.UNDEFINED; 
+//	protected eAntennaPositions moAntennaPositionLeft = eAntennaPositions.UNDEFINED; 
+//	protected eAntennaPositions moAntennaPositionRight = eAntennaPositions.UNDEFINED;
+//	protected double moExactDebugX;
+//	protected double moExactDebugY;
+//	protected double moExactDebugAngle;
+//	protected double moDebugSensorArousal;
+//	protected double moObjectBodyIntegrity;
 	
 	public clsOlfactoricEntry() {
 		super();
@@ -61,4 +76,17 @@ public class clsOlfactoricEntry extends clsVisionEntry {
 	public void setIntensity(eSaliency poIntensity) {
 		moIntensity = poIntensity;
 	}
+	
+	@Override
+	public String toString() {
+		String oResult = "";
+		oResult += this.getClass().getName()+": type "+mnEntityType+" | id "+moEntityId+" | ";
+		if (moOdor != null) {
+		  oResult += " | odor "+moOdor;
+		}
+
+		return oResult;
+	}
+	
+	
 }
