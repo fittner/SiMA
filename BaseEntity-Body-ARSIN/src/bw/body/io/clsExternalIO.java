@@ -255,7 +255,7 @@ public class clsExternalIO extends clsBaseIO {
         oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.OLFACTORIC.name());
         oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 60);
         oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 1 );
-        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, 2*Math.PI );
         oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, 60);
         numsensors++;
         

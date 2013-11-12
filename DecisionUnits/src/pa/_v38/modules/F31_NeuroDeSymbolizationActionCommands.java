@@ -482,7 +482,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	protected void process_draft() {
 	    moActionCommandList_Output.clear();
 	    //moActionCommandList_Output.add(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
-	
+	    
 
 	    /*if(mnTestCounter%2==0){
 	        moActionCommandList_Output.add(new clsActionAttackBite(1.0));
@@ -492,7 +492,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	    }
 	    mnTestCounter++;*/
 	    //return;
-	  //  if(testSequence())  return;
+	    if(testSequence())  return;
 	}
 
 	/* (non-Javadoc)
@@ -617,7 +617,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private boolean testSequence(){
 	       //TODO: Just for test. Delete this 2 lines
 
-       if(mnTestCounter==20) moActionCommandList_Output.add( new clsActionBeat(1.0));
+       if(mnTestCounter==5) moActionCommandList_Output.add( new clsActionBeat(1.0));
        else{
            //moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
        }
@@ -627,6 +627,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         //moActionCommandList_Output.add(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
         
         if (true) return true;
+        
        if(mnTestCounter<=1) moActionCommandList_Output.add(new clsActionPickUp());
        else if(mnTestCounter<=10) moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
        else if (mnTestCounter<=20){

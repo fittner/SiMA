@@ -256,6 +256,7 @@ public class clsProcessor implements itfProcessor  {
 		//data preprocessing
 	    //Resets the pleasure value to 0
 	    moPsyApp.moPleasureStorage.resetPleasure();
+	    moPsyApp.moLibidoBuffer.saveOld();
 	    
 		moPsyApp.moF01_SensorsMetabolism.step();
 		moPsyApp.moF02_NeurosymbolizationOfNeeds.step();

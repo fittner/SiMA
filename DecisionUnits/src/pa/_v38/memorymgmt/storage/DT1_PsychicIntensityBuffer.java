@@ -9,7 +9,6 @@ package pa._v38.memorymgmt.storage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.slf4j.Logger;
 
@@ -23,6 +22,7 @@ import pa._v38.interfaces.modules.D1_3_receive;
 import pa._v38.interfaces.modules.D1_4_send;
 import pa._v38.interfaces.modules.D1_5_send;
 import pa._v38.interfaces.modules.D1_6_receive;
+import pa._v38.interfaces.modules.D1_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.tools.toText;
@@ -34,32 +34,36 @@ import pa._v38.tools.toText;
  * 09.03.2011, 17:04:55
  * 
  */
-public class DT1_PsychicIntensityBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_4_send, D1_5_send, D1_6_receive, D1_1_receive, D1_2_receive, D1_3_receive {
+public class DT1_PsychicIntensityBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_4_send, D1_5_send, D1_6_receive, D1_1_receive, D1_2_receive, D1_3_receive, D1_7_send {
 	private double mrBufferedLibido;
-	private HashMap<eDrive,clsPair<Double,Double>> moLibidoBuffers;
+	private HashMap<eDrive,clsDriveBuffer> moLibidoBuffers;
 protected final Logger log;
+
+
+
 	
 	public DT1_PsychicIntensityBuffer() {
 		mrBufferedLibido = 0;
 		moLibidoBuffers = initBuffers();
 		log = logger.clsLogger.getLog("PsychicIntensityBuffer");
 	}
-	private HashMap<eDrive,clsPair<Double,Double>> initBuffers(){
-	    HashMap<eDrive,clsPair<Double,Double>> oRetVal = new HashMap<eDrive,clsPair<Double,Double>>();
-	    oRetVal.put(eDrive.STOMACH, new clsPair<Double,Double>(0.0,0.0));
-	    oRetVal.put(eDrive.RECTUM, new clsPair<Double,Double>(0.0,0.0));
-	    oRetVal.put(eDrive.STAMINA, new clsPair<Double,Double>(0.0,0.0));
-	    oRetVal.put(eDrive.ORAL, new clsPair<Double,Double>(0.0,0.0));
-	    oRetVal.put(eDrive.ANAL, new clsPair<Double,Double>(0.0,0.0));
-	    oRetVal.put(eDrive.GENITAL, new clsPair<Double,Double>(0.0,0.0));
-	    oRetVal.put(eDrive.PHALLIC, new clsPair<Double,Double>(0.0,0.0));
+	private HashMap<eDrive,clsDriveBuffer> initBuffers(){
+	    HashMap<eDrive,clsDriveBuffer> oRetVal = new HashMap<eDrive,clsDriveBuffer>();
+	    oRetVal.put(eDrive.STOMACH, new clsDriveBuffer());
+	    oRetVal.put(eDrive.RECTUM, new clsDriveBuffer());
+	    oRetVal.put(eDrive.STAMINA, new clsDriveBuffer());
+	    oRetVal.put(eDrive.ORAL, new clsDriveBuffer());
+	    oRetVal.put(eDrive.ANAL, new clsDriveBuffer());
+	    oRetVal.put(eDrive.GENITAL, new clsDriveBuffer());
+	    oRetVal.put(eDrive.PHALLIC, new clsDriveBuffer());
 	    
 	    return oRetVal;
 	}
-
 	
 
-	private void normalizeBuffers() {
+
+
+/*	private void normalizeBuffers() {
 		//Max value = 1, min value = 0.
 		for(Map.Entry<eDrive,clsPair<Double,Double>> oDrive: moLibidoBuffers.entrySet()){
 			
@@ -80,7 +84,7 @@ protected final Logger log;
 	        }
 		}
 	}
-	
+	*/
 	
 	 /** check if buffer available 
      * if not initialize new buffer
@@ -90,7 +94,7 @@ protected final Logger log;
             return true;
         }
         else{
-            moLibidoBuffers.put(peType, new clsPair<Double,Double>(0.0,0.0));
+            moLibidoBuffers.put(peType, new clsDriveBuffer());
             return false;
         }
     }
@@ -112,9 +116,9 @@ protected final Logger log;
         return new clsPair<Double,Double>(rSum*rAggrFactor,rSum*(1-rAggrFactor));
     }
     
-    public clsPair<Double,Double> shiftQoA_V2 (clsPair<Double,Double> prValues, double prRatio){
-        double rSum = prValues.a + prValues.b;
-        double rAggrFactor = prValues.a/rSum;
+    public clsPair<Double,Double> shiftQoA_V2 (double poAggrOld, double poLibOld, double prRatio){
+        double rSum = poAggrOld + poLibOld;
+        double rAggrFactor = poAggrOld/rSum;
         double rFactorChange = prRatio -0.5;
         
         double rAggrfactorNew =rAggrFactor+  prRatio;
@@ -134,13 +138,11 @@ protected final Logger log;
      */
    @Override
    public void receive_D1_1(eDrive peType, clsPair<Double,Double> oValues) {
-       
-       
        checkBuffer(peType);
-       
-       moLibidoBuffers.put(peType, oValues);
+       moLibidoBuffers.get(peType).setAggr(oValues.a);
+       moLibidoBuffers.get(peType).setLib(oValues.b);
 
-       normalizeBuffers();
+       //normalizeBuffers();
        log.debug(moLibidoBuffers.toString());
    }
 	
@@ -157,18 +159,9 @@ protected final Logger log;
     */
   @Override
   public void receive_D1_2(eDrive peType, clsPair<Double,Double> oValues) {
-      
-      
       checkBuffer(peType);
-      
-      clsPair<Double,Double> oDriveValues = moLibidoBuffers.get(peType);
-      oDriveValues.a += oValues.a;
-      if(oDriveValues.a > 1.0) oDriveValues.b += oDriveValues.a-1.0;
-      oDriveValues.b += oValues.b;
-      if(oDriveValues.b > 1.0) oDriveValues.a += oDriveValues.b-1.0;
-      moLibidoBuffers.put(peType, oDriveValues);
-
-      normalizeBuffers();
+      moLibidoBuffers.get(peType).incAggr(oValues.a);
+      moLibidoBuffers.get(peType).incLib(oValues.b);
       log.debug(moLibidoBuffers.toString());
   }
   
@@ -188,14 +181,8 @@ protected final Logger log;
      
      checkBuffer(peType);
      
-     clsPair<Double,Double> oDriveValues = moLibidoBuffers.get(peType);
-     oDriveValues.a -= oValues.a;
-     if(oDriveValues.a < 0.0) oDriveValues.b += oDriveValues.a;
-     oDriveValues.b -= oValues.b;
-     if(oDriveValues.b < 0.0) oDriveValues.a += oDriveValues.b;
-     moLibidoBuffers.put(peType, oDriveValues);
-
-     normalizeBuffers();
+     moLibidoBuffers.get(peType).decAggr(oValues.a);
+     moLibidoBuffers.get(peType).decLib(oValues.b);
      log.debug(moLibidoBuffers.toString());
  }
 
@@ -210,7 +197,7 @@ protected final Logger log;
   */
  @Override
  public clsPair<Double,Double> send_D1_4(eDrive peType) {
-     return moLibidoBuffers.get(peType);
+     return new clsPair<Double,Double> (moLibidoBuffers.get(peType).getAggr(),moLibidoBuffers.get(peType).getLib());
  }
 
 
@@ -225,7 +212,11 @@ protected final Logger log;
  */
 @Override
 public HashMap<eDrive,clsPair<Double,Double>> send_D1_5() {
-    return moLibidoBuffers;
+    HashMap<eDrive,clsPair<Double,Double>> oRetVal = new HashMap<eDrive,clsPair<Double,Double>> ();
+    for(eDrive oDrive: moLibidoBuffers.keySet()){
+        oRetVal.put(oDrive, new clsPair<Double,Double>(moLibidoBuffers.get(oDrive).getAggr(),moLibidoBuffers.get(oDrive).getLib()));
+    }
+    return oRetVal;
 }
 
 
@@ -238,12 +229,32 @@ public HashMap<eDrive,clsPair<Double,Double>> send_D1_5() {
  */
 @Override
 public void receive_D1_6(eDrive oDrive, Double oShiftFactor) {
-    clsPair<Double,Double> newValues =shiftQoA_V2(moLibidoBuffers.get(oDrive),oShiftFactor);
-    moLibidoBuffers.put(oDrive, newValues);
+    clsPair<Double,Double> newValues =shiftQoA_V2(moLibidoBuffers.get(oDrive).getAggr(),moLibidoBuffers.get(oDrive).getAggr(),oShiftFactor);
+    
+    checkBuffer(oDrive);
+    moLibidoBuffers.get(oDrive).setAggr(newValues.a);
+    moLibidoBuffers.get(oDrive).setLib(newValues.b);
     
     log.debug(moLibidoBuffers.toString());
     
     return;
+}
+
+/**
+ * returns drive
+ * 1. aggressiv
+ * 2. libidinous
+ * 
+ * @author herret
+ * 15.5.2013
+ * 
+ */
+@Override
+public clsPair<Boolean,Boolean> send_D1_7(eDrive peType) {
+    checkBuffer(peType);
+    clsPair<Boolean,Boolean> oRetVal = new clsPair<Boolean,Boolean>(moLibidoBuffers.get(peType).aggressivDecreased(),moLibidoBuffers.get(peType).libidinousDecreased());
+    
+    return oRetVal;
 }
 
    
@@ -346,9 +357,9 @@ public void receive_D1_6(eDrive oDrive, Double oShiftFactor) {
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oValues = new ArrayList<Double>();
 		
-	      for(clsPair<Double,Double> driveVal : moLibidoBuffers.values()){
-	          oValues.add(driveVal.a);
-	          oValues.add(driveVal.b);
+	      for(clsDriveBuffer driveVal : moLibidoBuffers.values()){
+	          oValues.add(driveVal.getAggr());
+	          oValues.add(driveVal.getLib());
 	        }
 		
 		return oValues;
@@ -455,6 +466,100 @@ public void receive_D1_6(eDrive oDrive, Double oShiftFactor) {
 	public ArrayList<eInterfaces> getInterfacesSend() {
 		return new ArrayList<eInterfaces>( Arrays.asList(eInterfaces.D1_2, eInterfaces.D1_4) );
 	}
+	
+	public void saveOld() {
+	    for(clsDriveBuffer oDrive :moLibidoBuffers.values()){
+	        oDrive.newStep();
+	    }
+	}
 
+    class clsDriveBuffer{
+        private double moAggrValue=0.0;
+        private double moLibValue=0.0;
+        private double moAggrValueOld=0.0;
+        private double moLibValueOld=0.0;
+        
+        public void newStep(){
+            moAggrValueOld=moAggrValue;
+            moLibValueOld=moLibValue;
+        }
+        
+        public boolean aggressivDecreased(){
+            if(moAggrValueOld>moAggrValue) return true;
+            else return false;
+        }
+        public boolean libidinousDecreased(){
+            if(moLibValueOld>moLibValue) return true;
+            else return false;
+        }
+        
+        public void incAggr(double poValue){
+            moAggrValue += poValue;
+            if(moAggrValue> 1.0){
+                double tmp = moAggrValue -1.0;
+                moAggrValue = 1.0;
+                moLibValue += tmp;
+                if(moLibValue> 1.0)moLibValue =1.0; 
+            }
+        }
+        
+        public void decAggr(double poValue){
+            moAggrValue -= poValue;
+            if(moAggrValue< 0.0){
+                double tmp = moAggrValue*-1;
+                moAggrValue = 0.0;
+                moLibValue -= tmp;
+                if(moLibValue< 0.0)moLibValue =0.0; 
+            }
+        }
+        
+        public void setAggr(double poValue){
+            if(poValue > 1.0) moAggrValue=1.0;
+            else if(poValue < 0.0) moAggrValue=0.0;
+            else moAggrValue=poValue;
+        }
+        
+        
+        public void incLib(double poValue){
+            moLibValue += poValue;
+            if(moLibValue> 1.0){
+                double tmp = moLibValue -1.0;
+                moLibValue = 1.0;
+                moAggrValue += tmp;
+                if(moAggrValue> 1.0)moAggrValue =1.0; 
+            }
+        }
+        
+        public void decLib(double poValue){
+            moLibValue -= poValue;
+            if(moLibValue< 0.0){
+                double tmp = moLibValue*-1;
+                moLibValue = 0.0;
+                moAggrValue -= tmp;
+                if(moAggrValue< 0.0)moAggrValue =0.0; 
+            }
+        }
+        
+        public void setLib(double poValue){
+            if(poValue > 1.0) moLibValue=1.0;
+            else if(poValue < 0.0) moLibValue=0.0;
+            else moLibValue=poValue;
+        }
+        
+        public double getAggr(){
+            return moAggrValue;
+        }
+        public double getLib(){
+            return moLibValue;
+        }
+        
+        @Override
+        public String toString(){
+            return "Aggr: "+moAggrValue+" ("+moAggrValueOld+"); Lib: "+ moLibValue+" ("+moLibValueOld+")";
+        }
+        
+        
+    }
 	
 }
+
