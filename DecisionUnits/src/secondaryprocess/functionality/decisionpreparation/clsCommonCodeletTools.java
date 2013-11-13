@@ -51,7 +51,7 @@ public class clsCommonCodeletTools {
 	    clsWordPresentationMeshSelectableGoal result = clsWordPresentationMeshSelectableGoal.getNullObject();
 	    
 	    for (clsWordPresentationMeshSelectableGoal goal : selectableGoalList) {
-	        if (goal.getGoalContentIdentifier().equals(currentGoal.getGoalContentIdentifier())) {
+	        if(goal.isEquivalentDataStructure(currentGoal)) {
 	            result = goal;
 	        }
 	    }
