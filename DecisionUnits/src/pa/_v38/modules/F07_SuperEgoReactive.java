@@ -34,13 +34,13 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import datatypes.helpstructures.clsPair;
 import datatypes.helpstructures.clsTriple;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
-
 import statictools.clsGetARSPath;
 
 /**
@@ -85,7 +85,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private Object moMergedPrimaryInformation;
 	private ArrayList<clsDriveMesh> moDrives;
 	private ArrayList<clsReadSuperEgoRules> oRegeln;     //die Regeln die das Über-Ich verbietet Ivy
-	private ArrayList<clsPair<eDriveComponent, eOrgan>> moForbiddenDrives;
+	private ArrayList<clsSuperEgoConflict> moForbiddenDrives;
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions;
 	private ArrayList<eEmotionType> moForbiddenEmotions;
 	
@@ -400,7 +400,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
 		
-		moForbiddenDrives = new ArrayList<clsPair<eDriveComponent, eOrgan>>();
+		moForbiddenDrives = new ArrayList<clsSuperEgoConflict>();
 		moForbiddenPerceptions = new ArrayList<clsPair<eContentType,String>>();
 		moForbiddenEmotions = new ArrayList<eEmotionType>();
 		
@@ -986,7 +986,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
                                     
                                     for (int fd = 0; fd < oRegeln.get(i).FDriveSize(); fd++) {
                                         if (!moForbiddenDrives.contains(oRegeln.get(i).getForbiddenDrive(fd))) 
-                                            moForbiddenDrives.add(oRegeln.get(i).getForbiddenDrive(fd));
+                                            moForbiddenDrives.add(new clsSuperEgoConflict(oRegeln.get(i).getForbiddenDrive(fd)));
                                     }
                                     for (int fp = 0; fp < oRegeln.get(i).FObjectSize(); fp++) {
                                         if (!moForbiddenPerceptions.contains(oRegeln.get(i).getForbiddenObject(fp))) 
@@ -1079,7 +1079,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_13_send#send_I5_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrives, ArrayList<clsDriveMesh> poData,ArrayList<eEmotionType> poForbiddenEmotions,ArrayList<clsEmotion> poEmotions) {
+	public void send_I5_13(ArrayList<clsSuperEgoConflict> poForbiddenDrives, ArrayList<clsDriveMesh> poData,ArrayList<eEmotionType> poForbiddenEmotions,ArrayList<clsEmotion> poEmotions) {
 		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poForbiddenDrives, poData, poEmotions);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenDrives, poData);

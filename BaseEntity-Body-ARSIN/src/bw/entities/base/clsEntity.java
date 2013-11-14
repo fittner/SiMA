@@ -28,6 +28,7 @@ import bw.inspector.interfaces.itfEntityInspectorFactory;
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eFacialExpression;
+import du.enums.eOdor;
 import du.enums.eSpeechExpression;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
@@ -108,6 +109,7 @@ public abstract class clsEntity implements itfGetBody {
 	//additional perception values
 	protected double mrVisionBrightness = 0.0;
 	private BufferedImage mnCarriedItem;
+	private eOdor moOdor = eOdor.UNDEFINED;
 	
 	public clsEntity(String poPrefix, clsProperties poProp, int uid) {
 		this.uid = uid;
@@ -576,6 +578,14 @@ public abstract class clsEntity implements itfGetBody {
 
 	public void setVisionBrightness(double mrVisionBrightness) {
 		this.mrVisionBrightness = mrVisionBrightness;
+	}
+	
+	public eOdor getOdor() {
+		return this.moOdor;
+	}
+	
+	public eOdor setOdor( eOdor moOdor) {
+		return this.moOdor  = moOdor;
 	}
 	
 	public abstract clsEntity dublicate(clsProperties poPrperties, double poDistance, double poSplitFactor);

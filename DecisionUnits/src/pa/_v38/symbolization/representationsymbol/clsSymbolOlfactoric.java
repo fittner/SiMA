@@ -3,7 +3,7 @@ package pa._v38.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import du.itf.sensors.clsEatableAreaEntry;
+
 import du.itf.sensors.clsOlfactoricEntry;
 import du.itf.sensors.clsSensorExtern;
 
@@ -32,7 +32,7 @@ public class clsSymbolOlfactoric extends du.itf.sensors.clsOlfactoric implements
 		ArrayList<itfSymbol> oResult =  new ArrayList<itfSymbol>();
 		
 		for (clsSensorExtern oEntry:oSE) {
-			oResult.add( new clsSymbolEatableAreaEntry( (clsEatableAreaEntry)oEntry) );
+			oResult.add( new clsSymbolOlfactoricEntry( (clsOlfactoricEntry)oEntry) );
 		}
 		
 		return oResult;

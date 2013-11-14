@@ -21,6 +21,7 @@ import statictools.eventlogger.eEvent;
 
 import config.clsProperties;
 import du.enums.eEntityType;
+import du.enums.eOdor;
 import entities.factory.clsEntityFactory;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.enums.eShapeType;
@@ -194,6 +195,13 @@ public class clsSprout extends clsOrganic implements itfGetFlesh, itfAPEatable, 
 	public clsFlesh getFlesh() {
 		return ((clsMeatBody)moBody).getFlesh();
 	}
+	
+	@Override
+	public eOdor getOdor() {
+		return eOdor.MUSKY;
+	}
+	
+
 	
 	/*
 	 * Interface Eatable

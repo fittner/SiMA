@@ -39,7 +39,7 @@ public class TestException extends Exception {
      * @param arg3
      */
     public TestException(String arg0, Throwable arg1, boolean arg2, boolean arg3) {
-        super(arg0, arg1, arg2, arg3);
+        super(arg0, arg1);
         // TODO (wendt) - Auto-generated constructor stub
     }
 

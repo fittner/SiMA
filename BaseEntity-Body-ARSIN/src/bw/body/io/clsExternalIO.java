@@ -40,6 +40,7 @@ import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorManipulateArea;
+import bw.body.io.sensors.external.clsSensorOlfactoric;
 import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.io.sensors.external.clsSensorVision;
@@ -222,6 +223,8 @@ public class clsExternalIO extends clsBaseIO {
 												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));*/
 		numsensors++;
 		
+		
+		
 		oProp.putAll( clsSensorPositionChange.getDefaultProperties( pre+numsensors) );
 		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.POSITIONCHANGE.name());		
@@ -244,6 +247,18 @@ public class clsExternalIO extends clsBaseIO {
 		numsensors++;
 		// MW **
 	
+		oProp.putAll( clsSensorOlfactoric.getDefaultProperties( pre+numsensors) );
+        oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
+        oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.OLFACTORIC.name());
+        oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, 60.0 ); 
+        oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
+        oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.OLFACTORIC.name());
+        oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 60);
+        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 1 );
+        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, 60);
+        numsensors++;
+        
 		oProp.setProperty(pre+P_NUMSENSORS, numsensors);
 		
 		return oProp;
@@ -384,10 +399,11 @@ public class clsExternalIO extends clsBaseIO {
 					if(eType.name().equals(eSensorExtType.RADIATION.name()))sensorExt=new clsSensorRadiation(tmp_pre, poProp, this); 
 					if(eType.name().equals(eSensorExtType.EATABLE_AREA.name()))sensorExt=new clsSensorEatableArea(tmp_pre, poProp, this); 
 					if(eType.name().equals(eSensorExtType.MANIPULATE_AREA.name()))sensorExt=new clsSensorManipulateArea(tmp_pre, poProp, this); 
+					
 					if(eType.name().equals(eSensorExtType.POSITIONCHANGE.name()))sensorExt=new clsSensorPositionChange(tmp_pre, poProp, this); 
 					
 					if(eType.name().equals(eSensorExtType.VISION_SELF.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
-					
+					if(eType.name().equals(eSensorExtType.OLFACTORIC.name()))sensorExt=new clsSensorOlfactoric(tmp_pre, poProp, this); 
 					
 					moSensorEngine.registerSensor(eType, sensorExt);
 			}

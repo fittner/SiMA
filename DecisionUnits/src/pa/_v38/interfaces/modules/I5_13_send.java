@@ -8,13 +8,10 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import datatypes.helpstructures.clsPair;
-import du.enums.eOrgan;
-import du.enums.pa.eDriveComponent;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.enums.eEmotionType;
-//import pa._v38.modules.clsEmotion;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
 
 
 /**
@@ -25,5 +22,5 @@ import pa._v38.memorymgmt.enums.eEmotionType;
  * 
  */
 public interface I5_13_send {
-	public void send_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrive, ArrayList<clsDriveMesh> poData,ArrayList<eEmotionType> poForbiddenEmotions,ArrayList<clsEmotion> poEmotions);
+	public void send_I5_13(ArrayList<clsSuperEgoConflict> poForbiddenDrive, ArrayList<clsDriveMesh> poData,ArrayList<eEmotionType> poForbiddenEmotions,ArrayList<clsEmotion> poEmotions);
 }
