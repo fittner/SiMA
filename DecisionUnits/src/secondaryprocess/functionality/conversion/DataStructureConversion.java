@@ -12,12 +12,15 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureConverter;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import secondaryprocess.algorithm.conversion.DataStructureConversionTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.HackMethods;
+import testfunctions.clsTester;
 import datatypes.helpstructures.clsPair;
 
 /**
@@ -54,11 +57,92 @@ public class DataStructureConversion {
         // 1. Get all Images of the Mesh
         ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 4);
         
-        //HackMethods.reduceImageListTPM("A01", oRITPMList);
+        HackMethods.reduceImageListTPM("A01", oRITPMList);
         
         // 2. Search for WPM for the image and add the found image to a list.
         // The WPM is connected with the TPM by an associationWP
         //ArrayList<clsWordPresentationMesh> oRIWPMList = new ArrayList<clsWordPresentationMesh>();
+        ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = convertRITPMtoWPM(ltm, oRITPMList);
+        
+        //Enhance all subimages of intentions with all secondary process associations
+        ArrayList<clsWordPresentationMesh> enhancedRIWPMListWithIntentions = enhanceIntentions(oEnhancedRIWPMList, ltm);
+        
+        
+        // Create a List of all loaded acts and other memories
+        //ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.organizeImagesInActs(oEnhancedRIWPMList);
+        ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.organizeImagesInActs(enhancedRIWPMListWithIntentions);
+        log.debug("Found acts: {}", oCategorizedRIWPMList);
+        
+        //ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.processMemories(oEnhancedRIWPMList);
+        
+//      //=== Perform system tests ===//
+//      if (clsTester.getTester().isActivated()) {
+//          try {
+//              clsTester.getTester().exeTestCheckPIMatch(oCategorizedRIWPMList);
+//          } catch (Exception e) {
+//              log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+//          }
+//      }
+
+        // Output: ArrayList<WPM> for each TPM-Image. The WPM are already
+        // assigned their acts here
+        oRetVal = new clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>>(oPIWPM, oCategorizedRIWPMList);
+        
+        return oRetVal;
+    }
+    
+    private static ArrayList<clsWordPresentationMesh> enhanceIntentions(ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList, itfModuleMemoryAccess ltm) {
+        ArrayList<clsWordPresentationMesh> result = new ArrayList<clsWordPresentationMesh>(oEnhancedRIWPMList);
+        
+        ArrayList<clsWordPresentationMesh> newWPMList = new ArrayList<clsWordPresentationMesh>();
+        
+        for (clsWordPresentationMesh riwpm : oEnhancedRIWPMList) {
+            boolean isIntention = clsActTools.isIntention(riwpm);
+            
+            if (isIntention==true) {
+                //Get all subimages
+                ArrayList<clsWordPresentationMesh> events = clsActTools.getAllSubImages(riwpm);
+                for (clsWordPresentationMesh event : events) {
+                    clsThingPresentationMesh tpm = clsMeshTools.getPrimaryDataStructureOfWPM(event);
+                    //If the structure has a TPM, then it has been treated already and do not need to be used to find additional associations
+                    
+                    if (tpm.isNullObject()==true) {
+                        //ArrayList<clsPair<Double, clsDataStructurePA>> extraWPM = ltm.searchMesh(event, event.getMoContentType(), 1.0, 1);
+                        clsWordPresentationMesh enhancedMesh = (clsWordPresentationMesh) ltm.searchCompleteMesh(event, 1);
+                        
+                        
+                        //=== Perform system tests ===//
+                        clsTester.getTester().setActivated(false);
+                        if (clsTester.getTester().isActivated()) {
+                            try {
+                                clsTester.getTester().exeTestCheckLooseAssociations(enhancedMesh); 
+                            } catch (Exception e) {
+                                log.error("Systemtester has an error in " + clsDataStructureConverter.class.getSimpleName(), e);
+                            }
+                        }
+                        newWPMList.add(enhancedMesh);
+                    }
+                    
+                }
+            }
+        }
+        
+        result.addAll(newWPMList);
+        return result;
+        
+    }
+    
+    /**
+     * DOCUMENT - insert description
+     *
+     * @author wendt
+     * @since 14.11.2013 21:11:55
+     *
+     * @param ltm
+     * @param oRITPMList
+     * @return
+     */
+    private static ArrayList<clsWordPresentationMesh> convertRITPMtoWPM(itfModuleMemoryAccess ltm, ArrayList<clsThingPresentationMesh> oRITPMList) {
         ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = new ArrayList<clsWordPresentationMesh>();
         for (clsThingPresentationMesh oRITPM : oRITPMList) {
             // Convert the complete image to WPM
@@ -80,7 +164,7 @@ public class DataStructureConversion {
             // level 2. Input is a WPM, therefore, only WPM is returned
             // FIXME AW: As the intention is loaded, all other connected
             // containers are loaded here. This is too specialized
-            clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) ltm.searchCompleteMesh(oRIWPM, 2);
+            clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) ltm.searchCompleteMesh(oRIWPM, 3);
             
             
             //1. Add all PI-Matches as WP to each image
@@ -113,26 +197,7 @@ public class DataStructureConversion {
             // System.out.println("oEnhancedList Size: " +
             // oEnhancedList.size());
         }
-
-        // Create a List of all loaded acts and other memories
-        ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.organizeImagesInActs(oEnhancedRIWPMList);
-        log.debug("Found acts: {}", oCategorizedRIWPMList);
         
-        //ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.processMemories(oEnhancedRIWPMList);
-        
-//      //=== Perform system tests ===//
-//      if (clsTester.getTester().isActivated()) {
-//          try {
-//              clsTester.getTester().exeTestCheckPIMatch(oCategorizedRIWPMList);
-//          } catch (Exception e) {
-//              log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
-//          }
-//      }
-
-        // Output: ArrayList<WPM> for each TPM-Image. The WPM are already
-        // assigned their acts here
-        oRetVal = new clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>>(oPIWPM, oCategorizedRIWPMList);
-        
-        return oRetVal;
+        return oEnhancedRIWPMList;
     }
 }

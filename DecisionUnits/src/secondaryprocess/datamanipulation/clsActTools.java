@@ -33,26 +33,6 @@ public class clsActTools {
 	
 	// ============== ACT CATEGORIZATION START ==============================//
 	
-	private static ArrayList<clsWordPresentationMesh> processMemories(ArrayList<clsWordPresentationMesh> poSingleList) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		
-//		for (clsWordPresentationMesh oImage : poSingleList) {
-//			//Tasks in the memory processing
-//			
-//			//1. Add all PI-Matches as WP to each image
-//			clsActTools.setPIMatchToWPM(oImage); //The adding is done hier at the first place as in this module only images are processed and not entities.
-//			
-//			//2. Delete all primary process external connections
-//			clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oImage));
-//			
-//		}
-		
-		//3. Organize all loose images in acts
-		//oRetVal = organizeImagesInActs(poSingleList);
-		
-		return oRetVal;
-	}
-	
 	/**
 	 * Create a list of categorized memories. Each act is given a single entry of the type prediction. The prediction is
 	 * a WPM, which contains Moment, Intention and Expectation
@@ -82,7 +62,6 @@ public class clsActTools {
 			    MeshProcessor x = new MeshProcessor();
 			    x.setSafeControlMode(false);
 			    x.complementMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI);
-			    //clsMeshTools.mergeMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI);
 			} else {
 				//Create prediction
 				clsWordPresentationMesh oPrediction = clsActDataStructureTools.createActDataStructure(oSuperStructure);
