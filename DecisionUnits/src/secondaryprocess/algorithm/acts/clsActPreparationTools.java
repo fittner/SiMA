@@ -249,7 +249,19 @@ public class clsActPreparationTools {
 				log.trace("Analyze cases: ");
 				for (clsWordPresentationMesh oMoment : oPossibleMomentList) {	    
 				    //Get the confidence of this moment
-				    double rMomentConfidence = clsActTools.getPIMatch(oMoment) * 1/oPossibleMomentList.size();
+				    
+				    //TODO Find a way to calculate the moment confidence if the important moment has not been activated in the primary process
+				    //START TODO ========================================
+				    double rMomentConfidence = 0;
+				    if (clsActTools.getPIMatch(oMoment)==0.0) {
+				        rMomentConfidence = 1.0 * 1/oPossibleMomentList.size();
+				    } else {
+				        rMomentConfidence = clsActTools.getPIMatch(oMoment) * 1/oPossibleMomentList.size();
+				    }
+				    
+				    //STOP TODO =========================================
+				    
+				    
 				    log.trace("=== Momentcandidate: " + oMoment.getMoContent() + ", confidence: " + rMomentConfidence + "===");
 					
 					//Add from confirmation of the acts or moments

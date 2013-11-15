@@ -6,6 +6,8 @@
  */
 package pa._v38.modules;
 
+import general.datamanipulation.PrintTools;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -200,6 +202,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 
 		// --- Update short term memory ---//
 	    ShortTermMemoryFunctionality.createNewMentalSituation(this.moShortTermMemory);
+	    log.debug("Incoming associated images {}", PrintTools.printImagesInMesh(moPerceptionalMesh_IN));//clsMeshTools.getAllTPMImages(moPerceptionalMesh_IN, 5));
 
 		
 		// Search for all images from the primary process in the memory
