@@ -33,7 +33,6 @@ import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngineInterface;
 import secondaryprocess.functionality.shorttermmemory.EnvironmentalImageFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
-import testfunctions.clsTester;
 
 /**
  * The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}. 
@@ -243,17 +242,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//From now, only the environmental image is used
 		
-	    //=== Perform system tests ===//
-        clsTester.getTester().setActivated(false);
-        if (clsTester.getTester().isActivated()) {
-            try {
-                for (clsWordPresentationMeshSelectableGoal mesh : moReachableGoalList_IN) {
-                    clsTester.getTester().exeTestCheckLooseAssociations(mesh.getSupportiveDataStructure()); 
-                }
-            } catch (Exception e) {
-                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
-            }
-        }
         
         // --- INIT GOALS --- //
         log.trace("Incoming goals before init: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));

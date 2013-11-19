@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 
+
 //import pa._v38.interfaces.itfInspectorBarChart;
 import pa._v38.interfaces.itfInspectorBarChartF06;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
@@ -42,10 +43,10 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.toText;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
 import config.clsProperties;
 import datatypes.helpstructures.clsPair;
 import datatypes.helpstructures.clsTriple;
-import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 //import du.enums.pa.ePartialDrive;
 
@@ -80,8 +81,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsDriveMesh> moDriveList_Output;
 
 	
-	
-	private ArrayList<clsPair<eDriveComponent, eOrgan>> moForbiddenDrives_Input;
+	private ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	private ArrayList<clsDriveMesh> moSexualDrives;
 //	private ArrayList<String>Test =new ArrayList<String>();
@@ -141,10 +141,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		   clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 		   DT2_BlockedContentStorage poBlockedContentStorage)
 		   throws Exception {
-	   super(poPrefix, poProp, poModuleList, poInterfaceData);
-	   moBlockedContentStorage = poBlockedContentStorage;
-	   applyProperties(poPrefix, poProp);
-	   moTimeChartData =  new HashMap<String, Double>(); 
+	    super(poPrefix, poProp, poModuleList, poInterfaceData);
+	    moBlockedContentStorage = poBlockedContentStorage;
+	    applyProperties(poPrefix, poProp);
+	    moTimeChartData =  new HashMap<String, Double>();
 	   
 	}
 
@@ -240,10 +240,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	*/
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrives, ArrayList<clsDriveMesh> poData,ArrayList<clsEmotion> poEmotions) {
+	public void receive_I5_13(ArrayList<clsSuperEgoConflict> poForbiddenDrives, ArrayList<clsDriveMesh> poData,ArrayList<clsEmotion> poEmotions) {
 	
 		moDriveList_Input       = (ArrayList<clsDriveMesh>) deepCopy(poData);
-		moForbiddenDrives_Input = (ArrayList<clsPair<eDriveComponent, eOrgan>>) deepCopy(poForbiddenDrives);
+		moForbiddenDrives_Input = (ArrayList<clsSuperEgoConflict>) deepCopy(poForbiddenDrives);
 		moEmotions_Input             = clone(poEmotions);
 		
 	}
@@ -251,18 +251,18 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 	private ArrayList<clsEmotion> clone(ArrayList<clsEmotion> oEmotions) {
 		// deep clone: oEmotions --> oClonedEmotions
-				ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
-				ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
-				for (clsEmotion oOneEmotion : oEmotions) {
-					try {
-						oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
-					} catch (CloneNotSupportedException e) {
-						// Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				return oClonedEmotions;
+		ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
+		ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
+		for (clsEmotion oOneEmotion : oEmotions) {
+			try {
+				oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
+			} catch (CloneNotSupportedException e) {
+				// Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return oClonedEmotions;
 	}
 
 
@@ -513,7 +513,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @param oShiftQuotaOfAffect: oShiftQuotaOfAffect is the amount which is shifted from the quota of affect to the opposite drive
 	 *
 	 */
-	private void defenseMechanism_ReversalOfAffect(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input, double oShiftQuotaOfAffect) {
+	private void defenseMechanism_ReversalOfAffect(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input, double oShiftQuotaOfAffect) {
 	   	
 		// If no forbidden drive in list return immediately (otherwise NullPointerException)
 		// oShiftQuotaOfAffect must always be less or equal to 1, otherwise error
@@ -646,7 +646,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
     *
     */
 	
-	protected void defenseMechanism_Turning_Against_Self (ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input){
+	protected void defenseMechanism_Turning_Against_Self (ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
 	    Turning_Against_Self ++;
 	    TimeTurning_Against_Self=1.0;
 	    
@@ -710,7 +710,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
         
         return poOriginalDM;
     }
-	protected void defenseMechanism_Projection(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input){
+	protected void defenseMechanism_Projection(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
 //	    Projection ++;
 //        TimeProjection=1.0;
 
@@ -796,7 +796,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	 * Displacement means that the drive object is changed.
 	 *
 	 */
-	protected void defenseMechanism_Displacement(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
+	protected void defenseMechanism_Displacement(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
 		
 	    Displacement ++;
 	    TimeDisplacement=1.0;
@@ -817,7 +817,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	   
 	}
 	
-	protected void defense_done(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
+	protected void defense_done(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
 		
 		
 		   ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
@@ -972,7 +972,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	}
 	
 	
-	private void defenseMechanism_ReactionFormation (ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input){
+	private void defenseMechanism_ReactionFormation (ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
 		
 		// List from eDriveContent
 			oOppositeTP.put("NOURISH","BITE");
@@ -997,7 +997,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		 ReactionFormation++;
 	}
 	
-	private void defenseMechanism_Sublimation (ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input){
+	private void defenseMechanism_Sublimation (ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
 		
 	  
 		oOppositeTP.put("NOURISH","TASTE_FOOD_FOR_OTHERS");
@@ -1016,7 +1016,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		Sublimation++;
 	}
 	
-	private void defenseMechanism_Intellectualization(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input){
+	private void defenseMechanism_Intellectualization(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
 		
 	
 		oOppositeTP.put("NOURISH","TAKE_PART_IN_SOCIAL_ACTIVITY");
@@ -1044,7 +1044,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	 */
 	
 	
-	private void defenseMechanism_ReactionFormation_Sublimation_Intellectualization (ArrayList<clsPair<eDriveComponent, eOrgan>> moForbiddenDrives_Input){
+	private void defenseMechanism_ReactionFormation_Sublimation_Intellectualization (ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input){
 				
 			ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
 			
@@ -1138,18 +1138,17 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	* This method represents the defense mechanism "repression"
 	* 
 	*/
-	protected void defenseMechanism_Repression(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
+	protected void defenseMechanism_Repression(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
 		
 		
 		// Iterate over all forbidden drives
-		for (clsPair<eDriveComponent, eOrgan> oPair_DriveComponent_DriveOrgan : oForbiddenDrives_Input) {
+		for (clsSuperEgoConflict oConflict : oForbiddenDrives_Input) {
 				
 			int i = 0;
 			// search in list of incoming drives
 			for(clsDriveMesh oDrive : moDriveList_Output){
 				// check DriveMesh
-				if (oDrive.getDriveComponent().equals(oPair_DriveComponent_DriveOrgan.a) &&
-					oDrive.getActualDriveSourceAsENUM().equals(oPair_DriveComponent_DriveOrgan.b)){
+				if (oConflict.checkDrive(oDrive)) {
 	
 					// drive found
 				    break;
@@ -1189,7 +1188,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	* 
 	*/
 	
-	private double getQuotaOfAffect(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
+	private double getQuotaOfAffect(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
 		
 	  double oSumOfQuotaOfAffect = 0.0;
 	  int i = 0;
@@ -1243,20 +1242,19 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	* It returns those drives from the input drive list which are forbidden (according to the forbidden drive list)
 	* 
 	*/
-	private ArrayList<clsDriveMesh> findInDriveList(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
+	private ArrayList<clsDriveMesh> findInDriveList(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
 		
 	  ArrayList<clsDriveMesh> returnDriveList = new ArrayList<clsDriveMesh>();
 	  
 	  // Iterate over all forbidden drives
 	  //int i=0;
-		for (clsPair<eDriveComponent, eOrgan> oPair_DriveComponent_DriveOrgan : oForbiddenDrives_Input) {
+		for (clsSuperEgoConflict oConflict : oForbiddenDrives_Input) {
 				
 			// search in list of incoming drives
 			for(clsDriveMesh oDrive : moDriveList_Output){
 				
 				// check DriveMesh
-				if (oDrive.getDriveComponent().equals(oPair_DriveComponent_DriveOrgan.a) &&
-					oDrive.getActualDriveSourceAsENUM().equals(oPair_DriveComponent_DriveOrgan.b)){
+				if (oConflict.checkDrive(oDrive)) {
 					
 					// matching drive found
 				    returnDriveList.add(oDrive);
