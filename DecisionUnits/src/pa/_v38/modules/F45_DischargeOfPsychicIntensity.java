@@ -329,21 +329,16 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
     		                            
     		                                // if the perceived action is a drive goal of this DM -> discharge PI
     		                                //oPerceivedAction
-    		                                if(oDM.getActualDriveAim().getMoContent().equals(oPerceivedAction.getMoContent())){
-    		                                    //clsPair<Boolean,Boolean> bBodyEffect = moLibidoBuffer.send_D1_7(oDrive);
-    		                                    if(oDM.getDriveComponent().equals(eDriveComponent.AGGRESSIV)) {
-    		                                        //if action had no effect on the body
-    		                                      //  if(!bBodyEffect.a){
+    		                                if(oDM.getActualDriveAim()!=null){
+    		                                    if(oDM.getActualDriveAim().getMoContent().equals(oPerceivedAction.getMoContent())){
+    		                                        if(oDM.getDriveComponent().equals(eDriveComponent.AGGRESSIV)) {
     		                                            moLibidoBuffer.receive_D1_3(oDrive, new clsPair<Double,Double>(oDM.getPsychicSatisfactionValue(), 0.0) );
-    		                                      //  }
-    		                                    }
-    		                                    else {
-    		                                        //if action had no effect on the body
-    		                                    //    if(!bBodyEffect.b){
+    		                                        }
+    		                                        else {
     		                                            moLibidoBuffer.receive_D1_3(oDrive, new clsPair<Double,Double>(0.0, oDM.getPsychicSatisfactionValue()) );
-    		                                     //   }
-    		                                    }
+    		                                        }
 
+    		                                    }
     		                                }
     			                    }
     			                }
