@@ -281,7 +281,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
 				           // workaround: create TPM from TP. action should be a TPM, but comes from F14 as TP
 				            oPerceivedAction = clsDataStructureGenerator.generateTPM(new clsTriple <eContentType, ArrayList<clsThingPresentation>, Object> (oPerceivedActionTP.getMoContentType(), new ArrayList<clsThingPresentation>(), oPerceivedActionTP.getMoContent()) );
 				            
-				            // if agents perceive actions -> get the object teh agent uses				            
+				            // if agents perceive actions -> get the object the agent uses				            
 			                for (clsAssociation oAss:  oImage.getMoInternalAssociatedContent()) {
 			                   
 			                    oNearCenterEntity = (clsThingPresentationMesh) oAss.getLeafElement();
@@ -317,21 +317,29 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
     			                        // if sexual drive --> discharge Psychic intensity(PI)
     		                            // TODO: in future also self-preservation drives (with abstract drive goals, i.e. actions) may trigger discharge of PI
     			                        oDM = (clsDriveMesh) oAss.getLeafElement();
+    		                            eDrive oDrive;
     		                            if(!oDM.getPartialDrive().equals(ePartialDrive.UNDEFINED)) {
-    		                                
+    		                                //if DM is sexual drive
+    		                                oDrive = eDrive.valueOf(oDM.getPartialDrive().toString());
+    		                            }
+    		                            else{
+    		                                //if DM is self preservation drive
+    		                                oDrive = eDrive.valueOf(oDM.getActualDriveSourceAsENUM().toString());
+    		                            }
+    		                            
     		                                // if the perceived action is a drive goal of this DM -> discharge PI
     		                                //oPerceivedAction
-    		                                if(oDM.getActualDriveAim().getMoContent().equals(oPerceivedAction.getMoContent())){
-    		                                    
-    		                                    if(oDM.getDriveComponent().equals(eDriveComponent.AGGRESSIV)) {
-    		                                        moLibidoBuffer.receive_D1_3(eDrive.valueOf(oDM.getPartialDrive().toString()), new clsPair<Double,Double>(oDM.getQuotaOfAffect(), 0.0) );
-    		                                    }
-    		                                    else {
-                                                    moLibidoBuffer.receive_D1_3(eDrive.valueOf(oDM.getPartialDrive().toString()), new clsPair<Double,Double>(0.0, oDM.getQuotaOfAffect()) );
-    		                                    }
+    		                                if(oDM.getActualDriveAim()!=null){
+    		                                    if(oDM.getActualDriveAim().getMoContent().equals(oPerceivedAction.getMoContent())){
+    		                                        if(oDM.getDriveComponent().equals(eDriveComponent.AGGRESSIV)) {
+    		                                            moLibidoBuffer.receive_D1_3(oDrive, new clsPair<Double,Double>(oDM.getPsychicSatisfactionValue(), 0.0) );
+    		                                        }
+    		                                        else {
+    		                                            moLibidoBuffer.receive_D1_3(oDrive, new clsPair<Double,Double>(0.0, oDM.getPsychicSatisfactionValue()) );
+    		                                        }
 
+    		                                    }
     		                                }
-    		                            }
     			                    }
     			                }
 			               
@@ -373,7 +381,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
 //		}
 		
 //		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
-
+		log.debug(moLibidoBuffer.send_D1_5().toString());
 
 	}
 	

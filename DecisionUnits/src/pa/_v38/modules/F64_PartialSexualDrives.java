@@ -205,7 +205,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 	@Override
 	protected void process_basic() {
 		//partition of the incoming libido value to all partial drives corresponding to the fixation values (moSplitterFactors)
-		
+		log.debug("Before procession F64: "+receive_D1_5().toString());
 		//ORAL
 		send_D1_2(eDrive.ORAL,new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("ORAL")*moPersonalitySplitFactors.get("ORAL"),moLibidoInput * moSplitterFactors.get("ORAL")*(1-moPersonalitySplitFactors.get("ORAL"))));
 		//ANAL
@@ -290,7 +290,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		oLGDM.setQuotaOfAffect( receive_D1_4(eDrive.GENITAL).b);
 		moOutput.add(oLGDM);
 
-
+		log.debug("After procession F64: "+receive_D1_5().toString());
 		
 		//add chart data for all drives:
 		for (clsDriveMesh oDriveMeshEntry : moOutput )

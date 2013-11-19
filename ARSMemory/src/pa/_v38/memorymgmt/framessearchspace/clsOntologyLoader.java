@@ -377,6 +377,16 @@ public class clsOntologyLoader {
 				.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		float rQuotaOfAffect = ((Float) poElement
 				.getOwnSlotValue(poDataContainer.a.getSlot("quotaOfAffect")));
+		float rPsychicSatisfactionValue;
+		try{
+			rPsychicSatisfactionValue = ((Float) poElement
+				.getOwnSlotValue(poDataContainer.a.getSlot("psychic_satisfaction")));
+			System.out.println("");
+		}
+		catch(Exception e){
+			//no QoA_P available 
+			rPsychicSatisfactionValue = 0.0f;
+		}
 		eDriveComponent oDriveComponent = eDriveComponent
 				.valueOf((String) poElement.getOwnSlotValue(poDataContainer.a
 						.getSlot("drive_component")));
@@ -387,7 +397,7 @@ public class clsOntologyLoader {
 				new clsTriple<Integer, eDataType, eContentType>(oID,
 						oElementType, oElementValueType),
 				new ArrayList<clsAssociation>(), rQuotaOfAffect, oElementValue,
-				oDriveComponent, oPartialDrive);
+				oDriveComponent, oPartialDrive,rPsychicSatisfactionValue);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 
 		ArrayList<clsAssociation> oAssociationList = loadClassAssociations(
