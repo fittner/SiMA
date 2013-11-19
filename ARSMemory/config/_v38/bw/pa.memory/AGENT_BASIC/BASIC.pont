@@ -1,4 +1,4 @@
-; Thu Nov 07 20:25:55 CET 2013
+; Tue Nov 19 08:24:29 CET 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -162,6 +162,12 @@
 	(single-slot value_type
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot psychic_satisfaction
+		(type FLOAT)
+		(range 0.0 1.0)
+		(default 0.0)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot emotion
 		(type INSTANCE)
@@ -1024,6 +1030,12 @@
 	(multislot instance_association
 		(type INSTANCE)
 ;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot psychic_satisfaction
+		(type FLOAT)
+		(range 0.0 1.0)
+		(default 0.0)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot value
 		(type STRING)

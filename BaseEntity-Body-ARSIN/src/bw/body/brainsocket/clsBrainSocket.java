@@ -155,6 +155,11 @@ public class clsBrainSocket implements itfStepProcessing {
 		if (moDecisionUnit != null) {
 			moDecisionUnit.update(convertSensorData());
 			moDecisionUnit.process();
+			
+			//receive Action Commands
+			//devide into Internal and External Actions
+			//for all external Action executr moActionProcesser.call()
+			//for all internal Action executr moInternalActionProcesser.call()
 			if (clsSingletonProperties.useLogger()) {
 				moDecisionUnit.updateActionLogger();
 			}

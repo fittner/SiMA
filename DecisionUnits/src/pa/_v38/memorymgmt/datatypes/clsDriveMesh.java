@@ -32,6 +32,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	public static final String moContent = null;
     private double mrQuotaOfAffect = 0.0;				//0-1
+    private double mrPsychicSatisfactionValue = 0.0;
 	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
 	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
 	
@@ -73,7 +74,22 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		moPartialDrive = poPartialDrive;
 		
 		moDriveComponent = poDriveComponent;
+		mrPsychicSatisfactionValue = 0.0;
 	}
+	
+	   public clsDriveMesh(    clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poInternalAssociatedContent, double prQuotaOfAffect, String poContent, eDriveComponent poDriveComponent, ePartialDrive poPartialDrive, double poPsychicSatisfaction) {
+	        super(poDataStructureIdentifier);
+	        // TODO (schaat) - Auto-generated constructor stub
+	        
+	        mrQuotaOfAffect = prQuotaOfAffect;
+	        moInternalAssociatedContent = poInternalAssociatedContent;
+	        moDebugInfo = poContent;
+	            
+	        moPartialDrive = poPartialDrive;
+	        
+	        moDriveComponent = poDriveComponent;
+	        mrPsychicSatisfactionValue = poPsychicSatisfaction;
+	    }
 	
 	
 	public clsThingPresentationMesh getActualDriveObject(){
@@ -88,6 +104,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		return getAssociatedObject(eContentType.ORIFICE);
 	}
 	
+	public double getPsychicSatisfactionValue(){
+	    return mrPsychicSatisfactionValue;
+	}
 	//orifices are fixed for PA body, thus we can do this here
 	public eOrifice getActualBodyOrificeAsENUM(){
 		

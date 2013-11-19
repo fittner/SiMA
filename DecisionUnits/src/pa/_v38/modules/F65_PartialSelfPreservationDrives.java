@@ -239,7 +239,9 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_basic() {
-		//OVERVIEW: from the body-symbol-tension list, create a set of psychic datastructures that represent the demands+sources+tensions
+		log.debug("PI Buffer befor processing F65:\n"+moLibidoBuffer.send_D1_5().toString());
+	    
+	    //OVERVIEW: from the body-symbol-tension list, create a set of psychic datastructures that represent the demands+sources+tensions
 		HashMap<String, Double> oNormalizedHomeostatsisSymbols = null;
 		
 		
@@ -259,6 +261,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		    }
 		    
         }
+		
+		log.debug("PI Buffer after processing F65:\n"+moLibidoBuffer.send_D1_5().toString());
 		/*
 		// 3- create a drivecandidate for every entry in the list, set the tension, organ orifice
 		for( Entry<String, Double> oEntry : oNormalizedHomeostatsisSymbols.entrySet())

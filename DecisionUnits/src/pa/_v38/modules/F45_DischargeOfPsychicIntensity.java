@@ -330,18 +330,18 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
     		                                // if the perceived action is a drive goal of this DM -> discharge PI
     		                                //oPerceivedAction
     		                                if(oDM.getActualDriveAim().getMoContent().equals(oPerceivedAction.getMoContent())){
-    		                                    clsPair<Boolean,Boolean> bBodyEffect = moLibidoBuffer.send_D1_7(oDrive);
+    		                                    //clsPair<Boolean,Boolean> bBodyEffect = moLibidoBuffer.send_D1_7(oDrive);
     		                                    if(oDM.getDriveComponent().equals(eDriveComponent.AGGRESSIV)) {
     		                                        //if action had no effect on the body
-    		                                        if(!bBodyEffect.a){
-    		                                            moLibidoBuffer.receive_D1_3(eDrive.valueOf(oDM.getPartialDrive().toString()), new clsPair<Double,Double>(oDM.getQuotaOfAffect(), 0.0) );
-    		                                        }
+    		                                      //  if(!bBodyEffect.a){
+    		                                            moLibidoBuffer.receive_D1_3(oDrive, new clsPair<Double,Double>(oDM.getPsychicSatisfactionValue(), 0.0) );
+    		                                      //  }
     		                                    }
     		                                    else {
     		                                        //if action had no effect on the body
-    		                                        if(!bBodyEffect.b){
-    		                                            moLibidoBuffer.receive_D1_3(eDrive.valueOf(oDM.getPartialDrive().toString()), new clsPair<Double,Double>(0.0, oDM.getQuotaOfAffect()) );
-    		                                        }
+    		                                    //    if(!bBodyEffect.b){
+    		                                            moLibidoBuffer.receive_D1_3(oDrive, new clsPair<Double,Double>(0.0, oDM.getPsychicSatisfactionValue()) );
+    		                                     //   }
     		                                    }
 
     		                                }
@@ -386,7 +386,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
 //		}
 		
 //		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
-
+		log.debug(moLibidoBuffer.send_D1_5().toString());
 
 	}
 	
