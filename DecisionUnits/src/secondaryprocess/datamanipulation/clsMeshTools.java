@@ -51,8 +51,8 @@ public class clsMeshTools {
 	/** This is the max depth, which can be search for (wendt); @since 04.06.2012 15:23:49 */
 	private static int mnMaxLevel = 10;
 	
-	private static final clsThingPresentationMesh moNullObjectTPM = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.NULLOBJECT, new ArrayList<clsThingPresentation>(), eContentType.NULLOBJECT.toString()));
-	private static final clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
+	//private static final clsThingPresentationMesh moNullObjectTPM = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.NULLOBJECT, new ArrayList<clsThingPresentation>(), eContentType.NULLOBJECT.toString()));
+	//private static final clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	private static final Logger log = clsLogger.getLog("Meshtools");
 	
 	//=== STATIC VARIBALES --- END ===//
@@ -1011,7 +1011,7 @@ public class clsMeshTools {
 	 * @return
 	 */
 	public static clsThingPresentationMesh getPrimaryDataStructureOfWPM(clsWordPresentationMesh poInput) {
-		clsThingPresentationMesh oRetVal = clsMeshTools.moNullObjectTPM;
+		clsThingPresentationMesh oRetVal = clsMeshTools.getNullObjectTPM();
 		
 		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationWordPresentation && oAss.getRootElement() instanceof clsThingPresentationMesh) {
@@ -1744,7 +1744,7 @@ public class clsMeshTools {
 	}
 	
 	public static clsWordPresentationMesh getUniquePredicateWPM(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
-		clsWordPresentationMesh oResult = clsMeshTools.moNullObjectWPM;
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
 		
 		clsDataStructurePA oResultPrel = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, false);
 		

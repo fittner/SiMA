@@ -1,4 +1,4 @@
-; Tue Nov 12 15:14:11 CET 2013
+; Fri Nov 15 11:50:42 CET 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3784,7 +3784,7 @@
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3ADRIVEOBJECT%3ASTONE%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.6)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 

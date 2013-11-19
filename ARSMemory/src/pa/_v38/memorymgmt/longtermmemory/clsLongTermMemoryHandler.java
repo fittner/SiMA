@@ -32,6 +32,7 @@ import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivation;
 import pa._v38.tools.clsDebugTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -267,7 +268,9 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		//Move all associations from the found structure to the original structure of the input. This is used in Spreadactivation where the mesh is "growing"
 		if (poInput instanceof clsWordPresentationMesh) {
 			clsDebugTools.correctErronerusAssociations((clsWordPresentationMesh) oRetVal);
-			clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
+			MeshProcessor merger = new MeshProcessor();
+			merger.complementMesh((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
+			//clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
 			
 		} else if (poInput instanceof clsThingPresentationMesh) {
 			clsMeshTools.moveAllAssociations((clsThingPresentationMesh)poInput, (clsThingPresentationMesh)oRetVal);
