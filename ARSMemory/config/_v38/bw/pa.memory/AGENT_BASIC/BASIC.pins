@@ -1,4 +1,4 @@
-; Fri Nov 15 11:50:42 CET 2013
+; Tue Nov 19 08:30:14 CET 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3624,6 +3624,7 @@
 		[AD%3AAIM%3ABODO%3ABEAT%3AANAL]
 		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3AANAL])
 	(partial_drive "ANAL")
+	(psychic_satisfaction 0.2)
 	(quotaOfAffect 0.2)
 	(value "DM:ANAL:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
@@ -3636,6 +3637,7 @@
 		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3APHALLIC]
 		[AD%3AAIM%3ABODO%3ABEAT%3APHALLIC])
 	(partial_drive "PHALLIC")
+	(psychic_satisfaction 0.2)
 	(quotaOfAffect 0.2)
 	(value "DM:PHALIC:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
@@ -3726,6 +3728,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ADIVIDE]
 		[AD%3AAIM%3ACAKE%3ADIVIDE])
 	(partial_drive "UNDEFINED")
+	(psychic_satisfaction 0.2)
 	(quotaOfAffect 0.2)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
@@ -3895,6 +3898,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ASPEAK]
 		[AD%3AAIM%3ACAKE%3ASPEAK])
 	(partial_drive "ORAL")
+	(psychic_satisfaction 0.2)
 	(quotaOfAffect 0.2)
 	(value "DM:ORAL:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
@@ -4402,6 +4406,11 @@
 ([TP%3AINTENSITY%3ASTRONG] of  INTENSITY
 
 	(value "STRONG"))
+
+([TP%3APERCEIVEDACTION%3ABEAT] of  PERCEIVEDACTION
+
+	(value "BEAT")
+	(value_type "PERCEIVEDACTION"))
 
 ([TP%3APERCEIVEDACTION%3ADROP] of  PERCEIVEDACTION
 
