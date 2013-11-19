@@ -37,7 +37,7 @@ public class clsSuperEgoConflict {
         setPreferedDefense(poPreferedDefense);
     }
 
-    public boolean checkDrive(clsDriveMesh poDrive) {
+    public boolean isConflict(clsDriveMesh poDrive) {
         boolean bIsConflict = false; 
         
         if(poDrive != null) {

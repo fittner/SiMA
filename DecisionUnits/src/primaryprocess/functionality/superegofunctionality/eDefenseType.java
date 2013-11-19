@@ -20,6 +20,11 @@ public enum eDefenseType {
     NO_DEFENSE, //this means that the defense module should NOT defend against the drive representation that with this
 
     // Now for the real defense mechanisms //
-    SUBLIMATION
+    SUBLIMATION,
+    DISPLACEMENT,
+    REACTIONFORMATION,
+    REVERSAL_OF_AFFECT,
+    PROJECTION,
+    REPRESSION
     //....//
 }

@@ -1148,7 +1148,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 			// search in list of incoming drives
 			for(clsDriveMesh oDrive : moDriveList_Output){
 				// check DriveMesh
-				if (oConflict.checkDrive(oDrive)) {
+				if (oConflict.isConflict(oDrive)) {
 	
 					// drive found
 				    break;
@@ -1254,7 +1254,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 			for(clsDriveMesh oDrive : moDriveList_Output){
 				
 				// check DriveMesh
-				if (oConflict.checkDrive(oDrive)) {
+				if (oConflict.isConflict(oDrive)) {
 					
 					// matching drive found
 				    returnDriveList.add(oDrive);
