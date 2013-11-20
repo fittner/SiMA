@@ -213,6 +213,11 @@ public class clsPsychicSpreadActivation {
 			rAccumulatedSum += oNode.getMrPsychicPotential();
 			//oNode.setMrAccumulatedSum(rAccumulatedSum);
 			
+			
+			
+			
+//			//TODO (Kollmann): HACK This is a simplified version of the spread activation that works with a hardcoded number of elements - this is for testing only 
+//			if (i < 30) {
 			//Check if P >=  accumulated sum
 			if (oNode.getMrP() >= rAccumulatedSum && i < pnMaximumDirectActivationValue) {
 				log.trace(oNode.toString() + " activated");
