@@ -33,10 +33,8 @@ import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionali
 import testfunctions.clsTester;
 
 /**
- * The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered 
- * according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. 
- * The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis 
- * forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check. 
+ * The task of this module is to focus the external perception on ``important'' things. Important things are decided by the
+ * plan goal, which is extracted from the Short-Term-Memory.
  * 
  * TODO (kohlhauser) - consider free energy
  * 
@@ -235,8 +233,6 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
          GoalHandlingFunctionality.extractGoalFromContext(moReachableGoalList_OUT);
          //sets Context to ContextSource for Calculation  
         // GoalHandlingFunctionality.setConditionToContextSource(moReachableGoalList_OUT);
-        
-         
          
 		log.debug("Extracted goals : " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		
@@ -367,7 +363,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check.";
+		moDescription = " The task of this module is to focus the external perception on ``important'' things. Important things are decided by the plan goal, which is extracted from the Short-Term-Memory.";
 	}
 
   
