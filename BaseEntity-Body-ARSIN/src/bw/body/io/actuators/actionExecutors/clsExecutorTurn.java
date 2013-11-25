@@ -12,7 +12,6 @@ import config.clsProperties;
 import java.util.ArrayList;
 
 import sim.physics2D.util.Angle;
-import bfg.utils.enums.ePercievedActionType;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsMobile;
@@ -85,19 +84,23 @@ public class clsExecutorTurn extends clsActionExecutor{
 	@Override
 	public boolean execute(clsActionCommand poCommand) {
 		clsActionTurn oCommand = (clsActionTurn) poCommand;
+        clsAction oAction = new clsAction(1);
     	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT){
     	    moEntity.setOverlayImage(eImages.Overlay_Action_TurnLeft);
     		//moEntity.setOverlayImage(eImages.Overlay_Action_OuterSpeech_Eat);
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/180*Math.PI*(-1.0)));
+            oAction.setActionName("TURN_LEFT");
     	}
     	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT){
             moEntity.setOverlayImage(eImages.Overlay_Action_TurnRight);
     		//moEntity.setOverlayImage(eImages.Overlay_Action_OuterSpeech_Eat);
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/180*Math.PI));
+    		oAction.setActionName("TURN_RIGHT");
     	}
     	
 		//Attach action to entity
-        clsAction oAction = new clsAction(1,ePercievedActionType.TURN);
+
+
         moEntity.addAction(oAction);
     	return true;
 	}	

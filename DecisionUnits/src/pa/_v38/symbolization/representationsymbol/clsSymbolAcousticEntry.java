@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import bfg.utils.enums.ePercievedActionType;
 
 import du.enums.eAntennaPositions;
 import du.enums.eDistance;
@@ -40,9 +39,7 @@ public class clsSymbolAcousticEntry extends du.itf.sensors.clsAcousticEntry impl
         moExactDebugAngle = poSensor.getExactDebugAngle();
         moBrightness = poSensor.getBrightness();
         moDebugSensorArousal = poSensor.getDebugSensorArousal();
-        
-        moActions = poSensor.getActions();
-        
+                
         
     }
     /* (non-Javadoc)
@@ -72,10 +69,6 @@ public class clsSymbolAcousticEntry extends du.itf.sensors.clsAcousticEntry impl
         return itfSymbolVisionEntry.class.getMethods();
     }
     
-    @Override
-    public ArrayList<ePercievedActionType> getPerceivedAction(){
-        return moActions;
-    }
 
     /* (non-Javadoc)
      *

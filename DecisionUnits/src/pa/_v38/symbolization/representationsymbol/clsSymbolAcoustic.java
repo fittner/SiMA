@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import bfg.utils.enums.eCount;
-import bfg.utils.enums.ePercievedActionType;
 import bfg.utils.enums.eSide;
 
 import du.enums.eAntennaPositions;
@@ -243,15 +242,5 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
 
 
 
-    /* (non-Javadoc)
-     *
-     * @since 25.08.2013 09:45:21
-     * 
-     * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getPerceivedAction()
-     */
-    @Override
-    public ArrayList<ePercievedActionType> getPerceivedAction() {
-        // TODO (hinterleitner) - Auto-generated method stub
-        return null;
-    }   
+ 
 }

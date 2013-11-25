@@ -54,7 +54,6 @@ import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.modules.F07_SuperEgoReactive.clsReadSuperEgoRules;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
-import bfg.utils.enums.ePercievedActionType;
 
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
@@ -1685,11 +1684,11 @@ public class clsGraph extends JGraph {
 		childs.add("Color\n"+"#"+color);
 		childs.add("Alive\n"+ poMemoryObject.getAlive());
 		
-		//add entity actions
+/*		//add entity actions
 		for(ePercievedActionType oAction: poMemoryObject.getActions()){
 			childs.add("Action\n"+oAction.toString());
 		}
-		
+	*/	
 		for (Object oO:childs){
 
 			clsGraphCell oTargetCell = generateGraphCell(oCell, oO);

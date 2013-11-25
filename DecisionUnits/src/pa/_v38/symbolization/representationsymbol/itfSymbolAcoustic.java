@@ -15,7 +15,6 @@ import du.enums.eShapeType;
 
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
-import bfg.utils.enums.ePercievedActionType;
 import du.enums.eSaliency;
 
 /**
@@ -38,7 +37,6 @@ public interface itfSymbolAcoustic extends itfSymbol {
     public double getExactDebugX();
     public double getExactDebugY();
     public double getDebugSensorArousal();
-    public ArrayList<ePercievedActionType> getPerceivedAction();
     /**
      * DOCUMENT (hinterleitner) - insert description
      *

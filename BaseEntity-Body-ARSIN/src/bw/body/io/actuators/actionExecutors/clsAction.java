@@ -6,8 +6,6 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import du.enums.eEntityType;
-import bfg.utils.enums.ePercievedActionType;
 import bw.entities.base.clsEntity;
 /**
  * DOCUMENT (herret) - insert description 
@@ -20,7 +18,7 @@ public class clsAction{
 
 	
 	private int mnLiveTime;
-	private ePercievedActionType moActionType;
+	private String moActionName;
 	private clsEntity moCorrespondingEntity;
 	/**
 	 * DOCUMENT (herret) - insert description 
@@ -30,12 +28,9 @@ public class clsAction{
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsAction(int pnLiveTime, ePercievedActionType poActionType) {
-
+	public clsAction(int pnLiveTime) {
 		mnLiveTime = pnLiveTime;
-		moCorrespondingEntity=null;
-		moActionType = poActionType;
-		
+		moCorrespondingEntity=null;		
 	}
 	
 	public boolean step(){
@@ -55,15 +50,13 @@ public class clsAction{
 	public clsEntity getCorrespondingEntity(){
 		return moCorrespondingEntity;
 	}
-	public eEntityType getCorrespondingEntityType(){
-		if(moCorrespondingEntity!=null){
-			return moCorrespondingEntity.getEntityType();
-		}
-		return null;
-	}
 
-	public ePercievedActionType getActionType(){
-		return moActionType;
+
+	public String getActionName(){
+		return moActionName;
+	}
+	public void setActionName(String poName){
+		moActionName = poName;
 	}
 
 

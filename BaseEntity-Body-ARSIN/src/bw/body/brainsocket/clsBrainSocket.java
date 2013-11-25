@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.slf4j.Logger;
+
 
 import sim.field.grid.DoubleGrid2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -25,7 +27,6 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import bfg.utils.enums.eCount;
-import bfg.utils.enums.ePercievedActionType;
 import bfg.utils.enums.eSide;
 import bw.ARSIN.clsARSIN;
 import bw.body.itfStepProcessing;
@@ -95,6 +96,7 @@ import du.itf.sensors.clsTemperatureSystem;
 import du.itf.sensors.clsUnrealSensorValueVision;
 import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
+import du.itf.sensors.clsVisionEntryAction;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
@@ -120,8 +122,10 @@ public class clsBrainSocket implements itfStepProcessing {
 //	private clsSensorDataCalculation moSensorCalculation;
 	
 	private Vector<clsUnrealSensorValueVision> moUnrealVisionValues;
+	protected final Logger log;
 	
 	public clsBrainSocket(String poPrefix, clsProperties poProp, HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor, itfInternalActionProcessor poInternalActionProcessor) {
+		log = logger.clsLogger.getLog("BrainSocket");
 		moActionProcessor=poActionProcessor;
 		moInternalActionProcessor=poInternalActionProcessor;
 		moSensorsExt = poSensorsExt;
@@ -153,7 +157,9 @@ public class clsBrainSocket implements itfStepProcessing {
 	@Override
 	public void stepProcessing() {
 		if (moDecisionUnit != null) {
-			moDecisionUnit.update(convertSensorData());
+			clsSensorData oData = convertSensorData();
+			log.debug(oData.toString());
+			moDecisionUnit.update(oData);
 			moDecisionUnit.process();
 			
 			//receive Action Commands
@@ -977,13 +983,15 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 	 * @param poSensorType
 	 * @return
 	 */
+	
+	//FIXME: Why accoustic entry has a shapetype color, brightness,... ?
 	private clsAcousticEntry convertAcousticEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		clsAcousticEntry oData = new clsAcousticEntry();
 		
 		if(oEntity != null){ 
 		   oData.setEntityType( getEntityType(collidingObj.moCollider));		
-		   oData.setShapeType( getShapeType(collidingObj.moCollider));
+		   oData.setShapeType( getShapeType(oEntity));
 		   oData.setColor( (Color) oEntity.get2DShape().getPaint());
 		   oData.setEntityId(oEntity.getId());
 		   oData.setBrightness( getEntityBrightness(collidingObj.moCollider));
@@ -991,7 +999,7 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		   oData.setAlive(oEntity.isAlive());
 		
 		   //set corresponding Actions
-		   oData.setActions(convertActions(oEntity.getExecutedActions()));
+		  // oData.setActions(convertActions(oEntity.getExecutedActions()));
 		   
 		   oData.setObjectPosition( collidingObj.meColPos);  
 		   oData.setSensorType(poSensorType);
@@ -1036,13 +1044,14 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 	 * @param poSensorType
 	 * @return
 	 */
+
 	private clsVisionEntry convertVisionEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		clsVisionEntry oData = new clsVisionEntry();
 		
 		if(oEntity != null){ 
 		   oData.setEntityType( getEntityType(collidingObj.moCollider));		
-		   oData.setShapeType( getShapeType(collidingObj.moCollider));
+		   oData.setShapeType( getShapeType(oEntity));
 		   oData.setColor( (Color) oEntity.get2DShape().getPaint());
 		   oData.setEntityId(oEntity.getId());
 		   oData.setBrightness( getEntityBrightness(collidingObj.moCollider));
@@ -1050,8 +1059,20 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		   oData.setAlive(oEntity.isAlive());
 		
 		   //set corresponding Actions
-		   oData.setActions(convertActions(oEntity.getExecutedActions()));
-		   
+		   //oData.setActions(convertActions(oEntity.getExecutedActions()));
+		   //TODO enable more than one action and convert this to a for loop
+
+		   if(oEntity.getExecutedActions().size()>0){
+			   clsVisionEntryAction oActionBrain = new clsVisionEntryAction();
+			   clsAction oActionBody = oEntity.getExecutedActions().get(0);
+			   //add property name
+			   oActionBrain.setActionName(oActionBody.getActionName());
+			   //add property corrsponding entity
+			   if(oActionBody.getCorrespondingEntity()!= null){
+				   oActionBrain.setObject(convertVisionEntry(oEntity));
+			   }
+			   oData.setAction(oActionBrain);
+		   }
 		   oData.setObjectPosition( collidingObj.meColPos);  
 		   oData.setSensorType(poSensorType);
 		    
@@ -1083,6 +1104,18 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		
 		return oData;
 	}
+	
+	private clsVisionEntry convertVisionEntry(clsEntity oEntity) {
+		clsVisionEntry oRetVal = new clsVisionEntry();
+		if (oEntity != null) {
+			oRetVal.setEntityType(oEntity.getEntityType());
+			oRetVal.setShapeType(getShapeType(oEntity));
+			oRetVal.setColor((Color) oEntity.get2DShape().getPaint());
+			oRetVal.setAlive(oEntity.isAlive());
+		}
+		
+		return oRetVal;
+	}
 
 	
 	
@@ -1105,17 +1138,6 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
     }
 	   
 	   
-	   
-	private ArrayList<ePercievedActionType> convertActions(ArrayList<clsAction> poActions){
-	    ArrayList<ePercievedActionType> oRetVal = new ArrayList<ePercievedActionType>();
-	    
-	    for( clsAction oAction : poActions){
-	        oRetVal.add(oAction.getActionType());
-	    }
-	    
-	    return oRetVal;
-	    
-	}
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -1232,11 +1254,11 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		return oResult;
 	}
 	
-	private  du.enums.eShapeType getShapeType(PhysicalObject2D poObject) {
+	private  du.enums.eShapeType getShapeType(clsEntity poObject) {
 		
-		if (poObject.getShape() instanceof  Circle) {
+		if (poObject.get2DShape() instanceof  Circle) {
 			return du.enums.eShapeType.CIRCLE;
-		}else if(poObject.getShape() instanceof  Rectangle){
+		}else if(poObject.get2DShape() instanceof  Rectangle){
 			return du.enums.eShapeType.SQUARE;
 		} else {
 			return du.enums.eShapeType.UNDEFINED;

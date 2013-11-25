@@ -17,7 +17,6 @@ import pa._v38.interfaces.modules.I5_9_receive;
 import pa._v38.interfaces.modules.I5_9_send;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureCompareTools;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -28,8 +27,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eDrive;
-import pa._v38.memorymgmt.enums.eDriveComponent;
+
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import secondaryprocess.datamanipulation.clsMeshTools;
@@ -37,7 +35,7 @@ import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import datatypes.helpstructures.clsPair;
 import datatypes.helpstructures.clsTriple;
-import du.enums.pa.ePartialDrive;
+
 
 /**
  * F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine 
@@ -265,7 +263,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
 			if(oImage.getMoContentType() == eContentType.PI){
 				mrLibidoReducedBy += setImageLibido(oImage, mrPerceptionReduceFactor, mrAvailableLibido);
 				
-				
+/*				
 				// reduce PI, if agent perceive action that has no feedback on body
 				oSelfEntity = getPerceivedSelf(oImage);
 				
@@ -324,6 +322,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
     		                            }
     		                            else{
     		                                //if DM is self preservation drive
+    		                                if (oDM.getActualBodyOrificeAsENUM() == eOrifice.UNDEFINED ) continue;
     		                                oDrive = eDrive.valueOf(oDM.getActualDriveSourceAsENUM().toString());
     		                            }
     		                            
@@ -352,7 +351,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
 				    }
 				}
 				
-				
+*/				
 				
 		         
 

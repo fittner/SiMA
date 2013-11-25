@@ -11,7 +11,6 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
-import bfg.utils.enums.ePercievedActionType;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
@@ -185,7 +184,8 @@ public class clsExecutorEat extends clsActionExecutor{
 
 		//3) attach eat to the self 
         
-        clsAction oAction = new clsAction(1,ePercievedActionType.EAT);
+        clsAction oAction = new clsAction(1);
+        oAction.setActionName("EAT");
         oAction.attachEntity(oEatenEntity);
         moEntity.addAction(oAction);
 		

@@ -11,7 +11,6 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
-import bfg.utils.enums.ePercievedActionType;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
@@ -137,7 +136,8 @@ public class clsExecutorAttackBite extends clsActionExecutor{
 		//Bite!
 		oOpponent.bite(oCommand.getForce()*mrForceScalingFactor);
 		
-        clsAction oAction = new clsAction(1,ePercievedActionType.ATTACK_BITE);
+        clsAction oAction = new clsAction(1);
+        oAction.setActionName("ATTACK_BITE");
         oAction.attachEntity((clsEntity)oOpponent);
         moEntity.addAction(oAction);
 		

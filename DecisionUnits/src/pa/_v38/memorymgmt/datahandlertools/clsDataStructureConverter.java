@@ -97,6 +97,52 @@ public class clsDataStructureConverter {
 			if (oM.getName().equals("getSymbolObjects")) {
 				continue;
 			}
+			if (oM.getName().equals("getSymbolAction")){
+			    Object oAction = null;
+                try {
+                    oAction = oM.invoke(poSymbolObject,new Object[0]);
+                } catch (IllegalAccessException e) {
+                    // TODO (herret) - Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    // TODO (herret) - Auto-generated catch block
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    // TODO (herret) - Auto-generated catch block
+                    e.printStackTrace();
+                }
+			    if(oAction!=null){
+			  
+			        clsThingPresentationMesh oTPMAction = (clsThingPresentationMesh) convertSymbolsToTPM((itfSymbol)oAction);
+			        oExternalAssociatedContent.add(oTPMAction);
+			    }
+			    
+			    continue;
+	        
+		        
+		            
+			}
+			if(oM.getName().equals("getObjectSymbolVisionEntry")){
+	             Object oAction = null;
+	                try {
+	                    oAction = oM.invoke(poSymbolObject,new Object[0]);
+	                } catch (IllegalAccessException e) {
+	                    // TODO (herret) - Auto-generated catch block
+	                    e.printStackTrace();
+	                } catch (IllegalArgumentException e) {
+	                    // TODO (herret) - Auto-generated catch block
+	                    e.printStackTrace();
+	                } catch (InvocationTargetException e) {
+	                    // TODO (herret) - Auto-generated catch block
+	                    e.printStackTrace();
+	                }
+	                if(oAction!=null){
+	                    clsThingPresentationMesh oTPMObject = (clsThingPresentationMesh) convertSymbolsToTPM((itfSymbol)oAction);
+	                    oExternalAssociatedContent.add(oTPMObject);
+	                }
+	                
+	                continue;
+			}
 			
 			clsThingPresentation oTP = null;
 			eContentType oContentTypeTP = eContentType.DEFAULT; 
@@ -148,7 +194,7 @@ public class clsDataStructureConverter {
 				{
 					//do nothing, as this is not wanted information in the psyApperatus
 				}
-				else if(oM.getName().equals("getPerceivedAction")){
+		/*		else if(oM.getName().equals("getPerceivedAction")){
 				    oContentTypeTP = eContentType.PERCEIVEDACTION;
 				    
 	                ArrayList<Object> oContents = new ArrayList<Object>();
@@ -168,7 +214,7 @@ public class clsDataStructureConverter {
                         oAssociatedContent.add(oTP); 
                     }
                     continue;
-				}
+				}*/
 				{
 					try {
 						oContentTP = oM.invoke(poSymbolObject,new Object[0]);

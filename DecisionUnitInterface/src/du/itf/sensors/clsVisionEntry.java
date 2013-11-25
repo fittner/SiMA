@@ -12,7 +12,6 @@ import java.util.Formatter;
 
 import du.enums.eAntennaPositions;
 
-import bfg.utils.enums.ePercievedActionType;
 import bfg.utils.enums.eSide;
 import du.enums.eSaliency;
 
@@ -36,16 +35,26 @@ public class clsVisionEntry extends clsSensorRingSegmentEntry {
 	protected double moExactDebugAngle;
 	protected double moDebugSensorArousal;
 	protected double moObjectBodyIntegrity;
-	
-	protected ArrayList<ePercievedActionType> moActions = new ArrayList<ePercievedActionType>();
+	protected clsVisionEntryAction moAction;
+		
+	/**
+	 * @since 19.11.2013 13:38:03
+	 * 
+	 * @return the moAction
+	 */
+	public clsVisionEntryAction getAction() {
+		return moAction;
+	}
 
-	public void setActions(ArrayList<ePercievedActionType> poAction){
-		moActions = poAction;
+	/**
+	 * @since 19.11.2013 13:38:03
+	 * 
+	 * @param moAction the moAction to set
+	 */
+	public void setAction(clsVisionEntryAction poAction) {
+		this.moAction = poAction;
 	}
-	
-	public ArrayList<ePercievedActionType> getActions(){
-		return moActions;
-	}
+
 	
 	public double getObjectBodyIntegrity() {
 		return moObjectBodyIntegrity;
@@ -178,9 +187,9 @@ public class clsVisionEntry extends clsSensorRingSegmentEntry {
 		if (moColor != null) {
 		  oResult += " | color "+moColor;
 		}
-		oResult += "Actions: ";
-		for (ePercievedActionType oAction : moActions){
-			oResult	+= oAction.toString() + "|";
+		if(moAction!=null){
+			oResult += "Executed Action: ";
+			oResult += moAction.toString();
 		}
 		return oResult;
 	}

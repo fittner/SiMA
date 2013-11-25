@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.utils.enums.eCount;
-import bfg.utils.enums.ePercievedActionType;
 import bfg.utils.enums.eSide;
 
 import du.enums.eAntennaPositions;
@@ -47,7 +46,6 @@ public class clsAcousticEntry extends clsSensorExtern {
 	protected eAntennaPositions moAntennaPositionRight = eAntennaPositions.UNDEFINED;
 	protected double moExactDebugAngle;
 	protected double moObjectBodyIntegrity;
-	protected ArrayList<ePercievedActionType> moActions = new ArrayList<ePercievedActionType>();
 
 	public clsPolarcoordinate getPolarcoordinate() {
 		return moPolarcoordinate;
@@ -225,17 +223,6 @@ public class clsAcousticEntry extends clsSensorExtern {
 	/**
 	 * DOCUMENT (hinterleitner) - insert description
 	 *
-	 * @since 25.08.2013 10:13:50
-	 *
-	 * @return
-	 */
-	public ArrayList<ePercievedActionType> getActions() {
-		// TODO (hinterleitner) - Auto-generated method stub
-		return null;
-	}
-	/**
-	 * DOCUMENT (hinterleitner) - insert description
-	 *
 	 * @since 25.08.2013 10:13:57
 	 *
 	 * @return
@@ -285,17 +272,6 @@ public class clsAcousticEntry extends clsSensorExtern {
 	 * @param undefined
 	 */
 	public void setAntennaPositionLeft(eAntennaPositions undefined) {
-		// TODO (hinterleitner) - Auto-generated method stub
-		
-	}
-	/**
-	 * DOCUMENT (hinterleitner) - insert description
-	 *
-	 * @since 25.08.2013 19:15:48
-	 *
-	 * @param convertActions
-	 */
-	public void setActions(ArrayList<ePercievedActionType> convertActions) {
 		// TODO (hinterleitner) - Auto-generated method stub
 		
 	}

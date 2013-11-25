@@ -48,7 +48,6 @@ public class clsSymbolOlfactoricEntry extends du.itf.sensors.clsOlfactoricEntry
 	        moBrightness = oEntry.getBrightness();
 	        moDebugSensorArousal = oEntry.getDebugSensorArousal();
 	        
-	        moActions = oEntry.getActions();
 	        
 	        moOdor = oEntry.getOdor();
 	        moIntensity = oEntry.getIntensity();

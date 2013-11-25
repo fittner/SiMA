@@ -315,7 +315,7 @@ public abstract class clsModuleBase implements
 					clone_value = value;
 					// no deep copy possible.
 				}		
-				
+
 				clone.put(clone_key, clone_value);
 			}
 		}

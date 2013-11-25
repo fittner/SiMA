@@ -87,6 +87,7 @@ public enum eContentType {
 	PRECONDITION,
 	POSTCONDITION,
 	ACTIONTYPE,
+	NAME,
 	
 	//Acts
 	MOMENTCONFIDENCE,
@@ -153,13 +154,12 @@ public enum eContentType {
 	
 	//TPs: should be adapted
 	COLOR,
+	PERCEIVEDACTION,
 	Color,
 	ShapeType,
 	INTENSITY,
 	Brightness,
 	Alive,
-	PerceivedAction,
-	PERCEIVEDACTION,
 	TASTE,
 	CONSUMEABLE,
 	CONTENT,
@@ -178,6 +178,7 @@ public enum eContentType {
 	ORIFICE_ORAL_LIBIDINOUS_MUCOSA,
 	ORIFICE_ORAL_AGGRESSIV_MUCOSA,
 	Odor,
+	Name,
 	
 	//DM
 	BITE,

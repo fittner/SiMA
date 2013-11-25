@@ -7,7 +7,6 @@
 package pa._v38.symbolization.representationsymbol;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import du.enums.eAntennaPositions;
 import du.enums.eDistance;
@@ -15,7 +14,6 @@ import du.enums.eShapeType;
 
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
-import bfg.utils.enums.ePercievedActionType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -37,5 +35,4 @@ public interface itfSymbolAcousticEntry extends itfSymbol {
     public double getExactDebugX();
     public double getExactDebugY();
     public double getDebugSensorArousal();
-    public ArrayList<ePercievedActionType> getPerceivedAction();
 }

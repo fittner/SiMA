@@ -9,7 +9,6 @@ package pa._v38.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import bfg.utils.enums.ePercievedActionType;
 
 import du.enums.eDistance;
 import du.enums.eSensorExtType;
@@ -23,7 +22,8 @@ import du.enums.eSensorExtType;
  * 
  */
 public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implements itfIsContainer, itfGetSymbolName, itfSymbolVisionEntry, itfGetDataAccessMethods  {
-	public clsSymbolVisionEntry(du.itf.sensors.clsVisionEntry poSensor) {
+    
+    public clsSymbolVisionEntry(du.itf.sensors.clsVisionEntry poSensor) {
 		super();
 		
 		moSensorType = poSensor.getSensorType();
@@ -45,9 +45,9 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 		moBrightness = poSensor.getBrightness();
 		moDebugSensorArousal = poSensor.getDebugSensorArousal();
 		
-		moActions = poSensor.getActions();
-		
-		
+		if(poSensor.getAction() != null){
+		    moAction=new clsSymbolVisionEntryAction(poSensor.getAction());
+		}
 	}
 	/* (non-Javadoc)
 	 *
@@ -76,10 +76,6 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 		return itfSymbolVisionEntry.class.getMethods();
 	}
 	
-	@Override
-    public ArrayList<ePercievedActionType> getPerceivedAction(){
-	    return moActions;
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -88,6 +84,16 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 	 * 
 	 * @see pa.symbolization.representationsymbol.itfSymbol#getSymbolObjects()
 	 */
+    
+    @Override
+    public itfSymbolVisionEntryAction getSymbolAction(){
+        if(moAction!= null){
+            return (new clsSymbolVisionEntryAction(moAction));
+        }
+        else{
+            return null;
+        }
+    }
 	@Override
 	public ArrayList<itfSymbol> getSymbolObjects() {
 		ArrayList<itfSymbol> oRetVal = new ArrayList<itfSymbol>();

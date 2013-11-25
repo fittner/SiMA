@@ -8,7 +8,6 @@ package bw.body.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
-import bfg.utils.enums.ePercievedActionType;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.itfAPBeatable;
@@ -136,7 +135,8 @@ public class clsExecutorBeat extends clsActionExecutor{
 		//Attack!
 		oAttackEntity.beat(oCommand.getForce() * mrForceScalingFactor);
 		
-        clsAction oAction = new clsAction(1,ePercievedActionType.BEAT);
+        clsAction oAction = new clsAction(1);
+        oAction.setActionName("BEAT");
         oAction.attachEntity((clsEntity)oAttackEntity);
         moEntity.addAction(oAction);
 		

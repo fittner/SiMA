@@ -734,59 +734,80 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	 */
 	@Override
 	protected void process_draft() {
-		
-		ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
-		ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
+        // 1. Convert Neurosymbols to TPMs
+        convertSymbolToTPM();
+        //  addSelfToPerception();
+                
+        //Workaround of Bug Eatable/Manipulatable sensors bug
+        //TODO CM: Remove this function, if the eatable area objects are working.
+        //solveBUGFIXEATABLEAREA(moEnvironmentalTP);
+                
+        // 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment. 
+        // since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activaiton is done) 
+        //drivesActivateEntities();
+	    moCompleteThingPresentationMeshList = searchTPMList(moEnvironmentalTP);				
+	}
 	
-		// 1. Convert Neurosymbols to TPMs
-		convertSymbolToTPM();
-						
-	//	addSelfToPerception();
-				
-		//Workaround of Bug Eatable/Manipulatable sensors bug
-		//TODO CM: Remove this function, if the eatable area objects are working.
-		//solveBUGFIXEATABLEAREA(moEnvironmentalTP);
-						
-		// 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment. 
-		// since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activaiton is done) 
-		//drivesActivateEntities();
-						
-		// 3. similarity criterion. perceptual activation. memory-search
-		oRankedCandidateTPMs = stimulusActivatesEntities();			
-		
-		// 4.  decide category membership
-		for(ArrayList<clsDataStructureContainer> oRankedCandidates :oRankedCandidateTPMs) {
-			
-			// a. how many exemplars shuold be used for deciding drive categories
-			long k = determineK(oRankedCandidates);
-		
-			// b. get AssDM of k-exemplars, group AssDM from same drives
-			HashMap<String, ArrayList<clsAssociation>> oAssDMforCategorization = getKassDMs(k, oRankedCandidates);
-			
-			// c. get set of graded DMs
-			ArrayList<clsDriveMesh> oDMStimulusList = getStimulusDMs(oAssDMforCategorization);
-			
-			// extend object
-			clsThingPresentationMesh oInputTPM = (clsThingPresentationMesh) moEnvironmentalTP.get(oRankedCandidateTPMs.indexOf(oRankedCandidates)).getMoDataStructure(); 
-			clsThingPresentationMesh oOutputTPM = (clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure();
-			ArrayList<clsDataStructurePA> oAssociatedElements = new ArrayList<clsDataStructurePA>();
-			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult2 = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-			extractStimulusUnknownFeatures(oAssociatedElements, oInputTPM, oOutputTPM);
-			oSearchResult2 = this.getLongTermMemory().searchEntity(eDataType.UNDEFINED, oAssociatedElements); 
-			addStimulusAttributeAssociations(oSearchResult2, oOutputTPM); 
-			
-			
-			// d. associate category-DMs to TPM
-			for(clsDriveMesh oDM: oDMStimulusList){
-				oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, oOutputTPM, oDM.getQuotaOfAffect()));; 
-			}
-			
-			oOutputTPMs.add(oOutputTPM);
-			
-		}
-		
-		moCompleteThingPresentationMeshList = oOutputTPMs;
-				
+	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
+        ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
+        ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
+    
+
+
+                        
+        // 3. similarity criterion. perceptual activation. memory-search
+        oRankedCandidateTPMs = stimulusActivatesEntities(poEnvironmentalTP);            
+        
+        // 4.  decide category membership
+        for(ArrayList<clsDataStructureContainer> oRankedCandidates :oRankedCandidateTPMs) {
+            
+            // a. how many exemplars shuold be used for deciding drive categories
+            long k = determineK(oRankedCandidates);
+        
+            // b. get AssDM of k-exemplars, group AssDM from same drives
+            HashMap<String, ArrayList<clsAssociation>> oAssDMforCategorization = getKassDMs(k, oRankedCandidates);
+            
+            // c. get set of graded DMs
+            ArrayList<clsDriveMesh> oDMStimulusList = getStimulusDMs(oAssDMforCategorization);
+            
+            // extend object
+            clsThingPresentationMesh oInputTPM = (clsThingPresentationMesh) poEnvironmentalTP.get(oRankedCandidateTPMs.indexOf(oRankedCandidates)).getMoDataStructure(); 
+            clsThingPresentationMesh oOutputTPM = (clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure();
+            ArrayList<clsDataStructurePA> oAssociatedElementsTP = new ArrayList<clsDataStructurePA>();
+             ArrayList<clsDataStructurePA> oAssociatedElementsTPM = new ArrayList<clsDataStructurePA>();
+
+            ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult2 = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+            extractStimulusUnknownFeaturesTP(oAssociatedElementsTP, oInputTPM, oOutputTPM);
+            extractStimulusUnknownFeaturesTPM(oAssociatedElementsTPM, oInputTPM, oOutputTPM);
+            oSearchResult2 = this.getLongTermMemory().searchEntity(eDataType.UNDEFINED, oAssociatedElementsTP); 
+
+            ArrayList<clsThingPresentationMesh> oAssociatedTPMs = searchTPM(oAssociatedElementsTPM);
+            addStimulusAttributeAssociations(oSearchResult2, oOutputTPM); 
+            addTPMExtern(oAssociatedTPMs, oOutputTPM); 
+            
+            // d. associate category-DMs to TPM
+            for(clsDriveMesh oDM: oDMStimulusList){
+                oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, oOutputTPM, oDM.getQuotaOfAffect()));
+                
+            }
+            
+            oOutputTPMs.add(oOutputTPM);
+            
+        }
+        return oOutputTPMs;
+        //moCompleteThingPresentationMeshList = oOutputTPMs;
+                
+
+	}
+	
+	public ArrayList<clsThingPresentationMesh> searchTPM(ArrayList<clsDataStructurePA> oAssociatedElementsTPM){
+        ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult3 = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+        
+        ArrayList<clsPrimaryDataStructureContainer> oEnvTPM = new ArrayList<clsPrimaryDataStructureContainer>();
+        for(clsDataStructurePA oDataStructure: oAssociatedElementsTPM){
+            oEnvTPM.add(new clsPrimaryDataStructureContainer(oDataStructure,new ArrayList<clsAssociation>()));
+        }
+        return searchTPMList(oEnvTPM);
 	}
 
 	/* (non-Javadoc)
@@ -1289,7 +1310,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	}
 	
 	
-	private ArrayList<ArrayList<clsDataStructureContainer>>  stimulusActivatesEntities(){
+	private ArrayList<ArrayList<clsDataStructureContainer>>  stimulusActivatesEntities(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
 		
 		clsThingPresentationMesh oCandidateTPM = null;
 		clsThingPresentationMesh oCandidateTPM_DM = null;
@@ -1308,7 +1329,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		
 		
 		// process EvironmentTPM
-				for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
+				for(clsPrimaryDataStructureContainer oEnvTPM :poEnvironmentalTP) {
 
 					oRemoveAss = new ArrayList<clsAssociation>();
 					
@@ -1379,24 +1400,26 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		double rAmbiguousFactor = 0;
 		double rSimilarityAcivationFirst = 0;
 		long k = 0;
-		
-		clsThingPresentationMesh oFirstTPM = (clsThingPresentationMesh) poSpecificCandidates.get(0).getMoDataStructure();
-		clsThingPresentationMesh oSecondTPM = (clsThingPresentationMesh) poSpecificCandidates.get(1).getMoDataStructure();
-		
-		rActivationValueFirst = oFirstTPM.getAggregatedActivationValue();
-		rActivationValueSecond = oSecondTPM.getAggregatedActivationValue();
-		
-		// Ambigous?
-		rAmbiguousFactor = Math.abs(rActivationValueFirst-rActivationValueSecond);
-		rSimilarityAcivationFirst = oFirstTPM.getCriterionActivationValue(eActivationType.SIMILARITY_ACTIVATION);
-		if(rAmbiguousFactor < 0.1 || rSimilarityAcivationFirst != 1) {
-			// generalized drive obj.categ
-			k = Math.round((1-rActivationValueFirst) * poSpecificCandidates.size());
+		if(poSpecificCandidates.size()>=2){
+    		clsThingPresentationMesh oFirstTPM = (clsThingPresentationMesh) poSpecificCandidates.get(0).getMoDataStructure();
+    		clsThingPresentationMesh oSecondTPM = (clsThingPresentationMesh) poSpecificCandidates.get(1).getMoDataStructure();
+    		
+    		rActivationValueFirst = oFirstTPM.getAggregatedActivationValue();
+    		rActivationValueSecond = oSecondTPM.getAggregatedActivationValue();
+    		
+    		// Ambigous?
+    		rAmbiguousFactor = Math.abs(rActivationValueFirst-rActivationValueSecond);
+    		rSimilarityAcivationFirst = oFirstTPM.getCriterionActivationValue(eActivationType.SIMILARITY_ACTIVATION);
+    		if(rAmbiguousFactor < 0.1 || rSimilarityAcivationFirst != 1) {
+    			// generalized drive obj.categ
+    			k = Math.round((1-rActivationValueFirst) * poSpecificCandidates.size());
+    		}
+    		else {
+    			// ident. drive obj.categ
+    			k=1;
+    		}
 		}
-		else {
-			// ident. drive obj.categ
-			k=1;
-		}
+		else k=0;
 		
 		
 		
@@ -1478,24 +1501,61 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	 * @param poPerceptionEntry
 	 * @param poNewImage 
 	 */
-	private void extractStimulusUnknownFeatures(ArrayList<clsDataStructurePA> poUnknownData,
+	private void extractStimulusUnknownFeaturesTP(ArrayList<clsDataStructurePA> poUnknownData,
 			clsThingPresentationMesh poPerceptionEntry, 
 			clsThingPresentationMesh poNewImage) {
 		
 		for(clsAssociation oEntry : poPerceptionEntry.getMoInternalAssociatedContent()){
 	 		
 	 		if( !poNewImage.contain(oEntry.getMoAssociationElementB())){
-	 			poUnknownData.add(oEntry.getMoAssociationElementB()); 
+	 			if(oEntry.getMoAssociationElementB() instanceof clsThingPresentation){
+	 			    poUnknownData.add(oEntry.getMoAssociationElementB()); 
+	 			}
 	 		}
 	 	}
 		
 		for(clsAssociation oEntry : poPerceptionEntry.getExternalMoAssociatedContent()){
 	 		
 	 		if( !poNewImage.contain(oEntry.getMoAssociationElementB())){
-	 			poUnknownData.add(oEntry.getMoAssociationElementB()); 
+	 		   if(oEntry.getMoAssociationElementB() instanceof clsThingPresentation){
+	 		       poUnknownData.add(oEntry.getMoAssociationElementB());
+	 		   }
 	 		}
 	 	}
 	}
+	
+	   /**
+     * DOCUMENT (schaat) - insert description
+     *
+     * @author schaat
+     * 02.10.2012, 10:27:04
+     *
+     * @param oUnknownData
+     * @param poPerceptionEntry
+     * @param poNewImage 
+     */
+    private void extractStimulusUnknownFeaturesTPM(ArrayList<clsDataStructurePA> poUnknownData,
+            clsThingPresentationMesh poPerceptionEntry, 
+            clsThingPresentationMesh poNewImage) {
+        
+        for(clsAssociation oEntry : poPerceptionEntry.getMoInternalAssociatedContent()){
+            
+            if( !poNewImage.contain(oEntry.getMoAssociationElementB())){
+                if(oEntry.getMoAssociationElementB() instanceof clsThingPresentationMesh){
+                    poUnknownData.add(oEntry.getMoAssociationElementB()); 
+                }
+            }
+        }
+        
+        for(clsAssociation oEntry : poPerceptionEntry.getExternalMoAssociatedContent()){
+            
+            if( !poNewImage.contain(oEntry.getMoAssociationElementB())){
+               if(oEntry.getMoAssociationElementB() instanceof clsThingPresentationMesh){
+                   poUnknownData.add(oEntry.getMoAssociationElementB());
+               }
+            }
+        }
+    }
 	
 	/**
 	 * Add corresponding attribute associations to a TPM
@@ -1525,6 +1585,17 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 				}
 			}
 		}
+	}
+	
+	private void addTPMExtern(ArrayList<clsThingPresentationMesh> poTPMList, clsThingPresentationMesh poOutputTPM){
+	    for(clsThingPresentationMesh oTPM: poTPMList){
+	        clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
+                    -1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
+                    poOutputTPM, oTPM);
+	        poOutputTPM.addExternalAssociation(oAssociation);
+	        //oTPM.addExternalAssociation(oAssociation);
+
+	    }
 	}
 	
 	public void getBodilyReactions(    itfInternalActionProcessor poInternalActionContainer) {

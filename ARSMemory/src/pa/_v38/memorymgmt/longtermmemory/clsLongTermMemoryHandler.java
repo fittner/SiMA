@@ -79,6 +79,8 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		
 	}
 	
+
+	
 	/* (non-Javadoc)
 	 *
 	 * @since 26.02.2013 11:25:29

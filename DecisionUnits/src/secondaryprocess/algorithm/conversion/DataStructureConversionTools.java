@@ -21,6 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -119,37 +120,43 @@ public class DataStructureConversionTools {
 
                 // Case AssociationAttribute
                 if (oTPMExternalAss instanceof clsAssociationAttribute) {
-                    // Get the location templates
-                    clsAssociationWordPresentation oWPforTPAttribute = ltm.getSecondaryDataStructure((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement(), 1.0);
-                    if (oWPforTPAttribute != null) {
-                        clsWordPresentation oAttributeWP = null;
-                        try {
-                            oAttributeWP = (clsWordPresentation) oWPforTPAttribute
-                                    .getLeafElement();
-                        } catch (Exception e) {
-                            log.error(oWPforTPAttribute.getLeafElement().toString(), e);
-                            log.error(oWPforTPAttribute.getRootElement().toString(), e);
-                        }
-
-                        if (oAttributeWP.getMoContentType() == eContentType.DISTANCE) {
-                            clsMeshTools.createAssociationSecondary(oRetVal, 2,
-                                    oAttributeWP, 0, 1.0,
-                                    eContentType.POSITIONASSOCIATION,
-                                    ePredicate.HASDISTANCE, false);
-                        } else if (oAttributeWP.getMoContentType() == eContentType.POSITION) {
-                            clsMeshTools.createAssociationSecondary(oRetVal, 2,
-                                    oAttributeWP, 0, 1.0,
-                                    eContentType.DISTANCEASSOCIATION,
-                                    ePredicate.HASPOSITION, false);
-                        } else {
+                    if(oTPMExternalAss.getMoAssociationElementB() instanceof clsThingPresentation){
+                        // Get the location templates
+                        clsAssociationWordPresentation oWPforTPAttribute = ltm.getSecondaryDataStructure((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement(), 1.0);
+                        if (oWPforTPAttribute != null) {
+                            clsWordPresentation oAttributeWP = null;
                             try {
-                                throw new Exception("Error in F21: getWPCompleteObjekt: A TP was found, which is neither Distance or Position");
+                                oAttributeWP = (clsWordPresentation) oWPforTPAttribute
+                                        .getLeafElement();
                             } catch (Exception e) {
-                                log.error("Position error", e);
+                                log.error(oWPforTPAttribute.getLeafElement().toString(), e);
+                                log.error(oWPforTPAttribute.getRootElement().toString(), e);
+                            }
+    
+                            if (oAttributeWP.getMoContentType() == eContentType.DISTANCE) {
+                                clsMeshTools.createAssociationSecondary(oRetVal, 2,
+                                        oAttributeWP, 0, 1.0,
+                                        eContentType.POSITIONASSOCIATION,
+                                        ePredicate.HASDISTANCE, false);
+                            } else if (oAttributeWP.getMoContentType() == eContentType.POSITION) {
+                                clsMeshTools.createAssociationSecondary(oRetVal, 2,
+                                        oAttributeWP, 0, 1.0,
+                                        eContentType.DISTANCEASSOCIATION,
+                                        ePredicate.HASPOSITION, false);
+                            } else {
+                                try {
+                                    throw new Exception("Error in F21: getWPCompleteObjekt: A TP was found, which is neither Distance or Position");
+                                } catch (Exception e) {
+                                    log.error("Position error", e);
+                                }
                             }
                         }
                     }
-
+                    else if (oTPMExternalAss.getMoAssociationElementB() instanceof clsThingPresentationMesh){
+                        //do Nothing
+                    }
+                    
+                    
                     // Case drivemesh
                 } else if (oTPMExternalAss instanceof clsAssociationDriveMesh) {
                     // Get the affect templates
