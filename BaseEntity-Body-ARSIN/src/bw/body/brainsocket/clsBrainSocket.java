@@ -1069,7 +1069,7 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 			   oActionBrain.setActionName(oActionBody.getActionName());
 			   //add property corrsponding entity
 			   if(oActionBody.getCorrespondingEntity()!= null){
-				   oActionBrain.setObject(convertVisionEntry(oEntity));
+				   oActionBrain.setObject(convertVisionEntry(oActionBody.getCorrespondingEntity()));
 			   }
 			   oData.setAction(oActionBrain);
 		   }

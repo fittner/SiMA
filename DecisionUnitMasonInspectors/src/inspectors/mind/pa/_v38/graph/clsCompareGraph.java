@@ -66,6 +66,7 @@ import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsSensorIntern;
 import du.itf.sensors.clsVisionEntry;
+import du.itf.sensors.clsVisionEntryAction;
 
 
 
@@ -626,6 +627,7 @@ public class clsCompareGraph extends JGraph {
 		} else if (oO instanceof clsVisionEntry) {
 			oRootCell = generateGraphCell(poParent, (clsVisionEntry)oO);	
 			
+
 		} else if (oO instanceof clsSensorIntern) {
 			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
 			
@@ -1501,6 +1503,7 @@ public class clsCompareGraph extends JGraph {
 		color=color.replaceFirst("ff", "");
 		childs.add("Color\n"+"#"+color);
 		childs.add("Alive\n"+ poMemoryObject.getAlive());
+
 		
 		for (String oO:childs){
 
@@ -1514,6 +1517,8 @@ public class clsCompareGraph extends JGraph {
 			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 			GraphConstants.setEndFill(oEdge.getAttributes(), true);
 		}
+
+		
 		
 		
 		//get edge to parent cell
@@ -1525,7 +1530,42 @@ public class clsCompareGraph extends JGraph {
 	
 		return oCell;
 	}
+
+	/**
+	 * [clsVisionEntryAction]
+	 */
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsVisionEntryAction poMemoryObject)
+	{
+		String oDescription = poMemoryObject.getActionName();	
+		clsGraphCell oCell = createDefaultGraphVertex("Action\n"+oDescription, moColorString);
+		this.moCellList.add(oCell);
+		poMemoryObject.getClass().getFields();
+
+		if(poMemoryObject.getObjectVisionEntry()!=null){
+			
+			clsGraphCell oTargetCell = generateGraphCell(oCell, poMemoryObject.getObjectVisionEntry());
+			//add edge
+			DefaultEdge oEdge = new DefaultEdge();
+			oEdge.setSource(oCell.getChildAt(0));
+			oEdge.setTarget(oTargetCell.getChildAt(0));
+			moCellList.add(oEdge);
+			
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+			GraphConstants.setEndFill(oEdge.getAttributes(), true);
+		}
+		
+		
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge();
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
 	
+		return oCell;
+	}
+
 	
 	public clsGraphCell generateDummyCell(clsGraphCell poParentCell){
 		clsGraphCell oCell = createDefaultGraphVertex("test",0,0,100,100,moColorDummy);

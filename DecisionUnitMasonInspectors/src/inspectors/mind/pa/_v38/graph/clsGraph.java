@@ -76,6 +76,7 @@ import du.itf.sensors.clsSensorIntern;
 import du.itf.sensors.clsSensorRingSegment;
 import du.itf.sensors.clsSensorRingSegmentEntry;
 import du.itf.sensors.clsVisionEntry;
+import du.itf.sensors.clsVisionEntryAction;
 
 
 
@@ -584,6 +585,9 @@ public class clsGraph extends JGraph {
 		} else if (oO instanceof clsVisionEntry) {
 			oRootCell = generateGraphCell(poParent, (clsVisionEntry)oO);
 			
+		} else if (oO instanceof clsVisionEntryAction) {
+			oRootCell = generateGraphCell(poParent, (clsVisionEntryAction)oO);	
+				
 		} else if (oO instanceof clsSensorIntern) {
 			oRootCell = generateGraphCell(poParent, (clsSensorIntern) oO); 
 			
@@ -1692,6 +1696,70 @@ public class clsGraph extends JGraph {
 		for (Object oO:childs){
 
 			clsGraphCell oTargetCell = generateGraphCell(oCell, oO);
+			//add edge
+			DefaultEdge oEdge = new DefaultEdge();
+			oEdge.setSource(oCell.getChildAt(0));
+			oEdge.setTarget(oTargetCell.getChildAt(0));
+			moCellList.add(oEdge);
+			
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+			GraphConstants.setEndFill(oEdge.getAttributes(), true);
+		}
+		if(poMemoryObject.getAction()!=null){
+			
+			clsGraphCell oTargetCell = generateGraphCell(oCell, poMemoryObject.getAction());
+			//add edge
+			DefaultEdge oEdge = new DefaultEdge();
+			oEdge.setSource(oCell.getChildAt(0));
+			oEdge.setTarget(oTargetCell.getChildAt(0));
+			moCellList.add(oEdge);
+			
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+			GraphConstants.setEndFill(oEdge.getAttributes(), true);
+		}
+		
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge();
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+	
+		return oCell;
+	}
+
+	/**
+	 * [clsVisionEntryAction]
+	 */
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsVisionEntryAction poMemoryObject)
+	{
+		String oDescription = "Action\n" + "  ?  ";//; poMemoryObject.getActionName();
+		clsGraphCell oCell = createDefaultGraphVertex(oDescription, moColorVisionEntry);
+		this.moCellList.add(oCell);
+		poMemoryObject.getClass().getFields();
+
+		ArrayList<Object> childs = new ArrayList<Object>();
+		//add entity prperties
+		childs.add("Name\n"+poMemoryObject.getActionName());
+		
+		for (Object oO:childs){
+
+			clsGraphCell oTargetCell = generateGraphCell(oCell, oO);
+			//add edge
+			DefaultEdge oEdge = new DefaultEdge();
+			oEdge.setSource(oCell.getChildAt(0));
+			oEdge.setTarget(oTargetCell.getChildAt(0));
+			moCellList.add(oEdge);
+			
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+			GraphConstants.setEndFill(oEdge.getAttributes(), true);
+		}
+	
+		
+		if(poMemoryObject.getObjectVisionEntry()!=null){
+			
+			clsGraphCell oTargetCell = generateGraphCell(oCell, poMemoryObject.getObjectVisionEntry());
 			//add edge
 			DefaultEdge oEdge = new DefaultEdge();
 			oEdge.setSource(oCell.getChildAt(0));
