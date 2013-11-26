@@ -1200,11 +1200,20 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
 			if(oEntry.size() > 0){
 				clsPrimaryDataStructureContainer oBestMatch = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
-				clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
+				if(oBestMatch.getMoDataStructure() instanceof clsThingPresentation){
+				    clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
 							-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
 							(clsThingPresentationMesh)poNewImage.getMoDataStructure(), 
 							(clsThingPresentation)oBestMatch.getMoDataStructure());
-				poNewImage.getMoAssociatedDataStructures().add(oAssociation);
+				    poNewImage.getMoAssociatedDataStructures().add(oAssociation);
+				}
+				else if (oBestMatch.getMoDataStructure()  instanceof clsThingPresentationMesh){
+                    clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
+                            -1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
+                            (clsThingPresentationMesh)poNewImage.getMoDataStructure(), 
+                            (clsThingPresentationMesh)oBestMatch.getMoDataStructure());
+                    poNewImage.getMoAssociatedDataStructures().add(oAssociation);
+				}
 			}
 		}
 	}
