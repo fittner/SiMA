@@ -32,7 +32,7 @@ public enum eAction {
 	BITE,
 	SUCK, 
 	REPRESS,
-	PICKUP,
+	PICK_UP,
 	DROP,
 	NONE,
 	BEAT,

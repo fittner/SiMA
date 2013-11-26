@@ -326,7 +326,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					throw new UnknownError("Action " + oAction + " should not occure in F31!");
 				}
 //TD 2011/04/23: commented the actions PICKUP, DROP, and DANCE. currently, they can never happen - no rules are defined
-/*				else if(oAction.equals("PICKUP")) {
+/*				else if(oAction.equals("PICK_UP")) {
 					moActionCommandList_Output.add( new clsActionPickUp() );
 				}
 				else if(oAction.equals("DROP")) {
@@ -377,7 +377,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					//Do nothing
 				} else if (oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
 					
-				} else if (oAction.equals(eAction.PICKUP.toString())) {
+				} else if (oAction.equals(eAction.PICK_UP.toString())) {
 					moActionCommandList_Output.add( new clsActionPickUp() );
 				} else if (oAction.equals(eAction.SPEAK_EAT.toString())) {
                     moActionCommandList_Output.add( new clsActionSpeech(moAbstractSpeech) );

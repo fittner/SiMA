@@ -101,7 +101,7 @@ public class GoalAlgorithmTools {
         case BEAT:
             oActionCondition = eCondition.EXECUTED_BEAT;
             break;
-        case PICKUP:
+        case PICK_UP:
             oActionCondition = eCondition.EXECUTED_PICKUP;
             break;
         case DIVIDE:
