@@ -642,8 +642,12 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 							eContentType oContentTypeTP = eContentType.DEFAULT; 
 							Object oContentTP = "DEFAULT";
 							
-							oContentTypeTP = eContentType.valueOf(removePrefix(oM.getName())); 
-									
+							try{
+							    oContentTypeTP = eContentType.valueOf(removePrefix(oM.getName())); 
+							}
+							catch(Exception e){
+							    continue;
+							}
 		
 							if(oContentTypeTP.equals(eContentType.ObjectPosition)) {
 								oContentTypeTP = eContentType.POSITION; 
