@@ -24,6 +24,6 @@
 	<classpathentry kind="lib" path="/Libraries/mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry kind="lib" path="/Libraries/vecmath.jar"/>
 	<classpathentry kind="lib" path="/Libraries/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BaseEntity-Body-ARSIN"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EntityBase-Body-ARSIN"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

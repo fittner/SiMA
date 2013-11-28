@@ -8,6 +8,7 @@ package general.datamanipulation;
 
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import secondaryprocess.datamanipulation.clsMeshTools;
 
@@ -19,12 +20,33 @@ import secondaryprocess.datamanipulation.clsMeshTools;
  * 
  */
 public class PrintTools {
+    /**
+     * Print content of an arraylist
+     *
+     * @author wendt
+     * @since 28.11.2013 11:22:59
+     *
+     * @param images
+     * @return
+     */
     public static <E extends Object> String printArrayListWithLineBreaks(ArrayList<E> images) {
         String result ="";
         
         for (E i: images) {
             result += "\n   ";
             result += i.toString();
+            
+        }
+        
+        return result;
+    }
+    
+    public static String printArrayListImageNamesWithLineBreaks(ArrayList<clsPair<clsThingPresentationMesh, Double>> images) {
+        String result ="";
+        
+        for (clsPair<clsThingPresentationMesh, Double> i: images) {
+            result += "\n   ";
+            result += i.b + ", " + i.a.getMoContent();
             
         }
         

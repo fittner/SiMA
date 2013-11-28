@@ -6,9 +6,13 @@
  */
 package pa._v38.memorymgmt.longtermmemory.psychicspreadactivation;
 
+import general.datamanipulation.PrintTools;
+
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import logger.clsLogger;
+
+import org.slf4j.Logger;
 
 import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -36,7 +40,7 @@ public class clsPsychicSpreadActivation {
 	private double mrActivationThreshold = 0.1;
 	
 	private itfSearchSpaceAccess moModuleBase;
-	private Logger log = Logger.getLogger("memory");
+	private Logger log = clsLogger.getLog("memory");
 	
 	public clsPsychicSpreadActivation(itfSearchSpaceAccess poModuleBase, double prConsumeValue, double prActivationThreshold) {
 		moDefaultConsumeValue = prConsumeValue;
@@ -45,11 +49,20 @@ public class clsPsychicSpreadActivation {
 	}
 
 
+	/**
+	 * Start spreading activation, the first method for each node
+	 * 
+	 * @param poImage
+	 * @param prPsychicEnergyIn
+	 * @param pnMaximumDirectActivationValue
+	 * @param poDrivesForFilteringList
+	 * @param poAlreadyActivatedImages
+	 */
 	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
 		//Activate this mesh, i. e. consume this energy
 		double rAvailablePsychicEnergy = prPsychicEnergyIn - getEnergyConsumptionValue(poImage);
-		log.trace("Start spread activation.");
-		log.trace("Inputs: Psychic Energy In=" + prPsychicEnergyIn + ", Available psychic energy=" + rAvailablePsychicEnergy + ", InputImage=" + poImage.getMoContent());
+		log.info("Start spread activation from image {} with psychic energy {}", poImage.getMoContent(), prPsychicEnergyIn);
+		log.debug("Inputs: Psychic Energy In=" + prPsychicEnergyIn + ", Available psychic energy=" + rAvailablePsychicEnergy + ", InputImage=" + poImage.getMoContent());
 		log.trace("Already activated images: " + clsMeshTools.toString(poAlreadyActivatedImages));
 		
 		
@@ -66,20 +79,17 @@ public class clsPsychicSpreadActivation {
 		
 		//3. Calculate activation
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oPossibleActivationList = activateAssociatedImages(poImage, rAvailablePsychicEnergy, pnMaximumDirectActivationValue, poDrivesForFilteringList, poAlreadyActivatedImages);
+		log.info("Possible images, which can be activated: {}", PrintTools.printArrayListWithLineBreaks(oPossibleActivationList));
 		
 		//4. Delete non activated images		
 		ArrayList<clsPair<clsThingPresentationMesh,Double>> oActivatedImageList = deleteInactivatedAssociations(poImage, oPossibleActivationList);
-		log.trace("Activated images: " + oActivatedImageList.toString());
+		log.info("Activated images: {}", PrintTools.printArrayListImageNamesWithLineBreaks(oActivatedImageList));
 		
 		//5. Go through each of the previously activated images
 		for (clsPair<clsThingPresentationMesh,Double> oPair : oActivatedImageList) {
 			startSpreadActivation(oPair.a, oPair.b, pnMaximumDirectActivationValue, poDrivesForFilteringList, poAlreadyActivatedImages);
 		}
 	}
-	
-//	private static ArrayList<clsPair<clsThingPresentationMesh, Double>> processImage(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
-//		ArrayList<clsPair<clsThingPresentationMesh, Double>>
-//	}
 	
 	/**
 	 * For a perceived image, get the direct associations to stored memories. Enhance the perceived image with the associations to the memories

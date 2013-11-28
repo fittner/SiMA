@@ -22,10 +22,8 @@ import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContent;
@@ -56,8 +54,13 @@ import datatypes.helpstructures.clsTriple;
  */ 
 public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2_6_receive, I5_19_receive, I5_6_send, itfGraphInterface {
 	public static final String P_MODULENUMBER = "46";
-
 	public static final String P_MATCH_THRESHOLD = "MATCH_THRESHOLD";
+	
+	//FIXME: Connect to neutral drive energy
+	private static final double PSYCHICINTENSITYFORSPREADINGACTIVATION = 10.0;
+	private static final int MAXDIRECTACTIVATIONFORSPREADINGACTIVATION = 20;
+	
+	
 	/* Inputs */
 	/** Here the associated memory from the planning is put on the input to this module */
 	private ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN; 
@@ -82,8 +85,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 
 	/* Module-Parameters */
 	
-	
-	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	/**
 	 * Association of TPMs (TP + Emotion, fantasies) with thing presentations 
 	 * raw data (from external perception). In a first step these are attached with a value to get a meaning. 
@@ -104,9 +105,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		applyProperties(poPrefix, poProp);
 		
 		mrMatchThreshold= poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MATCH_THRESHOLD).getParameterDouble();
-		
 		moTempLocalizationStorage = poTempLocalizationStorage;
-		
 		moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();		//Set Input!=null
 	}
 	
@@ -228,56 +227,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 			}
 		}
 	}
-	
-//	/**
-//	 * DOCUMENT (schaat) - insert description
-//	 *
-//	 * @since May 3, 2012 11:28:30 AM
-//	 *
-//	 * @param oPerceivedImage
-//	 * @return
-//	 * 
-//	 * Compare Image with  Images from Memory. Result = PI associated with similar TIs
-//	 * Just compare if similar Entities of PI exist in RIs 
-//	 * 
-//	 * TODO: check imperativeFactor of Associations (see TPM.compareTo). MathcingFactor is decreased by imperativeFactor - check dynamic change of impFact  
-//	 * 
-//	 */
-//	private clsThingPresentationMesh compareRIsWithPI(
-//			clsThingPresentationMesh oPerceivedImage) {
-//		// TODO (schaat) - Auto-generated method stub
-//		
-//		double rThreshold = 0.0;
-//		clsDataStructurePA oRI = null;
-//		ArrayList<clsAssociation> oAssociatedRIs = new ArrayList<clsAssociation>();
-//		
-//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-//				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-//		
-//		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
-//		poSearchPattern.add(oPerceivedImage);
-//		
-//		// search for similar Images in memory (similar to PI) 
-//		oSearchResult = this.getLongTermMemory().searchEntity(eDataType.UNDEFINED, poSearchPattern);
-//		
-//		// for every found similar RI
-//		for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
-//			for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
-//								
-//				if( oSearchPair.a > rThreshold) {
-//					oRI = oSearchPair.b.getMoDataStructure();
-//					oAssociatedRIs.add(clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.RI, oPerceivedImage, (clsThingPresentationMesh)oRI, oSearchPair.a));
-//				}
-//				
-//			}
-//		
-//		}
-//		
-//		// associate similar RI with PI. weight = matchFactor
-//		oPerceivedImage.setMoExternalAssociatedContent(oAssociatedRIs);
-//		
-//		return oPerceivedImage;
-//	}
 
 	/* (non-Javadoc)
 	 *
@@ -333,13 +282,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 //	}
 	
 	
-	
-	
-//	private clsThingPresentationMesh rotateMesh(clsThingPresentationMesh poInput) {
-//		return (clsThingPresentationMesh) poInput.getMoAssociatedContent().get(0).getMoAssociationElementB();
-//	}
-	
-	
 	/**
 	 * The PI is enhanced with all objects from the localization, which cannot be seen in the image.
 	 * 
@@ -353,11 +295,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 * @throws CloneNotSupportedException 
 	 */
 	private void enhancePerceptionWithEnhancedEnvironmentalImage(clsThingPresentationMesh poPI, clsEnvironmentalImageMemory poEnvironmentalImageStorage) {
-		//Clone the PI
-		//clsThingPresentationMesh oRetVal = (clsThingPresentationMesh) poPI.cloneGraph();
 		
 		//Get all objects from the localization
-		//ArrayList<clsPair<Integer, Object>> oInvisibleObjects = new ArrayList<clsPair<Integer, Object>>();//poTempLocalizationStorage.findMemoriesDataType(eSupportDataType.CONTAINERPAIR);
 		ArrayList<clsThingPresentationMesh> oPTPMList = poEnvironmentalImageStorage.getAllTPMFromEnhancedEnvironmentalImage();
 		ArrayList<clsThingPresentationMesh> oExtendEntityList = new ArrayList<clsThingPresentationMesh>();
 		
@@ -405,147 +344,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		}
 	}
 	
-	
-	
-//	/**
-//	 * Add associations 
-//	 * wendt
-//	 *
-//	 * @since 18.08.2011 11:22:36
-//	 *
-//	 * @param poPerception
-//	 */
-//	private void assignDriveMeshes(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
-//		
-//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-//			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-//	
-//		//oSearchResult = search(eDataType.DM, poPerception);
-//		
-//		this.getMemory().searchEntity(eDataType.DM, poPerception, oSearchResult);
-//		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
-//		addAssociations(oSearchResult, poPerception);
-//		//}
-//		//addAssociations(oSearchResult, poPerception);
-//	}
-	
-//	/**
-//	 * Add associations 
-//	 * schaat
-//	 *
-//	 * @since 6.07.2012 11:22:36
-//	 *
-//	 * @param poPerception
-//	 */
-//	private void assignEmotions(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
-//		
-//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-//			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-//	
-//		
-//		this.getMemory().searchEntity(eDataType.EMOTION, poPerception, oSearchResult);
-//		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
-//		addAssociations(oSearchResult, poPerception);
-//		//}
-//		//addAssociations(oSearchResult, poPerception);
-//	}
-	
-//	/**
-//	 * Add default TP-associations 
-//	 * wendt
-//	 *
-//	 * @since 18.08.2011 11:22:36
-//	 *
-//	 * @param poPerception
-//	 */
-//	private void assignExternalTPAssociations(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
-//		
-//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-//			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-//	
-//		//oSearchResult = search(eDataType.DM, poPerception);
-//		
-//		search(eDataType.TP, poPerception, oSearchResult);
-//		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
-//		addAssociations(oSearchResult, poPerception);
-//		//}
-//		//addAssociations(oSearchResult, poPerception);
-//	}
-	
-	
-	/**
-	 * Creates a search pattern for a perception and a DataType that is used to
-	 * access the KnowledgeBase to find content.
-	 *
-	 * @author Marcus Zottl (e0226304)
-	 * 15.06.2011, 16:54:48
-	 *
-	 * @param poDataType		- the DataType you are looking for
-	 * @param poPerception	- the perception for which you need a search pattern
-	 * @return							- a search pattern to access the KnowledgeBase
-	 */
-	public ArrayList<clsPair<Integer, clsDataStructurePA>> createSearchPattern(
-			eDataType poDataType,
-			clsPrimaryDataStructureContainer poPerception) {
-		
-		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern =
-			new ArrayList<clsPair<Integer, clsDataStructurePA>>();
-		
-		// if the moDataStructure of the Container is not a TI there is something really wrong!
-		clsTemplateImage oDS = (clsTemplateImage) poPerception.getMoDataStructure();
-		// add each element of the TI to the searchPattern
-			for (clsAssociation oEntry : oDS.getMoInternalAssociatedContent()) {
-				oSearchPattern.add(
-						new clsPair<Integer, clsDataStructurePA>(
-						poDataType.nBinaryValue, oEntry.getLeafElement()));								
-			}
-		return oSearchPattern;
-	}
-	
-//	/**
-//	 * This method adds the associated items from the search result to the
-//	 * associatedDataStructures of the (perception) container.
-//	 *
-//	 * @author Marcus Zottl (e0226304)
-//	 * 22.06.2011, 18:29:38
-//	 *
-//	 * @param poSearchResult	- the result of a MemorySearch in the KnowledgeBase 
-//	 * @param poPerception		- the perception to which the items in the search
-//	 * result should be added.
-//	 */
-//	private void addAssociations(
-//			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
-//			ArrayList<clsPrimaryDataStructureContainer> poPerception) {
-//
-//		//oEntry: Data structure with a double association weight and an object e. g. CAKE with its associated DM.
-//		if (poSearchResult.size()!=poPerception.size()) {
-//			try {
-//				throw new Exception("F46: addAssociations, Error, different Sizes");
-//			} catch (Exception e) {
-//				// TODO (wendt) - Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		for (int i=0;i<poSearchResult.size();i++) {
-//			ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchPair = poSearchResult.get(i);
-//			clsPrimaryDataStructureContainer oPC = poPerception.get(i);
-//			if (oSearchPair.size()>0) {
-//				poPerception.get(i).getMoAssociatedDataStructures().addAll(oSearchPair.get(0).b.getMoAssociatedDataStructures());
-//			}
-//			
-//		}
-//		
-//		/*for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult) {
-//			if(oEntry.size() > 0){
-//				//get associated DM from a the object e. g. CAKE
-//				ArrayList<clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures();
-//				//Add associated DM to the input list. Now the list moAssociatedDataStructures contains DM and ATTRIBUTES
-//				poPerception.getMoAssociatedDataStructures().addAll(oAssociationList);
-//			}
-//		}*/
-//	}	
-	
 	/**
 	 * Either the perceived image or the input image from the secondary process are put on the input for searching for experiences (type IMAGE)
 	 * in the storage. The total amount of mrPleasure decides which image is put on the input. In that way content from the secondary process
@@ -586,7 +384,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 				}
 			}
 			
-			this.getLongTermMemory().executePsychicSpreadActivation(poPerceivedImage, moDrives_IN, 5.0);
+			this.getLongTermMemory().executePsychicSpreadActivation(poPerceivedImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION);
 			
 			//=== Perform system tests ===//
 			if (clsTester.getTester().isActivated()) {
@@ -611,7 +409,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 				clsMeshTools.addTPMToTPMImage(poReturnedPhantasyImage, oSELFList);
 			}
 			
-			this.getLongTermMemory().executePsychicSpreadActivation(poReturnedPhantasyImage, moDrives_IN, 2.0);
+			this.getLongTermMemory().executePsychicSpreadActivation(poReturnedPhantasyImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION/2, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION);
 		}
 		
 		
