@@ -138,7 +138,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 //		System.out.println(moSearchSpaceHandler.toString());
 		
-		if(poDataStructureUnknown.getMoDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
+		if(poDataStructureUnknown.getDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
 			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0, poDataStructureUnknown)); 
 		}
 		else{
@@ -216,7 +216,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		if (poPattern!=null)  {
 			
 			//FIXME AW: Make a better solution than renaming the content types at the search
-			eContentType oInputContentType = poPattern.getMoContentType();
+			eContentType oInputContentType = poPattern.getContentType();
 			//Set the new content type, in order to get matches from it, e. g. IMAGE or LIBIDOIMAGE. This content type is the first filter
 			//in the search
 			poPattern.setMoContentType(poSearchContentType);

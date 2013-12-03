@@ -136,7 +136,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		
 		for (clsAssociation oAss : this.moInternalAssociatedContent) {
 			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate)==true) {
+				if (((clsAssociationSecondary)oAss).getPredicate().equals(poPredicate)==true) {
 					oRetVal.add((clsSecondaryDataStructure) oAss.getTheOtherElement(this));
 					if (pbStopAtFirstMatch==true) {
 						break;
@@ -148,7 +148,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		if (oRetVal.size()==0 || pbStopAtFirstMatch==false) {
 			for (clsAssociation oAss : this.moExternalAssociatedContent) {
 				if (oAss instanceof clsAssociationSecondary) {
-					if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate)==true) {
+					if (((clsAssociationSecondary)oAss).getPredicate().equals(poPredicate)==true) {
 						oRetVal.add((clsSecondaryDataStructure) oAss.getTheOtherElement(this));
 						
 						if (pbStopAtFirstMatch==true) {
@@ -269,7 +269,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
     					
     					clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
     					if (dupl instanceof clsAssociationSecondary) {
-    					    ePredicate oCT = ((clsAssociationSecondary)dupl).getMoPredicate();
+    					    ePredicate oCT = ((clsAssociationSecondary)dupl).getPredicate();
                             
                             ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
                             if (oS==null) {
@@ -295,7 +295,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
     					
                         clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
                         if (dupl instanceof clsAssociationSecondary) {
-                            ePredicate oCT = ((clsAssociationSecondary)dupl).getMoPredicate();
+                            ePredicate oCT = ((clsAssociationSecondary)dupl).getPredicate();
                             
                             ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
                             if (oS==null) {
@@ -319,10 +319,10 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         if (clsTester.getTester().isActivated()) {
             try {
                 log.warn("System tester active");
-                log.debug("Testing original {}", this.getMoContent());
+                log.debug("Testing original {}", this.getContent());
                 clsTester.getTester().exeTestCheckLooseAssociations(this);
                 clsTester.getTester().exeTestAssociationAssignment(this);
-                log.debug("Testing clone {}", oClone.getMoContent());
+                log.debug("Testing clone {}", oClone.getContent());
                 clsTester.getTester().exeTestCheckLooseAssociations(oClone);
                 clsTester.getTester().exeTestAssociationAssignment(oClone);
             } catch (Exception e) {
@@ -350,7 +350,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					ArrayList<clsWordPresentationMesh> oSubImages = clsActTools.getAllSubImages(this);
 					oResult += "\nSUBIMAGES: ";
 					for (clsWordPresentationMesh oSubImage : oSubImages) {
-						oResult += oSubImage.getMoContent() + 
+						oResult += oSubImage.getContent() + 
 								"(PIMatch=" + clsActTools.getPIMatchFlag(oSubImage) + 
 								")(MomConf=" + clsActTools.getMomentConfidenceLevel(oSubImage) + 
 								")(Timeout=" + clsActTools.getMovementTimeoutValue(oSubImage) + ");"; 
@@ -502,7 +502,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	public boolean isNullObject() {
 		boolean bResult = false;
 		
-		if (this.getMoContentType()==eContentType.NULLOBJECT) {
+		if (this.getContentType()==eContentType.NULLOBJECT) {
 			bResult=true;
 		}
 		
@@ -551,7 +551,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         
         //Process the original Element 
         if (nOriginAddAssociationState==1) {
-            this.getMoInternalAssociatedContent().add(oNewAss);
+            this.getInternalAssociatedContent().add(oNewAss);
         } else if (nOriginAddAssociationState==2) {
             this.getExternalAssociatedContent().add(oNewAss);
         }
@@ -560,7 +560,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         //Add association to the target structure if it is a WPM
         if ((poElementTarget instanceof clsWordPresentationMesh) && (nOriginAddAssociationState!=0)) {
             if (nTargetAddAssociationState==1) {
-                ((clsWordPresentationMesh)poElementTarget).getMoInternalAssociatedContent().add(oNewAss);
+                ((clsWordPresentationMesh)poElementTarget).getInternalAssociatedContent().add(oNewAss);
             } else if (nTargetAddAssociationState==2) {
                 ((clsWordPresentationMesh)poElementTarget).getExternalAssociatedContent().add(oNewAss);
             }
@@ -602,7 +602,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
             
             
         } else {
-            ((clsSecondaryDataStructure)oAss.getTheOtherElement(this)).setMoContent(poWPContent);
+            ((clsSecondaryDataStructure)oAss.getTheOtherElement(this)).setContent(poWPContent);
         }
         
     }
@@ -631,7 +631,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         for (clsDataStructurePA oAss : oAssList) {
             //Get WP
             clsWordPresentation oWP = (clsWordPresentation) ((clsAssociation)oAss).getLeafElement();
-            if (oWP.getMoContent().equals(poWPContent) && oWP.getMoContentType().equals(poWPContentType)) {
+            if (oWP.getContent().equals(poWPContent) && oWP.getContentType().equals(poWPContentType)) {
                 bWPFound = true;    //Do nothing as it is already set
                 break;
             }
@@ -1065,7 +1065,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         ArrayList<clsSecondaryDataStructure> oWP = this.moAssociationMapping.get(oPredicate);
         
         if (oWP!=null && oWP.isEmpty()==false) {
-            oRetVal = ((clsWordPresentation) oWP.get(0)).getMoContent();
+            oRetVal = ((clsWordPresentation) oWP.get(0)).getContent();
         }
     
         return oRetVal;
@@ -1089,7 +1089,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         
         if (oWP!=null) {
             for (clsSecondaryDataStructure oC : oWP) {
-                oRetVal.add(oC.getMoContent());
+                oRetVal.add(oC.getContent());
             }
         }
 
@@ -1112,7 +1112,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         ArrayList<clsWordPresentation> oFoundStructureList = this.getNonUniquePredicateWP(oPredicate);
         
         for (clsWordPresentation oListElement : oFoundStructureList) {
-            if (oListElement.getMoContent().equals(poRemoveContent)) {
+            if (oListElement.getContent().equals(poRemoveContent)) {
                 clsMeshTools.removeAssociationInObject(this, oListElement);
                 this.removeAssociationMapping(oPredicate, oListElement);
                 break;

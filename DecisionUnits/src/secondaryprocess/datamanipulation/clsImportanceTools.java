@@ -108,7 +108,7 @@ public class clsImportanceTools {
 		ArrayList<clsAssociationEmotion> oEmotionList = clsMeshTools.getAllEmotionsInImage(poImage);
 		
 		for (clsAssociationEmotion oEmotionAss : oEmotionList) {
-			rTotalAffect += java.lang.Math.abs(((clsEmotion)oEmotionAss.getLeafElement()).getMrEmotionIntensity());
+			rTotalAffect += java.lang.Math.abs(((clsEmotion)oEmotionAss.getLeafElement()).getEmotionIntensity());
 		}
 		
 		double rNormedAffect = 0.0;
@@ -306,7 +306,7 @@ public class clsImportanceTools {
 				for (clsWordPresentationMeshGoal oGoalTriple : oRetVal) {
 					if (copyOfSelectableGoal.getGoalName() == oGoalTriple.getGoalName() && 
 					        copyOfSelectableGoal.getTotalImportance() == oGoalTriple.getTotalImportance() && 
-					                copyOfSelectableGoal.getGoalObject().getMoContent().equals(oGoalTriple.getGoalObject().getMoContent())) {
+					                copyOfSelectableGoal.getGoalObject().getContent().equals(oGoalTriple.getGoalObject().getContent())) {
 						bFound = true;
 						break;
 					}

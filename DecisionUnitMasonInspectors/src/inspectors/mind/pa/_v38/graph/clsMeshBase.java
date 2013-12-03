@@ -362,9 +362,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 		//create assosiations
 		for(clsAssociation oContainerAssociations : oAssociatedDataStructures)
 		{
-			if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementA().getMoDS_ID())
+			if(oContainerRootDataStructure.getDS_ID() == oContainerAssociations.getAssociationElementA().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -374,9 +374,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementA().getMoDS_ID())
+			else if(oContainerRootDataStructure.getDS_ID() == oContainerAssociations.getAssociationElementA().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getMoAssociationElementA();
+				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -388,9 +388,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 			}
 			else
 			{ 
-				System.out.println("[clsMeshBase.generateGraphCell] [PDC] Neither A nor B are root element. using element:" + oContainerAssociations.getMoAssociationElementB().getMoDS_ID());
+				System.out.println("[clsMeshBase.generateGraphCell] [PDC] Neither A nor B are root element. using element:" + oContainerAssociations.getAssociationElementB().getDS_ID());
 				
-				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -436,9 +436,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 		//create assosiations (siehe weiter oben, wird nicht durchlaufen! da immer leer im SecContainer)
 		for(clsAssociation oContainerAssociations : oAssociatedDataStructures)
 		{
-			if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementA().getMoDS_ID())
+			if(oContainerRootDataStructure.getDS_ID() == oContainerAssociations.getAssociationElementA().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -448,9 +448,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementB().getMoDS_ID())
+			else if(oContainerRootDataStructure.getDS_ID() == oContainerAssociations.getAssociationElementB().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getMoAssociationElementA();
+				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -462,9 +462,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 			}
 			else
 			{ //should not be laut heimo!!!
-				System.out.println("[clsMeshBase.generateGraphCell] [SDC] Neither A nor B are root element. using B: " + oContainerAssociations.getMoAssociationElementB().getMoDS_ID());
+				System.out.println("[clsMeshBase.generateGraphCell] [SDC] Neither A nor B are root element. using B: " + oContainerAssociations.getAssociationElementB().getDS_ID());
 
-				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -496,11 +496,11 @@ public abstract class clsMeshBase extends clsGraphBase {
 		DefaultGraphCell oDMrootCell = createDefaultGraphVertex(oDescription, moColorDMRoot);
 		this.moCellList.add(oDMrootCell);
 		
-		for(clsAssociation oDMAssociations : poMemoryObject.getMoInternalAssociatedContent())
+		for(clsAssociation oDMAssociations : poMemoryObject.getInternalAssociatedContent())
 		{
-			if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
+			if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementA().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oDMAssociations.getAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("DM w:" + oDMAssociations.getMrWeight());
@@ -510,9 +510,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
+			else if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementB().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
+				clsDataStructurePA oMemoryObjectA = oDMAssociations.getAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("DM w:" + oDMAssociations.getMrWeight());
@@ -548,11 +548,11 @@ public abstract class clsMeshBase extends clsGraphBase {
 		DefaultGraphCell oTPMrootCell = createDefaultGraphVertex(oDescription, moColorTPMRoot);
 		this.moCellList.add(oTPMrootCell);
 		
-		for(clsAssociation oDMAssociations : poMemoryObject.getMoInternalAssociatedContent())
+		for(clsAssociation oDMAssociations : poMemoryObject.getInternalAssociatedContent())
 		{
-			if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
+			if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementA().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oDMAssociations.getAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("TPM w:" + oDMAssociations.getMrWeight());
@@ -562,9 +562,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
+			else if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementB().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
+				clsDataStructurePA oMemoryObjectA = oDMAssociations.getAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("TPM w:" + oDMAssociations.getMrWeight());
@@ -594,9 +594,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 		if(!UseSimpleView()) 
 		{
 			oDescription = 	"TP\n" +
-			"DSID: "+ poMemoryObject.getMoDS_ID() + "\n" +
-			"ContentType: "+ poMemoryObject.getMoContentType() + "\n" +
-			"Content: "+ poMemoryObject.getMoContent();
+			"DSID: "+ poMemoryObject.getDS_ID() + "\n" +
+			"ContentType: "+ poMemoryObject.getContentType() + "\n" +
+			"Content: "+ poMemoryObject.getContent();
 		}
 		
 		RichTextValue oRichText = new RichTextValue(oDescription);
@@ -652,11 +652,11 @@ public abstract class clsMeshBase extends clsGraphBase {
 		DefaultGraphCell oWPMrootCell = createDefaultGraphVertex(oDescription, moColorWPMRoot);
 		this.moCellList.add(oWPMrootCell);
 		
-		for(clsAssociation oWPMAssociations : poMemoryObject.getMoInternalAssociatedContent())
+		for(clsAssociation oWPMAssociations : poMemoryObject.getInternalAssociatedContent())
 		{
-			if(poMemoryObject.getMoDS_ID() == oWPMAssociations.getMoAssociationElementA().getMoDS_ID())
+			if(poMemoryObject.getDS_ID() == oWPMAssociations.getAssociationElementA().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oWPMAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oWPMAssociations.getAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oWPMrootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("WPM w:" + oWPMAssociations.getMrWeight());
@@ -666,9 +666,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(poMemoryObject.getMoDS_ID() == oWPMAssociations.getMoAssociationElementB().getMoDS_ID())
+			else if(poMemoryObject.getDS_ID() == oWPMAssociations.getAssociationElementB().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oWPMAssociations.getMoAssociationElementA();
+				clsDataStructurePA oMemoryObjectA = oWPMAssociations.getAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oWPMrootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("WPM w:" + oWPMAssociations.getMrWeight());

@@ -32,7 +32,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @return the moAssociatedContent
 	 */
 	@Override
-	public ArrayList<clsAssociation> getMoInternalAssociatedContent() {
+	public ArrayList<clsAssociation> getInternalAssociatedContent() {
 		return moInternalAssociatedContent;
 	}
 
@@ -43,7 +43,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param moInternalAssociatedContent the moAssociatedContent to set
 	 */
 	@Override
-	public void setMoInternalAssociatedContent(ArrayList<clsAssociation> poAssociatedContent) {
+	public void setInternalAssociatedContent(ArrayList<clsAssociation> poAssociatedContent) {
 		this.moInternalAssociatedContent = poAssociatedContent;
 	}
 	
@@ -70,7 +70,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param poExternalAssociatedContent
 	 */
 	@Override
-	public void setMoExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
+	public void setExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
 		this.moExternalAssociatedContent = poExternalAssociatedContent;
 	}
 	

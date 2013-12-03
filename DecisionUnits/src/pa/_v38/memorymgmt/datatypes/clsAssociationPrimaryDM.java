@@ -84,10 +84,10 @@ public class clsAssociationPrimaryDM extends clsAssociation{
 	 * @return
 	 */
 	public clsDataStructurePA containsInstanceID(clsDataStructurePA poDS) {
-		if ((moAssociationElementB.moDSInstance_ID == poDS.getMoDSInstance_ID())) {
+		if ((moAssociationElementB.moDSInstance_ID == poDS.getDSInstance_ID())) {
 			return moAssociationElementA;
 		}
-		if ((moAssociationElementA.moDSInstance_ID == poDS.getMoDSInstance_ID())) {
+		if ((moAssociationElementA.moDSInstance_ID == poDS.getDSInstance_ID())) {
 			return moAssociationElementB;
 		} else {
 			return null;

@@ -913,15 +913,15 @@ public class F07_SuperEgoReactive extends clsModuleBase
                             boolean bPerception = true;                    
                             if (perceptionSize > 0) {
                                 
-                                ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getMoInternalAssociatedContent();
+                                ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getInternalAssociatedContent();
                             
                                 for (p = 0; p < perceptionSize && bPerception; p++) {
                                     
                                     bPerception = false;
                                     for (clsAssociation oAssociation : oInternalAssociations) {
-                                        if (oAssociation.getMoAssociationElementB() instanceof clsThingPresentationMesh) {
-                                            if( ((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContentType().equals(oRegeln.get(i).getPerceptionRule(p).a) &&
-                                                    ((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContent().equals(oRegeln.get(i).getPerceptionRule(p).b) ) {
+                                        if (oAssociation.getAssociationElementB() instanceof clsThingPresentationMesh) {
+                                            if( ((clsThingPresentationMesh)oAssociation.getAssociationElementB()).getContentType().equals(oRegeln.get(i).getPerceptionRule(p).a) &&
+                                                    ((clsThingPresentationMesh)oAssociation.getAssociationElementB()).getContent().equals(oRegeln.get(i).getPerceptionRule(p).b) ) {
                                                 //EINE TPM GEFUNDEN (von vlt vielen) JUHUU! und da gefunden ab zur nächsten in der Schleife
                                                 bPerception = true;
                                                 break;
@@ -948,9 +948,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
                                         beGefunden = false;
                                         for(clsEmotion oOneEmotion : moEmotions_Input) {
                                             
-                                            double rEmotionItensity = oOneEmotion.getMrEmotionIntensity();
+                                            double rEmotionItensity = oOneEmotion.getEmotionIntensity();
                                             
-                                            if (oOneEmotion.getMoContent().equals(oRegeln.get(i).getEmotionRule(e).a) &&
+                                            if (oOneEmotion.getContent().equals(oRegeln.get(i).getEmotionRule(e).a) &&
                                                     oRegeln.get(i).getEmotionRule(e).b[0] <= rEmotionItensity && 
                                                             oRegeln.get(i).getEmotionRule(e).b[1] >= rEmotionItensity) {
                                                 beGefunden = true;

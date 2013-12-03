@@ -119,7 +119,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		clsPrimaryDataStructureContainer oEmptySpaceContainer=null;
 		for (ArrayList<clsPair<Double,clsDataStructureContainer>> oE : oSearchResult) {
 			for (clsPair<Double,clsDataStructureContainer> oE2 : oE) {
-				if (((clsThingPresentationMesh)oE2.b.getMoDataStructure()).getMoContent().equals(poContent)==true) {
+				if (((clsThingPresentationMesh)oE2.b.getMoDataStructure()).getContent().equals(poContent)==true) {
 					oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oE2.b;
 				}
 			}
@@ -160,7 +160,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		}
 		
 		
-		((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setMoExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());
+		((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());
 		clsThingPresentationMesh oEmptySpaceTPM = null;
 		try {
 			oEmptySpaceTPM = (clsThingPresentationMesh) ((clsThingPresentationMesh) oEmptySpaceContainer.getMoDataStructure()).clone();
@@ -214,7 +214,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 			//Get the best match if higher than the threshold
 			if (oSearchResult.get(0).get(0).a >= prThreshold) {
 				oRetVal = (clsAssociationWordPresentation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
-				if (poDataStructure.getMoDS_ID()==oRetVal.getRootElement().getMoDS_ID()) {
+				if (poDataStructure.getDS_ID()==oRetVal.getRootElement().getDS_ID()) {
 					oRetVal.setRootElement(poDataStructure);
 				}
 			}	

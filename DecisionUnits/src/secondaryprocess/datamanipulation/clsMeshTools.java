@@ -94,7 +94,7 @@ public class clsMeshTools {
 		E oRetVal = null;
 		
 		//check invalid IDs
-		if (poSearchDS.getMoDS_ID() == -1) {
+		if (poSearchDS.getDS_ID() == -1) {
 			try {
 				throw new Exception("clsDataStructureTools, findPADataStructureInArrayList: Invalid Input ID");
 			} catch (Exception e) {
@@ -104,7 +104,7 @@ public class clsMeshTools {
 		}
 		
 		for (E oDS : poList) {
-			if (oDS.getMoDS_ID() == -1) {
+			if (oDS.getDS_ID() == -1) {
 				try {
 					throw new Exception("clsDataStructureTools, findPADataStructureInArrayList: Invalid DatastructurePA ID");
 				} catch (Exception e) {
@@ -113,7 +113,7 @@ public class clsMeshTools {
 				}
 			}
 			
-			if (oDS.getMoDS_ID() == poSearchDS.getMoDS_ID()) {
+			if (oDS.getDS_ID() == poSearchDS.getDS_ID()) {
 				oRetVal = oDS;
 			}
 		}
@@ -230,7 +230,7 @@ public class clsMeshTools {
 			
 			//Add the substructures of the internal associations
 			if ((pnLevel>0) || (pnLevel==-1)) {
-				for (clsAssociation oAss : poMesh.getMoInternalAssociatedContent()) {
+				for (clsAssociation oAss : poMesh.getInternalAssociatedContent()) {
 					if (poAddedElements.contains(oAss.getLeafElement())==false && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
 						searchDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeFilterList, pbStopAtFirstMatch, pnLevel-1);
 					} else if (poAddedElements.contains(oAss.getRootElement())==false && oAss.getRootElement() instanceof clsThingPresentationMesh) {
@@ -273,7 +273,7 @@ public class clsMeshTools {
 		//if (poContentType.equals(eContentType.NULLOBJECT)==true) {
 		//	oRetVal = true;
 		//} else {
-			if (poContentType.equals(poMesh.getMoContentType())==true) {
+			if (poContentType.equals(poMesh.getContentType())==true) {
 				oRetVal = true;
 			}
 		//}
@@ -394,7 +394,7 @@ public class clsMeshTools {
 		for (clsAssociation oAss: poAssList) {
 			//Check if attribute
 			if (oAss instanceof clsAssociationAttribute) {
-				if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) {
+				if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getContentType())==true) {
 					oRetVal.add((clsAssociationAttribute) oAss);
 					if (pbStopAtFirstMatch==true) {
 						break;
@@ -458,7 +458,7 @@ public class clsMeshTools {
 		for (clsAssociation oAss: poAssList) {
 			//Check if attribute
 			if (oAss instanceof clsAssociationDriveMesh) {
-				if (poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) {
+				if (poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getContentType())==true) {
 					oRetVal.add((clsAssociationDriveMesh) oAss);
 					if (pbStopAtFirstMatch==true) {
 						break;
@@ -490,7 +490,7 @@ public class clsMeshTools {
 		for (clsAssociation oAss: poAssList) {
 			//Check if attribute
 			if (oAss instanceof clsAssociationEmotion) {
-				if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) {
+				if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getContentType())==true) {
 					oRetVal.add((clsAssociationEmotion) oAss);
 					if (pbStopAtFirstMatch==true) {
 						break;
@@ -523,7 +523,7 @@ public class clsMeshTools {
 		//Go through all objects on this level in each image
 		for (clsThingPresentationMesh oObject : oAllTPMInMesh) {
 			
-			if (poFindDataStructure.getMoDS_ID() == oObject.getMoDS_ID()) {
+			if (poFindDataStructure.getDS_ID() == oObject.getDS_ID()) {
 				oRetVal.add(oObject);
 			}
 		}
@@ -551,14 +551,14 @@ public class clsMeshTools {
 		
 		for (clsThingPresentationMesh oObject : oAllTPMInMesh) {
 			if (pbUseTypeID==true) {
-				if (poFindDataStructure.getMoDS_ID() == oObject.getMoDS_ID()) {
+				if (poFindDataStructure.getDS_ID() == oObject.getDS_ID()) {
 					oRetVal.add(oObject);
 					if (pbStopAtFirstMatch==true) {
 						break;
 					}
 				}
 			} else {
-				if (poFindDataStructure.getMoDSInstance_ID() == oObject.getMoDSInstance_ID()) {
+				if (poFindDataStructure.getDSInstance_ID() == oObject.getDSInstance_ID()) {
 					oRetVal.add(oObject);
 					if (pbStopAtFirstMatch==true) {
 						break;
@@ -592,14 +592,14 @@ public class clsMeshTools {
 		
 		for (clsThingPresentationMesh oObject : oAllTPMInMesh) {
 			if (pbUseTypeID==true) {
-				if (poFindDataStructure.getMoDS_ID() == oObject.getMoDS_ID()) {
+				if (poFindDataStructure.getDS_ID() == oObject.getDS_ID()) {
 					oRetVal.add(oObject);
 					if (pbStopAtFirstMatch==true) {
 						break;
 					}
 				}
 			} else {
-				if (poFindDataStructure.getMoDSInstance_ID() == oObject.getMoDSInstance_ID()) {
+				if (poFindDataStructure.getDSInstance_ID() == oObject.getDSInstance_ID()) {
 					oRetVal.add(oObject);
 					if (pbStopAtFirstMatch==true) {
 						break;
@@ -694,7 +694,7 @@ public class clsMeshTools {
 				}
 				
 			}
-			if (pnMode==0 && oDS.getMoContentType().equals(poDSContentType)) {
+			if (pnMode==0 && oDS.getContentType().equals(poDSContentType)) {
 				if (pbGetWholeAssociation==true) {
 					oRetVal.add(oAss);
 				} else {
@@ -704,7 +704,7 @@ public class clsMeshTools {
 				if (pbStopAtFirstMatch==true) {
 					break;
 				}
-			} else if (pnMode==1 && oAss.getRootElement().getMoContentType().equals(poDSContentType)) {
+			} else if (pnMode==1 && oAss.getRootElement().getContentType().equals(poDSContentType)) {
 				if (pbGetWholeAssociation==true) {
 					oRetVal.add(oAss);
 				} else {
@@ -714,7 +714,7 @@ public class clsMeshTools {
 				if (pbStopAtFirstMatch==true) {
 					break;
 				}
-			} else if (pnMode==2 && oAss.getLeafElement().getMoContentType().equals(poDSContentType)) {
+			} else if (pnMode==2 && oAss.getLeafElement().getContentType().equals(poDSContentType)) {
 				if (pbGetWholeAssociation==true) {
 					oRetVal.add(oAss);
 				} else {
@@ -753,7 +753,7 @@ public class clsMeshTools {
 		oRetVal.addAll(searchAssociationListPrimary(poInput.getExternalMoAssociatedContent(), poInput, poDataStructureContentType, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 		
 		//Go through inner associations
-		oRetVal.addAll(searchAssociationListPrimary(poInput.getMoInternalAssociatedContent(), poInput, poDataStructureContentType, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
+		oRetVal.addAll(searchAssociationListPrimary(poInput.getInternalAssociatedContent(), poInput, poDataStructureContentType, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 					
 		return oRetVal;
 	}
@@ -815,7 +815,7 @@ public class clsMeshTools {
 		
 		for (clsAssociation oAss : poInputList) {
 			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate)) {
+				if (((clsAssociationSecondary)oAss).getPredicate().equals(poPredicate)) {
 					if (pbGetWholeAssociation==true) {
 						oRetVal.add(oAss);
 						if (pbStopAtFirstMatch==true) {
@@ -899,7 +899,7 @@ public class clsMeshTools {
 		oRetVal.addAll(searchAssociationListSecondary(poInput.getExternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 		
 		//Go through inner associations
-		oRetVal.addAll(searchAssociationListSecondary(poInput.getMoInternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
+		oRetVal.addAll(searchAssociationListSecondary(poInput.getInternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 					
 		return oRetVal;
 	}
@@ -926,7 +926,7 @@ public class clsMeshTools {
 	            }
 	        }
 	        
-	        for (clsAssociation oAssInt : wpm.getMoInternalAssociatedContent()) {
+	        for (clsAssociation oAssInt : wpm.getInternalAssociatedContent()) {
 	            if (oAssInt instanceof clsAssociationSecondary) {
                     result.add((clsAssociationSecondary) oAssInt);
                 }
@@ -956,7 +956,7 @@ public class clsMeshTools {
 		ArrayList<clsDataStructurePA> oFoundDSList =  searchDataStructureOverAssociation(poInput, poPredicate, 0, false, false);
 		
 		for (clsDataStructurePA oDS : oFoundDSList) {
-			if (poDataStructureContent != "" && ((clsSecondaryDataStructure)oDS).getMoContent().equals(poDataStructureContent)) {
+			if (poDataStructureContent != "" && ((clsSecondaryDataStructure)oDS).getContent().equals(poDataStructureContent)) {
 				oRetVal.add((clsSecondaryDataStructure) oDS);
 				
 				if (pbStopAtFirstMatch == true) {
@@ -988,7 +988,7 @@ public class clsMeshTools {
 		ArrayList<clsDataStructurePA> oFoundDSList =  searchDataStructureOverAssociation(poInput, poPredicate, 0, false, false);
 		
 		for (clsDataStructurePA oDS : oFoundDSList) {
-			if (oDS.getMoDS_ID()==poID) {
+			if (oDS.getDS_ID()==poID) {
 				oRetVal.add((clsSecondaryDataStructure) oDS);
 				
 				if (pbStopAtFirstMatch == true) {
@@ -1066,16 +1066,16 @@ public class clsMeshTools {
 		boolean oRetVal = false;
 		
 			if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==false) {
-				if ((poContentType.equals(poMesh.getMoContentType())==true) &&
-						(poContent.equals(poMesh.getMoContent())==true)) {
+				if ((poContentType.equals(poMesh.getContentType())==true) &&
+						(poContent.equals(poMesh.getContent())==true)) {
 					oRetVal = true;
 				}
 			} else if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==true) {
-				if (poContentType.equals(poMesh.getMoContentType())==true) {
+				if (poContentType.equals(poMesh.getContentType())==true) {
 					oRetVal = true;
 				}
 			} else if (poContentType.equals(eContentType.NOTHING)==true && poContent.equals("")==false) {
-				if (poContent.equals(poMesh.getMoContent())==true) {
+				if (poContent.equals(poMesh.getContent())==true) {
 					oRetVal = true;
 				}
 			} else {
@@ -1149,7 +1149,7 @@ public class clsMeshTools {
 
 		//Go through all external
 		for (clsPair<eContentType, String> oCTC : poContentTypeAndContent) {
-			oRetVal.addAll(FilterWPList(poWPM.getMoInternalAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
+			oRetVal.addAll(FilterWPList(poWPM.getInternalAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
 			if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
 				//Go through the external list
 				oRetVal.addAll(FilterWPList(poWPM.getExternalAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
@@ -1179,22 +1179,22 @@ public class clsMeshTools {
 			//Check if attribute
 			if (oAss instanceof clsAssociationSecondary && oAss.getLeafElement() instanceof clsWordPresentation) {
 				if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==false) {
-					if ((poContentType.equals(((clsAssociationSecondary)oAss).getLeafElement().getMoContentType())==true) &&
-							(poContent.equals(((clsWordPresentation)oAss.getLeafElement()).getMoContent().toString())==true)) {
+					if ((poContentType.equals(((clsAssociationSecondary)oAss).getLeafElement().getContentType())==true) &&
+							(poContent.equals(((clsWordPresentation)oAss.getLeafElement()).getContent().toString())==true)) {
 						oRetVal.add((clsAssociationSecondary) oAss);
 						if (pbStopAtFirstMatch==true) {
 							break;
 						}
 					}
 				} else if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==true) {
-					if (poContentType.equals(((clsAssociationSecondary)oAss).getLeafElement().getMoContentType())==true) {
+					if (poContentType.equals(((clsAssociationSecondary)oAss).getLeafElement().getContentType())==true) {
 						oRetVal.add((clsAssociationSecondary) oAss);
 						if (pbStopAtFirstMatch==true) {
 							break;
 						}
 					}
 				} else if (poContentType.equals(eContentType.NOTHING)==true && poContent.equals("")==false) {
-					if (poContent.equals(((clsWordPresentation)oAss.getLeafElement()).getMoContent().toString())==true) {
+					if (poContent.equals(((clsWordPresentation)oAss.getLeafElement()).getContent().toString())==true) {
 						oRetVal.add((clsAssociationSecondary) oAss);
 						if (pbStopAtFirstMatch==true) {
 							break;
@@ -1226,9 +1226,9 @@ public class clsMeshTools {
 		//ArrayList<clsThingPresentationMesh> oRetVal = poAddedElements;
 		
 		for (clsWordPresentationMesh mesh : poAddedElements) {
-		    if (poMesh.getMoDS_ID()>-1 && poMesh.getMoContentType().equals(eContentType.RI) && poMesh.getMoDS_ID()==mesh.getMoDS_ID() && poMesh.equals(mesh)==false) {
+		    if (poMesh.getDS_ID()>-1 && poMesh.getContentType().equals(eContentType.RI) && poMesh.getDS_ID()==mesh.getDS_ID() && poMesh.equals(mesh)==false) {
 		        try {
-                    throw new Exception("Erroneous mesh structure. The element " + poMesh.getMoContent() + " hashcode " +  poMesh.hashCode() + " already exists but is not the same instance with the structure " + mesh.getMoContent() + " hashcode " +  mesh.hashCode());
+                    throw new Exception("Erroneous mesh structure. The element " + poMesh.getContent() + " hashcode " +  poMesh.hashCode() + " already exists but is not the same instance with the structure " + mesh.getContent() + " hashcode " +  mesh.hashCode());
                 } catch (Exception e) {
                     log.error("Error in mesh structure", e);
                 }
@@ -1268,7 +1268,7 @@ public class clsMeshTools {
 			
 			//Add the substructures of the internal associations
 			if ((pnLevel>0) || (pnLevel==-1)) {
-				for (clsAssociation oAss : poMesh.getMoInternalAssociatedContent()) {
+				for (clsAssociation oAss : poMesh.getInternalAssociatedContent()) {
 					if (poAddedElements.contains(oAss.getLeafElement())==false && oAss.getLeafElement() instanceof clsWordPresentationMesh && oAss.getLeafElement().equals(poMesh)==false) {
 						searchDataStructureInWPM((clsWordPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
 					} else if (poAddedElements.contains(oAss.getRootElement())==false && oAss.getRootElement() instanceof clsWordPresentationMesh && oAss.getRootElement().equals(poMesh)==false) {
@@ -1312,9 +1312,9 @@ public class clsMeshTools {
 		ArrayList<clsWordPresentationMesh> oWPMList = clsMeshTools.getAllWPMImages(poFindInMesh, 10);
 		
 		for (clsWordPresentationMesh oMeshWPM : oWPMList) {
-			if (poFindDataStructure.getMoDS_ID()==oMeshWPM.getMoDS_ID() && 
-					poFindDataStructure.getMoContentType()==oMeshWPM.getMoContentType() && 
-					poFindDataStructure.getMoContent()==oMeshWPM.getMoContent()) {
+			if (poFindDataStructure.getDS_ID()==oMeshWPM.getDS_ID() && 
+					poFindDataStructure.getContentType()==oMeshWPM.getContentType() && 
+					poFindDataStructure.getContent()==oMeshWPM.getContent()) {
 				oResult = oMeshWPM;
 				break;
 			}
@@ -1405,7 +1405,7 @@ public class clsMeshTools {
 		eContentType oContentType = eContentType.ASSOCIATIONATTRIBUTE;
 		clsAssociationAttribute oAssAttr = (clsAssociationAttribute)clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(oContentType, poStructureA, poStructureB, prWeight);
 		if (pnAddMode==0) {
-			poStructureA.getMoInternalAssociatedContent().add(oAssAttr);
+			poStructureA.getInternalAssociatedContent().add(oAssAttr);
 		} else if (pnAddMode==1) {
 			poStructureA.getExternalMoAssociatedContent().add(oAssAttr);
 		} else {
@@ -1433,7 +1433,7 @@ public class clsMeshTools {
 		clsAssociationTime oAssTemp = (clsAssociationTime)clsDataStructureGenerator.generateASSOCIATIONTIME(oContentType, poSuperStructure, poSubStructure, prWeight);
 		//Add association to the superstructure
 		try{
-			poSuperStructure.getMoInternalAssociatedContent().add(oAssTemp);
+			poSuperStructure.getInternalAssociatedContent().add(oAssTemp);
 		}
 		catch (Exception e) {
 			System.out.println("error, no internal assoc in " + poSuperStructure);
@@ -1476,6 +1476,41 @@ public class clsMeshTools {
 	}
 	
 	/**
+	 * Get a unique structure of the TP
+	 *
+	 * @author wendt
+	 * @since 03.12.2013 13:08:34
+	 *
+	 * @param poTPM
+	 * @param poTPContentTypeOfAssociation
+	 * @return
+	 */
+	public static String getUniqueTPoverAssociation(clsThingPresentationMesh poTPM, eContentType poTPContentTypeOfAssociation) {
+	    String result = "";
+	    clsAssociation oAss = clsMeshTools.getUniqueTPAssociation(poTPM, poTPContentTypeOfAssociation);
+	    
+	    if (oAss!=null) {
+	        result = ((clsThingPresentation)oAss.getLeafElement()).getContent().toString();
+	    }
+	    
+	    return result;
+	}
+	
+	public static String getUniqueTP(clsThingPresentationMesh tpm, eContentType contentTypeOfTP) {
+        String result = "";
+	    for (clsAssociation oAss : tpm.getExternalMoAssociatedContent()) {
+            if (oAss instanceof clsAssociationAttribute) {
+                if (oAss.getLeafElement().getContentType().equals(contentTypeOfTP)) {
+                    //Get content of the association
+                    result = (String) ((clsThingPresentation)oAss.getLeafElement()).getContent();
+                }
+            }
+        }
+	    
+	    return result;
+	}
+	
+	/**
 	 * Remove unique TP from TPM
 	 * 
 	 * (wendt)
@@ -1491,7 +1526,7 @@ public class clsMeshTools {
 		if (oAss!=null) {
 			boolean bDeleted = poTPM.getExternalMoAssociatedContent().remove(oAss);
 			if (bDeleted==false) {
-				poTPM.getMoInternalAssociatedContent().remove(oAss);
+				poTPM.getInternalAssociatedContent().remove(oAss);
 			}
 		}
 	}
@@ -1555,7 +1590,7 @@ public class clsMeshTools {
 		
 		//Process the original Element 
 		if (nOriginAddAssociationState==1) {
-			poElementOrigin.getMoInternalAssociatedContent().add(oNewAss);
+			poElementOrigin.getInternalAssociatedContent().add(oNewAss);
 		} else if (nOriginAddAssociationState==2) {
 			poElementOrigin.getExternalAssociatedContent().add(oNewAss);
 		}
@@ -1564,7 +1599,7 @@ public class clsMeshTools {
 		//Add association to the target structure if it is a WPM
 		if ((poElementTarget instanceof clsWordPresentationMesh) && (nOriginAddAssociationState!=0)) {
 			if (nTargetAddAssociationState==1) {
-				((clsWordPresentationMesh)poElementTarget).getMoInternalAssociatedContent().add(oNewAss);
+				((clsWordPresentationMesh)poElementTarget).getInternalAssociatedContent().add(oNewAss);
 			} else if (nTargetAddAssociationState==2) {
 				((clsWordPresentationMesh)poElementTarget).getExternalAssociatedContent().add(oNewAss);
 			}
@@ -1605,7 +1640,7 @@ public class clsMeshTools {
 			
 			
 		} else {
-			((clsSecondaryDataStructure)oAss.getTheOtherElement(poWPM)).setMoContent(poWPContent);
+			((clsSecondaryDataStructure)oAss.getTheOtherElement(poWPM)).setContent(poWPContent);
 		}
 		
 	}
@@ -1634,7 +1669,7 @@ public class clsMeshTools {
 		for (clsDataStructurePA oAss : oAssList) {
 			//Get WP
 			clsWordPresentation oWP = (clsWordPresentation) ((clsAssociation)oAss).getLeafElement();
-			if (oWP.getMoContent().equals(poWPContent) && oWP.getMoContentType().equals(poWPContentType)) {
+			if (oWP.getContent().equals(poWPContent) && oWP.getContentType().equals(poWPContentType)) {
 				bWPFound = true;	//Do nothing as it is already set
 				break;
 			}
@@ -1678,7 +1713,7 @@ public class clsMeshTools {
 			if (oDS instanceof clsWordPresentationMesh) {
 				clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
 				
-				if (oWPM.getMoContent().equals(poAddWPM.getMoContent()) && oWPM.getMoContentType().equals(poAddWPM.getMoContentType())) {
+				if (oWPM.getContent().equals(poAddWPM.getContent()) && oWPM.getContentType().equals(poAddWPM.getContentType())) {
 					bWPFound = true;	//Do nothing as it is already set
 					break;
 				}
@@ -1962,7 +1997,7 @@ public class clsMeshTools {
 			poSourceTPM.getExternalMoAssociatedContent().remove(oDeleteAss);
 		} else {
 			//Check internal associations
-			for (clsAssociation oExternalAss : poSourceTPM.getMoInternalAssociatedContent()) {
+			for (clsAssociation oExternalAss : poSourceTPM.getInternalAssociatedContent()) {
 				if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
 					bFound = true;
 					oDeleteAss = oExternalAss;
@@ -1971,7 +2006,7 @@ public class clsMeshTools {
 			}
 			
 			if (bFound==true) {
-				poSourceTPM.getMoInternalAssociatedContent().remove(oDeleteAss);
+				poSourceTPM.getInternalAssociatedContent().remove(oDeleteAss);
 			}
 		}
 	}
@@ -2008,7 +2043,7 @@ public class clsMeshTools {
 			poSourceWPM.getExternalAssociatedContent().remove(oDeleteAss);
 		} else {
 			//Check internal associations
-			for (clsAssociation oExternalAss : poSourceWPM.getMoInternalAssociatedContent()) {
+			for (clsAssociation oExternalAss : poSourceWPM.getInternalAssociatedContent()) {
 				if (oExternalAss.getLeafElement().equals(poRootOrLeafDeleteObject) || oExternalAss.getRootElement().equals(poRootOrLeafDeleteObject)) {
 					bFound = true;
 					oDeleteAss = oExternalAss;
@@ -2017,7 +2052,7 @@ public class clsMeshTools {
 			}
 			
 			if (bFound==true) {
-				poSourceWPM.getMoInternalAssociatedContent().remove(oDeleteAss);
+				poSourceWPM.getInternalAssociatedContent().remove(oDeleteAss);
 			}
 		}
 	}
@@ -2039,7 +2074,7 @@ public class clsMeshTools {
 			boolean bFoundAndRemoved = poSourceWPM.getExternalAssociatedContent().remove(oAss);
 			
 			if (bFoundAndRemoved==false) {
-				poSourceWPM.getMoInternalAssociatedContent().remove(oAss);
+				poSourceWPM.getInternalAssociatedContent().remove(oAss);
 			}
 		}
 	}
@@ -2065,7 +2100,7 @@ public class clsMeshTools {
 		ArrayList<clsThingPresentationMesh> oEntites = clsMeshTools.getAllSubTPMFromTPM(poImage);
 		
 		for (clsThingPresentationMesh oEntity : oEntites) {
-			if (oEntity.getMoContent().equals(eContent.SELF.toString())==true) {
+			if (oEntity.getContent().equals(eContent.SELF.toString())==true) {
 				oTPMRetVal = oEntity;
 				break;
 			}
@@ -2158,7 +2193,7 @@ public class clsMeshTools {
 			//Go through each mesh in the source list
 			for (clsThingPresentationMesh oSourceTPM : oSourceTPMList) {
 				//If there are IDs with -1, it is not allowed and should be thrown as exception
-				if (oSourceTPM.getMoDS_ID()==-1) {
+				if (oSourceTPM.getDS_ID()==-1) {
 					try {
 						throw new Exception("Error: DataStructureTools, mergeMesh: A TPM with ID = -1 was found");
 					} catch (Exception e) {
@@ -2167,7 +2202,7 @@ public class clsMeshTools {
 					}
 				}
 				//If the images are equal, then transfer the associations
-				if (oSourceTPM.getMoDS_ID() == oNewTPM.getMoDS_ID()) {
+				if (oSourceTPM.getDS_ID() == oNewTPM.getDS_ID()) {
 					moveAllAssociations(oSourceTPM, oNewTPM);
 					break;
 				}
@@ -2200,11 +2235,11 @@ public class clsMeshTools {
 				poTargetTPM.getExternalMoAssociatedContent().add(poAssociation);
 				//3. Remove the association from the originTPM
 				poOriginTPM.getExternalMoAssociatedContent().remove(poAssociation);
-			} else if (poOriginTPM.getMoInternalAssociatedContent().contains(poAssociation)) {
+			} else if (poOriginTPM.getInternalAssociatedContent().contains(poAssociation)) {
 				//2. Add the changed association to the targetTPM
-				poTargetTPM.getMoInternalAssociatedContent().add(poAssociation);
+				poTargetTPM.getInternalAssociatedContent().add(poAssociation);
 				//3. Remove the association from the originTPM
-				poOriginTPM.getMoInternalAssociatedContent().remove(poAssociation);
+				poOriginTPM.getInternalAssociatedContent().remove(poAssociation);
 			}
 
 		}
@@ -2225,9 +2260,9 @@ public class clsMeshTools {
 	 */
 	public static void moveAllAssociations(clsThingPresentationMesh poTargetTPM, clsThingPresentationMesh poOriginTPM) {
 		//Move all internal associations from origin to target
-		for (clsAssociation oOriAss : poOriginTPM.getMoInternalAssociatedContent()) {
+		for (clsAssociation oOriAss : poOriginTPM.getInternalAssociatedContent()) {
 			boolean bFound = false;
-			for (clsAssociation oTarAss : poTargetTPM.getMoInternalAssociatedContent()) {
+			for (clsAssociation oTarAss : poTargetTPM.getInternalAssociatedContent()) {
 				bFound = checkAssociationExists(oOriAss, oTarAss);
 				if (bFound==true) {
 					break;
@@ -2252,7 +2287,7 @@ public class clsMeshTools {
 			}
 			
 			//If the association does not exist, then move the association
-			if (bFound==false && oOriAss.getMoDS_ID()!=-1) {
+			if (bFound==false && oOriAss.getDS_ID()!=-1) {
 				//Move the association
 				moveAssociation(poTargetTPM, poOriginTPM, oOriAss);
 			}
@@ -2275,7 +2310,7 @@ public class clsMeshTools {
 		//delete the "delete-Element" as well as the whole tree connected with it.
 		
 		//Go through all internal associations
-		for (clsAssociation oInternalAss : poDeleteObject.getMoInternalAssociatedContent()) {
+		for (clsAssociation oInternalAss : poDeleteObject.getInternalAssociatedContent()) {
 			//If the root element is this mesh, then...
 			if (oInternalAss.getRootElement().equals(poDeleteObject)) {
 				//go to the other element, if it is a TPM
@@ -2464,12 +2499,12 @@ public class clsMeshTools {
 					poOriginWPM.getExternalAssociatedContent().remove(poAssociation);
 				}
 				
-			} else if (poOriginWPM.getMoInternalAssociatedContent().contains(poAssociation)) {
+			} else if (poOriginWPM.getInternalAssociatedContent().contains(poAssociation)) {
 				//2. Add the changed association to the targetTPM
-				poTargetWPM.getMoInternalAssociatedContent().add(poAssociation);
+				poTargetWPM.getInternalAssociatedContent().add(poAssociation);
 				//3. Remove the association from the originTPM
 				if (removeAfterMove==true) {
-					poOriginWPM.getMoInternalAssociatedContent().remove(poAssociation);
+					poOriginWPM.getInternalAssociatedContent().remove(poAssociation);
 				}
 				
 			}
@@ -2515,7 +2550,7 @@ public class clsMeshTools {
 				clsWordPresentationMesh oSourceWPM = oSourceWPMList.get(j);
 				
 				//If there are IDs with -1, it is not allowed and should be thrown as exception
-				if (oSourceWPM.getMoDS_ID()==-1) {
+				if (oSourceWPM.getDS_ID()==-1) {
 					try {
 						throw new Exception("Error: DataStructureTools, mergeMesh: A WPM with ID = -1 was found");
 					} catch (Exception e) {
@@ -2525,7 +2560,7 @@ public class clsMeshTools {
 				}
 				
 				//If the images are equal but not the same instance, then transfer the associations
-				if (oSourceWPM.getMoDS_ID() == oNewWPM.getMoDS_ID()) {
+				if (oSourceWPM.getDS_ID() == oNewWPM.getDS_ID()) {
 					oFoundSourceMeshWPM = oSourceWPM;
 					break;
 				}
@@ -2578,10 +2613,10 @@ public class clsMeshTools {
 		//ArrayList<clsAssociation> oRemoveIntAssList = new ArrayList<clsAssociation>();
 		
 		//Internal associations
-		for (clsAssociation oIntMoveFromAss : poMoveFromMesh.getMoInternalAssociatedContent()) {
+		for (clsAssociation oIntMoveFromAss : poMoveFromMesh.getInternalAssociatedContent()) {
 			//Find this Ass in the internal Ass of the moveto mesh
 			boolean bAssExist=false;
-			for (clsAssociation oIntMoveToAss : poMoveToMesh.getMoInternalAssociatedContent()) {
+			for (clsAssociation oIntMoveToAss : poMoveToMesh.getInternalAssociatedContent()) {
 				bAssExist = clsMeshTools.checkAssociationExists(oIntMoveToAss, oIntMoveFromAss);
 				//Association found
 				if (bAssExist==true) {
@@ -2601,7 +2636,7 @@ public class clsMeshTools {
 				if (oIntMoveFromAss.getLeafElement() instanceof clsWordPresentation) {
 					//Set the root element
 					oIntMoveFromAss.setRootElement(poMoveToMesh);
-					poMoveToMesh.getMoInternalAssociatedContent().add(oIntMoveFromAss);
+					poMoveToMesh.getInternalAssociatedContent().add(oIntMoveFromAss);
 				} else {
 					//Search the other element in the sourcemesh. If it exists, then change the association, if it does not exist, do nothing
 					//as the association to the new element is added by the new element
@@ -2620,10 +2655,10 @@ public class clsMeshTools {
 							//Then replace the MoveFromMesh with the MoveToMesh
 							oIntMoveFromAss.setTheOtherElement(oMeshElementWPM, poMoveToMesh);
 							//Add the association to the MoveToMesh
-							poMoveToMesh.getMoInternalAssociatedContent().add(oIntMoveFromAss);
+							poMoveToMesh.getInternalAssociatedContent().add(oIntMoveFromAss);
 							//Add to the other element as well if not already present
-							if (oMeshElementWPM.getMoInternalAssociatedContent().contains(oIntMoveFromAss)==false) {
-								oMeshElementWPM.getMoInternalAssociatedContent().add(oIntMoveFromAss);
+							if (oMeshElementWPM.getInternalAssociatedContent().contains(oIntMoveFromAss)==false) {
+								oMeshElementWPM.getInternalAssociatedContent().add(oIntMoveFromAss);
 							}
 						} else {
 							//move the type. 
@@ -2745,7 +2780,7 @@ public class clsMeshTools {
 		
 		//Delete all assoications
 		poMoveFromMesh.getExternalAssociatedContent().clear();
-		poMoveFromMesh.getMoInternalAssociatedContent().clear();
+		poMoveFromMesh.getInternalAssociatedContent().clear();
 		
 	}
 	
@@ -2874,10 +2909,10 @@ public class clsMeshTools {
 		ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
 		
 		ArrayList<clsPair<clsAssociation, clsAssociation>> poTaskListInt = new ArrayList<clsPair<clsAssociation, clsAssociation>>();
-		for (clsAssociation oOriAss : poOriginWPM.getMoInternalAssociatedContent()) {
+		for (clsAssociation oOriAss : poOriginWPM.getInternalAssociatedContent()) {
 			//Only if this association has not been processed yet, it can be moved
 			boolean bFound = false;
-			for (clsAssociation oTarAss : poTargetWPM.getMoInternalAssociatedContent()) {
+			for (clsAssociation oTarAss : poTargetWPM.getInternalAssociatedContent()) {
 				bFound = checkAssociationExists(oOriAss, oTarAss);
 				if (bFound==true) {
 					//If it already exists, then the object associations shall be transferred recursively
@@ -2979,14 +3014,14 @@ public class clsMeshTools {
 		
 		if (poAssA.equals(poAssB)) {
 			bRetVal=true;
-		} else if (poAssA.getMoDS_ID() == poAssB.getMoDS_ID() && 
-				poAssA.getRootElement().getMoDS_ID() == poAssB.getRootElement().getMoDS_ID() &&
-				poAssA.getLeafElement().getMoDS_ID() == poAssB.getLeafElement().getMoDS_ID() &&
-				poAssA.getRootElement().getMoContentType().equals(poAssB.getRootElement().getMoContentType())==true &&
-				poAssA.getLeafElement().getMoContentType().equals(poAssB.getLeafElement().getMoContentType())==true) {
+		} else if (poAssA.getDS_ID() == poAssB.getDS_ID() && 
+				poAssA.getRootElement().getDS_ID() == poAssB.getRootElement().getDS_ID() &&
+				poAssA.getLeafElement().getDS_ID() == poAssB.getLeafElement().getDS_ID() &&
+				poAssA.getRootElement().getContentType().equals(poAssB.getRootElement().getContentType())==true &&
+				poAssA.getLeafElement().getContentType().equals(poAssB.getLeafElement().getContentType())==true) {
 					
 			if (poAssA instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)poAssA).getMoPredicate().equals(((clsAssociationSecondary)poAssB).getMoPredicate())) {
+				if (((clsAssociationSecondary)poAssA).getPredicate().equals(((clsAssociationSecondary)poAssB).getPredicate())) {
 					bRetVal = true;
 				}
 			} else {
@@ -3011,7 +3046,7 @@ public class clsMeshTools {
 	public static ArrayList<clsWordPresentationMesh> getOtherInternalImageAssociations(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMesh> poEntityList) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
-		for (clsAssociation oAss : poImage.getMoInternalAssociatedContent()) {
+		for (clsAssociation oAss : poImage.getInternalAssociatedContent()) {
 			clsWordPresentationMesh oImageEntity = (clsWordPresentationMesh) oAss.getLeafElement();
 			if (poEntityList.contains(oImageEntity)==false) {
 				oRetVal.add(oImageEntity);
@@ -3037,7 +3072,7 @@ public class clsMeshTools {
 		//delete the "delete-Element" as well as the whole tree connected with it.
 		
 		//Go through all internal associations
-		for (clsAssociation oInternalAss : poDeleteObject.getMoInternalAssociatedContent()) {
+		for (clsAssociation oInternalAss : poDeleteObject.getInternalAssociatedContent()) {
 			//If the root element is this mesh, then...
 			if (oInternalAss.getRootElement().equals(poDeleteObject)) {
 				//go to the other element, if it is a TPM
@@ -3081,7 +3116,7 @@ public class clsMeshTools {
 		String oResult = "";
 		
 		for (clsThingPresentationMesh oMesh : poList) {
-			oResult += oMesh.getMoContent() + ", ";
+			oResult += oMesh.getContent() + ", ";
 		}
 		
 		return oResult;
@@ -3214,7 +3249,7 @@ public class clsMeshTools {
 	public static ArrayList<clsThingPresentationMesh> getAllSubTPMFromTPM(clsThingPresentationMesh poImage) {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
-		for (clsAssociation oAss : poImage.getMoInternalAssociatedContent()) {
+		for (clsAssociation oAss : poImage.getInternalAssociatedContent()) {
 			if (oAss.getLeafElement() instanceof clsThingPresentationMesh) {
 				oRetVal.add((clsThingPresentationMesh) oAss.getLeafElement());
 			}
@@ -3260,7 +3295,7 @@ public class clsMeshTools {
 		
 		ArrayList<clsDataStructurePA> oFoundList = new ArrayList<clsDataStructurePA>();
 		
-		for (clsAssociation oAss : poPerceptionalMesh.getMoInternalAssociatedContent()) {
+		for (clsAssociation oAss : poPerceptionalMesh.getInternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationTime) {
 				oFoundList.addAll(getDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), eDataType.DM, poFilterContentType, false, 1));
 			}
@@ -3293,7 +3328,7 @@ public class clsMeshTools {
 		oFoundList.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.EMOTION, new ArrayList<eContentType>(), false, 1));
 		
 		//Add for all entities
-		for (clsAssociation oAss : poPerceptionalMesh.getMoInternalAssociatedContent()) {
+		for (clsAssociation oAss : poPerceptionalMesh.getInternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationTime) {
 				oFoundList.addAll(getDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), eDataType.EMOTION, new ArrayList<eContentType>(), false, 1));
 			}
@@ -3324,22 +3359,22 @@ public class clsMeshTools {
 		
 		for (clsThingPresentationMesh oTPM : poMeshList)
 			if (poContentType!=null && poContent!=null) {
-				if ((poContentType.equals(oTPM.getMoContentType())==true) &&
-						(poContent.equals(oTPM.getMoContent())==true)) {
+				if ((poContentType.equals(oTPM.getContentType())==true) &&
+						(poContent.equals(oTPM.getContent())==true)) {
 					oRetVal.add(oTPM);
 					if (bStopAtFirstMatch==true) {
 						break;
 					}
 				}
 			} else if (poContentType!=null && poContent==null) {
-				if (poContentType.equals(oTPM.getMoContentType())==true) {
+				if (poContentType.equals(oTPM.getContentType())==true) {
 					oRetVal.add(oTPM);
 					if (bStopAtFirstMatch==true) {
 						break;
 					}
 				}
 			} else if (poContentType==null && poContent!=null) {
-				if (poContent.equals(oTPM.getMoContent())==true) {
+				if (poContent.equals(oTPM.getContent())==true) {
 					oRetVal.add(oTPM);
 					if (bStopAtFirstMatch==true) {
 						break;
@@ -3434,7 +3469,7 @@ public class clsMeshTools {
 	public static ArrayList<clsWordPresentationMesh> getAllSubWPMInWPMImage(clsWordPresentationMesh poImage) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
-		for (clsAssociation oAss : poImage.getMoInternalAssociatedContent()) {
+		for (clsAssociation oAss : poImage.getInternalAssociatedContent()) {
 			oRetVal.add((clsWordPresentationMesh) oAss.getLeafElement());
 		}
 		

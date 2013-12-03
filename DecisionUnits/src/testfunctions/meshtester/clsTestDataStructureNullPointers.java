@@ -23,16 +23,16 @@ import secondaryprocess.datamanipulation.clsMeshTools;
 public class clsTestDataStructureNullPointers {
 	private static void findNullPointerAssociationsInTPM(clsThingPresentationMesh poLocalTPM) throws Exception {
 		//get all TPMS
-		for (clsAssociation oEntry : poLocalTPM.getMoInternalAssociatedContent()) {
+		for (clsAssociation oEntry : poLocalTPM.getInternalAssociatedContent()) {
 			try {
 				clsDataStructurePA oLeafElement = oEntry.getLeafElement(); 
 				if (oLeafElement==null) {
-					throw new Exception("The leaf element of the association " + oEntry + " in the internal structures of " + poLocalTPM.getMoContent() + " is NULL");
+					throw new Exception("The leaf element of the association " + oEntry + " in the internal structures of " + poLocalTPM.getContent() + " is NULL");
 				}
 				
 				clsDataStructurePA oRootElement = oEntry.getRootElement(); 
 				if (oRootElement==null) {
-					throw new Exception("The root element of the association " + oEntry + " in the internal structures of " + poLocalTPM.getMoContent() + " is NULL");
+					throw new Exception("The root element of the association " + oEntry + " in the internal structures of " + poLocalTPM.getContent() + " is NULL");
 				}
 			} catch (Exception e1) {
 				throw new Exception(e1.getMessage());
@@ -44,12 +44,12 @@ public class clsTestDataStructureNullPointers {
 			try {
 				clsDataStructurePA oLeafElement = oEntry.getLeafElement(); 
 				if (oLeafElement==null) {
-					throw new Exception("The leaf element of the association " + oEntry + " in the external structures of " + poLocalTPM.getMoContent() + " is NULL");
+					throw new Exception("The leaf element of the association " + oEntry + " in the external structures of " + poLocalTPM.getContent() + " is NULL");
 				}
 				
 				clsDataStructurePA oRootElement = oEntry.getRootElement(); 
 				if (oRootElement==null) {
-					throw new Exception("The root element of the association " + oEntry + " in the external structures of " + poLocalTPM.getMoContent() + " is NULL");
+					throw new Exception("The root element of the association " + oEntry + " in the external structures of " + poLocalTPM.getContent() + " is NULL");
 				}
 			} catch (Exception e1) {
 				throw new Exception(e1.getMessage());

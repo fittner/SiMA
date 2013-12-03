@@ -35,7 +35,7 @@ public abstract class clsSecondaryDataStructure extends clsDataStructurePA{
 	 * 
 	 * @return the moContent
 	 */
-	public String getMoContent() {
+	public String getContent() {
 		return moContent;
 	}
 
@@ -45,7 +45,7 @@ public abstract class clsSecondaryDataStructure extends clsDataStructurePA{
 	 * 
 	 * @param moContent the moContent to set
 	 */
-	public void setMoContent(String moContent) {
+	public void setContent(String moContent) {
 		this.moContent = moContent;
 	}
 	
@@ -66,9 +66,9 @@ public abstract class clsSecondaryDataStructure extends clsDataStructurePA{
 	    boolean isEqual = false;
 	    
 	    if (ds.getClass().getName().equals(this.getClass().getName()) &&
-	        ds.getMoDS_ID()==this.moDS_ID &&
-	        ds.getMoContent()==this.getMoContent() &&
-	        ds.getMoContentType()==this.getMoContentType()) {
+	        ds.getDS_ID()==this.moDS_ID &&
+	        ds.getContent()==this.getContent() &&
+	        ds.getContentType()==this.getContentType()) {
 	        isEqual=true;
 	    }
 	    

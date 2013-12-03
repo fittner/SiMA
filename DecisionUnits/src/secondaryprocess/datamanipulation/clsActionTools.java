@@ -118,7 +118,7 @@ public class clsActionTools {
 	 * @return
 	 */
 	public static String getAction(clsWordPresentationMesh poAction) {
-		return poAction.getMoContent();
+		return poAction.getContent();
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class clsActionTools {
 	 * @param poActionName
 	 */
 	public static void setAction(clsWordPresentationMesh poAction, eAction poActionName) {
-		poAction.setMoContent(poActionName.toString());
+		poAction.setContent(poActionName.toString());
 	}
 	
 	/**
@@ -227,7 +227,7 @@ public class clsActionTools {
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poAction, ePredicate.HASPHANTASYFLAG);
 		
 		if (oWP!=null) {
-			if (oWP.getMoContent().equals(eContent.TRUE.toString())) {
+			if (oWP.getContent().equals(eContent.TRUE.toString())) {
 				oResult = true;
 			}
 		}
@@ -264,7 +264,7 @@ public class clsActionTools {
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poAction, ePredicate.HASACTIONTYPE);
 		
 		if (oWP!=null) {
-			oResult = eActionType.valueOf(oWP.getMoContent());
+			oResult = eActionType.valueOf(oWP.getContent());
 		}
 		
 		return oResult;
@@ -286,7 +286,7 @@ public class clsActionTools {
 		ArrayList<clsWordPresentation> oWPList = clsMeshTools.getNonUniquePredicateWP(poAction, ePredicate.HASPRECONDITION);
 		
 		for (clsWordPresentation oWP : oWPList) {
-			oResult.add(eCondition.valueOf(oWP.getMoContent()));
+			oResult.add(eCondition.valueOf(oWP.getContent()));
 		}
 		
 		return oResult;

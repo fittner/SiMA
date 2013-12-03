@@ -246,7 +246,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
 
         // Go through all images
         for (clsThingPresentationMesh oImage : oImageList) {
-            if (oImage.getMoContentType() == eContentType.PI) {
+            if (oImage.getContentType() == eContentType.PI) {
                 mrLibidoReducedBy += setImageLibido(oImage, mrPerceptionReduceFactor, mrAvailableLibido);
 
                 // reduce PI, if agent perceive action has to reduce libido
@@ -259,7 +259,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                         } catch (Exception E) {
                             continue;
                         }
-                        if (oPerceivedAction != null && oPerceivedAction.getMoContentType() == eContentType.ACTION) {
+                        if (oPerceivedAction != null && oPerceivedAction.getContentType() == eContentType.ACTION) {
                             // workaround: create TPM from TP. action should be a TPM, but comes from F14 as TP
                             // oPerceivedAction = oPerceivedActionTP;// clsDataStructureGenerator.generateTPM(new clsTriple <eContentType,
                             // ArrayList<clsThingPresentation>, Object> (oPerceivedActionTP.getMoContentType(), new ArrayList<clsThingPresentation>(),
@@ -287,18 +287,18 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                                 } catch (Exception E) {
                                     continue;
                                 }
-                                if (oActionObject != null && oActionObject.getMoContentType() == eContentType.ENTITY) {
+                                if (oActionObject != null && oActionObject.getContentType() == eContentType.ENTITY) {
                                     // get DMs associated with oNearCenterEntity
                                     for (clsAssociation oAss : oPerceivedAction.getExternalMoAssociatedContent()) {
 
-                                        if (oAss.getMoContentType().equals(eContentType.ASSOCIATIONDM)) {
+                                        if (oAss.getContentType().equals(eContentType.ASSOCIATIONDM)) {
 
                                             // if sexual drive --> discharge Psychic intensity(PI)
                                             // TODO: in future also self-preservation drives (with abstract drive goals, i.e. actions) may trigger
                                             // discharge of PI
                                             oDM = (clsDriveMesh) oAss.getLeafElement();
                                             //test if Drive Object is the same
-                                            if (oDM.getActualDriveObject().getMoContent().equals(oActionObject.getMoContent())) {
+                                            if (oDM.getActualDriveObject().getContent().equals(oActionObject.getContent())) {
                                                 eDrive oDrive;
                                                 if (!oDM.getPartialDrive().equals(ePartialDrive.UNDEFINED)) {
                                                     // if DM is sexual drive
@@ -341,7 +341,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
             // mrLibidoReducedBy += setImageLibido(oImage, mrMemoryReduceFactor, mrAvailableLibido);
             //
             // }
-            else if (oImage.getMoContentType() == eContentType.PHI) {
+            else if (oImage.getContentType() == eContentType.PHI) {
                 mrLibidoReducedBy += setImageLibido(oImage, mrPhantasyReduceFactor, mrAvailableLibido);
 
             }
@@ -365,10 +365,10 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
     public clsThingPresentationMesh getPerceivedSelf(clsThingPresentationMesh poImage) {
         clsThingPresentationMesh oSelfEntity;
 
-        for (clsAssociation oAss : poImage.getMoInternalAssociatedContent()) {
+        for (clsAssociation oAss : poImage.getInternalAssociatedContent()) {
             oSelfEntity = (clsThingPresentationMesh) oAss.getLeafElement();
 
-            if (oSelfEntity.getMoContent().equals("SELF")) {
+            if (oSelfEntity.getContent().equals("SELF")) {
                 return oSelfEntity;
             }
         }

@@ -56,7 +56,7 @@ public class DataExtractionTools {
                 clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPerceivedEntity = oPerceivedImageIterator.next();
                 
                 //Check if theses entities are the same
-                if (oSupportiveImageEntity.a.getMoDS_ID() == oPerceivedEntity.a.getMoDS_ID()) {
+                if (oSupportiveImageEntity.a.getDS_ID() == oPerceivedEntity.a.getDS_ID()) {
                     //If yes, then the entity position has to be equal
                     double rDistance  = clsSecondarySpatialTools.getDistance(oSupportiveImageEntity.a, oPerceivedEntity.a);
                     

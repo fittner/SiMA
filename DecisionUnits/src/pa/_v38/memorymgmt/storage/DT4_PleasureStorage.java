@@ -58,7 +58,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 				//find the drive from the list from last step
 				for( clsDriveMesh oNewDMEntry : moAllDrivesActualStep){
 					if(	oOldDMEntry.getActualDriveSourceAsENUM() == oNewDMEntry.getActualDriveSourceAsENUM() &&
-						oOldDMEntry.getMoContentType() == oNewDMEntry.getMoContentType() &&
+						oOldDMEntry.getContentType() == oNewDMEntry.getContentType() &&
 						oOldDMEntry.getPartialDrive() == oNewDMEntry.getPartialDrive()	&&
 						// drive component have to be considered to
 						oOldDMEntry.getDriveComponent() == oNewDMEntry.getDriveComponent() ) {

@@ -96,7 +96,7 @@ public class clsDrive {
         }
         if (moConceptEntities.isEmpty()
                 && (moDriveMesh.isNullObject() || moDriveMesh.getExternalAssociatedContent().isEmpty()
-                        && moDriveMesh.getExternalMoAssociatedContent().isEmpty() && moDriveMesh.getMoInternalAssociatedContent().isEmpty())) {
+                        && moDriveMesh.getExternalMoAssociatedContent().isEmpty() && moDriveMesh.getInternalAssociatedContent().isEmpty())) {
             return true;
         }
         return false;

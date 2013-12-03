@@ -33,9 +33,9 @@ public class clsAimOfDrivesTools {
         
         oRawAction = oAimOfDrive.getAssociatedDriveAimAction();
         if(oRawAction != null && oRawAction.isNullObject() == false) {
-            if(oRawAction.getMoContentType() == eContentType.ACTION) {
+            if(oRawAction.getContentType() == eContentType.ACTION) {
                 try {
-                    oAimAction = eAction.valueOf(oRawAction.getMoContent());
+                    oAimAction = eAction.valueOf(oRawAction.getContent());
                 } catch (IllegalArgumentException e) {
                     log.error("Extracted action mesh {} could not be converted to eAction", e);
                 }

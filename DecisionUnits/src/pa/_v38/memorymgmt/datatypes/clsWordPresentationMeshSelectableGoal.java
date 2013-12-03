@@ -335,10 +335,10 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
         boolean isEqual = false;
         
         if (ds.getClass().getName().equals(this.getClass().getName()) &&
-            ds.getMoDS_ID()==this.moDS_ID &&
-            ds.getMoContent().equals(this.getMoContent()) &&
-            ds.getMoContentType().equals(this.getMoContentType()) && 
-            ds.getSupportiveDataStructure().getMoContent().equals(this.getSupportiveDataStructure().getMoContent())) {
+            ds.getDS_ID()==this.moDS_ID &&
+            ds.getContent().equals(this.getContent()) &&
+            ds.getContentType().equals(this.getContentType()) && 
+            ds.getSupportiveDataStructure().getContent().equals(this.getSupportiveDataStructure().getContent())) {
             isEqual=true;
         }
         
@@ -356,9 +356,9 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
         oResult += ":" + new DecimalFormat("0.00").format(this.getTotalImportance());
         oResult += ":" + this.getFeelings().toString();
         oResult += ":" + this.getGoalObject();
-        oResult += ":" + getSupportiveDataStructure().getMoContent();
+        oResult += ":" + getSupportiveDataStructure().getContent();
         if (this.getAssociatedPlanAction().isNullObject()==false) {
-            oResult += ":" + this.getAssociatedPlanAction().getMoContent();
+            oResult += ":" + this.getAssociatedPlanAction().getContent();
         }
             
         ArrayList<eCondition> oConditionList = getCondition();

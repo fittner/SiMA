@@ -196,7 +196,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				if (oActionWPM == null) 
 					return;
 				
-				String oAction = oActionWPM.getMoContent();
+				String oAction = oActionWPM.getContent();
 				inputActionHistory.add(oAction.toString());
 				
 				//--- AW: FIXME HACK IN ORDER TO BE ABLE TO USED COMPOSED ACTIONS ---//
@@ -206,7 +206,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 						clsActionTools.getActionType(oActionWPM).equals(eActionType.SINGLE_INTERNAL)==true &&
 						clsActionTools.getAction(oActionWPM).equals(eAction.FOCUS_ON)==false &&
 						clsActionTools.getAction(oActionWPM).equals(eAction.SEND_TO_PHANTASY)==false) {
-					oAction=lastAction.getMoContent();
+					oAction=lastAction.getContent();
 				}
 				
 				
@@ -223,11 +223,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
      			    realAction=oActionWPM;//oWP.getMoContent();
      			}
                 
-                realActionHistory.add(realAction.getMoContent().toString());
+                realActionHistory.add(realAction.getContent().toString());
                 
 				// mnCounter contains information for how much turns the current action is active
-				if(realAction.getMoContent().equals(lastRealAction.getMoContent())) { 
-					if(realAction.getMoContent().equals(oActionWPM.getMoContent()))
+				if(realAction.getContent().equals(lastRealAction.getContent())) { 
+					if(realAction.getContent().equals(oActionWPM.getContent()))
 					  mnCounter++; 
 				}
 				else  {
@@ -235,9 +235,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				}
 			    
 				log.debug(
-						 "LastAction: " + lastAction.getMoContent() + ", " + 
-						 "LastRealAction: " + lastRealAction.getMoContent() + ", " + 
-				         "ThisAction: " + oActionWPM.getMoContent() + ", " + 
+						 "LastAction: " + lastAction.getContent() + ", " + 
+						 "LastRealAction: " + lastRealAction.getContent() + ", " + 
+				         "ThisAction: " + oActionWPM.getContent() + ", " + 
 				         "UsedAction: " + oAction.toString() + ", " +
 				         "mnCounter: " + mnCounter);
 			
@@ -535,7 +535,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		String oCurrentActionCommand = "";
 		
 		try {
-			oCurrentActionCommand = moActionCommands_Input.get(0).getMoContent();
+			oCurrentActionCommand = moActionCommands_Input.get(0).getContent();
 		} catch (java.lang.IndexOutOfBoundsException e) {
 			//do nothing
 		}

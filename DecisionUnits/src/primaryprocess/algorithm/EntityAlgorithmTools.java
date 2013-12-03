@@ -130,7 +130,7 @@ public class EntityAlgorithmTools {
         //clsPrimaryDataStructureContainer oMergedResult = new clsPrimaryDataStructureContainer(oInput.getMoDataStructure(), oNewAss);
         
         //Replace the old external associations with the smaller new list
-        poInput.setMoExternalAssociatedContent(oNewAss);
+        poInput.setExternalAssociatedContent(oNewAss);
         //return oMergedResult;
     }
     

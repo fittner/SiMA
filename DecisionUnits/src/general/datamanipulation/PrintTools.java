@@ -46,7 +46,7 @@ public class PrintTools {
         
         for (clsPair<clsThingPresentationMesh, Double> i: images) {
             result += "\n   ";
-            result += i.b + ", " + i.a.getMoContent();
+            result += i.b + ", " + i.a.getContent();
             
         }
         
@@ -67,7 +67,7 @@ public class PrintTools {
         String oResult = "";
         ArrayList<clsThingPresentationMesh> oList = clsMeshTools.getAllTPMImages(poImage, 5);
         for (clsThingPresentationMesh oTPM : oList) {
-            oResult += oTPM.getMoContent() + ", ";
+            oResult += oTPM.getContent() + ", ";
         }
         
         return oResult;

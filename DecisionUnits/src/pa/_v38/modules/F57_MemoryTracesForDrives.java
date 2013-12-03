@@ -268,7 +268,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 					// for results of similar memory-DMs (should be various similar DMs)
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
 					    oMemoryDM = ((clsDriveMesh)oSearchPair.b.getMoDataStructure());
-					    if (oMemoryDM.getMoContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)){
+					    if (oMemoryDM.getContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)){
 					        rSumSimilarDMsQoA += oMemoryDM.getQuotaOfAffect();
 					    }
 					}
@@ -286,7 +286,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						//of the memory cannot be used for this purpose
 						//FIXME: SOMEBODY! In Protege, drive meshes are put on PRIINSTANCES. They should be replaced by emotions, as drive meshes only exist for entity types and for images,
 						//only emotions should be used. This is a hack by AW, in order to finish the phd implementation within 2012. This is a good student task! Contact AW for more info.
-						if (oMemoryDM.getMoContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)) {
+						if (oMemoryDM.getContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)) {
 							// weight with QoA, otherwise all DMs are handled the same if they all have a higher QoA than the simulatorDM (often the case) 
 							rCurrentMatchFactor = oSearchPair.a; 
 							rCurrentDecisionFactor = oSearchPair.a * oMemoryDM.getQuotaOfAffect(); 

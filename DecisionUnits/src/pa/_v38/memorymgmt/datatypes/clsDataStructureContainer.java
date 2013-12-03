@@ -131,7 +131,7 @@ public abstract class clsDataStructureContainer implements Cloneable{
 		ArrayList<clsAssociation> oReturnList = new ArrayList<clsAssociation>();
 		
 		for (clsAssociation oEntry : moAssociatedDataStructures) {
-			if ((oEntry.getRootElement().getMoDSInstance_ID() == poAssociationRoot.getMoDSInstance_ID()) && oEntry.getRootElement().moDSInstance_ID > 0) {
+			if ((oEntry.getRootElement().getDSInstance_ID() == poAssociationRoot.getDSInstance_ID()) && oEntry.getRootElement().moDSInstance_ID > 0) {
 				oReturnList.add(oEntry);
 			}
 		}
@@ -151,9 +151,9 @@ public abstract class clsDataStructureContainer implements Cloneable{
 		ArrayList<clsAssociation> oReturnList = new ArrayList<clsAssociation>();
 		
 		for (clsAssociation oEntry : moAssociatedDataStructures) {
-			if (((oEntry.getRootElement().getMoDSInstance_ID() == poDS.getMoDSInstance_ID()) || 
-					(oEntry.getLeafElement().getMoDSInstance_ID() == poDS.getMoDSInstance_ID())) && 
-					(poDS.getMoDSInstance_ID() > 0)) {
+			if (((oEntry.getRootElement().getDSInstance_ID() == poDS.getDSInstance_ID()) || 
+					(oEntry.getLeafElement().getDSInstance_ID() == poDS.getDSInstance_ID())) && 
+					(poDS.getDSInstance_ID() > 0)) {
 				oReturnList.add(oEntry);
 			}
 		}

@@ -51,7 +51,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * @param moExternalAssociatedContent the moExternalAssociatedContent to set
 	 */
 	@Override
-	public void setMoExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
+	public void setExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
 		this.moExternalAssociatedContent = poExternalAssociatedContent;
 	}
 
@@ -62,7 +62,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * @return the moAssociatedContent
 	 */
 	@Override
-	public ArrayList<clsAssociation> getMoInternalAssociatedContent() {
+	public ArrayList<clsAssociation> getInternalAssociatedContent() {
 		return moInternalAssociatedContent;
 	}
 	
@@ -84,7 +84,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * @param moAssociatedContent the moAssociatedContent to set
 	 */
 	@Override
-	public void setMoInternalAssociatedContent(ArrayList<clsAssociation> poAssociatedContent) {
+	public void setInternalAssociatedContent(ArrayList<clsAssociation> poAssociatedContent) {
 		this.moInternalAssociatedContent = poAssociatedContent;
 	}
 

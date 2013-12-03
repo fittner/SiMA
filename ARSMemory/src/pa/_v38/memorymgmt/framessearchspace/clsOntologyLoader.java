@@ -412,7 +412,7 @@ public class clsOntologyLoader {
 		// (moAssociationElementA and moAssociationElementB)
 		for (clsAssociation oAss : oAssociationList) {
 			clsDataStructurePA oAssociationElementB = oAss
-					.getMoAssociationElementB();
+					.getAssociationElementB();
 			((itfExternalAssociatedDataStructure) oAssociationElementB)
 					.addExternalAssociation(oAss);
 		}
@@ -511,8 +511,8 @@ public class clsOntologyLoader {
 			oDSWPM = (clsWordPresentationMesh) retrieveDataStructure(
 					((Instance) oElement).getName(), poDataContainer.b);
 			// oAct.getMoAssociatedContent().add(oDS);
-			oAct.setMoContent(oAct.getMoContent() + oDSWPM.getMoContentType()
-					+ ":" + oDSWPM.getMoContent() + "|");
+			oAct.setMoContent(oAct.getMoContent() + oDSWPM.getContentType()
+					+ ":" + oDSWPM.getContent() + "|");
 		}
 
 		oAct.setMoContent(oAct.getMoContent() + "|ACTION|");
@@ -522,8 +522,8 @@ public class clsOntologyLoader {
 			oDSWPM = (clsWordPresentationMesh) retrieveDataStructure(
 					((Instance) oElement).getName(), poDataContainer.b);
 			// oAct.getMoAssociatedContent().add(oDS);
-			oAct.setMoContent(oAct.getMoContent() + oDSWPM.getMoContentType()
-					+ ":" + oDSWPM.getMoContent() + "|");
+			oAct.setMoContent(oAct.getMoContent() + oDSWPM.getContentType()
+					+ ":" + oDSWPM.getContent() + "|");
 		}
 
 		oAct.setMoContent(oAct.getMoContent() + "|CONSEQUENCE|");
@@ -533,8 +533,8 @@ public class clsOntologyLoader {
 			oDS = (clsWordPresentation) retrieveDataStructure(
 					((Instance) oElement).getName(), poDataContainer.b);
 			// oAct.getMoAssociatedContent().add(oDS);
-			oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType()
-					+ ":" + oDS.getMoContent() + "|");
+			oAct.setMoContent(oAct.getMoContent() + oDS.getContentType()
+					+ ":" + oDS.getContent() + "|");
 		}
 		
 		oAct.setMoContent(oAct.getMoContent() + "|EMOTION|");
@@ -544,8 +544,8 @@ public class clsOntologyLoader {
             oDSEm = (clsEmotion) retrieveDataStructure(
                     ((Instance) oElement).getName(), poDataContainer.b);
             // oAct.getMoAssociatedContent().add(oDS);
-            oAct.setMoContent(oAct.getMoContent() + oDSEm.getMoContentType()
-                    + ":" + oDSEm.getMoContent() + "|");
+            oAct.setMoContent(oAct.getMoContent() + oDSEm.getContentType()
+                    + ":" + oDSEm.getContent() + "|");
         }
         
 	}
@@ -736,7 +736,7 @@ public class clsOntologyLoader {
 								// In this case, the Root element is B.
 								// Therefore, set be
 								oNewAssDM
-										.setMoAssociationElementB(oNewInstanceDS);
+										.setAssociationElementB(oNewInstanceDS);
 								oDMAssList.add(oNewAssDM);
 							} catch (CloneNotSupportedException e) {
 								log.error("Error in clsOntologyLoader.java in createPRIINSTANCE: oNewAssDM could not be cloned", e);
@@ -790,37 +790,37 @@ public class clsOntologyLoader {
 
 		poDataContainer.b.put(poElement.getName(), oAct);
 
-		oAct.setMoContent(oAct.getMoContent() + "|PRECONDITION|");
+		oAct.setContent(oAct.getContent() + "|PRECONDITION|");
 
 		for (Object oElement : oPreCon) {
 			initDataStructure(null, (Instance) oElement, poDataContainer);
 			oDS = (clsWordPresentation) retrieveDataStructure(
 					((Instance) oElement).getName(), poDataContainer.b);
 			oAct.getMoAssociatedContent().add(oDS);
-			oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType()
-					+ ":" + oDS.getMoContent() + "|");
+			oAct.setContent(oAct.getContent() + oDS.getContentType()
+					+ ":" + oDS.getContent() + "|");
 		}
 
-		oAct.setMoContent(oAct.getMoContent() + "|ACTION|");
+		oAct.setContent(oAct.getContent() + "|ACTION|");
 
 		for (Object oElement : oAction) {
 			initDataStructure(null, (Instance) oElement, poDataContainer);
 			oDS = (clsWordPresentation) retrieveDataStructure(
 					((Instance) oElement).getName(), poDataContainer.b);
 			oAct.getMoAssociatedContent().add(oDS);
-			oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType()
-					+ ":" + oDS.getMoContent() + "|");
+			oAct.setContent(oAct.getContent() + oDS.getContentType()
+					+ ":" + oDS.getContent() + "|");
 		}
 
-		oAct.setMoContent(oAct.getMoContent() + "|CONSEQUENCE|");
+		oAct.setContent(oAct.getContent() + "|CONSEQUENCE|");
 
 		for (Object oElement : oConseq) {
 			initDataStructure(null, (Instance) oElement, poDataContainer);
 			oDS = (clsWordPresentation) retrieveDataStructure(
 					((Instance) oElement).getName(), poDataContainer.b);
 			oAct.getMoAssociatedContent().add(oDS);
-			oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType()
-					+ ":" + oDS.getMoContent() + "|");
+			oAct.setContent(oAct.getContent() + oDS.getContentType()
+					+ ":" + oDS.getContent() + "|");
 		}
 	}
 

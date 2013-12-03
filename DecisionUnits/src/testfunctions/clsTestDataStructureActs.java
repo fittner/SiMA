@@ -30,7 +30,7 @@ public class clsTestDataStructureActs {
 		double rPIMatchSec = clsActTools.getPIMatch(poImage);
 		
 		if (rPIMatchPri!=rPIMatchSec) {
-			throw new Exception("PI Match in PP and SP different for: " + poImage.getMoContent() + " PIMatch primary=" + rPIMatchPri + ", PIMatch secondary=" + rPIMatchSec);
+			throw new Exception("PI Match in PP and SP different for: " + poImage.getContent() + " PIMatch primary=" + rPIMatchPri + ", PIMatch secondary=" + rPIMatchSec);
 		}
 	}
 	
@@ -55,13 +55,13 @@ public class clsTestDataStructureActs {
 	    for (clsWordPresentationMeshGoal oG : moReachableGoalList_IN) {
 	        eGoalType oGoalType = oG.getGoalSource();
 	        
-	        if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE")) {
+	        if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getContent().equals("CAKE")) {
 	            oReplaceList.add(oG);
 	            bPerceivedFound=true;
-	        } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE")) {
+	        } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getContent().equals("CAKE")) {
                 oReplaceList.add(oG);
                 bActFound=true;
-            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getMoContent().equals("CAKE")) {
+            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getContent().equals("CAKE")) {
                 oReplaceList.add(oG);
                 bDriveFound=true;
             }
@@ -74,7 +74,7 @@ public class clsTestDataStructureActs {
 	}
 	
 	public static void exeTestIfErroneousSupportiveDataStructureIsAssigned(clsWordPresentationMeshGoal goal) throws Exception {
-	        if (goal.getGoalSource().equals(eGoalType.MEMORYDRIVE) && goal.getSupportiveDataStructure().getMoContent().equals("ENTITY2IMAGE")) {
+	        if (goal.getGoalSource().equals(eGoalType.MEMORYDRIVE) && goal.getSupportiveDataStructure().getContent().equals("ENTITY2IMAGE")) {
 	            throw new Exception("Erroneous Supportive Datastructure assigned");
 	        }
 

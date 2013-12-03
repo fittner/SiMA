@@ -74,7 +74,7 @@ public class clsSecondarySpatialTools {
 	public static ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> getEntityPositionsInImage(clsWordPresentationMesh poImage) {
 		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oResult = new ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>>();
 		
-		for (clsAssociation poHasPartAssociation : poImage.getMoInternalAssociatedContent()) {
+		for (clsAssociation poHasPartAssociation : poImage.getInternalAssociatedContent()) {
 			
 			clsWordPresentationMesh oEntity = (clsWordPresentationMesh) poHasPartAssociation.getLeafElement();
 			
@@ -274,7 +274,7 @@ public class clsSecondarySpatialTools {
 	private static boolean compareEntitiesInImagesIdent(clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> poEntityA, clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> poEntityB) {
 		boolean bResult = false;
 		
-		if (poEntityA.a.getMoDS_ID()==poEntityB.a.getMoDS_ID() &&
+		if (poEntityA.a.getDS_ID()==poEntityB.a.getDS_ID() &&
 				poEntityA.b == poEntityB.b &&
 				poEntityA.c == poEntityB.c) {
 			bResult = true;

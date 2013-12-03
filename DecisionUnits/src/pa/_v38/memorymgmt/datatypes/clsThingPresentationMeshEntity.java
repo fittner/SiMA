@@ -47,7 +47,7 @@ public class clsThingPresentationMeshEntity extends clsThingPresentationMesh {
 		ePhiPosition oResult = null;
 		
 		if (oPositionAttribute!=null) {
-			String oContent = (String) ((clsThingPresentation)oPositionAttribute.getLeafElement()).getMoContent();
+			String oContent = (String) ((clsThingPresentation)oPositionAttribute.getLeafElement()).getContent();
 			oResult = ePhiPosition.elementAt(oContent);
 		}
 		

@@ -116,7 +116,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			clsThingPresentationMesh oDriveOrifice = getAssociatedObject(eContentType.ORIFICE);
 			if(oDriveOrifice != null)
 			{
-				retVal = eOrifice.valueOf(oDriveOrifice.getMoContent());
+				retVal = eOrifice.valueOf(oDriveOrifice.getContent());
 			}
 		}
 		catch(Exception e){
@@ -136,7 +136,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			clsThingPresentationMesh oDriveSource = getAssociatedObject(eContentType.ORGAN);
 			if(oDriveSource != null)
 			{
-				retVal = eOrgan.valueOf(oDriveSource.getMoContent());
+				retVal = eOrgan.valueOf(oDriveSource.getContent());
 			}
 		}
 		catch(Exception e){
@@ -150,7 +150,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		
 		for(clsAssociation oAA : moInternalAssociatedContent)
 		{
-			if(oAA.getMoContentType() == oContentType) 
+			if(oAA.getContentType() == oContentType) 
 				oRetVal = (clsAssociationDriveMesh)oAA;
 		}
 		return oRetVal;
@@ -161,8 +161,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		
 		for(clsAssociation oAA : moInternalAssociatedContent)
 		{
-			clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
-			if(oTPM.getMoContentType() == oContentType)
+			clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getAssociationElementB();
+			if(oTPM.getContentType() == oContentType)
 				oRetVal = oTPM;
 		}
 		
@@ -183,8 +183,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		if (moInternalAssociatedContent != null) {
 			for(clsAssociation oAA : moInternalAssociatedContent)
 			{
-				clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
-				if(oTPM.getMoContentType() == oContentType)
+				clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getAssociationElementB();
+				if(oTPM.getContentType() == oContentType)
 					oRetVal = true;
 			}
 		}
@@ -210,8 +210,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		if(ContainsAssociatedContentType(poContentType))
 			for(clsAssociation oAA : moInternalAssociatedContent)
 			{
-				if(oAA.getMoAssociationElementB().getMoContentType() == poContentType) {
-					moInternalAssociatedContent.get(i).setMoAssociationElementB(poDriveTPM);
+				if(oAA.getAssociationElementB().getContentType() == poContentType) {
+					moInternalAssociatedContent.get(i).setAssociationElementB(poDriveTPM);
 					moInternalAssociatedContent.get(i).setMrWeight(prWeight);
 				}
 				
@@ -531,7 +531,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * @see pa._v38.memorymgmt.datatypes.itfAssociatedDataStructure#getMoAssociatedContent()
 	 */
 	@Override
-	public ArrayList<clsAssociation> getMoInternalAssociatedContent() {
+	public ArrayList<clsAssociation> getInternalAssociatedContent() {
 		
 		return moInternalAssociatedContent;
 	}
@@ -543,7 +543,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * @see pa._v38.memorymgmt.datatypes.itfAssociatedDataStructure#setMoAssociatedContent(java.util.ArrayList)
 	 */
 	@Override
-	public void setMoInternalAssociatedContent(
+	public void setInternalAssociatedContent(
 			ArrayList<clsAssociation> poInternalAssociatedContent) {
 		// TODO (schaat) - Auto-generated method stub
 		this.moInternalAssociatedContent = poInternalAssociatedContent;		
@@ -608,7 +608,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#setMoExternalAssociatedContent(java.util.ArrayList)
 	 */
 	@Override
-	public void setMoExternalAssociatedContent(
+	public void setExternalAssociatedContent(
 			ArrayList<clsAssociation> poExternalAssociatedContent) {
 		// TODO (schaat) - Auto-generated method stub
 		this.moExternalAssociatedContent = poExternalAssociatedContent; 

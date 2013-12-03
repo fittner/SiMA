@@ -48,7 +48,7 @@ public class clsActDataStructureTools {
 		clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.ACT);
 				
 		//Create the basic goal structure
-		clsWordPresentationMesh oResult = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), poIntention.getMoContent());
+		clsWordPresentationMesh oResult = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), poIntention.getContent());
 		
 		setIntention(oResult, poIntention);
 		
@@ -73,7 +73,7 @@ public class clsActDataStructureTools {
 		//Check if there is an intention
 		for (clsWordPresentationMesh oPrediction : poPredictionList) {
 			clsWordPresentationMesh oIntention = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(oPrediction, ePredicate.HASINTENTION, 2, false); 
-			if ((oIntention!=null) && (oIntention.getMoDS_ID()==poImage.getMoDS_ID())) {
+			if ((oIntention!=null) && (oIntention.getDS_ID()==poImage.getDS_ID())) {
 				oRetVal = oPrediction;
 			}
 		}

@@ -284,7 +284,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         String oAction = "NONE";
         
         //if (moGoalList_OUT.isEmpty()==false) {
-        oAction = actionMesh.getMoContent();
+        oAction = actionMesh.getContent();
         //}
         
         if (moTEMPWriteLastActions.size()==10) {
@@ -294,7 +294,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         //Get System time
         Calendar oCal = Calendar.getInstance();
         SimpleDateFormat oDateFormat = new SimpleDateFormat("HH:mm:ss");
-        moTEMPWriteLastActions.add(oDateFormat.format(oCal.getTime()) + "> " + "Goal: " + planGoal.getMoContent().toString() + "; Action: " + oAction);
+        moTEMPWriteLastActions.add(oDateFormat.format(oCal.getTime()) + "> " + "Goal: " + planGoal.getContent().toString() + "; Action: " + oAction);
     }
     
     /**

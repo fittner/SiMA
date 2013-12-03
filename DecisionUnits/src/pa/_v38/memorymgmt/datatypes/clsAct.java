@@ -105,19 +105,19 @@ public class clsAct extends clsSecondaryDataStructure {
 		this.moAssociatedContent = moAssociatedContent;
 	}
 
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 16.08.2010, 22:16:54
-	 *
-	 * @param poContent
-	 */
-	private void setContent(String poContent) {
-		if(poContent!= null){
-			moContent = poContent; 
-		}
-	}
+//	/**
+//	 * DOCUMENT (zeilinger) - insert description
+//	 *
+//	 * @author zeilinger
+//	 * 16.08.2010, 22:16:54
+//	 *
+//	 * @param poContent
+//	 */
+//	private void setContent(String poContent) {
+//		if(poContent!= null){
+//			moContent = poContent; 
+//		}
+//	}
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description

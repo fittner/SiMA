@@ -50,7 +50,7 @@ public class FocusFunctionality {
         
         if (poActionWPM.isNullObject()==false) {
             //Extract action
-            eAction oAction = eAction.valueOf(poActionWPM.getMoContent());
+            eAction oAction = eAction.valueOf(poActionWPM.getContent());
             
             if (oAction.equals(eAction.FOCUS_MOVE_FORWARD)) {
                 //Set focus area in front of the agent, i. e. 
@@ -86,7 +86,7 @@ public class FocusFunctionality {
                 
                 //If there is a supportive data structure
                 try {
-                    if (oFocusImage.getMoContent().equals(eContentType.NULLOBJECT)==true) {
+                    if (oFocusImage.getContent().equals(eContentType.NULLOBJECT)==true) {
                         throw new Exception ("F23: Focused action was chosen but no supportive data structure exists");
                     }
                 } catch (Exception e) {

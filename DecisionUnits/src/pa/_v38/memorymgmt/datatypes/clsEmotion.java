@@ -62,7 +62,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * 
 	 * @return the moContent
 	 */
-	public eEmotionType getMoContent() {
+	public eEmotionType getContent() {
 		return moContent;
 	}
 
@@ -72,7 +72,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * 
 	 * @param moContent the moContent to set
 	 */
-	public void setMoContent(eEmotionType moContent) {
+	public void setContent(eEmotionType moContent) {
 		this.moContent = moContent;
 	}
 	
@@ -82,7 +82,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * 
 	 * @return the mrEmotionIntensity
 	 */
-	public double getMrEmotionIntensity() {
+	public double getEmotionIntensity() {
 		return mrEmotionIntensity;
 	}
 
@@ -92,7 +92,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * 
 	 * @param mrEmotionIntensity the mrEmotionIntensity to set
 	 */
-	public void setMrEmotionIntensity(double mrEmotionIntensity) {
+	public void setEmotionIntensity(double mrEmotionIntensity) {
 		this.mrEmotionIntensity = mrEmotionIntensity;
 	}
 	
@@ -102,19 +102,19 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * 
 	 * @return the mrSourcePleasure
 	 */
-	public double getMrSourcePleasure() {
+	public double getSourcePleasure() {
 		return mrSourcePleasure;
 	}
 	
-	public double getMrSourceUnpleasure() {
+	public double getSourceUnpleasure() {
 		return mrSourceUnpleasure;
 	}
 	
-	public double getMrSourceLibid() {
+	public double getSourceLibid() {
 		return mrSourceLibid;
 	}
 	
-	public double getMrSourceAggr() {
+	public double getSourceAggr() {
 		return mrSourceAggr;
 	}
 	
@@ -231,7 +231,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * @param poExternalAssociatedContent
 	 */
 	@Override
-	public void setMoExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
+	public void setExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
 		this.moExternalAssociatedContent = poExternalAssociatedContent;
 	}
 	

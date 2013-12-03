@@ -57,7 +57,7 @@ public class DataStructureConversionTools {
      * @return
      */
     public static clsWordPresentationMesh convertCompleteTPMtoWPMRoot(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM) {
-        return convertCompleteTPMtoWPM(ltm, poTPM, new ArrayList<clsThingPresentationMesh>(), 1, poTPM.getMoContentType());
+        return convertCompleteTPMtoWPM(ltm, poTPM, new ArrayList<clsThingPresentationMesh>(), 1, poTPM.getContentType());
     }
     
     /**
@@ -102,7 +102,7 @@ public class DataStructureConversionTools {
         } else {
             // It may be the PI, then create a new image with for the PI or from
             // the repressed content
-            oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, poTPM.getMoContentType()), new ArrayList<clsAssociation>(), poTPM.getMoContent());
+            oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, poTPM.getContentType()), new ArrayList<clsAssociation>(), poTPM.getContent());
             clsAssociationWordPresentation oWPAss = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP), oRetVal, poTPM);
             oRetVal.getExternalAssociatedContent().add(oWPAss);
         }
@@ -120,7 +120,7 @@ public class DataStructureConversionTools {
 
                 // Case AssociationAttribute
                 if (oTPMExternalAss instanceof clsAssociationAttribute) {
-                    if(oTPMExternalAss.getMoAssociationElementB() instanceof clsThingPresentation){
+                    if(oTPMExternalAss.getAssociationElementB() instanceof clsThingPresentation){
                         // Get the location templates
                         clsAssociationWordPresentation oWPforTPAttribute = ltm.getSecondaryDataStructure((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement(), 1.0);
                         if (oWPforTPAttribute != null) {
@@ -133,12 +133,12 @@ public class DataStructureConversionTools {
                                 log.error(oWPforTPAttribute.getRootElement().toString(), e);
                             }
     
-                            if (oAttributeWP.getMoContentType() == eContentType.DISTANCE) {
+                            if (oAttributeWP.getContentType() == eContentType.DISTANCE) {
                                 clsMeshTools.createAssociationSecondary(oRetVal, 2,
                                         oAttributeWP, 0, 1.0,
                                         eContentType.POSITIONASSOCIATION,
                                         ePredicate.HASDISTANCE, false);
-                            } else if (oAttributeWP.getMoContentType() == eContentType.POSITION) {
+                            } else if (oAttributeWP.getContentType() == eContentType.POSITION) {
                                 clsMeshTools.createAssociationSecondary(oRetVal, 2,
                                         oAttributeWP, 0, 1.0,
                                         eContentType.DISTANCEASSOCIATION,
@@ -152,7 +152,7 @@ public class DataStructureConversionTools {
                             }
                         }
                     }
-                    else if (oTPMExternalAss.getMoAssociationElementB() instanceof clsThingPresentationMesh){
+                    else if (oTPMExternalAss.getAssociationElementB() instanceof clsThingPresentationMesh){
                         //do Nothing
                     }
                     
@@ -206,7 +206,7 @@ public class DataStructureConversionTools {
             // Check the inner associations, if they are associationtime, as it
             // means that is an image
             for (clsAssociation oTPMInternalAss : poTPM
-                    .getMoInternalAssociatedContent()) {
+                    .getInternalAssociatedContent()) {
                 // Internal TP-Associations are NOT checked, as they must not be
                 // converted to WP
                 // Only one internal level is converted, i. e. no images in

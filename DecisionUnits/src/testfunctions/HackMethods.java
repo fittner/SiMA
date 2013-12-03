@@ -45,13 +45,13 @@ public class HackMethods {
         for (clsWordPresentationMeshGoal oG : moReachableGoalList_IN) {
             eGoalType oGoalType = oG.getGoalSource();
             
-            if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
+            if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
                 oReplaceList.add(oG);
                 bPerceivedFound=true;
-            } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
+            } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
                 oReplaceList.add(oG);
                 bActFound=true;
-            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getMoContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
+            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
                 oReplaceList.add(oG);
                 bDriveFound=true;
             }
@@ -75,7 +75,7 @@ public class HackMethods {
         log.warn("HACKMETHOD reduceImageListWPM ACTIVATED");
         ListIterator<clsWordPresentationMesh> iter = images.listIterator();
         while (iter.hasNext()) {
-            if (iter.next().getMoContent().contains(contentToMatch)==false) {
+            if (iter.next().getContent().contains(contentToMatch)==false) {
                 iter.remove();
             }
         }
@@ -94,7 +94,7 @@ public class HackMethods {
         log.warn("HACKMETHOD reduceImageListTPM ACTIVATED");
         ListIterator<clsThingPresentationMesh> iter = images.listIterator();
         while (iter.hasNext()) {
-            if (iter.next().getMoContent().contains(contentToMatch)==false) {
+            if (iter.next().getContent().contains(contentToMatch)==false) {
                 iter.remove();
             }
         }

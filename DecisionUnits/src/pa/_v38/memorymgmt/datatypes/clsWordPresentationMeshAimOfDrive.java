@@ -125,7 +125,7 @@ public class clsWordPresentationMeshAimOfDrive extends clsWordPresentationMeshGo
         
         oResult += ":" + new DecimalFormat("0.00").format(this.getTotalImportance());
         oResult += ":" + this.getGoalObject();
-        oResult += ":" + getSupportiveDataStructure().getMoContent();
+        oResult += ":" + getSupportiveDataStructure().getContent();
             
         ArrayList<eCondition> oConditionList = getCondition();
         if (oConditionList.isEmpty()==false) {

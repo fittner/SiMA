@@ -67,7 +67,7 @@ public class clsDataStructureCompareTools {
                 
                     //if (oAssInFromImage instanceof clsAssociationDriveMesh) {
                     if (poContentType != null) {    //Add only that content type of that structure type
-                        if (oFromImageDM.getLeafElement().getMoContentType() == poContentType) {
+                        if (oFromImageDM.getLeafElement().getContentType() == poContentType) {
                             oMatch = getMatchInDataStructure(oFromImageDM, poToImage);
                         }
                     } else {    //Add all
@@ -121,12 +121,12 @@ public class clsDataStructureCompareTools {
         clsThingPresentationMesh oCompareRootElement = (clsThingPresentationMesh) poSourceAssociation.getRootElement();
         //Find the root element in the target image. Only an exact match is count
         //1. Check if the root element is the same as the data structure in the target container
-        if ((oCompareRootElement.getMoDS_ID() == poTargetDataStructure.getMoDS_ID() && (oCompareRootElement.getMoDS_ID() > 0))) {
+        if ((oCompareRootElement.getDS_ID() == poTargetDataStructure.getDS_ID() && (oCompareRootElement.getDS_ID() > 0))) {
             oRetVal = new clsPair<clsThingPresentationMesh, clsAssociation>(poTargetDataStructure, poSourceAssociation);
         } else {
             //2. Check if the root element can be found in the associated data structures
-            for (clsAssociation oAssToImage : poTargetDataStructure.getMoInternalAssociatedContent()) {
-                if ((oCompareRootElement.getMoDS_ID() == oAssToImage.getLeafElement().getMoDS_ID() && (oCompareRootElement.getMoDS_ID() > 0))) {
+            for (clsAssociation oAssToImage : poTargetDataStructure.getInternalAssociatedContent()) {
+                if ((oCompareRootElement.getDS_ID() == oAssToImage.getLeafElement().getDS_ID() && (oCompareRootElement.getDS_ID() > 0))) {
                     oRetVal = new clsPair<clsThingPresentationMesh, clsAssociation>((clsThingPresentationMesh) oAssToImage.getLeafElement(), poSourceAssociation);
                     break;
                 }

@@ -93,7 +93,7 @@ public class clsActTools {
 			//If this container is a leaf element of an associationsecondary with the predicate "hasSuper" and is the object of that association
 			if (oAss instanceof clsAssociationSecondary) {
 				//An intention is recognized if the image is the Leaf element of a Hierarchical association (hasSuper)
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASSUPER) && (oAss.getLeafElement().equals(poInput))) {
+				if (((clsAssociationSecondary)oAss).getPredicate().equals(ePredicate.HASSUPER) && (oAss.getLeafElement().equals(poInput))) {
 					//One intention has been found
 					bRetVal=true;
 					//One result was found, then break
@@ -123,7 +123,7 @@ public class clsActTools {
 			//If this container is a leaf element of an associationsecondary with the predicate "hasSuper" and is the object of that association
 			if (oAss instanceof clsAssociationSecondary) {
 				//An intention is recognized if the image is the Leaf element of a Hierarchical association (hasSuper)
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASSUPER)) {
+				if (((clsAssociationSecondary)oAss).getPredicate().equals(ePredicate.HASSUPER)) {
 					//The structure is a super or has a super
 					bHasSuper=true;
 					if (bHasNext==true) {
@@ -131,7 +131,7 @@ public class clsActTools {
 						bRetVal=true;
 						break;
 					}
-				} else if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASNEXT)) {
+				} else if (((clsAssociationSecondary)oAss).getPredicate().equals(ePredicate.HASNEXT)) {
 					bHasNext=true;
 					if (bHasSuper==true) {
 						bRetVal=true;
@@ -180,7 +180,7 @@ public class clsActTools {
 		
 		for (clsAssociation oAss : poImage.getExternalMoAssociatedContent()) {
 			if (oAss instanceof clsAssociationPrimary) {
-				if (oAss.getTheOtherElement(poImage).getMoContentType().equals(eContentType.PI)) {
+				if (oAss.getTheOtherElement(poImage).getContentType().equals(eContentType.PI)) {
 					rRetVal = oAss.getMrWeight();
 					break;
 				}	
@@ -226,7 +226,7 @@ public class clsActTools {
 		clsWordPresentation oPIMatch = clsMeshTools.getUniquePredicateWP(poImage, ePredicate.HASPIMATCH);
 		
 		if (oPIMatch!=null) {
-			rResult = Double.valueOf(oPIMatch.getMoContent());
+			rResult = Double.valueOf(oPIMatch.getContent());
 		}
 		
 		return rResult;
@@ -268,7 +268,7 @@ public class clsActTools {
 		
 		for (clsDataStructurePA oDS : oDSList) {
 			clsAssociationSecondary oAss = (clsAssociationSecondary) oDS;
-			if (oAss.getRootElement().getMoDS_ID()==poImage.getMoDS_ID()) {
+			if (oAss.getRootElement().getDS_ID()==poImage.getDS_ID()) {
 				oRetVal = (clsWordPresentationMesh) oAss.getLeafElement();
 			}
 		}
@@ -294,7 +294,7 @@ public class clsActTools {
 				
 		for (clsDataStructurePA oDS : oDSList) {
 			clsAssociationSecondary oAss = (clsAssociationSecondary) oDS;
-			if (oAss.getLeafElement().getMoDS_ID()==poImage.getMoDS_ID()) {
+			if (oAss.getLeafElement().getDS_ID()==poImage.getDS_ID()) {
 				oRetVal = (clsWordPresentationMesh) oAss.getRootElement();
 			}
 		}
@@ -464,7 +464,7 @@ public class clsActTools {
 		boolean bResult = false;
 		
 		clsWordPresentationMesh oLastImage = getLastImage(poEventImage);
-		if (oLastImage.getMoDS_ID()==poEventImage.getMoDS_ID()) {
+		if (oLastImage.getDS_ID()==poEventImage.getDS_ID()) {
 			bResult = true;
 		}
 		
@@ -522,7 +522,7 @@ public class clsActTools {
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poImage, ePredicate.HASPIMATCH);
 		
 		if (oWP!=null) {
-			rResult = Double.valueOf(oWP.getMoContent());
+			rResult = Double.valueOf(oWP.getContent());
 		}
 		
 		return rResult;
@@ -569,7 +569,7 @@ public class clsActTools {
 		
 		for (clsWordPresentationMesh oS : clsActTools.getAllSubImages(poSourceIntention)) {
 			for (clsWordPresentationMesh oT : clsActTools.getAllSubImages(poTargetIntention)) {
-				if (oS.getMoDS_ID()==oT.getMoDS_ID()) {
+				if (oS.getDS_ID()==oT.getDS_ID()) {
 					copyPIMatches(oS, oT);
 					
 					break;
@@ -607,7 +607,7 @@ public class clsActTools {
 	 * @return
 	 */
 	public static eAction getRecommendedAction(clsWordPresentationMesh poImage) {
-		return eAction.valueOf(clsMeshTools.getUniquePredicateWPM(poImage, ePredicate.HASACTION).getMoContent());
+		return eAction.valueOf(clsMeshTools.getUniquePredicateWPM(poImage, ePredicate.HASACTION).getContent());
 	}
 	
 	/**
@@ -640,7 +640,7 @@ public class clsActTools {
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poMoment, ePredicate.HASMOMENTCONFIDENCE);
 		
 		if (oWP!=null) {
-			rResult = Double.valueOf(oWP.getMoContent());
+			rResult = Double.valueOf(oWP.getContent());
 		}
 		
 		return rResult;
@@ -676,7 +676,7 @@ public class clsActTools {
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poIntention, ePredicate.HASACTCONFIDENCE);
 		
 		if (oWP!=null) {
-			rResult = Double.valueOf(oWP.getMoContent());
+			rResult = Double.valueOf(oWP.getContent());
 		}
 		
 		return rResult;
@@ -712,7 +712,7 @@ public class clsActTools {
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poMoment, ePredicate.HASMOVEMENTTIMEOUT);
 		
 		if (oWP!=null) {
-			nResult = Integer.valueOf(oWP.getMoContent());
+			nResult = Integer.valueOf(oWP.getContent());
 		}
 		
 		return nResult;
@@ -734,7 +734,7 @@ public class clsActTools {
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poMoment, ePredicate.HASINDIVIDUALMOVEMENTTIMEOUT);
 		
 		if (oWP!=null) {
-			nResult = Integer.valueOf(oWP.getMoContent());
+			nResult = Integer.valueOf(oWP.getContent());
 		}
 		
 		return nResult;
@@ -780,7 +780,7 @@ public class clsActTools {
 		ArrayList<clsWordPresentation> oFoundTaskStatusList = clsMeshTools.getNonUniquePredicateWP(poIntention, ePredicate.HASCONDITION);
 				
 		for (clsWordPresentation oTaskStatus : oFoundTaskStatusList) {
-			oResult.add(eCondition.valueOf(((clsWordPresentation) oTaskStatus).getMoContent()));
+			oResult.add(eCondition.valueOf(((clsWordPresentation) oTaskStatus).getContent()));
 		}
 		
 		return oResult;
@@ -831,7 +831,7 @@ public class clsActTools {
 		ArrayList<clsWordPresentationMesh> oEventList = clsActTools.getAllSubImages(poIntention);
 		
 		for (clsWordPresentationMesh oActEvent : oEventList) {
-			if (oActEvent.getMoDS_ID()==poEvent.getMoDS_ID()) {
+			if (oActEvent.getDS_ID()==poEvent.getDS_ID()) {
 				oResult = oActEvent;
 				break;
 			}

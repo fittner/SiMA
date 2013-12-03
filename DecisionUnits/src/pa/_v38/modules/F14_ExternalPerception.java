@@ -260,7 +260,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
 		for (clsPrimaryDataStructureContainer oEnvEntity : moEnvironmentalTP) {
 			clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
-			if(oCheckEntity.getMoDataStructure().getMoContentType() != eContentType.ENTITY) {
+			if(oCheckEntity.getMoDataStructure().getContentType() != eContentType.ENTITY) {
 				oRemoveDS.add(oCheckEntity);
 				
 			}
@@ -369,11 +369,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
 				for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
 
-					oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getMoAssociationElementB();
+					oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
 					oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
 					
 					// is it the same TPM?
-					if(oCandidateTPM_DM.getMoDS_ID() == oCandidateTPM.getMoDS_ID()){
+					if(oCandidateTPM_DM.getDS_ID() == oCandidateTPM.getDS_ID()){
 						oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
 					}
 					
@@ -854,8 +854,8 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
 			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
 				//Go through all associated structures
-				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
-					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true)) {
+				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getInternalAssociatedContent()) {
+					if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getContent().equals(eDistance.EATABLE)==true)) {
 						oEatableList.add(oContainer);
 					}
 				}
@@ -882,10 +882,10 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 			for (clsPrimaryDataStructureContainer oMContainer : poEnvironmentalPerception_IN) {
 				//When found, add all TP, which are not location to the EATABLE area
 				if (oMContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-					if (((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoContent().equals(((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoContent())) {
-						for (clsAssociation oAss : ((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
-							if (oAss.getLeafElement().getMoContentType().equals("Color")) {
-								((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent().add(oAss);
+					if (((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getContent().equals(((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getContent())) {
+						for (clsAssociation oAss : ((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getInternalAssociatedContent()) {
+							if (oAss.getLeafElement().getContentType().equals("Color")) {
+								((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getInternalAssociatedContent().add(oAss);
 								bFound=true;
 								break;
 							}
@@ -900,8 +900,8 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		
 			//Replace the EATABLE through another distance and position
 			boolean bconv=false;
-			for (clsAssociation oAss : ((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
-				if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true) {
+			for (clsAssociation oAss : ((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getInternalAssociatedContent()) {
+				if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)==true && ((clsThingPresentation)oAss.getLeafElement()).getContent().equals(eDistance.EATABLE)==true) {
 					((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
 					bconv=true;
 				}
@@ -910,7 +910,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 			if (bconv==true) {
 				clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.POSITION, ePhiPosition.CENTER));
 				clsAssociationAttribute oPosAss = (clsAssociationAttribute) clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.POSITIONASSOCIATION, (clsPrimaryDataStructure) oEContainer.getMoDataStructure(), oPos, 1.0);
-				((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent().add(oPosAss);
+				((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getInternalAssociatedContent().add(oPosAss);
 			}
 		}
 		
@@ -922,8 +922,8 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
 			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
 				//Go through all associated structures
-				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
-					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.MANIPULATEABLE)==true)) {
+				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getInternalAssociatedContent()) {
+					if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getContent().equals(eDistance.MANIPULATEABLE)==true)) {
 						((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
 						//oManipulatableList.add(oContainer);
 					}
@@ -953,14 +953,14 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		
 		// SSCH: separate internal from external associations. for search just internal associations are relevant
 		for(clsPrimaryDataStructureContainer oEnvTPM :oPerceivedImage_IN) {
-			if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
+			if (oEnvTPM.getMoDataStructure().getContentType() == eContentType.ENTITY) {
 				
 				clsThingPresentationMesh oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
 				
 				ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
 				// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
-				for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
-					if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
+				for (clsAssociation oIntAss: oUnknownTPM.getInternalAssociatedContent()) {
+					if (isInternalAttribute(oIntAss.getAssociationElementB().getContentType().toString()) == false) {
 						// remove Assoc from internal and put it in external assoc
 						oRemoveAss.add(oIntAss);
 					}				
@@ -1170,17 +1170,17 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 			clsPrimaryDataStructureContainer poPerceptionEntry, 
 			clsPrimaryDataStructureContainer poNewImage) {
 		
-		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getMoInternalAssociatedContent()){
+		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getInternalAssociatedContent()){
 	 		
-	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getMoAssociationElementB())){
-	 			poUnknownData.add(oEntry.getMoAssociationElementB()); 
+	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getAssociationElementB())){
+	 			poUnknownData.add(oEntry.getAssociationElementB()); 
 	 		}
 	 	}
 		
 		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getExternalMoAssociatedContent()){
 	 		
-	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getMoAssociationElementB())){
-	 			poUnknownData.add(oEntry.getMoAssociationElementB()); 
+	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getAssociationElementB())){
+	 			poUnknownData.add(oEntry.getAssociationElementB()); 
 	 		}
 	 	}
 	}
@@ -1255,7 +1255,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
 		for (clsPrimaryDataStructureContainer oEnvEntity : moEnvironmentalTP) {
 			clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
-			if(oCheckEntity.getMoDataStructure().getMoContentType() != eContentType.ENTITY) {
+			if(oCheckEntity.getMoDataStructure().getContentType() != eContentType.ENTITY) {
 				oRemoveDS.add(oCheckEntity);
 			}
 		}		
@@ -1307,7 +1307,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
 			for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
 
-				oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getMoAssociationElementB();
+				oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
 				oCandidateTPM = oMemorizedDriveMesh.getActualDriveObject();
 				
 				// embodiment activation: source activation is already done in F57 (in hallucinatory wishfulfillment). so, just apply criterion activaion function
@@ -1349,8 +1349,8 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 					oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
 													
 							// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
-							for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
-								if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
+							for (clsAssociation oIntAss: oUnknownTPM.getInternalAssociatedContent()) {
+								if (isInternalAttribute(oIntAss.getAssociationElementB().getContentType().toString()) == false) {
 									// remove Assoc from internal and put it in external assoc
 									oRemoveAss.add(oIntAss);
 								}
@@ -1384,11 +1384,11 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 						for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
 							for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
 
-								oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getMoAssociationElementB();
+								oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
 								oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
 								
 								// is it the same TPM?
-								if(oCandidateTPM_DM.getMoDS_ID() == oCandidateTPM.getMoDS_ID()){
+								if(oCandidateTPM_DM.getDS_ID() == oCandidateTPM.getDS_ID()){
 									oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
 								}
 								
@@ -1454,7 +1454,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 			for (clsAssociation oAssDM: poSpecificCandidates.get(i).getMoAssociatedDataStructures()){
 				//set categ appropriatenes as association weight (workaraound?)
 				//oAssDM.setMrWeight();
-				oExemplarDM = (clsDriveMesh) oAssDM.getMoAssociationElementA();
+				oExemplarDM = (clsDriveMesh) oAssDM.getAssociationElementA();
 				oAssDM.setMrWeight(((clsThingPresentationMesh) poSpecificCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue());
 				
 				oDMID = oExemplarDM.getActualDriveSourceAsENUM().toString() + oExemplarDM.getDriveComponent();
@@ -1489,13 +1489,13 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 			for(clsAssociation oAss : oAssDMforCategorization.get(oDMID_End)) {
 				// category appropriateness * QoA
 				rActivationValue =  oAss.getMrWeight();
-				oDMExemplar = (clsDriveMesh) oAss.getMoAssociationElementA();
+				oDMExemplar = (clsDriveMesh) oAss.getAssociationElementA();
 				rQoASum +=  rActivationValue* (oDMExemplar).getQuotaOfAffect();
 				rMax += rActivationValue;
 			}
 			
 			// generate DM with graded QoA
-			oDMStimulus = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.DM, eContentType.MEMORIZEDDRIVEREPRESENTATION), oDMExemplar.getMoInternalAssociatedContent(), rQoASum/rMax, "debugInfo:", oDMExemplar.getDriveComponent(), oDMExemplar.getPartialDrive());;
+			oDMStimulus = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.DM, eContentType.MEMORIZEDDRIVEREPRESENTATION), oDMExemplar.getInternalAssociatedContent(), rQoASum/rMax, "debugInfo:", oDMExemplar.getDriveComponent(), oDMExemplar.getPartialDrive());;
 			oDMStimulusList.add(oDMStimulus);
 		}
 		
@@ -1518,20 +1518,20 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 			clsThingPresentationMesh poPerceptionEntry, 
 			clsThingPresentationMesh poNewImage) {
 		
-		for(clsAssociation oEntry : poPerceptionEntry.getMoInternalAssociatedContent()){
+		for(clsAssociation oEntry : poPerceptionEntry.getInternalAssociatedContent()){
 	 		
-	 		if( !poNewImage.contain(oEntry.getMoAssociationElementB())){
-	 			if(oEntry.getMoAssociationElementB() instanceof clsThingPresentation){
-	 			    poUnknownData.add(oEntry.getMoAssociationElementB()); 
+	 		if( !poNewImage.contain(oEntry.getAssociationElementB())){
+	 			if(oEntry.getAssociationElementB() instanceof clsThingPresentation){
+	 			    poUnknownData.add(oEntry.getAssociationElementB()); 
 	 			}
 	 		}
 	 	}
 		
 		for(clsAssociation oEntry : poPerceptionEntry.getExternalMoAssociatedContent()){
 	 		
-	 		if( !poNewImage.contain(oEntry.getMoAssociationElementB())){
-	 		   if(oEntry.getMoAssociationElementB() instanceof clsThingPresentation){
-	 		       poUnknownData.add(oEntry.getMoAssociationElementB());
+	 		if( !poNewImage.contain(oEntry.getAssociationElementB())){
+	 		   if(oEntry.getAssociationElementB() instanceof clsThingPresentation){
+	 		       poUnknownData.add(oEntry.getAssociationElementB());
 	 		   }
 	 		}
 	 	}
@@ -1551,20 +1551,20 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             clsThingPresentationMesh poPerceptionEntry, 
             clsThingPresentationMesh poNewImage) {
         
-        for(clsAssociation oEntry : poPerceptionEntry.getMoInternalAssociatedContent()){
+        for(clsAssociation oEntry : poPerceptionEntry.getInternalAssociatedContent()){
             
-            if( !poNewImage.contain(oEntry.getMoAssociationElementB())){
-                if(oEntry.getMoAssociationElementB() instanceof clsThingPresentationMesh){
-                    poUnknownData.add(oEntry.getMoAssociationElementB()); 
+            if( !poNewImage.contain(oEntry.getAssociationElementB())){
+                if(oEntry.getAssociationElementB() instanceof clsThingPresentationMesh){
+                    poUnknownData.add(oEntry.getAssociationElementB()); 
                 }
             }
         }
         
         for(clsAssociation oEntry : poPerceptionEntry.getExternalMoAssociatedContent()){
             
-            if( !poNewImage.contain(oEntry.getMoAssociationElementB())){
-               if(oEntry.getMoAssociationElementB() instanceof clsThingPresentationMesh){
-                   poUnknownData.add(oEntry.getMoAssociationElementB());
+            if( !poNewImage.contain(oEntry.getAssociationElementB())){
+               if(oEntry.getAssociationElementB() instanceof clsThingPresentationMesh){
+                   poUnknownData.add(oEntry.getAssociationElementB());
                }
             }
         }
@@ -1590,7 +1590,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 							-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
 							poOutputTPM, oTPBestMatch);
 				
-				if(isInternalAttribute(oTPBestMatch.getMoContentType().toString())){
+				if(isInternalAttribute(oTPBestMatch.getContentType().toString())){
 					poOutputTPM.assignDataStructure(oAssociation);
 				}
 				else{
@@ -1643,7 +1643,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
         ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
         for (clsPrimaryDataStructureContainer oEnvEntity : oEnvPerceptionTPAL) {
             clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
-            if(oCheckEntity.getMoDataStructure().getMoContentType() != eContentType.ENTITY) {
+            if(oCheckEntity.getMoDataStructure().getContentType() != eContentType.ENTITY) {
                 oRemoveDS.add(oCheckEntity);
             }
         }
@@ -1680,8 +1680,8 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             oTPMToSearch = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();             
                                             
                     //  separate internal attributes (which identify the entity) from external attributes (which are additional information)
-                    for (clsAssociation oIntAss: oTPMToSearch.getMoInternalAssociatedContent()) {
-                        if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
+                    for (clsAssociation oIntAss: oTPMToSearch.getInternalAssociatedContent()) {
+                        if (isInternalAttribute(oIntAss.getAssociationElementB().getContentType().toString()) == false) {
                             // remove Assoc from internal and put it in external assoc
                             oRemoveAss.add(oIntAss);
                         }

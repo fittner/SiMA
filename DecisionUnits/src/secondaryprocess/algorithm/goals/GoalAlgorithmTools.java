@@ -291,7 +291,7 @@ public class GoalAlgorithmTools {
                     //if the images action fits, increase the importance value
                     if(poAim == oAction) {
                         rResult += mrAimIncrease;
-                        log.info("(in " + poGoal.getMoContent() + ") Act " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match for " + oAction);
+                        log.info("(in " + poGoal.getContent() + ") Act " + oSuppDataStructure.getContent() + " has importance increase by " + rResult + " due to action match for " + oAction);
                     }
                 }
             }

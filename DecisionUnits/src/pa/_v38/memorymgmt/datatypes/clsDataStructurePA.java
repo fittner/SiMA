@@ -130,7 +130,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 	 * 
 	 * @return the moDS_ID
 	 */
-	public int getMoDS_ID() {
+	public int getDS_ID() {
 		return moDS_ID;
 	}
 
@@ -188,7 +188,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 	 * 
 	 * @return the moContentType
 	 */
-	public eContentType getMoContentType() {
+	public eContentType getContentType() {
 		return moContentType;
 	}
 
@@ -202,7 +202,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 		this.moContentType = moContentType;
 	}
 	
-	public int getMoDSInstance_ID() {
+	public int getDSInstance_ID() {
 		return moDSInstance_ID;
 	}
 
@@ -228,8 +228,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 	 */
 	protected <E extends clsDataStructurePA> double getMatchScore(itfInternalAssociatedDataStructure poDSTemplate, itfInternalAssociatedDataStructure poDSUnknown) {
 		
-		ArrayList<E> oContentListTemplate = (ArrayList<E>)poDSTemplate.getMoInternalAssociatedContent();
-		ArrayList<E> oContentListUnknown = (ArrayList<E>)poDSUnknown.getMoInternalAssociatedContent();
+		ArrayList<E> oContentListTemplate = (ArrayList<E>)poDSTemplate.getInternalAssociatedContent();
+		ArrayList<E> oContentListUnknown = (ArrayList<E>)poDSUnknown.getInternalAssociatedContent();
 		
 		double oMatchScore = 0.0;
 		double oMatchScoreNorm = 0.0;
@@ -314,8 +314,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
         boolean isEqual = false;
         
         if (ds.getClass().getName().equals(this.getClass().getName()) &&
-            ds.getMoDS_ID()==this.moDS_ID &&
-            ds.getMoContentType()==this.getMoContentType()) {
+            ds.getDS_ID()==this.moDS_ID &&
+            ds.getContentType()==this.getContentType()) {
             isEqual=true;
         }
         

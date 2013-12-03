@@ -314,7 +314,7 @@ public class GoalHandlingFunctionality {
 ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
         
         for (clsWordPresentationMeshGoal oAct : moReachableGoalList_OUT) {
-            if (oAct.getMoInternalAssociatedContent().toString().contains("A07_SPEAK_EAT_L01")) {
+            if (oAct.getInternalAssociatedContent().toString().contains("A07_SPEAK_EAT_L01")) {
                 oAct.setCondition(eCondition.IS_CONTEXT_SOURCE);
                
             } 

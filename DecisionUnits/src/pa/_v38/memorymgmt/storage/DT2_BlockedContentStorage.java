@@ -468,7 +468,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				for(clsAssociationDriveMesh oInputAssociation : oDMFromMesh) {
 					//if(oInputAssociation instanceof clsAssociationDriveMesh){
 					clsDriveMesh  oData = ((clsAssociationDriveMesh)oInputAssociation).getDM(); 
-					if(oEntry.getMoContentType().equals(oData.getMoContentType())) {
+					if(oEntry.getContentType().equals(oData.getContentType())) {
 						// calculate match between drive matches
 						double rMatchValue = ((clsDriveMesh)oEntry).compareTo(oData);
 						// ignore matches below threshold
@@ -510,7 +510,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		
 		for (clsDataStructurePA oEntry : moBlockedContent) {
 			if (oEntry instanceof clsDriveMesh) { 
-				if(oEntry.getMoContentType().equals(poDM.getMoContentType())) {
+				if(oEntry.getContentType().equals(poDM.getContentType())) {
 					// calculate match between drive matches
 					double rMatchValue = ((clsDriveMesh)oEntry).compareTo(poDM);
 					// ignore matches below threshold

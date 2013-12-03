@@ -8,6 +8,10 @@ package pa._v38.memorymgmt.shorttermmemory;
 
 import java.util.ArrayList;
 
+import logger.clsLogger;
+
+import org.slf4j.Logger;
+
 import datatypes.helpstructures.clsPair;
 import datatypes.helpstructures.clsTriple;
 import pa._v38.interfaces.itfGraphData;
@@ -37,6 +41,8 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory<clsWordPrese
 	private final clsWordPresentationMesh moEnvironmentalImage = clsMeshTools.createWPMImage(new ArrayList<clsSecondaryDataStructure>(), eContentType.ENVIRONMENTALIMAGE, eContent.ENVIRONMENTALIMAGE.toString());
 	private final clsWordPresentationMesh moEnhancedEnvironmentalImage = clsMeshTools.createWPMImage(new ArrayList<clsSecondaryDataStructure>(), eContentType.ENHANCEDENVIRONMENTALIMAGE, eContent.ENHANCEDENVIRONMENTALIMAGE.toString());
 
+	private static final Logger log = clsLogger.getLog("EnvironmentalImageMemory");
+	
 	/**
 	 * Constructor. Initialize the environental image
 	 * 
@@ -114,7 +120,7 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory<clsWordPrese
 		clsMeshTools.addSecondaryDataStructuresToWPMImage(this.moEnhancedEnvironmentalImage, oAddList);
 		
 		//Remove the associationWordPresentationFrom the PI
-		poPerceivedImage.setMoExternalAssociatedContent(new ArrayList<clsAssociation>());
+		poPerceivedImage.setExternalAssociatedContent(new ArrayList<clsAssociation>());
 		
 		//Move all entities from the PI to the EI
 		//clsMeshTools.moveAllAssociations(this.moEnvironmentalImage, poPerceivedImage);
@@ -159,7 +165,7 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory<clsWordPrese
 	 */
 	private void removeAllEntitiesOfTheSameTypeWithNoPosition(clsWordPresentationMesh poImage, clsWordPresentationMesh poEntity) {
 		//Get a list of all entities in the image, which are of the same type
-		ArrayList<clsSecondaryDataStructure> oSameEntityList = clsMeshTools.searchSecondaryDataStructureInImage(poImage, ePredicate.HASPART, poEntity.getMoDS_ID(), false);
+		ArrayList<clsSecondaryDataStructure> oSameEntityList = clsMeshTools.searchSecondaryDataStructureInImage(poImage, ePredicate.HASPART, poEntity.getDS_ID(), false);
 		
 		for (clsSecondaryDataStructure oEntity : oSameEntityList) {
 			if (oEntity instanceof clsWordPresentationMesh) {
@@ -181,11 +187,12 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory<clsWordPrese
 	 * Remove all entities in the environmental image and remove all positions of those entities in the enhanced environmental image
 	 * 
 	 * (wendt)
+	 * @throws Exception 
 	 *
 	 * @since 09.10.2012 20:42:49
 	 *
 	 */
-	public void clearEnvironmentalImage() {
+	public void clearEnvironmentalImage() throws Exception {
 		//Get all entities
 		ArrayList<clsWordPresentationMesh> oEntitiesInImageList = clsMeshTools.getAllSubWPMInWPMImage(this.moEnvironmentalImage);
 		
@@ -194,7 +201,15 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory<clsWordPrese
 			clsMeshTools.removeAssociationInObject(this.moEnvironmentalImage, oEntity);
 			
 			//Remove all positions of the entities of the enhanced environmental image
-			clsEntityTools.removePosition(oEntity);
+			clsEntityTools.removeDistanceAndPosition(oEntity);
+			
+			//Add new extraordinary positions (OUTOFSIGHT, UNKNOWNPOSITION)
+			try {
+                clsEntityTools.addPosition(oEntity, eRadius.OUTOFSIGHT, ePhiPosition.UNKNOWNPOSITION);
+            } catch (Exception e) {
+               log.error("cannot add position to WPM {}", oEntity, e);
+               throw e;
+            }
 		}
 		
 	}

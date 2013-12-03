@@ -99,12 +99,12 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 						//Special treatment
 						//If the data structure itself can have external associations AND it is not the leaf element of such an association then, the association can be added to the external associations
 						//FIXME: This is a workaround!!!!
-						if (poDataStructure instanceof clsThingPresentationMesh && poDataStructure.getMoDS_ID()!=oAss.getLeafElement().getMoDS_ID()) {
+						if (poDataStructure instanceof clsThingPresentationMesh && poDataStructure.getDS_ID()!=oAss.getLeafElement().getDS_ID()) {
 							//Check if the association already exists in the internal associations
 							boolean bFound = false;
-							for (clsAssociation oLoadedAss : ((clsThingPresentationMesh)poDataStructure).getMoInternalAssociatedContent()) {
+							for (clsAssociation oLoadedAss : ((clsThingPresentationMesh)poDataStructure).getInternalAssociatedContent()) {
 								//If the association does not already exists, then add it to the result list
-								if (oLoadedAss.getMoDS_ID()!=oAss.getMoDS_ID()) {
+								if (oLoadedAss.getDS_ID()!=oAss.getDS_ID()) {
 									bFound=true;
 									break;
 								}
@@ -171,8 +171,8 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 		ArrayList <clsAssociation> oList = moSearchSpace
 		                                        .returnSearchSpaceTable()
 		                                        	.get(poDataStructure.getMoDataStructureType())
-		                                              .get(poDataStructure.getMoContentType().toString())
-		                                              	.get(poDataStructure.getMoDS_ID()).b;
+		                                              .get(poDataStructure.getContentType().toString())
+		                                              	.get(poDataStructure.getDS_ID()).b;
 		
 		for(clsAssociation oAssociationElement : oList){
 			clsDataStructurePA elementB = null; 
@@ -182,10 +182,10 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 				//Make a special case for drive meshes. //FIXME: Something has to be done with the instance IDs, else the stone or other structures will be erroneously addressed
 				//If in the association, the Type is a DM, it will have an instanceID already and therefore, only the InstanceID=0 shall be used
 				//if ((oAssociationElement.getMoAssociationElementA().getMoDataStructureType() == eDataType.DM)) {
-					if ((oAssociationElement.getMoAssociationElementB().getMoDS_ID() == poDataStructure.getMoDS_ID()) && (oAssociationElement.getMoAssociationElementB().getMoDSInstance_ID() == 0)) {
-						elementB = oAssociationElement.getMoAssociationElementA();
-					}  else if ((oAssociationElement.getMoAssociationElementA().getMoDS_ID() == poDataStructure.getMoDS_ID()) && (oAssociationElement.getMoAssociationElementA().getMoDSInstance_ID() == 0)) {
-							elementB = oAssociationElement.getMoAssociationElementB();
+					if ((oAssociationElement.getAssociationElementB().getDS_ID() == poDataStructure.getDS_ID()) && (oAssociationElement.getAssociationElementB().getDSInstance_ID() == 0)) {
+						elementB = oAssociationElement.getAssociationElementA();
+					}  else if ((oAssociationElement.getAssociationElementA().getDS_ID() == poDataStructure.getDS_ID()) && (oAssociationElement.getAssociationElementA().getDSInstance_ID() == 0)) {
+							elementB = oAssociationElement.getAssociationElementB();
 					}
 				//Else, it is no DM and will not have an instanceID
 				/*} else {
@@ -199,9 +199,9 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 					} */
 			//If compareInstance = true, i.e. only memory is checked
 			} else {
-				if(oAssociationElement.getRootElement().getMoDSInstance_ID() == poDataStructure.getMoDSInstance_ID()){ 
+				if(oAssociationElement.getRootElement().getDSInstance_ID() == poDataStructure.getDSInstance_ID()){ 
 					elementB = oAssociationElement.getLeafElement(); 
-				} else if (oAssociationElement.getLeafElement().getMoDSInstance_ID() == poDataStructure.getMoDSInstance_ID()) {
+				} else if (oAssociationElement.getLeafElement().getDSInstance_ID() == poDataStructure.getDSInstance_ID()) {
 					elementB = oAssociationElement.getRootElement();
 				}
 			}

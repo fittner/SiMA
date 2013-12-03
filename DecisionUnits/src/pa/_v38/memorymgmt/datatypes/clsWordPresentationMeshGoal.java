@@ -90,7 +90,7 @@ public abstract class clsWordPresentationMeshGoal extends clsWordPresentationMes
      * @return
      */
     public String getGoalContentIdentifier() {
-        return this.getMoContent();
+        return this.getContent();
     }
     
     
@@ -352,7 +352,7 @@ public abstract class clsWordPresentationMeshGoal extends clsWordPresentationMes
         eContentType oRetVal = null;
     
         if (getSupportiveDataStructure()!=null) {
-            oRetVal = this.getSupportiveDataStructure().getMoContentType();
+            oRetVal = this.getSupportiveDataStructure().getContentType();
         }
         
         

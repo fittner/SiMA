@@ -46,7 +46,11 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 	@Override
 	protected void processGoal() {
 		//Clear the environmental image
-		this.moEnvironmentalImageMemory.clearEnvironmentalImage();
+		try {
+            this.moEnvironmentalImageMemory.clearEnvironmentalImage();
+        } catch (Exception e1) {
+            log.error("Cannot clear and update the environmental image", e1);
+        }
 		
 		//Remove conditions for the movement
 		try {

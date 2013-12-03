@@ -38,7 +38,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 * 
 	 * @return the moContent
 	 */
-	public Object getMoContent() {
+	public Object getContent() {
 		return moContent;
 	}
 	/**

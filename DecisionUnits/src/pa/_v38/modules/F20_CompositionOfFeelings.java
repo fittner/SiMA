@@ -325,7 +325,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 				// Relate the Emotion to the Feeling which have Data Structure clsWordPresentationMesh, each Emotion has own Feeling
 			
 				oFeeling = new clsWordPresentationMeshFeeling(new clsTriple<Integer, eDataType, eContentType>
-						  (-1, eDataType.WPM, eContentType.ASSOCIATIONWP),new ArrayList<clsAssociation>(), oEmotion.getMoContent().toString());
+						  (-1, eDataType.WPM, eContentType.ASSOCIATIONWP),new ArrayList<clsAssociation>(), oEmotion.getContent().toString());
 				
 				// Create Association WordPresentaion from clsEmotion
 				clsAssociationWordPresentation oWPAssEmotion = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>
@@ -339,30 +339,30 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 				// and they are related with WPM over AssociationSecondary
 				
 				oWPIntensity = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-								(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "Intensity= "+String.valueOf(oEmotion.getMrEmotionIntensity()));
+								(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "Intensity= "+String.valueOf(oEmotion.getEmotionIntensity()));
 				
 				
 				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPIntensity, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
 				
 				
 				oWPSourcePleasure = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourcePleasure= "+String.valueOf(oEmotion.getMrSourcePleasure())); 
+									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourcePleasure= "+String.valueOf(oEmotion.getSourcePleasure())); 
 				
 				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourcePleasure, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
 				
 				
 				oWPSourceUnpleasure = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceUnpleasure= "+String.valueOf(oEmotion.getMrSourceUnpleasure())); 
+									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceUnpleasure= "+String.valueOf(oEmotion.getSourceUnpleasure())); 
 				
 				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourceUnpleasure, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
 								
 				oWPSourceLibid = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceLibid= "+String.valueOf(oEmotion.getMrSourceLibid()));
+									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceLibid= "+String.valueOf(oEmotion.getSourceLibid()));
 				
 				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourceLibid, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
 								
 				oWPSourceAggr = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceAggr= "+String.valueOf(oEmotion.getMrSourceAggr()));
+									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceAggr= "+String.valueOf(oEmotion.getSourceAggr()));
 				
 				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourceAggr, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
 				
@@ -481,8 +481,8 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 		}
 		for(clsEmotion oOneEmotion : poEmotions) {
 			if(searchInEmotions (eEmotionType.ANXIETY)){
-				if ((oOneEmotion.getMoContent()== eEmotionType.ANXIETY)){
-					oOneEmotion.setMrEmotionIntensity(oIntensityOfAnxiety);
+				if ((oOneEmotion.getContent()== eEmotionType.ANXIETY)){
+					oOneEmotion.setEmotionIntensity(oIntensityOfAnxiety);
 				}
 				
 			}
@@ -495,7 +495,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	private boolean searchInEmotions (eEmotionType oEmotionType) {	
 		
 	   	for(clsEmotion oOneEmotion : moEmotions_Output) {
-	   		if(oOneEmotion.getMoContent() == oEmotionType) {
+	   		if(oOneEmotion.getContent() == oEmotionType) {
 	   			return true;
 	   		}
 	   	}
@@ -508,19 +508,19 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 		for(clsEmotion oOneEmotion : moEmotions_Output) {
 			
 				if(searchInEmotions (eEmotionType.MOURNING)){
-					if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getMoContent() == eEmotionType.MOURNING)){
-						oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+					if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getContent() == eEmotionType.MOURNING)){
+						oEmotionIntensity = oOneEmotion.getEmotionIntensity();
 					}
 			    }
 				if(searchInEmotions (eEmotionType.ANXIETY)){
-					if ((moEmotionType == eEmotionType.ANXIETY)&&(oOneEmotion.getMoContent() == eEmotionType.ANXIETY)){
-						oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+					if ((moEmotionType == eEmotionType.ANXIETY)&&(oOneEmotion.getContent() == eEmotionType.ANXIETY)){
+						oEmotionIntensity = oOneEmotion.getEmotionIntensity();
 					}
 				}
 			     
 			    if(searchInEmotions(eEmotionType.ANGER)){
-			    	if ((moEmotionType == eEmotionType.ANGER)&&(oOneEmotion.getMoContent() == eEmotionType.ANGER)){
-			    		 oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+			    	if ((moEmotionType == eEmotionType.ANGER)&&(oOneEmotion.getContent() == eEmotionType.ANGER)){
+			    		 oEmotionIntensity = oOneEmotion.getEmotionIntensity();
 			    	}
 			    }
 	

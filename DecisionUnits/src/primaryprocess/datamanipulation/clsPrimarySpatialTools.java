@@ -150,22 +150,22 @@ public class clsPrimarySpatialTools {
 		//ArrayList<clsAssociation> oDSAssList = poImageContainer.getMoAssociatedDataStructures(poDS);
 		for (clsAssociation oAss : poDS.getExternalMoAssociatedContent()) {
 			if (oAss instanceof clsAssociationAttribute) {
-				if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)) {
+				if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)) {
 					//Get content of the association
-					String oContent = (String) ((clsThingPresentation)oAss.getLeafElement()).getMoContent();
+					String oContent = (String) ((clsThingPresentation)oAss.getLeafElement()).getContent();
 					if (Y==null) {
 						Y = eRadius.elementAt(oContent);
 					}
 					//Special case if EATABLE is used
 					//FIXME AW: EATABLE is center
-					if (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals("EATABLE")==true) {
+					if (((clsThingPresentation)oAss.getLeafElement()).getContent().equals("EATABLE")==true) {
 						if (X==null) {
 							X = ePhiPosition.CENTER;
 						}
 					}
 					
-				} else if (oAss.getLeafElement().getMoContentType().equals(eContentType.POSITION)) {
-					String oContent = (String) ((clsThingPresentation)oAss.getLeafElement()).getMoContent();
+				} else if (oAss.getLeafElement().getContentType().equals(eContentType.POSITION)) {
+					String oContent = (String) ((clsThingPresentation)oAss.getLeafElement()).getContent();
 					//Get the X-Part
 					if (X==null) {
 						X = ePhiPosition.elementAt(oContent);
@@ -193,7 +193,7 @@ public class clsPrimarySpatialTools {
 		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRetVal = new ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>>();
 		
 		//Get positions for all objects in the image		
-		for (clsAssociation oAss : poImage.getMoInternalAssociatedContent()) {
+		for (clsAssociation oAss : poImage.getInternalAssociatedContent()) {
 			//Get the leaf elements
 			clsDataStructurePA oImageObject = oAss.getLeafElement();
 			//Get the position
@@ -403,7 +403,7 @@ public class clsPrimarySpatialTools {
 		for (int j=0; j<poRIPositionList.size();j++) {
 			clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oRIPosition = poRIPositionList.get(j);
 			//Get Object type ID (Instance ID is not important here)
-			int nRIObjectID = oRIPosition.a.getMoDS_ID();
+			int nRIObjectID = oRIPosition.a.getDS_ID();
 			
 			//Position of the best match object, which shall be deleted from the list
 			clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oBestPIPosition = null;

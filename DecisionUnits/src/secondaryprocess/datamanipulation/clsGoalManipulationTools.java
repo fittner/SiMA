@@ -253,7 +253,7 @@ public class clsGoalManipulationTools {
 	public static boolean compareGoals(clsWordPresentationMeshGoal poGoalA, clsWordPresentationMeshGoal poGoalB) {
 		boolean bResult = false;
 		
-		if (poGoalA.getMoContent().equals(poGoalB.getMoContent())==true && poGoalA.getSupportiveDataStructure().getMoContent()==poGoalB.getSupportiveDataStructure().getMoContent()) {	//No ID comparison as in some structures the ID would be -1
+		if (poGoalA.getContent().equals(poGoalB.getContent())==true && poGoalA.getSupportiveDataStructure().getContent()==poGoalB.getSupportiveDataStructure().getContent()) {	//No ID comparison as in some structures the ID would be -1
 			bResult=true;
 		}
 		
@@ -292,7 +292,7 @@ public class clsGoalManipulationTools {
 //		}
 			
 		
-		 oResult += poGoalName + ":" + poGoalObject.getMoContent() + oPositionToAdd + ":" + poGoalType.toString();
+		 oResult += poGoalName + ":" + poGoalObject.getContent() + oPositionToAdd + ":" + poGoalType.toString();
 		 
 		 return oResult;
 	}
@@ -440,7 +440,7 @@ public class clsGoalManipulationTools {
 						}
 					}
 				} else {
-					if (poGoalFromList.getSupportiveDataStructure().getMoContent()==poCompareGoal.getSupportiveDataStructure().getMoContent()) {
+					if (poGoalFromList.getSupportiveDataStructure().getContent()==poCompareGoal.getSupportiveDataStructure().getContent()) {
 						oResult.add(poGoalFromList);
 						if (pbStopAtFirstMatch==true) {
 							break;
@@ -458,7 +458,7 @@ public class clsGoalManipulationTools {
 					}
 				} else {
 					if (poGoalFromList.getGoalContentIdentifier()!=poCompareGoal.getGoalContentIdentifier() &&
-					        poGoalFromList.getSupportiveDataStructure().getMoContent()==poCompareGoal.getSupportiveDataStructure().getMoContent()) {
+					        poGoalFromList.getSupportiveDataStructure().getContent()==poCompareGoal.getSupportiveDataStructure().getContent()) {
 						oResult.add(poGoalFromList);
 						if (pbStopAtFirstMatch==true) {
 							break;
@@ -530,7 +530,7 @@ public class clsGoalManipulationTools {
         //eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(oAffect.getMoContent());
         
         //Get the preferred action name
-        String oActionString = poDM.getActualDriveAim().getMoContent();
+        String oActionString = poDM.getActualDriveAim().getContent();
         eAction oAction = eAction.NULLOBJECT;
         try {
             oAction =  eAction.getAction(oActionString);
@@ -612,18 +612,18 @@ public class clsGoalManipulationTools {
 	public static clsWordPresentationMeshFeeling convertEmotionToFeeling(clsEmotion poEmotion) {
 	    //clsWordPresentationMeshFeeling oResult = (clsWordPresentationMeshFeeling) clsMeshTools.getNullObjectWPM();
 	    
-	    double oAffectContent = poEmotion.getMrEmotionIntensity();
-	    eEmotionType oFeelingContent = poEmotion.getMoContent();
+	    double oAffectContent = poEmotion.getEmotionIntensity();
+	    eEmotionType oFeelingContent = poEmotion.getContent();
 	    
 	    //Generate feeling
 	    clsWordPresentationMeshFeeling oResult = new clsWordPresentationMeshFeeling(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.FEELING), new ArrayList<clsAssociation>(), oFeelingContent.toString());
 	    
 	    //Set Affect
 	    oResult.setIntensity(oAffectContent);
-	    oResult.setAggression(poEmotion.getMrSourceAggr());
-	    oResult.setLibido(poEmotion.getMrSourceLibid());
-	    oResult.setPleasure(poEmotion.getMrSourcePleasure());
-	    oResult.setUnpleasure(poEmotion.getMrSourceUnpleasure());
+	    oResult.setAggression(poEmotion.getSourceAggr());
+	    oResult.setLibido(poEmotion.getSourceLibid());
+	    oResult.setPleasure(poEmotion.getSourcePleasure());
+	    oResult.setUnpleasure(poEmotion.getSourceUnpleasure());
 	    //clsMeshTools.setUniquePredicateWP(oResult, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, oAffectContent.toString(), false);
 	    
 	    return oResult;

@@ -88,7 +88,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * 
 	 * @return the moAssociationElementA
 	 */
-	public clsDataStructurePA getMoAssociationElementA() {
+	public clsDataStructurePA getAssociationElementA() {
 		return moAssociationElementA;
 	}
 
@@ -98,7 +98,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * 
 	 * @param moAssociationElementA the moAssociationElementA to set
 	 */
-	public void setMoAssociationElementA(clsDataStructurePA moAssociationElementA) {
+	public void setAssociationElementA(clsDataStructurePA moAssociationElementA) {
 		this.moAssociationElementA = moAssociationElementA;
 	}
 
@@ -108,7 +108,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * 
 	 * @return the moAssociationElementB
 	 */
-	public clsDataStructurePA getMoAssociationElementB() {
+	public clsDataStructurePA getAssociationElementB() {
 		return moAssociationElementB;
 	}
 
@@ -118,7 +118,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * 
 	 * @param moAssociationElementB the moAssociationElementB to set
 	 */
-	public void setMoAssociationElementB(clsDataStructurePA moAssociationElementB) {
+	public void setAssociationElementB(clsDataStructurePA moAssociationElementB) {
 		this.moAssociationElementB = moAssociationElementB;
 	}
 
@@ -397,8 +397,8 @@ public abstract class clsAssociation extends clsDataStructurePA{
         boolean isEqual = false;
         
         if (ds.getClass().getName().equals(this.getClass().getName()) &&
-            ds.getMoDS_ID()==this.moDS_ID &&
-            ds.getMoContentType()==this.getMoContentType() &&
+            ds.getDS_ID()==this.moDS_ID &&
+            ds.getContentType()==this.getContentType() &&
             ds.getLeafElement().isEquivalentDataStructure(this.getLeafElement()) &&
             ds.getRootElement().isEquivalentDataStructure(this.getRootElement())) {
             isEqual=true;
@@ -423,11 +423,11 @@ public abstract class clsAssociation extends clsDataStructurePA{
 			oResult += moAssociationElement.moDS_ID + ":";
 			oResult += moAssociationElement.moContentType;
 			if (moAssociationElement instanceof clsThingPresentationMesh) {
-				oResult += ":" + ((clsThingPresentationMesh)moAssociationElement).getMoContent().toString();
+				oResult += ":" + ((clsThingPresentationMesh)moAssociationElement).getContent().toString();
 			} else if (moAssociationElement instanceof clsThingPresentation) {
-				oResult += ":" + ((clsThingPresentation)moAssociationElement).getMoContent().toString();
+				oResult += ":" + ((clsThingPresentation)moAssociationElement).getContent().toString();
 			} else if (moAssociationElement instanceof clsSecondaryDataStructure) {
-				oResult += ":" + ((clsSecondaryDataStructure)moAssociationElement).getMoContent().toString();
+				oResult += ":" + ((clsSecondaryDataStructure)moAssociationElement).getContent().toString();
 			}
 
 //			// find moContent

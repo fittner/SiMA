@@ -439,19 +439,19 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			for(clsEmotion oOneEmotion : moEmotions_Output) {
 				
 					if(searchInEmotions (eEmotionType.MOURNING)){
-						if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getMoContent() == eEmotionType.MOURNING)){
-							oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+						if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getContent() == eEmotionType.MOURNING)){
+							oEmotionIntensity = oOneEmotion.getEmotionIntensity();
 						}
 				    }
 					if(searchInEmotions (eEmotionType.ANXIETY)){
-						if ((moEmotionType == eEmotionType.ANXIETY)&&(oOneEmotion.getMoContent() == eEmotionType.ANXIETY)){
-							oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+						if ((moEmotionType == eEmotionType.ANXIETY)&&(oOneEmotion.getContent() == eEmotionType.ANXIETY)){
+							oEmotionIntensity = oOneEmotion.getEmotionIntensity();
 						}
 					}
 				     
 				    if(searchInEmotions(eEmotionType.ANGER)){
-				    	if ((moEmotionType == eEmotionType.ANGER)&&(oOneEmotion.getMoContent() == eEmotionType.ANGER)){
-				    		 oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+				    	if ((moEmotionType == eEmotionType.ANGER)&&(oOneEmotion.getContent() == eEmotionType.ANGER)){
+				    		 oEmotionIntensity = oOneEmotion.getEmotionIntensity();
 				    	}
 				    }
 		
@@ -463,7 +463,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private boolean searchInEmotions (eEmotionType oEmotionType) {	
 			
 		   	for(clsEmotion oOneEmotion : moEmotions_Output) {
-		   		if(oOneEmotion.getMoContent() == oEmotionType) {
+		   		if(oOneEmotion.getContent() == oEmotionType) {
 		   			return true;
 		   		}
 		   	}
@@ -515,11 +515,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			String oContent     = oOneForbiddenPerception.b;
 			
 			// search in perceptions
-			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getMoInternalAssociatedContent();
+			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getInternalAssociatedContent();
 			for(clsAssociation oAssociation : oInternalAssociations){
-				if (oAssociation.getMoAssociationElementB() instanceof clsThingPresentationMesh)
-					if( ((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContentType().equals(oContentType) &&
-						((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContent().equals(oContent) ) {
+				if (oAssociation.getAssociationElementB() instanceof clsThingPresentationMesh)
+					if( ((clsThingPresentationMesh)oAssociation.getAssociationElementB()).getContentType().equals(oContentType) &&
+						((clsThingPresentationMesh)oAssociation.getAssociationElementB()).getContent().equals(oContent) ) {
 						
 						// delete forbidden association from PI (Perception Image)
 						oInternalAssociations.remove(oAssociation);
@@ -726,7 +726,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 		//Just for Test --> State on The Simulator
 		for(clsThingPresentationMesh oNegativeObject : CreateListWithNegativeObjects (oForbiddenPerceptions)) {
-		Test3.add(" Before Idealization:"+"\n"+oNegativeObject.getMoInternalAssociatedContent().toString());
+		Test3.add(" Before Idealization:"+"\n"+oNegativeObject.getInternalAssociatedContent().toString());
 		RemoveLast(Test3);
 		}
 		
@@ -752,7 +752,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 		//Just for Test --> State on The Simulator
 		for(clsThingPresentationMesh oPositiveObject : CreateListWithPositiveObjects (oForbiddenPerceptions)) {
-			Test3.add(" Before Depreciation:"+"\n"+oPositiveObject.getMoInternalAssociatedContent().toString());
+			Test3.add(" Before Depreciation:"+"\n"+oPositiveObject.getInternalAssociatedContent().toString());
 			RemoveLast(Test3);
 			}
 
@@ -781,21 +781,21 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			eContentType oContentType = oOneForbiddenPerception.a;
 			String oContent     = oOneForbiddenPerception.b;
 			
-			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getMoInternalAssociatedContent();
+			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getInternalAssociatedContent();
 			//Search in perception
 			for(clsAssociation oAssociation : oInternalAssociations){
 
-				if (oAssociation.getMoAssociationElementB() instanceof clsThingPresentationMesh) 
+				if (oAssociation.getAssociationElementB() instanceof clsThingPresentationMesh) 
 						
-					if( ((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContentType().equals(oContentType) &&
-						((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContent().equals(oContent)){
+					if( ((clsThingPresentationMesh)oAssociation.getAssociationElementB()).getContentType().equals(oContentType) &&
+						((clsThingPresentationMesh)oAssociation.getAssociationElementB()).getContent().equals(oContent)){
 						
 						
 						
 						for(clsThingPresentationMesh oPositiveOrNegativeObject : oListWithPositiveOrNegativeObjects) {
 						
 														
-							oInternalAssociationsPositiveOrNegativeObject = ((clsThingPresentationMesh)oPositiveOrNegativeObject).getMoInternalAssociatedContent();
+							oInternalAssociationsPositiveOrNegativeObject = ((clsThingPresentationMesh)oPositiveOrNegativeObject).getInternalAssociatedContent();
 														
 						}
 						
@@ -933,7 +933,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	   	// Is the emotion FEAR already in the list moEmotions_Output?
 	   	clsEmotion oEmotionFear = null;
 	   	for(clsEmotion oEmotion : oEmotions_Output) {
-	   		if(oEmotion.getMoContent() == eEmotionType.ANXIETY) {
+	   		if(oEmotion.getContent() == eEmotionType.ANXIETY) {
 	   			oEmotionFear = oEmotion;
 	   			break;
 	   		}
@@ -942,21 +942,21 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		// check list of forbidden emotions
 		for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {
 			for(clsEmotion oOneEmotion : oEmotions_Output) {
-				if(oOneEmotion.getMoContent() == oOneForbiddenEmotion) {
+				if(oOneEmotion.getContent() == oOneForbiddenEmotion) {
 					if(oEmotionFear != null) {
 						
 						// add the old emotion intensity to the emotion intensity of the emotion FEAR
-						double oNewEmotionIntensity = oEmotionFear.getMrEmotionIntensity() + oOneEmotion.getMrEmotionIntensity();
+						double oNewEmotionIntensity = oEmotionFear.getEmotionIntensity() + oOneEmotion.getEmotionIntensity();
 						if (oNewEmotionIntensity > 1.0) {
-							oEmotionFear.setMrEmotionIntensity(1.0);
-							oOneEmotion .setMrEmotionIntensity(oNewEmotionIntensity - 1.0);
+							oEmotionFear.setEmotionIntensity(1.0);
+							oOneEmotion .setEmotionIntensity(oNewEmotionIntensity - 1.0);
 							
 							// do not delete the original emotion if EmotionIntensity > 1
 							// otherwise psychic energy is lost
 							// -> the original emotion has a lower EmotionIntensity but still exists
 						}
 						else {
-							oEmotionFear.setMrEmotionIntensity(oNewEmotionIntensity);
+							oEmotionFear.setEmotionIntensity(oNewEmotionIntensity);
 
 						// remove the old emotion from the input list of emotions
 						oEmotions_Output.remove(oOneEmotion);					
@@ -964,11 +964,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 					}
 					else {
 						clsEmotion oNewEmotion = clsDataStructureGenerator.generateEMOTION(
-								new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, eEmotionType.ANXIETY, oOneEmotion.getMrEmotionIntensity()),
-								oOneEmotion.getMrSourcePleasure(),
-								oOneEmotion.getMrSourceUnpleasure(),
-                                oOneEmotion.getMrSourceLibid(),
-                                oOneEmotion.getMrSourceAggr());
+								new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, eEmotionType.ANXIETY, oOneEmotion.getEmotionIntensity()),
+								oOneEmotion.getSourcePleasure(),
+								oOneEmotion.getSourceUnpleasure(),
+                                oOneEmotion.getSourceLibid(),
+                                oOneEmotion.getSourceAggr());
 						moEmotions_Output.add(oNewEmotion);
 						moEmotions_Output.remove(oOneEmotion);
 					}

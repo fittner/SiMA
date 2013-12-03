@@ -370,19 +370,19 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		// use  assoc. emotions from PI's RIs for emotion-generation		
 		for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalMoAssociatedContent()){
 			
-			if(oPIExtAss.getMoContentType() == eContentType.ASSOCIATIONPRI){
-				if(oPIExtAss.getMoAssociationElementB().getMoContentType() == eContentType.RI) {
-					oRI = (clsThingPresentationMesh)oPIExtAss.getMoAssociationElementB();
+			if(oPIExtAss.getContentType() == eContentType.ASSOCIATIONPRI){
+				if(oPIExtAss.getAssociationElementB().getContentType() == eContentType.RI) {
+					oRI = (clsThingPresentationMesh)oPIExtAss.getAssociationElementB();
 					
 					for (clsAssociation oRIAss: oRI.getExternalMoAssociatedContent()) {
-						if (oRIAss.getMoContentType() == eContentType.ASSOCIATIONEMOTION) {
-							oEmotionFromPerception = (clsEmotion) oRIAss.getMoAssociationElementA();
+						if (oRIAss.getContentType() == eContentType.ASSOCIATIONEMOTION) {
+							oEmotionFromPerception = (clsEmotion) oRIAss.getAssociationElementA();
 							// the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
 							rAssociationWeight = oPIExtAss.getMrWeight();
-							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrPerceptionPleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getMrSourcePleasure()); 
-							rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getMrSourceUnpleasure());
-							rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getMrSourceLibid());
-							rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getMrSourceAggr());
+							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrPerceptionPleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourcePleasure()); 
+							rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourceUnpleasure());
+							rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourceLibid());
+							rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourceAggr());
 				
 						}
 					}
@@ -393,16 +393,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		
 		// use QoA of the PI's entities  for emotion-generation
-		for(clsAssociation oPIINtAss: moPerceptions_IN.getMoInternalAssociatedContent()) {
-			if(oPIINtAss.getMoContentType() == eContentType.PARTOFASSOCIATION){
+		for(clsAssociation oPIINtAss: moPerceptions_IN.getInternalAssociatedContent()) {
+			if(oPIINtAss.getContentType() == eContentType.PARTOFASSOCIATION){
 				
-				for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getMoAssociationElementB()).getExternalMoAssociatedContent()) {
+				for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getExternalMoAssociatedContent()) {
 					// exclude empty spaces (they are currently associated with drives). just use entities. (this is not nice, but due to the use of emptySpaces-objekte in ars necessary)
-					if ( oEntityAss.getMoContentType() == eContentType.ASSOCIATIONDM && !(( clsThingPresentationMesh)oPIINtAss.getMoAssociationElementB()).getMoContent().equalsIgnoreCase("EMPTYSPACE")   ) {
+					if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONDM && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
 																		
-						oDM = (clsDriveMesh)oEntityAss.getMoAssociationElementA();
+						oDM = (clsDriveMesh)oEntityAss.getAssociationElementA();
 						
-						if(oDM.getMoContentType() == eContentType.LIBIDO) {
+						if(oDM.getContentType() == eContentType.LIBIDO) {
 							rPerceptionPleasure += mrPerceptionPleasureImpactFactor*oDM.getQuotaOfAffect();
 							
 						}
@@ -691,8 +691,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oAnger =new ArrayList<Double>();
 		Double oAngerQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.ANGER)){
-				oAngerQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.ANGER)){
+				oAngerQoA = moEmotions_OUT.get(i).getEmotionIntensity();
 
 			}
 		}
@@ -703,8 +703,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oFear =new ArrayList<Double>();
 		Double oFearQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.ANXIETY)){
-				oFearQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.ANXIETY)){
+				oFearQoA = moEmotions_OUT.get(i).getEmotionIntensity();
 
 			}
 		}
@@ -714,8 +714,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oGrief =new ArrayList<Double>();
 		Double oGriefQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.MOURNING)){
-				oGriefQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.MOURNING)){
+				oGriefQoA = moEmotions_OUT.get(i).getEmotionIntensity();
 
 			}
 		}
@@ -725,8 +725,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oLoveSa =new ArrayList<Double>();
 		Double oLoveSaQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.SATURATION)){
-				oLoveSaQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.SATURATION)){
+				oLoveSaQoA = moEmotions_OUT.get(i).getEmotionIntensity();
 
 			}
 		}
@@ -736,8 +736,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oLoveEx =new ArrayList<Double>();
 		Double oLoveExQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.ELATION)){
-				oLoveExQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.ELATION)){
+				oLoveExQoA = moEmotions_OUT.get(i).getEmotionIntensity();
 
 			}
 		}
@@ -747,8 +747,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oPleasure =new ArrayList<Double>();
 		Double oPleasureQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.JOY)){
-				oPleasureQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.JOY)){
+				oPleasureQoA = moEmotions_OUT.get(i).getEmotionIntensity();
 
 			}
 		}

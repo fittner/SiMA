@@ -46,7 +46,7 @@ public class clsDebugTools {
 					if (oSourceAss!=oOtherSecondaryAss && 
 							oSourceAss.getRootElement()==oOtherSecondaryAss.getRootElement() &&
 							oSourceAss.getLeafElement()==oOtherSecondaryAss.getLeafElement() &&
-							oSourceAss.getMoPredicate()==oOtherSecondaryAss.getMoPredicate()) {
+							oSourceAss.getPredicate()==oOtherSecondaryAss.getPredicate()) {
 						
 						oFoundAss = oOtherSecondaryAss;
 						break;

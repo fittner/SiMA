@@ -152,7 +152,7 @@ public class clsPsychicSpreadActivationNode {
 	public String toString() {
 		String oResult = "";
 		
-		oResult += this.moBaseImage.getMoContent() + ", ass pe=" + this.mrAssignedPsychicEnergy + ", psy pot=" + this.mrPsychicPotential + ", ";
+		oResult += this.moBaseImage.getContent() + ", ass pe=" + this.mrAssignedPsychicEnergy + ", psy pot=" + this.mrPsychicPotential + ", ";
 		
 		return oResult;
 	}

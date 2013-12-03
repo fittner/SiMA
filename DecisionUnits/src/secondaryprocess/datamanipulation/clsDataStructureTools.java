@@ -304,7 +304,7 @@ public class clsDataStructureTools {
 		
 		for (clsAssociation oAss : poContainer.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate)) {
+				if (((clsAssociationSecondary)oAss).getPredicate().equals(poPredicate)) {
 					oRetVal.add((clsWordPresentation)oAss.getLeafElement());
 				}
 			}
@@ -449,19 +449,19 @@ public class clsDataStructureTools {
 		//Compare IDs of the structures
 
 		//Go through the internal structures
-		for (clsAssociation oIntAss : poMesh.getMoInternalAssociatedContent()) {
+		for (clsAssociation oIntAss : poMesh.getInternalAssociatedContent()) {
 			//Check if this part is meant
 			if (oIntAss.getRootElement() instanceof clsWordPresentationMesh &&
 					oIntAss.getRootElement().equals(poMesh)==false && 
-					oIntAss.getRootElement().getMoDS_ID()==poMesh.getMoDS_ID() && 
-					oIntAss.getRootElement().getMoContentType().equals(poMesh.getMoContentType())) {
+					oIntAss.getRootElement().getDS_ID()==poMesh.getDS_ID() && 
+					oIntAss.getRootElement().getContentType().equals(poMesh.getContentType())) {
 				//If all this is true, this association is falsly assigned
 				oIntAss.setRootElement(poMesh);
 				
 			} else if (oIntAss.getLeafElement() instanceof clsWordPresentationMesh &&
 					oIntAss.getLeafElement().equals(poMesh)==false && 
-					oIntAss.getLeafElement().getMoDS_ID()==poMesh.getMoDS_ID() && 
-					oIntAss.getLeafElement().getMoContentType().equals(poMesh.getMoContentType())) {
+					oIntAss.getLeafElement().getDS_ID()==poMesh.getDS_ID() && 
+					oIntAss.getLeafElement().getContentType().equals(poMesh.getContentType())) {
 				
 				oIntAss.setLeafElement(poMesh);
 				
@@ -480,15 +480,15 @@ public class clsDataStructureTools {
 			//Check if this part is meant
 			if (oExtAss.getRootElement() instanceof clsWordPresentationMesh &&
 					oExtAss.getRootElement().equals(poMesh)==false && 
-					oExtAss.getRootElement().getMoDS_ID()==poMesh.getMoDS_ID() && 
-					oExtAss.getRootElement().getMoContentType().equals(poMesh.getMoContentType())) {
+					oExtAss.getRootElement().getDS_ID()==poMesh.getDS_ID() && 
+					oExtAss.getRootElement().getContentType().equals(poMesh.getContentType())) {
 				//If all this is true, this association is falsly assigned
 				oExtAss.setRootElement(poMesh);
 				
 			} else if (oExtAss.getLeafElement() instanceof clsWordPresentationMesh &&
 					oExtAss.getLeafElement().equals(poMesh)==false && 
-					oExtAss.getLeafElement().getMoDS_ID()==poMesh.getMoDS_ID() && 
-					oExtAss.getLeafElement().getMoContentType().equals(poMesh.getMoContentType())) {
+					oExtAss.getLeafElement().getDS_ID()==poMesh.getDS_ID() && 
+					oExtAss.getLeafElement().getContentType().equals(poMesh.getContentType())) {
 				
 				oExtAss.setLeafElement(poMesh);
 				
@@ -520,8 +520,8 @@ public class clsDataStructureTools {
 		//Compare IDs of the structures
 		//TODO: Extend to instance_IDs
 		if (poTargetImage.getMoDataStructure() instanceof clsWordPresentationMesh) {
-			for (clsAssociation oImageDS : ((clsWordPresentationMesh)poTargetImage.getMoDataStructure()).getMoInternalAssociatedContent()) {
-				if (oImageDS.getRootElement().getMoDS_ID() == poFindDataStructure.getMoDS_ID()) {
+			for (clsAssociation oImageDS : ((clsWordPresentationMesh)poTargetImage.getMoDataStructure()).getInternalAssociatedContent()) {
+				if (oImageDS.getRootElement().getDS_ID() == poFindDataStructure.getDS_ID()) {
 					oRetVal = (clsWordPresentationMesh) oImageDS.getRootElement();
 					break;
 				}
@@ -596,11 +596,11 @@ public class clsDataStructureTools {
 	public static clsDataStructurePA containsInstanceType(clsDataStructurePA poSearchStructure, clsThingPresentationMesh poMesh) {
 		clsDataStructurePA oRetVal = null;
 		
-		if (poSearchStructure.getMoDS_ID() == poMesh.getMoDS_ID()) {
+		if (poSearchStructure.getDS_ID() == poMesh.getDS_ID()) {
 			oRetVal = poMesh;
 		} else {
-			for (clsAssociation oAss : poMesh.getMoInternalAssociatedContent()) {
-				if (oAss.getLeafElement().getMoDS_ID() == poSearchStructure.getMoDS_ID()) {
+			for (clsAssociation oAss : poMesh.getInternalAssociatedContent()) {
+				if (oAss.getLeafElement().getDS_ID() == poSearchStructure.getDS_ID()) {
 					oRetVal = oAss.getLeafElement();
 					break;
 				}

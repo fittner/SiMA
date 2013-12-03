@@ -227,7 +227,7 @@ public class clsActPreparationTools {
 					clsActTools.setMomentConfidenceLevel(oMoment, rMomentConfidence);
 					int nImagePosition = clsActTools.getEventPositionInAct(oMoment);
 					
-					log.trace("=== Momentcandidate: " + oMoment.getMoContent() + ", confidence: " + rMomentConfidence + "Image position: " + nImagePosition + "===");
+					log.trace("=== Momentcandidate: " + oMoment.getContent() + ", confidence: " + rMomentConfidence + "Image position: " + nImagePosition + "===");
 					
 					if (nBestImagePosition>nImagePosition) {
 						oResult = oMoment;
@@ -262,7 +262,7 @@ public class clsActPreparationTools {
 				    //STOP TODO =========================================
 				    
 				    
-				    log.trace("=== Momentcandidate: " + oMoment.getMoContent() + ", confidence: " + rMomentConfidence + "===");
+				    log.trace("=== Momentcandidate: " + oMoment.getContent() + ", confidence: " + rMomentConfidence + "===");
 					
 					//Add from confirmation of the acts or moments
 					double rAdditionalMomentConfidence = clsActPreparationTools.getAdditionalMomentConfidenceByPreviousAct(oMoment, oPreviousMoment, oPreviousExpectation);
@@ -282,7 +282,7 @@ public class clsActPreparationTools {
 						oResult = oMoment;
 					//If the values are equal, take the one, which was the moment the last time.
 					} else if (rNewMomentConfidence==rBestConfidence) {
-						if (oMoment.getMoDS_ID()==oPreviousMoment.getMoDS_ID()) {
+						if (oMoment.getDS_ID()==oPreviousMoment.getDS_ID()) {
 							rBestConfidence = rNewMomentConfidence;
 							oResult = oMoment;
 						}
@@ -304,7 +304,7 @@ public class clsActPreparationTools {
 		
 		//If the PI match of the moment is over the recognition threshold, then set a new timeout value, else not.
 		double oPIMatch = clsActTools.getPIMatch(oResult);
-		if (oPIMatch == mrMomentActivationThreshold && oResult.getMoDS_ID() != oPreviousMoment.getMoDS_ID()) {
+		if (oPIMatch == mrMomentActivationThreshold && oResult.getDS_ID() != oPreviousMoment.getDS_ID()) {
 			//Check if the moment already has a default movement timeout value
 			int nIndividualMovementTimeout = clsActTools.getIndividualMovementTimeoutValue(oResult);
 			
@@ -342,19 +342,19 @@ public class clsActPreparationTools {
 		//1. The possible moment is the PreviousPastMoment
 		boolean bPossibleMomentIsPreviousPastMoment = false;
 		clsWordPresentationMesh oPreviousPastMoment = clsActTools.getPreviousImage(poPreviousMoment);
-		if (poPossibleMoment.getMoDS_ID() == oPreviousPastMoment.getMoDS_ID()) {
+		if (poPossibleMoment.getDS_ID() == oPreviousPastMoment.getDS_ID()) {
 			bPossibleMomentIsPreviousPastMoment = true;
 		}
 		
 		//2. The possible moment is the PreviousMoment
 		boolean bPossibleMomentIsPreviousMoment = false;
-		if (poPossibleMoment.getMoDS_ID() == poPreviousMoment.getMoDS_ID()) {
+		if (poPossibleMoment.getDS_ID() == poPreviousMoment.getDS_ID()) {
 			bPossibleMomentIsPreviousMoment = true;
 		}
 		
 		//3. The possible moment is the PreviousExpectation
 		boolean bPossibleMomentIsPreviousExpectation = false;
-		if (poPossibleMoment.getMoDS_ID() == poPreviousExpectation.getMoDS_ID()) {
+		if (poPossibleMoment.getDS_ID() == poPreviousExpectation.getDS_ID()) {
 			bPossibleMomentIsPreviousExpectation = true;
 		}
 		
@@ -477,7 +477,7 @@ public class clsActPreparationTools {
 		
 		double rMomentConfidence = clsActTools.getMomentConfidenceLevel(oCurrentMoment); 
 		
-		if (oCurrentMoment.getMoDS_ID() == oPreviousExpectation.getMoDS_ID()) {
+		if (oCurrentMoment.getDS_ID() == oPreviousExpectation.getDS_ID()) {
 			rResult += mrDefaultConfidenceIncreasement*rMomentConfidence;
 		}
 		
@@ -566,7 +566,7 @@ public class clsActPreparationTools {
 		clsWordPresentationMesh oPreviousMoment = clsActDataStructureTools.getMoment(poPreviousAct);
 		double oPreviousMatch = clsActTools.getPIMatch(oPreviousMoment);
 
-		if (oCurrentMoment.getMoDS_ID()!=oPreviousMoment.getMoDS_ID() || oCurrentMatch!=oPreviousMatch) {
+		if (oCurrentMoment.getDS_ID()!=oPreviousMoment.getDS_ID() || oCurrentMatch!=oPreviousMatch) {
 			bResult=true;
 		}
 		
@@ -605,7 +605,7 @@ public class clsActPreparationTools {
 //		
 //		
 		
-		if (oPreviousIntention.getMoDS_ID()!=oCurrentIntention.getMoDS_ID()) {
+		if (oPreviousIntention.getDS_ID()!=oCurrentIntention.getDS_ID()) {
 			bResult=true;
 		}
 		

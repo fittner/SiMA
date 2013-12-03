@@ -65,13 +65,13 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 				if(!moSearchSpaceContent.containsKey(oDS.getMoDataStructureType())){
 					moSearchSpaceContent.put(oDS.getMoDataStructureType(), new HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>()); 
 				}
-				if(!moSearchSpaceContent.get(oDS.getMoDataStructureType()).containsKey(oDS.getMoContentType().toString())){
+				if(!moSearchSpaceContent.get(oDS.getMoDataStructureType()).containsKey(oDS.getContentType().toString())){
 					moSearchSpaceContent.get(oDS.getMoDataStructureType())
-										.put(oDS.getMoContentType().toString(), new HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>()); 
+										.put(oDS.getContentType().toString(), new HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>()); 
 				}
-				if(!moSearchSpaceContent.get(oDS.getMoDataStructureType()).get(oDS.getMoContentType().toString()).containsKey(oDS.getMoDS_ID())){
-					moSearchSpaceContent.get(oDS.getMoDataStructureType()).get(oDS.getMoContentType().toString())
-										.put(oDS.getMoDS_ID(), new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(oDS, new ArrayList<clsAssociation>()));
+				if(!moSearchSpaceContent.get(oDS.getMoDataStructureType()).get(oDS.getContentType().toString()).containsKey(oDS.getDS_ID())){
+					moSearchSpaceContent.get(oDS.getMoDataStructureType()).get(oDS.getContentType().toString())
+										.put(oDS.getDS_ID(), new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(oDS, new ArrayList<clsAssociation>()));
 				}
 			} catch (Exception e) {
 				System.out.println("Error in data structure: \n" + oDS);
@@ -106,11 +106,11 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	 * @param association
 	 */
 	private void defineElements(clsDataStructurePA poAssociation) {
-		clsDataStructurePA oElementA = ((clsAssociation)poAssociation).getMoAssociationElementA();
-		clsDataStructurePA oElementB = ((clsAssociation)poAssociation).getMoAssociationElementB();
+		clsDataStructurePA oElementA = ((clsAssociation)poAssociation).getAssociationElementA();
+		clsDataStructurePA oElementB = ((clsAssociation)poAssociation).getAssociationElementB();
 		
-		moSearchSpaceContent.get(oElementA.getMoDataStructureType()).get(oElementA.getMoContentType().toString()).get(oElementA.getMoDS_ID()).b.add((clsAssociation)poAssociation);
-		moSearchSpaceContent.get(oElementB.getMoDataStructureType()).get(oElementB.getMoContentType().toString()).get(oElementB.getMoDS_ID()).b.add((clsAssociation)poAssociation);	
+		moSearchSpaceContent.get(oElementA.getMoDataStructureType()).get(oElementA.getContentType().toString()).get(oElementA.getDS_ID()).b.add((clsAssociation)poAssociation);
+		moSearchSpaceContent.get(oElementB.getMoDataStructureType()).get(oElementB.getContentType().toString()).get(oElementB.getDS_ID()).b.add((clsAssociation)poAssociation);	
 	}
 	
 	/**
@@ -178,9 +178,9 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 				oRetVal +="	Content Type:	" + oDataStructureContentType + "\n";
 					for(Integer oDataStructureID : moSearchSpaceContent.get(oDataStructureContentType).get(oDataElement).keySet()){
 						clsDataStructurePA oDataStructure = moSearchSpaceContent.get(oDataStructureContentType).get(oDataElement).get(oDataStructureID).a; 
-						oRetVal +="	Object:	" + oDataStructure.getMoDS_ID() + "\n";
-						for(clsAssociation oAssociation : moSearchSpaceContent.get(oDataStructureContentType).get(oDataElement).get(oDataStructure.getMoDS_ID()).b){
-							oRetVal +="		Association: " + oAssociation.getMoDS_ID() +"\n"; 
+						oRetVal +="	Object:	" + oDataStructure.getDS_ID() + "\n";
+						for(clsAssociation oAssociation : moSearchSpaceContent.get(oDataStructureContentType).get(oDataElement).get(oDataStructure.getDS_ID()).b){
+							oRetVal +="		Association: " + oAssociation.getDS_ID() +"\n"; 
 						}
 					}
 			}

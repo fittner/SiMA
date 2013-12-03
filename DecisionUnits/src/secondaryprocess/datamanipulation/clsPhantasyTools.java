@@ -93,7 +93,7 @@ public class clsPhantasyTools {
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poWPM, ePredicate.HASPHANTASYFLAG);
 		
 		if (oWP!=null) {
-			if(oWP.getMoContent().equals(eContent.TRUE.toString())==true) {
+			if(oWP.getContent().equals(eContent.TRUE.toString())==true) {
 				bResult = true;
 			}
 		}
@@ -117,7 +117,7 @@ public class clsPhantasyTools {
 		
 		clsAssociation oAss = clsMeshTools.getUniqueTPAssociation(poTPM, eContentType.PHANTASYFLAG);
 		if (oAss!=null & oAss instanceof clsAssociationAttribute) {
-			if (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eContent.TRUE.toString())==true) {
+			if (((clsThingPresentation)oAss.getLeafElement()).getContent().equals(eContent.TRUE.toString())==true) {
 				bResult = true;
 			}
 		}

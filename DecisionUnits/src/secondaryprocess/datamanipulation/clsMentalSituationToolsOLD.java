@@ -68,7 +68,7 @@ public class clsMentalSituationToolsOLD {
 		clsWordPresentationMeshGoal oExistingDataStructure = getGoal(poMentalSituation);
 		clsWordPresentationMesh oExistingDataSupportiveStructure = null;
 		
-		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
+		if (oExistingDataStructure.getContentType().equals(eContentType.NULLOBJECT)==true) {
 			clsMeshTools.createAssociationSecondary(poMentalSituation, 1, poDataStructure, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASGOAL, false);
 			oExistingDataSupportiveStructure = poDataStructure.getSupportiveDataStructure();
 		} else {
@@ -76,7 +76,7 @@ public class clsMentalSituationToolsOLD {
 			oExistingDataSupportiveStructure = oExistingDataStructure.getSupportiveDataStructure();
 		}
 		
-		if (oExistingDataSupportiveStructure.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
+		if (oExistingDataSupportiveStructure.getContentType().equals(eContentType.NULLOBJECT)==false) {
 			setSupportiveDataStructure(poMentalSituation, oExistingDataSupportiveStructure);
 		}
 		
@@ -110,7 +110,7 @@ public class clsMentalSituationToolsOLD {
 	public static void setAction(clsWordPresentationMesh poMentalSituation, clsWordPresentationMesh poDataStructure) {
 		clsWordPresentationMesh oExistingDataStructure = getAction(poMentalSituation);
 				
-		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
+		if (oExistingDataStructure.getContentType().equals(eContentType.NULLOBJECT)==true) {
 			clsMeshTools.createAssociationSecondary(poMentalSituation, 1, poDataStructure, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
 		} else {
 			oExistingDataStructure = poDataStructure;
@@ -147,7 +147,7 @@ public class clsMentalSituationToolsOLD {
 	public static void setSupportiveDataStructure(clsWordPresentationMesh poMentalSituation, clsWordPresentationMesh poDataStructure) {
 		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poMentalSituation);
 				
-		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
+		if (oExistingDataStructure.getContentType().equals(eContentType.NULLOBJECT)==true) {
 			clsMeshTools.createAssociationSecondary(poMentalSituation, 1, poDataStructure, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
 		} else {
 			oExistingDataStructure = poDataStructure;

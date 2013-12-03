@@ -18,8 +18,8 @@ import java.util.ArrayList;
 public interface itfInternalAssociatedDataStructure {
 	public ArrayList<clsAssociation> moInternalAssociatedContent = null;
 	
-	public ArrayList<clsAssociation> getMoInternalAssociatedContent() ;
-	public void setMoInternalAssociatedContent(ArrayList<clsAssociation> moInternalAssociatedContent);
+	public ArrayList<clsAssociation> getInternalAssociatedContent() ;
+	public void setInternalAssociatedContent(ArrayList<clsAssociation> moInternalAssociatedContent);
 	public double getNumbInternalAssociations() ;
 	public void addInternalAssociations(ArrayList<clsAssociation> poInternalAssociatedDataStructures);
 	public void assignDataStructure(clsAssociation poDataStructurePA);

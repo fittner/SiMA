@@ -17,7 +17,8 @@ public enum eRadius {
 	NODISTANCE (0), 
 	NEAR (1),		
 	MEDIUM (2),	
-	FAR(3);		
+	FAR(3),
+	OUTOFSIGHT(4);
 	
 	public int mnPos;
 	

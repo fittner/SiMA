@@ -50,7 +50,7 @@ public class GoalGenerationTools {
      
         for (clsWordPresentationMeshFeeling oFeeling : oFeelingsList) {
             //Goal content
-            String oFeelingcontent = oFeeling.getMoContent();
+            String oFeelingcontent = oFeeling.getContent();
          
             //Goal Importance
             //TODO AW: Check if this is correct. Intensity is here not used at all. 
@@ -108,8 +108,8 @@ public class GoalGenerationTools {
         clsWordPresentationMeshSelectableGoal oResult = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
      
         if (poFeelingList.isEmpty()==false) {
-            if (eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.ANXIETY) ||
-                 eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
+            if (eEmotionType.valueOf(poFeelingList.get(0).getContent()).equals(eEmotionType.ANXIETY) ||
+                 eEmotionType.valueOf(poFeelingList.get(0).getContent()).equals(eEmotionType.CONFLICT)) {
                 oResult = clsGoalManipulationTools.createSelectableGoal("PANIC", eGoalType.EMOTIONSOURCE, -1,clsMeshTools.getNullObjectWPM());
                 oResult.setAssociatedPlanAction(clsActionTools.createAction(eAction.FLEE));
                 oResult.setCondition(eCondition.PANIC);

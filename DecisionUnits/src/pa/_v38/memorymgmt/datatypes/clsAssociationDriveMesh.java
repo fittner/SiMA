@@ -129,7 +129,7 @@ public class clsAssociationDriveMesh extends clsAssociation{
 		//oResult +=  this.moContentType + "|";
 		
 		if (this.getRootElement() instanceof clsThingPresentationMesh) {
-			oResult += ":" + ((clsThingPresentationMesh)this.getRootElement()).getMoContent();
+			oResult += ":" + ((clsThingPresentationMesh)this.getRootElement()).getContent();
 		} else {
 			oResult += ":" + moAssociationElementA;
 		}

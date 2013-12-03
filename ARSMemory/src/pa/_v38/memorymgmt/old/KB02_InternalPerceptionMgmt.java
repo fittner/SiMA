@@ -67,7 +67,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
 		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 //		System.out.println(moSearchSpaceHandler.toString());
-		if(poDataStructureUnknown.getMoDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
+		if(poDataStructureUnknown.getDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
 			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0,poDataStructureUnknown)); 
 		}
 		else{
@@ -271,17 +271,17 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		// of poDataStructureUnknown (not internal assoc objects!)
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		
-		if(poDataStructureUnknown.getMoDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
+		if(poDataStructureUnknown.getDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
 			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0,poDataStructureUnknown)); 
 		}
-		else if (poDataStructureUnknown  instanceof itfInternalAssociatedDataStructure && !((itfInternalAssociatedDataStructure)poDataStructureUnknown).getMoInternalAssociatedContent().isEmpty()) {
+		else if (poDataStructureUnknown  instanceof itfInternalAssociatedDataStructure && !((itfInternalAssociatedDataStructure)poDataStructureUnknown).getInternalAssociatedContent().isEmpty()) {
 
 			// For each unknowDS (e.g. UnknownTPM): take its internal associated data structures (e.g.TPs) and get all returntype of unknownDs (e.g. TPMs that are associated with this TP - if returntype is TPM) 
 			
 			// 1. get internal associated data structures of UnknowDS (e.g. UnknownTPM)
-			for( clsAssociation oIntAssOfUnknownDS: ((itfInternalAssociatedDataStructure) poDataStructureUnknown).getMoInternalAssociatedContent()) {
+			for( clsAssociation oIntAssOfUnknownDS: ((itfInternalAssociatedDataStructure) poDataStructureUnknown).getInternalAssociatedContent()) {
 				// 2. get matching data structures from knowledgebase
-				oMatchedDataStructures = compareElements(oIntAssOfUnknownDS.getMoAssociationElementB());
+				oMatchedDataStructures = compareElements(oIntAssOfUnknownDS.getAssociationElementB());
 				
 				if(oMatchedDataStructures.isEmpty()) continue;
 				
@@ -299,8 +299,8 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			for(clsPair<Double, clsDataStructureContainer> oAssReturnObjects: oDataStructureContainerList) {
 				for(clsAssociation oAssReturnObject: oAssReturnObjects.b.getMoAssociatedDataStructures()) {
 					// for safety (readOutSearchSpace is not secure)
-					if(oAssReturnObject.getMoAssociationElementA().getMoDataStructureType().nBinaryValue ==  rReturnTypeInternAss){
-						oSearchFringe.add(oAssReturnObject.getMoAssociationElementA());
+					if(oAssReturnObject.getAssociationElementA().getMoDataStructureType().nBinaryValue ==  rReturnTypeInternAss){
+						oSearchFringe.add(oAssReturnObject.getAssociationElementA());
 					}
 					else {
 						//clsLogger.jlog.debug("Wrong Returntype: " + oAssReturnObject.getMoAssociationElementA().getMoDataStructureType() + " instead of " + rReturnTypeInternAss);

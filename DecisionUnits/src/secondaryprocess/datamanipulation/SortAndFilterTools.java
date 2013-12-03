@@ -59,7 +59,7 @@ public class SortAndFilterTools {
         clsWordPresentationMesh support = input.getSupportiveDataStructure();
         
         for (clsWordPresentationMeshSelectableGoal compare : list) {
-            if (compare.getSupportiveDataStructure().getMoContent().equals(support.getMoContent())==true && support.equals(compare)==false) {
+            if (compare.getSupportiveDataStructure().getContent().equals(support.getContent())==true && support.equals(compare)==false) {
                 result.add(compare);
             }
         }

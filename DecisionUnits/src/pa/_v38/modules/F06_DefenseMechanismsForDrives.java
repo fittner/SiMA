@@ -412,7 +412,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		         ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
 		         
 		         for(clsDriveMesh Drive_After_Turning_Against_Self: oMatchingDrives){
-		             if(Drive_After_Turning_Against_Self.getActualDriveAim().getMoContent().equals("EAT")||Drive_After_Turning_Against_Self.getActualDriveAim().getMoContent().equals("BITE")){		            
+		             if(Drive_After_Turning_Against_Self.getActualDriveAim().getContent().equals("EAT")||Drive_After_Turning_Against_Self.getActualDriveAim().getContent().equals("BITE")){		            
 		                 Projection(Drive_After_Turning_Against_Self);
 		             }
 		        }
@@ -463,7 +463,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private boolean searchInEmotions (eEmotionType oEmotionType) {	
 		
 	   	for(clsEmotion oOneEmotion : moEmotions_Output) {
-	   		if(oOneEmotion.getMoContent() == oEmotionType) {
+	   		if(oOneEmotion.getContent() == oEmotionType) {
 	   			return true;
 	   		}
 	   	}
@@ -477,19 +477,19 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		for(clsEmotion oOneEmotion : moEmotions_Output) {
 			
 				if(searchInEmotions (eEmotionType.MOURNING)){
-					if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getMoContent() == eEmotionType.MOURNING)){
-						oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+					if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getContent() == eEmotionType.MOURNING)){
+						oEmotionIntensity = oOneEmotion.getEmotionIntensity();
 					}
 			    }
 				if(searchInEmotions (eEmotionType.ANXIETY)){
-					if ((moEmotionType == eEmotionType.ANXIETY)&&(oOneEmotion.getMoContent() == eEmotionType.ANXIETY)){
-						oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+					if ((moEmotionType == eEmotionType.ANXIETY)&&(oOneEmotion.getContent() == eEmotionType.ANXIETY)){
+						oEmotionIntensity = oOneEmotion.getEmotionIntensity();
 					}
 				}
 			     
 			    if(searchInEmotions(eEmotionType.ANGER)){
-			    	if ((moEmotionType == eEmotionType.ANGER)&&(oOneEmotion.getMoContent() == eEmotionType.ANGER)){
-			    		 oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+			    	if ((moEmotionType == eEmotionType.ANGER)&&(oOneEmotion.getContent() == eEmotionType.ANGER)){
+			    		 oEmotionIntensity = oOneEmotion.getEmotionIntensity();
 			    	}
 			    }
 	
@@ -668,7 +668,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 
         //Drive_After_Turning_Against_Self= poOriginalDM;
-        oOriginalDOContentForTurning_Against_Self = poOriginalDM.getActualDriveObject().getMoContent();
+        oOriginalDOContentForTurning_Against_Self = poOriginalDM.getActualDriveObject().getContent();
        
         //Test.add(poOriginalDM.getActualDriveSource().toString());
         //Test.add(oOriginalDOContentForTurning_Against_Self);
@@ -911,7 +911,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		
 		
 		
-		String oOriginalDOContent = poOriginalDM.getActualDriveObject().getMoContent();
+		String oOriginalDOContent = poOriginalDM.getActualDriveObject().getContent();
 		
 		// if the Drive-Object-List doesn't contain the receiving Object, it should no Defense Happens 
 		if(!(oDisplaceDriveObjectList.containsKey(oOriginalDOContent))){
@@ -1076,7 +1076,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		  
 		
 		// get the original Drive Aim from incoming Drive
-		String oOriginalTPContent = poOriginalDM.getActualDriveAim().getMoContent();
+		String oOriginalTPContent = poOriginalDM.getActualDriveAim().getContent();
 	
 		      
 			// No change will be happen, if the Drive Aim doesn't exist in the List

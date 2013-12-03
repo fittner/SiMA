@@ -49,7 +49,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	 * 
 	 * @return the moContent
 	 */
-	public String getMoContent() {
+	public String getContent() {
 		return moContent;
 	}
 
@@ -416,7 +416,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 				for (clsAssociation oExtAss : this.moExternalAssociatedContent) {
 					if (oExtAss instanceof clsAssociationDriveMesh) {
 						// if a drive is the same (has the same aim, object and source) and has the same QoA -> the matchingfactor is 1. hence the driveobject with this drive would satisfy the actual drive in the best possible way
-						rMatchDMs = ((clsDriveMesh)oExtAss.getMoAssociationElementA()).compareToDriveCandidate(oActualDM);
+						rMatchDMs = ((clsDriveMesh)oExtAss.getAssociationElementA()).compareToDriveCandidate(oActualDM);
 						// take the best match
 						if(rMatchDMs>rSatisfactionOfActualDM) {
 							rSatisfactionOfActualDM = rMatchDMs;
@@ -463,7 +463,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	 * 
 	 * @return the moActivations
 	 */
-	public HashMap<eActivationType, Double> getMoActivations() {
+	public HashMap<eActivationType, Double> getActivations() {
 		return moActivations;
 	}
 
@@ -571,7 +571,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	public boolean isNullObject() {
 		boolean bResult = false;
 		
-		if (this.getMoContentType()==eContentType.NULLOBJECT) {
+		if (this.getContentType()==eContentType.NULLOBJECT) {
 			bResult=true;
 		}
 		

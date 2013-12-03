@@ -232,21 +232,21 @@ public class PlanningWizard {
 				clsWordPresentationMesh el = (clsWordPresentationMesh) myElem.getLeafElement();
 
 				// Extract object name and positions
-				String oName = el.getMoContent();
+				String oName = el.getContent();
 				String oDistance = "";
 				String oPosition = "";
 
 				for (clsAssociation oAss : el.getExternalAssociatedContent()) {
-					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)) {
-						if (((clsWordPresentation) oAss.getLeafElement()).getMoContent().equals("MANIPULATEABLE")
-						    || (((clsWordPresentation) oAss.getLeafElement()).getMoContent().equals("EATABLE"))) {
+					if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)) {
+						if (((clsWordPresentation) oAss.getLeafElement()).getContent().equals("MANIPULATEABLE")
+						    || (((clsWordPresentation) oAss.getLeafElement()).getContent().equals("EATABLE"))) {
 							oDistance = "NEAR";
 							oPosition = "CENTER";
 						} else {
-							oDistance = ((clsWordPresentation) oAss.getLeafElement()).getMoContent();
+							oDistance = ((clsWordPresentation) oAss.getLeafElement()).getContent();
 						}
-					} else if (oAss.getLeafElement().getMoContentType().equals(eContentType.POSITION)) {
-						oPosition = ((clsWordPresentation) oAss.getLeafElement()).getMoContent();
+					} else if (oAss.getLeafElement().getContentType().equals(eContentType.POSITION)) {
+						oPosition = ((clsWordPresentation) oAss.getLeafElement()).getContent();
 					}
 				}
 

@@ -57,7 +57,7 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 		eAction oChosenAction = eAction.NONE;
 		
 		if (oExternalPlans.isEmpty()==false) {
-			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getMoContent());
+			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getContent());
 		}
 		
 		//Now the movement is gotten. Compose a new action for focusing, rename the action

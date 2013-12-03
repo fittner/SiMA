@@ -53,7 +53,7 @@ public class clsTestDataStructureConsistency {
 			}
 		}
 		
-		for (clsAssociation oAss : poTPM.getMoInternalAssociatedContent()) {
+		for (clsAssociation oAss : poTPM.getInternalAssociatedContent()) {
 			clsDataStructurePA oDS = oAss.getTheOtherElement(poTPM);
 			
 			if (oDS==null) {
@@ -92,7 +92,7 @@ public class clsTestDataStructureConsistency {
 			}
 		}
 		
-		for (clsAssociation oAss : poWPM.getMoInternalAssociatedContent()) {
+		for (clsAssociation oAss : poWPM.getInternalAssociatedContent()) {
 			clsDataStructurePA oDS = oAss.getTheOtherElement(poWPM);
 			
 			if (oDS==null) {
@@ -163,7 +163,7 @@ public class clsTestDataStructureConsistency {
 	    testStructure.addAll(clsMeshTools.getAllWPMObjects(poImage, 10));
 	    
 	    for (clsDataStructurePA test : testStructure) {
-	        if (test.getMoContentType().equals(eContentType.RI)==true && test.getMoDS_ID()==-1) {
+	        if (test.getContentType().equals(eContentType.RI)==true && test.getDS_ID()==-1) {
 	            throw new TestException("Data structure " + test + " in mesh " + poImage + " has ID -1");
 	        }
 	    }
@@ -175,7 +175,7 @@ public class clsTestDataStructureConsistency {
         testStructure.addAll(clsMeshTools.getAllWPMObjects(poImage, 10));
         for (clsDataStructurePA test : testStructure) {
             for (clsDataStructurePA test2 : testStructure) {
-                if (test.getMoDS_ID()!=-1 && test.equals(test2)==false && test.getMoDS_ID()==test2.getMoDS_ID() && test.getMoContentType().equals(eContentType.RI)) {
+                if (test.getDS_ID()!=-1 && test.equals(test2)==false && test.getDS_ID()==test2.getDS_ID() && test.getContentType().equals(eContentType.RI)) {
                     throw new TestException("Data structure " + test + " and " + test2 + " in mesh " + poImage + " has the same ID although it is not allowed");
                 }
             }
@@ -187,14 +187,14 @@ public class clsTestDataStructureConsistency {
 	    for (clsAssociationSecondary oAss : clsMeshTools.getAllAssociationSecondaryInMesh(poImage, 10)) {
 	        if (oAss.getRootElement() instanceof clsWordPresentationMesh) {
 	            clsWordPresentationMesh root = (clsWordPresentationMesh) oAss.getRootElement();
-	            if (root.getExternalAssociatedContent().contains(oAss)==false && root.getMoInternalAssociatedContent().contains(oAss)==false && root.getMoDS_ID()!=-1 && root.getMoContentType().equals(eContentType.RI)==false && root.getMoContentType().equals(eContentType.ENTITY)==false && root.getMoContentType().equals(eContentType.ACTION)==false) {
+	            if (root.getExternalAssociatedContent().contains(oAss)==false && root.getInternalAssociatedContent().contains(oAss)==false && root.getDS_ID()!=-1 && root.getContentType().equals(eContentType.RI)==false && root.getContentType().equals(eContentType.ENTITY)==false && root.getContentType().equals(eContentType.ACTION)==false) {
 	                throw new TestException("The association " + oAss + " does not exist in data structure " + root);
 	            }
 	        }
 	        
 	        if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
                 clsWordPresentationMesh leaf = (clsWordPresentationMesh) oAss.getLeafElement();
-                if (leaf.getExternalAssociatedContent().contains(oAss)==false && leaf.getMoInternalAssociatedContent().contains(oAss)==false && leaf.getMoDS_ID()!=-1 && leaf.getMoContentType().equals(eContentType.RI)==false && leaf.getMoContentType().equals(eContentType.ENTITY)==false && leaf.getMoContentType().equals(eContentType.ACTION)==false) {
+                if (leaf.getExternalAssociatedContent().contains(oAss)==false && leaf.getInternalAssociatedContent().contains(oAss)==false && leaf.getDS_ID()!=-1 && leaf.getContentType().equals(eContentType.RI)==false && leaf.getContentType().equals(eContentType.ENTITY)==false && leaf.getContentType().equals(eContentType.ACTION)==false) {
                     throw new TestException("The association " + oAss + " does not exist in data structure " + leaf);
                 }
             }

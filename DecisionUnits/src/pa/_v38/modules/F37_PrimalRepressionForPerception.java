@@ -250,14 +250,14 @@ implements I5_6_receive, I5_7_send  {
 		
 		// compare each element from moPrimalRepressionMemory with the input
 		for (clsDriveMesh oEntry : moPrimalRepressionMemory) {
-			for(clsAssociation oInputAssociation : poPerception_IN.getMoInternalAssociatedContent()) {
+			for(clsAssociation oInputAssociation : poPerception_IN.getInternalAssociatedContent()) {
 				clsDataStructurePA oObject = oInputAssociation.getLeafElement();
 				if (oObject instanceof clsThingPresentationMesh) {
 					
 					for (clsAssociation oSubAss : ((clsThingPresentationMesh)oObject).getExternalMoAssociatedContent()) {
 						if(oSubAss instanceof clsAssociationDriveMesh){
 							clsDriveMesh oData = ((clsAssociationDriveMesh)oSubAss).getDM(); 
-							if(oEntry.getMoContentType().equals(oData.getMoContentType())) {
+							if(oEntry.getContentType().equals(oData.getContentType())) {
 								// calculate match between drives
 								double rMatchValue = oEntry.compareTo(oData);
 								// ignore matches below threshold

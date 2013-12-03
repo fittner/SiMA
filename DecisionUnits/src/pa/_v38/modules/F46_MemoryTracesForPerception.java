@@ -122,7 +122,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		
 		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moReturnedPhantasy_IN", moReturnedPhantasy_IN);
-		text += toText.listToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT.getMoInternalAssociatedContent());
+		text += toText.listToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT.getInternalAssociatedContent());
 		text += toText.listToTEXT("External Associations", moPerceptionalMesh_OUT.getExternalMoAssociatedContent());
 		//text += toText.valueToTEXT("moEnhancedPerception", moEnhancedPerception);
 		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
@@ -309,7 +309,13 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 				clsThingPresentationMesh oNewTPM;
 				try {
 					oNewTPM = (clsThingPresentationMesh) oTPM.clone();
-					clsEntityTools.removePosition(oNewTPM);
+					String distance = clsMeshTools.getUniqueTP(oNewTPM, eContentType.DISTANCE);
+					
+					if (distance.equals(eRadius.OUTOFSIGHT.toString())==false) {
+					    log.warn("The TPM in the environmental image {}", oNewTPM);
+					    clsEntityTools.removeDistanceAndPosition(oNewTPM);
+					}
+					
 					
 					oExtendEntityList.add(oNewTPM);
 				} catch (CloneNotSupportedException e) {
@@ -543,7 +549,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		for (clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPosPair : oNewPositions) {
 			//Create a new TP-Container
 			try {
-				((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setMoExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());
+				((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());
 				oEmptySpaceTPM = (clsThingPresentationMesh) ((clsThingPresentationMesh) oEmptySpaceContainer.getMoDataStructure()).clone();
 				
 			

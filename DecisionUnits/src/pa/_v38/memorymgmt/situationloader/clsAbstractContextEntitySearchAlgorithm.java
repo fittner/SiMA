@@ -134,17 +134,17 @@ public abstract class clsAbstractContextEntitySearchAlgorithm implements itfCont
             moVisitedDataStructures.add(poDataStructurePA.hashCode());
             if (eDataType.EMOTION.equals(poDataStructurePA.getMoDataStructureType())) {
                 integrateDataStructure(poDataStructurePA, moEmotionTriple);
-            } else if (eContentType.EMOTION.equals(poDataStructurePA.getMoContentType())) {
+            } else if (eContentType.EMOTION.equals(poDataStructurePA.getContentType())) {
                 integrateDataStructure(poDataStructurePA, moEmotionTriple);
-            } else if (eContentType.BASICEMOTION.equals(poDataStructurePA.getMoContentType())) {
+            } else if (eContentType.BASICEMOTION.equals(poDataStructurePA.getContentType())) {
                 integrateDataStructure(poDataStructurePA, moEmotionTriple);
-            } else if (eContentType.ENTITY.equals(poDataStructurePA.getMoContentType())) {
+            } else if (eContentType.ENTITY.equals(poDataStructurePA.getContentType())) {
                 integrateDataStructure(poDataStructurePA, moEntityTriple);
-            } else if (eContentType.ACTION.equals(poDataStructurePA.getMoContentType())) {
+            } else if (eContentType.ACTION.equals(poDataStructurePA.getContentType())) {
                 integrateDataStructure(poDataStructurePA, moActionTriple);
-            } else if (eContentType.DISTANCE.equals(poDataStructurePA.getMoContentType())) {
+            } else if (eContentType.DISTANCE.equals(poDataStructurePA.getContentType())) {
                 integrateDataStructure(poDataStructurePA, moDistanceTriple);
-            } else if (eContentType.DM.equals(poDataStructurePA.getMoContentType())) {
+            } else if (eContentType.DM.equals(poDataStructurePA.getContentType())) {
                 integrateDataStructure(poDataStructurePA, moDistanceTriple);
             }
 
@@ -153,7 +153,7 @@ public abstract class clsAbstractContextEntitySearchAlgorithm implements itfCont
                 for (clsAssociation externalAssociation : oMesh.getExternalAssociatedContent()) {
                     checkAssociation(externalAssociation);
                 }
-                for (clsAssociation internalAssociation : oMesh.getMoInternalAssociatedContent()) {
+                for (clsAssociation internalAssociation : oMesh.getInternalAssociatedContent()) {
                     checkAssociation(internalAssociation);
                 }
             }
@@ -162,7 +162,7 @@ public abstract class clsAbstractContextEntitySearchAlgorithm implements itfCont
                 for (clsAssociation externalAssociation : oMesh.getExternalMoAssociatedContent()) {
                     checkAssociation(externalAssociation);
                 }
-                for (clsAssociation internalAssociation : oMesh.getMoInternalAssociatedContent()) {
+                for (clsAssociation internalAssociation : oMesh.getInternalAssociatedContent()) {
                     checkAssociation(internalAssociation);
                 }
             }
@@ -182,13 +182,13 @@ public abstract class clsAbstractContextEntitySearchAlgorithm implements itfCont
      */
     private void integrateDataStructure(clsDataStructurePA poDataStructurePA, clsTriple<Integer, eDataType, eContentType> poIdentifier) {
 
-        clsWordPresentationMesh newMesh = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(poDataStructurePA.getMoDS_ID(),
-                poDataStructurePA.getMoDataStructureType(), poDataStructurePA.getMoContentType()), new ArrayList<clsAssociation>(), " ");
-        newMesh.setMoDS_ID(0 + poDataStructurePA.getMoDS_ID());
+        clsWordPresentationMesh newMesh = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(poDataStructurePA.getDS_ID(),
+                poDataStructurePA.getMoDataStructureType(), poDataStructurePA.getContentType()), new ArrayList<clsAssociation>(), " ");
+        newMesh.setMoDS_ID(0 + poDataStructurePA.getDS_ID());
         // TODO select fitting ePredicate
         clsAssociation oAssociation = new clsAssociationSecondary(poIdentifier, moConcept.returnContent(), newMesh, ePredicate.NONE);
 
-        if (!moConcept.returnContent().getMoInternalAssociatedContent().contains(oAssociation)) {
+        if (!moConcept.returnContent().getInternalAssociatedContent().contains(oAssociation)) {
             ArrayList<clsAssociation> oAssociations = new ArrayList<clsAssociation>();
             oAssociations.add(oAssociation);
             moConcept.returnContent().addInternalAssociations(oAssociations);
@@ -308,13 +308,13 @@ public abstract class clsAbstractContextEntitySearchAlgorithm implements itfCont
      */
     protected String extractContentString(clsDataStructurePA poDataStructure) {
         if (poDataStructure instanceof clsWordPresentation) {
-            return ((clsWordPresentation) poDataStructure).getMoContent();
+            return ((clsWordPresentation) poDataStructure).getContent();
         } else if (poDataStructure instanceof clsWordPresentationMesh) {
-            return ((clsWordPresentationMesh) poDataStructure).getMoContent();
+            return ((clsWordPresentationMesh) poDataStructure).getContent();
         } else if (poDataStructure instanceof clsThingPresentation) {
-            return ((clsThingPresentation) poDataStructure).getMoContent().toString();
+            return ((clsThingPresentation) poDataStructure).getContent().toString();
         } else if (poDataStructure instanceof clsThingPresentationMesh) {
-            return ((clsThingPresentationMesh) poDataStructure).getMoContent().toString();
+            return ((clsThingPresentationMesh) poDataStructure).getContent().toString();
         }
 
         return "";
@@ -330,23 +330,23 @@ public abstract class clsAbstractContextEntitySearchAlgorithm implements itfCont
      */
     protected void checkAssociation(clsAssociation poAssociation) {
 
-        checkDataStructure(poAssociation.getMoAssociationElementA());
-        checkDataStructure(poAssociation.getMoAssociationElementB());
+        checkDataStructure(poAssociation.getAssociationElementA());
+        checkDataStructure(poAssociation.getAssociationElementB());
 
-        if (eContentType.ASSOCIATIONATTRIBUTE.equals(poAssociation.getMoContentType())) {
-            if (eContentType.POSITION.equals(poAssociation.getMoAssociationElementB().getMoContentType())) {
-                integratePosition(poAssociation.getMoAssociationElementA().getMoDS_ID(),
-                        extractContentString(poAssociation.getMoAssociationElementA()),
-                        extractContentString(poAssociation.getMoAssociationElementB()));
-            } else if (eContentType.DISTANCE.equals(poAssociation.getMoAssociationElementB().getMoContentType())) {
-                integrateDistance(poAssociation.getMoAssociationElementA().getMoDS_ID(),
-                        extractContentString(poAssociation.getMoAssociationElementA()),
-                        extractContentString(poAssociation.getMoAssociationElementB()));
-            } else if (eContentType.DRIVEDEMAND.equals(poAssociation.getMoAssociationElementB().getMoContentType())) {
+        if (eContentType.ASSOCIATIONATTRIBUTE.equals(poAssociation.getContentType())) {
+            if (eContentType.POSITION.equals(poAssociation.getAssociationElementB().getContentType())) {
+                integratePosition(poAssociation.getAssociationElementA().getDS_ID(),
+                        extractContentString(poAssociation.getAssociationElementA()),
+                        extractContentString(poAssociation.getAssociationElementB()));
+            } else if (eContentType.DISTANCE.equals(poAssociation.getAssociationElementB().getContentType())) {
+                integrateDistance(poAssociation.getAssociationElementA().getDS_ID(),
+                        extractContentString(poAssociation.getAssociationElementA()),
+                        extractContentString(poAssociation.getAssociationElementB()));
+            } else if (eContentType.DRIVEDEMAND.equals(poAssociation.getAssociationElementB().getContentType())) {
                 //TODO check needed drive value
-                integrateDrive(poAssociation.getMoAssociationElementA().getMoDS_ID(), 
-                        extractContentString(poAssociation.getMoAssociationElementA()),
-                        extractContentString(poAssociation.getMoAssociationElementB()));
+                integrateDrive(poAssociation.getAssociationElementA().getDS_ID(), 
+                        extractContentString(poAssociation.getAssociationElementA()),
+                        extractContentString(poAssociation.getAssociationElementB()));
             }
         }
     }

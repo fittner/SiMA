@@ -249,7 +249,7 @@ public class clsTEMPPlannerAW {
 		// image
 		// this is necessary since the data is all added to one data-string
 		ArrayList<clsImage> currentImageAllObjects = PlanningWizard.getCurrentEnvironmentalImage(poEnvironmentalPerception
-		    .getMoInternalAssociatedContent());
+		    .getInternalAssociatedContent());
 		oRetVal.addAll(currentImageAllObjects);
 
 		return oRetVal;
@@ -381,7 +381,7 @@ public class clsTEMPPlannerAW {
 			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oGoalPosition = clsEntityTools.getPosition(oGoalEntity);
 			
 			
-			if (oGoalEntity.getMoContent().equals(oImage.m_eObj.toString()) && 
+			if (oGoalEntity.getContent().equals(oImage.m_eObj.toString()) && 
 					eDirection.getDirection(oGoalPosition.b).equals(oImage.m_eDir) && 
 					eDistance.getDistance(oGoalPosition.c).equals(oImage.m_eDist)) {
 				currentImageSorted.add(oImage);

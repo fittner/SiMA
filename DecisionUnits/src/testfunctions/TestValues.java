@@ -28,7 +28,7 @@ public class TestValues {
             oDMList.addAll(clsMeshTools.getAllDMInMesh(oTPM));
             for (clsAssociationDriveMesh oDM : oDMList) {
                 if (oDM.getDM().getQuotaOfAffect()>1.0) {
-                    throw new Exception("Error in " + oTPM.getMoContent() + " in Drive mesh " + oDM.getRootElement() + ". QoA=" + oDM.getDM().getQuotaOfAffect() + " which is higher than allowed, i. e. the reference of the DM is bad");
+                    throw new Exception("Error in " + oTPM.getContent() + " in Drive mesh " + oDM.getRootElement() + ". QoA=" + oDM.getDM().getQuotaOfAffect() + " which is higher than allowed, i. e. the reference of the DM is bad");
                 }
             }
         }

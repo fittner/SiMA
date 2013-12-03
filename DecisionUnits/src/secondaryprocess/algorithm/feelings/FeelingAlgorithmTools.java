@@ -28,9 +28,9 @@ public class FeelingAlgorithmTools {
         
         for(clsWordPresentationMeshFeeling feltFeeling: poFeltFeelingList){
             //Check for error-case: Content not a feeling
-            if(feltFeeling.getMoContentType().equals(eContentType.FEELING)){
+            if(feltFeeling.getContentType().equals(eContentType.FEELING)){
                 //Special case: Anxiety. Does not apply to feeling goals
-                if(!poGoal.getGoalTypeName().equals(eGoalType.MEMORYFEELING) && feltFeeling.getMoContent().equals("ANXIETY")){
+                if(!poGoal.getGoalTypeName().equals(eGoalType.MEMORYFEELING) && feltFeeling.getContent().equals("ANXIETY")){
                     for(clsWordPresentationMeshFeeling goalFeeling: oFeelingList){
                         rResult += getFeelingValue(goalFeeling);
                     }
@@ -39,7 +39,7 @@ public class FeelingAlgorithmTools {
                     double feltValue;
                     double goalValue;
                     for(clsWordPresentationMeshFeeling goalFeeling: oFeelingList){
-                        if(feltFeeling.getMoContent().equals(goalFeeling.getMoContent())){
+                        if(feltFeeling.getContent().equals(goalFeeling.getContent())){
                             feltValue = getFeelingValue(feltFeeling);
                             goalValue = getFeelingValue(goalFeeling);
                             if(feltValue*goalValue >0){                              
@@ -75,7 +75,7 @@ public class FeelingAlgorithmTools {
     private static double getFeelingValue(clsWordPresentationMeshFeeling feel){
         double retVal = 0;
         
-        if(feel.getMoContentType().equals(eContentType.FEELING)){
+        if(feel.getContentType().equals(eContentType.FEELING)){
             retVal = feel.getPleasure() - feel.getUnpleasure();
         
         }

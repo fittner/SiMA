@@ -60,7 +60,7 @@ public class clsIC_CheckStillSetFocus extends clsInitCodelet {
 			ArrayList<clsWordPresentationMesh> oEntityList = clsMeshTools.getAllSubWPMInWPMImage(moEnvironmentalImage);
 			boolean bEntityInFocus = false;
 			for (clsWordPresentationMesh oExistingEntity : oEntityList) {
-				if (oExistingEntity.getMoDS_ID()==oPreviousGoal.getGoalObject().getMoDS_ID()) {
+				if (oExistingEntity.getDS_ID()==oPreviousGoal.getGoalObject().getDS_ID()) {
 					//If the goal object was found in the image, no matter of where it is, then the focus is still set.
 					//In this case, in F23 ALL goal objects are set in the image, therefore it does not matter which instance of the entity is found
 				    this.moGoal.setCondition(eCondition.SET_FOCUS_ON);

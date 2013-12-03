@@ -101,7 +101,7 @@ public class clsAssociationSecondary extends clsAssociation{
 		
 	}
 	
-	public ePredicate getMoPredicate() {
+	public ePredicate getPredicate() {
 		return moPredicate;
 	}
 	
@@ -122,9 +122,9 @@ public class clsAssociationSecondary extends clsAssociation{
         boolean isEqual = false;
         
         if (ds.getClass().getName().equals(this.getClass().getName()) &&
-            ds.getMoDS_ID()==this.moDS_ID &&
-            ds.getMoContentType()==this.getMoContentType() &&
-            ds.getMoPredicate().equals(this.getMoPredicate()) &&
+            ds.getDS_ID()==this.moDS_ID &&
+            ds.getContentType()==this.getContentType() &&
+            ds.getPredicate().equals(this.getPredicate()) &&
             ds.getLeafElement().isEquivalentDataStructure(this.getLeafElement()) &&
             ds.getRootElement().isEquivalentDataStructure(this.getRootElement())) {
             isEqual=true;

@@ -6,6 +6,10 @@
  */
 package secondaryprocess.datamanipulation;
 
+import logger.clsLogger;
+
+import org.slf4j.Logger;
+
 import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -36,6 +40,9 @@ public class clsEntityTools {
 	 * @param poImageContainer
 	 * @return
 	 */
+    
+    private static final Logger log = clsLogger.getLog("Entitytools");
+    
 	public static clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> getPosition(clsWordPresentationMesh poDS) {
 		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oRetVal = new clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>(poDS, null, null);
 		
@@ -46,15 +53,15 @@ public class clsEntityTools {
 		clsWordPresentation oDistance = clsMeshTools.getUniquePredicateWP(poDS, ePredicate.HASDISTANCE);
 		clsWordPresentation oPosition = clsMeshTools.getUniquePredicateWP(poDS, ePredicate.HASPOSITION);
 		
-		if (oDistance!=null && oDistance.getMoContent().equals("EATABLE")==true) {
+		if (oDistance!=null && oDistance.getContent().equals("EATABLE")==true) {
 			X = ePhiPosition.CENTER;
 			Y = eRadius.NEAR;
 		} else {
 			if (oDistance!=null) {
-				Y = eRadius.elementAt(oDistance.getMoContent());
+				Y = eRadius.elementAt(oDistance.getContent());
 			}
 			if (oPosition!=null) {
-				X = ePhiPosition.elementAt(oPosition.getMoContent());
+				X = ePhiPosition.elementAt(oPosition.getContent());
 			}
 		}
 
@@ -91,6 +98,57 @@ public class clsEntityTools {
 		return oRetVal;
 	}
 	
+	 /**
+	 * Add position and distance for word presentation meshes
+	 *
+	 * @author wendt
+	 * @since 03.12.2013 12:54:08
+	 *
+	 * @param poEntity
+	 * @param poRadius
+	 * @param poPosition
+	 * @throws Exception
+	 */
+	public static void addPosition(clsWordPresentationMesh poEntity, eRadius poRadius, ePhiPosition poPosition) throws Exception {
+	        removeDistanceAndPosition(poEntity);
+	        
+	        try {
+	            clsMeshTools.setNonUniquePredicateWP(poEntity, ePredicate.HASDISTANCE, eContentType.DISTANCE, poRadius.toString(), false);
+	            clsMeshTools.setNonUniquePredicateWP(poEntity, ePredicate.HASPOSITION, eContentType.POSITION, poPosition.toString(), false);
+	        } catch (Exception e) {
+	           log.error("Error at setting position or distance", e);
+	           throw e;
+	        }
+	        
+	        clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(poEntity);
+	        addPosition(oTPM, poRadius, poPosition);
+	        
+	    }
+	
+	/**
+	 * Add position and distance for thing presentation meshes
+	 *
+	 * @author wendt
+	 * @since 03.12.2013 12:54:27
+	 *
+	 * @param poEntity
+	 * @param poRadius
+	 * @param poPosition
+	 * @throws Exception
+	 */
+	public static void addPosition(clsThingPresentationMesh poEntity, eRadius poRadius, ePhiPosition poPosition) throws Exception {
+	    removeDistanceAndPosition(poEntity);
+	    
+	    try {
+            clsMeshTools.setUniqueTP(poEntity, eContentType.DISTANCE, poRadius.toString());
+            clsMeshTools.setUniqueTP(poEntity, eContentType.POSITION, poPosition.toString());
+        } catch (Exception e) {
+           log.error("Error at setting position or distance", e);
+           throw e;
+        }
+	    
+	}
+	
 	/**
 	 * Remove the position of an entity
 	 * 
@@ -100,12 +158,12 @@ public class clsEntityTools {
 	 *
 	 * @param poEntity
 	 */
-	public static void removePosition(clsWordPresentationMesh poEntity) {
+	public static void removeDistanceAndPosition(clsWordPresentationMesh poEntity) {
 		clsMeshTools.removeAllNonUniquePredicateSecondaryDataStructure(poEntity, ePredicate.HASDISTANCE);	
 		clsMeshTools.removeAllNonUniquePredicateSecondaryDataStructure(poEntity, ePredicate.HASPOSITION);
 		
 		clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(poEntity);
-		removePosition(oTPM);
+		removeDistanceAndPosition(oTPM);
 		
 	}
 	
@@ -118,7 +176,7 @@ public class clsEntityTools {
 	 *
 	 * @param poEntity
 	 */
-	public static void removePosition(clsThingPresentationMesh poEntity) {
+	public static void removeDistanceAndPosition(clsThingPresentationMesh poEntity) {
 		clsMeshTools.removeUniqueTP(poEntity, eContentType.DISTANCE);
 		clsMeshTools.removeUniqueTP(poEntity, eContentType.POSITION);
 	}

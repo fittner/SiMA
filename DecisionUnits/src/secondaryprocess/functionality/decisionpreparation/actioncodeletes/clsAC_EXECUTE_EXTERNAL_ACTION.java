@@ -56,7 +56,7 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 		eAction oChosenAction = eAction.NONE;
 		
 		if (oExternalPlans.isEmpty()==false) {
-			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getMoContent());
+			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getContent());
 		}
 		
 		this.generateAction(oChosenAction);
