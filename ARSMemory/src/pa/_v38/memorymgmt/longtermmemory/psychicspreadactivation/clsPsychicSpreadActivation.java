@@ -87,7 +87,8 @@ public class clsPsychicSpreadActivation {
 		
 		//5. Go through each of the previously activated images
 		for (clsPair<clsThingPresentationMesh,Double> oPair : oActivatedImageList) {
-			startSpreadActivation(oPair.a, oPair.b, pnMaximumDirectActivationValue, poDrivesForFilteringList, poAlreadyActivatedImages);
+			int mnTotalNumberOfAllowedActivations = poAlreadyActivatedImages.size() + pnMaximumDirectActivationValue;
+			startSpreadActivation(oPair.a, oPair.b, mnTotalNumberOfAllowedActivations, poDrivesForFilteringList, poAlreadyActivatedImages);
 		}
 	}
 	
@@ -243,7 +244,7 @@ public class clsPsychicSpreadActivation {
 		for (int i=0;i<oNodeTable.size();i++) {
 			clsPsychicSpreadActivationNode oNode = oNodeTable.get(i);
 		
-			if (i<nBreakIndex) {
+			if (i<=nBreakIndex) {
 				//Calculate how much energy the activated images shall get
 				double rEnergyQuote = oNode.getMrPsychicPotential()/rAccumulatedSum;
 				oNode.setMrEnergyQuote(rEnergyQuote);
