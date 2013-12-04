@@ -15,6 +15,7 @@ import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -32,42 +33,33 @@ public class clsTestDataStructureConsistency {
     
     private static final Logger log = clsLogger.getLog("Test");
 	
-	
+    private static <PartentObjectType extends clsDataStructurePA> boolean debugCheckAssociation(PartentObjectType poParentObject, clsAssociation poAssociation) throws Exception {
+        //check if association is complete
+        if(poAssociation.getRootElement() == null || poAssociation.getLeafElement() == null) {
+            throw new Exception(poAssociation.getContentType().toString() + " (Debug Info: " + poAssociation.getDebugInfo() + ") is incomplete:\n" +
+                    "\tRoot Object: " + poAssociation.getRootElement() + "\n" +
+                    "\tLeaf Object: " + poAssociation.getLeafElement());
+        }
+        
+        //check if association is 'orphan'
+        if(!poAssociation.getRootElement().equals(poParentObject) && !poAssociation.getLeafElement().equals(poParentObject)) {
+            throw new Exception(poAssociation.getContentType().toString() + " (Debug Info: " + poAssociation.getDebugInfo() + ") is an orphan association:\n" +
+                                "\tParent Object: " + poParentObject.toString() + "\n" +
+                                "\tRoot Object: " + poAssociation.getRootElement().toString());
+        }
+        
+        return true;
+    }
+    
 	private static boolean debugFindErroneousLinks(clsThingPresentationMesh poTPM) throws Exception {
 		boolean bResult = false;
 		
 		for (clsAssociation oAss : poTPM.getExternalMoAssociatedContent()) {
-			clsDataStructurePA oDS = oAss.getTheOtherElement(poTPM);
-			
-			if (oDS==null) {
-				String oErrorMessage = "Error: " + poTPM.toString() + " has an erroneous EXTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
-				//try {
-				bResult=true;
-				throw new Exception(oErrorMessage);
-					
-				//} 
-				//catch (Exception e) {
-				//	//clsLogger.jlog.error(e.getMessage());
-				//	bResult=true;
-				//}
-			}
+		    debugCheckAssociation(poTPM, oAss);
 		}
 		
 		for (clsAssociation oAss : poTPM.getInternalAssociatedContent()) {
-			clsDataStructurePA oDS = oAss.getTheOtherElement(poTPM);
-			
-			if (oDS==null) {
-				String oErrorMessage = "Error: " + poTPM.toString() + " has an erroneous INTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
-				//try {
-				bResult=true;
-				throw new Exception(oErrorMessage);
-					
-				//} 
-				//catch (Exception e) {
-				//	clsLogger.jlog.error(e.getMessage());
-				//	bResult=true;
-				//}
-			}
+		    debugCheckAssociation(poTPM, oAss);
 		}
 		
 		return bResult;
@@ -78,36 +70,29 @@ public class clsTestDataStructureConsistency {
 		boolean bResult = false;
 		
 		for (clsAssociation oAss : poWPM.getExternalAssociatedContent()) {
-			clsDataStructurePA oDS = oAss.getTheOtherElement(poWPM);
-			
-			if (oDS==null) {
-				String oErrorMessage = "Error: " + poWPM.toString() + " has an erroneous EXTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
-				//try {
-				bResult=true;
-				throw new Exception(oErrorMessage);
-				//} catch (Exception e) {
-				//	clsLogger.jlog.error(e.getMessage());
-					
-				//}
-			}
+		    debugCheckAssociation(poWPM, oAss);
 		}
 		
 		for (clsAssociation oAss : poWPM.getInternalAssociatedContent()) {
-			clsDataStructurePA oDS = oAss.getTheOtherElement(poWPM);
-			
-			if (oDS==null) {
-				String oErrorMessage = "Error: " + poWPM.toString() + " has an erroneous INTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
-				try {
-					throw new Exception(oErrorMessage);
-				} catch (Exception e) {
-					log.error(e.getMessage());
-					bResult=true;
-				}
-			}
+		    debugCheckAssociation(poWPM, oAss);
 		}
 		
 		return bResult;
 	}
+	
+	private static boolean debugFindErroneousLinks(clsDriveMesh poDriveMesh) throws Exception {
+        boolean bResult = false;
+        
+        for (clsAssociation oAss : poDriveMesh.getExternalMoAssociatedContent()) {
+            debugCheckAssociation(poDriveMesh, oAss);
+        }
+        
+        for (clsAssociation oAss : poDriveMesh.getInternalAssociatedContent()) {
+            debugCheckAssociation(poDriveMesh, oAss);
+        }
+        
+        return bResult;
+    }
 	
 	public static void debugFindAllErroneousLinksInImage(ArrayList<clsThingPresentationMesh> poImageList) throws Exception {
 		
@@ -142,12 +127,18 @@ public class clsTestDataStructureConsistency {
 		
 	}
 	
+    private static void debugFindAllErroneousLinksInDrive(clsDriveMesh poDrive) throws Exception {
+        clsTestDataStructureConsistency.debugFindErroneousLinks(poDrive);
+    }
+	
 	public static void debugFindAllErroneousLinksInDataStructure(clsDataStructurePA poDS) throws Exception {
 		
 		if (poDS instanceof clsThingPresentationMesh) {
 			debugFindAllErroneousLinksInImage((clsThingPresentationMesh) poDS);
 		} else if (poDS instanceof clsWordPresentationMesh) {
 			debugFindAllErroneousLinksInImage((clsWordPresentationMesh)poDS);
+		} else if (poDS instanceof clsDriveMesh) {
+		    debugFindAllErroneousLinksInDrive((clsDriveMesh) poDS);
 		}
 	}
 	
