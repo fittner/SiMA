@@ -198,15 +198,16 @@ public class clsPsychicSpreadActivation {
 			
 			//Add to the list, sort after psychic potential
 			clsPsychicSpreadActivationNode oNode = new clsPsychicSpreadActivationNode();
-			oNode.setMoBaseImage(oImage);
-			oNode.setMrPsychicPotential(rPsychicPotential);
-			oNode.setMrP(rP);
-			oNode.setMrDivider(rDivider);
+			oNode.setBaseImage(oImage);
+			oNode.setPsychicPotential(rPsychicPotential);
+			oNode.setP(rP);
+			oNode.setDivider(rDivider);
+			oNode.setConsumptionValue(rConsumption);
 			
 			int i=0;
 			while((oNodeTable.isEmpty()==false) && 
 					(i<oNodeTable.size()) &&
-					(oNodeTable.get(i).getMrPsychicPotential() > rPsychicPotential)) {
+					(oNodeTable.get(i).getPsychicPotential() > rPsychicPotential)) {
 				i++;
 			}
 			oNodeTable.add(i, oNode);
@@ -221,7 +222,7 @@ public class clsPsychicSpreadActivation {
 			clsPsychicSpreadActivationNode oNode = oNodeTable.get(i);
 			
 			//Calculate the accumulated sum
-			rAccumulatedSum += oNode.getMrPsychicPotential();
+			rAccumulatedSum += oNode.getPsychicPotential();
 			//oNode.setMrAccumulatedSum(rAccumulatedSum);
 			
 			
@@ -230,9 +231,8 @@ public class clsPsychicSpreadActivation {
 //			//TODO (Kollmann): HACK This is a simplified version of the spread activation that works with a hardcoded number of elements - this is for testing only 
 //			if (i < 30) {
 			//Check if P >=  accumulated sum
-			if (oNode.getMrP() >= rAccumulatedSum && i < pnMaximumDirectActivationValue) {
+			if ((oNode.getP() >= rAccumulatedSum || (oNodeTable.size()==1 && oNode.getConsumptionValue()<=prPsychicEnergyIn)) && i < pnMaximumDirectActivationValue) {
 				log.trace(oNode.toString() + " activated");
-				//oNode.setMbActivateable(true);
 				nBreakIndex++;
 			} else {
 				log.trace("Stop activation");
@@ -244,9 +244,9 @@ public class clsPsychicSpreadActivation {
 		for (int i=0;i<oNodeTable.size();i++) {
 			clsPsychicSpreadActivationNode oNode = oNodeTable.get(i);
 		
-			if (i<=nBreakIndex) {
+			if (i<nBreakIndex) {
 				//Calculate how much energy the activated images shall get
-				double rEnergyQuote = oNode.getMrPsychicPotential()/rAccumulatedSum;
+				double rEnergyQuote = oNode.getPsychicPotential()/rAccumulatedSum;
 				oNode.setMrEnergyQuote(rEnergyQuote);
 				double rReceivedEnergy = rEnergyQuote * prPsychicEnergyIn;
 				oNode.setMrAssignedPsychicEnergy(rReceivedEnergy);
@@ -331,12 +331,12 @@ public class clsPsychicSpreadActivation {
 	 * @since 30.03.2012 21:41:24
 	 *
 	 * @param prPsychicEnergyIn
-	 * @param prConsumption
+	 * @param prConsumptionEnergy
 	 * @param prPsychicPotential
 	 * @return
 	 */
-	private double calculateP(double prPsychicEnergyIn, double prConsumption, double prPsychicPotential) {
-		return prPsychicPotential * (prPsychicEnergyIn/prConsumption - 1);
+	private double calculateP(double prPsychicEnergyIn, double prConsumptionEnergy, double prPsychicPotential) {
+		return prPsychicPotential * (prPsychicEnergyIn/prConsumptionEnergy - 1);
 	}
 	
 	private ArrayList<clsPair<clsThingPresentationMesh, Double>> getUnprocessedImages(clsThingPresentationMesh poEnhancedOriginImage, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {

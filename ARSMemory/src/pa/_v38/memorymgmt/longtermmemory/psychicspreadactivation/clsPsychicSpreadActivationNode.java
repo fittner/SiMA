@@ -27,7 +27,7 @@ public class clsPsychicSpreadActivationNode {
 	//private boolean mbActivateable = false;
 	//private boolean mbSortedActivation = false;
 	//private double mrAverageAffect = 0.0;
-	//private double mrConsumptionValue = 0.0;
+	private double mrConsumptionValue = 0.0;
 	private double mrEnergyQuote = 0.0;
 	private double mrAssignedPsychicEnergy = 0.0;
 	
@@ -46,7 +46,7 @@ public class clsPsychicSpreadActivationNode {
 	 * 
 	 * @param moBaseImage the moBaseImage to set
 	 */
-	public void setMoBaseImage(clsThingPresentationMesh moBaseImage) {
+	public void setBaseImage(clsThingPresentationMesh moBaseImage) {
 		this.moBaseImage = moBaseImage;
 	}
 
@@ -55,7 +55,7 @@ public class clsPsychicSpreadActivationNode {
 	 * 
 	 * @return the mrP
 	 */
-	public double getMrP() {
+	public double getP() {
 		return mrP;
 	}
 	/**
@@ -63,7 +63,7 @@ public class clsPsychicSpreadActivationNode {
 	 * 
 	 * @param mrP the mrP to set
 	 */
-	public void setMrP(double mrP) {
+	public void setP(double mrP) {
 		this.mrP = mrP;
 	}
 	/**
@@ -104,7 +104,7 @@ public class clsPsychicSpreadActivationNode {
 	 * 
 	 * @param mrDivider the mrDivider to set
 	 */
-	public void setMrDivider(double mrDivider) {
+	public void setDivider(double mrDivider) {
 		this.mrDivider = mrDivider;
 	}
 	/**
@@ -120,7 +120,7 @@ public class clsPsychicSpreadActivationNode {
 	 * 
 	 * @param mrPsychicPotential the mrPsychicPotential to set
 	 */
-	public void setMrPsychicPotential(double mrPsychicPotential) {
+	public void setPsychicPotential(double mrPsychicPotential) {
 		this.mrPsychicPotential = mrPsychicPotential;
 	}
 	/**
@@ -128,7 +128,7 @@ public class clsPsychicSpreadActivationNode {
 	 * 
 	 * @return the mrPsychicPotential
 	 */
-	public double getMrPsychicPotential() {
+	public double getPsychicPotential() {
 		return mrPsychicPotential;
 	}
 	/**
@@ -148,6 +148,13 @@ public class clsPsychicSpreadActivationNode {
 		return mrEnergyQuote;
 	}
 	
+	public double getConsumptionValue() {
+		return mrConsumptionValue;
+	}
+	public void setConsumptionValue(double mrConsumptionValue) {
+		this.mrConsumptionValue = mrConsumptionValue;
+	}
+	
 	@Override
 	public String toString() {
 		String oResult = "";
@@ -156,5 +163,6 @@ public class clsPsychicSpreadActivationNode {
 		
 		return oResult;
 	}
+	
 	
 }
