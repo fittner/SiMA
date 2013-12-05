@@ -253,7 +253,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                 oSelfEntity = getPerceivedSelf(oImage);
 
                 if (oSelfEntity != null) {
-                    for (clsAssociation oAssPerceivedAction : oSelfEntity.getExternalMoAssociatedContent()) {
+                    for (clsAssociation oAssPerceivedAction : oSelfEntity.getExternalAssociatedContent()) {
                         try {
                             oPerceivedAction = (clsThingPresentationMesh) oAssPerceivedAction.getLeafElement();
                         } catch (Exception E) {
@@ -281,7 +281,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                              * }
                              */
                             clsThingPresentationMesh oActionObject = null;
-                            for (clsAssociation oAssActionObject : oPerceivedAction.getExternalMoAssociatedContent()) {
+                            for (clsAssociation oAssActionObject : oPerceivedAction.getExternalAssociatedContent()) {
                                 try {
                                     oActionObject = (clsThingPresentationMesh) oAssActionObject.getLeafElement();
                                 } catch (Exception E) {
@@ -289,7 +289,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                                 }
                                 if (oActionObject != null && oActionObject.getContentType() == eContentType.ENTITY) {
                                     // get DMs associated with oNearCenterEntity
-                                    for (clsAssociation oAss : oPerceivedAction.getExternalMoAssociatedContent()) {
+                                    for (clsAssociation oAss : oPerceivedAction.getExternalAssociatedContent()) {
 
                                         if (oAss.getContentType().equals(eContentType.ASSOCIATIONDM)) {
 
@@ -450,7 +450,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                     clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh,
                             (clsThingPresentationMesh) oAssignmentElement.a);
                     // Add the assocation to the input container
-                    oAssignmentElement.a.getExternalMoAssociatedContent().add(oDriveAss);
+                    oAssignmentElement.a.getExternalAssociatedContent().add(oDriveAss);
                     // poAssignment.a.assignDataStructure(oDriveAss);
                     rTotalReduce += rDMReduce;
                 } catch (CloneNotSupportedException e) {

@@ -324,7 +324,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 							//3. create a new association
 							clsAssociationDriveMesh oNewMesh = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMesh) oDMAssociation.getLeafElement(), oObject);
 							//4. Add the association to the external associations of the root element
-							oObject.getExternalMoAssociatedContent().add(oNewMesh);
+							oObject.getExternalAssociatedContent().add(oNewMesh);
 						}
 					}
 				}
@@ -332,8 +332,8 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				else {
 					// add complete result to associated memories by creating
 					clsAssociationPrimary oNewPriAss = (clsAssociationPrimary) clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.ASSOCIATIONPRI, poPerception, (clsThingPresentationMesh) matchedItem.a, matchedItem.b);
-					poPerception.getExternalMoAssociatedContent().add(oNewPriAss);
-					((clsThingPresentationMesh)matchedItem.a).getExternalMoAssociatedContent().add(oNewPriAss);
+					poPerception.getExternalAssociatedContent().add(oNewPriAss);
+					((clsThingPresentationMesh)matchedItem.a).getExternalAssociatedContent().add(oNewPriAss);
 					
 				}
 				// activated content has to be deleted from the blocked content storage
@@ -347,7 +347,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 					//In the method getMatchWithPerception, the instance from the perception is linked with the DM
 					//Add this association the the object
 					clsThingPresentationMesh oNewSourceObject = (clsThingPresentationMesh) oAssDM.getRootElement();
-					oNewSourceObject.getExternalMoAssociatedContent().add(oAssDM);
+					oNewSourceObject.getExternalAssociatedContent().add(oAssDM);
 				}
 				//clsDataStructureTools.findDataStructureTypesInMesh(poPerception, (clsThingPresentationMesh) oDMAssociation.getRootElement() ,1);
 				//poPerception.getMoAssociatedDataStructures().addAll(matchedItem.c);
@@ -646,7 +646,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 			//oContainerAssList.add(oAddDM);
 			//Create container
 			
-			poDS.getExternalMoAssociatedContent().add(oAddDM);
+			poDS.getExternalAssociatedContent().add(oAddDM);
 			
 			clsThingPresentationMesh oNewImage = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.TPM, eContentType.RI), new ArrayList<clsAssociation>(), "REPRESSEDIMAGE");
 			oNewImage.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONTEMP, eContentType.ASSOCIATIONTEMP), oNewImage, poDS));

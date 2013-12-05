@@ -154,7 +154,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		text += toText.listToTEXT("moEmotions_OUT", moEmotions_OUT);
 		
-		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getExternalMoAssociatedContent());
+		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getExternalAssociatedContent());
 		
 		//text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getMoInternalAssociatedContent());
 		
@@ -368,13 +368,13 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		clsThingPresentationMesh oRI = null;
 		
 		// use  assoc. emotions from PI's RIs for emotion-generation		
-		for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalMoAssociatedContent()){
+		for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalAssociatedContent()){
 			
 			if(oPIExtAss.getContentType() == eContentType.ASSOCIATIONPRI){
 				if(oPIExtAss.getAssociationElementB().getContentType() == eContentType.RI) {
 					oRI = (clsThingPresentationMesh)oPIExtAss.getAssociationElementB();
 					
-					for (clsAssociation oRIAss: oRI.getExternalMoAssociatedContent()) {
+					for (clsAssociation oRIAss: oRI.getExternalAssociatedContent()) {
 						if (oRIAss.getContentType() == eContentType.ASSOCIATIONEMOTION) {
 							oEmotionFromPerception = (clsEmotion) oRIAss.getAssociationElementA();
 							// the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
@@ -396,7 +396,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		for(clsAssociation oPIINtAss: moPerceptions_IN.getInternalAssociatedContent()) {
 			if(oPIINtAss.getContentType() == eContentType.PARTOFASSOCIATION){
 				
-				for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getExternalMoAssociatedContent()) {
+				for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getExternalAssociatedContent()) {
 					// exclude empty spaces (they are currently associated with drives). just use entities. (this is not nice, but due to the use of emptySpaces-objekte in ars necessary)
 					if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONDM && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
 																		

@@ -367,7 +367,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		for(clsThingPresentationMesh oCandidateTPM : moCompleteThingPresentationMeshList){
 			//  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged
 			for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
-				for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
+				for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalAssociatedContent() ) {
 
 					oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
 					oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
@@ -1004,7 +1004,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		for (clsPrimaryDataStructureContainer oContainer : oPerceivedImage_IN) {
 			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
 				clsThingPresentationMesh oTPM = (clsThingPresentationMesh) oContainer.getMoDataStructure();
-				oTPM.getExternalMoAssociatedContent().addAll(oContainer.getMoAssociatedDataStructures());
+				oTPM.getExternalAssociatedContent().addAll(oContainer.getMoAssociatedDataStructures());
 				
 				oRetVal.add(oTPM);
 			}
@@ -1177,7 +1177,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	 		}
 	 	}
 		
-		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getExternalMoAssociatedContent()){
+		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getExternalAssociatedContent()){
 	 		
 	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getAssociationElementB())){
 	 			poUnknownData.add(oEntry.getAssociationElementB()); 
@@ -1305,7 +1305,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		clsDriveMesh oMemorizedDriveMesh = null;
 		
 		for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
-			for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
+			for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalAssociatedContent() ) {
 
 				oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
 				oCandidateTPM = oMemorizedDriveMesh.getActualDriveObject();
@@ -1382,7 +1382,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 						
 						//  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged
 						for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
-							for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
+							for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalAssociatedContent() ) {
 
 								oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
 								oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
@@ -1527,7 +1527,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	 		}
 	 	}
 		
-		for(clsAssociation oEntry : poPerceptionEntry.getExternalMoAssociatedContent()){
+		for(clsAssociation oEntry : poPerceptionEntry.getExternalAssociatedContent()){
 	 		
 	 		if( !poNewImage.contain(oEntry.getAssociationElementB())){
 	 		   if(oEntry.getAssociationElementB() instanceof clsThingPresentation){
@@ -1560,7 +1560,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             }
         }
         
-        for(clsAssociation oEntry : poPerceptionEntry.getExternalMoAssociatedContent()){
+        for(clsAssociation oEntry : poPerceptionEntry.getExternalAssociatedContent()){
             
             if( !poNewImage.contain(oEntry.getAssociationElementB())){
                if(oEntry.getAssociationElementB() instanceof clsThingPresentationMesh){

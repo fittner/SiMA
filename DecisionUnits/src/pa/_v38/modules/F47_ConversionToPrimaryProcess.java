@@ -218,7 +218,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	private boolean checkIfAssociationWPExists(clsThingPresentationMesh poInput) {
 		boolean bResult = false;
 		
-		for (clsAssociation oAss : poInput.getExternalMoAssociatedContent()) {
+		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationWordPresentation) {
 				bResult = true;
 				break;

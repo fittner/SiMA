@@ -228,7 +228,7 @@ implements I5_6_receive, I5_7_send  {
 
 			// attach DMs in result to the perception
 			//moPerceptionalMesh_OUT.getExternalMoAssociatedContent().add(matchedItem.a);
-			matchedItem.a.getExternalMoAssociatedContent().add(matchedItem.b);
+			matchedItem.a.getExternalAssociatedContent().add(matchedItem.b);
 		}
 	}
 
@@ -254,7 +254,7 @@ implements I5_6_receive, I5_7_send  {
 				clsDataStructurePA oObject = oInputAssociation.getLeafElement();
 				if (oObject instanceof clsThingPresentationMesh) {
 					
-					for (clsAssociation oSubAss : ((clsThingPresentationMesh)oObject).getExternalMoAssociatedContent()) {
+					for (clsAssociation oSubAss : ((clsThingPresentationMesh)oObject).getExternalAssociatedContent()) {
 						if(oSubAss instanceof clsAssociationDriveMesh){
 							clsDriveMesh oData = ((clsAssociationDriveMesh)oSubAss).getDM(); 
 							if(oEntry.getContentType().equals(oData.getContentType())) {

@@ -93,66 +93,6 @@ public class MeshProcessor implements MeshProcessorInterface {
         }
            
        }
-        //Check if both presentations are TPM or WPM. Else nothing is done
-        //if (poSourceMesh instanceof clsThingPresentationMesh && poNewMesh instanceof clsThingPresentationMesh) {
-        //Get source mesh list
-//        ArrayList<clsWordPresentationMesh> oSourceWPMList = getAllWPMImages(poSourceMesh, mnMaxLevel); 
-//        ArrayList<clsWordPresentationMesh> oSourceWPMListActions = clsMeshTools.getAllActionsFromWPMImages(poSourceMesh, mnMaxLevel);
-//        
-//        oSourceWPMList.addAll(oSourceWPMListActions);
-//        
-//        //Get the new mesh list
-//        ArrayList<clsWordPresentationMesh> oNewWPMList = getAllWPMImages(poNewMesh, mnMaxLevel);
-//        ArrayList<clsWordPresentationMesh> oNewWPMListActions = clsMeshTools.getAllActionsFromWPMImages(poNewMesh, mnMaxLevel);
-//        
-//        oNewWPMList.addAll(oNewWPMListActions);
-//        
-//        //Create process pairs Source and New
-//        ArrayList<clsPair<clsWordPresentationMesh, clsWordPresentationMesh>> oInstancePairList = new ArrayList<clsPair<clsWordPresentationMesh, clsWordPresentationMesh>>();
-//        
-//        //Go through each mesh in the newMesh
-//        for (int i=0; i<oNewWPMList.size();i++) {
-//            clsWordPresentationMesh oNewWPM = oNewWPMList.get(i);
-//            clsWordPresentationMesh oFoundSourceMeshWPM = clsMeshTools.getNullObjectWPM();
-//            
-//            //Go through each mesh in the source list
-//            for (int j=0; j<oSourceWPMList.size();j++) {
-//                clsWordPresentationMesh oSourceWPM = oSourceWPMList.get(j);
-//                
-//                //If there are IDs with -1, it is not allowed and should be thrown as exception
-//                if (oSourceWPM.getMoDS_ID()==-1) {
-//                    try {
-//                        throw new Exception("Error: DataStructureTools, mergeMesh: A WPM with ID = -1 was found");
-//                    } catch (Exception e) {
-//                        log.error("Erroneous Datastructure {}, mesh {}.",oSourceWPM, poSourceMesh, e);
-//                        System.exit(-1);
-//                    }
-//                }
-//                
-//                //If the images are equal but not the same instance, then transfer the associations
-//                if (oSourceWPM.getMoDS_ID() == oNewWPM.getMoDS_ID()) {
-//                    oFoundSourceMeshWPM = oSourceWPM;
-//                    break;
-//                }
-//            }
-//            
-//            oInstancePairList.add(new clsPair<clsWordPresentationMesh, clsWordPresentationMesh>(oNewWPM, oFoundSourceMeshWPM));     
-//        } 
-//        
-//        //Now all WPM-Matches have been listed in the instancePairlist
-//        for (clsPair<clsWordPresentationMesh, clsWordPresentationMesh> oInstancePair : oInstancePairList) {
-//            //Move all associations from the NEWWPM to the SOURCEWPM
-//            
-//            //Move associations from the new mesh to the source b->a
-//            //removeAllExternalAssociationsWithSameID(oInstancePair.a, oInstancePair.b);
-//            //Move all associations from the NEWWPM to the SOURCEWPM
-//            if (oInstancePair.b.isNullObject()==false) {
-//                clsMeshTools.moveAllAssociationsMergeMesh(oInstancePair.b, oInstancePair.a);
-//            } else {
-//                //This is a new object, then add it
-//                clsMeshTools.addWPMImageToWPMImageMesh(poSourceMesh, oInstancePair.a);  
-//            }
-//        }
     }
     
     private void executeSetupTests(clsWordPresentationMesh poMesh) throws Exception {

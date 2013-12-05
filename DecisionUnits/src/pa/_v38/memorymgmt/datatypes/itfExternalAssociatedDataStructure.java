@@ -19,7 +19,7 @@ public interface itfExternalAssociatedDataStructure {
 
 	public ArrayList<clsAssociation> moExternalAssociatedContent = null;
 	
-	public ArrayList<clsAssociation> getExternalMoAssociatedContent() ;
+	public ArrayList<clsAssociation> getExternalAssociatedContent() ;
 	public void setExternalAssociatedContent(ArrayList<clsAssociation> moAssociatedContent);
 	public double getNumbExternalAssociations() ;
 	public void addExternalAssociations(ArrayList<clsAssociation> poAssociatedDataStructures);

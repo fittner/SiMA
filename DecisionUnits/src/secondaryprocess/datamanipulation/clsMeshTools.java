@@ -24,6 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -241,7 +242,7 @@ public class clsMeshTools {
 			
 			//Add external associations to other external images
 			if ((pnLevel>1) || (pnLevel==-1)) {
-				for (clsAssociation oExtAss : poMesh.getExternalMoAssociatedContent()) {
+				for (clsAssociation oExtAss : poMesh.getExternalAssociatedContent()) {
 					if (poAddedElements.contains(oExtAss.getLeafElement())==false && oExtAss.getLeafElement() instanceof clsThingPresentationMesh) {
 						searchDataStructureInTPM((clsThingPresentationMesh) oExtAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeFilterList, pbStopAtFirstMatch, pnLevel-1);
 					} else if (poAddedElements.contains(oExtAss.getRootElement())==false && oExtAss.getRootElement() instanceof clsThingPresentationMesh) {
@@ -316,7 +317,7 @@ public class clsMeshTools {
 		//Go through all external
 		//If no filter set, add all associations
 		if (poContentTypeFilterList.isEmpty()==true) {
-			for (clsAssociation oAss : poTPM.getExternalMoAssociatedContent()) {
+			for (clsAssociation oAss : poTPM.getExternalAssociatedContent()) {
 				if (oAss instanceof clsAssociationDriveMesh) {
 					oRetVal.add((clsAssociationDriveMesh) oAss);
 					if (pbStopAtFirstMatch==true) {
@@ -326,7 +327,7 @@ public class clsMeshTools {
 			}
 		} else {
 			for (eContentType oCTC : poContentTypeFilterList) {
-				oRetVal.addAll(FilterDMList(poTPM.getExternalMoAssociatedContent(), oCTC, pbStopAtFirstMatch));
+				oRetVal.addAll(FilterDMList(poTPM.getExternalAssociatedContent(), oCTC, pbStopAtFirstMatch));
 				if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
 					//Go through the external list
 					//oRetVal.addAll(FilterDMList(poTPM.getExternalMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
@@ -356,7 +357,7 @@ public class clsMeshTools {
 		//Go through all external
 		//If no filter set, add all associations
 		if (poContentTypeFilterList.isEmpty()==true) {
-			for (clsAssociation oAss : poTPM.getExternalMoAssociatedContent()) {
+			for (clsAssociation oAss : poTPM.getExternalAssociatedContent()) {
 				if (oAss instanceof clsAssociationEmotion) {
 					oResult.add((clsAssociationEmotion) oAss);
 					if (pbStopAtFirstMatch==true) {
@@ -366,7 +367,7 @@ public class clsMeshTools {
 			}
 		} else {
 			for (eContentType oCTC : poContentTypeFilterList) {
-				oResult.addAll(FilterEMOTIONList(poTPM.getExternalMoAssociatedContent(), oCTC, pbStopAtFirstMatch));
+				oResult.addAll(FilterEMOTIONList(poTPM.getExternalAssociatedContent(), oCTC, pbStopAtFirstMatch));
 				if (pbStopAtFirstMatch==false || oResult.isEmpty()==true) {
 					break;
 				}
@@ -750,7 +751,7 @@ public class clsMeshTools {
 		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
 		
 		//Go through outer associations
-		oRetVal.addAll(searchAssociationListPrimary(poInput.getExternalMoAssociatedContent(), poInput, poDataStructureContentType, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
+		oRetVal.addAll(searchAssociationListPrimary(poInput.getExternalAssociatedContent(), poInput, poDataStructureContentType, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 		
 		//Go through inner associations
 		oRetVal.addAll(searchAssociationListPrimary(poInput.getInternalAssociatedContent(), poInput, poDataStructureContentType, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
@@ -1109,7 +1110,7 @@ public class clsMeshTools {
 
 		//If no filter set, add all associations
 		if (poContentTypeFilterList.isEmpty()==true) {
-			for (clsAssociation oAss : poTPM.getExternalMoAssociatedContent()) {
+			for (clsAssociation oAss : poTPM.getExternalAssociatedContent()) {
 				if (oAss instanceof clsAssociationAttribute) {
 					oRetVal.add((clsAssociationAttribute) oAss);
 					if (pbStopAtFirstMatch==true) {
@@ -1120,7 +1121,7 @@ public class clsMeshTools {
 		} else {
 			//Go through all external TPs
 			for (eContentType oCTC : poContentTypeFilterList) {
-				oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), oCTC, pbStopAtFirstMatch));
+				oRetVal.addAll(FilterTPList(poTPM.getExternalAssociatedContent(), oCTC, pbStopAtFirstMatch));
 				if (pbStopAtFirstMatch==true && oRetVal.isEmpty()==false) {
 					//Go through the external list
 					//oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), oCTC, pbStopAtFirstMatch));
@@ -1384,8 +1385,8 @@ public class clsMeshTools {
 	public static void createAssociationPrimary(clsThingPresentationMesh poStructureA, clsThingPresentationMesh poStructureB, double prWeight) {
 		eContentType oContentType = eContentType.ASSOCIATIONPRI;
 		clsAssociationPrimary oAssPri = (clsAssociationPrimary)clsDataStructureGenerator.generateASSOCIATIONPRI(oContentType, poStructureA, poStructureB, prWeight);
-		poStructureA.getExternalMoAssociatedContent().add(oAssPri);
-		poStructureB.getExternalMoAssociatedContent().add(oAssPri);
+		poStructureA.getExternalAssociatedContent().add(oAssPri);
+		poStructureB.getExternalAssociatedContent().add(oAssPri);
 	}
 	
 	/**
@@ -1407,7 +1408,7 @@ public class clsMeshTools {
 		if (pnAddMode==0) {
 			poStructureA.getInternalAssociatedContent().add(oAssAttr);
 		} else if (pnAddMode==1) {
-			poStructureA.getExternalMoAssociatedContent().add(oAssAttr);
+			poStructureA.getExternalAssociatedContent().add(oAssAttr);
 		} else {
 			throw new Exception("Only 0=add to internal associations or 1=add to external associations are selectable");
 		}
@@ -1440,7 +1441,7 @@ public class clsMeshTools {
 		}
 		//Add association to the substructure
 		try{
-			poSubStructure.getExternalMoAssociatedContent().add(oAssTemp);
+			poSubStructure.getExternalAssociatedContent().add(oAssTemp);
 		}
 		catch (Exception e) {
 			System.out.println("error, no external assoc in " + poSubStructure);
@@ -1498,7 +1499,7 @@ public class clsMeshTools {
 	
 	public static String getUniqueTP(clsThingPresentationMesh tpm, eContentType contentTypeOfTP) {
         String result = "";
-	    for (clsAssociation oAss : tpm.getExternalMoAssociatedContent()) {
+	    for (clsAssociation oAss : tpm.getExternalAssociatedContent()) {
             if (oAss instanceof clsAssociationAttribute) {
                 if (oAss.getLeafElement().getContentType().equals(contentTypeOfTP)) {
                     //Get content of the association
@@ -1524,7 +1525,7 @@ public class clsMeshTools {
 		clsAssociation oAss = clsMeshTools.getUniqueTPAssociation(poTPM, poTPContentType);
 		
 		if (oAss!=null) {
-			boolean bDeleted = poTPM.getExternalMoAssociatedContent().remove(oAss);
+			boolean bDeleted = poTPM.getExternalAssociatedContent().remove(oAss);
 			if (bDeleted==false) {
 				poTPM.getInternalAssociatedContent().remove(oAss);
 			}
@@ -1893,6 +1894,31 @@ public class clsMeshTools {
 		}
 	}
 	
+	   /**
+     * Add associations to both elements, if they only exist in one of the elements.
+     * This is especially useful at the image associations
+     * 
+     * (wendt)
+     *
+     * @since 24.05.2012 11:43:23
+     *
+     * @param poInput
+     */
+    public static void setInverseAssociations(clsThingPresentationMesh poInput) {
+        //Go through the associations and search for the other elements in the external associations
+        //System.out.println(poInput);
+        for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
+            if (oAss instanceof clsAssociationPrimary) {
+                clsPrimaryDataStructure oOtherElement = (clsPrimaryDataStructure) oAss.getTheOtherElement(poInput);
+                //At the other element, add this association to its external associations if it does not already exist
+                if ((oOtherElement instanceof clsThingPresentationMesh) && 
+                        ((clsThingPresentationMesh) oOtherElement).getExternalAssociatedContent().contains(oAss)==false) {
+                    ((clsThingPresentationMesh)oOtherElement).getExternalAssociatedContent().add(oAss);
+                }
+            }
+        }
+    }
+	
 	//=== ADD DATA STRUCTURES TO WPM GENERAL --- END ===//
 	
 	
@@ -1909,7 +1935,7 @@ public class clsMeshTools {
 	 */
 	public static void removeAllExternalAssociationsTPM(clsThingPresentationMesh poMesh) {
 		
-		ListIterator<clsAssociation> liList = poMesh.getExternalMoAssociatedContent().listIterator();
+		ListIterator<clsAssociation> liList = poMesh.getExternalAssociatedContent().listIterator();
 		while (liList.hasNext()) {
 			clsAssociation oAss = liList.next();
 			if (oAss instanceof clsAssociationPrimary) {
@@ -1930,7 +1956,7 @@ public class clsMeshTools {
 	 * @param poMesh
 	 */
 	public static void removeAllTemporaryAssociationsTPM(clsThingPresentationMesh poMesh) {
-		ListIterator<clsAssociation> liList = poMesh.getExternalMoAssociatedContent().listIterator();
+		ListIterator<clsAssociation> liList = poMesh.getExternalAssociatedContent().listIterator();
 		while (liList.hasNext()) {
 			clsAssociation oAss = liList.next();
 			if (oAss instanceof clsAssociationTime) {
@@ -1984,7 +2010,7 @@ public class clsMeshTools {
 		clsAssociation oDeleteAss = null;
 		
 		//Check external associations
-		for (clsAssociation oExternalAss : poSourceTPM.getExternalMoAssociatedContent()) {
+		for (clsAssociation oExternalAss : poSourceTPM.getExternalAssociatedContent()) {
 			if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
 				bFound = true;
 				oDeleteAss = oExternalAss;
@@ -1994,7 +2020,7 @@ public class clsMeshTools {
 		
 		//If found, then delete
 		if (bFound==true) {
-			poSourceTPM.getExternalMoAssociatedContent().remove(oDeleteAss);
+			poSourceTPM.getExternalAssociatedContent().remove(oDeleteAss);
 		} else {
 			//Check internal associations
 			for (clsAssociation oExternalAss : poSourceTPM.getInternalAssociatedContent()) {
@@ -2230,11 +2256,11 @@ public class clsMeshTools {
 				poAssociation.setLeafElement(poTargetTPM);
 			}
 			
-			if (poOriginTPM.getExternalMoAssociatedContent().contains(poAssociation)) {
+			if (poOriginTPM.getExternalAssociatedContent().contains(poAssociation)) {
 				//2. Add the changed association to the targetTPM
-				poTargetTPM.getExternalMoAssociatedContent().add(poAssociation);
+				poTargetTPM.getExternalAssociatedContent().add(poAssociation);
 				//3. Remove the association from the originTPM
-				poOriginTPM.getExternalMoAssociatedContent().remove(poAssociation);
+				poOriginTPM.getExternalAssociatedContent().remove(poAssociation);
 			} else if (poOriginTPM.getInternalAssociatedContent().contains(poAssociation)) {
 				//2. Add the changed association to the targetTPM
 				poTargetTPM.getInternalAssociatedContent().add(poAssociation);
@@ -2277,9 +2303,9 @@ public class clsMeshTools {
 		}
 		
 		//Move all external associations from origin to target
-		for (clsAssociation oOriAss : poOriginTPM.getExternalMoAssociatedContent()) {
+		for (clsAssociation oOriAss : poOriginTPM.getExternalAssociatedContent()) {
 			boolean bFound = false;
-			for (clsAssociation oTarAss : poTargetTPM.getExternalMoAssociatedContent()) {
+			for (clsAssociation oTarAss : poTargetTPM.getExternalAssociatedContent()) {
 				bFound = checkAssociationExists(oOriAss, oTarAss);
 				if (bFound==true) {
 					break;
@@ -2329,7 +2355,7 @@ public class clsMeshTools {
 		}
 		
 		//Go through all external associations
-		for (clsAssociation oInternalAss : poDeleteObject.getExternalMoAssociatedContent()) {
+		for (clsAssociation oInternalAss : poDeleteObject.getExternalAssociatedContent()) {
 			//If the root element is this mesh, then...
 			if (oInternalAss.getRootElement().equals(poDeleteObject)) {
 				//go to the other element, if it is a TPM

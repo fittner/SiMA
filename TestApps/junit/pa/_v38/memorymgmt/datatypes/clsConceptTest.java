@@ -53,7 +53,7 @@ public class clsConceptTest {
     public final void isEmptyWithEmptyMeshTest() {
         clsWordPresentationMesh oWpmMock = mock(clsWordPresentationMesh.class);
         List<clsAssociation> associationListMock = mock(ArrayList.class);
-        when(oWpmMock.getExternalMoAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
+        when(oWpmMock.getExternalAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
         when(associationListMock.isEmpty()).thenReturn(true);
 
         moConcept = new clsConcept();
@@ -71,7 +71,7 @@ public class clsConceptTest {
     public final void isEmptyWithInitMeshTest() {
         clsWordPresentationMesh oWpmMock = mock(clsWordPresentationMesh.class);
         List<clsAssociation> associationListMock = mock(ArrayList.class);
-        when(oWpmMock.getExternalMoAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
+        when(oWpmMock.getExternalAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
         when(associationListMock.isEmpty()).thenReturn(false);
 
         moConcept = new clsConcept();

@@ -342,7 +342,7 @@ public class clsPsychicSpreadActivation {
 	private ArrayList<clsPair<clsThingPresentationMesh, Double>> getUnprocessedImages(clsThingPresentationMesh poEnhancedOriginImage, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
 		
-		for (clsAssociation oAss : poEnhancedOriginImage.getExternalMoAssociatedContent()) {
+		for (clsAssociation oAss : poEnhancedOriginImage.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationPrimary) {
 				//Get the other image, i. e. the leaf image of all association primary
 				clsThingPresentationMesh oLeafImage = (clsThingPresentationMesh) oAss.getTheOtherElement(poEnhancedOriginImage);

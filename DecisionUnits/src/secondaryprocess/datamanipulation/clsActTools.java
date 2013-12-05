@@ -178,7 +178,7 @@ public class clsActTools {
 	public static double getPrimaryMatchValueToPI(clsThingPresentationMesh poImage) {
 		double rRetVal = 0.0;
 		
-		for (clsAssociation oAss : poImage.getExternalMoAssociatedContent()) {
+		for (clsAssociation oAss : poImage.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationPrimary) {
 				if (oAss.getTheOtherElement(poImage).getContentType().equals(eContentType.PI)) {
 					rRetVal = oAss.getMrWeight();

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContent;
+import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
@@ -71,5 +73,25 @@ public class PrintTools {
         }
         
         return oResult;
+    }
+    
+    public static String printActivatedMeshWithPIMatch(clsThingPresentationMesh poImage) {
+        String oResult = "";
+        ArrayList<clsThingPresentationMesh> oList = clsMeshTools.getAllTPMImages(poImage, 5);
+        for (clsThingPresentationMesh tpm : oList) {
+            oResult += tpm.getContent();
+            double pimatch = clsActTools.getPrimaryMatchValueToPI(tpm);
+            if (pimatch>0) {
+                oResult += ", direct activation PI match: " + pimatch;
+            } else if (tpm.getContent().equals(eContent.PI.toString())==true) {
+                oResult += ", source";
+            } else {
+                oResult += ", -= indirect activation =-";
+            }
+            oResult += "\n";
+        }
+        
+        return oResult;
+        
     }
 }

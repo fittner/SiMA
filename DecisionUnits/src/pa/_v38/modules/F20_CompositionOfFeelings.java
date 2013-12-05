@@ -400,7 +400,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 				
 				ArrayList<clsWordPresentation> oWPListforFeeling  = new ArrayList<clsWordPresentation>();
 			
-				for (clsAssociation oAss : oWPM.getExternalMoAssociatedContent()){
+				for (clsAssociation oAss : oWPM.getExternalAssociatedContent()){
 				
 					oWPMforFeeling  =  (clsWordPresentationMesh) oAss.getRootElement();
 					

@@ -159,7 +159,7 @@ public abstract class clsAbstractContextEntitySearchAlgorithm implements itfCont
             }
             if (poDataStructurePA instanceof clsThingPresentationMesh) {
                 clsThingPresentationMesh oMesh = (clsThingPresentationMesh) poDataStructurePA;
-                for (clsAssociation externalAssociation : oMesh.getExternalMoAssociatedContent()) {
+                for (clsAssociation externalAssociation : oMesh.getExternalAssociatedContent()) {
                     checkAssociation(externalAssociation);
                 }
                 for (clsAssociation internalAssociation : oMesh.getInternalAssociatedContent()) {

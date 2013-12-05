@@ -40,7 +40,7 @@ public class clsTestDataStructureNullPointers {
 			
 		}
 		
-		for (clsAssociation oEntry : poLocalTPM.getExternalMoAssociatedContent()) {
+		for (clsAssociation oEntry : poLocalTPM.getExternalAssociatedContent()) {
 			try {
 				clsDataStructurePA oLeafElement = oEntry.getLeafElement(); 
 				if (oLeafElement==null) {

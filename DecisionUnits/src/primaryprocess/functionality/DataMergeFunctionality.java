@@ -46,9 +46,9 @@ public class DataMergeFunctionality {
         ArrayList<clsThingPresentationMesh> oEntityList = clsMeshTools.getAllTPMEntities(oRetVal, 4);
         
         for (clsThingPresentationMesh oEntity: oEntityList) {
-            log.trace("Entity before merge {}. Number of associations {}", oEntity, oEntity.getExternalMoAssociatedContent().size());
+            log.trace("Entity before merge {}. Number of associations {}", oEntity, oEntity.getExternalAssociatedContent().size());
             EntityAlgorithmTools.mergeDriveMeshesForObject(oEntity);
-            log.trace("Entity after merge {}. Number of associations {}", oEntity, oEntity.getExternalMoAssociatedContent().size());
+            log.trace("Entity after merge {}. Number of associations {}", oEntity, oEntity.getExternalAssociatedContent().size());
         }
         return oRetVal;
     }

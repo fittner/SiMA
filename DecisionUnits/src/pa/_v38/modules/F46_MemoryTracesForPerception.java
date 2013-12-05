@@ -7,6 +7,8 @@
  */
 package pa._v38.modules;
 
+import general.datamanipulation.PrintTools;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -57,7 +59,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	public static final String P_MATCH_THRESHOLD = "MATCH_THRESHOLD";
 	
 	//FIXME: Connect to neutral drive energy
-	private static final double PSYCHICINTENSITYFORSPREADINGACTIVATION = 10.0;
+	private static final double PSYCHICINTENSITYFORSPREADINGACTIVATION = 20.0;
 	private static final int MAXDIRECTACTIVATIONFORSPREADINGACTIVATION = 20;
 	
 	
@@ -122,8 +124,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		
 		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moReturnedPhantasy_IN", moReturnedPhantasy_IN);
-		text += toText.listToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT.getInternalAssociatedContent());
-		text += toText.listToTEXT("External Associations", moPerceptionalMesh_OUT.getExternalMoAssociatedContent());
+		text += toText.listToTEXT("Internal associations of moPerceptionalMesh_OUT (entities)", moPerceptionalMesh_OUT.getInternalAssociatedContent());
+		text += toText.listToTEXT("Directly activated associations of moPerceptionalMesh_OUT", moPerceptionalMesh_OUT.getExternalAssociatedContent());
+		text += toText.valueToTEXT("Activated images", PrintTools.printActivatedMeshWithPIMatch(moPerceptionalMesh_OUT));
 		//text += toText.valueToTEXT("moEnhancedPerception", moEnhancedPerception);
 		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 		//text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
@@ -212,7 +215,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		//Activate memories (Spread activation)
 		activateMemories(oPerceivedImage, oBestPhantasyInput);
 		
-		log.debug("PI: " + oPerceivedImage.toString());
+		log.debug("PI: " + oPerceivedImage);
+		log.info("Activated images: {}", PrintTools.printActivatedMeshWithPIMatch(oPerceivedImage));
 		moPerceptionalMesh_OUT = oPerceivedImage;
 		
 		//=== Perform system tests ===//
@@ -563,8 +567,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 				clsAssociationAttribute oPositionAss = new clsAssociationAttribute(poIdentifier, oEmptySpaceTPM, oPositionTP);
 				clsAssociationAttribute oDistanceAss = new clsAssociationAttribute(poIdentifier, oEmptySpaceTPM, oDistanceTP);
 			
-				oEmptySpaceTPM.getExternalMoAssociatedContent().add(oPositionAss);
-				oEmptySpaceTPM.getExternalMoAssociatedContent().add(oDistanceAss);
+				oEmptySpaceTPM.getExternalAssociatedContent().add(oPositionAss);
+				oEmptySpaceTPM.getExternalAssociatedContent().add(oDistanceAss);
 			
 			
 				oRetVal.add(oEmptySpaceTPM);

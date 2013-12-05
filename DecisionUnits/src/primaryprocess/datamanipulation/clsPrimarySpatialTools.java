@@ -148,7 +148,7 @@ public class clsPrimarySpatialTools {
 		
 		
 		//ArrayList<clsAssociation> oDSAssList = poImageContainer.getMoAssociatedDataStructures(poDS);
-		for (clsAssociation oAss : poDS.getExternalMoAssociatedContent()) {
+		for (clsAssociation oAss : poDS.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationAttribute) {
 				if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)) {
 					//Get content of the association
@@ -292,7 +292,7 @@ public class clsPrimarySpatialTools {
 			//Create an association, The root object is the RI and the leafobject is the PI
 			clsAssociationTime oMatchAssociation = createDistanceAssociation(oRIPIMatch.b.a, oRIPIMatch.a.a, oRIPIMatch.b.b);
 			//Add the association to the container
-			oRIPIMatch.b.a.getExternalMoAssociatedContent().add(oMatchAssociation);
+			oRIPIMatch.b.a.getExternalAssociatedContent().add(oMatchAssociation);
 			
 			//Find that object in the RI
 			//for (clsAssociation oAss : poRI.getMoAssociatedContent()) {

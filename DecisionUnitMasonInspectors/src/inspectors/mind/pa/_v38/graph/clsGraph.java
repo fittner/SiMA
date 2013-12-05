@@ -975,8 +975,8 @@ public class clsGraph extends JGraph {
 		}
 		if(mbShowExternAssoc){
 			//evaluate best rated Association
-			clsAssociation bestAssoc= evaluateBestAssociation(poMemoryObject.getExternalMoAssociatedContent());
-			for(clsAssociation oDMAssociations : poMemoryObject.getExternalMoAssociatedContent())
+			clsAssociation bestAssoc= evaluateBestAssociation(poMemoryObject.getExternalAssociatedContent());
+			for(clsAssociation oDMAssociations : poMemoryObject.getExternalAssociatedContent())
 			{
 				if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementA().getDS_ID())
 				{
@@ -1091,7 +1091,7 @@ public class clsGraph extends JGraph {
 
 			mbShowExternAssoc=false;
 
-			for(clsAssociation oDMAssociations : poMemoryObject.getExternalMoAssociatedContent())
+			for(clsAssociation oDMAssociations : poMemoryObject.getExternalAssociatedContent())
 			{ 	
 				
 				if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementA().getDS_ID())
@@ -1354,7 +1354,7 @@ public class clsGraph extends JGraph {
 		if(mbShowExternAssoc){
 			mbShowExternAssoc = false;
 			mbShowInternAssoc = false;
-			for(clsAssociation oDMAssociations : poMemoryObject.getExternalMoAssociatedContent())
+			for(clsAssociation oDMAssociations : poMemoryObject.getExternalAssociatedContent())
 			{ 	
 				
 				if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementA().getDS_ID())

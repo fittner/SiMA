@@ -56,7 +56,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @return
 	 */
 	@Override
-	public ArrayList<clsAssociation> getExternalMoAssociatedContent() {
+	public ArrayList<clsAssociation> getExternalAssociatedContent() {
 		return moExternalAssociatedContent;
 	}
 	

@@ -83,7 +83,7 @@ public class clsConcept {
         }
         if (moConceptEntities.isEmpty()
                 && (moConceptMesh.isNullObject() || moConceptMesh.getExternalAssociatedContent().isEmpty()
-                        && moConceptMesh.getExternalMoAssociatedContent().isEmpty() && moConceptMesh.getInternalAssociatedContent().isEmpty())) {
+                        && moConceptMesh.getExternalAssociatedContent().isEmpty() && moConceptMesh.getInternalAssociatedContent().isEmpty())) {
             return true;
         }
         return false;

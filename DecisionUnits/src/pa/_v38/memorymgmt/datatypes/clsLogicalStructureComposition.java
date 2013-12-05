@@ -39,7 +39,8 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * 
 	 * @return the moExternalAssociatedContent
 	 */
-	public ArrayList<clsAssociation> getExternalAssociatedContent() {
+	@Override
+    public ArrayList<clsAssociation> getExternalAssociatedContent() {
 		return moExternalAssociatedContent;
 	}
 
@@ -64,17 +65,6 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	@Override
 	public ArrayList<clsAssociation> getInternalAssociatedContent() {
 		return moInternalAssociatedContent;
-	}
-	
-	/**
-	 * @author schaat
-	 * 19.06.2012, 08:57:27
-	 * 
-	 * @return the moExternalAssociatedContent
-	 */
-	@Override
-	public ArrayList<clsAssociation> getExternalMoAssociatedContent() {
-		return moExternalAssociatedContent;
 	}
 
 	/**

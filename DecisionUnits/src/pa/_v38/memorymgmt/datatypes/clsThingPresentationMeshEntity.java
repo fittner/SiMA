@@ -70,7 +70,7 @@ public class clsThingPresentationMeshEntity extends clsThingPresentationMesh {
 	
 	public void removePosition() {
 		//clsMeshTools.removeUniqueTP(this, eContentType.DISTANCE);
-		this.getExternalMoAssociatedContent().remove(oPositionAttribute);
+		this.getExternalAssociatedContent().remove(oPositionAttribute);
 		oRadiusAttribute=null;
 		clsMeshTools.removeUniqueTP(this, eContentType.POSITION);
 		oPositionAttribute=null;

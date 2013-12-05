@@ -36,7 +36,7 @@ public class clsTestDataStructureConsistency {
 	private static boolean debugFindErroneousLinks(clsThingPresentationMesh poTPM) throws Exception {
 		boolean bResult = false;
 		
-		for (clsAssociation oAss : poTPM.getExternalMoAssociatedContent()) {
+		for (clsAssociation oAss : poTPM.getExternalAssociatedContent()) {
 			clsDataStructurePA oDS = oAss.getTheOtherElement(poTPM);
 			
 			if (oDS==null) {

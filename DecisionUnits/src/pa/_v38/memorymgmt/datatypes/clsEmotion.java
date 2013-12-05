@@ -217,7 +217,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * @return the moAssociatedContent
 	 */
 	@Override
-	public ArrayList<clsAssociation> getExternalMoAssociatedContent() {
+	public ArrayList<clsAssociation> getExternalAssociatedContent() {
 		return moExternalAssociatedContent;
 	}
 	

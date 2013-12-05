@@ -52,8 +52,8 @@ public class EntityAlgorithmTools {
          * This is used for avoiding to add an association twice
          */
         ArrayList<clsPair<clsAssociation, Boolean>> oArrAssFirst = new ArrayList<clsPair<clsAssociation, Boolean>>();
-        for (int i=0;i<poInput.getExternalMoAssociatedContent().size();i++) {
-            oArrAssFirst.add(new clsPair<clsAssociation, Boolean>(poInput.getExternalMoAssociatedContent().get(i),false));
+        for (int i=0;i<poInput.getExternalAssociatedContent().size();i++) {
+            oArrAssFirst.add(new clsPair<clsAssociation, Boolean>(poInput.getExternalAssociatedContent().get(i),false));
         }
         
         ListIterator<clsPair<clsAssociation, Boolean>> liMainList = oArrAssFirst.listIterator();

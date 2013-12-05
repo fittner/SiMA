@@ -116,7 +116,7 @@ public class DataStructureConversionTools {
             // clsAttribute and clsDriveMesh
             // DOCUMENT Important note: clsAssociationPrimary is not considered
             // for the secondary process
-            for (clsAssociation oTPMExternalAss : poTPM.getExternalMoAssociatedContent()) {
+            for (clsAssociation oTPMExternalAss : poTPM.getExternalAssociatedContent()) {
 
                 // Case AssociationAttribute
                 if (oTPMExternalAss instanceof clsAssociationAttribute) {

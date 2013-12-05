@@ -595,7 +595,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#getExternalMoAssociatedContent()
 	 */
 	@Override
-	public ArrayList<clsAssociation> getExternalMoAssociatedContent() {
+	public ArrayList<clsAssociation> getExternalAssociatedContent() {
 		// TODO (schaat) - Auto-generated method stub
 		return moExternalAssociatedContent;
 	}
@@ -744,18 +744,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         return false;
     }
 
-
-    /**
-     * DOCUMENT (hinterleitner) - insert description
-     *
-     * @since 11.05.2013 12:19:47
-     *
-     * @return
-     */
-    public clsDrive getExternalAssociatedContent() {
-        // TODO (hinterleitner) - Auto-generated method stub
-        return null;
-    }
 
 }
 

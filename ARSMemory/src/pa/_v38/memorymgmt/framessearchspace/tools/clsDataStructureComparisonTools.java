@@ -433,7 +433,7 @@ public abstract class clsDataStructureComparisonTools {
 	private static int countMatchAssociations(clsThingPresentationMesh poRI) {
 		int nRetVal = 0;
 		
-		for (clsAssociation oAss : poRI.getExternalMoAssociatedContent()) {
+		for (clsAssociation oAss : poRI.getExternalAssociatedContent()) {
 			if ((oAss instanceof clsAssociationTime) && (oAss.getContentType().equals(eContentType.MATCHASSOCIATION)==true)) {
 				nRetVal++;
 			}
@@ -638,13 +638,13 @@ public abstract class clsDataStructureComparisonTools {
 						getCompleteMesh(oSubMesh, poSearchSpaceHandler, pnLevel-1);
 
 						//Get the extended structures from the searched one and add them to the TPM
-						((clsThingPresentationMesh)oAss.getLeafElement()).setExternalAssociatedContent(oSubMesh.getExternalMoAssociatedContent());
+						((clsThingPresentationMesh)oAss.getLeafElement()).setExternalAssociatedContent(oSubMesh.getExternalAssociatedContent());
 						//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
 						//time associations of the subobject. This association is added to the external associations of the subobject
 						//FIXME AW: This is a non clean solution. The association time is always added but the original object is NOT copied. Therefore, it shall be
 						//          checked, that this association is only copied once.
-						if (((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().contains(oAss)==false) {
-							((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().add(oAss);
+						if (((clsThingPresentationMesh)oAss.getLeafElement()).getExternalAssociatedContent().contains(oAss)==false) {
+							((clsThingPresentationMesh)oAss.getLeafElement()).getExternalAssociatedContent().add(oAss);
 						}
 					}
 				}
@@ -658,7 +658,7 @@ public abstract class clsDataStructureComparisonTools {
 					//FIXME: This is a hack to avoid that multiple Drive Meshes are added to the same structure
 					
 					boolean bFound = false;
-					for (clsAssociation oExternalAss : oRetVal.getExternalMoAssociatedContent()) {
+					for (clsAssociation oExternalAss : oRetVal.getExternalAssociatedContent()) {
 						if (oAss.getDS_ID()==oExternalAss.getDS_ID()) {
 							bFound=true;
 							break;
@@ -672,7 +672,7 @@ public abstract class clsDataStructureComparisonTools {
 							if (oClonedAss instanceof clsAssociationPrimary || 
 									oClonedAss instanceof clsAssociationPrimaryDM) {
 								//If pnLevel is at least 1 and this association does not exist in the list
-								if (pnLevel>=1 && oRetVal.getExternalMoAssociatedContent().contains(oClonedAss)==false) {
+								if (pnLevel>=1 && oRetVal.getExternalAssociatedContent().contains(oClonedAss)==false) {
 									//Replace the erroneous associations
 									if (oRetVal.getDS_ID()==oClonedAss.getRootElement().getDS_ID()) {
 										oClonedAss.setRootElement(oRetVal);
@@ -682,13 +682,13 @@ public abstract class clsDataStructureComparisonTools {
 										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
 									}
 									
-									oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
+									oRetVal.getExternalAssociatedContent().add(oClonedAss);
 								}
 							} else if (oClonedAss instanceof clsAssociationAttribute || 
 									oClonedAss instanceof clsAssociationDriveMesh || 
 									oClonedAss instanceof clsAssociationEmotion) {
 								//If pnLevel is at least 1 and this association does not exist in the list
-								if (oRetVal.getExternalMoAssociatedContent().contains(oClonedAss)==false) {
+								if (oRetVal.getExternalAssociatedContent().contains(oClonedAss)==false) {
 									//Replace the erroneous associations
 									if (oRetVal.getDS_ID()==oClonedAss.getRootElement().getDS_ID()) {
 										oClonedAss.setRootElement(oRetVal);
@@ -698,11 +698,11 @@ public abstract class clsDataStructureComparisonTools {
 										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
 									}
 									
-									oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
+									oRetVal.getExternalAssociatedContent().add(oClonedAss);
 								}
 								
 							} else if ((oClonedAss instanceof clsAssociationTime)==false) {
-								oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
+								oRetVal.getExternalAssociatedContent().add(oClonedAss);
 							}
 							
 						} catch (CloneNotSupportedException e) {
@@ -716,6 +716,9 @@ public abstract class clsDataStructureComparisonTools {
 				
 			}
 		}
+		
+		//Complement all associations in the other structures
+		clsMeshTools.setInverseAssociations(oRetVal);
 		
 	}
 	
