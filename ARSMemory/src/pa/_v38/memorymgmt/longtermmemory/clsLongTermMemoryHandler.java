@@ -186,7 +186,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();
 		oAlreadyActivatedImages.add(poInput);
 		log.debug("Psychic Spread Activation input: " + poInput + "; Psychic Energy=" + prPsychicEnergyIn);
-		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, maxNumberOfDirectActivations, poDriveMeshFilterList, oAlreadyActivatedImages);
+		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, maxNumberOfDirectActivations, poDriveMeshFilterList, 1.0, new ArrayList<clsThingPresentationMesh>(), oAlreadyActivatedImages);
 		log.debug("Psychic Spread Activation output: " + poInput);
 	}
 

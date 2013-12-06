@@ -34,12 +34,12 @@ import testfunctions.clsTester;
  * 29.03.2012, 21:56:28
  * 
  */
-public class clsPsychicSpreadActivation {
+public class clsPsychicSpreadActivation implements psychicSpreadingActivationInterface {
 	
-	private double moDefaultConsumeValue = 0.2;
-	private double mrActivationThreshold = 0.1;
-	
+	private final double moDefaultConsumeValue;
+	private final double mrActivationThreshold;
 	private itfSearchSpaceAccess moModuleBase;
+	
 	private Logger log = clsLogger.getLog("memory");
 	
 	public clsPsychicSpreadActivation(itfSearchSpaceAccess poModuleBase, double prConsumeValue, double prActivationThreshold) {
@@ -58,7 +58,8 @@ public class clsPsychicSpreadActivation {
 	 * @param poDrivesForFilteringList
 	 * @param poAlreadyActivatedImages
 	 */
-	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
+	@Override
+	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
 		//Activate this mesh, i. e. consume this energy
 		double rAvailablePsychicEnergy = prPsychicEnergyIn - getEnergyConsumptionValue(poImage);
 		log.info("Start spread activation from image {} with psychic energy {}", poImage.getContent(), prPsychicEnergyIn);
@@ -78,7 +79,7 @@ public class clsPsychicSpreadActivation {
 		//2. Consolidate mesh
 		
 		//3. Calculate activation
-		ArrayList<clsPair<clsThingPresentationMesh, Double>> oPossibleActivationList = activateAssociatedImages(poImage, rAvailablePsychicEnergy, pnMaximumDirectActivationValue, poDrivesForFilteringList, poAlreadyActivatedImages);
+		ArrayList<clsPair<clsThingPresentationMesh, Double>> oPossibleActivationList = activateAssociatedImages(poImage, rAvailablePsychicEnergy, pnMaximumDirectActivationValue, poDrivesForFilteringList, recognizedImageMultiplyFactor, preferredImages, poAlreadyActivatedImages);
 		log.info("Possible images, which can be activated: {}", PrintTools.printArrayListWithLineBreaks(oPossibleActivationList));
 		
 		//4. Delete non activated images		
@@ -88,7 +89,7 @@ public class clsPsychicSpreadActivation {
 		//5. Go through each of the previously activated images
 		for (clsPair<clsThingPresentationMesh,Double> oPair : oActivatedImageList) {
 			int mnTotalNumberOfAllowedActivations = poAlreadyActivatedImages.size() + pnMaximumDirectActivationValue;
-			startSpreadActivation(oPair.a, oPair.b, mnTotalNumberOfAllowedActivations, poDrivesForFilteringList, poAlreadyActivatedImages);
+			startSpreadActivation(oPair.a, oPair.b, mnTotalNumberOfAllowedActivations, poDrivesForFilteringList, recognizedImageMultiplyFactor, preferredImages, poAlreadyActivatedImages);
 		}
 	}
 	
@@ -164,7 +165,7 @@ public class clsPsychicSpreadActivation {
 	 * @param poAlreadyActivatedImages
 	 * @return
 	 */
-	public ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList,  ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
+	public ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
 		log.trace("Calculate activation for " + poEnhancedOriginImage.getContent());
 		
@@ -188,7 +189,7 @@ public class clsPsychicSpreadActivation {
 			}
 			
 			//Calculate the psychic potential 
-			double rPsychicPotential = calculatePsychicPotential(oAssWeight, oAffect);
+			double rPsychicPotential = calculatePsychicPotential(oPair.a, oAssWeight, oAffect, recognizedImageMultiplyFactor, preferredImages);
 			//Get consume value
 			double rConsumption = getEnergyConsumptionValue(oImage);
 			//Calculate P
@@ -304,8 +305,22 @@ public class clsPsychicSpreadActivation {
 	 * @param prAffect
 	 * @return
 	 */
-	private double calculatePsychicPotential(double prWeight, double prAffect) {
-		return prWeight * (1 + Math.abs(prAffect));
+	private double calculatePsychicPotential(clsThingPresentationMesh sourceImage, double prWeight, double prAffect, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages) {
+		double result = 0;
+		
+		double reinforcementFactor = 1.0;
+		//Check if this image is one of the preferred images
+		for (clsThingPresentationMesh preferredImage :preferredImages) {
+			if (sourceImage.getDS_ID()==preferredImage.getDS_ID()) {
+				reinforcementFactor = recognizedImageMultiplyFactor;
+				break;
+			}
+		}
+		
+		
+		result = prWeight * (1 + Math.abs(prAffect)) * reinforcementFactor;
+		
+		return result;
 	}
 	
 	/**
