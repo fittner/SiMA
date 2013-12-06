@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 
 import pa.clsPsychoAnalysis;
 import pa._v38.clsProcessor;
-import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
@@ -291,9 +290,15 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsShape2DCreator.P_COLOR, Color.RED);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
 				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_LIBIDOSTREAM, 0.1);
+		
+		
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
 				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_KNOWLEDGEABASE+"."+
-				clsKnowledgeBaseHandler.P_SOURCE_NAME, "/ARSMemory/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
+				"source_name", "/ARSMemory/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
+		
+		//oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
+		//		clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_KNOWLEDGEABASE+"."+
+		//		clsKnowledgeBaseHandler.P_SOURCE_NAME, "/ARSMemory/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
 		//oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+ clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_PSYCHICAPPARATUS+"."+clsPsychicApparatus.P_MINIMALMODEL, false);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+ clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_PSYCHICAPPARATUS+".", false);
 		

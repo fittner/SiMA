@@ -38,7 +38,6 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceBase;
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
-import pa._v38.memorymgmt.old.eDataStructureMatch;
 import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
@@ -62,6 +61,8 @@ public abstract class clsDataStructureComparisonTools {
 	private static double mrBestMatchThreshold = 1.0; //Max 1.0
 	/** This factor says how much can be added to 1.0 as a max association strength */
 	private static double mrAssociationMaxValue = 1.2;	//Max unlimited
+	
+	private static double THRESHOLDMATCH=0.0;
 	
 	private static Logger log = clsLogger.getLog("Memory");
 	
@@ -1044,7 +1045,7 @@ public abstract class clsDataStructureComparisonTools {
 					
 					rMatchScore = oCompareElement.compareTo(poDS_Unknown);
 					
-					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
+					if(rMatchScore > THRESHOLDMATCH){
 						int nInsert = sortList(oDS_List, rMatchScore); 
 						oDS_List.add(nInsert,new clsPair<Double, clsDataStructurePA>(rMatchScore, oCompareElement));
 					}
@@ -1078,7 +1079,7 @@ public abstract class clsDataStructureComparisonTools {
 				//if (oSearchSpaceElement.getMoDSInstance_ID()==0) {
 					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
 					
-					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
+					if(rMatchScore > THRESHOLDMATCH){
 						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
 					}
 				//}
