@@ -29,7 +29,8 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
-import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivation;
+import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadingActivation;
+import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadingActivationInterface;
 import pa._v38.tools.clsDebugTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
@@ -44,7 +45,7 @@ import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	
 	private itfSearchSpaceAccess moSearchSpaceMethods;
-	private clsPsychicSpreadActivation moSpreadActivationHandler;
+	private PsychicSpreadingActivationInterface moSpreadActivationHandler;
 	
 	private Logger log = Logger.getLogger("pa._v38.memorymgmt");
 	
@@ -54,7 +55,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	
 	public clsLongTermMemoryHandler(itfSearchSpaceAccess poSearchSpaceMethods) {
 		moSearchSpaceMethods = poSearchSpaceMethods;
-		moSpreadActivationHandler = new clsPsychicSpreadActivation(moSearchSpaceMethods, moConsumeValue, mrActivationThreshold);
+		moSpreadActivationHandler = new PsychicSpreadingActivation(moSearchSpaceMethods, moConsumeValue, mrActivationThreshold);
 		log.info("Initialize " + this.getClass().getName());
 	}
 	
@@ -181,12 +182,12 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#executePsychicSpreadActivation(pa._v38.memorymgmt.datatypes.clsThingPresentationMesh, double)
 	 */
 	@Override
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn, int maxNumberOfDirectActivations) {
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn, int maxNumberOfDirectActivations, boolean useDirectActivation, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages) {
 		//Add the activated image to the already processed list
 		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();
 		oAlreadyActivatedImages.add(poInput);
 		log.debug("Psychic Spread Activation input: " + poInput + "; Psychic Energy=" + prPsychicEnergyIn);
-		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, maxNumberOfDirectActivations, poDriveMeshFilterList, 1.0, new ArrayList<clsThingPresentationMesh>(), oAlreadyActivatedImages);
+		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, maxNumberOfDirectActivations, useDirectActivation, poDriveMeshFilterList, recognizedImageMultiplyFactor, preferredImages, oAlreadyActivatedImages);
 		log.debug("Psychic Spread Activation output: " + poInput);
 	}
 
@@ -293,6 +294,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	public ArrayList<clsPair<Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel) {
 		return this.moSearchSpaceMethods.searchMesh(poPattern, poSearchContentType, prThreshold, pnLevel);
 	}
+
 
 	
 }

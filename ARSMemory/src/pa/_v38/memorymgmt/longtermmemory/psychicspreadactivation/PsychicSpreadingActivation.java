@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
-import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivationNode;
+import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadActivationNode;
 import secondaryprocess.datamanipulation.clsImportanceTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
@@ -34,7 +34,7 @@ import testfunctions.clsTester;
  * 29.03.2012, 21:56:28
  * 
  */
-public class clsPsychicSpreadActivation implements psychicSpreadingActivationInterface {
+public class PsychicSpreadingActivation implements PsychicSpreadingActivationInterface {
 	
 	private final double moDefaultConsumeValue;
 	private final double mrActivationThreshold;
@@ -42,7 +42,7 @@ public class clsPsychicSpreadActivation implements psychicSpreadingActivationInt
 	
 	private Logger log = clsLogger.getLog("memory");
 	
-	public clsPsychicSpreadActivation(itfSearchSpaceAccess poModuleBase, double prConsumeValue, double prActivationThreshold) {
+	public PsychicSpreadingActivation(itfSearchSpaceAccess poModuleBase, double prConsumeValue, double prActivationThreshold) {
 		moDefaultConsumeValue = prConsumeValue;
 		mrActivationThreshold=prActivationThreshold;
 		moModuleBase = poModuleBase;
@@ -59,21 +59,22 @@ public class clsPsychicSpreadActivation implements psychicSpreadingActivationInt
 	 * @param poAlreadyActivatedImages
 	 */
 	@Override
-	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
+	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, boolean useDirectActivation, ArrayList<clsDriveMesh> poDrivesForFilteringList, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
 		//Activate this mesh, i. e. consume this energy
 		double rAvailablePsychicEnergy = prPsychicEnergyIn - getEnergyConsumptionValue(poImage);
-		log.info("Start spread activation from image {} with psychic energy {}", poImage.getContent(), prPsychicEnergyIn);
+		log.info("Start spread activation from image {} with psychic energy {}, max activations/node={}, useDirectActivation={}, ", poImage.getContent(), prPsychicEnergyIn, pnMaximumDirectActivationValue, useDirectActivation);
+		log.info("Images to use from phantasy for enhancement. Factor={}, images: {}", recognizedImageMultiplyFactor, preferredImages);
 		log.debug("Inputs: Psychic Energy In=" + prPsychicEnergyIn + ", Available psychic energy=" + rAvailablePsychicEnergy + ", InputImage=" + poImage.getContent());
 		log.trace("Already activated images: " + clsMeshTools.toString(poAlreadyActivatedImages));
 		
 		
 		//1. Get level 1 of the image associations
-		if (poImage.getContentType().equals(eContentType.RI)==true) {
-			log.trace("RI: Get INDIRECT associations");
-			getAssociatedImagesMemory(poImage);
-		} else if (poImage.getContentType().equals(eContentType.PI)==true || poImage.getContentType().equals(eContentType.PHI)==true) {
-			log.trace("PI: Get DIRECT associations");
+		if (useDirectActivation==true) {
+			log.trace("Image {}, get DIRECT associations", poImage.getContent());
 			getAssociatedImagesPerception(poImage, mrActivationThreshold);
+		} else {
+			log.trace("Image {}, get INDIRECT associations", poImage.getContent());
+			getAssociatedImagesMemory(poImage);
 		}
 		
 		//2. Consolidate mesh
@@ -89,7 +90,8 @@ public class clsPsychicSpreadActivation implements psychicSpreadingActivationInt
 		//5. Go through each of the previously activated images
 		for (clsPair<clsThingPresentationMesh,Double> oPair : oActivatedImageList) {
 			int mnTotalNumberOfAllowedActivations = poAlreadyActivatedImages.size() + pnMaximumDirectActivationValue;
-			startSpreadActivation(oPair.a, oPair.b, mnTotalNumberOfAllowedActivations, poDrivesForFilteringList, recognizedImageMultiplyFactor, preferredImages, poAlreadyActivatedImages);
+			//useDirectActivation is set false here and for all following activation. This option is only applied for the first activation stage, the direct activations
+			startSpreadActivation(oPair.a, oPair.b, mnTotalNumberOfAllowedActivations, false, poDrivesForFilteringList, recognizedImageMultiplyFactor, preferredImages, poAlreadyActivatedImages);
 		}
 	}
 	
@@ -173,7 +175,7 @@ public class clsPsychicSpreadActivation implements psychicSpreadingActivationInt
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oAssociatedUnprocessedImages = getUnprocessedImages(poEnhancedOriginImage, poAlreadyActivatedImages);
 		log.trace("Get unprocessed images" + oAssociatedUnprocessedImages.toString());
 		
-		ArrayList<clsPsychicSpreadActivationNode> oNodeTable = new ArrayList<clsPsychicSpreadActivationNode>();
+		ArrayList<PsychicSpreadActivationNode> oNodeTable = new ArrayList<PsychicSpreadActivationNode>();
 		
 		log.trace("Start activation of nodes");
 		//2. go through each of them
@@ -198,7 +200,7 @@ public class clsPsychicSpreadActivation implements psychicSpreadingActivationInt
 			double rDivider = rP + rPsychicPotential;
 			
 			//Add to the list, sort after psychic potential
-			clsPsychicSpreadActivationNode oNode = new clsPsychicSpreadActivationNode();
+			PsychicSpreadActivationNode oNode = new PsychicSpreadActivationNode();
 			oNode.setBaseImage(oImage);
 			oNode.setPsychicPotential(rPsychicPotential);
 			oNode.setP(rP);
@@ -220,7 +222,7 @@ public class clsPsychicSpreadActivation implements psychicSpreadingActivationInt
 		double rAccumulatedSum = 0.0;
 		int nBreakIndex = 0;
 		for (int i=0;i<oNodeTable.size();i++) {
-			clsPsychicSpreadActivationNode oNode = oNodeTable.get(i);
+			PsychicSpreadActivationNode oNode = oNodeTable.get(i);
 			
 			//Calculate the accumulated sum
 			rAccumulatedSum += oNode.getPsychicPotential();
@@ -243,7 +245,7 @@ public class clsPsychicSpreadActivation implements psychicSpreadingActivationInt
 		
 		//calculate the energy distribution. Go through only the first ones, which will be activated
 		for (int i=0;i<oNodeTable.size();i++) {
-			clsPsychicSpreadActivationNode oNode = oNodeTable.get(i);
+			PsychicSpreadActivationNode oNode = oNodeTable.get(i);
 		
 			if (i<nBreakIndex) {
 				//Calculate how much energy the activated images shall get

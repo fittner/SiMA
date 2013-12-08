@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.PsychicSpreadingActivationMode;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -38,7 +39,6 @@ import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
-import secondaryprocess.datamanipulation.clsPhantasyTools;
 import testfunctions.clsTester;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
@@ -61,11 +61,13 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	//FIXME: Connect to neutral drive energy
 	private static final double PSYCHICINTENSITYFORSPREADINGACTIVATION = 20.0;
 	private static final int MAXDIRECTACTIVATIONFORSPREADINGACTIVATION = 20;
+	private static final double RECOGNIZEDIMAGEMULTIPLICATIONFACTOR = 2;
 	
 	
 	/* Inputs */
 	/** Here the associated memory from the planning is put on the input to this module */
 	private ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN; 
+	private PsychicSpreadingActivationMode psychicSpreadingActivationMode;
 	/** Input from perception */
 	private ArrayList<clsThingPresentationMesh> moEnvironmentalPerception_IN;
 
@@ -109,6 +111,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		mrMatchThreshold= poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MATCH_THRESHOLD).getParameterDouble();
 		moTempLocalizationStorage = poTempLocalizationStorage;
 		moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();		//Set Input!=null
+		this.psychicSpreadingActivationMode=psychicSpreadingActivationMode.NONE;
 	}
 	
 	/* (non-Javadoc)
@@ -201,19 +204,26 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		//--- Activation of associated memories ---//
 		
 		//Get the phantasy input
-		clsThingPresentationMesh oBestPhantasyInput = this.processPhantasyInput(moReturnedPhantasy_IN);
+		//clsThingPresentationMesh oBestPhantasyInput = this.processPhantasyInput(moReturnedPhantasy_IN);
 		
 		if (clsTester.getTester().isActivated()) {
             log.warn("Systemtester activated");
             try {
-                clsTester.getTester().exeTestAssociationAssignment(oBestPhantasyInput);
+                for (clsThingPresentationMesh tpm : moReturnedPhantasy_IN) {
+                    clsTester.getTester().exeTestAssociationAssignment(tpm);
+                }
+                
             } catch (Exception e) {
                 log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
             }
         }
 		
 		//Activate memories (Spread activation)
-		activateMemories(oPerceivedImage, oBestPhantasyInput);
+		try {
+            activateMemories(oPerceivedImage, moReturnedPhantasy_IN, this.psychicSpreadingActivationMode);
+        } catch (Exception e1) {
+            log.error("", e1);
+        }
 		
 		log.debug("PI: " + oPerceivedImage);
 		log.info("Activated images: {}", PrintTools.printActivatedMeshWithPIMatch(oPerceivedImage));
@@ -365,70 +375,180 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 * @param oPerceptionInput
 	 * @param oReturnedMemory
 	 * @return
+	 * @throws Exception 
 	 */
-	private void activateMemories(clsThingPresentationMesh poPerceivedImage, clsThingPresentationMesh poReturnedPhantasyImage) {
-		
-		//default is to use perception
-		boolean bUsePerception = true;
-		boolean bMergePhantasyAndPerception = false;
-		
-		if (poReturnedPhantasyImage.isNullObject()==false) {
-			bMergePhantasyAndPerception=true;
-			//Only if the returned memory contains a special flag, it shall activate phantasy
-			if (clsPhantasyTools.checkPhantasyActivate(poReturnedPhantasyImage)==true) {
-				bUsePerception=false;
-			}
-		}
-		
-		if (bUsePerception==true) {	//Activate with perception
-			
-			//--- Enhance perception with environmental image ---//
-			enhancePerceptionWithEnhancedEnvironmentalImage(poPerceivedImage, moTempLocalizationStorage);
-			
-			//=== Perform system tests ===//
-			if (clsTester.getTester().isActivated()) {
-				try {
-					clsTester.getTester().exeTestAssociationAssignment(poPerceivedImage);
-				} catch (Exception e) {
-					log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
-				}
-			}
-			
-			this.getLongTermMemory().executePsychicSpreadActivation(poPerceivedImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION);
-			
-			//=== Perform system tests ===//
-			if (clsTester.getTester().isActivated()) {
-				try {
-					clsTester.getTester().exeTestAssociationAssignment(poPerceivedImage);
-				} catch (Exception e) {
-					log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
-				}
-			}
-			
-			//--- Remove enhanced perception from PI as these were only there to activate memories
-			removeEnhancedEnvironmentalImageFromPerception(poPerceivedImage);
-			
-			
-		} else {						//Activate with returned memory
-			//Add SELF to the image if it does not exist
-			if (clsMeshTools.getSELF(poReturnedPhantasyImage).isNullObject()==true) {
-			    //FIXME AW SELF should be loaded somewhere else.
-				clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "CIRCLE", "#FFFFBF");
-				ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
-				oSELFList.add(oSELF);
-				clsMeshTools.addTPMToTPMImage(poReturnedPhantasyImage, oSELFList);
-			}
-			
-			this.getLongTermMemory().executePsychicSpreadActivation(poReturnedPhantasyImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION/2, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION);
-		}
-		
-		
-		//Merge perception and phantasy
-		if (bMergePhantasyAndPerception==true) {
-			clsMeshTools.createAssociationPrimary(poPerceivedImage, poReturnedPhantasyImage, 1.0);
-		}
+	private void activateMemories(clsThingPresentationMesh perceivedImage, ArrayList<clsThingPresentationMesh> returnedPhantasyImageList, PsychicSpreadingActivationMode mode) throws Exception {
+		//Check if phantasyimages are valid and mode is correctly set
+	    boolean hasError=false;
+	    if (returnedPhantasyImageList.isEmpty() && mode.equals(PsychicSpreadingActivationMode.NONE)==false) {
+	        hasError=true;
+	        log.warn("Erroneous input to psychic spreading activation. No phantasyimage has arrived, but phantasy shall be used.");
+	    } else if (returnedPhantasyImageList.size()!=1 && (mode.equals(PsychicSpreadingActivationMode.COMPLETE_DIRECT_ACTIVATION)==true || mode.equals(PsychicSpreadingActivationMode.COMPLETE_INDIRECT_ACTIVATION)==true)) {
+	        hasError=true;
+	        log.warn("Erroneous input to psychic spreading activation. No or more than one images are set as source for phantasy activation.");
+	    }
+	    
+	    log.debug("Start Spreading Activation with mode {}", mode);
+	    
+	    //If no errors, perform the psychic spreading activation
+	    if (hasError==false) {
+	        //Execute spreading activation depending on set mode. Default mode is ENHANCED_ACTIVATION
+	        if (mode.equals(PsychicSpreadingActivationMode.ENHANCED_ACTIVATION)==true || mode.equals(PsychicSpreadingActivationMode.NONE)) {
+	            //Activate with the PI match as source mesh and only enhanced use of other images from phantasy
+	            //Default case + if moment and exception is sent
+	            activateWithPerceivedImageAsSource(perceivedImage, returnedPhantasyImageList);
+	            
+	            
+	        } else if (mode.equals(PsychicSpreadingActivationMode.COMPLETE_DIRECT_ACTIVATION)==true || mode.equals(PsychicSpreadingActivationMode.COMPLETE_INDIRECT_ACTIVATION)==true) {
+	            activateWithPhantasyImageAsSource(perceivedImage, returnedPhantasyImageList, mode);  
+	        } else {
+	            log.error("Mode {} does not exist.", mode);
+	            throw new Exception("mode not found " + mode);
+	        }
+	    } else {
+	        log.warn("Phantasyinputs were supposed to be used, but because of errors normal activation will be used.");
+	        activateWithPerceivedImageAsSource(perceivedImage, returnedPhantasyImageList);
+	    }
+
+	    
+//		//default is to use perception
+//		boolean bUsePerception = true;
+//		boolean bMergePhantasyAndPerception = false;
+//		
+//		if (returnedPhantasyImage.isNullObject()==false) {
+//			bMergePhantasyAndPerception=true;
+//			//Only if the returned memory contains a special flag, it shall activate phantasy
+//			if (clsPhantasyTools.checkPhantasyActivate(returnedPhantasyImage)==true) {
+//				bUsePerception=false;
+//			}
+//		}
+//		
+//		if (bUsePerception==true) {	//Activate with perception
+//			
+//			//--- Enhance perception with environmental image ---//
+//			enhancePerceptionWithEnhancedEnvironmentalImage(perceivedImage, moTempLocalizationStorage);
+//			
+//			//=== Perform system tests ===//
+//			if (clsTester.getTester().isActivated()) {
+//				try {
+//					clsTester.getTester().exeTestAssociationAssignment(perceivedImage);
+//				} catch (Exception e) {
+//					log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
+//				}
+//			}
+//			
+//			this.getLongTermMemory().executePsychicSpreadActivation(perceivedImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION);
+//			
+//			//=== Perform system tests ===//
+//			if (clsTester.getTester().isActivated()) {
+//				try {
+//					clsTester.getTester().exeTestAssociationAssignment(perceivedImage);
+//				} catch (Exception e) {
+//					log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
+//				}
+//			}
+//			
+//			//--- Remove enhanced perception from PI as these were only there to activate memories
+//			removeEnhancedEnvironmentalImageFromPerception(perceivedImage);
+//			
+//			
+//		} else {						//Activate with returned memory
+//			//Add SELF to the image if it does not exist
+//			if (clsMeshTools.getSELF(returnedPhantasyImage).isNullObject()==true) {
+//			    //FIXME AW SELF should be loaded somewhere else.
+//				clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "CIRCLE", "#FFFFBF");
+//				ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
+//				oSELFList.add(oSELF);
+//				clsMeshTools.addTPMToTPMImage(returnedPhantasyImage, oSELFList);
+//			}
+//			
+//			this.getLongTermMemory().executePsychicSpreadActivation(returnedPhantasyImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION/2, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION);
+//		}
+//		
+//		
+//		//Merge perception and phantasy
+//		if (bMergePhantasyAndPerception==true) {
+//			clsMeshTools.createAssociationPrimary(perceivedImage, returnedPhantasyImage, 1.0);
+//		}
 				
 	}
+
+    /**
+     * DOCUMENT - insert description
+     *
+     * @author wendt
+     * @since 07.12.2013 14:15:18
+     *
+     * @param perceivedImage
+     * @param returnedPhantasyImageList
+     * @param mode
+     */
+    private void activateWithPhantasyImageAsSource(clsThingPresentationMesh perceivedImage,
+            ArrayList<clsThingPresentationMesh> returnedPhantasyImageList, PsychicSpreadingActivationMode mode) {
+        clsThingPresentationMesh sourceImagePhantasy = clsMeshTools.getNullObjectTPM();
+        //Get the first phantasyimage
+        if (returnedPhantasyImageList.isEmpty()==false) {
+            sourceImagePhantasy = returnedPhantasyImageList.get(0);
+        }
+        
+        //Add SELF to the image if it does not exist
+        if (clsMeshTools.getSELF(sourceImagePhantasy).isNullObject()==true) {
+            //FIXME AW SELF should be loaded somewhere else.
+            clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "CIRCLE", "#FFFFBF");
+            ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
+            oSELFList.add(oSELF);
+            clsMeshTools.addTPMToTPMImage(sourceImagePhantasy, oSELFList);
+        }
+        
+        if (mode.equals(PsychicSpreadingActivationMode.COMPLETE_DIRECT_ACTIVATION)==true) {
+            //Activate with the first phantasyimage as source and use direct activation for it
+            //Used if drive images are sent
+            this.getLongTermMemory().executePsychicSpreadActivation(sourceImagePhantasy, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION/2, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION, true, 1.0, new ArrayList<clsThingPresentationMesh>());
+        } else {
+            //Activate with the first phantasyimage as source and use indirect activation for it
+            //Used if intentions are sent by SEND_TO_PHANTASY
+            this.getLongTermMemory().executePsychicSpreadActivation(sourceImagePhantasy, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION/2, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION, false, 1.0, new ArrayList<clsThingPresentationMesh>());
+        }
+        
+        clsMeshTools.createAssociationPrimary(perceivedImage, sourceImagePhantasy, 1.0);
+    }
+
+    /**
+     * DOCUMENT - insert description
+     *
+     * @author wendt
+     * @since 07.12.2013 14:14:33
+     *
+     * @param perceivedImage
+     * @param returnedPhantasyImageList
+     */
+    private void activateWithPerceivedImageAsSource(clsThingPresentationMesh perceivedImage, ArrayList<clsThingPresentationMesh> returnedPhantasyImageList) {
+        //--- Enhance perception with environmental image ---//
+        enhancePerceptionWithEnhancedEnvironmentalImage(perceivedImage, moTempLocalizationStorage);
+        
+        //=== Perform system tests ===//
+        if (clsTester.getTester().isActivated()) {
+            try {
+                clsTester.getTester().exeTestAssociationAssignment(perceivedImage);
+            } catch (Exception e) {
+                log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
+            }
+        }
+        
+        this.getLongTermMemory().executePsychicSpreadActivation(perceivedImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION, true, RECOGNIZEDIMAGEMULTIPLICATIONFACTOR, returnedPhantasyImageList);
+        
+        //=== Perform system tests ===//
+        if (clsTester.getTester().isActivated()) {
+            try {
+                clsTester.getTester().exeTestAssociationAssignment(perceivedImage);
+            } catch (Exception e) {
+                log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
+            }
+        }
+        
+        //--- Remove enhanced perception from PI as these were only there to activate memories
+        removeEnhancedEnvironmentalImageFromPerception(perceivedImage);
+    }
 	
 	
 	/**
@@ -705,8 +825,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 * @see pa.interfaces.receive._v38.I7_7_receive#receive_I7_7(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory) {
+	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode) {
 		moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
+		this.psychicSpreadingActivationMode = mode;
 	}
 
 	/* (non-Javadoc)

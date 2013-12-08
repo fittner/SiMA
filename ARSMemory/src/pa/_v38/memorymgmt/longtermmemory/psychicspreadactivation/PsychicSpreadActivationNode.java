@@ -17,7 +17,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
  * 29.03.2012, 21:57:03
  * 
  */
-public class clsPsychicSpreadActivationNode {
+public class PsychicSpreadActivationNode {
 
 	private clsThingPresentationMesh moBaseImage;
 	private double mrPsychicPotential = 0.0;

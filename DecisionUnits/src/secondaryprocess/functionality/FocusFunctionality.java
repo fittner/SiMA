@@ -44,8 +44,9 @@ public class FocusFunctionality {
      * @param poPerceivedImage
      * @param poActionWPM
      * @return
+     * @throws Exception 
      */
-    public static ArrayList<clsPair<Double, clsWordPresentationMesh>> extractFilterEntitiesFromAction(clsWordPresentationMesh poPerceivedImage, clsWordPresentationMesh poActionWPM) {
+    public static ArrayList<clsPair<Double, clsWordPresentationMesh>> extractFilterEntitiesFromAction(clsWordPresentationMesh poPerceivedImage, clsWordPresentationMesh poActionWPM) throws Exception {
         ArrayList<clsPair<Double, clsWordPresentationMesh>> oResult  = new ArrayList<clsPair<Double, clsWordPresentationMesh>>();
         
         if (poActionWPM.isNullObject()==false) {
@@ -82,7 +83,15 @@ public class FocusFunctionality {
                 //All entities in an image get the highest priority
                 
                 //Use the supportive data structure
-                clsWordPresentationMesh oFocusImage = clsActionTools.getSupportiveDataStructure(poActionWPM);
+                ArrayList<clsWordPresentationMesh> suportiveDataStructures = clsActionTools.getSupportiveDataStructureForAction(poActionWPM);
+                clsWordPresentationMesh oFocusImage;
+                if (suportiveDataStructures.size()==1) {
+                    oFocusImage = suportiveDataStructures.get(0);
+                } else {
+                    log.warn("Cannot focus, non or more than one image are sent to focus on. SupportiveDataStructures: {}", suportiveDataStructures);
+                    throw new Exception("Cannot focus, non or more than one image are sent to focus on");
+                }
+                
                 
                 //If there is a supportive data structure
                 try {

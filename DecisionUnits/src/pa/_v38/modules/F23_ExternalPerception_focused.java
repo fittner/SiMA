@@ -261,7 +261,12 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		clsWordPresentationMesh oAction = ShortTermMemoryFunctionality.extractPreviousPlannedActionFromSTM(this.moShortTimeMemory);
 		
 		//Extract the goal entity from the planning
-		ArrayList<clsPair<Double,clsWordPresentationMesh>> oFocusOnGoalList = FocusFunctionality.extractFilterEntitiesFromAction(moPerceptionalMesh_IN, oAction);
+		ArrayList<clsPair<Double, clsWordPresentationMesh>> oFocusOnGoalList = new ArrayList<clsPair<Double, clsWordPresentationMesh>>();
+        try {
+            oFocusOnGoalList = FocusFunctionality.extractFilterEntitiesFromAction(moPerceptionalMesh_IN, oAction);
+        } catch (Exception e) {
+            log.error("Cannot focus", e);
+        }
 		
 		//=== Filter the perception === //
 		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.

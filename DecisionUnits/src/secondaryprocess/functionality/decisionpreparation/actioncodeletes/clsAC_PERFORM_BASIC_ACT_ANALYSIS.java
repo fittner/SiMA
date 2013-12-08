@@ -6,8 +6,12 @@
  */
 package secondaryprocess.functionality.decisionpreparation.actioncodeletes;
 
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.datamanipulation.clsPhantasyTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -47,6 +51,32 @@ public class clsAC_PERFORM_BASIC_ACT_ANALYSIS extends clsActionCodelet {
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();
+		
+		//Send moment and expectation to the primary process
+		clsWordPresentationMesh oSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
+		clsWordPresentationMesh moment = clsActDataStructureTools.getMoment(oSupportiveDataStructure);
+		boolean setFlag=false;
+		if (moment.isNullObject()==false) {
+		    clsActionTools.setSupportiveDataStructureForAction(this.moAction, moment);
+		    setFlag=true;
+		}
+		
+		
+		clsWordPresentationMesh expectation = clsActDataStructureTools.getExpectation(oSupportiveDataStructure);
+		if (expectation.isNullObject()==false) {
+		    clsActionTools.setSupportiveDataStructureForAction(this.moAction, expectation);
+		    setFlag=true;
+		}
+		
+		
+		try {
+            if (setFlag==true) {
+                clsPhantasyTools.setPhantasyExecutePerceptionSourceEnhance(this.moAction);
+            }
+		   
+        } catch (Exception e) {
+            log.error("Cannot set phantasyflag", e);
+        }
 		
 	}
 

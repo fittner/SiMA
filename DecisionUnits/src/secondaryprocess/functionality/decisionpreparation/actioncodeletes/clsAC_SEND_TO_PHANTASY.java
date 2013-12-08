@@ -6,6 +6,8 @@
  */
 package secondaryprocess.functionality.decisionpreparation.actioncodeletes;
 
+import java.util.ArrayList;
+
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
@@ -49,10 +51,9 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
+	    
 		//Generate this action
 		this.generateAction(eAction.SEND_TO_PHANTASY);
-		
-
 		
 		//Set supportive datastructure from the goal
 		if (this.moGoal.getSupportiveDataStructure().isNullObject()==true) {
@@ -71,7 +72,7 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 			clsWordPresentationMesh oSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
 			
 			//Associate this structure with the action
-			clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
+			clsActionTools.setSupportiveDataStructureForAction(this.moAction, oSupportiveDataStructure);
 			
 		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
 			//Get the supportive data structure
@@ -83,14 +84,14 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 			
 			if (clsMeshTools.checkIfWPMImageHasSubImages(oIntention)) {
 				//Associate this structure with the action
-				clsActionTools.setSupportiveDataStructure(this.moAction, oIntention);
+				clsActionTools.setSupportiveDataStructureForAction(this.moAction, oIntention);
 			} else {
 				//Search the trigger structure, i. e. the substructure with the highest match
 				clsWordPresentationMesh oNearestMatch = clsActTools.getHighestPIMatchFromSubImages(oIntention);
 				
 				//Set the nearest match as the best try
 				if (oNearestMatch.isNullObject()==false) {
-					clsActionTools.setSupportiveDataStructure(this.moAction, oNearestMatch);
+					clsActionTools.setSupportiveDataStructureForAction(this.moAction, oNearestMatch);
 				}
 			}
 		} else {
@@ -98,15 +99,29 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 			clsWordPresentationMesh oSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
 			
 			//Associate this structure with the action
-			clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
+			clsActionTools.setSupportiveDataStructureForAction(this.moAction, oSupportiveDataStructure);
 		}
 		
 		//Set phantasyflag
 		try {
-			clsWordPresentationMesh oSupportDS = clsActionTools.getSupportiveDataStructure(this.moAction);
-			if (oSupportDS.isNullObject()==false) {
-				clsPhantasyTools.setPhantasyFlagTrue(oSupportDS);
-			}
+			//If it is an existing image, use only indirect activation ,otherwhise direct activation
+		    ArrayList<clsWordPresentationMesh> supportiveDataStructures = clsActionTools.getSupportiveDataStructureForAction(moAction);
+		    boolean isExistingImage = true;
+		    for (clsWordPresentationMesh wpm : supportiveDataStructures) {
+		        if (wpm.getDS_ID()==-1) {
+		            isExistingImage=false;
+		            break;
+		        }
+		    }
+		    
+		    if (isExistingImage==true) {
+		        clsPhantasyTools.setPhantasyExecutePhantasySourceIndirectActivation(this.moAction);
+		    } else {
+		        clsPhantasyTools.setPhantasyExecutePhantasySourceDirectActivation(this.moAction);
+		    }
+		    
+			
+			//}
 		} catch (Exception e) {
 			log.error("", e);
 		}

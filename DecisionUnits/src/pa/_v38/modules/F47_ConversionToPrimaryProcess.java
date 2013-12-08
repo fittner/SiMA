@@ -18,7 +18,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.PsychicSpreadingActivationMode;
 import pa._v38.tools.toText;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
@@ -45,9 +45,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 
 	
 	/** A list of primarty data structure containers, which form the input for phantsies in F46 */
-	private ArrayList<clsThingPresentationMesh> moReturnedTPMemory_OUT;
+	private ArrayList<clsThingPresentationMesh> returnedTPMemory_OUT;
+	private PsychicSpreadingActivationMode psychicSpreadingActivationMode;
 	/** The list of generated actions */
-	private clsWordPresentationMesh moActionCommands_IN;
+	private clsWordPresentationMesh actionCommand_IN;
 	/** The list of associated memories of the generated actions */
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
 	
@@ -82,9 +83,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
+		text += toText.listToTEXT("moReturnedTPMemory_OUT", returnedTPMemory_OUT);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
-		text += toText.valueToTEXT("moActionCommands_IN", moActionCommands_IN);
+		text += toText.valueToTEXT("moActionCommands_IN", actionCommand_IN);
 		
 		return text;
 	}		
@@ -110,12 +111,14 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@Override
 	protected void process_basic() {
-			
+		this.psychicSpreadingActivationMode = PsychicSpreadingActivationMode.NONE;
+	    
 		try {
-			moReturnedTPMemory_OUT = getMemoryFromSecondaryProcess(moActionCommands_IN);
-			log.debug("Phantasy image: " + moReturnedTPMemory_OUT.toString());
+			returnedTPMemory_OUT = getTPMImagesFromAction(actionCommand_IN);
+			this.psychicSpreadingActivationMode = getPhantasyCommandFromAction(actionCommand_IN);
+			log.debug("Phantasy image: " + returnedTPMemory_OUT.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("", e);
 		}
 		
 	      //=== Perform system tests ===//
@@ -123,8 +126,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
             log.warn("Systemtester is activated");
             try {
                 
-                if (moReturnedTPMemory_OUT.isEmpty()==false) {
-                    clsTester.getTester().exeTestAssociationAssignment(moReturnedTPMemory_OUT.get(0));
+                if (returnedTPMemory_OUT.isEmpty()==false) {
+                    clsTester.getTester().exeTestAssociationAssignment(returnedTPMemory_OUT.get(0));
                 }
                 
             } catch (Exception e) {
@@ -159,6 +162,11 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 		
 	}
 	
+	private PsychicSpreadingActivationMode getPhantasyCommandFromAction(clsWordPresentationMesh poActionCommands) {
+	    PsychicSpreadingActivationMode result = clsActionTools.getPhantasyFlag(poActionCommands);
+	    return result;
+	}
+	
 	/**
 	 * Get the first action, Check if the action has a certain phantasy flag, Check if the associated structure, Get the associated structure, Get the TPM part of that structure
 	 * 
@@ -171,35 +179,31 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * ${tags}
 	 * 
 	 */
-	private ArrayList<clsThingPresentationMesh> getMemoryFromSecondaryProcess(clsWordPresentationMesh poActionCommands) throws Exception {
+	private ArrayList<clsThingPresentationMesh> getTPMImagesFromAction(clsWordPresentationMesh poActionCommands) throws Exception {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
-		
-		if (poActionCommands!=null) {
-			//Get the first action
-			clsWordPresentationMesh oAction = poActionCommands;
+		if (poActionCommands!=null && poActionCommands.isNullObject()==false) {		
+			ArrayList<clsWordPresentationMesh> oSupportiveDataStructure = clsActionTools.getSupportiveDataStructureForAction(poActionCommands);
 			
-			clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructure(oAction);
-			
-			if (oSupportiveDataStructure.isNullObject()==false) {
-				//Check if phantasyflag exists
-				if (clsActionTools.getPhantasyFlag(oSupportiveDataStructure)==true) {
-					clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(oSupportiveDataStructure);
-					if (oTPM!=null) {
-						//At this stage, there should be no associationWP in the external associations of the TPM
-						try {
-							if (checkIfAssociationWPExists(oTPM)==true) {
-								throw new Exception("No AssociationWP are allowed here");
-							} else {
-								oTPM.setMoContentType(eContentType.PHI);
-								oRetVal.add(oTPM);
-							}
-						} catch (Exception e) {
-							throw new Exception(e.getMessage());
-						}
-					}			
-				}
-			}		
+			for (clsWordPresentationMesh wpm : oSupportiveDataStructure) {
+			    clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(wpm);
+                if (oTPM!=null && oTPM.isNullObject()==false) {
+                    //At this stage, there should be no associationWP in the external associations of the TPM
+                    try {
+                        if (checkIfAssociationWPExists(oTPM)==true) {
+                            throw new Exception("No AssociationWP are allowed here");
+                        } else {
+                            //oTPM.setMoContentType(eContentType.PHI);
+                            oRetVal.add(oTPM);
+                        }
+                    } catch (Exception e) {
+                        log.error("", e);
+                        throw new Exception(e.getMessage());
+                    }
+                } else {
+                    log.warn("This image should be used in spreading activation but does not have a primary process part {}", wpm);
+                }
+			}	
 		}
 			
 		return oRetVal;
@@ -230,76 +234,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	
 
 	
-	/**
-	 * Extracts the corresponding primary data structure from a secondary datastructure. It will always find a structure, if such an association  
-	 * structure is present, else null is returned
-	 *
-	 * @since 17.07.2011 09:17:43
-	 *
-	 * @param oSecondaryContainer
-	 * @return
-	 */
-	//TODO AW: Remove if not used
-	/*private clsPrimaryDataStructure getAssociatedPrimaryStructure (clsSecondaryDataStructureContainer oSecondaryContainer) {
-		clsPrimaryDataStructure oRetVal = null;
-		
-		for (clsAssociation oAss : oSecondaryContainer.getMoAssociatedDataStructures()) {
-			if ((oAss instanceof clsAssociationWordPresentation) && (oAss.getRootElement().getMoDSInstance_ID() == oSecondaryContainer.getMoDataStructure().getMoDSInstance_ID())) {
-				oRetVal = (clsPrimaryDataStructure) oAss.getLeafElement();
-				break;
-			}
-		}
-		
-		return oRetVal;
-		
-	}*/
-	
-	/**
-	 * If a found data element is activated, its container shall be found in a list. By instanceID, the container of a data structure 
-	 * is searched for in the list and the first match is returned.
-	 *
-	 * @since 17.07.2011 09:28:36
-	 *
-	 * @param poInput
-	 * @param poContainerList
-	 * @return
-	 */
-	//TODO AW: Remove if not used
-	/*private clsDataStructureContainer getActivatedContainerFromDS(clsDataStructurePA poInput, ArrayList<clsDataStructureContainer> poContainerList) {
-		clsDataStructureContainer oRetVal = null;
-		
-		if (poInput!=null) {
-			for (clsDataStructureContainer oContainer : poContainerList) {
-				//There can be only one container of the same instance in the list, therefore only the first match is taken
-				if ((oContainer instanceof clsPrimaryDataStructureContainer) && (oContainer.getMoDataStructure().getMoDSInstance_ID() == poInput.getMoDSInstance_ID())) {
-					oRetVal = (clsPrimaryDataStructureContainer)oContainer;
-					break;
-				}
-			}
-		}
-		
-		return oRetVal;
-	}*/
-	
-	//TODO AW: Remove if this function will not be used.
-	/*private ArrayList<clsSecondaryDataStructureContainer> getAssociatedWPMemories(clsSecondaryDataStructureContainer poInput, ArrayList<clsDataStructureContainer> poContainerList) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		if (poInput != null) {
-			//Search for associated structures, over secondary associations
-			for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
-				//FIXME AW: Which type of clsAssociationSecondary? What shall be the Attribute?
-				if ((oAss instanceof clsAssociationSecondary) && (poInput.getMoDataStructure().getMoDSInstance_ID() == oAss.getRootElement().getMoDSInstance_ID()) && 
-						(oAss.getLeafElement() instanceof clsSecondaryDataStructure)) {	
-					//For each found association, search the attached list for the word presentation
-					//Precondition: All associated WP-Containers are already loaded into the arraylist
-					oRetVal.add((clsSecondaryDataStructureContainer) getActivatedContainerFromDS(oAss, poContainerList));
-				}
-			}
-		}
-		
-		return oRetVal;
-	}*/
+
 	
 	
 	/* (non-Javadoc)
@@ -311,7 +246,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@Override
 	protected void send() {
-		send_I5_19(moReturnedTPMemory_OUT);
+		send_I5_19(returnedTPMemory_OUT, this.psychicSpreadingActivationMode);
 	}
 
 	/* (non-Javadoc)
@@ -324,7 +259,6 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	@Override
 	protected void setProcessType() {
 		mnProcessType = eProcessType.SECONDARY;
-
 	}
 
 	/* (non-Javadoc)
@@ -361,9 +295,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * @see pa.interfaces.send._v38.I7_7_send#send_I7_7(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_19(
-			ArrayList<clsThingPresentationMesh> poReturnedMemory) {
-		((I5_19_receive)moModuleList.get(46)).receive_I5_19(poReturnedMemory);
+	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode) {
+		((I5_19_receive)moModuleList.get(46)).receive_I5_19(poReturnedMemory, psychicSpreadingActivationMode);
 		putInterfaceData(I5_19_send.class, poReturnedMemory);
 	}
 
@@ -394,7 +327,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
     */
    @Override
    public void receive_I6_11(clsWordPresentationMesh poActionCommands) {
-       moActionCommands_IN = poActionCommands;
+       actionCommand_IN = poActionCommands;
        
    }   
 	

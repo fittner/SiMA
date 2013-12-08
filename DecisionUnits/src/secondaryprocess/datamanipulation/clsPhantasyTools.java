@@ -12,6 +12,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.PsychicSpreadingActivationMode;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -28,7 +29,7 @@ public class clsPhantasyTools {
 	
 	
 	/**
-	 * Sets a phantasy flag TRUE in both the WPM and TPM
+	 * Sets a phantasy flag for th option to use the phantasy as indirect activation image
 	 * 
 	 * (wendt)
 	 *
@@ -37,20 +38,50 @@ public class clsPhantasyTools {
 	 * @param poWPM
 	 * @throws Exception 
 	 */
-	public static void setPhantasyFlagTrue(clsWordPresentationMesh poWPM) throws Exception {
+	public static void setPhantasyExecutePhantasySourceIndirectActivation(clsWordPresentationMesh poWPM) throws Exception {
 		//Set WP
-		clsMeshTools.setUniquePredicateWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString(), false);
+		clsMeshTools.setUniquePredicateWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, PsychicSpreadingActivationMode.COMPLETE_INDIRECT_ACTIVATION.toString(), false);
 		
-		//Get TPM
-		clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(poWPM);
-		
-		if (oTPM == null) {
-			throw new NullPointerException("No TPM connected to this phantasy. The phantasy cannot be sent to the primary process");
-		}
-		
-		//Set TP
-		clsMeshTools.setUniqueTP(oTPM, eContentType.PHANTASYFLAG, "TRUE");
+//		//Get TPM
+//		clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(poWPM);
+//		
+//		if (oTPM == null) {
+//			throw new NullPointerException("No TPM connected to this phantasy. The phantasy cannot be sent to the primary process");
+//		}
+//		
+//		//Set TP
+//		clsMeshTools.setUniqueTP(oTPM, eContentType.PHANTASYFLAG, "TRUE");
 	}
+	
+	/**
+     * Sets a phantasy flag for th option to use the phantasy as direct activation image
+     * 
+     * (wendt)
+     *
+     * @since 16.07.2012 15:13:20
+     *
+     * @param poWPM
+     * @throws Exception 
+     */
+	public static void setPhantasyExecutePhantasySourceDirectActivation(clsWordPresentationMesh poWPM) throws Exception {
+        //Set WP
+        clsMeshTools.setUniquePredicateWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, PsychicSpreadingActivationMode.COMPLETE_DIRECT_ACTIVATION.toString(), false);
+	}
+	
+	   /**
+     * Sets a phantasy flag for th option to use the phantasy as direct activation image
+     * 
+     * (wendt)
+     *
+     * @since 16.07.2012 15:13:20
+     *
+     * @param poWPM
+     * @throws Exception 
+     */
+    public static void setPhantasyExecutePerceptionSourceEnhance(clsWordPresentationMesh poWPM) throws Exception {
+        //Set WP
+        clsMeshTools.setUniquePredicateWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, PsychicSpreadingActivationMode.ENHANCED_ACTIVATION.toString(), false);
+    }
 	
 	/**
 	 * Sets a phantasy flag FALSE in both the WPM and TPM

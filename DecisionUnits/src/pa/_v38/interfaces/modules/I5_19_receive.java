@@ -9,6 +9,7 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.PsychicSpreadingActivationMode;
 
 /**
  * Word presentations originating in F27 are reduced to thing presentations in F47. These are forwarded together with their attached quota of affects to F46.
@@ -18,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
  * 
  */
 public interface I5_19_receive {
-	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory);
+	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode);
 }

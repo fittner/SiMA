@@ -50,7 +50,7 @@ public class clsAC_FOCUS_ON extends clsActionCodelet {
 		clsWordPresentationMesh oSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
 		
 		//Associate this structure with the action
-		clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
+		clsActionTools.setSupportiveDataStructureForAction(this.moAction, oSupportiveDataStructure);
 		
 		
 		setActionAssociationInGoal();

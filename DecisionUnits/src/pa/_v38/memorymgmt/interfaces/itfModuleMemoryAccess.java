@@ -88,7 +88,7 @@ public interface itfModuleMemoryAccess {
 	 * @param poInput
 	 * @param prPsychicEnergyIn
 	 */
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn, int maxNumberOfDirectActivations);
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn, int maxNumberOfDirectActivations, boolean useDirectActivation, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages);
 	/**
 	 * Get the secondary process data structure from a primary process data structure
 	 * 
