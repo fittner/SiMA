@@ -13,6 +13,7 @@ import logger.clsLogger;
 import org.slf4j.Logger;
 
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsMeshTools;
@@ -43,7 +44,7 @@ public class MeshProcessor implements MeshProcessorInterface {
      * @param poNewMesh
      */
     @Override
-    public void complementMesh(clsWordPresentationMesh poSourceMesh, clsWordPresentationMesh poNewMesh) {
+    public void complementMesh(clsWordPresentationMesh poSourceMesh, clsWordPresentationMesh poNewMesh, boolean transferThingPresentationMeshes) {
        
         //Get all associations from both meshes
         ArrayList<clsAssociationSecondary> toMeshAssociations = clsMeshTools.getAllAssociationSecondaryInMesh(poSourceMesh, 10);
@@ -66,7 +67,7 @@ public class MeshProcessor implements MeshProcessorInterface {
         //Check if ElementA of the fromMesh in the toMesh exists
         //Check if ElementB of the fromMesh in the toMesh exists
         //If ID exists, do nothing
-        ArrayList<AssociationCorrespondence> evaluatedUnsortedAssocitations;
+        ArrayList<AssociationCorrespondenceSec> evaluatedUnsortedAssocitations;
         try {
             evaluatedUnsortedAssocitations = evaluateAllAssociations(fromMeshAssociations, toMeshAssociations);
             
@@ -76,6 +77,12 @@ public class MeshProcessor implements MeshProcessorInterface {
             processAssociations(evaluatedUnsortedAssocitations, poSourceMesh);
         } catch (Exception e) {
             log.error("", e);
+        }
+        
+        
+        //Transfer association WP
+        if (transferThingPresentationMeshes==true) {
+            transferAssociationWP(poSourceMesh, poNewMesh);
         }
         
         
@@ -93,6 +100,23 @@ public class MeshProcessor implements MeshProcessorInterface {
         }
            
        }
+    }
+    
+    private void transferAssociationWP(clsWordPresentationMesh poSourceMesh, clsWordPresentationMesh poNewMesh) {
+        //Get all WPM from both meshes
+        ArrayList<clsWordPresentationMesh> sourceMeshList = clsMeshTools.getAllWPMImages(poSourceMesh, 10);
+        ArrayList<clsWordPresentationMesh> newMeshList = clsMeshTools.getAllWPMImages(poNewMesh, 10);
+        
+        for (clsWordPresentationMesh newWPM : newMeshList) {
+            clsAssociationWordPresentation assWP = newWPM.getAssociationWPOfWPM();
+            if (assWP!=null) {
+                AssociationCorrespondenceAssWP assWPCorr = new AssociationCorrespondenceAssWP(assWP);
+                assWPCorr.transferElements(sourceMeshList);
+                
+            }
+        }
+        
+        
     }
     
     private void executeSetupTests(clsWordPresentationMesh poMesh) throws Exception {
@@ -129,11 +153,11 @@ public class MeshProcessor implements MeshProcessorInterface {
         return result;
     }
     
-    private void processAssociations(ArrayList<AssociationCorrespondence> evaluatedUnsortedAssocitations, clsWordPresentationMesh poSourceMesh) {
+    private void processAssociations(ArrayList<AssociationCorrespondenceSec> evaluatedUnsortedAssocitations, clsWordPresentationMesh poSourceMesh) {
         //Get all existsing datastructures
         ArrayList<clsSecondaryDataStructure> toMeshSecondaryDataStructure = clsMeshTools.getAllSecondaryDataStructureObjects(poSourceMesh, 10);
         
-        for (AssociationCorrespondence assCorr : evaluatedUnsortedAssocitations) {
+        for (AssociationCorrespondenceSec assCorr : evaluatedUnsortedAssocitations) {
             assCorr.transferElements(toMeshSecondaryDataStructure);
         }
         
@@ -151,12 +175,12 @@ public class MeshProcessor implements MeshProcessorInterface {
      * @return
      * @throws Exception
      */
-    private ArrayList<AssociationCorrespondence> evaluateAllAssociations(ArrayList<clsAssociationSecondary> fromAssociations, ArrayList<clsAssociationSecondary> toAssociations) throws Exception {
-        ArrayList<AssociationCorrespondence> result = new ArrayList<AssociationCorrespondence>();
+    private ArrayList<AssociationCorrespondenceSec> evaluateAllAssociations(ArrayList<clsAssociationSecondary> fromAssociations, ArrayList<clsAssociationSecondary> toAssociations) throws Exception {
+        ArrayList<AssociationCorrespondenceSec> result = new ArrayList<AssociationCorrespondenceSec>();
         
         for (clsAssociationSecondary fromAss : fromAssociations) {
             try {
-                AssociationCorrespondence assCorrespondence = evaluateAssociation(fromAss, toAssociations);
+                AssociationCorrespondenceSec assCorrespondence = evaluateAssociation(fromAss, toAssociations);
                 if (assCorrespondence!=null) {
                     result.add(assCorrespondence);
                 }
@@ -182,15 +206,15 @@ public class MeshProcessor implements MeshProcessorInterface {
      * @return
      * @throws Exception
      */
-    private AssociationCorrespondence evaluateAssociation(clsAssociationSecondary ass, ArrayList<clsAssociationSecondary> compareAssociation) throws Exception {
-        AssociationCorrespondence result = null;
+    private AssociationCorrespondenceSec evaluateAssociation(clsAssociationSecondary ass, ArrayList<clsAssociationSecondary> compareAssociation) throws Exception {
+        AssociationCorrespondenceSec result = null;
         
         clsAssociationSecondary foundAss = getEquivalentAssociation(ass, compareAssociation);
         
         if (foundAss==null) {
             //Ass not found and therefore something should be done with it
             //Create evaluation
-            AssociationCorrespondence newAssCorrespondace = new AssociationCorrespondence(ass);
+            AssociationCorrespondenceSec newAssCorrespondace = new AssociationCorrespondenceSec(ass);
             result = newAssCorrespondace;
             
         }

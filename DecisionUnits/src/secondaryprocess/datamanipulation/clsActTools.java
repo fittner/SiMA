@@ -61,7 +61,7 @@ public class clsActTools {
 			    
 			    MeshProcessor x = new MeshProcessor();
 			    x.setSafeControlMode(false);
-			    x.complementMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI);
+			    x.complementMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI, true);
 			} else {
 				//Create prediction
 				clsWordPresentationMesh oPrediction = clsActDataStructureTools.createActDataStructure(oSuperStructure);

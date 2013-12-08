@@ -20,7 +20,7 @@ import secondaryprocess.datamanipulation.clsMeshTools;
  * 08.10.2013, 09:45:20
  * 
  */
-public class AssociationCorrespondence {
+public class AssociationCorrespondenceSec {
 
     private final clsAssociationSecondary fromAss;
     private final clsSecondaryDataStructure fromRootElement;
@@ -39,7 +39,7 @@ public class AssociationCorrespondence {
      *
      * @param fromAss
      */
-    public AssociationCorrespondence(clsAssociationSecondary fromAss) {
+    public AssociationCorrespondenceSec(clsAssociationSecondary fromAss) {
         this.fromAss = fromAss;
         this.fromRootElement = (clsSecondaryDataStructure) this.fromAss.getRootElement();
         this.fromLeafElement = (clsSecondaryDataStructure) this.fromAss.getLeafElement();

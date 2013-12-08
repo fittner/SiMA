@@ -272,7 +272,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		if (poInput instanceof clsWordPresentationMesh) {
 			clsDebugTools.correctErronerusAssociations((clsWordPresentationMesh) oRetVal);
 			MeshProcessor merger = new MeshProcessor();
-			merger.complementMesh((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
+			merger.complementMesh((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal, true);
 			//clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
 			
 		} else if (poInput instanceof clsThingPresentationMesh) {

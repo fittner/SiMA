@@ -17,6 +17,6 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  */
 public interface MeshProcessorInterface {
     public void setSafeControlMode(boolean safeMode);
-    public void complementMesh(clsWordPresentationMesh toMesh, clsWordPresentationMesh fromMesh);
+    public void complementMesh(clsWordPresentationMesh toMesh, clsWordPresentationMesh fromMesh, boolean transferThingPresentationMeshes);
     
 }

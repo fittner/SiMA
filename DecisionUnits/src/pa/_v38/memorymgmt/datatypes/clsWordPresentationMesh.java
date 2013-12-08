@@ -521,6 +521,30 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		this.moExternalAssociatedContent.add(poAssociatedDataStructure);
 	}
 	
+    /**
+   * Get the primary component of a WPM
+   * 
+   * (wendt)
+   *
+   * @since 22.05.2012 22:01:39
+   *
+   * @param poInput
+   * @return
+   */
+  public clsAssociationWordPresentation getAssociationWPOfWPM() {
+      clsAssociationWordPresentation oRetVal = null;
+      
+      for (clsAssociation oAss : this.getExternalAssociatedContent()) {
+          if (oAss instanceof clsAssociationWordPresentation) {
+              //Add the TPM to the output
+              oRetVal = (clsAssociationWordPresentation) oAss;
+              break;
+          }
+      }
+      
+      return oRetVal;
+  }
+	
 	   /**
      * Create a new association secondary between 2 existing objects and add the association to the objects association lists (depending on add state)
      * 
