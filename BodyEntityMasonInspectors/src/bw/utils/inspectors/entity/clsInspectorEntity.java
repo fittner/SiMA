@@ -185,8 +185,11 @@ public class clsInspectorEntity extends TabbedInspector implements ActionListene
 	public void updateInspector() {
 		Formatter oDoubleFormatter = new Formatter();
 		moPropPosX.setValue(oDoubleFormatter.format("%.2f",	moEntity.getPosition().x).toString());
+		oDoubleFormatter.close();
+		
 		oDoubleFormatter = new Formatter();
 		moPropPosY.setValue(oDoubleFormatter.format("%.2f",	moEntity.getPosition().y).toString());
+		oDoubleFormatter.close();
 
 		for (Iterator<clsInspectorFrame> it = moEntityWindows.iterator(); it.hasNext();) 
 		{
@@ -261,57 +264,44 @@ public class clsInspectorEntity extends TabbedInspector implements ActionListene
 				
 			} catch (java.lang.ClassCastException ex) {
 				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
-
+			} catch (Exception excDUInspector) {
+				System.err.println("Error creating inspectors for decission units:\n");
+				System.err.println(clsExceptionUtils.getCustomStackTrace(excDUInspector));
 			}
 		//add the action for the overview Inspector	
 		} else if (source == moBtnOverviewInspectors) {
 			// define the inspector-content for each entity in the responsible
 			// InspectorMapping-class
 			try {
-				
 				if( moEntity instanceof clsARSIN) {
 					
 					TabbedInspector oMasonInspector = clsInspectorMappingEntity
 					.getInspectorARSINOverview(moOriginalInspector, moWrapper, moGuiState, moEntity);
 					
 					moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - ARSin Overview"));
-		    	}
-		    	else{
+		    	} else {
 		    		System.out.println("Error: Overview Inspector only works on Entity types of ARSin!!!");
 		    	}
-
 			} catch (java.lang.ClassCastException ex) {
 				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
-
-			}
-
-		
-		
+			}		
 			//add the action for the debugAction Window	
 		} else if (source == moBtnDebugActions) {
 			// define the inspector-content for each entity in the responsible
 			// InspectorMapping-class
 			try {
-				
 				if( moEntity instanceof clsARSIN) {
 					
 					TabbedInspector oMasonInspector = clsInspectorMappingEntity
 					.getInspectorARSINDebugActions(moOriginalInspector, moWrapper, moGuiState, moEntity);
 					
 					moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - ARSin Debug Actions"));
-		    	}
-		    	else{
+		    	} else {
 		    		System.out.println("Error: DebugActionWindow only works on Entity types of ARSin!!!");
 		    	}
-	
 			} catch (java.lang.ClassCastException ex) {
 				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
-	
 			}
-	
-
+		}
 	}
-		
-	}
-
 }

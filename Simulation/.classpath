@@ -5,7 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/AlternativeDecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Entities"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BodyEntityMasonInspectors"/>
