@@ -32,8 +32,8 @@ public class clsActPreparationTools {
 	private static final double mrMomentConfidenceThreshold = 0.25;
 	private static final double mrDefaultConfidenceIncreasement = 0.5;
 	private static final double mrActConfidenceThreshold = 0.5;
-	private static final int mnMovementTimeoutStartValue = 15;
-	private static final int mnMovementTimeoutEstalishValue = 5;
+	private static final int mnMovementTimeoutStartValue = 30;
+	private static final int mnMovementTimeoutEstalishValue = 20;
 	
 	//private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
 	private static Logger log = Logger.getLogger("Acts");
