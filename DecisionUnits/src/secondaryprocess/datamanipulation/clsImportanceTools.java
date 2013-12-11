@@ -543,13 +543,13 @@ public class clsImportanceTools {
 		} else if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
 			nResult+= -0.10;
 		} else if (poCondition.equals(eCondition.IS_CONTEXT_SOURCE)) {
-            nResult+=0.2;
+            nResult+=0;
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_GOAL)) {
-			nResult+=0.2;
+			nResult+=0.8;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_PLANGOAL)) {
-            nResult+=0.1;
+            nResult+=0.25;
 		} else if (poCondition.equals(eCondition.ACT_MATCH_TOO_LOW)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.GOAL_COMPLETED)) {
