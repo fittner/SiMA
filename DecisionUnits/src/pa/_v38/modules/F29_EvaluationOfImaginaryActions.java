@@ -294,7 +294,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         //Get System time
         Calendar oCal = Calendar.getInstance();
         SimpleDateFormat oDateFormat = new SimpleDateFormat("HH:mm:ss");
-        moTEMPWriteLastActions.add(oDateFormat.format(oCal.getTime()) + "> " + "Goal: " + planGoal.getContent().toString() + "; Action: " + oAction);
+        moTEMPWriteLastActions.add(oDateFormat.format(oCal.getTime()) + "> " + "Goal: " + planGoal.getContent().toString() + ":" + planGoal.getSupportiveDataStructure().getContent() + "; Action: " + oAction);
     }
     
     /**
