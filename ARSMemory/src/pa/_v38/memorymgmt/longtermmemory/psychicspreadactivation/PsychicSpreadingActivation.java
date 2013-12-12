@@ -231,8 +231,6 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 			
 			
 			
-//			//TODO (Kollmann): HACK This is a simplified version of the spread activation that works with a hardcoded number of elements - this is for testing only 
-//			if (i < 30) {
 			//Check if P >=  accumulated sum
 			if ((oNode.getP() >= rAccumulatedSum || (oNodeTable.size()==1 && oNode.getConsumptionValue()<=prPsychicEnergyIn)) && i < pnMaximumDirectActivationValue) {
 				log.trace(oNode.toString() + " activated");
