@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eEmotionType;
@@ -42,8 +42,8 @@ public class GoalGenerationTools {
   * @return
   * @throws Exception 
   */
-    public static ArrayList<clsWordPresentationMeshSelectableGoal> generateSelectableGoalsFromFeelingsWPM(clsWordPresentationMesh poIntention, clsWordPresentationMesh poSupportiveDataStructureAsAct) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+    public static ArrayList<clsWordPresentationMeshPossibleGoal> generateSelectableGoalsFromFeelingsWPM(clsWordPresentationMesh poIntention, clsWordPresentationMesh poSupportiveDataStructureAsAct) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> oRetVal = new ArrayList<clsWordPresentationMeshPossibleGoal>();
      
         //Get feelings from WPM
         ArrayList<clsWordPresentationMeshFeeling> oFeelingsList = clsGoalManipulationTools.getFeelingsFromImage(poIntention);
@@ -60,7 +60,7 @@ public class GoalGenerationTools {
          
             clsWordPresentationMesh oGoalObject = poIntention;
          
-            clsWordPresentationMeshSelectableGoal oGoal = clsGoalManipulationTools.createSelectableGoal(oFeelingcontent, oGoalType, oImportance, oGoalObject);
+            clsWordPresentationMeshPossibleGoal oGoal = clsGoalManipulationTools.createSelectableGoal(oFeelingcontent, oGoalType, oImportance, oGoalObject);
          
             //Set supportive datastructure
             oGoal.setSupportiveDataStructure(poSupportiveDataStructureAsAct);
@@ -83,10 +83,10 @@ public class GoalGenerationTools {
      * @param currentFeelings
      * @param activateEmotionalInfluence
      */
-    public static void TEMP_METHOD_generatePanicGoal(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings, boolean activateEmotionalInfluence) {
+    public static void TEMP_METHOD_generatePanicGoal(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings, boolean activateEmotionalInfluence) {
         //Process emotions
         //TODO SM: Remove this function. Panic goals are generated from an act (BODO-act)
-        clsWordPresentationMeshSelectableGoal oPanicGoal = GoalGenerationTools.generatePanicGoalFromFeeling(currentFeelings);
+        clsWordPresentationMeshPossibleGoal oPanicGoal = GoalGenerationTools.generatePanicGoalFromFeeling(currentFeelings);
         //TODO SM: Remove Panicgoal and replace with real goal generation
         if (oPanicGoal.isNullObject()==false && activateEmotionalInfluence==true) {
             reachableGoalList.add(oPanicGoal);
@@ -104,8 +104,8 @@ public class GoalGenerationTools {
      * @param poPotentialGoalList
      * @return
      */
-    private static clsWordPresentationMeshSelectableGoal generatePanicGoalFromFeeling(ArrayList<clsWordPresentationMeshFeeling> poFeelingList) {
-        clsWordPresentationMeshSelectableGoal oResult = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+    private static clsWordPresentationMeshPossibleGoal generatePanicGoalFromFeeling(ArrayList<clsWordPresentationMeshFeeling> poFeelingList) {
+        clsWordPresentationMeshPossibleGoal oResult = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
      
         if (poFeelingList.isEmpty()==false) {
             if (eEmotionType.valueOf(poFeelingList.get(0).getContent()).equals(eEmotionType.ANXIETY) ||
@@ -128,7 +128,7 @@ public class GoalGenerationTools {
      * @param oAimOfDrive
      * @return
      */
-    public static clsWordPresentationMeshSelectableGoal createDriveSourceGoal(clsWordPresentationMeshAimOfDrive oAimOfDrive) {
+    public static clsWordPresentationMeshPossibleGoal createDriveSourceGoal(clsWordPresentationMeshAimOfDrive oAimOfDrive) {
         //Get the potential pleasure of the drivemesh
         clsWordPresentationMesh oGoalObject = oAimOfDrive.getGoalObject();
         //Get potential satisfaction of goalobject
@@ -137,7 +137,7 @@ public class GoalGenerationTools {
         
         
         
-        clsWordPresentationMeshSelectableGoal generatedSelectableGoal = clsGoalManipulationTools.createSelectableGoal(oAimOfDrive.getGoalName(), eGoalType.DRIVESOURCE, potentialImportance, oAimOfDrive.getGoalObject());
+        clsWordPresentationMeshPossibleGoal generatedSelectableGoal = clsGoalManipulationTools.createSelectableGoal(oAimOfDrive.getGoalName(), eGoalType.DRIVESOURCE, potentialImportance, oAimOfDrive.getGoalObject());
         
         //Apply the same as the other goals
         //applyAimOfDriveOnGoal(generatedSelectableGoal, oAimOfDrive);

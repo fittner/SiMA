@@ -23,8 +23,8 @@ import pa._v38.memorymgmt.enums.ePredicate;
  * 30.09.2013, 11:26:37
  * 
  */
-public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMeshGoal {
-    private final static clsWordPresentationMeshSelectableGoal moNullObject = new clsWordPresentationMeshSelectableGoal(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.NULLOBJECT), new ArrayList<clsAssociation>(), eContentType.NULLOBJECT.toString(), null, "", eGoalType.NULLOBJECT, 0);
+public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMeshGoal {
+    private final static clsWordPresentationMeshPossibleGoal moNullObject = new clsWordPresentationMeshPossibleGoal(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.NULLOBJECT), new ArrayList<clsAssociation>(), eContentType.NULLOBJECT.toString(), null, "", eGoalType.NULLOBJECT, 0);
 
 
     /**
@@ -40,7 +40,7 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
      * @param poName
      * @param oGoalType
      */
-    public clsWordPresentationMeshSelectableGoal(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
+    public clsWordPresentationMeshPossibleGoal(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
             ArrayList<clsAssociation> poAssociatedStructures, Object poContent, clsWordPresentationMesh poGoalObject, String poName,
             eGoalType oGoalType, double driveDemandImportance) {
         super(poDataStructureIdentifier, poAssociatedStructures, poContent, poGoalObject, poName, oGoalType);
@@ -53,7 +53,7 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
      * 
      * @return the moNullObjectWPM
      */
-    public static clsWordPresentationMeshSelectableGoal getNullObject() {
+    public static clsWordPresentationMeshPossibleGoal getNullObject() {
         return moNullObject;
     }
 
@@ -331,7 +331,7 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
      * @param ds
      * @return
      */
-    public boolean isEquivalentDataStructure(clsWordPresentationMeshSelectableGoal ds) {
+    public boolean isEquivalentDataStructure(clsWordPresentationMeshPossibleGoal ds) {
         boolean isEqual = false;
         
         if (ds.getClass().getName().equals(this.getClass().getName()) &&

@@ -20,7 +20,7 @@ import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -56,9 +56,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	/** Perception IN */
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
 	
-	private ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_IN;
+	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_IN;
 	
-	private ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_OUT;
+	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_OUT;
 	
 	/** A threshold for images, which are only set moment if the match factor is higher or equal this value */
 	private double mrMomentActivationThreshold;
@@ -194,7 +194,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	@Override
 	public void receive_I6_6(clsWordPresentationMesh poPerception, 
-			ArrayList<clsWordPresentationMeshSelectableGoal> poReachableGoalList, 
+			ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, 
 			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
 		
 		moPerceptionalMesh_IN = poPerception;
@@ -366,7 +366,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_7(ArrayList<clsWordPresentationMeshSelectableGoal> poReachableGoalList)
+	public void send_I6_7(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList)
 			{
 		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poReachableGoalList);
 		

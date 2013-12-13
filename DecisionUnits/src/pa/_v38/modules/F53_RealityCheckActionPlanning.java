@@ -24,7 +24,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -49,7 +49,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	private clsWordPresentationMesh moWording_IN;
 	
-	private ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoals;
+	private ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoals;
 	
 	/** (wendt) Goal memory; @since 24.05.2012 15:25:09 */
     private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
@@ -140,7 +140,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	    GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(this.selectableGoals, oAimOfDrives);
 	    
 	    //Debug output - sort the list of goals by attractiveness and log it
-	    ArrayList <clsWordPresentationMeshSelectableGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(this.selectableGoals, this.selectableGoals.size());
+	    ArrayList <clsWordPresentationMeshPossibleGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(this.selectableGoals, this.selectableGoals.size());
 	    log.info("Sorted Goals:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
 	}
 
@@ -188,7 +188,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoals) {
+	public void receive_I6_9(ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoals) {
 	    selectableGoals = poSelectableGoals;
 	}
 
@@ -200,7 +200,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 * @see pa.interfaces.send.I7_6_send#send_I7_6(int)
 	 */
 	@Override
-	public void send_I6_10(ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoals) {
+	public void send_I6_10(ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoals) {
 		((I6_10_receive)moModuleList.get(29)).receive_I6_10(poSelectableGoals);
 		
 		putInterfaceData(I6_10_send.class, poSelectableGoals);

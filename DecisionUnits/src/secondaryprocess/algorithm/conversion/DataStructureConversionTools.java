@@ -26,7 +26,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
@@ -167,7 +167,7 @@ public class DataStructureConversionTools {
                     if (contentType.equals(eContentType.PI)) {
                         goalType = eGoalType.PERCEPTIONALDRIVE;
                     }
-                    clsWordPresentationMeshSelectableGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType); //clsGoalTools.convertDriveMeshToWP(oDM);
+                    clsWordPresentationMeshPossibleGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType); //clsGoalTools.convertDriveMeshToWP(oDM);
 
                     // Create an association between the both structures and add
                     // the association to the external associationlist of the

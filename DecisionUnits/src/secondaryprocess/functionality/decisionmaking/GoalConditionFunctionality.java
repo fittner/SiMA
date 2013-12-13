@@ -8,7 +8,7 @@ package secondaryprocess.functionality.decisionmaking;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import secondaryprocess.datamanipulation.SortAndFilterTools;
 
@@ -30,8 +30,8 @@ public class GoalConditionFunctionality {
      *
      * @param allGoals
      */
-    public static void setCommonConditionsToGoals(ArrayList<clsWordPresentationMeshSelectableGoal> allGoals) {
-        for (clsWordPresentationMeshSelectableGoal goal : allGoals) {
+    public static void setCommonConditionsToGoals(ArrayList<clsWordPresentationMeshPossibleGoal> allGoals) {
+        for (clsWordPresentationMeshPossibleGoal goal : allGoals) {
             setCommonConditionsToGoals(goal, allGoals);
         }
     }
@@ -45,7 +45,7 @@ public class GoalConditionFunctionality {
      * @param goal
      * @param allGoals
      */
-    public static void setCommonConditionsToGoals(clsWordPresentationMeshSelectableGoal goal, ArrayList<clsWordPresentationMeshSelectableGoal> allGoals) {
+    public static void setCommonConditionsToGoals(clsWordPresentationMeshPossibleGoal goal, ArrayList<clsWordPresentationMeshPossibleGoal> allGoals) {
         //Get conditions
         ArrayList<eCondition> conditions = goal.getCondition();
         
@@ -60,10 +60,10 @@ public class GoalConditionFunctionality {
         }
         
         //Get all goals with same supportive datastructures
-        ArrayList<clsWordPresentationMeshSelectableGoal> sameGoals = SortAndFilterTools.getAllGoalsWithSameSupportiveDataStructure(goal, allGoals);
+        ArrayList<clsWordPresentationMeshPossibleGoal> sameGoals = SortAndFilterTools.getAllGoalsWithSameSupportiveDataStructure(goal, allGoals);
         
         for (eCondition check : checkCondition) {
-            for (clsWordPresentationMeshSelectableGoal sameGoal: sameGoals) {
+            for (clsWordPresentationMeshPossibleGoal sameGoal: sameGoals) {
                 sameGoal.setCondition(check);
             }
         }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * The results of the first reality check performed by module F51 is forwarded to F26.
@@ -20,5 +20,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
  * 
  */
 public interface I6_7_receive {
-	public void receive_I6_7(ArrayList<clsWordPresentationMeshSelectableGoal> poReachableGoalList);
+	public void receive_I6_7(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList);
 }

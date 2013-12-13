@@ -13,7 +13,7 @@ import logger.clsLogger;
 import org.slf4j.Logger;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
 import secondaryprocess.algorithm.planning.ActionPlanAlgorithm;
@@ -31,7 +31,7 @@ public class PlanningFunctionality {
     
     private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
     
-    public static void generatePlanForGoals(DecisionEngine decisionEngine, ArrayList<clsWordPresentationMeshSelectableGoal> goalList) {        
+    public static void generatePlanForGoals(DecisionEngine decisionEngine, ArrayList<clsWordPresentationMeshPossibleGoal> goalList) {        
         // --- SET NEW PRECONDITIONS FOR ACTIONS --- //
         decisionEngine.generateDecision(goalList);
         log.info("Generated decisions: {}", goalList);
@@ -72,7 +72,7 @@ public class PlanningFunctionality {
      * @return
      * @throws Exception
      */
-    public static clsWordPresentationMesh getActionCommandFromPlanGoal(clsWordPresentationMeshSelectableGoal planGoal) throws Exception {
+    public static clsWordPresentationMesh getActionCommandFromPlanGoal(clsWordPresentationMeshPossibleGoal planGoal) throws Exception {
         try {
             if (planGoal.isNullObject()==true) {
                 throw new Exception("planGoal is Nullobject. The agent always have to do something");

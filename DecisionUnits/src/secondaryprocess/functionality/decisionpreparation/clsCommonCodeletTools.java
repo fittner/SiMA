@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 
 /**
@@ -45,12 +45,12 @@ public class clsCommonCodeletTools {
 	 * @param currentGoal
 	 * @return
 	 */
-	public static clsWordPresentationMeshSelectableGoal getPreviousCorrespondingGoalFromShortTermMemory(clsShortTermMemory<clsWordPresentationMeshMentalSituation> poMem, clsWordPresentationMeshSelectableGoal currentGoal) {
-	    ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoalList = poMem.findPreviousSingleMemory().getSelectableGoals();
+	public static clsWordPresentationMeshPossibleGoal getPreviousCorrespondingGoalFromShortTermMemory(clsShortTermMemory<clsWordPresentationMeshMentalSituation> poMem, clsWordPresentationMeshPossibleGoal currentGoal) {
+	    ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoalList = poMem.findPreviousSingleMemory().getSelectableGoals();
 	    
-	    clsWordPresentationMeshSelectableGoal result = clsWordPresentationMeshSelectableGoal.getNullObject();
+	    clsWordPresentationMeshPossibleGoal result = clsWordPresentationMeshPossibleGoal.getNullObject();
 	    
-	    for (clsWordPresentationMeshSelectableGoal goal : selectableGoalList) {
+	    for (clsWordPresentationMeshPossibleGoal goal : selectableGoalList) {
 	        if(goal.isEquivalentDataStructure(currentGoal)) {
 	            result = goal;
 	        }

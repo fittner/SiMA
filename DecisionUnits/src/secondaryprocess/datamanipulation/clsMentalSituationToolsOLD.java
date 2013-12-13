@@ -15,7 +15,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -84,14 +84,14 @@ public class clsMentalSituationToolsOLD {
 		
 	}
 	
-	public static clsWordPresentationMeshSelectableGoal getGoal(clsWordPresentationMesh poMentalSituation) {
-	    clsWordPresentationMeshSelectableGoal oRetVal = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+	public static clsWordPresentationMeshPossibleGoal getGoal(clsWordPresentationMesh poMentalSituation) {
+	    clsWordPresentationMeshPossibleGoal oRetVal = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
 		
 		ArrayList<clsSecondaryDataStructure> oFoundStructures = poMentalSituation.findDataStructure(ePredicate.HASGOAL, true);
 		
 		if (oFoundStructures.isEmpty()==false) {
 			//The drive object is always a WPM
-			oRetVal = (clsWordPresentationMeshSelectableGoal) oFoundStructures.get(0);
+			oRetVal = (clsWordPresentationMeshPossibleGoal) oFoundStructures.get(0);
 		}
 		
 		return oRetVal;

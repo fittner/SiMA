@@ -9,7 +9,7 @@ package secondaryprocess.functionality.decisionpreparation.GoalInitiationProcess
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -19,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
  * 
  */
 public interface GoalInitiatorInterface {
-    public ArrayList<clsWordPresentationMeshSelectableGoal> initiateIncomingGoals(ArrayList<clsWordPresentationMeshSelectableGoal> newGoals, clsWordPresentationMeshMentalSituation previousGoal);
+    public ArrayList<clsWordPresentationMeshPossibleGoal> initiateIncomingGoals(ArrayList<clsWordPresentationMeshPossibleGoal> newGoals, clsWordPresentationMeshMentalSituation previousGoal);
 }

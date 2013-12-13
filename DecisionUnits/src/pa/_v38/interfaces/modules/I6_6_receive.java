@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * The list - the package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importance - is forwarded by the interface I6.6 to F51.
@@ -21,5 +21,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
  * 
  */
 public interface I6_6_receive {
-	public void receive_I6_6(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMeshSelectableGoal> poReachableGoalList, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
+	public void receive_I6_6(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
 }

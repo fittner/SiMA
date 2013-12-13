@@ -9,7 +9,7 @@ package secondaryprocess.algorithm.feelings;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
 
@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.enums.eGoalType;
  */
 public class FeelingAlgorithmTools {
     
-    private static double temporaryAffectComputation(clsWordPresentationMeshSelectableGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
+    private static double temporaryAffectComputation(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
         double rResult = 0;
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
         
@@ -91,7 +91,7 @@ public class FeelingAlgorithmTools {
      *
      * @param poGoal 
      */
-    public static double getConsequencesOfFeelingsOnGoalAsImportance(clsWordPresentationMeshSelectableGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
+    public static double getConsequencesOfFeelingsOnGoalAsImportance(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         return temporaryAffectComputation(poGoal,  poFeltFeelingList);
         /*
         double rResult = 0;

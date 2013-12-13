@@ -67,7 +67,7 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      *
      * @param poDataStructure
      */
-    public void setPlanGoal(clsWordPresentationMeshSelectableGoal poDataStructure) {
+    public void setPlanGoal(clsWordPresentationMeshPossibleGoal poDataStructure) {
         this.setUniqueProperty(poDataStructure, ePredicate.HASPLANGOAL, true);       
     }
     
@@ -79,13 +79,13 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      *
      * @return
      */
-    public clsWordPresentationMeshSelectableGoal getPlanGoal() {
+    public clsWordPresentationMeshPossibleGoal getPlanGoal() {
         clsWordPresentationMesh goal = this.getUniquePropertyWPM(ePredicate.HASPLANGOAL);
         
-        clsWordPresentationMeshSelectableGoal result = clsWordPresentationMeshSelectableGoal.getNullObject();
+        clsWordPresentationMeshPossibleGoal result = clsWordPresentationMeshPossibleGoal.getNullObject();
         
-        if (goal instanceof clsWordPresentationMeshSelectableGoal) {
-            result=(clsWordPresentationMeshSelectableGoal) goal;
+        if (goal instanceof clsWordPresentationMeshPossibleGoal) {
+            result=(clsWordPresentationMeshPossibleGoal) goal;
         }
         
         return result;
@@ -99,7 +99,7 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      *
      * @param poDataStructure
      */
-    public void addSelectableGoal(clsWordPresentationMeshSelectableGoal poDataStructure) {
+    public void addSelectableGoal(clsWordPresentationMeshPossibleGoal poDataStructure) {
         this.addReplaceNonUniqueProperty(poDataStructure, ePredicate.HASSELECTABLEGOAL, true);       
     }
     
@@ -110,13 +110,13 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      * @since 03.10.2013 15:26:40
      *
      */
-    public ArrayList<clsWordPresentationMeshSelectableGoal> getSelectableGoals() {
+    public ArrayList<clsWordPresentationMeshPossibleGoal> getSelectableGoals() {
         ArrayList<clsWordPresentationMesh> wordPresentationMeshList = this.getNonUniquePropertyWPM(ePredicate.HASSELECTABLEGOAL);
-        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
         
         for (clsWordPresentationMesh wpm : wordPresentationMeshList) {
-            if (wpm instanceof clsWordPresentationMeshSelectableGoal) {
-                result.add((clsWordPresentationMeshSelectableGoal) wpm);
+            if (wpm instanceof clsWordPresentationMeshPossibleGoal) {
+                result.add((clsWordPresentationMeshPossibleGoal) wpm);
             } else {
                 throw new ClassCastException("This structure is no valid class for this association " + wpm);
             }
@@ -149,8 +149,8 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
         ArrayList<clsWordPresentationMesh> result = new ArrayList<clsWordPresentationMesh>();
         
         for (clsWordPresentationMesh wpm : wordPresentationMeshList) {
-            if (wpm instanceof clsWordPresentationMeshSelectableGoal) {
-                result.add((clsWordPresentationMeshSelectableGoal) wpm);
+            if (wpm instanceof clsWordPresentationMeshPossibleGoal) {
+                result.add((clsWordPresentationMeshPossibleGoal) wpm);
             } else {
                 throw new ClassCastException("This structure is no valid class for this association " + wpm);
             }
@@ -167,7 +167,7 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      *
      * @param poDataStructure
      */
-    public void addExcludedSelectableGoal(clsWordPresentationMeshSelectableGoal poDataStructure) {
+    public void addExcludedSelectableGoal(clsWordPresentationMeshPossibleGoal poDataStructure) {
         this.addReplaceNonUniqueProperty(poDataStructure, ePredicate.HASEXCLUDEDGOAL, true);       
     }
     
@@ -178,13 +178,13 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      * @since 03.10.2013 15:26:40
      *
      */
-    public ArrayList<clsWordPresentationMeshSelectableGoal> getExcludedSelectableGoals() {
+    public ArrayList<clsWordPresentationMeshPossibleGoal> getExcludedSelectableGoals() {
         ArrayList<clsWordPresentationMesh> wordPresentationMeshList = this.getNonUniquePropertyWPM(ePredicate.HASEXCLUDEDGOAL);
-        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
         
         for (clsWordPresentationMesh wpm : wordPresentationMeshList) {
-            if (wpm instanceof clsWordPresentationMeshSelectableGoal) {
-                result.add((clsWordPresentationMeshSelectableGoal) wpm);
+            if (wpm instanceof clsWordPresentationMeshPossibleGoal) {
+                result.add((clsWordPresentationMeshPossibleGoal) wpm);
             } else {
                 throw new ClassCastException("This structure is no valid class for this association " + wpm);
             }

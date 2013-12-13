@@ -17,7 +17,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContent;
@@ -49,7 +49,7 @@ public class GoalHandlingFunctionality {
      * @param reachableGoalList
      * @param shortTermMemory
      */
-    public static ArrayList<clsWordPresentationMeshSelectableGoal> removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, clsShortTermMemory shortTermMemory) {
+    public static ArrayList<clsWordPresentationMeshPossibleGoal> removeNonReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, clsShortTermMemory shortTermMemory) {
         return GoalAlgorithmTools.removeNonReachableGoals(reachableGoalList, shortTermMemory);
     }
     
@@ -60,7 +60,7 @@ public class GoalHandlingFunctionality {
      *
      * @since 29.09.2013 12:55:38
      */
-    public static void applyDriveDemandsOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poDriveDemandList) {
+    public static void applyDriveDemandsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poDriveDemandList) {
         GoalAlgorithmTools.applyDriveDemandsOnDriveGoal(selectableGoalList, poDriveDemandList);
         
         //ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(selectableGoalList, poDriveDemandList, currentFeelingsList, affectThreashold);
@@ -75,11 +75,11 @@ public class GoalHandlingFunctionality {
      * @param reachableGoalList
      * @param currentFeelingsList
      */
-    public static void applyFeelingsOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings, boolean activateEmotionalInfluence) {
+    public static void applyFeelingsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings, boolean activateEmotionalInfluence) {
         GoalGenerationTools.TEMP_METHOD_generatePanicGoal(reachableGoalList, currentFeelings, activateEmotionalInfluence);
         
         
-        for (clsWordPresentationMeshSelectableGoal goal : reachableGoalList) {
+        for (clsWordPresentationMeshPossibleGoal goal : reachableGoalList) {
            
             //TODO SSCH: Implement this function, which is outcommented here. This is the work of SHAHIN
             //FeelingAlgorithmTools.getConsequencesOfFeelingsOnGoalAsImportance(goal, currentFeelings);
@@ -102,7 +102,7 @@ public class GoalHandlingFunctionality {
      * @param reachableGoalList
      * @param poRuleList
      */
-    public static void applySocialRulesOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, ArrayList<clsAct> poRuleList) {
+    public static void applySocialRulesOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, ArrayList<clsAct> poRuleList) {
         //TODO FG and/or SSch!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
     
@@ -128,12 +128,12 @@ public class GoalHandlingFunctionality {
      * @param poReachableGoals list of reachable goals (coming from perception or memory)
      * @param poAimOfDrives list of relevant drive aims
      */
-    public static void applyAimImportanceOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poReachableGoals, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDrives) {
+    public static void applyAimImportanceOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoals, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDrives) {
         double nImportance;
         String oGoalName;
         eAction oAction;
         
-        for(clsWordPresentationMeshSelectableGoal oGoal : poReachableGoals) {
+        for(clsWordPresentationMeshPossibleGoal oGoal : poReachableGoals) {
             oGoalName = oGoal.getGoalName();
             oAction = clsAimOfDrivesTools.getAimOfDriveActionByName(poAimOfDrives, oGoalName);
             nImportance = GoalAlgorithmTools.calucateAimImportance(oGoal, oAction);
@@ -150,8 +150,8 @@ public class GoalHandlingFunctionality {
      *
      * @param reachableGoalList
      */
-    public static ArrayList<clsWordPresentationMeshSelectableGoal> selectSuitableReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, int numberOfGoalsToPass) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> result = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(reachableGoalList, numberOfGoalsToPass);
+    public static ArrayList<clsWordPresentationMeshPossibleGoal> selectSuitableReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, int numberOfGoalsToPass) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> result = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(reachableGoalList, numberOfGoalsToPass);
         
         return result;
     }
@@ -164,10 +164,10 @@ public class GoalHandlingFunctionality {
      *
      * @param reachableGoalList
      */
-    public static clsWordPresentationMeshSelectableGoal selectPlanGoal(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> resultList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(reachableGoalList, 1);
+    public static clsWordPresentationMeshPossibleGoal selectPlanGoal(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> resultList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(reachableGoalList, 1);
         
-        clsWordPresentationMeshSelectableGoal result = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+        clsWordPresentationMeshPossibleGoal result = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
         
         if (resultList.size()>0) {
             result = resultList.get(0);
@@ -231,8 +231,8 @@ public class GoalHandlingFunctionality {
      * @param moActList
      * @return
      */
-    public static ArrayList<clsWordPresentationMeshSelectableGoal> extractSelectableGoalsFromActs(ArrayList<clsWordPresentationMesh> moActList) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+    public static ArrayList<clsWordPresentationMeshPossibleGoal> extractSelectableGoalsFromActs(ArrayList<clsWordPresentationMesh> moActList) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> oRetVal = new ArrayList<clsWordPresentationMeshPossibleGoal>();
     
         for (clsWordPresentationMesh oAct : moActList) {
             oRetVal.addAll(clsGoalManipulationTools.extractPossibleGoalsFromAct(oAct));
@@ -250,7 +250,7 @@ public class GoalHandlingFunctionality {
      * @param poImage
      * @return
      */
-    public static ArrayList<clsWordPresentationMeshSelectableGoal> extractSelectableGoalsFromPerception(clsWordPresentationMesh poImage) {
+    public static ArrayList<clsWordPresentationMeshPossibleGoal> extractSelectableGoalsFromPerception(clsWordPresentationMesh poImage) {
         return clsGoalManipulationTools.extractPossibleGoalsFromPerception(poImage);
         
     }
@@ -264,8 +264,8 @@ public class GoalHandlingFunctionality {
      * @param aimOfDrives
      * @return
      */
-    public static ArrayList<clsWordPresentationMeshSelectableGoal> extractSelectableGoalsFromAimOfDrives(ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDrives) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+    public static ArrayList<clsWordPresentationMeshPossibleGoal> extractSelectableGoalsFromAimOfDrives(ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDrives) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
         
         for (clsWordPresentationMeshAimOfDrive aimOfDrive : aimOfDrives) {
             result.add(GoalGenerationTools.createDriveSourceGoal(aimOfDrive));
@@ -310,7 +310,7 @@ public class GoalHandlingFunctionality {
      */
    
     @SuppressWarnings("deprecation")
-    public static ArrayList<clsWordPresentationMeshGoal> extractGoalFromContext(ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_OUT) {
+    public static ArrayList<clsWordPresentationMeshGoal> extractGoalFromContext(ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_OUT) {
 ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
         
         for (clsWordPresentationMeshGoal oAct : moReachableGoalList_OUT) {

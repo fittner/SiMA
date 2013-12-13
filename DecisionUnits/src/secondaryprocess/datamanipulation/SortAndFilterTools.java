@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -53,12 +53,12 @@ public class SortAndFilterTools {
      * @param list
      * @return
      */
-    public static ArrayList<clsWordPresentationMeshSelectableGoal> getAllGoalsWithSameSupportiveDataStructure(clsWordPresentationMeshSelectableGoal input, ArrayList<clsWordPresentationMeshSelectableGoal> list) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+    public static ArrayList<clsWordPresentationMeshPossibleGoal> getAllGoalsWithSameSupportiveDataStructure(clsWordPresentationMeshPossibleGoal input, ArrayList<clsWordPresentationMeshPossibleGoal> list) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
         
         clsWordPresentationMesh support = input.getSupportiveDataStructure();
         
-        for (clsWordPresentationMeshSelectableGoal compare : list) {
+        for (clsWordPresentationMeshPossibleGoal compare : list) {
             if (compare.getSupportiveDataStructure().getContent().equals(support.getContent())==true && support.equals(compare)==false) {
                 result.add(compare);
             }

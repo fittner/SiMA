@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.ElementNotFoundException;
@@ -27,7 +27,7 @@ import secondaryprocess.datamanipulation.clsGoalManipulationTools;
  * 
  */
 public abstract class clsCodelet {
-	protected clsWordPresentationMeshSelectableGoal moGoal;	//Goal to be processed
+	protected clsWordPresentationMeshPossibleGoal moGoal;	//Goal to be processed
 	protected clsEnvironmentalImageMemory moEnvironmentalImageMemory;
 	protected clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
 	protected clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;	//Current STM, in order to get the previous actions
@@ -94,13 +94,13 @@ public abstract class clsCodelet {
 		return rBestMatch;
 	}
 	
-	public double checkMatchingPreconditions(clsWordPresentationMeshSelectableGoal poGoal) {
+	public double checkMatchingPreconditions(clsWordPresentationMeshPossibleGoal poGoal) {
 		clsConditionGroup oGroupFromGoal = new clsConditionGroup(poGoal.getCondition());
 		
 		return checkMatchingPreconditions(oGroupFromGoal);
 	}
 	
-	public void assignGoal(clsWordPresentationMeshSelectableGoal poGoal) {
+	public void assignGoal(clsWordPresentationMeshPossibleGoal poGoal) {
 		this.moGoal=poGoal;
 	}
 	

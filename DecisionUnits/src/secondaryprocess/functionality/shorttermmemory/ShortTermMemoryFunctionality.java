@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 
@@ -39,11 +39,11 @@ public class ShortTermMemoryFunctionality {
      * @param poGoal
      * @param stm
      */
-    public static void addContinuedGoalsToMentalSituation(ArrayList<clsWordPresentationMeshSelectableGoal> poContinuedGoals, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
+    public static void addContinuedGoalsToMentalSituation(ArrayList<clsWordPresentationMeshPossibleGoal> poContinuedGoals, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
         //get the ref of the current mental situation
         clsWordPresentationMeshMentalSituation oCurrentMentalSituation = stm.findCurrentSingleMemory();
         
-        for (clsWordPresentationMeshSelectableGoal goal : poContinuedGoals) {
+        for (clsWordPresentationMeshPossibleGoal goal : poContinuedGoals) {
             
             oCurrentMentalSituation.addSelectableGoal(goal);
         }
@@ -59,7 +59,7 @@ public class ShortTermMemoryFunctionality {
      * @param poGoal
      * @param stm
      */
-    public static void setPlanGoalInMentalSituation(clsWordPresentationMeshSelectableGoal planGoal, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
+    public static void setPlanGoalInMentalSituation(clsWordPresentationMeshPossibleGoal planGoal, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
         //get the ref of the current mental situation
         clsWordPresentationMeshMentalSituation oCurrentMentalSituation = stm.findCurrentSingleMemory();
         
@@ -76,7 +76,7 @@ public class ShortTermMemoryFunctionality {
      * @param stm
      * @return
      */
-    public static clsWordPresentationMeshSelectableGoal getPlanGoalFromPreviousMentalSituation(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
+    public static clsWordPresentationMeshPossibleGoal getPlanGoalFromPreviousMentalSituation(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
         clsWordPresentationMeshMentalSituation oPreviousMentalSituation = stm.findPreviousSingleMemory();
         
         return oPreviousMentalSituation.getPlanGoal();
@@ -93,11 +93,11 @@ public class ShortTermMemoryFunctionality {
      * @param poGoal
      * @param stm
      */
-    public static void addUsableAimOfDrivesToMentalSituation(ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDriveList, ArrayList<clsWordPresentationMeshSelectableGoal> decidedGoals, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
+    public static void addUsableAimOfDrivesToMentalSituation(ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDriveList, ArrayList<clsWordPresentationMeshPossibleGoal> decidedGoals, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
         //get the ref of the current mental situation
         clsWordPresentationMeshMentalSituation oCurrentMentalSituation = stm.findCurrentSingleMemory();
         
-        for (clsWordPresentationMeshSelectableGoal decidedGoal : decidedGoals) {
+        for (clsWordPresentationMeshPossibleGoal decidedGoal : decidedGoals) {
             for (clsWordPresentationMeshAimOfDrive aimOfDrive : aimOfDriveList) {
                 if (decidedGoal.getGoalName().equals(aimOfDrive.getGoalName())==true) {
                     oCurrentMentalSituation.addAimOfDrive(aimOfDrive);
@@ -210,9 +210,9 @@ public class ShortTermMemoryFunctionality {
      *
      * @param poGoalList
      */
-    public static void addNonReachableGoalsToSTM(clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
+    public static void addNonReachableGoalsToSTM(clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory, ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
         clsWordPresentationMeshMentalSituation oMentalSituation = shortTermMemory.findCurrentSingleMemory();
-        for (clsWordPresentationMeshSelectableGoal oGoal : poGoalList) {
+        for (clsWordPresentationMeshPossibleGoal oGoal : poGoalList) {
             if (oGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true || oGoal.checkIfConditionExists(eCondition.GOAL_COMPLETED)==true) {
                 
                 oMentalSituation.addExcludedSelectableGoal(oGoal);

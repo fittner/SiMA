@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -73,7 +73,7 @@ public class DecisionEngine implements DecisionEngineInterface {
     }
     
     @Override
-    public ArrayList<clsWordPresentationMeshSelectableGoal> initialzeGoals(ArrayList<clsWordPresentationMeshSelectableGoal> incomingGoals) {
+    public ArrayList<clsWordPresentationMeshPossibleGoal> initialzeGoals(ArrayList<clsWordPresentationMeshPossibleGoal> incomingGoals) {
         
         return this.goalInitiator.initiateIncomingGoals(incomingGoals, this.stm.findPreviousSingleMemory());
     }
@@ -264,7 +264,7 @@ public class DecisionEngine implements DecisionEngineInterface {
     * @see secondaryprocess.functionality.decisionpreparation.DecisionEngineInterface#declareGoalAsPlanGoal(java.util.ArrayList)
     */
    @Override
-   public void declareGoalAsContinuedGoal(ArrayList<clsWordPresentationMeshSelectableGoal> moDecidedGoalList_OUT) throws Exception {
+   public void declareGoalAsContinuedGoal(ArrayList<clsWordPresentationMeshPossibleGoal> moDecidedGoalList_OUT) throws Exception {
        for (clsWordPresentationMeshGoal g: moDecidedGoalList_OUT) {
            try {
                this.declareGoalAsContinued(g);
@@ -307,7 +307,7 @@ public class DecisionEngine implements DecisionEngineInterface {
      * @throws Exception 
      */
     @Override
-    public void declareGoalAsPlanGoal(clsWordPresentationMeshSelectableGoal poGoal) throws Exception {
+    public void declareGoalAsPlanGoal(clsWordPresentationMeshPossibleGoal poGoal) throws Exception {
         //Check if the goal is continued
         if (poGoal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==true) {
             poGoal.setCondition(eCondition.IS_CONTINUED_PLANGOAL);
@@ -328,7 +328,7 @@ public class DecisionEngine implements DecisionEngineInterface {
      * @throws ElementNotFoundException
      */
     @Override
-    public void removeGoalAsPlanGoal(ArrayList<clsWordPresentationMeshSelectableGoal> moSelectableGoals) throws ElementNotFoundException {
+    public void removeGoalAsPlanGoal(ArrayList<clsWordPresentationMeshPossibleGoal> moSelectableGoals) throws ElementNotFoundException {
         for (clsWordPresentationMeshGoal goal : moSelectableGoals) {
             try {
                 goal.removeCondition(eCondition.IS_CONTINUED_PLANGOAL);
@@ -346,9 +346,9 @@ public class DecisionEngine implements DecisionEngineInterface {
     * @see secondaryprocess.functionality.decisionpreparation.DecisionEngineInterface#getContinuedGoals(java.util.ArrayList)
     */
    @Override
-   public ArrayList<clsWordPresentationMeshSelectableGoal> getContinuedGoals(ArrayList<clsWordPresentationMeshSelectableGoal> goalList) {
-       ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
-       for (clsWordPresentationMeshSelectableGoal goal : goalList) {
+   public ArrayList<clsWordPresentationMeshPossibleGoal> getContinuedGoals(ArrayList<clsWordPresentationMeshPossibleGoal> goalList) {
+       ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
+       for (clsWordPresentationMeshPossibleGoal goal : goalList) {
            if (goal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==true) {
                result.add(goal);
            }
@@ -364,9 +364,9 @@ public class DecisionEngine implements DecisionEngineInterface {
     * @see secondaryprocess.functionality.decisionpreparation.DecisionEngineInterface#getPlanGoal(java.util.ArrayList)
     */
    @Override
-   public clsWordPresentationMeshSelectableGoal getPlanGoal(ArrayList<clsWordPresentationMeshSelectableGoal> goalList) {
-       clsWordPresentationMeshSelectableGoal result = clsWordPresentationMeshSelectableGoal.getNullObject();
-       for (clsWordPresentationMeshSelectableGoal goal : goalList) {
+   public clsWordPresentationMeshPossibleGoal getPlanGoal(ArrayList<clsWordPresentationMeshPossibleGoal> goalList) {
+       clsWordPresentationMeshPossibleGoal result = clsWordPresentationMeshPossibleGoal.getNullObject();
+       for (clsWordPresentationMeshPossibleGoal goal : goalList) {
            if (goal.checkIfConditionExists(eCondition.IS_CONTINUED_PLANGOAL)==true) {
                result =goal;
                break;
@@ -404,8 +404,8 @@ public class DecisionEngine implements DecisionEngineInterface {
      * @param poGoal
      */
     @Override
-    public void setInitialSettings(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
-        for (clsWordPresentationMeshSelectableGoal goal: poGoalList) {
+    public void setInitialSettings(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
+        for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
             this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.INIT, -1);
         }
         
@@ -421,8 +421,8 @@ public class DecisionEngine implements DecisionEngineInterface {
      * @param poContinuedGoal
      */
     @Override
-    public void applyConsequencesOfActionOnContinuedGoal(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
-        for (clsWordPresentationMeshSelectableGoal goal: poGoalList) {
+    public void applyConsequencesOfActionOnContinuedGoal(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
+        for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
             this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.CONSEQUENCE, -1);
             log.debug("Append consequence, goal:" + goal.toString());
         }
@@ -438,9 +438,9 @@ public class DecisionEngine implements DecisionEngineInterface {
      * @param poContinuedGoal
      */
     @Override
-    public void generateDecision(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
+    public void generateDecision(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
         //Execute codelets, which decide what the next action in F52 will be
-        for (clsWordPresentationMeshSelectableGoal goal: poGoalList) {
+        for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
             this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.DECISION, 1);       
             log.debug("New decision, goal:" + goal.toString());
         }
@@ -455,8 +455,8 @@ public class DecisionEngine implements DecisionEngineInterface {
      * @param poContinuedGoal
      */
     @Override
-    public void generatePlanFromDecision(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
-        for (clsWordPresentationMeshSelectableGoal goal: poGoalList) {
+    public void generatePlanFromDecision(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
+        for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
             this.getCodeletHandler().executeMatchingCodelets(this, goal, eCodeletType.ACTION, 1);
             log.debug("New action, goal:" + goal.toString());
         }   

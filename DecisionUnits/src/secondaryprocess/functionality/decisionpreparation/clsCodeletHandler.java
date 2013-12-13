@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import datatypes.helpstructures.clsPair;
 import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.ElementNotFoundException;
@@ -43,7 +43,7 @@ public class clsCodeletHandler {
 
 	private clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
 
-	private ArrayList<clsWordPresentationMeshSelectableGoal> moGoalListFromF51; //= new ArrayList<clsWordPresentationMeshGoal>();
+	private ArrayList<clsWordPresentationMeshPossibleGoal> moGoalListFromF51; //= new ArrayList<clsWordPresentationMeshGoal>();
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemoriesFromF51 = new ArrayList<clsWordPresentationMesh>();
 
 	private ArrayList<clsActionCodelet> moActionCodeletList = new ArrayList<clsActionCodelet>();
@@ -157,7 +157,7 @@ public class clsCodeletHandler {
 	 * 
 	 * @return the moGoalListFromF51
 	 */
-	public ArrayList<clsWordPresentationMeshSelectableGoal> getGoalListFromF51() {
+	public ArrayList<clsWordPresentationMeshPossibleGoal> getGoalListFromF51() {
 		return moGoalListFromF51;
 	}
 
@@ -167,7 +167,7 @@ public class clsCodeletHandler {
 	 * 
 	 * @param moGoalListFromF51 the moGoalListFromF51 to set
 	 */
-	public void setGoalListFromF51(ArrayList<clsWordPresentationMeshSelectableGoal> moGoalListFromF51) {
+	public void setGoalListFromF51(ArrayList<clsWordPresentationMeshPossibleGoal> moGoalListFromF51) {
 		this.moGoalListFromF51 = moGoalListFromF51;
 	}
 
@@ -225,7 +225,7 @@ public class clsCodeletHandler {
 		
 	}
 	
-	public void initF51(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalListFromF51) {
+	public void initF51(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalListFromF51) {
 		moGoalListFromF51 = poGoalListFromF51;
 	}
 	
@@ -233,7 +233,7 @@ public class clsCodeletHandler {
 		
 	}
 	
-	public ArrayList<clsCodelet> getMatchingActionCodelets(Object poTheExecutingObject, clsWordPresentationMeshSelectableGoal poGoal) {
+	public ArrayList<clsCodelet> getMatchingActionCodelets(Object poTheExecutingObject, clsWordPresentationMeshPossibleGoal poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
 		ArrayList<clsActionCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moActionCodeletList, poGoal);
@@ -242,7 +242,7 @@ public class clsCodeletHandler {
 		return oResult;
 	}
 	
-	public ArrayList<clsCodelet> getMatchingDecisionCodelets(Object poTheExecutingObject, clsWordPresentationMeshSelectableGoal poGoal) {
+	public ArrayList<clsCodelet> getMatchingDecisionCodelets(Object poTheExecutingObject, clsWordPresentationMeshPossibleGoal poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
 		ArrayList<clsDecisionCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moDecisionCodeletList, poGoal);
@@ -252,7 +252,7 @@ public class clsCodeletHandler {
 		return oResult;
 	}
 	
-	public ArrayList<clsCodelet> getMatchingConsequenceCodelets(Object poTheExecutingObject, clsWordPresentationMeshSelectableGoal poGoal) {
+	public ArrayList<clsCodelet> getMatchingConsequenceCodelets(Object poTheExecutingObject, clsWordPresentationMeshPossibleGoal poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
 		ArrayList<clsConsequenceCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moConsequenceCodeletList, poGoal);
@@ -262,7 +262,7 @@ public class clsCodeletHandler {
 		return oResult;
 	}
 	
-	public ArrayList<clsCodelet> getMatchingInitCodelets(Object poTheExecutingObject, clsWordPresentationMeshSelectableGoal poGoal) {
+	public ArrayList<clsCodelet> getMatchingInitCodelets(Object poTheExecutingObject, clsWordPresentationMeshPossibleGoal poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
 		ArrayList<clsInitCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moInitCodeletList, poGoal);
@@ -272,7 +272,7 @@ public class clsCodeletHandler {
 		return oResult;
 	}
 	
-	private static <E extends clsCodelet> ArrayList<E> sortAndFilterRatedStructures(Object poTheExecutingObject, ArrayList<E> poInput, clsWordPresentationMeshSelectableGoal poGoal) {
+	private static <E extends clsCodelet> ArrayList<E> sortAndFilterRatedStructures(Object poTheExecutingObject, ArrayList<E> poInput, clsWordPresentationMeshPossibleGoal poGoal) {
 		ArrayList<E> oResult = new ArrayList<E>();
 		
 		ArrayList<clsPair<Double, E>> oUnsortList = new ArrayList<clsPair<Double, E>>();
@@ -309,7 +309,7 @@ public class clsCodeletHandler {
 	 * @param poGoal
 	 * @param pnNumberOfExecutions
 	 */
-	public void executeCodeletListOnGoal(ArrayList<clsCodelet> oCodeletList, clsWordPresentationMeshSelectableGoal poGoal, int pnNumberOfExecutions) {
+	public void executeCodeletListOnGoal(ArrayList<clsCodelet> oCodeletList, clsWordPresentationMeshPossibleGoal poGoal, int pnNumberOfExecutions) {
 		int nInit=0;
 		int nMax = oCodeletList.size();
 		if (pnNumberOfExecutions >= 0) {
@@ -348,7 +348,7 @@ public class clsCodeletHandler {
 	 * @param poCodeletType
 	 * @param pnNumberOfExecutions
 	 */
-	public void executeMatchingCodelets(Object poTheExecutingObject, clsWordPresentationMeshSelectableGoal poGoal, eCodeletType poCodeletType, int pnNumberOfExecutions) {
+	public void executeMatchingCodelets(Object poTheExecutingObject, clsWordPresentationMeshPossibleGoal poGoal, eCodeletType poCodeletType, int pnNumberOfExecutions) {
 		
 		ArrayList<clsCodelet> oCList = new ArrayList<clsCodelet>();
 		String oTypeString = "";

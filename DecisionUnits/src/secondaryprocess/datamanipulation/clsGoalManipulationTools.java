@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eCondition;
@@ -44,7 +44,7 @@ import secondaryprocess.algorithm.goals.GoalArrangementTools;
  */
 public class clsGoalManipulationTools {
 
-	private final static clsWordPresentationMeshSelectableGoal moNullObjectWPM=null;// new clsWordPresentationMesh(new clsTriple<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
+	private final static clsWordPresentationMeshPossibleGoal moNullObjectWPM=null;// new clsWordPresentationMesh(new clsTriple<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	private final static double P_GOALTHRESHOLD = 0.1;
 	private static Logger log = Logger.getLogger("pa._v38.tools.clsGoalTools");
 	
@@ -53,9 +53,9 @@ public class clsGoalManipulationTools {
 	 * 
 	 * @return the moNullObjectWPM
 	 */
-	public static clsWordPresentationMeshSelectableGoal getNullObjectWPMSelectiveGoal() {
+	public static clsWordPresentationMeshPossibleGoal getNullObjectWPMSelectiveGoal() {
 		if (moNullObjectWPM==null) {
-		    return new clsWordPresentationMeshSelectableGoal(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.NULLOBJECT), new ArrayList<clsAssociation>(), eContentType.NULLOBJECT.toString(), null, "", eGoalType.NULLOBJECT, 0);
+		    return new clsWordPresentationMeshPossibleGoal(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.NULLOBJECT), new ArrayList<clsAssociation>(), eContentType.NULLOBJECT.toString(), null, "", eGoalType.NULLOBJECT, 0);
 		} else {
 		    return moNullObjectWPM;
 		}
@@ -77,7 +77,7 @@ public class clsGoalManipulationTools {
 	 * @param poSupportiveDataStructure
 	 * @return
 	 */
-	public static clsWordPresentationMeshSelectableGoal createSelectableGoal(String poGoalName, eGoalType poGoalType, double driveDemandImportance, clsWordPresentationMesh poGoalObject) {
+	public static clsWordPresentationMeshPossibleGoal createSelectableGoal(String poGoalName, eGoalType poGoalType, double driveDemandImportance, clsWordPresentationMesh poGoalObject) {
 		
 		//Generate goalidentifier
 		String oGoalID = clsGoalManipulationTools.generateGoalContentIdentifier(poGoalName, poGoalObject, poGoalType);
@@ -87,7 +87,7 @@ public class clsGoalManipulationTools {
 		clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.GOAL);
 	
 		//Create the basic goal structure
-        clsWordPresentationMeshSelectableGoal oRetVal = new clsWordPresentationMeshSelectableGoal(oDataStructureIdentifier, new ArrayList<clsAssociation>(), oGoalID, poGoalObject, poGoalName, poGoalType, driveDemandImportance);
+        clsWordPresentationMeshPossibleGoal oRetVal = new clsWordPresentationMeshPossibleGoal(oDataStructureIdentifier, new ArrayList<clsAssociation>(), oGoalID, poGoalObject, poGoalName, poGoalType, driveDemandImportance);
 		
 		return oRetVal;
 	}
@@ -174,7 +174,7 @@ public class clsGoalManipulationTools {
      * @param poDM
      * @return
      */
-    public static clsWordPresentationMeshSelectableGoal convertDriveMeshPerceptionToGoal(clsDriveMesh poDM, clsWordPresentationMesh goalObject, eGoalType goalType) {
+    public static clsWordPresentationMeshPossibleGoal convertDriveMeshPerceptionToGoal(clsDriveMesh poDM, clsWordPresentationMesh goalObject, eGoalType goalType) {
         //clsWordPresentationMeshGoal oResult = clsGoalTools.moNullObjectWPM;
         
         //Create the drive string from Drive component, orifice and organ
@@ -192,13 +192,13 @@ public class clsGoalManipulationTools {
         
 
         
-        clsWordPresentationMeshSelectableGoal oResult = createSelectableGoal(oGoalName, goalType, rImportance, goalObject); //new clsWordPresentationMeshAimOfDrive(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.AFFECT), new ArrayList<clsAssociation>(), oGoalName);
+        clsWordPresentationMeshPossibleGoal oResult = createSelectableGoal(oGoalName, goalType, rImportance, goalObject); //new clsWordPresentationMeshAimOfDrive(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.AFFECT), new ArrayList<clsAssociation>(), oGoalName);
         //oResult.setQuotaOfAffectAsImportance(rImportance);
         
         return oResult;
     }
 	
-    public static void copyConditions(clsWordPresentationMeshSelectableGoal source, clsWordPresentationMeshSelectableGoal target) {
+    public static void copyConditions(clsWordPresentationMeshPossibleGoal source, clsWordPresentationMeshPossibleGoal target) {
         for (eCondition c : source.getCondition()) {
             target.setCondition(c);
         }
@@ -215,10 +215,10 @@ public class clsGoalManipulationTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static clsWordPresentationMeshSelectableGoal copyBareGoal(clsWordPresentationMeshSelectableGoal poGoal) {
-	    clsWordPresentationMeshSelectableGoal oResult = null;
+	public static clsWordPresentationMeshPossibleGoal copyBareGoal(clsWordPresentationMeshPossibleGoal poGoal) {
+	    clsWordPresentationMeshPossibleGoal oResult = null;
 		try {   
-			oResult = (clsWordPresentationMeshSelectableGoal) poGoal.clone();
+			oResult = (clsWordPresentationMeshPossibleGoal) poGoal.clone();
 			
 			//Remove all task status from the goal
 			oResult.removeAllAssociatedAction();
@@ -309,8 +309,8 @@ public class clsGoalManipulationTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMeshSelectableGoal> extractPossibleGoalsFromPerception(clsWordPresentationMesh poImage) {
-		ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+	public static ArrayList<clsWordPresentationMeshPossibleGoal> extractPossibleGoalsFromPerception(clsWordPresentationMesh poImage) {
+		ArrayList<clsWordPresentationMeshPossibleGoal> oRetVal = new ArrayList<clsWordPresentationMeshPossibleGoal>();
 		
 		//Get all possibly reachable drivegoals
 		try {
@@ -332,8 +332,8 @@ public class clsGoalManipulationTools {
 	 * @param poAct
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMeshSelectableGoal> extractPossibleGoalsFromAct(clsWordPresentationMesh poAct) {
-		ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+	public static ArrayList<clsWordPresentationMeshPossibleGoal> extractPossibleGoalsFromAct(clsWordPresentationMesh poAct) {
+		ArrayList<clsWordPresentationMeshPossibleGoal> oRetVal = new ArrayList<clsWordPresentationMeshPossibleGoal>();
 		
 		clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(poAct);
 		
@@ -397,10 +397,10 @@ public class clsGoalManipulationTools {
 	 * @param poCompareGoal
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMeshSelectableGoal> getEquivalentGoalFromGoalList(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsWordPresentationMeshSelectableGoal poCompareGoal) {
-		ArrayList<clsWordPresentationMeshSelectableGoal> oResult = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+	public static ArrayList<clsWordPresentationMeshPossibleGoal> getEquivalentGoalFromGoalList(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList, clsWordPresentationMeshPossibleGoal poCompareGoal) {
+		ArrayList<clsWordPresentationMeshPossibleGoal> oResult = new ArrayList<clsWordPresentationMeshPossibleGoal>();
 		
-		for (clsWordPresentationMeshSelectableGoal poGoalFromList : poGoalList) {
+		for (clsWordPresentationMeshPossibleGoal poGoalFromList : poGoalList) {
 			//Check if it is the same goal
 			if (clsGoalManipulationTools.compareGoals(poGoalFromList, poCompareGoal)==true) {
 				oResult.add(poGoalFromList);
@@ -677,17 +677,17 @@ public class clsGoalManipulationTools {
      * @param poGoalList
      * @return the previous continued goal or the continued goal from the incoming goallist
      */
-    public static clsWordPresentationMeshSelectableGoal getContinuedGoalFromPreviousGoal(clsWordPresentationMeshSelectableGoal poPreviousGoal, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
-        clsWordPresentationMeshSelectableGoal oResult = clsWordPresentationMeshSelectableGoal.getNullObject();
+    public static clsWordPresentationMeshPossibleGoal getContinuedGoalFromPreviousGoal(clsWordPresentationMeshPossibleGoal poPreviousGoal, ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
+        clsWordPresentationMeshPossibleGoal oResult = clsWordPresentationMeshPossibleGoal.getNullObject();
         
         //Check if goal exists in the goal list
-        ArrayList<clsWordPresentationMeshSelectableGoal> oEquivalentGoalList = clsGoalManipulationTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
+        ArrayList<clsWordPresentationMeshPossibleGoal> oEquivalentGoalList = clsGoalManipulationTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
         
         //If the goal could not be found
         if (oEquivalentGoalList.isEmpty()==true) {
             //--- COPY PREVIOUS GOAL ---//
             if (poPreviousGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==false) {
-                clsWordPresentationMeshSelectableGoal oNewGoalFromPrevious = clsGoalManipulationTools.copyBareGoal(poPreviousGoal);
+                clsWordPresentationMeshPossibleGoal oNewGoalFromPrevious = clsGoalManipulationTools.copyBareGoal(poPreviousGoal);
                 
                 oResult = oNewGoalFromPrevious;  
             }
