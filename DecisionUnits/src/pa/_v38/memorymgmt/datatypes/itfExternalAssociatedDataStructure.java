@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public interface itfExternalAssociatedDataStructure {
 
-	public ArrayList<clsAssociation> moExternalAssociatedContent = null;
+	//public ArrayList<clsAssociation> moExternalAssociatedContent = null;
 	
 	public ArrayList<clsAssociation> getExternalAssociatedContent() ;
 	public void setExternalAssociatedContent(ArrayList<clsAssociation> moAssociatedContent);

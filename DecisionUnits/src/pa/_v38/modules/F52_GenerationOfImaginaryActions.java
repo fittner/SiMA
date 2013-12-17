@@ -18,7 +18,7 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -50,7 +50,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 //	private static final boolean m_bPrintDebugOutput = false;
 
 	// HZ Not used up to now 16.03.2011
-	private ArrayList<clsWordPresentationMeshSelectableGoal> moGoalList_IN;
+	private ArrayList<clsWordPresentationMeshPossibleGoal> moGoalList_IN;
 	//private ArrayList<ArrayList<clsAct>> moPlanInput;
 
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:26 */
@@ -69,7 +69,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 	/** Associated memories out */
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
-	private ArrayList<clsWordPresentationMeshSelectableGoal> moGoalList_OUT;
+	private ArrayList<clsWordPresentationMeshPossibleGoal> moGoalList_OUT;
 	//private ArrayList<clsPlanFragment> moAvailablePlanFragments;
 	//private ArrayList<clsPlanFragment> moCurrentApplicalbePlans;
 
@@ -431,7 +431,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_8(ArrayList<clsWordPresentationMeshSelectableGoal> poDecidedGoalList) {
+	public void receive_I6_8(ArrayList<clsWordPresentationMeshPossibleGoal> poDecidedGoalList) {
 		//moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poDecidedGoalList);
 		moGoalList_IN = poDecidedGoalList;
 	}
@@ -481,7 +481,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_9(ArrayList<clsWordPresentationMeshSelectableGoal> poGoals) {
+	public void send_I6_9(ArrayList<clsWordPresentationMeshPossibleGoal> poGoals) {
 		//((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 		//((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 		//((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);

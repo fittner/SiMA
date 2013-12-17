@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * Reality checked action plans are passed on from F53 to F29.
@@ -18,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
  * 
  */
 public interface I6_10_send {
-	public void send_I6_10(ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoals);
+	public void send_I6_10(ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoals);
 }

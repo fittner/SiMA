@@ -16,7 +16,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
@@ -197,7 +197,7 @@ public class GoalAlgorithmTools {
 		clsWordPresentationMeshMentalSituation oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
 
 		//Get the previous action
-		clsWordPresentationMeshSelectableGoal oPreviousActionMesh = oPreviousMentalSituation.getPlanGoal(); //clsMentalSituationTools.getAction(oPreviousMentalSituation);
+		clsWordPresentationMeshPossibleGoal oPreviousActionMesh = oPreviousMentalSituation.getPlanGoal(); //clsMentalSituationTools.getAction(oPreviousMentalSituation);
 		
 		log.debug("Previous action: " + oPreviousActionMesh);
 		eAction oPreviousAction = eAction.NULLOBJECT;
@@ -312,16 +312,16 @@ public class GoalAlgorithmTools {
      *
      * @param poGoalList
      */
-    public static ArrayList<clsWordPresentationMeshSelectableGoal> removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory) {
+    public static ArrayList<clsWordPresentationMeshPossibleGoal> removeNonReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory) {
         //ListIterator<clsWordPresentationMeshSelectableGoal> Iter = poGoalList.listIterator();
-        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
-        ArrayList<clsWordPresentationMeshSelectableGoal> oRemoveList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
+        ArrayList<clsWordPresentationMeshPossibleGoal> oRemoveList = new ArrayList<clsWordPresentationMeshPossibleGoal>();
         
         //Get all goals from STM
         ArrayList<clsPair<Integer, clsWordPresentationMeshMentalSituation>> oSTMList = shortTermMemory.getMoShortTimeMemory();
         for (clsPair<Integer, clsWordPresentationMeshMentalSituation> oSTM : oSTMList) {
             //Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
-            ArrayList<clsWordPresentationMeshSelectableGoal> oTEMPLIST = oSTM.b.getExcludedSelectableGoals();  //clsMentalSituationTools.getExcludedGoal(oSTM.b);
+            ArrayList<clsWordPresentationMeshPossibleGoal> oTEMPLIST = oSTM.b.getExcludedSelectableGoals();  //clsMentalSituationTools.getExcludedGoal(oSTM.b);
             //ArrayList<clsWordPresentationMeshSelectableGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
             
 //            for (clsWordPresentationMeshSelectableGoal oWPM : oTEMPLIST) {
@@ -331,9 +331,9 @@ public class GoalAlgorithmTools {
             oRemoveList.addAll(oTEMPLIST);
         }
         
-        for (clsWordPresentationMeshSelectableGoal goal : poGoalList) { 
+        for (clsWordPresentationMeshPossibleGoal goal : poGoalList) { 
             boolean isFound=false;
-            for (clsWordPresentationMeshSelectableGoal removeGoal : oRemoveList){
+            for (clsWordPresentationMeshPossibleGoal removeGoal : oRemoveList){
                 if (goal.isEquivalentDataStructure(removeGoal)==true) {
                     isFound=true;
                     log.debug("Non reachable goal removed: " + removeGoal.toString());
@@ -385,7 +385,7 @@ public class GoalAlgorithmTools {
      * @param aimOfDrive
      * @return
      */
-    private static boolean applyAimOfDriveOnGoal(clsWordPresentationMeshSelectableGoal selectableGoal, clsWordPresentationMeshAimOfDrive aimOfDrive) {
+    private static boolean applyAimOfDriveOnGoal(clsWordPresentationMeshPossibleGoal selectableGoal, clsWordPresentationMeshAimOfDrive aimOfDrive) {
         boolean goalMatch = false;
         
         //1. If the drive is the same
@@ -411,7 +411,7 @@ public class GoalAlgorithmTools {
      * @param selectableGoal
      * @param aimOfDrive
      */
-    private static void applyDriveDemandCorrections(clsWordPresentationMeshSelectableGoal selectableGoal, clsWordPresentationMeshAimOfDrive aimOfDrive) {
+    private static void applyDriveDemandCorrections(clsWordPresentationMeshPossibleGoal selectableGoal, clsWordPresentationMeshAimOfDrive aimOfDrive) {
         //Get the correction for drive aims, which are important due to their order
         double driveOrderCorrection = GoalArrangementTools.getDriveDemandCorrectionFactorFromDriveOrder(aimOfDrive);
         selectableGoal.setDriveDemandCorrectionImportance(driveOrderCorrection);
@@ -430,7 +430,7 @@ public class GoalAlgorithmTools {
      * @param pnNumberOfGoalsToPass
      * @return
      */
-    public static void applyDriveDemandsOnDriveGoal (ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDriveListGoalList) {
+    public static void applyDriveDemandsOnDriveGoal (ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDriveListGoalList) {
         
         //ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
         
@@ -439,7 +439,7 @@ public class GoalAlgorithmTools {
             boolean selectableGoalFound = false;
             
             //Apply effect of drive to selectable goal on each possible goal
-            for (clsWordPresentationMeshSelectableGoal selectableGoal : poSelectableGoalList) {
+            for (clsWordPresentationMeshPossibleGoal selectableGoal : poSelectableGoalList) {
                 boolean goalMatch = applyAimOfDriveOnGoal(selectableGoal, oAimOfDrive);
                 
                 //If at least one goal was found, set true

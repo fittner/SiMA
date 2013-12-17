@@ -12,7 +12,7 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 
 /**
@@ -32,8 +32,8 @@ public class EffortFunctionality {
    *
    * @param poGoalList
    */
-  public static void applyEffortOfGoal(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
-      for (clsWordPresentationMeshSelectableGoal oGoal : poGoalList) {
+  public static void applyEffortOfGoal(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
+      for (clsWordPresentationMeshPossibleGoal oGoal : poGoalList) {
           
           //Get the penalty for the effort of distance, act confidence and conditions for all goal types
           //TODO: Replace this method with productions instead

@@ -13,7 +13,7 @@ import logger.clsLogger;
 import org.slf4j.Logger;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
@@ -40,14 +40,14 @@ public class GoalInitiator implements GoalInitiatorInterface {
      * @see secondaryprocess.functionality.decisionpreparation.GoalInitiationProcessor.GoalInitiatorInterface#initiateIncomingGoals(java.util.ArrayList, pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation)
      */
     @Override
-    public ArrayList<clsWordPresentationMeshSelectableGoal> initiateIncomingGoals(ArrayList<clsWordPresentationMeshSelectableGoal> newGoals, clsWordPresentationMeshMentalSituation previousGoal) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+    public ArrayList<clsWordPresentationMeshPossibleGoal> initiateIncomingGoals(ArrayList<clsWordPresentationMeshPossibleGoal> newGoals, clsWordPresentationMeshMentalSituation previousGoal) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
         
         //Get all continued goals or create new goals
-        ArrayList<clsWordPresentationMeshSelectableGoal> continuedGoals = extractContinuedGoals(newGoals, previousGoal);
+        ArrayList<clsWordPresentationMeshPossibleGoal> continuedGoals = extractContinuedGoals(newGoals, previousGoal);
         this.processContinuedGoals(continuedGoals);
         
-        ArrayList<clsWordPresentationMeshSelectableGoal> onlyNewGoals = extractNewGoals(continuedGoals, newGoals);
+        ArrayList<clsWordPresentationMeshPossibleGoal> onlyNewGoals = extractNewGoals(continuedGoals, newGoals);
         this.processNewGoals(onlyNewGoals);
         
         result = this.mergeResultingGoals(continuedGoals, onlyNewGoals);
@@ -63,8 +63,8 @@ public class GoalInitiator implements GoalInitiatorInterface {
      *
      * @param onlyNewGoals
      */
-    private void processNewGoals(ArrayList<clsWordPresentationMeshSelectableGoal> onlyNewGoals) {
-        for (clsWordPresentationMeshSelectableGoal goal : onlyNewGoals) {
+    private void processNewGoals(ArrayList<clsWordPresentationMeshPossibleGoal> onlyNewGoals) {
+        for (clsWordPresentationMeshPossibleGoal goal : onlyNewGoals) {
             try {
                 processNewGoal(goal);
             } catch (Exception e) {
@@ -82,7 +82,7 @@ public class GoalInitiator implements GoalInitiatorInterface {
      * @param goal
      * @throws Exception 
      */
-    private void processNewGoal(clsWordPresentationMeshSelectableGoal goal) throws Exception {
+    private void processNewGoal(clsWordPresentationMeshPossibleGoal goal) throws Exception {
         //Set goal type for new goal
         try {
             GoalAlgorithmTools.setConditionFromGoalType(goal);
@@ -106,8 +106,8 @@ public class GoalInitiator implements GoalInitiatorInterface {
      *
      * @param continuedGoals
      */
-    private void processContinuedGoals(ArrayList<clsWordPresentationMeshSelectableGoal> continuedGoals) {
-        for (clsWordPresentationMeshSelectableGoal goal : continuedGoals) {
+    private void processContinuedGoals(ArrayList<clsWordPresentationMeshPossibleGoal> continuedGoals) {
+        for (clsWordPresentationMeshPossibleGoal goal : continuedGoals) {
             processContinuedGoal(goal);
         }
     }
@@ -120,7 +120,7 @@ public class GoalInitiator implements GoalInitiatorInterface {
      *
      * @param goal
      */
-    private void processContinuedGoal(clsWordPresentationMeshSelectableGoal goal) {
+    private void processContinuedGoal(clsWordPresentationMeshPossibleGoal goal) {
         //oResult.setCondition(eCondition.IS_CONTINUED_GOAL);
     }
     
@@ -135,15 +135,15 @@ public class GoalInitiator implements GoalInitiatorInterface {
      * @param previousSituation
      * @return
      */
-    private ArrayList<clsWordPresentationMeshSelectableGoal> extractContinuedGoals(ArrayList<clsWordPresentationMeshSelectableGoal> incomingGoals, clsWordPresentationMeshMentalSituation previousSituation) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+    private ArrayList<clsWordPresentationMeshPossibleGoal> extractContinuedGoals(ArrayList<clsWordPresentationMeshPossibleGoal> incomingGoals, clsWordPresentationMeshMentalSituation previousSituation) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
         
         //Get continued goals
-        ArrayList<clsWordPresentationMeshSelectableGoal> previousGoals = previousSituation.getSelectableGoals();
+        ArrayList<clsWordPresentationMeshPossibleGoal> previousGoals = previousSituation.getSelectableGoals();
         
         //Check with the incoming goals if they can be matched and extract the incoming goals without processing
-        for (clsWordPresentationMeshSelectableGoal previousSelectableGoal : previousGoals) {
-            clsWordPresentationMeshSelectableGoal oContinuedGoal = clsWordPresentationMeshSelectableGoal.getNullObject();
+        for (clsWordPresentationMeshPossibleGoal previousSelectableGoal : previousGoals) {
+            clsWordPresentationMeshPossibleGoal oContinuedGoal = clsWordPresentationMeshPossibleGoal.getNullObject();
             oContinuedGoal = getContinuedGoal(previousSelectableGoal, incomingGoals);
             if (oContinuedGoal.isNullObject()==false) {
                 result.add(oContinuedGoal);
@@ -163,8 +163,8 @@ public class GoalInitiator implements GoalInitiatorInterface {
      * @param poGoalList
      * @return
      */
-    private clsWordPresentationMeshSelectableGoal getContinuedGoal(clsWordPresentationMeshSelectableGoal poPreviousGoal, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
-        clsWordPresentationMeshSelectableGoal oContinuedGoal = clsGoalManipulationTools.getContinuedGoalFromPreviousGoal(poPreviousGoal, poGoalList);
+    private clsWordPresentationMeshPossibleGoal getContinuedGoal(clsWordPresentationMeshPossibleGoal poPreviousGoal, ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
+        clsWordPresentationMeshPossibleGoal oContinuedGoal = clsGoalManipulationTools.getContinuedGoalFromPreviousGoal(poPreviousGoal, poGoalList);
         
         return oContinuedGoal;
     }
@@ -179,10 +179,10 @@ public class GoalInitiator implements GoalInitiatorInterface {
      * @param newGoals
      * @return
      */
-    private ArrayList<clsWordPresentationMeshSelectableGoal> extractNewGoals(ArrayList<clsWordPresentationMeshSelectableGoal> continuedGoals, ArrayList<clsWordPresentationMeshSelectableGoal> newGoals) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+    private ArrayList<clsWordPresentationMeshPossibleGoal> extractNewGoals(ArrayList<clsWordPresentationMeshPossibleGoal> continuedGoals, ArrayList<clsWordPresentationMeshPossibleGoal> newGoals) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
         
-        for (clsWordPresentationMeshSelectableGoal newGoal : newGoals) {
+        for (clsWordPresentationMeshPossibleGoal newGoal : newGoals) {
             if (continuedGoals.contains(newGoal)==false) {
                 result.add(newGoal);
             }
@@ -201,10 +201,10 @@ public class GoalInitiator implements GoalInitiatorInterface {
      * @param list2
      * @return
      */
-    private ArrayList<clsWordPresentationMeshSelectableGoal> mergeResultingGoals(ArrayList<clsWordPresentationMeshSelectableGoal> list1, ArrayList<clsWordPresentationMeshSelectableGoal> list2) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>(list1);
+    private ArrayList<clsWordPresentationMeshPossibleGoal> mergeResultingGoals(ArrayList<clsWordPresentationMeshPossibleGoal> list1, ArrayList<clsWordPresentationMeshPossibleGoal> list2) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>(list1);
         
-        for (clsWordPresentationMeshSelectableGoal goal : list2) {
+        for (clsWordPresentationMeshPossibleGoal goal : list2) {
             if (result.contains(goal)==false) {
                 result.add(goal);
             }

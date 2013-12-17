@@ -23,7 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
@@ -256,8 +256,8 @@ public class clsImportanceTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static ArrayList<clsWordPresentationMeshSelectableGoal> getSelectableGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure, boolean pbKeepDuplicates) throws Exception {
-		ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+	public static ArrayList<clsWordPresentationMeshPossibleGoal> getSelectableGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure, boolean pbKeepDuplicates) throws Exception {
+		ArrayList<clsWordPresentationMeshPossibleGoal> oRetVal = new ArrayList<clsWordPresentationMeshPossibleGoal>();
 		
 		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage, 1);
 		
@@ -268,9 +268,9 @@ public class clsImportanceTools {
 			clsAssociationSecondary oAssSec = (clsAssociationSecondary) oDSPA;
 			
 			//Copy goal, in order not to have erroneous references
-			clsWordPresentationMeshSelectableGoal originalSelectableGoal = (clsWordPresentationMeshSelectableGoal) oAssSec.getLeafElement();
+			clsWordPresentationMeshPossibleGoal originalSelectableGoal = (clsWordPresentationMeshPossibleGoal) oAssSec.getLeafElement();
 			
-			clsWordPresentationMeshSelectableGoal copyOfSelectableGoal = clsGoalManipulationTools.createSelectableGoal(originalSelectableGoal.getGoalName(), originalSelectableGoal.getGoalSource(), originalSelectableGoal.getPotentialDriveFulfillmentImportance(), originalSelectableGoal.getGoalObject()); 
+			clsWordPresentationMeshPossibleGoal copyOfSelectableGoal = clsGoalManipulationTools.createSelectableGoal(originalSelectableGoal.getGoalName(), originalSelectableGoal.getGoalSource(), originalSelectableGoal.getPotentialDriveFulfillmentImportance(), originalSelectableGoal.getGoalObject()); 
 			
 			
 			//Get the drive
@@ -627,7 +627,7 @@ public class clsImportanceTools {
      *
      * @param poGoal
      */
-    public static double getConsequencesOfFeelingsOnGoalAsImportance(clsWordPresentationMeshSelectableGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
+    public static double getConsequencesOfFeelingsOnGoalAsImportance(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         double rResult = 0;
         //Get Feeling affect
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();

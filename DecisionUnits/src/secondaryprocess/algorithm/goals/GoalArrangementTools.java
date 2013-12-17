@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eGoalType;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
@@ -40,8 +40,8 @@ public class GoalArrangementTools {
      * @param poCompareGoal
      * @return
      */
-    public static clsWordPresentationMeshSelectableGoal getSpatiallyNearestGoalFromPerception(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsWordPresentationMeshSelectableGoal poCompareGoal) {
-        clsWordPresentationMeshSelectableGoal oResult = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+    public static clsWordPresentationMeshPossibleGoal getSpatiallyNearestGoalFromPerception(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList, clsWordPresentationMeshPossibleGoal poCompareGoal) {
+        clsWordPresentationMeshPossibleGoal oResult = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
         
         eGoalType oCompareGoalType = poCompareGoal.getGoalSource();
         
@@ -56,7 +56,7 @@ public class GoalArrangementTools {
         
         //double rBestDistance = -1;
         
-        ArrayList<clsWordPresentationMeshSelectableGoal> oZeroDistanceList = sortSpatiallyGoalList(poGoalList, poCompareGoal);
+        ArrayList<clsWordPresentationMeshPossibleGoal> oZeroDistanceList = sortSpatiallyGoalList(poGoalList, poCompareGoal);
         
         //If the size of the list is >1 then there are several possibilites. Therefore correct the comparegoal with the movement
         if (oZeroDistanceList.size()>1) {
@@ -91,13 +91,13 @@ public class GoalArrangementTools {
      * @param poCompareGoal
      * @return
      */
-    private static ArrayList<clsWordPresentationMeshSelectableGoal> sortSpatiallyGoalList(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsWordPresentationMeshSelectableGoal poCompareGoal) {
-        ArrayList<clsWordPresentationMeshSelectableGoal> oResultList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
-        clsWordPresentationMeshSelectableGoal oResult = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+    private static ArrayList<clsWordPresentationMeshPossibleGoal> sortSpatiallyGoalList(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList, clsWordPresentationMeshPossibleGoal poCompareGoal) {
+        ArrayList<clsWordPresentationMeshPossibleGoal> oResultList = new ArrayList<clsWordPresentationMeshPossibleGoal>();
+        clsWordPresentationMeshPossibleGoal oResult = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
         
         double rBestDistance = -1;
         
-        for (clsWordPresentationMeshSelectableGoal oGoal : poGoalList) {
+        for (clsWordPresentationMeshPossibleGoal oGoal : poGoalList) {
             eGoalType oGoalTypeFromListGoal = oGoal.getGoalSource();
             
             if (oGoalTypeFromListGoal.equals(eGoalType.PERCEPTIONALDRIVE) || oGoalTypeFromListGoal.equals(eGoalType.PERCEPTIONALEMOTION)) {

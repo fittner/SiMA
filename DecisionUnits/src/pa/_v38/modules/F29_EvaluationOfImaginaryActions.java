@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -50,7 +50,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
     private ArrayList<String> moTEMPWriteLastActions = new ArrayList<String>();
 
-    private ArrayList<clsWordPresentationMeshSelectableGoal> moSelectableGoals;
+    private ArrayList<clsWordPresentationMeshPossibleGoal> moSelectableGoals;
     private clsWordPresentationMesh moActionCommand;
 
     // Anxiety from F20
@@ -193,7 +193,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @see pa.interfaces.I7_6#receive_I7_6(java.util.ArrayList)
      */
     @Override
-    public void receive_I6_10(ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoals) {
+    public void receive_I6_10(ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoals) {
         moSelectableGoals = selectableGoals;
 
     }
@@ -217,7 +217,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             log.error("Cannot remove conditions", e2);
         }
         
-        clsWordPresentationMeshSelectableGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
+        clsWordPresentationMeshPossibleGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
         try {
             this.moDecisionEngine.declareGoalAsPlanGoal(planGoal);
         } catch (Exception e1) {
@@ -280,7 +280,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @param actionMesh
      * @param planGoal
      */
-    private void addTextToLastActionsTextSequence(clsWordPresentationMesh actionMesh, clsWordPresentationMeshSelectableGoal planGoal) {
+    private void addTextToLastActionsTextSequence(clsWordPresentationMesh actionMesh, clsWordPresentationMeshPossibleGoal planGoal) {
         String oAction = "NONE";
         
         //if (moGoalList_OUT.isEmpty()==false) {

@@ -17,7 +17,7 @@ import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
@@ -54,7 +54,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	
-	private ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_OUT;
+	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_OUT;
 	
 	private ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDrives;
 	
@@ -218,7 +218,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
         }
 	    
 		//=== Extract all goals from perception and memories ===//
-		moReachableGoalList_OUT = new ArrayList<clsWordPresentationMeshSelectableGoal>(); 
+		moReachableGoalList_OUT = new ArrayList<clsWordPresentationMeshPossibleGoal>(); 
 		
 		//Extract all possible goals in the perception
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromPerception(moPerceptionalMesh_IN));
@@ -315,7 +315,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * @see pa.interfaces.send.I2_12_send#send_I2_12(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_6(clsWordPresentationMesh poFocusedPerception, ArrayList<clsWordPresentationMeshSelectableGoal> poReachableGoalList, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary_OUT) {
+	public void send_I6_6(clsWordPresentationMesh poFocusedPerception, ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary_OUT) {
 		((I6_6_receive)moModuleList.get(51)).receive_I6_6(poFocusedPerception, poReachableGoalList, poAssociatedMemoriesSecondary_OUT);
 		
 		putInterfaceData(I6_6_send.class, poFocusedPerception, poReachableGoalList, poAssociatedMemoriesSecondary_OUT);

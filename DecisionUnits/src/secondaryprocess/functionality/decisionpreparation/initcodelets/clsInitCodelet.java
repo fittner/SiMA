@@ -8,7 +8,7 @@ package secondaryprocess.functionality.decisionpreparation.initcodelets;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.functionality.decisionpreparation.clsCodelet;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 
@@ -21,7 +21,7 @@ import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
  */
 public abstract class clsInitCodelet extends clsCodelet {
 	
-	protected ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList;
+	protected ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList;
 
 	/**
 	 * DOCUMENT (wendt) - insert description 

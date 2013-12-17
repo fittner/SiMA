@@ -27,7 +27,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
 import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -62,9 +62,9 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";
 	public static final String P_AVOIC_INTENSITY = "AVOID_INTENSITY";
 	
-	private ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_IN;
+	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_IN;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
-	private ArrayList<clsWordPresentationMeshSelectableGoal> moDecidedGoalList_OUT;
+	private ArrayList<clsWordPresentationMeshPossibleGoal> moDecidedGoalList_OUT;
 	
 	private ArrayList<clsWordPresentationMeshAimOfDrive> moDriveGoalList_IN;
 	private clsWording moSpeechList_IN;
@@ -299,7 +299,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_7(ArrayList<clsWordPresentationMeshSelectableGoal> poReachableGoalList) {
+	public void receive_I6_7(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList) {
 		//moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poReachableGoalList); 
 		moReachableGoalList_IN = poReachableGoalList; 
 	}
@@ -355,7 +355,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I6_8(ArrayList<clsWordPresentationMeshSelectableGoal> poDecidedGoalList_OUT) {
+	public void send_I6_8(ArrayList<clsWordPresentationMeshPossibleGoal> poDecidedGoalList_OUT) {
 		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poDecidedGoalList_OUT);
 		
 		putInterfaceData(I6_8_send.class, poDecidedGoalList_OUT);
