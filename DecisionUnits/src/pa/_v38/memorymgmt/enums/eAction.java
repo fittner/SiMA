@@ -38,6 +38,9 @@ public enum eAction {
 	BEAT,
 	DIVIDE,
 	
+	//Actions with Objects
+	GOTO,
+	
 	//Unreal actions
 	UNREAL_MOVE_TO,
 	
