@@ -42,7 +42,6 @@ import primaryprocess.modules.F57_MemoryTracesForDrives;
 import primaryprocess.modules.F63_CompositionOfEmotions;
 import primaryprocess.modules.F64_PartialSexualDrives;
 import primaryprocess.modules.F65_PartialSelfPreservationDrives;
-import _OLDREMOVETHISpa._v38.logger.clsDataLogger;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.helpstructures.clsPair;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -186,7 +185,7 @@ public class clsPsychicApparatus {
 	/** The data logger. Can log everything from any module that implements the corresponding interfaces. 
 	 * @see _OLDREMOVETHISpa._v38.logger 
 	 * @since 13.07.2011 17:52:06 */
-	public clsDataLogger moDataLogger;
+
 	
 	/** Unique identifier. The same for the body and the decision unit. Eases debugging and logging.; @since 13.07.2011 17:55:28 */
 	private int uid;
@@ -243,7 +242,7 @@ public class clsPsychicApparatus {
 		applyProperties(poPrefix, poProp);
 	
 		
-		moDataLogger = new clsDataLogger(moModules, this.uid);
+
 		fillInterfaceMesh();
 		fillInterfaces_Recv_Send();
 	}
