@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitMasonInspectors"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Simulation"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry kind="src" path="junit"/>
@@ -18,5 +17,6 @@
 	<classpathentry kind="lib" path="/Libraries/mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BodyEntityMasonInspectors"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BaseEntity-Body-ARSIN"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ARSDecisionUnit"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
