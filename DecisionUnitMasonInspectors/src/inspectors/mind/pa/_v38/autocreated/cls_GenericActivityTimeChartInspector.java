@@ -6,6 +6,8 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInspectorGenericActivityTimeChart;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -14,8 +16,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
-
-import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 
 /**
  * DOCUMENT (deutsch) - insert description 

@@ -8,16 +8,16 @@ package secondaryprocess.datamanipulation;
 
 import java.util.ArrayList;
 
-import datatypes.helpstructures.clsPair;
-import datatypes.helpstructures.clsTriple;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDistanceRelation;
-import pa._v38.memorymgmt.enums.ePositionRelation;
-import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.memorymgmt.enums.ePhiPosition;
-import pa._v38.memorymgmt.enums.eRadius;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDistanceRelation;
+import memorymgmt.enums.ePhiPosition;
+import memorymgmt.enums.ePositionRelation;
+import memorymgmt.enums.ePredicate;
+import memorymgmt.enums.eRadius;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 
 /**

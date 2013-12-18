@@ -7,17 +7,17 @@
 package secondaryprocess.datamanipulation;
 
 import logger.clsLogger;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.ePhiPosition;
+import memorymgmt.enums.ePredicate;
+import memorymgmt.enums.eRadius;
 
 import org.slf4j.Logger;
 
-import datatypes.helpstructures.clsTriple;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.ePhiPosition;
-import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.memorymgmt.enums.eRadius;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentation;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 

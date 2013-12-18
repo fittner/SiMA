@@ -10,14 +10,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
+import memorymgmt.situationloader.clsConceptLoader;
+import memorymgmt.situationloader.itfConceptLoader;
+import memorymgmt.situationloader.itfContextEntitySearchAlgorithm;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import pa._v38.memorymgmt.datatypes.clsConcept;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import base.datatypes.clsConcept;
+import base.datatypes.clsDataStructurePA;
 import config.clsProperties;
 
 /**

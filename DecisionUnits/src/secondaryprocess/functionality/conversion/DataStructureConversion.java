@@ -10,18 +10,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import logger.clsLogger;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datahandlertools.clsDataStructureConverter;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
+import base.datahandlertools.clsDataStructureConverter;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 import secondaryprocess.algorithm.conversion.DataStructureConversionTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
-import datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

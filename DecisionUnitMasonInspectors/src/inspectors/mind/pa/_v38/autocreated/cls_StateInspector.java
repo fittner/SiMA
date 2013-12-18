@@ -6,7 +6,7 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
-import pa._v38.interfaces.itfInspectorInternalState;
+import inspector.interfaces.itfInspectorInternalState;
 
 /**
  * DOCUMENT (deutsch) - insert description 

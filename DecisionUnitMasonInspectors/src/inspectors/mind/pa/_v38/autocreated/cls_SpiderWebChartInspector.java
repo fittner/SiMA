@@ -6,8 +6,12 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInspectorSpiderWebChart;
+
 import java.awt.Color;
 import java.util.ArrayList;
+
+
 
 
 import org.jfree.chart.ChartPanel;
@@ -17,7 +21,7 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 
-import pa._v38.interfaces.itfInspectorSpiderWebChart;
+
 
 /**
  * DOCUMENT (herret) - insert description 

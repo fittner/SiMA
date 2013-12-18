@@ -9,15 +9,15 @@ package secondaryprocess.functionality.shorttermmemory;
 import java.util.ArrayList;
 
 import logger.clsLogger;
+import memorymgmt.enums.eCondition;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshAimOfDrive;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 

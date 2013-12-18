@@ -8,8 +8,8 @@ package testfunctions;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAction;
+import memorymgmt.enums.eAction;
+import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsActionTools;
 
 /**

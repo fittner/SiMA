@@ -11,11 +11,11 @@ import java.util.ListIterator;
 
 import org.apache.log4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import datatypes.helpstructures.clsPair;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationDriveMesh;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

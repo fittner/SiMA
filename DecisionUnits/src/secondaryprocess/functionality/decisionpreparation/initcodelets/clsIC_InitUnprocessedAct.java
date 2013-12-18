@@ -6,9 +6,9 @@
  */
 package secondaryprocess.functionality.decisionpreparation.initcodelets;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.ElementNotFoundException;
+import memorymgmt.enums.eCondition;
+import base.datatypes.clsWordPresentationMesh;
+import base.tools.ElementNotFoundException;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;

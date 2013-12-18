@@ -9,26 +9,26 @@ package secondaryprocess.functionality.decisionmaking;
 import java.util.ArrayList;
 
 import logger.clsLogger;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eCondition;
+import memorymgmt.enums.eContent;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eGoalType;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsAct;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.enums.eContent;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import base.datatypes.clsAct;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshAimOfDrive;
+import base.datatypes.clsWordPresentationMeshFeeling;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.datatypes.helpstructures.clsPair;
 import secondaryprocess.algorithm.aimofdrives.clsAimOfDrivesTools;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 import secondaryprocess.algorithm.goals.GoalGenerationTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
-import datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -1,0 +1,434 @@
+/**
+ * E24_RealityCheck.java: DecisionUnits - pa.modules
+ * 
+ * @author kohlhauser
+ * 11.08.2009, 14:49:09
+ */
+package secondaryprocess.modules;
+
+import general.datamanipulation.PrintTools;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.SortedMap;
+
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.modules.clsModuleBase;
+import base.modules.clsModuleBaseKB;
+import base.modules.eImplementationStage;
+import base.modules.eProcessType;
+import base.modules.ePsychicInstances;
+import base.tools.toText;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import modules.interfaces.I6_6_receive;
+import modules.interfaces.I6_7_receive;
+import modules.interfaces.I6_7_send;
+import modules.interfaces.eInterfaces;
+import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
+import secondaryprocess.functionality.EffortFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalConditionFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngineInterface;
+import secondaryprocess.functionality.shorttermmemory.EnvironmentalImageFunctionality;
+import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
+
+/**
+ * The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}. 
+ * 
+ * @author wendt
+ * 07.05.2012, 14:49:09
+ * 
+ */
+public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send {
+	public static final String P_MODULENUMBER = "51";
+	
+	/** Specialized Logger for this class */
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
+	
+	public static final String P_MOMENT_ACTIVATION_THRESHOLD = "MOMENT_ACTIVATION_THRESHOLD";
+	public static final String P_MOMENT_MIN_RELEVANCE_THRESHOLD = "MOMENT_MIN_RELEVANCE_THRESHOLD";
+	public static final String P_CONFIRMATION_PARTS = "CONFIRMATION_PARTS";
+	public static final String P_REDUCEFACTOR_FOR_DRIVES = "REDUCEFACTOR_FOR_DRIVES";
+	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";
+	
+	/** Perception IN */
+	private clsWordPresentationMesh moPerceptionalMesh_IN;
+	
+	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_IN;
+	
+	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_OUT;
+	
+	/** A threshold for images, which are only set moment if the match factor is higher or equal this value */
+	private double mrMomentActivationThreshold;
+	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:06 */
+	private double mrMomentMinRelevanceThreshold;
+	
+	/** If a third of an act is gone though, it is considered as confirmed */
+	private int mnConfirmationParts;
+	
+	/** This factor detemines how much the drive can be reduced in an intention. If the value is 0.5, this is the minimum value of the drive, which can be reduced */
+	private double mrReduceFactorForDrives;
+	
+	private int mnAffectThresold;
+	
+	/** (wendt) Goal memory; @since 24.05.2012 15:25:09 */
+	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
+	
+	/** This is the storage for the localization; @since 15.11.2011 14:41:03 */
+	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
+	
+	//private clsCodeletHandler moCodeletHandler;
+	private DecisionEngineInterface moDecisionEngine;
+	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
+	/**
+	 * DOCUMENT (KOHLHAUSER) - insert description 
+	 * 
+	 * @author kohlhauser
+	 * 03.03.2011, 16:50:46
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 * @param poModuleList
+	 * @param poGoalMemory 
+	 * @throws Exception
+	 */
+	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+		
+		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+		 
+		applyProperties(poPrefix, poProp);	
+		
+		mrMomentActivationThreshold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MOMENT_ACTIVATION_THRESHOLD).getParameterDouble();
+		mrMomentMinRelevanceThreshold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MOMENT_MIN_RELEVANCE_THRESHOLD).getParameterDouble();
+		mnConfirmationParts = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_CONFIRMATION_PARTS).getParameterInt();
+		mrReduceFactorForDrives = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_REDUCEFACTOR_FOR_DRIVES).getParameterDouble();
+		mnAffectThresold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AFFECT_THRESHOLD).getParameterInt();
+
+		
+		//Get short time memory
+		moShortTimeMemory = poShortTimeMemory;
+		//moGoalMemory = poGoalMemory;
+		moEnvironmentalImageStorage = poTempLocalizationStorage;
+		
+		moDecisionEngine = poDecisionEngine;
+		//Init with special variables from F51
+		//moDecisionEngine.getCodeletHandler().initF51(moReachableGoalList_IN);
+		
+
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
+	 */
+	@Override
+	public String stateToTEXT() {
+		String text ="";
+		
+		text += toText.valueToTEXT("moReachableGoalList_IN", moReachableGoalList_IN);
+		text += toText.valueToTEXT("Environmental Image", this.moEnvironmentalImageStorage.toString());
+//		text += toText.listToTEXT("moAssociatedMemoriesSecondary_IN", moAssociatedMemoriesSecondary_IN);
+//		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_OUT);
+//		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
+//		text += toText.listToTEXT("moDriveGoalList_IN", moDriveGoalList_IN);
+		
+		return text;
+	}
+	
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
+		
+		clsProperties oProp = new clsProperties();
+		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+				
+		return oProp;
+	}	
+	
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
+		//nothing to do
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 11.08.2009, 12:09:34
+	 * 
+	 * @see pa.modules.clsModuleBase#setProcessType()
+	 */
+	@Override
+	protected void setProcessType() {
+		mnProcessType = eProcessType.SECONDARY;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 11.08.2009, 12:09:34
+	 * 
+	 * @see pa.modules.clsModuleBase#setPsychicInstances()
+	 */
+	@Override
+	protected void setPsychicInstances() {
+		mnPsychicInstances = ePsychicInstances.EGO;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 11.08.2009, 14:49:45
+	 * 
+	 * @see pa.interfaces.I2_12#receive_I2_12(int)
+	 */
+	@Override
+	public void receive_I6_6(clsWordPresentationMesh poPerception, 
+			ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, 
+			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+		
+		moPerceptionalMesh_IN = poPerception;
+//		try {
+//			moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		//moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poReachableGoalList);
+		//moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemoriesSecondary);
+		
+		moReachableGoalList_IN = poReachableGoalList;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 11.08.2009, 16:16:25
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@Override
+	protected void process_basic() {
+	    
+	    log.debug("=== module {} start ===", this.getClass().getName());
+	      //=== Perform system tests ===//
+        //if (clsTester.getTester().isActivated()) {
+	    //ArrayList<clsWordPresentationMeshGoal> temp = JACKBAUERHACKReduceGoalList(moReachableGoalList_IN);
+	    //moReachableGoalList_IN = temp;
+//	    try {
+//                clsTester.getTester().exeTestReduceGoalList(moReachableGoalList_IN);
+//            } catch (Exception e) {
+//                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+//            }
+//        //}
+	
+	    //=== Create the mental image ===
+		//Test AW: Relational Meshes
+		//clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
+		//Add perception to the environmental image
+	    EnvironmentalImageFunctionality.addNewImageToEnvironmentalImage(moEnvironmentalImageStorage, moPerceptionalMesh_IN);
+		log.debug("Environmental Storage: " + moEnvironmentalImageStorage.toString());
+
+		
+		//From now, only the environmental image is used
+		
+        
+        // --- INIT GOALS --- //
+        log.trace("Incoming goals before init: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
+        moReachableGoalList_OUT = this.moDecisionEngine.initialzeGoals(moReachableGoalList_IN);
+        log.debug("Incoming goals after init: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
+        
+        //Init codelets
+        this.moDecisionEngine.setInitialSettings(moReachableGoalList_OUT);
+        log.debug("Incoming goals after applience of init operations: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
+        
+	
+//		// --- INIT INCOMING GOALS --- //
+//		try {
+//		    log.trace("Incoming goals before init: " + moReachableGoalList_IN);
+//            this.moDecisionEngine.initIncomingGoals(moReachableGoalList_IN);
+//            log.debug("Incoming goals after init: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
+//        } catch (Exception e) {
+//            log.error("Error at init of goals. ", e);
+//        }
+		
+		
+//		// --- INIT CONTINUED GOAL --- //
+//		ArrayList<clsWordPresentationMeshSelectableGoal> oContinuedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>(); //new ArrayList<clsWordPresentationMeshSelectableGoal>(); //clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+//		clsWordPresentationMeshSelectableGoal planGoal = clsWordPresentationMeshSelectableGoal.getNullObject();
+//		
+//        //Init with special variables from F51
+//		//TODO: It should not be necessary to poll the reachable goal list all the time
+//        moDecisionEngine.getCodeletHandler().initF51(moReachableGoalList_IN);
+//        try {
+//            oContinuedGoalList = this.moDecisionEngine.initContinuedGoalList(moShortTimeMemory, moReachableGoalList_IN);
+//            for (clsWordPresentationMeshSelectableGoal continuedGoal : oContinuedGoalList) {
+//                if (continuedGoal.checkIfConditionExists(eCondition.IS_CONTINUED_PLANGOAL)) {
+//                    planGoal = continuedGoal;
+//                    break;
+//                }
+//            }
+//            
+//            //oContinuedGoal = this.moDecisionEngine.initContinuedGoal(moReachableGoalList_IN, moShortTimeMemory);
+//            log.trace("Incoming goals after getting continued goal: " + moReachableGoalList_IN);
+//            log.info("Continued selectable goallist: {}", PrintTools.printArrayListWithLineBreaks(oContinuedGoalList));
+//            log.info("Continiued plan goal: {}", planGoal);
+//        } catch (Exception e) {
+//            this.log.error(e.getMessage());
+//        }
+		
+		
+		
+		// --- INIT GOALS --- //
+		//Preprocess all new goals and assign one goal as continued goal
+//		clsWordPresentationMeshGoal oContinuedGoal = clsDecisionPreparationTools.getContinuedGoal(moShortTimeMemory, moReachableGoalList_IN);
+//		if (oResult.isNullObject()==false) {
+//            oResult.setCondition(eCondition.IS_CONTINUED_GOAL);
+//        }
+//        log.debug("Continued goal:" + oResult.toString());
+		
+		
+		// --- PROVE CONTINUOUS CONDITIONS --- //
+		//Start codelets for new continuous goals 
+		//proveContinousConditions(oContinuedGoal);
+		
+		
+		// --- APPEND PREVIOUS PERFORMED ACTIONS AS CONDITIONS --- //
+		//clsDecisionPreparationTools.appendPreviousActionsAsPreconditions(oContinuedGoal, moShortTimeMemory);
+		
+		
+		// --- APPLY ACTION CONSEQUENCES ON THE CONTINUED GOAL --- //
+		//applyConsequencesOfActionsOnContinuedGoal(moReachableGoalList_IN, oContinuedGoal);
+		this.moDecisionEngine.applyConsequencesOfActionOnContinuedGoal(moReachableGoalList_OUT); //.a is the last plangoal
+		
+		//Apply the GOAL_NOT_REACHABLE AND COMPLETED on all other goals with the same supportive data structures
+		GoalConditionFunctionality.setCommonConditionsToGoals(moReachableGoalList_OUT);		
+		
+        // --- SET NEW PRECONDITIONS FOR ACTIONS AS WELL AS DEFAULT CONDITIONS FOR NEW GOALS --- //
+        //setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
+        //FIXME Put in F52 instead
+        //this.moDecisionEngine.generatePlan(oContinuedGoal);
+		
+		// --- ADD IMPORTANCE OF FEELINGS --- //
+		//applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN);
+		//applyConsequencesOfFeelingsOnGoal(oContinuedGoal);
+		
+
+		
+		// --- ADD the previous goal to the goal list if not already added --- //
+		//this.moDecisionEngine.addContinuedGoalToGoalList(moReachableGoalList_IN, oContinuedGoalList);
+		
+		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
+        EffortFunctionality.applyEffortOfGoal(moReachableGoalList_OUT);
+        log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
+		
+        // --- ADD NON REACHABLE GOALS TO THE STM --- //
+        //1. Remove non reachable goals
+        ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_OUT);
+        moReachableGoalList_OUT = GoalHandlingFunctionality.removeNonReachableGoals(moReachableGoalList_OUT, this.moShortTimeMemory);
+        
+		log.info("Provided selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
+		log.info("Provided continued goals: {}", PrintTools.printArrayListWithLineBreaks(this.moDecisionEngine.getContinuedGoals(moReachableGoalList_OUT)));
+		log.info("Provided plan goal: {}", this.moDecisionEngine.getPlanGoal(moReachableGoalList_OUT));
+	}
+	
+
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 11.08.2009, 16:16:25
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
+		send_I6_7(moReachableGoalList_OUT);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 18.05.2010, 17:51:11
+	 * 
+	 * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I6_7(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList)
+			{
+		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poReachableGoalList);
+		
+		putInterfaceData(I6_7_send.class, poReachableGoalList);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 12.07.2010, 10:47:25
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (KOHLHAUSER) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 12.07.2010, 10:47:25
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (KOHLHAUSER) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 03.03.2011, 16:50:53
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
+	}
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}.";
+	}
+
+		
+	
+}
+

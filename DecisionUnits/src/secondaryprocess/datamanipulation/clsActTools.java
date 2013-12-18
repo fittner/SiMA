@@ -8,17 +8,17 @@ package secondaryprocess.datamanipulation;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.ePredicate;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eCondition;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.ePredicate;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationPrimary;
+import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentation;
+import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 
 /**

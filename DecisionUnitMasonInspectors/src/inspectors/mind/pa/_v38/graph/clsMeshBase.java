@@ -17,27 +17,28 @@ import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.GraphConstants;
 
+import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
+import base.datatypes.clsAct;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsDataStructureContainer;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsPrimaryDataStructureContainer;
+import base.datatypes.clsSecondaryDataStructure;
+import base.datatypes.clsSecondaryDataStructureContainer;
+import base.datatypes.clsTemplateImage;
+import base.datatypes.clsThingPresentation;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentation;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
+
 import com.jgraph.components.labels.RichTextValue;
 
-import datatypes.helpstructures.clsPair;
-import datatypes.helpstructures.clsTriple;
 import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsSensorIntern;
-import pa._v38.symbolization.representationsymbol.clsSymbolVision;
-import pa._v38.memorymgmt.datatypes.clsAct;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 
 
 /**

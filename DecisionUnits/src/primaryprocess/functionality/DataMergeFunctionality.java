@@ -12,7 +12,7 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsThingPresentationMesh;
 import primaryprocess.algorithm.EntityAlgorithmTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 

@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import secondaryprocess.algorithm.planningHelpers.PlanningNode;
+import base.datatypes.clsDomain;
+import base.datatypes.clsPlanFragment;
+import secondaryprocess.algorithm.planning.helpers.PlanningNode;
 
 /**
  * DOCUMENT (havlicek) - insert description
@@ -33,7 +35,7 @@ public class clsDomainTest {
 
 	/**
 	 * Test method for
-	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#clsDomain()}.
+	 * {@link base.datatypes.clsDomain#clsDomain()}.
 	 */
 	@Test
 	public final void constructorTest() {
@@ -43,11 +45,11 @@ public class clsDomainTest {
 
 	/**
 	 * Test method for
-	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#pushPlanFragment(secondaryprocess.algorithm.planningHelpers.PlanningNode)}
+	 * {@link base.datatypes.clsDomain#pushPlanFragment(secondaryprocess.algorithm.planning.helpers.PlanningNode)}
 	 * . Test method for
-	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#returnContent()}. Test
+	 * {@link base.datatypes.clsDomain#returnContent()}. Test
 	 * method for
-	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#getPlanAtPos(int)}.
+	 * {@link base.datatypes.clsDomain#getPlanAtPos(int)}.
 	 */
 	@Test
 	public final void planFragmentTest() {
@@ -58,7 +60,7 @@ public class clsDomainTest {
 	}
 
 	/**
-	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsDomain#getSize()}.
+	 * Test method for {@link base.datatypes.clsDomain#getSize()}.
 	 */
 	@Test
 	public final void getSizeTest() {
@@ -70,7 +72,7 @@ public class clsDomainTest {
 	}
 
 	/**
-	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsDomain#toString()}
+	 * Test method for {@link base.datatypes.clsDomain#toString()}
 	 * .
 	 */
 	@Test

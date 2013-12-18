@@ -6,7 +6,7 @@
  */
 package secondaryprocess.datamanipulation.meshprocessor;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 

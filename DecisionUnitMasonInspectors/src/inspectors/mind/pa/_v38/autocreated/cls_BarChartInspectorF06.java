@@ -6,11 +6,15 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInspectorBarChartF06;
+
 import java.awt.Color;
 import java.awt.Font;
 
 
 //import java.util.ArrayList;
+
+
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -25,7 +29,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 //import org.jfree.ui.RefineryUtilities;
 //import org.jfree.data.general.DatasetUtilities;
 
-import pa._v38.interfaces.itfInspectorBarChartF06;
+
 
 /**
  * DOCUMENT (Lotfi) - insert description 

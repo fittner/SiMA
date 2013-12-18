@@ -10,10 +10,12 @@ import static org.mockito.Mockito.mock;
 
 import java.util.List;
 
+import memorymgmt.situationloader.clsAbstractContextEntitySearchAlgorithm;
+
 import org.junit.Test;
 
-import pa._v38.memorymgmt.datatypes.clsConcept;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsConcept;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * DOCUMENT (havlicek) - abstract test case for implementations of {@link clsAbstractContextEntitySearchAlgorithm}

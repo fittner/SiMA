@@ -8,9 +8,9 @@ package testfunctions.meshtester;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsThingPresentationMesh;
 import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**

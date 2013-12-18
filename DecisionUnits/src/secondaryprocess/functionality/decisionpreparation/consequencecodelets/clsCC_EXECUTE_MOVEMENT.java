@@ -6,8 +6,8 @@
  */
 package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eCondition;
+import memorymgmt.enums.eCondition;
+import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;

@@ -16,6 +16,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import base.datatypes.clsAssociation;
+import base.datatypes.clsConcept;
+import base.datatypes.clsWordPresentationMesh;
+
 /**
  * DOCUMENT (havlicek) - Test cases for {@link clsConcept}
  * 
@@ -27,7 +31,7 @@ public class clsConceptTest {
     private clsConcept moConcept;
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#clsConcept()}.
+     * Test method for {@link base.datatypes.clsConcept#clsConcept()}.
      */
     @Test
     public final void constructorTest() {
@@ -37,7 +41,7 @@ public class clsConceptTest {
     }
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
+     * Test method for {@link base.datatypes.clsConcept#isEmpty()}.
      */
     @Test
     public final void isEmptyNullTest() {
@@ -46,7 +50,7 @@ public class clsConceptTest {
     }
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
+     * Test method for {@link base.datatypes.clsConcept#isEmpty()}.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -64,7 +68,7 @@ public class clsConceptTest {
     }
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
+     * Test method for {@link base.datatypes.clsConcept#isEmpty()}.
      */
     @SuppressWarnings("unchecked")
     @Test

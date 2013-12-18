@@ -6,14 +6,15 @@
  */
 package pa._v38.memorymgmt.framessearchspace;
 
+import inspector.interfaces.itfInspectorInternalState;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import datatypes.helpstructures.clsPair;
-import pa._v38.interfaces.itfInspectorInternalState;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.enums.eDataType;
+import memorymgmt.enums.eDataType;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

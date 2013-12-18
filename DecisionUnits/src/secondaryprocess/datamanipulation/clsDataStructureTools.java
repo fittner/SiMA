@@ -7,14 +7,15 @@
 package secondaryprocess.datamanipulation;
 
 import java.util.ArrayList;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsSecondaryDataStructure;
+import base.datatypes.clsSecondaryDataStructureContainer;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentation;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -9,10 +9,10 @@ package secondaryprocess.algorithm.goals;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import datatypes.helpstructures.clsTriple;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.enums.eGoalType;
+import memorymgmt.enums.eGoalType;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.datatypes.helpstructures.clsTriple;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
 

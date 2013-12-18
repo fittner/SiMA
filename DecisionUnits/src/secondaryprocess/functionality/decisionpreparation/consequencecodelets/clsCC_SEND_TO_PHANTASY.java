@@ -6,7 +6,7 @@
  */
 package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
-import pa._v38.memorymgmt.enums.eCondition;
+import memorymgmt.enums.eCondition;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 

@@ -8,10 +8,10 @@ package secondaryprocess.functionality.decisionpreparation;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
 
 /**
  * DOCUMENT (wendt) - insert description 

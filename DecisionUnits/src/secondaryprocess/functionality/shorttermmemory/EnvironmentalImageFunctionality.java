@@ -6,8 +6,8 @@
  */
 package secondaryprocess.functionality.shorttermmemory;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import base.datatypes.clsWordPresentationMesh;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 
 /**
  * DOCUMENT (wendt) - insert description 

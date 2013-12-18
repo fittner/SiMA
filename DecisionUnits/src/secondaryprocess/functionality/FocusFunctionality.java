@@ -11,18 +11,18 @@ import general.datamanipulation.GeneralSortingTools;
 import java.util.ArrayList;
 
 import logger.clsLogger;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.ePhiPosition;
+import memorymgmt.enums.eRadius;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.ePhiPosition;
-import pa._v38.memorymgmt.enums.eRadius;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 import secondaryprocess.algorithm.conversion.DataExtractionTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
-import datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

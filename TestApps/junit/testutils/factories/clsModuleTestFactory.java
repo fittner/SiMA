@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.modules.eInterfaces;
+import base.modules.clsModuleBase;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import modules.interfaces.eInterfaces;
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
-import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.modules.clsModuleBase;
 
 /**
  * DOCUMENT (ende) - insert description 

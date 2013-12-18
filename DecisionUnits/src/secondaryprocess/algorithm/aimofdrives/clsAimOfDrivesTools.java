@@ -9,13 +9,13 @@ package secondaryprocess.algorithm.aimofdrives;
 import java.util.ArrayList;
 
 import logger.clsLogger;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eContentType;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eContentType;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshAimOfDrive;
 
 /**
  * DOCUMENT (Kollmann) - insert description 

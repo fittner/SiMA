@@ -8,10 +8,10 @@ package secondaryprocess.functionality.decisionpreparation.actioncodeletes;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.enums.eContentType;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eCondition;
+import memorymgmt.enums.eContentType;
+import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsActionTools;

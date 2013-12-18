@@ -8,7 +8,7 @@ package general.datamanipulation;
 
 import java.util.ArrayList;
 
-import datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

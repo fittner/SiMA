@@ -12,10 +12,10 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsAssociationWordPresentation;
+import base.datatypes.clsSecondaryDataStructure;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**

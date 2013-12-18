@@ -8,18 +8,18 @@ package secondaryprocess.datamanipulation;
 
 import java.util.ArrayList;
 
-import datatypes.helpstructures.clsPair;
-import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.PsychicSpreadingActivationMode;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eActionType;
-import pa._v38.memorymgmt.enums.eContent;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.enums.ePredicate;
+import memorymgmt.enums.PsychicSpreadingActivationMode;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eActionType;
+import memorymgmt.enums.eCondition;
+import memorymgmt.enums.eContent;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.ePredicate;
+import base.datahandlertools.clsDataStructureGenerator;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsWordPresentation;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

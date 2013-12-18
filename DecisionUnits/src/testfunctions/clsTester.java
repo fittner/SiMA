@@ -8,12 +8,12 @@ package testfunctions;
 
 import java.util.ArrayList;
 
-import datatypes.helpstructures.clsPair;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.enums.eAction;
+import memorymgmt.enums.eAction;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.helpstructures.clsPair;
 import testfunctions.meshtester.clsTestDataStructureConsistency;
 import testfunctions.meshtester.clsTestDataStructureNullPointers;
 

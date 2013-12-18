@@ -6,13 +6,19 @@
  */
 package inspectors.mind.pa._v38.graph;
 
+import inspector.interfaces.itfInspectorForRules;
+
 import java.util.ArrayList;
 
 import javax.swing.JSplitPane;
 
 
-import pa._v38.interfaces.itfInspectorForRules;
-import pa._v38.modules.F07_SuperEgoReactive.clsReadSuperEgoRules;
+
+
+
+
+
+import primaryprocess.modules.F07_SuperEgoReactive.clsReadSuperEgoRules;
 
 /**
  * DOCUMENT (Jordakieva) - insert description 

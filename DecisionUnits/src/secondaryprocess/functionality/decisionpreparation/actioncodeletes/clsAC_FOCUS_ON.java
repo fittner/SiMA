@@ -6,9 +6,9 @@
  */
 package secondaryprocess.functionality.decisionpreparation.actioncodeletes;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eCondition;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eCondition;
+import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;

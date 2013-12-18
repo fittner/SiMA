@@ -8,8 +8,8 @@ package testfunctions;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsAssociationDriveMesh;
+import base.datatypes.clsThingPresentationMesh;
 import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**

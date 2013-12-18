@@ -6,16 +6,16 @@
  */
 package secondaryprocess.datamanipulation;
 
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.PsychicSpreadingActivationMode;
-import pa._v38.memorymgmt.enums.eContent;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.ePredicate;
+import memorymgmt.enums.PsychicSpreadingActivationMode;
+import memorymgmt.enums.eContent;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.ePredicate;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsThingPresentation;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentation;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -9,27 +9,27 @@ package secondaryprocess.datamanipulation;
 import java.util.ArrayList;
 
 import logger.clsLogger;
+import memorymgmt.enums.eCondition;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eGoalType;
+import memorymgmt.enums.ePhiPosition;
+import memorymgmt.enums.ePredicate;
+import memorymgmt.enums.eRadius;
 
 import org.slf4j.Logger;
 
-import datatypes.helpstructures.clsPair;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsEmotion;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.enums.ePhiPosition;
-import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.memorymgmt.enums.eRadius;
+import base.datatypes.clsAssociationDriveMesh;
+import base.datatypes.clsAssociationEmotion;
+import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsEmotion;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshFeeling;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.datatypes.helpstructures.clsPair;
 
 
 /**

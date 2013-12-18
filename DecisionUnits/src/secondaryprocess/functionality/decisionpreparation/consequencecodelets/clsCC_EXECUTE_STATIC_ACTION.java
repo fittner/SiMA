@@ -6,8 +6,8 @@
  */
 package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.ElementNotFoundException;
+import base.tools.ElementNotFoundException;
+import memorymgmt.enums.eCondition;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 

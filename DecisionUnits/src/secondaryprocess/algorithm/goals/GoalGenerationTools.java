@@ -8,14 +8,14 @@ package secondaryprocess.algorithm.goals;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.enums.eEmotionType;
-import pa._v38.memorymgmt.enums.eGoalType;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eCondition;
+import memorymgmt.enums.eEmotionType;
+import memorymgmt.enums.eGoalType;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshAimOfDrive;
+import base.datatypes.clsWordPresentationMeshFeeling;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.datamanipulation.clsMeshTools;

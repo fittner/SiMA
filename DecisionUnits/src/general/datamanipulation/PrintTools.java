@@ -8,9 +8,9 @@ package general.datamanipulation;
 
 import java.util.ArrayList;
 
-import datatypes.helpstructures.clsPair;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.enums.eContent;
+import memorymgmt.enums.eContent;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 

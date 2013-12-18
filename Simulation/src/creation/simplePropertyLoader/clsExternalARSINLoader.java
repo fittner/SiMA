@@ -11,13 +11,13 @@ package creation.simplePropertyLoader;
 
 
 import config.clsProperties;
+import control.factory.clsARSDecisionUnitFactory;
 import creation.clsLoader;
 import creation.eLoader;
 import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import bw.entities.base.clsEntity;
-import pa.factory.clsARSDecisionUnitFactory;
 import bw.ARSIN.clsARSIN;
 import statictools.clsUniqueIdGenerator;
 
@@ -112,8 +112,8 @@ public class clsExternalARSINLoader extends clsLoader {
 		
 		clsProperties oProp = new clsProperties();
 		
-		oProp.putAll( pa.clsPsychoAnalysis.getDefaultProperties(pre+eDecisionType.PA.name()) );
-		oProp.putAll( MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties(pre+eDecisionType.ActionlessTestPA.name()) );
+		oProp.putAll( control.clsPsychoAnalysis.getDefaultProperties(pre+eDecisionType.PA.name()) );
+		oProp.putAll( _MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties(pre+eDecisionType.ActionlessTestPA.name()) );
 		    
 		return oProp;
     }

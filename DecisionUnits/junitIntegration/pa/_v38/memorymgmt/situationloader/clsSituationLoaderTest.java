@@ -10,11 +10,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import memorymgmt.situationloader.clsSituationLoader;
 
 import org.junit.Test;
 
-import pa._v38.memorymgmt.datatypes.clsConcept;
-import pa._v38.memorymgmt.datatypes.clsSituation;
+import base.datatypes.clsConcept;
+import base.datatypes.clsSituation;
 import config.clsProperties;
 
 /**
@@ -26,7 +27,7 @@ import config.clsProperties;
 public class clsSituationLoaderTest {
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.situationloader.clsSituationLoader}
+     * Test method for {@link memorymgmt.situationloader.clsSituationLoader}
      * .
      */
     @Test
@@ -46,7 +47,7 @@ public class clsSituationLoaderTest {
     }
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.situationloader.clsSituationLoader#generate()}.
+     * Test method for {@link memorymgmt.situationloader.clsSituationLoader#generate()}.
      */
     @Test
     public final void generateEmptyTest() {

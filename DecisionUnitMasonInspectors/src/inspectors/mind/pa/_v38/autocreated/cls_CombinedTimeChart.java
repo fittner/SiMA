@@ -6,6 +6,9 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInspectorCombinedTimeChart;
+import inspector.interfaces.itfInspectorGenericTimeChart;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
@@ -13,8 +16,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
-import pa._v38.interfaces.itfInspectorCombinedTimeChart;
-import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import sim.portrayal.Inspector;
 
 /**

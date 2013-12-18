@@ -10,15 +10,15 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 
-import datatypes.helpstructures.clsPair;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 import logger.clsLogger;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
+import memorymgmt.enums.eContentType;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.TestException;
 

@@ -8,7 +8,7 @@
  */
 package inspectors;
 
-import pa.clsPsychoAnalysis;
+import control.clsPsychoAnalysis;
 import decisionunit.clsBaseDecisionUnit;
 import du.itf.itfDecisionUnit;
 import sim.display.GUIState;

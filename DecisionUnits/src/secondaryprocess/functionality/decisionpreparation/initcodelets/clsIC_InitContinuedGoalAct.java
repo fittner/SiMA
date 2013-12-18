@@ -9,10 +9,10 @@ package secondaryprocess.functionality.decisionpreparation.initcodelets;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.ElementNotFoundException;
+import memorymgmt.enums.eCondition;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.tools.ElementNotFoundException;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;

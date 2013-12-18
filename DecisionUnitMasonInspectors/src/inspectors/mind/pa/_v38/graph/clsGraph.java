@@ -27,6 +27,8 @@ import javax.swing.SwingUtilities;
 
 import javax.swing.ToolTipManager;
 
+import memorymgmt.enums.eActivationType;
+
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
@@ -36,24 +38,25 @@ import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa._v38.memorymgmt.datatypes.clsAct;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsEmotion;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eActivationType;
-import pa._v38.modules.F07_SuperEgoReactive.clsReadSuperEgoRules;
-import pa._v38.symbolization.representationsymbol.clsSymbolVision;
-import pa._v38.symbolization.representationsymbol.itfSymbol;
+import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
+import prementalapparatus.symbolization.representationsymbol.itfSymbol;
+import primaryprocess.modules.F07_SuperEgoReactive.clsReadSuperEgoRules;
+import base.datatypes.clsAct;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsDataStructureContainer;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsEmotion;
+import base.datatypes.clsPrimaryDataStructureContainer;
+import base.datatypes.clsSecondaryDataStructure;
+import base.datatypes.clsSecondaryDataStructureContainer;
+import base.datatypes.clsTemplateImage;
+import base.datatypes.clsThingPresentation;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentation;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
@@ -65,8 +68,6 @@ import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 
-import datatypes.helpstructures.clsPair;
-import datatypes.helpstructures.clsTriple;
 import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsBump;
 import du.itf.sensors.clsPositionChange;

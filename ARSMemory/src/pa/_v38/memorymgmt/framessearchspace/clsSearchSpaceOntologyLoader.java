@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import datatypes.helpstructures.clsPair;
-import pa._v38.tools.toText;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.enums.eDataType;
+import memorymgmt.enums.eDataType;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.helpstructures.clsPair;
+import base.tools.toText;
 
 public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 

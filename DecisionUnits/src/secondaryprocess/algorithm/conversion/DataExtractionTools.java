@@ -9,14 +9,14 @@ package secondaryprocess.algorithm.conversion;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.ePhiPosition;
-import pa._v38.memorymgmt.enums.eRadius;
+import memorymgmt.enums.ePhiPosition;
+import memorymgmt.enums.eRadius;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 import secondaryprocess.datamanipulation.SortAndFilterTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
-import datatypes.helpstructures.clsPair;
-import datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 

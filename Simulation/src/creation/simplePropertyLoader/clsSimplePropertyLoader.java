@@ -21,18 +21,19 @@ import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.interfaces.itfSearchSpaceAccess;
+
 import org.slf4j.Logger;
 
-import pa.clsPsychoAnalysis;
-import pa._v38.clsProcessor;
-import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
 import config.clsProperties;
+import control.clsProcessor;
+import control.clsPsychoAnalysis;
+import control.factory.clsARSDecisionUnitFactory;
 import creation.clsLoader;
 import creation.eLoader;
-import pa.factory.clsARSDecisionUnitFactory;
 import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
@@ -218,8 +219,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		clsProperties oProp = new clsProperties();
 		
-		oProp.putAll( pa.clsPsychoAnalysis.getDefaultProperties						(pre+eDecisionType.PA.name()) );
-		oProp.putAll( MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties			(pre+eDecisionType.ActionlessTestPA.name()) );
+		oProp.putAll( control.clsPsychoAnalysis.getDefaultProperties						(pre+eDecisionType.PA.name()) );
+		oProp.putAll( _MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties			(pre+eDecisionType.ActionlessTestPA.name()) );
 		  
 		return oProp;
     }

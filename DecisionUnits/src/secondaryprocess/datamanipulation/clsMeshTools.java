@@ -11,30 +11,30 @@ import java.util.ListIterator;
 
 import org.slf4j.Logger;
 
-import datatypes.helpstructures.clsPair;
-import datatypes.helpstructures.clsTriple;
+import base.datahandlertools.clsDataStructureGenerator;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsAssociationDriveMesh;
+import base.datatypes.clsAssociationEmotion;
+import base.datatypes.clsAssociationPrimary;
+import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsAssociationTime;
+import base.datatypes.clsAssociationWordPresentation;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsPrimaryDataStructure;
+import base.datatypes.clsSecondaryDataStructure;
+import base.datatypes.clsThingPresentation;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentation;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshFeeling;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 import logger.clsLogger;
-import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
-import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsAssociationTime;
-import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.enums.eContent;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.ePredicate;
+import memorymgmt.enums.eContent;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.enums.ePredicate;
 
 /**
  * This class contains methods for data search and extraction in meshes

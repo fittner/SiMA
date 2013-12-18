@@ -12,7 +12,7 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 
 /**

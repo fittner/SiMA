@@ -6,8 +6,8 @@
  */
 package secondaryprocess.functionality.decisionpreparation.actioncodeletes;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAction;
+import memorymgmt.enums.eAction;
+import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.algorithm.planning.clsTEMPPlannerAW;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodelet;

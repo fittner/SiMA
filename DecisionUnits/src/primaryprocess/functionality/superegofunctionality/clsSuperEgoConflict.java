@@ -6,8 +6,8 @@
  */
 package primaryprocess.functionality.superegofunctionality;
 
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import datatypes.helpstructures.clsPair;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.helpstructures.clsPair;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 

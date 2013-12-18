@@ -8,9 +8,9 @@ package secondaryprocess.datamanipulation.meshprocessor;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsSecondaryDataStructure;
+import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**

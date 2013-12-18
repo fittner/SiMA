@@ -6,8 +6,8 @@
  */
 package secondaryprocess.algorithm.planning;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eActionType;
+import memorymgmt.enums.eActionType;
+import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 

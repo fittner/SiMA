@@ -12,13 +12,13 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 
-import datatypes.helpstructures.clsPair;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.datatypes.helpstructures.clsPair;
+import base.tools.ElementNotFoundException;
 import logger.clsLogger;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.tools.ElementNotFoundException;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsActionCodelet;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsConsequenceCodelet;
 import secondaryprocess.functionality.decisionpreparation.decisioncodelets.clsDecisionCodelet;

@@ -11,17 +11,17 @@ import general.datamanipulation.PrintTools;
 import java.util.ArrayList;
 
 import logger.clsLogger;
+import memorymgmt.enums.eContentType;
+import memorymgmt.interfaces.itfSearchSpaceAccess;
 
 import org.slf4j.Logger;
 
-import datatypes.helpstructures.clsPair;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationPrimary;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadActivationNode;
 import secondaryprocess.datamanipulation.clsImportanceTools;
 import secondaryprocess.datamanipulation.clsMeshTools;

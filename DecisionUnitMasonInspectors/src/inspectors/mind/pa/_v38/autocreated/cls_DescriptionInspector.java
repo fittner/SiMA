@@ -6,11 +6,12 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInterfaceDescription;
+
 import java.util.Iterator;
 
-import pa._v38.interfaces.itfInterfaceDescription;
-import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.tools.toText;
+import modules.interfaces.eInterfaces;
+import base.tools.toText;
 
 /**
  * DOCUMENT (deutsch) - insert description 

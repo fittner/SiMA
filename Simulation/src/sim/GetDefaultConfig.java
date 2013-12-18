@@ -51,8 +51,8 @@ public class GetDefaultConfig {
 			Class x = it.next();
 			clsProperties.writeProperties(clsARSINFactory.getEntityDefaultProperties(x, ""), oEntityDir, x.getName()+oSubExt, "");
 		}
-		clsProperties.writeProperties(pa.clsPsychoAnalysis.getDefaultProperties(""), oDecisionUnitDir, "psychoanalysis"+oSubExt, "");
-		clsProperties.writeProperties(MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties(""), oDecisionUnitDir, "pa_actionlesstest"+oSubExt, "");
+		clsProperties.writeProperties(control.clsPsychoAnalysis.getDefaultProperties(""), oDecisionUnitDir, "psychoanalysis"+oSubExt, "");
+		clsProperties.writeProperties(_MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties(""), oDecisionUnitDir, "pa_actionlesstest"+oSubExt, "");
 		
 		clsProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true, true), oBaseDir, "simplePropertyLoader"+oMainExt, "");
 		

@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.tools.ElementNotFoundException;
 import logger.clsLogger;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.tools.ElementNotFoundException;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 
 /**

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.tools.toText;
+import modules.interfaces.eInterfaces;
+import base.tools.toText;
 import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;

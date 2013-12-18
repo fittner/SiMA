@@ -8,8 +8,8 @@ package secondaryprocess.functionality.decisionmaking;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.enums.eCondition;
+import memorymgmt.enums.eCondition;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.datamanipulation.SortAndFilterTools;
 
 /**

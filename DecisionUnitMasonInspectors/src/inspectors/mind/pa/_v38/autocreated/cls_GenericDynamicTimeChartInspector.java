@@ -6,15 +6,16 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
+import inspector.interfaces.itfInterfaceTimeChartHistory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.XYDataItem;
-
-import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
-import pa._v38.interfaces.itfInterfaceTimeChartHistory;
 
 /**
  * DOCUMENT (deutsch) - insert description 

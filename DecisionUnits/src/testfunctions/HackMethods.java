@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 import logger.clsLogger;
+import memorymgmt.enums.eGoalType;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
 
 import org.slf4j.Logger;
 
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshGoal;
 import du.enums.eShapeType;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -9,17 +9,17 @@ package secondaryprocess.datamanipulation;
 import java.util.ArrayList;
 
 import logger.clsLogger;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.enums.ePredicate;
 
 import org.slf4j.Logger;
 
-import datatypes.helpstructures.clsTriple;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.ePredicate;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 

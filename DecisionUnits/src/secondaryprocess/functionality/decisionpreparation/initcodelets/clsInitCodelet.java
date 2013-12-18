@@ -8,7 +8,7 @@ package secondaryprocess.functionality.decisionpreparation.initcodelets;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.functionality.decisionpreparation.clsCodelet;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 

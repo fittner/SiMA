@@ -8,7 +8,7 @@ package secondaryprocess.functionality.decisionpreparation;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.enums.eCondition;
+import memorymgmt.enums.eCondition;
 
 /**
  * DOCUMENT (wendt) - insert description 

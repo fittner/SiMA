@@ -8,7 +8,7 @@ package inspectors.mind.pa._v38.functionalmodel;
 
 import java.util.ArrayList;
 
-import pa._v38.modules.clsModuleBase;
+import base.modules.clsModuleBase;
 
 /**
  * The Node object, If we change again from E->F or alike... change the prefix here too!!!

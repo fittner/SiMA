@@ -8,13 +8,14 @@ package secondaryprocess.algorithm.acts;
 
 import java.util.ArrayList;
 
+import memorymgmt.enums.eCondition;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+
 import org.apache.log4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;

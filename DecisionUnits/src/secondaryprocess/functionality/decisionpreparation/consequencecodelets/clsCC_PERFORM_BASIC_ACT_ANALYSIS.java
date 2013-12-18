@@ -8,9 +8,9 @@ package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.ElementNotFoundException;
+import memorymgmt.enums.eCondition;
+import base.datatypes.clsWordPresentationMesh;
+import base.tools.ElementNotFoundException;
 import secondaryprocess.algorithm.acts.clsActPreparationTools;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;

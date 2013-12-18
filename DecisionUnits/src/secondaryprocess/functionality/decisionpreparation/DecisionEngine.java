@@ -10,14 +10,14 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.tools.ElementNotFoundException;
 import logger.clsLogger;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.tools.ElementNotFoundException;
+import memorymgmt.enums.eCondition;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
 import secondaryprocess.functionality.decisionpreparation.GoalInitiationProcessor.GoalInitiatorInterface;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_EXECUTE_EXTERNAL_ACTION;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_FLEE;

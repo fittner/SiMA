@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.longtermmemory.psychicspreadactivation;
 
 import org.apache.log4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsThingPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 

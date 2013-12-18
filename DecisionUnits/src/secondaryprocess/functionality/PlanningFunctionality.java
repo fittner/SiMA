@@ -9,13 +9,13 @@ package secondaryprocess.functionality;
 import java.util.ArrayList;
 
 import logger.clsLogger;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eActionType;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eActionType;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.algorithm.planning.ActionPlanAlgorithm;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;

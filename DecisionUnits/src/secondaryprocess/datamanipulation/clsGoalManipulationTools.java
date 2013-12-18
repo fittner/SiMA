@@ -9,30 +9,32 @@ package secondaryprocess.datamanipulation;
 import general.datamanipulation.GeneralSortingTools;
 
 import java.util.ArrayList;
+
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eActivationType;
+import memorymgmt.enums.eCondition;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.enums.eEmotionType;
+import memorymgmt.enums.eGoalType;
+import memorymgmt.enums.ePredicate;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+
 import org.apache.log4j.Logger;
 
-import datatypes.helpstructures.clsPair;
-import datatypes.helpstructures.clsTriple;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsEmotion;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eActivationType;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eEmotionType;
-import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.modules.clsModuleBaseKB;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationWordPresentation;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsEmotion;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshAimOfDrive;
+import base.datatypes.clsWordPresentationMeshFeeling;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
+import base.modules.clsModuleBaseKB;
 import secondaryprocess.algorithm.goals.GoalArrangementTools;
 
 /**

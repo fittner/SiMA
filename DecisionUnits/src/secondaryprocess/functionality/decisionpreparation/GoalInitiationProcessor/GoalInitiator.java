@@ -9,12 +9,12 @@ package secondaryprocess.functionality.decisionpreparation.GoalInitiationProcess
 import java.util.ArrayList;
 
 import logger.clsLogger;
+import memorymgmt.enums.eCondition;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshPossibleGoal;
-import pa._v38.memorymgmt.enums.eCondition;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 

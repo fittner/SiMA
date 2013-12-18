@@ -5,11 +5,14 @@
  */
 package inspectors.mind.pa._v38;
 
+import inspector.interfaces.itfInspectorGenericTimeChart;
+import inspector.interfaces.itfInspectorStackedBarChart;
 import inspectors.mind.pa._v38.autocreated.cls_DescriptionInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StackedBarChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v38.graph.clsGraphData;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -21,11 +24,10 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import pa.clsPsychoAnalysis;
-import pa._v38.clsProcessor;
-import pa._v38.interfaces.itfInspectorGenericTimeChart;
-import pa._v38.interfaces.itfInspectorStackedBarChart;
-import pa._v38.modules.clsPsychicApparatus;
+
+import base.modules.clsPsychicApparatus;
+import control.clsProcessor;
+import control.clsPsychoAnalysis;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

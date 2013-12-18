@@ -6,18 +6,20 @@
  */
 package pa._v38.memorymgmt.framessearchspace;
 
+import inspector.interfaces.itfInspectorInternalState;
+
 import java.util.ArrayList;
+
+import memorymgmt.enums.eDataType;
 
 import org.apache.log4j.Logger;
 
-import pa._v38.interfaces.itfInspectorInternalState;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationTime;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.enums.eDataType;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationTime;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsPrimaryDataStructure;
+import base.datatypes.clsSecondaryDataStructure;
+import base.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.framessearchspace.enums.eDataSources;
 
 /**
