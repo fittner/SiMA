@@ -21,5 +21,5 @@ import base.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I6_12_receive {
-	public void receive_I6_12(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
+	public void receive_I6_12(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary, clsWordPresentationMesh moWordingToContext2);
 }

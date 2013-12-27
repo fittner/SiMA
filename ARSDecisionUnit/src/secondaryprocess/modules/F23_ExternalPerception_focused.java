@@ -12,6 +12,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import modules.interfaces.I6_12_receive;
+import modules.interfaces.I6_3_receive;
+import modules.interfaces.I6_6_send;
+import modules.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.I6_6_receive;
+import secondaryprocess.functionality.FocusFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
+import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
+import testfunctions.clsTester;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
@@ -23,19 +35,7 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
-import modules.interfaces.I6_12_receive;
-import modules.interfaces.I6_3_receive;
-import modules.interfaces.I6_6_receive;
-import modules.interfaces.I6_6_send;
-import modules.interfaces.eInterfaces;
 import config.clsProperties;
-import secondaryprocess.functionality.FocusFunctionality;
-import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
-import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
-import testfunctions.clsTester;
 
 /**
  * The task of this module is to focus the external perception on ``important'' things. Important things are decided by the
@@ -50,6 +50,7 @@ import testfunctions.clsTester;
 public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I6_12_receive, I6_3_receive, I6_6_send {
 	public static final String P_MODULENUMBER = "23";
 	
+	private clsWordPresentationMesh moWordingToContext;
 	/** Perception IN */
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
 	/** Associated Memories IN; @since 07.02.2012 15:54:51 */
@@ -179,10 +180,11 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_12(clsWordPresentationMesh poPerception,
-			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary, clsWordPresentationMesh moWordingToContext2) {
 		
 		moPerceptionalMesh_IN = poPerception;
 		moAssociatedMemories_IN = poAssociatedMemoriesSecondary;
+		  moWordingToContext = moWordingToContext2;
 		
 	}	
 
@@ -309,7 +311,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void send() {
-		send_I6_6(moPerceptionalMesh_OUT, moReachableGoalList_OUT, moAssociatedMemories_OUT);
+		send_I6_6(moPerceptionalMesh_OUT, moReachableGoalList_OUT, moWordingToContext);
 	}
 
 	/* (non-Javadoc)
@@ -320,10 +322,10 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * @see pa.interfaces.send.I2_12_send#send_I2_12(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_6(clsWordPresentationMesh poFocusedPerception, ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary_OUT) {
-		((I6_6_receive)moModuleList.get(51)).receive_I6_6(poFocusedPerception, poReachableGoalList, poAssociatedMemoriesSecondary_OUT);
+	public void send_I6_6(clsWordPresentationMesh poFocusedPerception, ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, clsWordPresentationMesh moAssociatedMemories_OUT2) {
+		((I6_6_receive)moModuleList.get(51)).receive_I6_6(poFocusedPerception, poReachableGoalList, moAssociatedMemories_OUT2);
 		
-		putInterfaceData(I6_6_send.class, poFocusedPerception, poReachableGoalList, poAssociatedMemoriesSecondary_OUT);
+		putInterfaceData(I6_6_send.class, poFocusedPerception, poReachableGoalList, moAssociatedMemories_OUT2);
 	}
 
 	/* (non-Javadoc)

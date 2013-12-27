@@ -27,7 +27,8 @@ public class clsConcept {
      */
     protected clsWordPresentationMesh moConceptMesh;
     public clsWordPresentationMesh moWording;
-
+    public clsWordPresentationMesh moWording_Share;
+    public clsWordPresentationMesh moWording_Yes;
     /** The String representations of the ConceptEntities */
     private List<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>> moConceptEntities;
 
@@ -40,7 +41,11 @@ public class clsConcept {
     public clsConcept() {
         moConceptMesh = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.UNDEFINED),
                 new ArrayList<clsAssociation>(), "");
-        moWording = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.EAT),
+        moWording_Share = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.SPEAK_SHARE),
+                new ArrayList<clsAssociation>(), "");
+        moWording_Yes = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.SPEAK_YES),
+                new ArrayList<clsAssociation>(), "");
+        moWording = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.UNDEFINED),
                 new ArrayList<clsAssociation>(), "");
         moConceptEntities = new ArrayList<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>>();
     }

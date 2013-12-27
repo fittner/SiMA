@@ -12,6 +12,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import modules.interfaces.I6_2_receive;
+import modules.interfaces.I6_3_receive;
+import modules.interfaces.I6_8_receive;
+import modules.interfaces.I6_8_send;
+import modules.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.I6_7_receive;
+import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
+import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
+import testfunctions.clsTester;
 import base.datatypes.clsAct;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
@@ -25,22 +38,8 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
-import modules.interfaces.I6_13_receive;
-import modules.interfaces.I6_2_receive;
-import modules.interfaces.I6_3_receive;
-import modules.interfaces.I6_7_receive;
-import modules.interfaces.I6_8_receive;
-import modules.interfaces.I6_8_send;
-import modules.interfaces.eInterfaces;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
-import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
-import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
-import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
-import testfunctions.clsTester;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
@@ -56,8 +55,7 @@ import testfunctions.clsTester;
  * 31.07.2011, 14:13:58
  * 
  */
-public class F26_DecisionMaking extends clsModuleBaseKB implements 
-I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
+public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
 	
 	/** Specialized Logger for this class */
@@ -96,6 +94,8 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	
 	
 	private int mnAvoidIntensity;
+	
+	private clsWordPresentationMesh moWordingToContext;
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
@@ -292,23 +292,17 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 
 
 	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 11.08.2009, 14:52:37
-	 * 
-	 * @see pa.interfaces.I2_13#receive_I2_13(int)
-	 * 
-	 * by this interface a set of reality information, filtered by E24 (reality check), is received
-	 * fills moRealityPerception
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void receive_I6_7(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList) {
-		//moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poReachableGoalList); 
-		moReachableGoalList_IN = poReachableGoalList; 
-	}
-	
+    *
+    * @since 26.12.2013 19:33:00
+    * 
+    * @see pa._v38.interfaces.modules.I6_7_receive#receive_I6_7(java.util.ArrayList, pa._v38.memorymgmt.datatypes.clsWordPresentationMesh)
+    */
+   @Override
+   public void receive_I6_7(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, clsWordPresentationMesh moWordingToContext2) {
+       moReachableGoalList_IN = poReachableGoalList; 
+       moWordingToContext = moWordingToContext2;
+   }
+
 	
 	/* (non-Javadoc)
 	 *
@@ -417,50 +411,6 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		moDescription = "Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability.";
 	}
 
-    /* (non-Javadoc)
-     *
-     * @since 06.09.2013 16:13:23
-     * 
-     * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(pa._v38.memorymgmt.datatypes.clsWording)
-     */
-    @Override
-    public void receive_I6_13(clsWording moWording) {
-      moSpeechList_IN = moWording;
-        
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 06.09.2013 16:13:23
-     * 
-     * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
-     */
-    @Override
-    public void receive_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-       moPerceptionAssociations = poPerception;
-        
-    }
-
-
-
-    /* (non-Javadoc)
-     *
-     * @since 12.09.2013 22:24:01
-     * 
-     * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh)
-     */
-    @Override
-    public void receive_I6_13(clsWordPresentationMesh moWording) {
-        // TODO (hinterleitner) - Auto-generated method stub
-        
-    }
-
-
-   
-
-
-
-
-	
+  
 }
 

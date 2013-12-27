@@ -12,9 +12,10 @@ import java.util.SortedMap;
 
 import memorymgmt.storage.DT3_PsychicEnergyStorage;
 import modules.interfaces.I6_12_receive;
-import modules.interfaces.I6_12_send;
 import modules.interfaces.I6_1_receive;
 import modules.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.I6_12_send;
+import pa._v38.interfaces.modules.I6_13_receive;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
@@ -30,9 +31,13 @@ import config.clsProperties;
  * 07.05.2012, 14:46:53
  * 
  */
-public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_12_send {
+public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_12_send, I6_13_receive {
 	public static final String P_MODULENUMBER = "61";
 	
+	private ArrayList<clsWordPresentationMesh> moWording_IN;
+    
+    private clsWordPresentationMesh moWordingToContext;
+  
 	/** Perception IN */
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
 	/** Associated Memories IN; @since 07.02.2012 15:54:51 */
@@ -177,7 +182,7 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 	 */
 	@Override
 	protected void send() {
-		send_I6_12(moPerceptionalMesh_OUT, moAssociatedMemories_OUT);
+		send_I6_12(moPerceptionalMesh_OUT, moAssociatedMemories_OUT, moWordingToContext);
 	}
 	
 //	@Override
@@ -191,19 +196,19 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 //	}
 	
 	/* (non-Javadoc)
-	 *
-	 * @since 07.05.2012 13:59:47
-	 * 
-	 * @see pa._v38.interfaces.modules.I6_12_send#send_I6_12(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
-	 */
-	@Override
-	public void send_I6_12(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-		((I6_12_receive)moModuleList.get(23)).receive_I6_12(poPerception, poAssociatedMemoriesSecondary);
+    *
+    * @since 07.05.2012 13:59:47
+    * 
+    * @see pa._v38.interfaces.modules.I6_12_send#send_I6_12(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
+    */
+   @Override
+   public void send_I6_12(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary, clsWordPresentationMesh moWordingToContext2) {
+       ((I6_12_receive)moModuleList.get(23)).receive_I6_12(poPerception, poAssociatedMemoriesSecondary, moWordingToContext2);
 
-		putInterfaceData(I6_12_send.class, poPerception, poAssociatedMemoriesSecondary);
-		
-	}
-	
+       putInterfaceData(I6_12_send.class, poPerception, poAssociatedMemoriesSecondary, moWordingToContext2);
+       
+   }
+   
 	
 
 	
@@ -256,6 +261,39 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 	public void setDescription() {
 		moDescription = "TODO";
 	}
+
+    /* (non-Javadoc)
+     *
+     * @since 27.12.2013 19:11:15
+     * 
+     * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(base.datatypes.clsWordPresentationMesh, base.datatypes.clsWordPresentationMesh, java.util.ArrayList)
+     */
+    @Override
+    public void receive_I6_13(clsWordPresentationMesh moWordingToContext_OUT2, clsWordPresentationMesh poPerception,
+            ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+        
+        moPerceptionalMesh_IN = poPerception; 
+        moAssociatedMemories_IN = poAssociatedMemoriesSecondary;
+        moWordingToContext = moWordingToContext_OUT2;
+        
+    }
+    
+    
+    /* (non-Javadoc)
+    *
+    * @since 25.12.2013 16:01:10
+    * 
+    * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(java.util.ArrayList, pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
+    */
+   @Override
+   public void receive_I6_13(ArrayList<clsWordPresentationMesh> poWording, clsWordPresentationMesh poPerception,
+           ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+       
+       poPerception = moPerceptionalMesh_IN;  
+       poAssociatedMemoriesSecondary = moAssociatedMemories_IN;
+       poWording = moWording_IN;
+       
+   }
 
 	
 	

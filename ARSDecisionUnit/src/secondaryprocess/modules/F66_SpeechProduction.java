@@ -9,7 +9,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.situationloader.clsConceptLoader;
+import memorymgmt.situationloader.clsSituationLoader;
+import memorymgmt.situationloader.itfConceptLoader;
+import memorymgmt.situationloader.itfSituationLoader;
+import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import modules.interfaces.I6_1_receive;
+import modules.interfaces.I6_2_receive;
+import modules.interfaces.I6_3_receive;
+import modules.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.I6_13_receive;
+import pa._v38.interfaces.modules.I6_13_send;
+import testfunctions.clsTester;
+import base.datatypes.clsAssociation;
 import base.datatypes.clsConcept;
+import base.datatypes.clsEmotion;
 import base.datatypes.clsSituation;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
@@ -20,21 +35,13 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.situationloader.clsConceptLoader;
-import memorymgmt.situationloader.clsSituationLoader;
-import memorymgmt.situationloader.itfConceptLoader;
-import memorymgmt.situationloader.itfSituationLoader;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
-import modules.interfaces.I6_12_receive;
-import modules.interfaces.I6_13_send;
-import modules.interfaces.I6_1_receive;
-import modules.interfaces.I6_2_receive;
-import modules.interfaces.I6_3_receive;
-import modules.interfaces.eInterfaces;
-import testfunctions.clsTester;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import du.enums.eInternalActionIntensity;
+import du.itf.actions.clsActionShare;
+import du.itf.actions.clsInternalActionCommand;
+import du.itf.actions.clsInternalActionSweat;
+import du.itf.actions.itfInternalActionProcessor;
 
 /**
  * 
@@ -64,7 +71,15 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     DT3_PsychicEnergyStorage poPsychicEnergyStorage;
     clsPersonalityParameterContainer poPersonalityParameterContainer;
     private clsShortTermMemory moShortTermMemory;
-
+    
+    private ArrayList<clsAssociation> moExternalAssociatedContent;
+    private clsWordPresentationMesh moContext;
+    private clsWordPresentationMesh moWording_Share;
+    private clsWordPresentationMesh moWording_Yes;
+    private clsWordPresentationMesh moWordingToContext_OUT;
+    private ArrayList<clsEmotion> moEmotions_Input;
+    private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
+    
     public F66_SpeechProduction(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage,
             clsPersonalityParameterContainer poPersonalityParameterContainer, clsShortTermMemory poShortTermMemory) throws Exception {
@@ -79,10 +94,6 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         
         applyProperties(poPrefix, poProp);
         this.moShortTermMemory = poShortTermMemory;
-
-       // moWording = new clsWording().getWording();
-        // mnSpeechThresold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, SPEECH_THRESHOLD).getParameterInt();
-        
 
     }
 
@@ -168,43 +179,52 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
                     .extend(moConcept, moProperties, moDriveList_IN.toArray(new clsWordPresentationMeshGoal[moDriveList_IN.size()]));
         }
 
-        moSituation = oSituationLoader.generate("TODO the prefix for situations?", moConcept, moProperties);
+       // moSituation = oSituationLoader.generate("TODO the prefix for situations?", moConcept, moProperties);
 
-        this.moShortTermMemory.saveToShortTimeMemory(moConcept.returnContent());
+       // this.moShortTermMemory.saveToShortTimeMemory(moConcept.returnContent());
         
-        createMappingforWording(); 
+        moExternalAssociatedContent = moPerceptionalMesh_IN.getExternalAssociatedContent();
+
+        moPerceptionalMesh_IN.getExternalAssociatedContent();
+
+        clsAssociation element;
+        String elementnew;
+
+        element = moExternalAssociatedContent.get(0);
+        element.getAssociationElementB();
+        elementnew = element.getAssociationElementB().toString();
+
+        moContext = new clsConcept().moWording;
         
+        if (moWordingToContext_OUT == null) {
+            moWordingToContext_OUT = moContext;
+        }
         
-        //TODO
-        //Konzepte in WPMs umwandeln, die mit dem CONCEPT-WPMs in Protege korrespondieren
-        //Protoge: Die Kontexts wie Images aufbauen. Was soll im Image vorhanden sein, damit man es als "House" erkennt
-        //
+        if (elementnew.contains("BODO(RIGHT:FAR)")) {
+            
+            triggerSpeech_schnitzel(moEmotions_Input); // share?
+            moWording_Share = new clsConcept().moWording_Share;
+            moWordingToContext_OUT = moWording_Share;
+        }
+
+        if (elementnew.contains("CAKE(CENTER:FAR)")) {
+            triggerSpeech_eat(moEmotions_Input); // Yes
+            moWording_Yes = new clsConcept().moWording_Yes;
+            moWordingToContext_OUT = moWording_Yes;
+        }
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        if (elementnew.contains("CARROT(MIDDLE_LEFT:FAR)")) {
+            triggerSpeech_schnitzel(moEmotions_Input); // share?
+            moWording_Share = new clsConcept().moWording_Share;
+            moWordingToContext_OUT = moWording_Share;
+        }
         
         
         
         moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
         moAssociatedMemories_OUT = moAssociatedMemories_IN;
-        
+       
+      
         //=== Perform system tests ===//
         clsTester.getTester().setActivated(false);
         if (clsTester.getTester().isActivated()) {
@@ -221,16 +241,28 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     }
 
     /**
-     * DOCUMENT - insert description
-     *
+     * DOCUMENT - create initial wording based on input
+     * 
      * @author hinterleitner
-     * @since 24.10.2013 22:50:33
-     *
+     * @param moEmotions_Input2
+     * @since 14.12.2013 16:47:31
+     * 
      */
-    private void createMappingforWording() {
-        // TODO (hinterleitner) - Auto-generated method stub
-        
+    private void triggerSpeech_schnitzel(ArrayList<clsEmotion> moEmotions_Input2) {
+        clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
+
+        // Speech Trigger - Eat
+        moInternalActions.add(test);
+
     }
+
+    private void triggerSpeech_eat(ArrayList<clsEmotion> moEmotions_Input2) {
+        clsActionShare testnew1 = new clsActionShare(eInternalActionIntensity.HEAVY);
+
+        // Thought Trigger
+        moInternalActions.add(testnew1);
+    }
+
 
     @Override
     protected void process_draft() {
@@ -243,11 +275,6 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         throw new java.lang.NoSuchMethodError();
     }
 
-    public void send_I6_13(clsWordPresentationMesh moPerceptionalMesh_OUT2, ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT2, clsConcept moConcept2) {
-
-        // AW 20110602 Added Associtated memories
-        // moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>) this.deepCopy(moAssociatedMemories_IN);
-    }
 
     @Override
     protected void setProcessType() {
@@ -278,26 +305,11 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     protected void send() {
-            send_I6_13(moPerceptionalMesh_OUT, moAssociatedMemories_OUT);
-        }
-
-  
-
-    /**
-     * DOCUMENT (hinterleitner) - insert description
-     *
-     * @since 23.08.2013 20:01:05
-     *
-     * @param moPerceptionalMesh_OUT2
-     * @param moAssociatedMemories_OUT2
-     */
-    @Override
-    public void send_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-        ((I6_12_receive)moModuleList.get(23)).receive_I6_12(poPerception, poAssociatedMemoriesSecondary);
-
-        putInterfaceData(I6_13_send.class, poPerception, poAssociatedMemoriesSecondary);
+        send_I6_13(moWordingToContext_OUT, moPerceptionalMesh_OUT, moAssociatedMemories_OUT);
+       
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -339,6 +351,37 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         moSecondaryDataStructureContainer_IN = poSecondaryDataStructureContainer_Output;
     }
 
+    
+
+    /* (non-Javadoc)
+    *
+    * @since 25.12.2013 16:04:42
+    * 
+    * @see pa._v38.interfaces.modules.I6_13_send#send_I6_13(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
+    */
+   @Override
+   public void send_I6_13(clsWordPresentationMesh moWordingToContext_OUT, clsWordPresentationMesh poPerception,
+           ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+       
+       ((I6_13_receive) moModuleList.get(61)).receive_I6_13(moWordingToContext_OUT, poPerception, poAssociatedMemoriesSecondary);
+
+       putInterfaceData(I6_13_send.class, moWordingToContext_OUT, poPerception, poAssociatedMemoriesSecondary);
+       
+   }
+
+/**
+ * DOCUMENT - insert description
+ *
+ * @author hinterleitner
+ * @since 27.12.2013 19:21:09
+ *
+ * @param poInternalActionContainer
+ */
+public void getBodilyReactions(itfInternalActionProcessor poInternalActionContainer) {
+    for (clsInternalActionCommand oCmd : moInternalActions) {
+        poInternalActionContainer.call(oCmd);
+    }
+}
 
   
 

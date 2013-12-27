@@ -12,6 +12,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import modules.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.I6_6_receive;
+import pa._v38.interfaces.modules.I6_7_receive;
+import pa._v38.interfaces.modules.I6_7_send;
+import secondaryprocess.functionality.EffortFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalConditionFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngineInterface;
+import secondaryprocess.functionality.shorttermmemory.EnvironmentalImageFunctionality;
+import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
@@ -21,23 +36,8 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
-import modules.interfaces.I6_6_receive;
-import modules.interfaces.I6_7_receive;
-import modules.interfaces.I6_7_send;
-import modules.interfaces.eInterfaces;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
-import secondaryprocess.functionality.EffortFunctionality;
-import secondaryprocess.functionality.decisionmaking.GoalConditionFunctionality;
-import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
-import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
-import secondaryprocess.functionality.decisionpreparation.DecisionEngineInterface;
-import secondaryprocess.functionality.shorttermmemory.EnvironmentalImageFunctionality;
-import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 
 /**
  * The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}. 
@@ -58,6 +58,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	public static final String P_REDUCEFACTOR_FOR_DRIVES = "REDUCEFACTOR_FOR_DRIVES";
 	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";
 	
+	private clsWordPresentationMesh moWordingToContext;
 	/** Perception IN */
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
 	
@@ -190,31 +191,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		mnPsychicInstances = ePsychicInstances.EGO;
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 11.08.2009, 14:49:45
-	 * 
-	 * @see pa.interfaces.I2_12#receive_I2_12(int)
-	 */
-	@Override
-	public void receive_I6_6(clsWordPresentationMesh poPerception, 
-			ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, 
-			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-		
-		moPerceptionalMesh_IN = poPerception;
-//		try {
-//			moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
-//		} catch (CloneNotSupportedException e) {
-//			// TODO (wendt) - Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		//moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poReachableGoalList);
-		//moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemoriesSecondary);
-		
-		moReachableGoalList_IN = poReachableGoalList;
-	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author kohlhauser
@@ -349,86 +326,109 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	
 
 	
-	
 	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 11.08.2009, 16:16:25
-	 * 
-	 * @see pa.modules.clsModuleBase#send()
-	 */
-	@Override
-	protected void send() {
-		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I6_7(moReachableGoalList_OUT);
-	}
+    *
+    * @author kohlhauser
+    * 11.08.2009, 16:16:25
+    * 
+    * @see pa.modules.clsModuleBase#send()
+    */
+   @Override
+   protected void send() {
+       //HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
+       send_I6_7(moReachableGoalList_OUT, moWordingToContext);
+   }
 
-	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 18.05.2010, 17:51:11
-	 * 
-	 * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
-	 */
-	@Override
-	public void send_I6_7(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList)
-			{
-		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poReachableGoalList);
-		
-		putInterfaceData(I6_7_send.class, poReachableGoalList);
-	}
+   /* (non-Javadoc)
+    *
+    * @author kohlhauser
+    * 18.05.2010, 17:51:11
+    * 
+    * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
+    */
+   @Override
+   public void send_I6_7(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, clsWordPresentationMesh moWordingToContext2)
+           {
+       ((I6_7_receive)moModuleList.get(26)).receive_I6_7(poReachableGoalList, moWordingToContext2);
+       
+       putInterfaceData(I6_7_send.class, poReachableGoalList, moWordingToContext2);
+   }
 
-	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 12.07.2010, 10:47:25
-	 * 
-	 * @see pa.modules.clsModuleBase#process_draft()
-	 */
-	@Override
-	protected void process_draft() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
-	}
+   /* (non-Javadoc)
+    *
+    * @author kohlhauser
+    * 12.07.2010, 10:47:25
+    * 
+    * @see pa.modules.clsModuleBase#process_draft()
+    */
+   @Override
+   protected void process_draft() {
+       // TODO (KOHLHAUSER) - Auto-generated method stub
+       throw new java.lang.NoSuchMethodError();
+   }
 
-	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 12.07.2010, 10:47:25
-	 * 
-	 * @see pa.modules.clsModuleBase#process_final()
-	 */
-	@Override
-	protected void process_final() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
-	}
+   /* (non-Javadoc)
+    *
+    * @author kohlhauser
+    * 12.07.2010, 10:47:25
+    * 
+    * @see pa.modules.clsModuleBase#process_final()
+    */
+   @Override
+   protected void process_final() {
+       // TODO (KOHLHAUSER) - Auto-generated method stub
+       throw new java.lang.NoSuchMethodError();
+   }
 
-	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 03.03.2011, 16:50:53
-	 * 
-	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
-	 */
-	@Override
-	protected void setModuleNumber() {
-		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
-		
-	}
-	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 15.04.2011, 13:52:57
-	 * 
-	 * @see pa.modules._v38.clsModuleBase#setDescription()
-	 */
-	@Override
-	public void setDescription() {
-		moDescription = "The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}.";
-	}
+   /* (non-Javadoc)
+    *
+    * @author kohlhauser
+    * 03.03.2011, 16:50:53
+    * 
+    * @see pa.modules._v38.clsModuleBase#setModuleNumber()
+    */
+   @Override
+   protected void setModuleNumber() {
+       mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+       
+   }
+   /* (non-Javadoc)
+    *
+    * @author kohlhauser
+    * 15.04.2011, 13:52:57
+    * 
+    * @see pa.modules._v38.clsModuleBase#setDescription()
+    */
+   @Override
+   public void setDescription() {
+       moDescription = "The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}.";
+   }
 
-		
-	
+/* (non-Javadoc)
+ *
+ * @since 27.12.2013 19:03:11
+ * 
+ * @see pa._v38.interfaces.modules.I6_6_receive#receive_I6_6(base.datatypes.clsWordPresentationMesh, java.util.ArrayList, java.util.ArrayList)
+ */
+@Override
+public void receive_I6_6(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList,
+        clsWordPresentationMesh poContextToWording) {
+    moPerceptionalMesh_IN = poPerception;
+//  try {
+//      moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
+//  } catch (CloneNotSupportedException e) {
+//      // TODO (wendt) - Auto-generated catch block
+//      e.printStackTrace();
+//  }
+    //moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poReachableGoalList);
+    //moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemoriesSecondary);
+    
+    moReachableGoalList_IN = poReachableGoalList;
+    moWordingToContext = poContextToWording;
+}
+
+  
+   
+
 }
 

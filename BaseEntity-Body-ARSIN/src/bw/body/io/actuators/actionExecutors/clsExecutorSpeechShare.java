@@ -105,7 +105,7 @@ public class clsExecutorSpeechShare extends clsInternalActionExecutor{
 	@Override
 	public boolean execute(clsInternalActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		moEntity.setThoughtExpressionOverlayImage(eSpeechExpression.SCHNITZEL);
+		moEntity.setThoughtExpressionOverlayImage(eSpeechExpression.YES);
 		//setFacialExpressionOverlayImage
 		//oBody.setSpeechExpression(eSpeechExpression.INVITED);
 		

@@ -19,5 +19,7 @@ import base.datatypes.clsWordPresentationMeshPossibleGoal;
  * 
  */
 public interface I6_6_send {
-	public void send_I6_6(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoalList, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
+	public
+    void send_I6_6(clsWordPresentationMesh poFocusedPerception, ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList,
+            clsWordPresentationMesh poContextToWording);
 }
