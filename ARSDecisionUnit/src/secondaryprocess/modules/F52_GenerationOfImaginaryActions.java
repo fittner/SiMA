@@ -90,6 +90,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
+	private clsWordPresentationMesh moWordingToContext;
+	
 	//private ArrayList<clsWordPresentationMesh> moPossibleInternalActionPlans;
 
 	/**
@@ -436,9 +438,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_8(ArrayList<clsWordPresentationMeshPossibleGoal> poDecidedGoalList) {
+	public void receive_I6_8(ArrayList<clsWordPresentationMeshPossibleGoal> poDecidedGoalList, clsWordPresentationMesh moWordingToContext2) {
 		//moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poDecidedGoalList);
 		moGoalList_IN = poDecidedGoalList;
+	    moWordingToContext = moWordingToContext2;
+		
 	}
 	
 //	/* (non-Javadoc)
@@ -474,7 +478,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_9(moGoalList_OUT);
+		send_I6_9(moGoalList_OUT, moWordingToContext);
 
 	}
 
@@ -486,15 +490,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_9(ArrayList<clsWordPresentationMeshPossibleGoal> poGoals) {
-		//((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		//((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		//((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		//((I6_9_receive) moModuleList.get(29)).receive_I6_9(poGoals);
-		//((I6_9_receive) moModuleList.get(47)).receive_I6_9(poGoals);
-		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poGoals);
+	public void send_I6_9(ArrayList<clsWordPresentationMeshPossibleGoal> poGoals, clsWordPresentationMesh moWordingToContext2) {
+		
+		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poGoals, moWordingToContext2);
 
-		putInterfaceData(I6_9_send.class, poGoals);
+		putInterfaceData(I6_9_send.class, poGoals, moWordingToContext2);
 
 	}
 

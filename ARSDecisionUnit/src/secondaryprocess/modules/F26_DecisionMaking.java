@@ -343,7 +343,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	 */
 	@Override
 	protected void send() {
-		send_I6_8(moDecidedGoalList_OUT);
+		send_I6_8(moDecidedGoalList_OUT, moWordingToContext);
 	}
 
 	/* (non-Javadoc)
@@ -354,10 +354,10 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I6_8(ArrayList<clsWordPresentationMeshPossibleGoal> poDecidedGoalList_OUT) {
-		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poDecidedGoalList_OUT);
+	public void send_I6_8(ArrayList<clsWordPresentationMeshPossibleGoal> poDecidedGoalList_OUT, clsWordPresentationMesh moWordingToContext2) {
+		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poDecidedGoalList_OUT, moWordingToContext2);
 		
-		putInterfaceData(I6_8_send.class, poDecidedGoalList_OUT);
+		putInterfaceData(I6_8_send.class, poDecidedGoalList_OUT,moWordingToContext2);
 	}
 
 	/* (non-Javadoc)

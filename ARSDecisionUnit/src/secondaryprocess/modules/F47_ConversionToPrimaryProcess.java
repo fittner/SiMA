@@ -54,6 +54,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	/** The list of generated actions */
 	private clsWordPresentationMesh actionCommand_IN;
 	/** The list of associated memories of the generated actions */
+	private clsWordPresentationMesh moWordingToContext;
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
@@ -330,9 +331,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
     * @see pa._v38.interfaces.modules.I6_11_receive#receive_I6_11(java.util.ArrayList)
     */
    @Override
-   public void receive_I6_11(clsWordPresentationMesh poActionCommands) {
+   public void receive_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2) {
        actionCommand_IN = poActionCommands;
-       
+       moWordingToContext = moWordingToContext2;
    }   
 	
 	
@@ -347,5 +348,6 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	public void setDescription() {
 		moDescription = "Contents of various action plans can be used to reduce libido tension in E45. Before they can be processed by primary process functions, they have to be converted back again. The preconscious parts of the contents - the word presentations - are removed by this module.";
 	}
-		
+
+  
 }

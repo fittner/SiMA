@@ -61,6 +61,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	private clsShortTermMemory moEnvironmentalImageStorage;
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private clsWordPresentationMesh moWordingToContext;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -212,8 +213,9 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_11(clsWordPresentationMesh poActionCommands) {
+	public void receive_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2) {
 		moActionCommand_Input = poActionCommands; 
+		moWordingToContext = moWordingToContext2;
 	}
 
 	/* (non-Javadoc)

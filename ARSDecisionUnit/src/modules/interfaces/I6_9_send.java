@@ -8,6 +8,7 @@ package modules.interfaces;
 
 import java.util.ArrayList;
 
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
@@ -18,5 +19,5 @@ import base.datatypes.clsWordPresentationMeshPossibleGoal;
  * 
  */
 public interface I6_9_send {
-	public void send_I6_9(ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoals);
+	public void send_I6_9(ArrayList<clsWordPresentationMeshPossibleGoal> poGoals, clsWordPresentationMesh moWordingToContext2);
 }

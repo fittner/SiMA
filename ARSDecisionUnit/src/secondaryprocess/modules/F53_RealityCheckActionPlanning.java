@@ -59,6 +59,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	
 	private final Logger log = clsLogger.getLog("F" + P_MODULENUMBER);
 	
+	private clsWordPresentationMesh moWordingToContext;
+	
 	/**
 	 * DOCUMENT (Kohlhauser) - insert description 
 	 * 
@@ -156,7 +158,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void send() {
-		send_I6_10(selectableGoals);
+		send_I6_10(selectableGoals, moWordingToContext);
 	}
 
 	/* (non-Javadoc)
@@ -191,8 +193,9 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoals) {
+	public void receive_I6_9(ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoals, clsWordPresentationMesh moWordingToContext2) {
 	    selectableGoals = poSelectableGoals;
+	    moWordingToContext =  moWordingToContext2;
 	}
 
 	/* (non-Javadoc)
@@ -203,10 +206,10 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 * @see pa.interfaces.send.I7_6_send#send_I7_6(int)
 	 */
 	@Override
-	public void send_I6_10(ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoals) {
-		((I6_10_receive)moModuleList.get(29)).receive_I6_10(poSelectableGoals);
+	public void send_I6_10(ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoals, clsWordPresentationMesh moWordingToContext2) {
+		((I6_10_receive)moModuleList.get(29)).receive_I6_10(poSelectableGoals, moWordingToContext2);
 		
-		putInterfaceData(I6_10_send.class, poSelectableGoals);
+		putInterfaceData(I6_10_send.class, poSelectableGoals, moWordingToContext2);
 	}
 
 	/* (non-Javadoc)

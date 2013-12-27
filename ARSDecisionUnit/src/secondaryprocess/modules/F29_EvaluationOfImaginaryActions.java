@@ -74,6 +74,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private String moTEMPDecisionString = "";
 	
+	private clsWordPresentationMesh moWordingToContext;
+	
+
     /**
      * DOCUMENT (perner) - insert description
      * 
@@ -199,9 +202,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @see pa.interfaces.I7_6#receive_I7_6(java.util.ArrayList)
      */
     @Override
-    public void receive_I6_10(ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoals) {
+    public void receive_I6_10(ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoals, clsWordPresentationMesh moWordingToContext2) {
         moSelectableGoals = selectableGoals;
-
+        moWordingToContext = moWordingToContext2;
     }
 
     /*
@@ -380,7 +383,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      */
     @Override
     protected void send() {
-        send_I6_11(moActionCommand);
+        send_I6_11(moActionCommand, moWordingToContext);
 
     }
 
@@ -392,9 +395,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @see pa.interfaces.send.I7_4_send#send_I7_4(java.util.ArrayList)
      */
     @Override
-    public void send_I6_11(clsWordPresentationMesh poActionCommands) {
-        ((I6_11_receive) moModuleList.get(30)).receive_I6_11(poActionCommands);
-        ((I6_11_receive) moModuleList.get(47)).receive_I6_11(poActionCommands);
+    public void send_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2) {
+        ((I6_11_receive) moModuleList.get(30)).receive_I6_11(poActionCommands, moWordingToContext2);
+        ((I6_11_receive) moModuleList.get(47)).receive_I6_11(poActionCommands, moWordingToContext2);
         //((I6_11_receive) moModuleList.get(52)).receive_I6_11(poActionCommands);
 
         putInterfaceData(I6_11_send.class, poActionCommands);
@@ -505,4 +508,6 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
         return oCaptions;
     }
+
+   
 }

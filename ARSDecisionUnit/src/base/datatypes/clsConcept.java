@@ -25,7 +25,7 @@ public class clsConcept {
     /**
      * The Concept stored as a {@link clsWordPresentationMesh} to enable integration into the memory.
      */
-    protected clsWordPresentationMesh moConceptMesh;
+    public clsWordPresentationMesh moConceptMesh;
     public clsWordPresentationMesh moWording;
     public clsWordPresentationMesh moWording_Share;
     public clsWordPresentationMesh moWording_Yes;
