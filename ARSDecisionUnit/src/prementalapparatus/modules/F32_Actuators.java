@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import modules.interfaces.I0_6_send;
 import modules.interfaces.I1_5_receive;
 import modules.interfaces.eInterfaces;
+import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
@@ -34,7 +35,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	
 	private ArrayList<clsActionCommand> moOutputActions;
 	private ArrayList<clsActionCommand> moActionCommandList_Input;
-	
+	private clsWordPresentationMesh moWordingToContext;
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
@@ -122,8 +123,9 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	 */
 	@SuppressWarnings("unchecked") //deepCopy can only perform an unchecked operation
 	@Override
-	public void receive_I1_5(ArrayList<clsActionCommand> poActionCommandList) {
+	public void receive_I1_5(ArrayList<clsActionCommand> poActionCommandList, clsWordPresentationMesh moWordingToContext2) {
 		moActionCommandList_Input = (ArrayList<clsActionCommand>) deepCopy(poActionCommandList);
+		moWordingToContext = moWordingToContext2;
 		
 	}
 
@@ -150,7 +152,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	 */
 	@Override
 	protected void send() {
-		send_I0_6(moActionCommandList_Input);
+		send_I0_6(moActionCommandList_Input, moWordingToContext);
 		
 	}
 
@@ -210,8 +212,9 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	 * @see pa.interfaces.send._v38.I0_6_send#send_I0_6(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I0_6(ArrayList<clsActionCommand> poActionList) {
+	public void send_I0_6(ArrayList<clsActionCommand> poActionList, clsWordPresentationMesh moWordingToContext2) {
 		moOutputActions = poActionList;
+		moWordingToContext = moWordingToContext2;
 
 		putInterfaceData(I0_6_send.class, poActionList);
 	}

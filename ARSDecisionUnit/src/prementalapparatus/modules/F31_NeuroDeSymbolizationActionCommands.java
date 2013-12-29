@@ -69,7 +69,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<String> realActionHistory;
 	private static final boolean bUSEUNREAL = false;
 	private eInternalActionIntensity moAbstractSpeech;
-
+	private clsWordPresentationMesh moWordingToContext;
 	private int mnTestCounter =0;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
@@ -168,18 +168,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		mnPsychicInstances = ePsychicInstances.BODY;
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author brandstaetter
-	 * 11.08.2009, 15:00:27
-	 * 
-	 * @see pa.interfaces.I8_1#receive_I8_1(int)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void receive_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands) {
-		moActionCommands_Input = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
-	}
+	
 
 	/* (non-Javadoc)
 	 *
@@ -368,6 +357,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					}
 				} else if (oAction.equals(eAction.FOCUS_ON.toString())) {
 				    //Do nothing
+				} else if (oAction.equals(eAction.GOTO.toString())) {
+                    //Do nothing
 				} else if (oAction.equals(eAction.NONE.toString())) {
 					//Do nothing
 				} else if (oAction.equals(eAction.SEND_TO_PHANTASY.toString())) {
@@ -458,7 +449,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I1_5(moActionCommandList_Output);
+		send_I1_5(moActionCommandList_Output, moWordingToContext);
 		
 	}
 
@@ -470,10 +461,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 * @see pa.interfaces.send.I8_2_send#send_I8_2(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I1_5(ArrayList<clsActionCommand> poActionCommandList) {
-		((I1_5_receive)moModuleList.get(32)).receive_I1_5(poActionCommandList);
+	public void send_I1_5(ArrayList<clsActionCommand> poActionCommandList, clsWordPresentationMesh moWordingToContext2) {
+		((I1_5_receive)moModuleList.get(32)).receive_I1_5(poActionCommandList, moWordingToContext2);
 		
-		putInterfaceData(I1_5_send.class, poActionCommandList);
+		putInterfaceData(I1_5_send.class, poActionCommandList, moWordingToContext2);
 	}
 
 	/* (non-Javadoc)
@@ -719,5 +710,18 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
 	public String getTimeChartTitle() {
 		return "Action Command Utilization";
-	}		
+	}
+
+    /* (non-Javadoc)
+     *
+     * @since 29.12.2013 21:43:09
+     * 
+     * @see modules.interfaces.I2_5_receive#receive_I2_5(java.util.ArrayList, base.datatypes.clsWordPresentationMesh)
+     */
+    @Override
+    public void receive_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands, clsWordPresentationMesh moWordingToContext2) {
+        moActionCommands_Input = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
+        moWordingToContext = moWordingToContext2;
+    }		
+    
 }

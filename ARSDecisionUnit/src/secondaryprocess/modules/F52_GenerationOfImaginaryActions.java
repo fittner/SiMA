@@ -13,14 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
-import base.modules.clsModuleBase;
-import base.modules.clsModuleBaseKB;
-import base.modules.eImplementationStage;
-import base.modules.eProcessType;
-import base.modules.ePsychicInstances;
-import base.tools.toText;
+import memorymgmt.enums.eSpeech;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -32,6 +25,14 @@ import modules.interfaces.eInterfaces;
 import secondaryprocess.functionality.PlanningFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import testfunctions.clsTester;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.modules.clsModuleBase;
+import base.modules.clsModuleBaseKB;
+import base.modules.eImplementationStage;
+import base.modules.eProcessType;
+import base.modules.ePsychicInstances;
+import base.tools.toText;
 import config.clsProperties;
 
 /**
@@ -92,6 +93,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private clsWordPresentationMesh moWordingToContext;
 	
+	private double EffortOfSpeech;
 	//private ArrayList<clsWordPresentationMesh> moPossibleInternalActionPlans;
 
 	/**
@@ -199,6 +201,21 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		PlanningFunctionality.generatePlanForGoals(this.moDecisionEngine, this.moGoalList_IN);
 		
+		//Calculate Effort of Speech based on preselected speech statement
+		if (moWordingToContext.toString().contains("SHARE")) {
+		EffortOfSpeech = CalculateEffortOfSpeech(eSpeech.SPEAK_SHARE);
+		}
+		
+		if (moWordingToContext.toString().contains("YES")) {
+		EffortOfSpeech = CalculateEffortOfSpeech(eSpeech.SPEAK_YES);
+		}
+		
+		boolean Speech_Is_planned;
+		if (EffortOfSpeech == 0.9){
+		    Speech_Is_planned = true;
+		
+		}
+		
 		
 //		if (m_bUseDraftPlanning) {
 //			process_draft();
@@ -301,6 +318,35 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	}
 
 	/**
+ * DOCUMENT - insert description
+ *
+ * @author hinterleitner
+ * @since 29.12.2013 20:16:11
+ *
+ * @param moWordingToContext2
+ */
+private static double CalculateEffortOfSpeech(eSpeech moWordingToContext2) {
+    
+    double oActionCondition = 0.0;
+    
+    switch (moWordingToContext2) {
+    case SPEAK_SHARE:
+        oActionCondition = 0.9;
+       break;
+    case SPEAK_INVITED:
+        oActionCondition = 0.3;
+       break;
+    case SPEAK_KNOWN:
+        oActionCondition = 0.2;
+       break;
+    case SPEAK_YES:
+        oActionCondition = 0.8;
+       break;
+                
+}
+    return oActionCondition;
+    }
+    /**
 	 * contains all data in order to create plans
 	 * 
 	 * @author perner 12.07.2010, 10:47:41

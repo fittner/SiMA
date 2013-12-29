@@ -245,8 +245,8 @@ public class clsProcessor implements itfProcessor  {
 			itfInternalActionProcessor poInternalActionContainer) {
 		moPsyApp.moF67_BodilyReactionOnEmotions.getBodilyReactions(poInternalActionContainer);
 		moPsyApp.moF14_ExternalPerception.getBodilyReactions(poInternalActionContainer);
-		moPsyApp.moF66_SpeechProduction.getBodilyReactions(poInternalActionContainer);
-		
+		moPsyApp.moF66_SpeechProduction.getBodilyReactions(poInternalActionContainer); //only Debug
+		moPsyApp.moF30_MotilityControl.getBodilyReactions(poInternalActionContainer);
 	}
 	
 	@Override

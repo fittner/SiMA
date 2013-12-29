@@ -8,6 +8,8 @@ package modules.interfaces;
 
 import java.util.ArrayList;
 
+import base.datatypes.clsWordPresentationMesh;
+
 import du.itf.actions.clsActionCommand;
 
 
@@ -20,5 +22,5 @@ import du.itf.actions.clsActionCommand;
  * 
  */
 public interface I0_6_send  {
-	public void send_I0_6(ArrayList<clsActionCommand> poActionList);
+	public void send_I0_6(ArrayList<clsActionCommand> poActionList, clsWordPresentationMesh moWordingToContext2);
 }

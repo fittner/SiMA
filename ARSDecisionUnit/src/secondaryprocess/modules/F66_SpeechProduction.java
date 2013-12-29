@@ -39,8 +39,8 @@ import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eInternalActionIntensity;
 import du.itf.actions.clsActionShare;
+import du.itf.actions.clsActionThink;
 import du.itf.actions.clsInternalActionCommand;
-import du.itf.actions.clsInternalActionSweat;
 import du.itf.actions.itfInternalActionProcessor;
 
 /**
@@ -57,7 +57,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     private clsWordPresentationMesh moPerceptionalMesh_IN;
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
     private clsWordPresentationMesh moPerceptionalMesh_OUT;
-    private clsWordPresentationMesh poWording;
+  
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
     private ArrayList<clsWordPresentationMeshAimOfDrive> moDriveList_IN;
     private ArrayList<clsWordPresentationMeshFeeling> moSecondaryDataStructureContainer_IN;
@@ -89,8 +89,6 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         // Prepare finals to ensure null safety.
         moConcept = new clsConcept();
         moSituation = new clsSituation();
-        //Extract wording
-        poWording = new clsConcept().moWording;
         
         applyProperties(poPrefix, poProp);
         this.moShortTermMemory = poShortTermMemory;
@@ -128,7 +126,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
         text += toText.h3("Concept and Situation");
         text += toText.valueToTEXT("moConcept", moConcept.toString());
-        text += toText.valueToTEXT("poWording", poWording.toString());
+      
         text += toText.valueToTEXT("moShortTermMemory", moShortTermMemory.stateToTEXT());
         return text;
     }
@@ -200,24 +198,33 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
             moWordingToContext_OUT = moContext;
         }
         
+        //Scenario 1
+        
         if (elementnew.contains("BODO(RIGHT:FAR)")) {
             
-            triggerSpeech_schnitzel(moEmotions_Input); // share?
+            //triggerSpeech_schnitzel(moEmotions_Input); // share?
             moWording_Share = new clsConcept().moWording_Share;
             moWordingToContext_OUT = moWording_Share;
         }
 
         if (elementnew.contains("CAKE(CENTER:FAR)")) {
-            triggerSpeech_eat(moEmotions_Input); // Yes
+           // triggerSpeech_eat(moEmotions_Input); // Yes ?
             moWording_Yes = new clsConcept().moWording_Yes;
             moWordingToContext_OUT = moWording_Yes;
         }
         
+        // Scenario 2 
         if (elementnew.contains("CARROT(MIDDLE_LEFT:FAR)")) {
-            triggerSpeech_schnitzel(moEmotions_Input); // share?
+           // triggerSpeech_schnitzel(moEmotions_Input); // share?
             moWording_Share = new clsConcept().moWording_Share;
             moWordingToContext_OUT = moWording_Share;
         }
+        
+        if (elementnew.contains("CARROT(LEFT:FAR)")) {
+            // triggerSpeech_schnitzel(moEmotions_Input); // Share?
+            moWording_Share = new clsConcept().moWording_Share;
+            moWordingToContext_OUT = moWording_Share;
+         }
         
         
         
@@ -249,7 +256,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      * 
      */
     private void triggerSpeech_schnitzel(ArrayList<clsEmotion> moEmotions_Input2) {
-        clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
+        clsActionThink test = new clsActionThink(eInternalActionIntensity.HEAVY);
 
         // Speech Trigger - Eat
         moInternalActions.add(test);

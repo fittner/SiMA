@@ -12,15 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import base.datatypes.clsEmotion;
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsConcept.clsEntity;
-import base.modules.clsModuleBase;
-import base.modules.clsModuleBaseKB;
-import base.modules.eImplementationStage;
-import base.modules.eProcessType;
-import base.modules.ePsychicInstances;
-import base.tools.toText;
 import memorymgmt.enums.eActionType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -31,6 +22,15 @@ import modules.interfaces.I6_11_receive;
 import modules.interfaces.I6_14_receive;
 import modules.interfaces.eInterfaces;
 import secondaryprocess.functionality.PlanningFunctionality;
+import base.datatypes.clsConcept.clsEntity;
+import base.datatypes.clsEmotion;
+import base.datatypes.clsWordPresentationMesh;
+import base.modules.clsModuleBase;
+import base.modules.clsModuleBaseKB;
+import base.modules.eImplementationStage;
+import base.modules.eProcessType;
+import base.modules.ePsychicInstances;
+import base.tools.toText;
 import config.clsProperties;
 import du.enums.eInternalActionIntensity;
 import du.itf.actions.clsActionShare;
@@ -131,9 +131,9 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 
 	
 	 /**
-     * DOCUMENT (muchitsch) - insert description
+     * DOCUMENT (hinterleitner) - insert description
      *
-     * @since 31.10.2012 12:54:43
+     * @since 31.10.2013 12:54:43
      *
      * @param poInternalActionContainer
      */
@@ -231,10 +231,18 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	    moActionCommands_Output = new ArrayList<clsWordPresentationMesh>();
 	    clsWordPresentationMesh externalActionCommand = PlanningFunctionality.getActionOfType(moActionCommand_Input, eActionType.SINGLE_EXTERNAL);
 	   
-	    //DEBUG
-	    if (moActionCommand_Input.toString().contains("SEARCH")){
-	          executeOverlay(moEmotions_Input);
-	        }
+	    //SPEECH from F66
+	    if (moActionCommand_Input.toString().contains("FOCUS") && moWordingToContext.toString().contains("SHARE")){
+	        triggerSpeechShare(moEmotions_Input);
+	          
+	        }   
+	    
+	    if (moActionCommand_Input.toString().contains("FOCUS") && moWordingToContext.toString().contains("YES")){
+            triggerSpeechYes(moEmotions_Input);
+              
+            } 
+        
+	    
 	    if (externalActionCommand.isNullObject()==false) {
 	        moActionCommands_Output.add(externalActionCommand);    
 	    }
@@ -343,28 +351,38 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 			//when there are no actions, we do nothing
 		//}
 	    
+	    log.info("Predicted Speech Output based on F66: ", moWordingToContext.toString());
+	    log.debug("Sprachausgabe: {}", moWordingToContext);
 	    log.info(moActionCommands_Output.toString());
 	}
 	
-/**
-     * DOCUMENT - insert description
-     *
+	
+	
+	 /**
+     * DOCUMENT - create initial wording based on input
+     * 
      * @author hinterleitner
-     * @since 22.10.2013 19:49:18
-     *
      * @param moEmotions_Input2
+     * @since 14.12.2013 16:47:31
+     * 
      */
-    private void executeOverlay(ArrayList<clsEmotion> moEmotions_Input2) {
- 
+    private void triggerSpeechYes(ArrayList<clsEmotion> moEmotions_Input2) {
         clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
-        clsActionShare testnew1 = new clsActionShare(eInternalActionIntensity.HEAVY);
-        
-        //Speech Trigger
-        moInternalActions.add( test );
-       //Thought Trigger 
-        moInternalActions.add(testnew1 );
-        
+
+        // Speech  - Yes
+        moInternalActions.add(test);
+
     }
+
+    private void triggerSpeechShare(ArrayList<clsEmotion> moEmotions_Input2) {
+        clsActionShare testnew1 = new clsActionShare(eInternalActionIntensity.HEAVY);
+
+        // Speech  - Share
+        moInternalActions.add(testnew1);
+    }
+
+  
+  
 
 //    // AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
 //    /**
@@ -429,7 +447,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	 */
 	@Override
 	protected void send() {
-		send_I2_5(moActionCommands_Output);
+		send_I2_5(moActionCommands_Output, moWordingToContext);
 		
 	}
 
@@ -441,11 +459,11 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	 * @see pa.interfaces.send.I8_1_send#send_I8_1(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands) {
-		((I2_5_receive)moModuleList.get(31)).receive_I2_5(poActionCommands);
+	public void send_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands, clsWordPresentationMesh moWordingToContext) {
+		((I2_5_receive)moModuleList.get(31)).receive_I2_5(poActionCommands, moWordingToContext);
 		//((I2_5_receive)moModuleList.get(52)).receive_I2_5(poActionCommands);
 		
-		putInterfaceData(I2_5_send.class, poActionCommands);
+		putInterfaceData(I2_5_send.class, poActionCommands, moWordingToContext);
 		
 	}
 

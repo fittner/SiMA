@@ -21,5 +21,5 @@ import base.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I2_5_receive {
-	public void receive_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands);
+	public void receive_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands, clsWordPresentationMesh moWordingToContext2);
 }

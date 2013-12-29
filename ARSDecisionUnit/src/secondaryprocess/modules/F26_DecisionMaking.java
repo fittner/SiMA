@@ -79,9 +79,6 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	
 	private final DecisionEngine moDecisionEngine;
 	
-	
-
-	
 	// Anxiety from F20
 	private ArrayList<clsWordPresentationMeshFeeling> moFeeling_IN;
 	
@@ -277,6 +274,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		//Add the aim of drives goal to the mental situation
 		ShortTermMemoryFunctionality.addUsableAimOfDrivesToMentalSituation(moDriveGoalList_IN, moDecidedGoalList_OUT, this.moShortTermMemory);
 		
+	
 		try {
 		    if (moDecidedGoalList_OUT.isEmpty()==true) {
 	            throw new Exception("Decided goal: No goal");
