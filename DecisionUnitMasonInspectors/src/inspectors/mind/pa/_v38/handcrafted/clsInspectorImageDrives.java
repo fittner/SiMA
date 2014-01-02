@@ -36,6 +36,7 @@ import base.datatypes.helpstructures.clsQuadruppel;
 import inspector.interfaces.itfInspectorModificationDrives;
 import primaryprocess.modules.F06_DefenseMechanismsForDrives.clsChangedDrives;
 import sim.portrayal.Inspector;
+import statictools.clsGetARSPath;
 
 /**
  * DOCUMENT (Jordakieva) - insert description 
@@ -85,7 +86,7 @@ public class clsInspectorImageDrives extends Inspector {
 	private HashMap <String, String> pictures = new HashMap <String, String> ();
 
 	/**
-	 * DOCUMENT (Jordakieva) - insert description 
+	 * DOCUMENT (Jordakieva) - der Inspector gehört noch extremst umgebaut. Großes TODO 
 	 *
 	 * @since 20.11.2013 12:31:44
 	 *
@@ -93,15 +94,14 @@ public class clsInspectorImageDrives extends Inspector {
 	 */
 	public clsInspectorImageDrives(itfInspectorModificationDrives oModule) { //oModule ist mein Interface zum Modul ( "Zeiger" auf F6)
 
-		////////////////////////////
-		pictures.put("CARROT", "C:\\DiplomarbeitIvy\\workspace\\ARSIN_V01\\BaseEntity-Body-ARSIN\\bin\\resources\\images\\carrot_clipart.png");
-		pictures.put("DIVIDE", "C:\\DiplomarbeitIvy\\workspace\\ARSIN_V01\\BaseEntity-Body-ARSIN\\bin\\resources\\images\\Action_Divide.png");
-		pictures.put("EAT", "C:\\DiplomarbeitIvy\\workspace\\ARSIN_V01\\BaseEntity-Body-ARSIN\\bin\\resources\\images\\Action_Eat.png");
-//		pictures.put("CARROT", "C:\\DiplomarbeitIvy\\workspace\\ARSIN_V01\\BaseEntity-Body-ARSIN\\bin\\resources\\images\\");
-		pictures.put("erease", "C:\\Users\\Jordakieva\\Desktop\\tmp\\erease1.png");
-		pictures.put("decrease", "C:\\Users\\Jordakieva\\Desktop\\tmp\\decrease.png");
-		pictures.put("eaqual", "C:\\Users\\Jordakieva\\Desktop\\tmp\\equal.png");
-		pictures.put("leer", "C:\\Users\\Jordakieva\\Desktop\\tmp\\leer.png");
+		//////////////TODO TO ÄNDERN der Bilder wegen COPYRIGHT//////////////
+		pictures.put("CARROT", clsGetARSPath.getImagePath() + "carrot_clipart.png");
+		pictures.put("DIVIDE", clsGetARSPath.getImagePath() + "Action_Divide.png");
+		pictures.put("EAT", clsGetARSPath.getImagePath() + "Action_Eat.png");
+		pictures.put("erease", clsGetARSPath.getImagePath() + "erease1.png");
+		pictures.put("decrease", clsGetARSPath.getImagePath() + "decrease.png");
+		pictures.put("eaqual", clsGetARSPath.getImagePath() + "equal.png");
+		pictures.put("leer", clsGetARSPath.getImagePath() + "leer.png");
 		
 	
 		
@@ -150,14 +150,13 @@ public class clsInspectorImageDrives extends Inspector {
 		moLRectum.add (new clsPair <String, Integer> ("noDefenseChanges", 0));		
 		///////////////////////////
 		
-		String s = "C:\\Users\\Jordakieva\\Desktop\\tmp\\";
 		ArrayList <String> oNames = new ArrayList <String> ();
 
-		oNames.add(s+"stamina.jpg");
-		oNames.add(s+"stomach.jpg");
-		oNames.add(s+"bladder.jpg");
-		oNames.add(s+"rectum.jpg");
-		oNames.add(s+"spaceholder.jpg");
+		oNames.add(clsGetARSPath.getImagePath()+"stamina.jpg");
+		oNames.add(clsGetARSPath.getImagePath()+"stomach.jpg");
+		oNames.add(clsGetARSPath.getImagePath()+"bladder.jpg");
+		oNames.add(clsGetARSPath.getImagePath()+"rectum.jpg");
+		oNames.add(clsGetARSPath.getImagePath()+"spaceholder.jpg");
 		
 		//linke Seite mit den Bilder befüllen
 		for (int i = 0; i < 4; i++) { 
@@ -307,7 +306,7 @@ public class clsInspectorImageDrives extends Inspector {
 		try {
 			Integer t = step;
 			
-			Image image = ImageIO.read(new File ("C:\\Users\\Jordakieva\\Desktop\\tmp\\spaceholder.jpg"));
+			Image image = ImageIO.read(new File (pictures.get("leer")));
 			JLabel label = new JLabel (new ImageIcon(image.getScaledInstance(50, 50, Image.SCALE_FAST)));
 			JLabel theStep = new JLabel (t.toString());
 						

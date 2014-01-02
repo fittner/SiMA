@@ -1848,10 +1848,6 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 
         return mDisplayDrives;
     }
-
-
-
-	
 	
 }
 	
