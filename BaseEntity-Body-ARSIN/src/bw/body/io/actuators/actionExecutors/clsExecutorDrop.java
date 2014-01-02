@@ -11,7 +11,6 @@ import config.clsProperties;
 
 import java.util.ArrayList;
 
-import bfg.utils.enums.ePercievedActionType;
 import bw.body.io.actuators.clsActionExecutor;
 
 import du.itf.actions.*;
@@ -100,7 +99,8 @@ public class clsExecutorDrop  extends clsActionExecutor{
 		
 		
 		//Attach action to entity
-        clsAction oAction = new clsAction(1,ePercievedActionType.DROP);
+        clsAction oAction = new clsAction(1);
+        oAction.setActionName("DROP");
         moEntity.addAction(oAction);
 		return true;
 	}

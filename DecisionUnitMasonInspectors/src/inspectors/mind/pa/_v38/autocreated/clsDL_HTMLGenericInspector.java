@@ -6,7 +6,7 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
-import OLDREMOVETHISpa._v38.logger.clsDLEntry_Abstract;
+import _OLDREMOVETHISpa._v38.logger.clsDLEntry_Abstract;
 
 /**
  * DOCUMENT (deutsch) - insert description 

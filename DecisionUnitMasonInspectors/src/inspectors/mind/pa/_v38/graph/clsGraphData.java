@@ -6,10 +6,13 @@
  */
 package inspectors.mind.pa._v38.graph;
 
+import inspector.interfaces.itfGraphData;
+
 import java.util.ArrayList;
+
 import javax.swing.JSplitPane;
-import pa._v38.interfaces.itfGraphData;
-import pa._v38.modules.clsPsychicApparatus;
+
+import base.modules.clsPsychicApparatus;
 
 /**
  * DOCUMENT (herret) - insert description 

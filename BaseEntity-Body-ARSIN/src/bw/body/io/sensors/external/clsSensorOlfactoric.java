@@ -55,6 +55,7 @@ public class clsSensorOlfactoric extends clsSensorRingSegment{
 		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
+		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, 2*Math.PI);
 		
 		return oProp;
 	}	

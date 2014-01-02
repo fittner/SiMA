@@ -118,7 +118,6 @@ public class clsMain extends SimState{
 			
 			oPropImp = clsProperties.readProperties(oPath, oImplementationStagesFile);
 			oPropImp.addPrefix(clsSimplePropertyLoader.P_DEFAULTSDECISIONUNIT+"."+eDecisionType.ActionlessTestPA);
-			oPropImp.addPrefix(clsSimplePropertyLoader.P_DEFAULTSDECISIONUNIT+"."+eDecisionType.SpeechlessTestPA);
 			
 			//merge settings - overwrites exsiting entries
 			oProp.putAll(oPropImp);

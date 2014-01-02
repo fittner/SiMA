@@ -8,19 +8,13 @@
  */
 package inspectors;
 
-import pa.clsPsychoAnalysis;
+import control.clsPsychoAnalysis;
 import decisionunit.clsBaseDecisionUnit;
 import du.itf.itfDecisionUnit;
-import inspectors.mind.clsDumbBrainInspector;
-import inspectors.mind.clsRemoteControlInspector;
-import inspectors.mind.clsReactiveInspector;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
-import simple.dumbmind.clsDumbMindA;
-import simple.remotecontrol.clsRemoteControl;
-import simple.reactive.clsReactive;
 
 /**
  * assigns the required decision inspector class to the object extending the clsEntity-class 
@@ -48,41 +42,15 @@ public class clsInspectorMappingDecision {
 	 * @param poState - simulation environment to register the controls
 	 * @param poEntity - the agent-object to distinguish between the classes... 
 	 * @return - the new inspector with the defined look and feel
+	 * @throws Exception 
 	 */
-	@SuppressWarnings("deprecation")
-	public static TabbedInspector getInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, itfDecisionUnit poItfDU) {
+	public static TabbedInspector getInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, itfDecisionUnit poItfDU) throws Exception {
 		clsBaseDecisionUnit poDU = (clsBaseDecisionUnit) poItfDU;
 		
     	TabbedInspector oRetVal = new TabbedInspector();
     	
-    	
-    	
-    	
-    	
-    	
         //extend this if-statement with your new clsEntity-classes or inspectors
-        if( poDU instanceof clsDumbMindA) {
-        	oRetVal.addInspector( new clsDumbBrainInspector(poSuperInspector, poWrapper, poState, (clsDumbMindA)poDU), "Brain Insp.");
-        	
-        } else if( poDU instanceof clsRemoteControl) {
-        	oRetVal.addInspector( new clsRemoteControlInspector(poSuperInspector, poWrapper, poState, (clsRemoteControl) poDU), "Brain Insp.");
-        	
-        } else if (poDU instanceof clsPsychoAnalysis ) {
-        	
-//        	if(clsPsychoAnalysis.getModelVersion().equals("v19")) {
-//           		//oRetVal.addInspector( new inspectors.mind.pa._v19.clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
-//            	//oRetVal.addInspector( new inspectors.mind.pa._v19.clsMemoryInspectorTab(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory 2.0"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
-//         	} 
-//        	else if (clsPsychoAnalysis.getModelVersion().equals("v30")){
-//        		//oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modules");
-//            	oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Memory(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
-//        		oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_DataLogger((clsPsychoAnalysis) poDU), "Data Logger");
-//        		
-//        		//TODO CM these two should also work in V38, but I get a exeption, DEBUG! 28.06.2011
-//                oRetVal.addInspector( new clsInspectorSensorData(poDU), "Sensors");
-//                oRetVal.addInspector( new clsInspectorActionCommands(poDU), "Actions");
-//        	}
-//        	else 
+        if (poDU instanceof clsPsychoAnalysis ) {
         	if (clsPsychoAnalysis.getModelVersion().equals("v38")){
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modules");
             	oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_Memory(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
@@ -90,17 +58,13 @@ public class clsInspectorMappingDecision {
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_ARSinOverview(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "ARSin Overview");
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_PlanningOverview(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "Planning Overview");
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_PersonalityParameter((clsPsychoAnalysis) poDU), "Personality Parameters");
+        		//oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_ThoughtsIntention(), "Thoughts Intention - Overview");
+        	} else {
+        		throw new IllegalArgumentException("No Inspectors available for psychoanalytic decision unit version " + clsPsychoAnalysis.getModelVersion().toString() + " passed as poItfDU.");
         	}
-        	else {
-        		//FIXME (muchitsch) - activate inspectors
-        	}
-        	
-        } else if( poDU instanceof clsReactive) {
-        	oRetVal.addInspector( new clsReactiveInspector(poSuperInspector, poWrapper, poState, (clsReactive) poDU), "Reactive DU Insp.");
+        } else {
+        	throw new IllegalArgumentException("Passed decision unit interface is not compatible with any available inspectors");
         }
-        
-        //oRetVal.addInspector( new clsInspectorSensorData(poDU), "Sensors");
-        //oRetVal.addInspector( new clsInspectorActionCommands(poDU), "Actions");        
         
     	//add standard inspector if nothing happened
     	if(oRetVal.inspectors.size() == 0)  {

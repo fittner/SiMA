@@ -31,10 +31,10 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
-import datatypes.helpstructures.clsPair;
-import datatypes.helpstructures.clsQuadruppel;
-import pa._v38.interfaces.itfInspectorModificationDrives;
-import pa._v38.modules.F06_DefenseMechanismsForDrives.clsChangedDrives;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsQuadruppel;
+import inspector.interfaces.itfInspectorModificationDrives;
+import primaryprocess.modules.F06_DefenseMechanismsForDrives.clsChangedDrives;
 import sim.portrayal.Inspector;
 
 /**

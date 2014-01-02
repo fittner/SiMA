@@ -21,20 +21,19 @@ import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.interfaces.itfSearchSpaceAccess;
+
 import org.slf4j.Logger;
 
-import pa.clsPsychoAnalysis;
-import pa._v38.clsProcessor;
-import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
 import config.clsProperties;
+import control.clsProcessor;
+import control.clsPsychoAnalysis;
+import control.factory.clsARSDecisionUnitFactory;
 import creation.clsLoader;
 import creation.eLoader;
-import pa.factory.clsARSDecisionUnitFactory;
-import alternative.factory.clsAlternativeDecisionUnitFactory;
 import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
@@ -105,8 +104,6 @@ public class clsSimplePropertyLoader extends clsLoader {
 	public static final String P_DEFAULTSENTITY  = "defaultsentity";
 	/** Contains the defaults for the decision unit type, if not provided, the default values are extracted in runtime from the classes. */
 	public static final String P_DEFAULTSDECISIONUNIT  = "defaultsdecisionunit";
-//	public static final String P_ENTITY = "entity";
-//	public static final String P_DECISIONUNIT = "decisionunit";
 	/** If usedefaults is set to true, the entity/decision unit defaults are used. otherwise ALL params have to be provided by overwritedecisionunitdefaults and overwriteentitydefaults. */
 	public static final String P_USEDEFAULTS = "usedefaults";
 	/** prefix to the properties file for all entries related to the knowledgebase; @since 12.07.2011 10:58:32 */
@@ -222,19 +219,9 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		clsProperties oProp = new clsProperties();
 		
-		oProp.putAll( simple.dumbmind.clsDumbMindA.getDefaultProperties				(pre+eDecisionType.DUMB_MIND_A.name()) );
-		oProp.putAll( simple.reactive.clsReactive.getDefaultProperties				(pre+eDecisionType.FUNGUS_EATER.name()) );
-		oProp.putAll( simple.remotecontrol.clsRemoteControl.getDefaultProperties	(pre+eDecisionType.REMOTE.name()) );
-		oProp.putAll( students.lifeCycle.JADEX.clsHareMind.getDefaultProperties		(pre+eDecisionType.HARE_JADEX.name()) );
-		oProp.putAll( students.lifeCycle.JAM.clsHareMind.getDefaultProperties		(pre+eDecisionType.HARE_JAM.name()) );
-		oProp.putAll( students.lifeCycle.IfThenElse.clsHareMind.getDefaultProperties(pre+eDecisionType.HARE_IFTHENELSE.name()) );
-		oProp.putAll( students.lifeCycle.JADEX.clsLynxMind.getDefaultProperties		(pre+eDecisionType.LYNX_JADEX.name()) );
-		oProp.putAll( students.lifeCycle.JAM.clsLynxMind.getDefaultProperties		(pre+eDecisionType.LYNX_JAM.name()) );
-		oProp.putAll( students.lifeCycle.IfThenElse.clsLynxMind.getDefaultProperties(pre+eDecisionType.LYNX_IFTHENELSE.name()) );
-		oProp.putAll( pa.clsPsychoAnalysis.getDefaultProperties						(pre+eDecisionType.PA.name()) );
-		oProp.putAll( MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties			(pre+eDecisionType.ActionlessTestPA.name()) );
-		oProp.putAll( testbrains.clsSpeechlessTestPA.getDefaultProperties           (pre+eDecisionType.SpeechlessTestPA.name()) );
-	      
+		oProp.putAll( control.clsPsychoAnalysis.getDefaultProperties						(pre+eDecisionType.PA.name()) );
+		oProp.putAll( _MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties			(pre+eDecisionType.ActionlessTestPA.name()) );
+		  
 		return oProp;
     }
     
@@ -291,15 +278,21 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsShape2DCreator.P_COLOR, Color.RED);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
 				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_LIBIDOSTREAM, 0.1);
+		
+		
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
 				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_KNOWLEDGEABASE+"."+
-				clsKnowledgeBaseHandler.P_SOURCE_NAME, "/ARSMemory/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
+				"source_name", "/ARSMemory/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
+		
+		//oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
+		//		clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_KNOWLEDGEABASE+"."+
+		//		clsKnowledgeBaseHandler.P_SOURCE_NAME, "/ARSMemory/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
 		//oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+ clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_PSYCHICAPPARATUS+"."+clsPsychicApparatus.P_MINIMALMODEL, false);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+ clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_PSYCHICAPPARATUS+".", false);
 		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.REMOTEBOT.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPDECISIONUNITTYPE, eDecisionType.REMOTE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPDECISIONUNITTYPE, eDecisionType.ActionlessTestPA.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.LIST.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_X, 50);
@@ -335,13 +328,11 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.HARE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPDECISIONUNITTYPE, eDecisionType.HARE_JADEX.name());
 		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.LYNX.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPDECISIONUNITTYPE, eDecisionType.LYNX_JAM.name());
 		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.BASE.name());
@@ -494,16 +485,14 @@ public class clsSimplePropertyLoader extends clsLoader {
     	
     	itfDecisionUnit oDU = null;
     	if (pnDecisionType != eDecisionType.NONE) {
-    		
+    	
     		// distinguish between ARS and Alternative DecisionUnit
     		if(pnDecisionType == eDecisionType.PA || pnDecisionType == eDecisionType.ActionlessTestPA) {
     			itfSearchSpaceAccess oSearchSpace = new clsSearchSpaceManager("",poPropMemory);
     			itfModuleMemoryAccess oMemory = new clsLongTermMemoryHandler(oSearchSpace);
     			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid, oSearchSpace, oMemory);
-    		}
-    		else {
-    			oDU = clsAlternativeDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid);
-
+    		} else {
+    			throw new IllegalArgumentException("The provided decission unit is not supported.");
     		}
     	}
        	clsEntity temp;

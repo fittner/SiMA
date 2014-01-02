@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.framessearchspace;
 
 import java.util.HashMap;
 
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import base.datatypes.clsDataStructurePA;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

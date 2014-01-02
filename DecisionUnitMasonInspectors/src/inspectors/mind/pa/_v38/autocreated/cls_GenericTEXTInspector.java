@@ -8,9 +8,8 @@ package inspectors.mind.pa._v38.autocreated;
 
 import java.awt.BorderLayout;
 
-import pa._v38.tools.toText;
+import base.tools.toText;
 import panels.TextOutputPanel;
-
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
 

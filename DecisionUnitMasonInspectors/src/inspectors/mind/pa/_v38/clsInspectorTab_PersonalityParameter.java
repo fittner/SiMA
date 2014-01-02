@@ -6,10 +6,10 @@
  */
 package inspectors.mind.pa._v38;
 
+import base.modules.clsPsychicApparatus;
+import control.clsProcessor;
+import control.clsPsychoAnalysis;
 import inspectors.mind.pa._v38.autocreated.clsParameterInspector;
-import pa.clsPsychoAnalysis;
-import pa._v38.clsProcessor;
-import pa._v38.modules.clsPsychicApparatus;
 
 /**
  * DOCUMENT (LuHe) - insert description 

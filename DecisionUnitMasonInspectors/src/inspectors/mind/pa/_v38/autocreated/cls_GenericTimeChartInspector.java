@@ -6,12 +6,13 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInspectorGenericTimeChart;
+
 import java.awt.Color;
+
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
-import pa._v38.interfaces.itfInspectorGenericTimeChart;
 
 /**
  * DOCUMENT (deutsch) - insert description 

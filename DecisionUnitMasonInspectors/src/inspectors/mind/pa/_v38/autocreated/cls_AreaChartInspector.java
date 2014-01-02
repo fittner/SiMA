@@ -6,6 +6,8 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInspectorAreaChart;
+
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -15,16 +17,12 @@ import org.jfree.chart.JFreeChart;
 
 
 import org.jfree.chart.axis.NumberAxis;
-
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 
 
 import org.jfree.data.category.DefaultCategoryDataset;
-
 import org.jfree.data.general.DatasetUtilities;
-
-import pa._v38.interfaces.itfInspectorAreaChart;
 
 /**
  *  

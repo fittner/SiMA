@@ -11,13 +11,13 @@ package creation.simplePropertyLoader;
 
 
 import config.clsProperties;
+import control.factory.clsARSDecisionUnitFactory;
 import creation.clsLoader;
 import creation.eLoader;
 import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import bw.entities.base.clsEntity;
-import pa.factory.clsARSDecisionUnitFactory;
 import bw.ARSIN.clsARSIN;
 import statictools.clsUniqueIdGenerator;
 
@@ -112,18 +112,8 @@ public class clsExternalARSINLoader extends clsLoader {
 		
 		clsProperties oProp = new clsProperties();
 		
-		oProp.putAll( simple.dumbmind.clsDumbMindA.getDefaultProperties				(pre+eDecisionType.DUMB_MIND_A.name()) );
-		oProp.putAll( simple.reactive.clsReactive.getDefaultProperties				(pre+eDecisionType.FUNGUS_EATER.name()) );
-		oProp.putAll( simple.remotecontrol.clsRemoteControl.getDefaultProperties	(pre+eDecisionType.REMOTE.name()) );
-		oProp.putAll( students.lifeCycle.JADEX.clsHareMind.getDefaultProperties		(pre+eDecisionType.HARE_JADEX.name()) );
-		oProp.putAll( students.lifeCycle.JAM.clsHareMind.getDefaultProperties		(pre+eDecisionType.HARE_JAM.name()) );
-		oProp.putAll( students.lifeCycle.IfThenElse.clsHareMind.getDefaultProperties(pre+eDecisionType.HARE_IFTHENELSE.name()) );
-		oProp.putAll( students.lifeCycle.JADEX.clsLynxMind.getDefaultProperties		(pre+eDecisionType.LYNX_JADEX.name()) );
-		oProp.putAll( students.lifeCycle.JAM.clsLynxMind.getDefaultProperties		(pre+eDecisionType.LYNX_JAM.name()) );
-		oProp.putAll( students.lifeCycle.IfThenElse.clsLynxMind.getDefaultProperties(pre+eDecisionType.LYNX_IFTHENELSE.name()) );
-		oProp.putAll( pa.clsPsychoAnalysis.getDefaultProperties						(pre+eDecisionType.PA.name()) );
-		oProp.putAll( MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties			(pre+eDecisionType.ActionlessTestPA.name()) );
-		oProp.putAll( testbrains.clsSpeechlessTestPA.getDefaultProperties           (pre+eDecisionType.SpeechlessTestPA.name()) );
+		oProp.putAll( control.clsPsychoAnalysis.getDefaultProperties(pre+eDecisionType.PA.name()) );
+		oProp.putAll( _MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties(pre+eDecisionType.ActionlessTestPA.name()) );
 		    
 		return oProp;
     }

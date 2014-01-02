@@ -6,6 +6,8 @@
  */
 package pa._v38.memorymgmt.situationloader;
 
+import memorymgmt.situationloader.clsAbstractContextEntitySearchAlgorithm;
+
 /**
  * DOCUMENT (havlicek) - abstract test case for implementations of {@link clsAbstractContextEntitySearchAlgorithm}
  * 

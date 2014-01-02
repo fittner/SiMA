@@ -6,6 +6,8 @@
  */
 package pa._v38.memorymgmt.situationloader;
 
+import memorymgmt.situationloader.clsAbstractSituationSearchAlgorithm;
+
 /**
  * DOCUMENT (havlicek) - abstract test case for implementations of {@link clsAbstractSituationSearchAlgorithm}
  * 

@@ -6,6 +6,23 @@
  */
 package inspectors.mind.pa._v38;
 
+import inspector.interfaces.itfGraphCompareInterfaces;
+import inspector.interfaces.itfGraphInterface;
+import inspector.interfaces.itfInspectorAreaChart;
+import inspector.interfaces.itfInspectorBarChart;
+import inspector.interfaces.itfInspectorBarChartF06;
+import inspector.interfaces.itfInspectorBarChartF19;
+import inspector.interfaces.itfInspectorCombinedTimeChart;
+import inspector.interfaces.itfInspectorForRules;
+import inspector.interfaces.itfInspectorGenericActivityTimeChart;
+import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
+import inspector.interfaces.itfInspectorGenericTimeChart;
+import inspector.interfaces.itfInspectorInternalState;
+import inspector.interfaces.itfInspectorModificationDrives;
+import inspector.interfaces.itfInspectorSpiderWebChart;
+import inspector.interfaces.itfInspectorStackedBarChart;
+import inspector.interfaces.itfInterfaceDescription;
+import inspector.interfaces.itfInterfaceInterfaceData;
 import inspectors.mind.pa._v38.autocreated.clsE_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v38.autocreated.clsI_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v38.autocreated.cls_AreaChartInspector;
@@ -31,33 +48,12 @@ import inspectors.mind.pa._v38.handcrafted.clsInspectorImageDrives;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import pa._v38.clsProcessor;
-
-import pa._v38.interfaces.itfGraphInterface;
-import pa._v38.interfaces.itfInspectorAreaChart;
-import pa._v38.interfaces.itfInspectorBarChart;
-import pa._v38.interfaces.itfInspectorBarChartF06;
-import pa._v38.interfaces.itfInspectorBarChartF19;
-import pa._v38.interfaces.itfInspectorCombinedTimeChart;
-import pa._v38.interfaces.itfInspectorForRules;
-import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
-import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
-import pa._v38.interfaces.itfInspectorGenericTimeChart;
-import pa._v38.interfaces.itfInspectorInternalState;
-import pa._v38.interfaces.itfInspectorModificationDrives;
-import pa._v38.interfaces.itfInspectorSpiderWebChart;
-import pa._v38.interfaces.itfInspectorStackedBarChart;
-import pa._v38.interfaces.itfGraphCompareInterfaces;
-import pa._v38.interfaces.itfInterfaceDescription;
-import pa._v38.interfaces.itfInterfaceInterfaceData;
-import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.modules.clsModuleBase;
-import pa._v38.modules.clsPsychicApparatus;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
@@ -66,7 +62,12 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import pa.clsPsychoAnalysis;
+
+import base.modules.clsModuleBase;
+import base.modules.clsPsychicApparatus;
+import control.clsProcessor;
+import control.clsPsychoAnalysis;
+import modules.interfaces.eInterfaces;
 import sim.portrayal.Inspector;
 import sim.portrayal.inspector.TabbedInspector;
 import statictools.clsExceptionUtils;

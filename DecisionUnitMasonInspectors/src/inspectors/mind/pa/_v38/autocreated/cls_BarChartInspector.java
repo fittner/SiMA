@@ -6,6 +6,8 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInspectorBarChart;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -20,8 +22,6 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
-
-import pa._v38.interfaces.itfInspectorBarChart;
 
 
 /**

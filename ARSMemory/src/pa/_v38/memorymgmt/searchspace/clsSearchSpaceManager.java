@@ -11,23 +11,23 @@ import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 
+import base.datatypes.clsAssociation;
+import base.datatypes.clsDataStructureContainer;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsPrimaryDataStructureContainer;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 import logger.clsLogger;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.framessearchspace.enums.eDataSources;
 import pa._v38.memorymgmt.framessearchspace.enums.eSearchMethod;
 import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
-import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import testfunctions.clsTester;
 import config.clsProperties;
-import datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -138,7 +138,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 //		System.out.println(moSearchSpaceHandler.toString());
 		
-		if(poDataStructureUnknown.getMoDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
+		if(poDataStructureUnknown.getDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
 			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0, poDataStructureUnknown)); 
 		}
 		else{
@@ -216,7 +216,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		if (poPattern!=null)  {
 			
 			//FIXME AW: Make a better solution than renaming the content types at the search
-			eContentType oInputContentType = poPattern.getMoContentType();
+			eContentType oInputContentType = poPattern.getContentType();
 			//Set the new content type, in order to get matches from it, e. g. IMAGE or LIBIDOIMAGE. This content type is the first filter
 			//in the search
 			poPattern.setMoContentType(poSearchContentType);

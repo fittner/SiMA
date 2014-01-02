@@ -24,6 +24,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 
+import memorymgmt.enums.eActivationType;
+
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
@@ -33,22 +35,23 @@ import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa._v38.memorymgmt.datatypes.clsAct;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eActivationType;
-import pa._v38.symbolization.representationsymbol.clsSymbolVision;
-import pa._v38.symbolization.representationsymbol.itfSymbol;
+import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
+import prementalapparatus.symbolization.representationsymbol.itfSymbol;
+import base.datatypes.clsAct;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsDataStructureContainer;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsPrimaryDataStructureContainer;
+import base.datatypes.clsSecondaryDataStructure;
+import base.datatypes.clsSecondaryDataStructureContainer;
+import base.datatypes.clsTemplateImage;
+import base.datatypes.clsThingPresentation;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentation;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
@@ -60,12 +63,11 @@ import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 
-import datatypes.helpstructures.clsPair;
-import datatypes.helpstructures.clsTriple;
 import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsSensorIntern;
 import du.itf.sensors.clsVisionEntry;
+import du.itf.sensors.clsVisionEntryAction;
 
 
 
@@ -254,14 +256,14 @@ public class clsCompareGraph extends JGraph {
 	    			if(((clsGraphCell) cell).getReference() instanceof clsDataStructurePA){
 		    			clsDataStructurePA struct = (clsDataStructurePA)((clsGraphCell) cell).getReference();
 	    				//compare all cells in list with selected cell
-		    			if(struct.getMoDS_ID()!=-1){
+		    			if(struct.getDS_ID()!=-1){
 			    			for( DefaultGraphCell oCell: moCellList){
 			    				
 			    				if(oCell instanceof clsGraphCell){
 			    					Object oO =((clsGraphCell) oCell).getReference();
 			    					if(oO instanceof clsDataStructurePA){
 			    						clsDataStructurePA oStruct = (clsDataStructurePA)((clsGraphCell) oCell).getReference();
-			    						if(oStruct.getMoDS_ID()==struct.getMoDS_ID()){
+			    						if(oStruct.getDS_ID()==struct.getDS_ID()){
 			    							((clsGraphCell) oCell).highlight(Color.white);
 			    						}
 			    					}
@@ -626,6 +628,7 @@ public class clsCompareGraph extends JGraph {
 		} else if (oO instanceof clsVisionEntry) {
 			oRootCell = generateGraphCell(poParent, (clsVisionEntry)oO);	
 			
+
 		} else if (oO instanceof clsSensorIntern) {
 			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
 			
@@ -820,9 +823,9 @@ public class clsCompareGraph extends JGraph {
 		//create assosiations
 		for(clsAssociation oContainerAssociations : oAssociatedDataStructures)
 		{
-			if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementA().getMoDS_ID())
+			if(oContainerRootDataStructure.getDS_ID() == oContainerAssociations.getAssociationElementA().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getAssociationElementB();
 				clsGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -832,9 +835,9 @@ public class clsCompareGraph extends JGraph {
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementA().getMoDS_ID())
+			else if(oContainerRootDataStructure.getDS_ID() == oContainerAssociations.getAssociationElementA().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getMoAssociationElementA();
+				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getAssociationElementA();
 				clsGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -846,9 +849,9 @@ public class clsCompareGraph extends JGraph {
 			}
 			else
 			{ 
-				System.out.println("[clsMeshBase.generateGraphCell] [PDC] Neither A nor B are root element. using element:" + oContainerAssociations.getMoAssociationElementB().getMoDS_ID());
+				System.out.println("[clsMeshBase.generateGraphCell] [PDC] Neither A nor B are root element. using element:" + oContainerAssociations.getAssociationElementB().getDS_ID());
 				
-				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getAssociationElementB();
 				clsGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -894,9 +897,9 @@ public class clsCompareGraph extends JGraph {
 		//create assosiations (siehe weiter oben, wird nicht durchlaufen! da immer leer im SecContainer)
 		for(clsAssociation oContainerAssociations : oAssociatedDataStructures)
 		{
-			if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementA().getMoDS_ID())
+			if(oContainerRootDataStructure.getDS_ID() == oContainerAssociations.getAssociationElementA().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getAssociationElementB();
 				clsGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -906,9 +909,9 @@ public class clsCompareGraph extends JGraph {
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementB().getMoDS_ID())
+			else if(oContainerRootDataStructure.getDS_ID() == oContainerAssociations.getAssociationElementB().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getMoAssociationElementA();
+				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getAssociationElementA();
 				clsGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -920,9 +923,9 @@ public class clsCompareGraph extends JGraph {
 			}
 			else
 			{ //should not be laut heimo!!!
-				System.out.println("[clsMeshBase.generateGraphCell] [SDC] Neither A nor B are root element. using B: " + oContainerAssociations.getMoAssociationElementB().getMoDS_ID());
+				System.out.println("[clsMeshBase.generateGraphCell] [SDC] Neither A nor B are root element. using B: " + oContainerAssociations.getAssociationElementB().getDS_ID());
 
-				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getAssociationElementB();
 				clsGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
@@ -961,14 +964,14 @@ public class clsCompareGraph extends JGraph {
 		
 		
 		if(mbShowInternAssoc || (mnXLevel==1 && mbShowInternAssocFirstLevel)){
-			for(clsAssociation oDMAssociations : poMemoryObject.getMoInternalAssociatedContent())
+			for(clsAssociation oDMAssociations : poMemoryObject.getInternalAssociatedContent())
 			{
-				if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
+				if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementA().getDS_ID())
 				{
 					
 					boolean externAssocStatus = isExternAssocShown();
 					showExternAssoc(false);
-					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
+					clsDataStructurePA oMemoryObjectB = oDMAssociations.getAssociationElementB();
 					clsGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectB);
 					showExternAssoc(externAssocStatus);
 					//add edge
@@ -980,9 +983,9 @@ public class clsCompareGraph extends JGraph {
 					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 					GraphConstants.setEndFill(oEdge.getAttributes(), true);
 				}
-				else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
+				else if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementB().getDS_ID())
 				{
-					clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
+					clsDataStructurePA oMemoryObjectA = oDMAssociations.getAssociationElementA();
 					clsGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectA);
 					//add edge
 					DefaultEdge oEdge = new DefaultEdge("DM w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces)));
@@ -1002,12 +1005,12 @@ public class clsCompareGraph extends JGraph {
 		}
 		if(mbShowExternAssoc){
 			//evaluate best rated Association
-			clsAssociation bestAssoc= evaluateBestAssociation(poMemoryObject.getExternalMoAssociatedContent());
-			for(clsAssociation oDMAssociations : poMemoryObject.getExternalMoAssociatedContent())
+			clsAssociation bestAssoc= evaluateBestAssociation(poMemoryObject.getExternalAssociatedContent());
+			for(clsAssociation oDMAssociations : poMemoryObject.getExternalAssociatedContent())
 			{
-				if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
+				if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementA().getDS_ID())
 				{
-					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
+					clsDataStructurePA oMemoryObjectB = oDMAssociations.getAssociationElementB();
 					//save intern assoc status
 					boolean internAssocStatus = isInternAssocShown();
 					if(bestAssoc.equals(oDMAssociations) && mbShowInternAssocBest) showInternAssoc(true);
@@ -1029,9 +1032,9 @@ public class clsCompareGraph extends JGraph {
 					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 					GraphConstants.setEndFill(oEdge.getAttributes(), true);
 				}
-				else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
+				else if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementB().getDS_ID())
 				{
-					clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
+					clsDataStructurePA oMemoryObjectA = oDMAssociations.getAssociationElementA();
 					clsGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectA);
 					//add edge
 					DefaultEdge oEdge = new DefaultEdge("DM w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces)));
@@ -1059,10 +1062,10 @@ public class clsCompareGraph extends JGraph {
 	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsThingPresentationMesh poMemoryObject)
 	{
 		
-		String oDescription = 	poMemoryObject.getMoContentType().name() + "\n" +
-				poMemoryObject.getMoContent();
-		oDescription += poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION)!=null 
-				?"\n"+(Math.round(poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION)*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces))
+		String oDescription = 	poMemoryObject.getContentType().name() + "\n" +
+				poMemoryObject.getContent();
+		oDescription += poMemoryObject.getActivations().get(eActivationType.EMBODIMENT_ACTIVATION)!=null 
+				?"\n"+(Math.round(poMemoryObject.getActivations().get(eActivationType.EMBODIMENT_ACTIVATION)*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces))
 				:"";
 		
 		//oDescription +="\n" + poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION);
@@ -1078,11 +1081,11 @@ public class clsCompareGraph extends JGraph {
 
 		
 		if(mbShowInternAssoc){
-			for(clsAssociation oDMAssociations : poMemoryObject.getMoInternalAssociatedContent())
+			for(clsAssociation oDMAssociations : poMemoryObject.getInternalAssociatedContent())
 			{
-				if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
+				if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementA().getDS_ID())
 				{
-					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
+					clsDataStructurePA oMemoryObjectB = oDMAssociations.getAssociationElementB();
 					clsGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectB);
 					//add edge
 					DefaultEdge oEdge = new DefaultEdge("TPM w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces)));
@@ -1093,9 +1096,9 @@ public class clsCompareGraph extends JGraph {
 					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 					GraphConstants.setEndFill(oEdge.getAttributes(), true);
 				}
-				else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
+				else if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementB().getDS_ID())
 				{
-					clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
+					clsDataStructurePA oMemoryObjectA = oDMAssociations.getAssociationElementA();
 					clsGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectA);
 					//add edge
 					DefaultEdge oEdge = new DefaultEdge("TPM w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces)));
@@ -1118,13 +1121,13 @@ public class clsCompareGraph extends JGraph {
 
 			mbShowExternAssoc=false;
 
-			for(clsAssociation oDMAssociations : poMemoryObject.getExternalMoAssociatedContent())
+			for(clsAssociation oDMAssociations : poMemoryObject.getExternalAssociatedContent())
 			{ 	
 				
-				if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
+				if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementA().getDS_ID())
 				{
 					
-					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
+					clsDataStructurePA oMemoryObjectB = oDMAssociations.getAssociationElementB();
 					clsGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectB);
 					//add edge
 					DefaultEdge oEdge = new DefaultEdge("w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces)));
@@ -1134,9 +1137,9 @@ public class clsCompareGraph extends JGraph {
 					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 					GraphConstants.setEndFill(oEdge.getAttributes(), true);
 				}
-				else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
+				else if(poMemoryObject.getDS_ID() == oDMAssociations.getAssociationElementB().getDS_ID())
 				{
-					clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
+					clsDataStructurePA oMemoryObjectA = oDMAssociations.getAssociationElementA();
 					clsGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectA);
 					//add edge
 					DefaultEdge oEdge = new DefaultEdge("w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces)));
@@ -1163,15 +1166,15 @@ public class clsCompareGraph extends JGraph {
 	 */
 	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsThingPresentation poMemoryObject)
 	{
-		String 	oDescription = 	poMemoryObject.getMoContentType() + "\n" +
-				poMemoryObject.getMoContent();
+		String 	oDescription = 	poMemoryObject.getContentType() + "\n" +
+				poMemoryObject.getContent();
 
 		if(!UseSimpleView()) 
 		{
 			oDescription = 	"TP\n" +
-			"DSID: "+ poMemoryObject.getMoDS_ID() + "\n" +
-			"ContentType: "+ poMemoryObject.getMoContentType() + "\n" +
-			"Content: "+ poMemoryObject.getMoContent();
+			"DSID: "+ poMemoryObject.getDS_ID() + "\n" +
+			"ContentType: "+ poMemoryObject.getContentType() + "\n" +
+			"Content: "+ poMemoryObject.getContent();
 		}
 		
 		//RichTextValue oRichText = new RichTextValue(oDescription);
@@ -1227,11 +1230,11 @@ public class clsCompareGraph extends JGraph {
 		clsGraphCell oWPMrootCell = createDefaultGraphVertex(oDescription, moColorWPMRoot);
 		this.moCellList.add(oWPMrootCell);
 		// TODO : externe associontions
-		for(clsAssociation oWPMAssociations : poMemoryObject.getMoInternalAssociatedContent())
+		for(clsAssociation oWPMAssociations : poMemoryObject.getInternalAssociatedContent())
 		{
-			if(poMemoryObject.getMoDS_ID() == oWPMAssociations.getMoAssociationElementA().getMoDS_ID())
+			if(poMemoryObject.getDS_ID() == oWPMAssociations.getAssociationElementA().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oWPMAssociations.getMoAssociationElementB();
+				clsDataStructurePA oMemoryObjectB = oWPMAssociations.getAssociationElementB();
 				clsGraphCell oTargetCell = generateGraphCell(oWPMrootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("WPM w:" + oWPMAssociations.getMrWeight());
@@ -1241,9 +1244,9 @@ public class clsCompareGraph extends JGraph {
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(poMemoryObject.getMoDS_ID() == oWPMAssociations.getMoAssociationElementB().getMoDS_ID())
+			else if(poMemoryObject.getDS_ID() == oWPMAssociations.getAssociationElementB().getDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oWPMAssociations.getMoAssociationElementA();
+				clsDataStructurePA oMemoryObjectA = oWPMAssociations.getAssociationElementA();
 				clsGraphCell oTargetCell = generateGraphCell(oWPMrootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("WPM w:" + oWPMAssociations.getMrWeight());
@@ -1501,6 +1504,7 @@ public class clsCompareGraph extends JGraph {
 		color=color.replaceFirst("ff", "");
 		childs.add("Color\n"+"#"+color);
 		childs.add("Alive\n"+ poMemoryObject.getAlive());
+
 		
 		for (String oO:childs){
 
@@ -1514,6 +1518,8 @@ public class clsCompareGraph extends JGraph {
 			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 			GraphConstants.setEndFill(oEdge.getAttributes(), true);
 		}
+
+		
 		
 		
 		//get edge to parent cell
@@ -1525,7 +1531,42 @@ public class clsCompareGraph extends JGraph {
 	
 		return oCell;
 	}
+
+	/**
+	 * [clsVisionEntryAction]
+	 */
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsVisionEntryAction poMemoryObject)
+	{
+		String oDescription = poMemoryObject.getActionName();	
+		clsGraphCell oCell = createDefaultGraphVertex("Action\n"+oDescription, moColorString);
+		this.moCellList.add(oCell);
+		poMemoryObject.getClass().getFields();
+
+		if(poMemoryObject.getObjectVisionEntry()!=null){
+			
+			clsGraphCell oTargetCell = generateGraphCell(oCell, poMemoryObject.getObjectVisionEntry());
+			//add edge
+			DefaultEdge oEdge = new DefaultEdge();
+			oEdge.setSource(oCell.getChildAt(0));
+			oEdge.setTarget(oTargetCell.getChildAt(0));
+			moCellList.add(oEdge);
+			
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+			GraphConstants.setEndFill(oEdge.getAttributes(), true);
+		}
+		
+		
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge();
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
 	
+		return oCell;
+	}
+
 	
 	public clsGraphCell generateDummyCell(clsGraphCell poParentCell){
 		clsGraphCell oCell = createDefaultGraphVertex("test",0,0,100,100,moColorDummy);

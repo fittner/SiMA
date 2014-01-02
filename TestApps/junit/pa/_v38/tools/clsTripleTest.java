@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import datatypes.helpstructures.clsTriple;
+import base.datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (havlicek) - insert description 

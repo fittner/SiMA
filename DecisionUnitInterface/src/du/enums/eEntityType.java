@@ -15,6 +15,7 @@ public enum eEntityType {
 	
 	//INANIMATE
 	BASE,
+	RECTANGLE,
 	CAN,
 	CAKE,
 	APPLE,

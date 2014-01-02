@@ -19,7 +19,7 @@ import org.junit.Test;
 public class clsConceptLoaderTest {
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.situationloader.clsConceptLoader#generate(pa._v38.memorymgmt.datatypes.clsDataStructurePA[])}.
+     * Test method for {@link memorymgmt.situationloader.clsConceptLoader#generate(pa._v38.memorymgmt.datatypes.clsDataStructurePA[])}.
      */
     @Test
     public final void testGenerate() {
@@ -28,7 +28,7 @@ public class clsConceptLoaderTest {
 
     /**
      * Test method for
-     * {@link pa._v38.memorymgmt.situationloader.clsConceptLoader#extend(pa._v38.memorymgmt.datatypes.clsConcept, pa._v38.memorymgmt.datatypes.clsDataStructurePA[])}
+     * {@link memorymgmt.situationloader.clsConceptLoader#extend(pa._v38.memorymgmt.datatypes.clsConcept, pa._v38.memorymgmt.datatypes.clsDataStructurePA[])}
      * .
      */
     @Test

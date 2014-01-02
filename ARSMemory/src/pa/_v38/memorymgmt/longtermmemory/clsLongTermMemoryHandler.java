@@ -9,29 +9,32 @@ package pa._v38.memorymgmt.longtermmemory;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.interfaces.itfSearchSpaceAccess;
+
 import org.apache.log4j.Logger;
 
-import datatypes.helpstructures.clsPair;
-import datatypes.helpstructures.clsTriple;
-import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsAffect;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
-import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivation;
-import pa._v38.tools.clsDebugTools;
+import base.datahandlertools.clsDataStructureGenerator;
+import base.datatypes.clsAffect;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationWordPresentation;
+import base.datatypes.clsDataStructureContainer;
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsPrimaryDataStructure;
+import base.datatypes.clsPrimaryDataStructureContainer;
+import base.datatypes.clsThingPresentation;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
+import base.tools.clsDebugTools;
+import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadingActivation;
+import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadingActivationInterface;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -43,17 +46,17 @@ import secondaryprocess.datamanipulation.clsMeshTools;
 public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	
 	private itfSearchSpaceAccess moSearchSpaceMethods;
-	private clsPsychicSpreadActivation moSpreadActivationHandler;
+	private PsychicSpreadingActivationInterface moSpreadActivationHandler;
 	
 	private Logger log = Logger.getLogger("pa._v38.memorymgmt");
 	
 	private static final double moConsumeValue = 0.2;
 	private static final double mrActivationThreshold = 0.1;
-	private static final int mnMaximumDirectActivationValue = 20;
+	//private static final int mnMaximumDirectActivationValue = 20;
 	
 	public clsLongTermMemoryHandler(itfSearchSpaceAccess poSearchSpaceMethods) {
 		moSearchSpaceMethods = poSearchSpaceMethods;
-		moSpreadActivationHandler = new clsPsychicSpreadActivation(moSearchSpaceMethods, moConsumeValue, mrActivationThreshold);
+		moSpreadActivationHandler = new PsychicSpreadingActivation(moSearchSpaceMethods, moConsumeValue, mrActivationThreshold);
 		log.info("Initialize " + this.getClass().getName());
 	}
 	
@@ -77,6 +80,8 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		//log.debug("Search for pattern: " + oSearchPattern.toString() + ". Result: " + poSearchResult.toString());
 		
 	}
+	
+
 	
 	/* (non-Javadoc)
 	 *
@@ -116,7 +121,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		clsPrimaryDataStructureContainer oEmptySpaceContainer=null;
 		for (ArrayList<clsPair<Double,clsDataStructureContainer>> oE : oSearchResult) {
 			for (clsPair<Double,clsDataStructureContainer> oE2 : oE) {
-				if (((clsThingPresentationMesh)oE2.b.getMoDataStructure()).getMoContent().equals(poContent)==true) {
+				if (((clsThingPresentationMesh)oE2.b.getMoDataStructure()).getContent().equals(poContent)==true) {
 					oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oE2.b;
 				}
 			}
@@ -157,7 +162,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		}
 		
 		
-		((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setMoExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());
+		((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());
 		clsThingPresentationMesh oEmptySpaceTPM = null;
 		try {
 			oEmptySpaceTPM = (clsThingPresentationMesh) ((clsThingPresentationMesh) oEmptySpaceContainer.getMoDataStructure()).clone();
@@ -178,12 +183,12 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#executePsychicSpreadActivation(pa._v38.memorymgmt.datatypes.clsThingPresentationMesh, double)
 	 */
 	@Override
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn) {
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn, int maxNumberOfDirectActivations, boolean useDirectActivation, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages) {
 		//Add the activated image to the already processed list
 		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();
 		oAlreadyActivatedImages.add(poInput);
 		log.debug("Psychic Spread Activation input: " + poInput + "; Psychic Energy=" + prPsychicEnergyIn);
-		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, mnMaximumDirectActivationValue, poDriveMeshFilterList, oAlreadyActivatedImages);
+		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, maxNumberOfDirectActivations, useDirectActivation, poDriveMeshFilterList, recognizedImageMultiplyFactor, preferredImages, oAlreadyActivatedImages);
 		log.debug("Psychic Spread Activation output: " + poInput);
 	}
 
@@ -211,7 +216,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 			//Get the best match if higher than the threshold
 			if (oSearchResult.get(0).get(0).a >= prThreshold) {
 				oRetVal = (clsAssociationWordPresentation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
-				if (poDataStructure.getMoDS_ID()==oRetVal.getRootElement().getMoDS_ID()) {
+				if (poDataStructure.getDS_ID()==oRetVal.getRootElement().getDS_ID()) {
 					oRetVal.setRootElement(poDataStructure);
 				}
 			}	
@@ -267,7 +272,9 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		//Move all associations from the found structure to the original structure of the input. This is used in Spreadactivation where the mesh is "growing"
 		if (poInput instanceof clsWordPresentationMesh) {
 			clsDebugTools.correctErronerusAssociations((clsWordPresentationMesh) oRetVal);
-			clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
+			MeshProcessor merger = new MeshProcessor();
+			merger.complementMesh((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal, true);
+			//clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
 			
 		} else if (poInput instanceof clsThingPresentationMesh) {
 			clsMeshTools.moveAllAssociations((clsThingPresentationMesh)poInput, (clsThingPresentationMesh)oRetVal);
@@ -288,6 +295,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	public ArrayList<clsPair<Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel) {
 		return this.moSearchSpaceMethods.searchMesh(poPattern, poSearchContentType, prThreshold, pnLevel);
 	}
+
 
 	
 }

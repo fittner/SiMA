@@ -5,6 +5,7 @@ processor.psychicapparatus.01.IMP_STAGE=BASIC
 processor.psychicapparatus.02.IMP_STAGE=BASIC
 processor.psychicapparatus.03.IMP_STAGE=BASIC
 processor.psychicapparatus.04.IMP_STAGE=BASIC
+processor.psychicapparatus.06.IMP_STAGE=BASIC
 processor.psychicapparatus.39.IMP_STAGE=BASIC
 processor.psychicapparatus.40.IMP_STAGE=BASIC
 processor.psychicapparatus.41.IMP_STAGE=BASIC

@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import javax.swing.JSplitPane;
 
-import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.modules.clsPsychicApparatus;
+import base.modules.clsPsychicApparatus;
+import modules.interfaces.eInterfaces;
 
 /**
  * DOCUMENT (herret) - insert description 

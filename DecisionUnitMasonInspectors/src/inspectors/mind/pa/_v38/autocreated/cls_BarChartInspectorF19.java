@@ -6,6 +6,8 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInspectorBarChartF19;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -20,7 +22,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 
-import pa._v38.interfaces.itfInspectorBarChartF19;
+
 
 /**
  * DOCUMENT (Lotfi) - insert description 

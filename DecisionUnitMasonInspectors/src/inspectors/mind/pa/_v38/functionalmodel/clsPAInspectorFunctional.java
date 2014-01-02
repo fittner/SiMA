@@ -7,6 +7,7 @@
 package inspectors.mind.pa._v38.functionalmodel;
 
 import inspectors.mind.pa._v38.clsInspectorTab_Modules;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.ScrollPane;
@@ -22,7 +23,6 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTree;
-
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -37,10 +37,9 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa._v38.modules.clsPsychicApparatus;
-
 import sim.portrayal.Inspector;
 import sim.portrayal.inspector.TabbedInspector;
+import base.modules.clsPsychicApparatus;
 
 import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;

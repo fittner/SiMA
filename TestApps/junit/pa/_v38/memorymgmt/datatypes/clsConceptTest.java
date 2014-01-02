@@ -16,6 +16,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import base.datatypes.clsAssociation;
+import base.datatypes.clsConcept;
+import base.datatypes.clsWordPresentationMesh;
+
 /**
  * DOCUMENT (havlicek) - Test cases for {@link clsConcept}
  * 
@@ -27,7 +31,7 @@ public class clsConceptTest {
     private clsConcept moConcept;
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#clsConcept()}.
+     * Test method for {@link base.datatypes.clsConcept#clsConcept()}.
      */
     @Test
     public final void constructorTest() {
@@ -37,7 +41,7 @@ public class clsConceptTest {
     }
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
+     * Test method for {@link base.datatypes.clsConcept#isEmpty()}.
      */
     @Test
     public final void isEmptyNullTest() {
@@ -46,14 +50,14 @@ public class clsConceptTest {
     }
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
+     * Test method for {@link base.datatypes.clsConcept#isEmpty()}.
      */
     @SuppressWarnings("unchecked")
     @Test
     public final void isEmptyWithEmptyMeshTest() {
         clsWordPresentationMesh oWpmMock = mock(clsWordPresentationMesh.class);
         List<clsAssociation> associationListMock = mock(ArrayList.class);
-        when(oWpmMock.getExternalMoAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
+        when(oWpmMock.getExternalAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
         when(associationListMock.isEmpty()).thenReturn(true);
 
         moConcept = new clsConcept();
@@ -64,14 +68,14 @@ public class clsConceptTest {
     }
 
     /**
-     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
+     * Test method for {@link base.datatypes.clsConcept#isEmpty()}.
      */
     @SuppressWarnings("unchecked")
     @Test
     public final void isEmptyWithInitMeshTest() {
         clsWordPresentationMesh oWpmMock = mock(clsWordPresentationMesh.class);
         List<clsAssociation> associationListMock = mock(ArrayList.class);
-        when(oWpmMock.getExternalMoAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
+        when(oWpmMock.getExternalAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
         when(associationListMock.isEmpty()).thenReturn(false);
 
         moConcept = new clsConcept();

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JSplitPane;
 
 
-import pa._v38.interfaces.itfInspectorForRules;
+import inspector.interfaces.itfInspectorForRules;
 import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;
 
 /**

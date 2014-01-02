@@ -8,7 +8,6 @@ package bw.body.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
-import bfg.utils.enums.ePercievedActionType;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.itfAPDivideable;
@@ -132,7 +131,8 @@ public class clsExecutorDivide extends clsActionExecutor{
 		
 		//3) attach eat to the self 
         
-        clsAction oAction = new clsAction(1,ePercievedActionType.DIVIDE);
+        clsAction oAction = new clsAction(1);
+        oAction.setActionName("DIVIDE");
         oAction.attachEntity((clsEntity) oDivideEntity);
         moEntity.addAction(oAction);
 		

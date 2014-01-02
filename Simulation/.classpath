@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="junit"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/AlternativeDecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Entities"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BodyEntityMasonInspectors"/>
@@ -25,5 +22,6 @@
 	<classpathentry kind="lib" path="/Libraries/vecmath.jar"/>
 	<classpathentry kind="lib" path="/Libraries/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BaseEntity-Body-ARSIN"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ARSDecisionUnit"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

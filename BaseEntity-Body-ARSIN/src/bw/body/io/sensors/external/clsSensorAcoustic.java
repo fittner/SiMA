@@ -62,7 +62,7 @@ public class clsSensorAcoustic extends clsSensorExt{
 
 		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, 2*Math.PI);
 		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 0);
-		oProp.setProperty(pre+P_SENSOR_MAX_DISTANCE, 20);
+		oProp.setProperty(pre+P_SENSOR_MAX_DISTANCE, 60);
 		
 		return oProp;
 	}	

@@ -9,7 +9,7 @@ package inspectors.mind.pa._v38.handcrafted;
 
 import java.awt.BorderLayout;
 
-import OLDREMOVETHISpa._v38.logger.clsDataLogger;
+import _OLDREMOVETHISpa._v38.logger.clsDataLogger;
 import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;

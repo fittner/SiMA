@@ -6,8 +6,8 @@
  */
 package inspectors.mind.pa._v38.graph;
 
-import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.modules.clsPsychicApparatus;
+import base.modules.clsPsychicApparatus;
+import modules.interfaces.eInterfaces;
 
 /**
  * DOCUMENT (deutsch) - insert description 

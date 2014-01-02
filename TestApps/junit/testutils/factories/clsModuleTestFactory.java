@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.modules.clsModuleBase;
+import base.modules.clsModuleBase;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import modules.interfaces.eInterfaces;
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 
 /**
  * DOCUMENT (ende) - insert description 
@@ -31,7 +31,7 @@ public class clsModuleTestFactory<T extends clsModuleBase> {
 	private String poProb;
 	private HashMap<Integer, clsModuleBase> poModuleList;
 	private SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData;
-	private clsKnowledgeBaseHandler poKnowledgeBaseHandler;
+	private clsSearchSpaceHandler poKnowledgeBaseHandler;
 	private clsShortTermMemory poShortTermMemory;
 	private clsEnvironmentalImageMemory poTempLocalizationStorage;
 	
@@ -82,7 +82,7 @@ public class clsModuleTestFactory<T extends clsModuleBase> {
 	 * @param poKnowledgeBaseHandler the poKnowledgeBaseHandler to set
 	 */
 	public clsModuleTestFactory<T> setPoKnowledgeBaseHandler(
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
+			clsSearchSpaceHandler poKnowledgeBaseHandler) {
 		this.poKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		return this;
 	}

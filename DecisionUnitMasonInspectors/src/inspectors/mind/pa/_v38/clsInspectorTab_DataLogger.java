@@ -6,6 +6,9 @@
  */
 package inspectors.mind.pa._v38;
 
+import inspector.interfaces.itfInspectorGenericActivityTimeChart;
+import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
+import inspector.interfaces.itfInspectorGenericTimeChart;
 import inspectors.mind.pa._v38.autocreated.clsDL_CSVGenericInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericActivityTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericDynamicTimeChartInspector;
@@ -27,14 +30,11 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import OLDREMOVETHISpa._v38.logger.clsDLEntry_Abstract;
-import OLDREMOVETHISpa._v38.logger.clsDataLogger;
-import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
-import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
-import pa._v38.interfaces.itfInspectorGenericTimeChart;
-import pa._v38.modules.clsPsychicApparatus;
-import pa.clsPsychoAnalysis;
-import pa._v38.clsProcessor;
+import base.modules.clsPsychicApparatus;
+import control.clsProcessor;
+import control.clsPsychoAnalysis;
+import _OLDREMOVETHISpa._v38.logger.clsDLEntry_Abstract;
+import _OLDREMOVETHISpa._v38.logger.clsDataLogger;
 import sim.portrayal.Inspector;
 import sim.portrayal.inspector.TabbedInspector;
 

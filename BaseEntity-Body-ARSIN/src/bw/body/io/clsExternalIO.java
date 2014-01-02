@@ -22,13 +22,13 @@ import bw.body.io.actuators.actionExecutors.clsExecutorEat;
 import bw.body.io.actuators.actionExecutors.clsExecutorExcrement;
 import bw.body.io.actuators.actionExecutors.clsExecutorFacialExpressions;
 import bw.body.io.actuators.actionExecutors.clsExecutorFromInventory;
-import bw.body.io.actuators.actionExecutors.clsExecutorSpeechExpression;
 import bw.body.io.actuators.actionExecutors.clsExecutorKiss;
 import bw.body.io.actuators.actionExecutors.clsExecutorMove;
 import bw.body.io.actuators.actionExecutors.clsExecutorMoveToArea;
 import bw.body.io.actuators.actionExecutors.clsExecutorPickUp;
 import bw.body.io.actuators.actionExecutors.clsExecutorSleep;
 import bw.body.io.actuators.actionExecutors.clsExecutorSpeech;
+import bw.body.io.actuators.actionExecutors.clsExecutorSpeechExpression;
 import bw.body.io.actuators.actionExecutors.clsExecutorToInventory;
 import bw.body.io.actuators.actionExecutors.clsExecutorTurn;
 import bw.body.io.actuators.actionExecutors.clsExecutorTurnVision;
@@ -70,15 +70,8 @@ import du.itf.actions.clsActionKiss;
 import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionMoveToEatableArea;
 import du.itf.actions.clsActionPickUp;
-import du.itf.actions.clsActionShare;
 import du.itf.actions.clsActionSleep;
 import du.itf.actions.clsActionSpeech;
-import du.itf.actions.clsActionSpeechExEyeSize;
-import du.itf.actions.clsActionSpeechExLeftAntennaPosition;
-import du.itf.actions.clsActionSpeechExLensShape;
-import du.itf.actions.clsActionSpeechExLensSize;
-import du.itf.actions.clsActionSpeechExRightAntennaPosition;
-import du.itf.actions.clsActionSpeechInvited;
 import du.itf.actions.clsActionToInventory;
 import du.itf.actions.clsActionTurn;
 import du.itf.actions.clsActionTurnVision;
@@ -144,7 +137,7 @@ public class clsExternalIO extends clsBaseIO {
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsProperties getDefaultSensorProperties(String poPrefix, boolean pnThreeRangeVision) {
+	public static clsProperties getDefaultSensorProperties(String poPrefix, boolean pnThreeRangeVision, boolean pnThreeRangeAcoustics) {
 		String pre = clsProperties.addDot(poPrefix);
 		
 		clsProperties oProp = new clsProperties();		
@@ -210,6 +203,50 @@ public class clsExternalIO extends clsBaseIO {
 			numsensors++;
 		}
 		
+		if (pnThreeRangeAcoustics) {
+			//add 3-range-Acoustics
+			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_NEAR.name());
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 20);
+			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 0 );
+			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+			numsensors++;
+	
+			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_MEDIUM.name());
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 40 );
+			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 20 );
+			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+			numsensors++;
+	
+			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_FAR.name());
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 60);
+			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 40 );
+			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+			numsensors++;
+			
+			//Vision Self
+			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_SELF.name());
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 0);
+			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 0 );
+			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+			numsensors++;
+			
+		} else {
+			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.ACOUSTIC.name());
+			oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+			oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MAX_DISTANCE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+			numsensors++;
+		}
+		
 		oProp.putAll( clsSensorRadiation.getDefaultProperties( pre+numsensors) );
 		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.RADIATION.name());
@@ -238,7 +275,7 @@ public class clsExternalIO extends clsBaseIO {
 												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));
 		numsensors++;
 		
-		// ** MW 
+/*		// ** MW 
 		oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
 		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.ACOUSTIC.name());
@@ -246,7 +283,7 @@ public class clsExternalIO extends clsBaseIO {
 												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));
 		numsensors++;
 		// MW **
-	
+*/	
 		oProp.putAll( clsSensorOlfactoric.getDefaultProperties( pre+numsensors) );
         oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
         oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.OLFACTORIC.name());
@@ -255,7 +292,7 @@ public class clsExternalIO extends clsBaseIO {
         oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.OLFACTORIC.name());
         oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 60);
         oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 1 );
-        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+        oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, 2*Math.PI );
         oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, 60);
         numsensors++;
         
@@ -276,10 +313,7 @@ public class clsExternalIO extends clsBaseIO {
 
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EAT,1);
 		oProp.putAll( clsExecutorEat.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EAT) );
-		
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INNERSPEECH,1);
-		oProp.putAll( clsExecutorMove.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INNERSPEECH) );
-		
+	
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FROMINVENTORY,1);
 		oProp.putAll( clsExecutorFromInventory.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FROMINVENTORY) );
 		
@@ -322,15 +356,14 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+P_ACTIONAVAILABLE   +"."+bw.utils.enums.eBodyParts.ACTIONEX_DIVIDE,1);
         oProp.putAll( clsExecutorDivide.getDefaultProperties( pre+P_ACTIONEX  +"."+bw.utils.enums.eBodyParts.ACTIONEX_DIVIDE) );
 
+        oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_OUTERSPEECH,1);
+		oProp.putAll( clsExecutorExcrement.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_OUTERSPEECH) );
+		
 		// ** MW
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH,1);
 		oProp.putAll( clsExecutorExcrement.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH) );
 		// MW **
-		
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS,1);
-		oProp.putAll( clsExecutorMove.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS) );
-		
-		
+	
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,1);
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORRED,1);
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORGREEN,1);
@@ -344,13 +377,6 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_RIGHTANT,1);
 		oProp.putAll( clsExecutorFacialExpressions.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS + P_ACTIONEX_FEX_LENSSHAPE,1);
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS + P_ACTIONEX_FEX_LENSSIZE,1);
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS + P_ACTIONEX_FEX_EYESIZE,1);
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS + P_ACTIONEX_FEX_LEFTANT,1);
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS + P_ACTIONEX_FEX_RIGHTANT,1);
-		oProp.putAll( clsExecutorSpeechExpression.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS) );
-		
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SLEEP,1);
 		oProp.putAll( clsExecutorSleep.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SLEEP) );
 
@@ -362,7 +388,7 @@ public class clsExternalIO extends clsBaseIO {
 		
 		clsProperties oProp = new clsProperties();
 		
-		oProp.putAll(getDefaultSensorProperties(pre+P_SENSORS, false));
+		oProp.putAll(getDefaultSensorProperties(pre+P_SENSORS, false, false));
 		oProp.putAll(getDefaultActionProperties(pre+P_ACTIONS));
 		
 		return oProp;
@@ -390,12 +416,18 @@ public class clsExternalIO extends clsBaseIO {
 					 * get rid of the Hashmap moSensorExternal
 					 * */
 					if(eType.name().equals(eSensorExtType.ACCELERATION.name())) sensorExt=new clsSensorAcceleration(tmp_pre, poProp, this); 
-					if(eType.name().equals(eSensorExtType.ACOUSTIC.name())) sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this); // MW 
+				//	if(eType.name().equals(eSensorExtType.ACOUSTIC.name())) sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this); // MW 
 					if(eType.name().equals(eSensorExtType.BUMP.name()))sensorExt=new clsSensorBump(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION_NEAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION_MEDIUM.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION_FAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this); 
+					
+					if(eType.name().equals(eSensorExtType.ACOUSTIC_NEAR.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
+					if(eType.name().equals(eSensorExtType.ACOUSTIC_MEDIUM.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
+					if(eType.name().equals(eSensorExtType.ACOUSTIC_FAR.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
+					if(eType.name().equals(eSensorExtType.ACOUSTIC.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this); 
+			
 					if(eType.name().equals(eSensorExtType.RADIATION.name()))sensorExt=new clsSensorRadiation(tmp_pre, poProp, this); 
 					if(eType.name().equals(eSensorExtType.EATABLE_AREA.name()))sensorExt=new clsSensorEatableArea(tmp_pre, poProp, this); 
 					if(eType.name().equals(eSensorExtType.MANIPULATE_AREA.name()))sensorExt=new clsSensorManipulateArea(tmp_pre, poProp, this); 
@@ -414,9 +446,9 @@ public class clsExternalIO extends clsBaseIO {
 		String pre = clsProperties.addDot(poPrefix);
 
 		//Register actionexecutors
-		//if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INNERSPEECH)==1) moProcessor.addCommand(clsActionInnerSpeech.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INNERSPEECH,poProp,moEntity));
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS)==1) moProcessor.addCommand(clsActionShare.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS,poProp,moEntity));
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS)==1) moProcessor.addCommand(clsActionSpeechInvited.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS,poProp,moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_OUTERSPEECH)==1) moProcessor.addCommand(clsActionSpeech.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_OUTERSPEECH,poProp,moEntity));
+//		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH)==1) moProcessor.addCommand(clsActionSpeech.class, new clsExecutorSpeech(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH,poProp,moEntity));
+//		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH)==1) moProcessor.addCommand(clsActionSpeech.class, new clsExecutorSpeech(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH,poProp,moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE)==1) moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE,poProp,moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN)==1) moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN,poProp,moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EAT)==1) moProcessor.addCommand(clsActionEat.class, new clsExecutorEat(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EAT,poProp,moEntity));
@@ -444,12 +476,6 @@ public class clsExternalIO extends clsBaseIO {
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_EYESIZE)==1) moProcessor.addCommand(clsActionFacialExEyeSize.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_LEFTANT)==1) moProcessor.addCommand(clsActionFacialExLeftAntennaPosition.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_RIGHTANT)==1) moProcessor.addCommand(clsActionFacialExRightAntennaPosition.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
-
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS + P_ACTIONEX_FEX_LENSSHAPE)==1) moProcessor.addCommand(clsActionSpeechExLensShape.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS,poProp,(clsMobile) moEntity));
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS + P_ACTIONEX_FEX_LENSSIZE)==1) moProcessor.addCommand(clsActionSpeechExLensSize.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS,poProp,(clsMobile) moEntity));
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS + P_ACTIONEX_FEX_EYESIZE)==1) moProcessor.addCommand(clsActionSpeechExEyeSize.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS,poProp,(clsMobile) moEntity));
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS + P_ACTIONEX_FEX_LEFTANT)==1) moProcessor.addCommand(clsActionSpeechExLeftAntennaPosition.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS,poProp,(clsMobile) moEntity));
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS + P_ACTIONEX_FEX_RIGHTANT)==1) moProcessor.addCommand(clsActionSpeechExRightAntennaPosition.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS,poProp,(clsMobile) moEntity));
 
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH)==1) moProcessor.addCommand(clsActionSpeech.class, new clsExecutorSpeech(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH,poProp,(clsMobile) moEntity)); // MW 
 		

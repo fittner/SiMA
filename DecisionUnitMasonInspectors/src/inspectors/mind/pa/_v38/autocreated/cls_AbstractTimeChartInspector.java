@@ -6,6 +6,9 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInspectorTimeChartBase;
+import inspector.interfaces.itfInterfaceTimeChartHistory;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -20,9 +23,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import datatypes.helpstructures.clsPair;
-import pa._v38.interfaces.itfInspectorTimeChartBase;
-import pa._v38.interfaces.itfInterfaceTimeChartHistory;
+import base.datatypes.helpstructures.clsPair;
 import statictools.clsExceptionUtils;
 import statictools.clsSimState;
 

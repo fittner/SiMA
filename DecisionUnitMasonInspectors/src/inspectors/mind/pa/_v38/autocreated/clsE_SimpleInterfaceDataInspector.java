@@ -6,11 +6,13 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import inspector.interfaces.itfInterfaceInterfaceData;
+
 import java.util.ArrayList;
 import java.util.SortedMap;
-import pa._v38.interfaces.itfInterfaceInterfaceData;
-import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.tools.toText;
+
+import modules.interfaces.eInterfaces;
+import base.tools.toText;
 
 /**
  * DOCUMENT (deutsch) - insert description 
