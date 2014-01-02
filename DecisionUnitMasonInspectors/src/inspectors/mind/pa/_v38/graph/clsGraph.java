@@ -51,7 +51,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eActivationType;
-import pa._v38.modules.F07_SuperEgoReactive.clsReadSuperEgoRules;
+import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import bfg.utils.enums.ePercievedActionType;
@@ -1158,7 +1158,7 @@ public class clsGraph extends JGraph {
 			oEdge.setTarget(oRuleChildren.getChildAt(0)); //defining the to
 			moCellList.add(oEdge); //adding the cell to the root
 			
-			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC); //Without this there will be no arrow, just the line		
+//			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC); //Without this there will be no arrow, just the line		
 			oTheCells.add(oRuleChildren); //saving away the created cell - needing it for later
 		}
 		//for every Emotion in this rule
@@ -1172,7 +1172,7 @@ public class clsGraph extends JGraph {
 			oEdge.setTarget(oRuleChildren.getChildAt(0));
 			moCellList.add(oEdge);
 			
-			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+//			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 			oTheCells.add(oRuleChildren);
 		}
 		//for every Perception in this rule
@@ -1186,7 +1186,7 @@ public class clsGraph extends JGraph {
 			oEdge.setTarget(oRuleChildren.getChildAt(0));
 			moCellList.add(oEdge);
 			
-			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+//			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 			oTheCells.add(oRuleChildren);
 		}
 		//making every saved away cell (oTheCells) to show an edge-cell named "then"

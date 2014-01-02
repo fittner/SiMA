@@ -7,18 +7,14 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-//import java.util.Map.Entry;
-//import java.util.Arrays;
 import java.util.HashMap;
 
-//import java.util.Map.Entry;
 import java.util.SortedMap;
 
 
-
-//import pa._v38.interfaces.itfInspectorBarChart;
 import pa._v38.interfaces.itfInspectorBarChartF06;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
+import pa._v38.interfaces.itfInspectorModificationDrives;
 import pa._v38.interfaces.modules.D2_3_send;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I5_18_send;
@@ -30,7 +26,6 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-//import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
@@ -46,9 +41,9 @@ import pa._v38.tools.toText;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
 import config.clsProperties;
 import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsQuadruppel;
 import datatypes.helpstructures.clsTriple;
 import du.enums.pa.eDriveComponent;
-//import du.enums.pa.ePartialDrive;
 
 /**
  * Defends forbidden drives. Super-Ego (F7 and F55) sends a list with forbidden drives to F06. F06 decides whether to 
@@ -74,7 +69,7 @@ defend the forbidden drives or not.
  * 
  */
 public class F06_DefenseMechanismsForDrives extends clsModuleBase implements 
-					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send, itfInspectorBarChartF06,itfInspectorCombinedTimeChart {
+					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send, itfInspectorBarChartF06,itfInspectorCombinedTimeChart,itfInspectorModificationDrives {
 	public static final String P_MODULENUMBER = "06";
 
 	private ArrayList<clsDriveMesh> moDriveList_Input;
@@ -97,6 +92,89 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	boolean defense_active = false;
 	
 	private HashMap<String, String> oOppositeTP = new HashMap<String, String> ();
+	
+	//Ivy
+	private ArrayList <clsQuadruppel<String, String, String, Double>> smile = new ArrayList <clsQuadruppel<String, String, String, Double>> (); //DriveAim, DriveObject, ChartsShortString, QoA
+	private ArrayList <clsChangedDrives> mDisplayDrives = new ArrayList <clsChangedDrives> ();
+	private int nStep = 0;
+	
+	public class clsChangedDrives {
+	    
+	    
+	   //////// überprüfen ob alles eingegeben wurde oder ob, also wird eh eine fillafterChange aufgerufen??
+	    /// funktion erstellen die die clsPair vergleicht
+	    private clsPair <String, String> oDriveAim; //vorher, nachher
+	    private clsPair <String, String> oDriveObject;
+	    private clsPair <Double, Double> nQoA;
+	    private String oMotivation;
+	    private String oDefense;
+	    int nStep;
+	    ///
+	    private String tDriveAim, tDriveObject;
+	    Double tQoA;
+	    private boolean bfillAfter = false;
+	    
+	    public clsChangedDrives () {
+
+	    }
+	    private void fillBeforeChange (String driveaim, String driveobject, Double QoA, String motivation, String defense, int step) {
+	        tDriveAim = driveaim;
+	        tDriveObject = driveobject;
+	        tQoA = QoA;
+	        oMotivation = motivation;
+	        oDefense = defense;
+	        nStep = step;
+	        
+	        bfillAfter = true;
+	    }
+	    private void fillAfterChange (String driveaim, String driveobject, Double QoA) {
+	        
+//	        if (bfillAfter)
+	        oDriveAim = new clsPair <String, String> (tDriveAim, driveaim);
+	        oDriveObject = new clsPair <String, String> (tDriveObject, driveobject);
+	        nQoA = new clsPair <Double, Double> (tQoA, QoA);
+	        
+	        tDriveAim = "";
+            tDriveObject = "";
+            tQoA = 0.0;
+            
+            bfillAfter = false;
+	    }
+	    ///////////////////////////////
+	    public clsPair <String, String> getDriveAim () {
+	        return oDriveAim;
+	    }
+	    public clsPair <String, String> getDriveObject () {
+            return oDriveObject;
+        }
+	    public clsPair <Double, Double> getQoA () {
+	        return nQoA;
+	    }
+	    public String getMotivation () {
+	        return oMotivation;
+	    }
+	    public String getDefense () {
+            return oDefense;
+        }
+	    public int getStep () {
+            return nStep;
+        }
+	    public boolean getBFiller () {
+	        return bfillAfter;
+	    }
+	    ///////////////////////////////
+	    public boolean compare () {
+	        return true;
+	    }
+	    
+	    
+	}
+	
+	ArrayList <clsChangedDrives> bla;
+	
+	
+	
+	//Ivy-|
 	
 	
 	private ArrayList<clsEmotion> moEmotions_Input; 
@@ -278,6 +356,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	protected void process_basic() { 
 		moDriveList_Output = (ArrayList<clsDriveMesh>) deepCopy(moDriveList_Input);
 		moEmotions_Output = clone(moEmotions_Input);
+		
+		nStep++;
 		
 	
 		
@@ -653,14 +733,15 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	    ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
 	    if (!oMatchingDrives.isEmpty())
 	           for (clsDriveMesh oOneMatchingDrive : oMatchingDrives) {
-	                // remove the drive from output list
-	               
+	                // remove the drive from output list              
 	               moDriveList_Output.remove(oOneMatchingDrive);
-	                // insert displaced drive
-	               
-	               moDriveList_Output.add(Turning_Against_Self(oOneMatchingDrive));
-	                
-	                
+
+                   aufbereitungInterface (oOneMatchingDrive, "Turn Against Self"); //Ivy
+                   clsDriveMesh oTemp = Turning_Against_Self(oOneMatchingDrive); //Ivy
+                   aufbereitungInterface(oTemp, "Turn Against Self"); //Ivy
+                   
+                   // insert displaced drive
+                   moDriveList_Output.add(oTemp);
 	           }
 	    
 	    
@@ -717,13 +798,16 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	    ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
         if (!oMatchingDrives.isEmpty())
                for (clsDriveMesh oOneMatchingDrive : oMatchingDrives) {
-                    // remove the drive from output list
-                   
-                   moDriveList_Output.remove(oOneMatchingDrive);
-                    // insert displaced drive
-                   
-                   moDriveList_Output.add(Projection(oOneMatchingDrive));
-                    
+
+                   // remove the drive from output list              
+                  moDriveList_Output.remove(oOneMatchingDrive);
+
+                  aufbereitungInterface (oOneMatchingDrive, "Projection"); //Ivy
+                  clsDriveMesh oTemp = Projection(oOneMatchingDrive); //Ivy
+                  aufbereitungInterface(oTemp, "Projection"); //Ivy
+                  
+                  // insert displaced drive
+                  moDriveList_Output.add(oTemp);
                     
                }
         
@@ -805,20 +889,22 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	
 	   if (!oMatchingDrives.isEmpty())
 		   for (clsDriveMesh oOneMatchingDrive : oMatchingDrives) {
-				// remove the drive from output list
-			   
-			   moDriveList_Output.remove(oOneMatchingDrive);
-				// insert displaced drive
-			   
-			   moDriveList_Output.add(displacement(oOneMatchingDrive));
-				
+               // remove the drive from output list              
+              moDriveList_Output.remove(oOneMatchingDrive);
+
+              aufbereitungInterface (oOneMatchingDrive, "Displacement"); //Ivy
+              clsDriveMesh oTemp = displacement(oOneMatchingDrive); //Ivy
+              aufbereitungInterface(oTemp, "Displacement"); //Ivy
+              
+              // insert displaced drive
+              moDriveList_Output.add(oTemp);
 				
 		   }
 	   
 	}
 	
 	protected void defense_done(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
-		
+		// Ivy-Frage: fügt er da alle gelöschten verbotenen Drives quasi wieder zurück?
 		
 		   ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
 		
@@ -1053,10 +1139,27 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 					
 			 
 			   for (clsDriveMesh oOneMatchingDrive : oMatchingDrives) {
-				   
-					   	   
-				   		moDriveList_Output.remove(oOneMatchingDrive);
-				   		moDriveList_Output.add(replaceDriveAim(oOneMatchingDrive));
+
+			       moDriveList_Output.remove(oOneMatchingDrive);
+			       aufbereitungInterface (oOneMatchingDrive, "Replace Drive Aim"); //Ivy
+
+			       clsDriveMesh oTemp = replaceDriveAim(oOneMatchingDrive); //Ivy
+			       aufbereitungInterface(oTemp, "Replace Drive Aim"); //Ivy
+			       moDriveList_Output.add(oTemp);
+			       
+                                  
+//                   boolean sumdi = moProcessDifference.get(1).equals(moProcessDifference.get(0));
+//                   boolean sumdi2 = moProcessDifference.get(1).equals(moProcessDifference.get(1));
+           
+//                   clsThingPresentationMesh wuhuu3 = moProcessDifference.get(1).getActualDriveAim();//::TPM::ACTION:DIVIDE
+//                   clsThingPresentationMesh wuhuu4 = moProcessDifference.get(1).getActualDriveObject();//CAKE(null:null)
+//                   eOrgan wuhuu6 = moProcessDifference.get(1).getActualDriveSourceAsENUM();//STOMACH
+//                   eDriveComponent wuhuu9 = moProcessDifference.get(1).getDriveComponent();//LIBIDINOUS
+//                   double wuhuu10 = moProcessDifference.get(1).getQuotaOfAffect();
+//                   String lala = wuhuu4.getMoContent();
+//                   String lala2 = wuhuu3.getMoContent();
+//                   moProcessDifference.get(1).getChartShortString();
+//                   sumdi2 = sumdi;
 			  }
 						       
 				
@@ -1072,7 +1175,33 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	 *
 	 */
 	
-	private  clsDriveMesh replaceDriveAim(clsDriveMesh poOriginalDM){  
+	/**
+     * DOCUMENT - insert description
+     *
+     * @author Jordakieva
+     * @since 14.11.2013 18:53:15
+     *
+     * @param oOneMatchingDrive
+     */
+    private void aufbereitungInterface(clsDriveMesh oOneMatchingDrive, String defense) {
+        
+        clsChangedDrives changedDrives = new clsChangedDrives ();
+        
+        changedDrives.fillBeforeChange(oOneMatchingDrive.getActualDriveAim().getMoContent(),
+                oOneMatchingDrive.getActualDriveObject().getMoContent(), oOneMatchingDrive.getQuotaOfAffect(), 
+                oOneMatchingDrive.getChartShortString(), defense, nStep);
+        
+        int size = mDisplayDrives.size();
+        
+        if (size > 0) {
+            if (mDisplayDrives.get(size - 1).getBFiller()) {
+                mDisplayDrives.get(size-1).fillAfterChange(oOneMatchingDrive.getActualDriveAim().getMoContent(), 
+                        oOneMatchingDrive.getActualDriveObject().getMoContent(), oOneMatchingDrive.getQuotaOfAffect());
+            } else mDisplayDrives.add(changedDrives);
+        } else mDisplayDrives.add(changedDrives);
+    }
+
+    private  clsDriveMesh replaceDriveAim(clsDriveMesh poOriginalDM){  
 		  
 		
 		// get the original Drive Aim from incoming Drive
@@ -1290,6 +1419,23 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	*/
 	@Override
 	protected void send() { 
+	    
+	    //Ivy
+//	    //processList (moDriveList_Input, moDriveList_Output);
+//	    ArrayList <clsDriveMesh> hallo = new ArrayList ();
+//	    for (int i = 0; i < moDriveList_Input.size(); i++) {
+//	        hallo.add(moDriveList_Input.get(i));	        
+//	    }
+//	    
+//	    System.err.println(hallo);
+	    
+//	    ArrayList <clsDriveMesh> hallo = findInDriveList(moForbiddenDrives_Input);
+//	    
+//	    if (hallo.isEmpty()) System.err.println("keine :)!");
+//	    else { 
+//	        //System.err.println(hallo); 
+//	        System.out.println(moProcessDifference); System.err.println("-----------------------------"); }
+	    
 		send_I5_18(moDriveList_Output);
 		send_I5_17(moQuotasOfAffect_Output);
 	}
@@ -1342,6 +1488,9 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	*/
 	@Override
 	protected void process_draft() {
+	    
+	    nStep++;
+	    
         moDriveList_Output = (ArrayList<clsDriveMesh>) deepCopy(moDriveList_Input);
         moEmotions_Output = clone(moEmotions_Input);     
         
@@ -1680,10 +1829,23 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		ArrayList<String> oNoDefense = new ArrayList<String>();
 		oNoDefense.add("PassForbiddenDrives");
 		oResult.add(oNoDefense);
-		
 
 		return oResult;
 	}
+
+
+    /* (non-Javadoc)
+     *
+     * @since 14.11.2013 19:18:37
+     * 
+     * @see pa._v38.interfaces.itfInspectorModificationDrives#processList()
+     */
+    @Override
+    public ArrayList<clsChangedDrives> processList() {
+
+        return mDisplayDrives;
+    }
+
 
 
 	

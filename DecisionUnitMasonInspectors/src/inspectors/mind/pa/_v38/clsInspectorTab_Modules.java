@@ -27,6 +27,8 @@ import inspectors.mind.pa._v38.graph.clsGraphInterface;
 import inspectors.mind.pa._v38.graph.clsMeshInterface;
 import inspectors.mind.pa._v38.handcrafted.clsF26DecisionCalculation;
 import inspectors.mind.pa._v38.handcrafted.clsI_AllInterfaceData;
+import inspectors.mind.pa._v38.handcrafted.clsInspectorImageDrives;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import pa._v38.clsProcessor;
@@ -42,6 +44,7 @@ import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
+import pa._v38.interfaces.itfInspectorModificationDrives;
 import pa._v38.interfaces.itfInspectorSpiderWebChart;
 import pa._v38.interfaces.itfInspectorStackedBarChart;
 import pa._v38.interfaces.itfGraphCompareInterfaces;
@@ -382,7 +385,13 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 			if (oModule instanceof itfInspectorForRules) {
 				poTI.addInspector(
 						new clsGraphForRules (true, (itfInspectorForRules) oModule),
-						"Rules");				
+						"Rules");		//erstellt einen neuen Tab mit diesen Namen		
+			}
+			
+			if (oModule instanceof itfInspectorModificationDrives) {
+				poTI.addInspector(
+						new clsInspectorImageDrives((itfInspectorModificationDrives) oModule),
+						"pictogram DM-Rules");
 			}
 			
 

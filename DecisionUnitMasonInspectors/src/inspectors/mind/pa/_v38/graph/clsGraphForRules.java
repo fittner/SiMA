@@ -12,7 +12,7 @@ import javax.swing.JSplitPane;
 
 
 import pa._v38.interfaces.itfInspectorForRules;
-import pa._v38.modules.F07_SuperEgoReactive.clsReadSuperEgoRules;
+import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;
 
 /**
  * DOCUMENT (Jordakieva) - insert description 
