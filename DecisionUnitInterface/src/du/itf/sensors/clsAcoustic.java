@@ -12,15 +12,4 @@ public class clsAcoustic extends clsSensorRingSegment {
 		return oRetVal;
 	}
 
-	/**
-	 * DOCUMENT (hinterleitner) - insert description
-	 *
-	 * @since 21.08.2013 20:38:58
-	 *
-	 * @param oEntry
-	 */
-	public void add(clsAcousticEntry oEntry) {
-		// TODO (hinterleitner) - Auto-generated method stub
-		
-	}	
 }

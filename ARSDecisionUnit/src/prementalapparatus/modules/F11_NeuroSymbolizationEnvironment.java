@@ -15,6 +15,7 @@ import java.util.SortedMap;
 
 import prementalapparatus.symbolization.clsSensorToSymbolConverter;
 import prementalapparatus.symbolization.eSymbolExtType;
+import prementalapparatus.symbolization.representationsymbol.clsSymbolAcousticEntry;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolBump;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolEatableArea;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolManipulateArea;
@@ -310,6 +311,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 				case ACOUSTIC_FAR:
                 case ACOUSTIC_NEAR:
                 case ACOUSTIC_MEDIUM:      
+                    
 						ArrayList<itfSymbolVisionEntry> oEntries = ((clsSymbolVision)oValue).getEntries();
 						for (int j=0; j<oEntries.size(); j++) {
 							clsSymbolVisionEntry oE = (clsSymbolVisionEntry) oEntries.get(j);
@@ -324,13 +326,40 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 								case REMOTEBOT: x=6; break;
 								case STONE:  x=7; break;
 								case WALL:   x=8; break;
+								case RECTANGLE:   x=9; break;
 								
 							}
+							
 							if (x>=0) {
 								oData.set(x, max(rValue=1, oData.get(x)));
 							}
 							 
 						}
+					
+						for (int u=0; i<oEntries.size(); u++) {
+                            clsSymbolAcousticEntry oE = (clsSymbolAcousticEntry) oEntries.get(u);
+                            int x = -1;
+                            switch (oE.getEntityType()) {
+                                case ARSIN: x=0; break;
+                                case CAKE:   x=1; break;
+                                case CAN:    x=2; break;
+                                case CARROT: x=3; break;
+                                case EXCREMENT: x=4; break;
+                                case PLANT: x=5; break;
+                                case REMOTEBOT: x=6; break;
+                                case STONE:  x=7; break;
+                                case WALL:   x=8; break;
+                                case RECTANGLE:   x=9; break;
+                                
+                            }
+                            
+                            if (x>=0) {
+                                oData.set(x, max(rValue=1, oData.get(x)));
+                            }
+                             
+                        }
+            			
+						
 					break;
 			}
 		}

@@ -23,12 +23,14 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
         
         for (du.itf.sensors.clsSensorExtern oEntry:poSensor.getDataObjects()) {
             clsSymbolAcousticEntry oE = new clsSymbolAcousticEntry( (du.itf.sensors.clsAcousticEntry)oEntry);
-            //moEntries.add(oE);
+            moEntries.add(oE);
         }       
     }
 
+
   
 
+    
     @Override
     public Method[] getDataAccessMethods() {
         return itfSymbolAcoustic.class.getMethods();
@@ -41,6 +43,7 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa.symbolization.representationsymbol.itfSymbol#getSymbolObjects()
      */
+    
     @Override
     public ArrayList<itfSymbol> getSymbolObjects() {
         ArrayList<clsSensorExtern> oSE = getDataObjects();
@@ -60,6 +63,7 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa.symbolization.representationsymbol.itfSymbolEatableArea#getEntries()
      */
+    
     @Override
     public ArrayList<itfSymbolAcousticEntry> getEntries() {
         ArrayList<clsSensorExtern> oSE = getDataObjects();
@@ -80,7 +84,6 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getShapeType()
      */
-    @Override
     public eShapeType getShapeType() {
         // TODO (hinterleitner) - Auto-generated method stub
         return null;
@@ -94,7 +97,6 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getNumEntitiesPresent()
      */
-    @Override
     public eCount getNumEntitiesPresent() {
         // TODO (hinterleitner) - Auto-generated method stub
         return null;
@@ -108,7 +110,7 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getAlive()
      */
-    @Override
+   
     public boolean getAlive() {
         // TODO (hinterleitner) - Auto-generated method stub
         return false;
@@ -122,7 +124,6 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getColor()
      */
-    @Override
     public Color getColor() {
         // TODO (hinterleitner) - Auto-generated method stub
         return null;
@@ -136,7 +137,6 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getBrightness()
      */
-    @Override
     public eSaliency getBrightness() {
         // TODO (hinterleitner) - Auto-generated method stub
         return null;
@@ -150,7 +150,7 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getObjectPosition()
      */
-    @Override
+    
     public eSide getObjectPosition() {
         // TODO (hinterleitner) - Auto-generated method stub
         return null;
@@ -164,7 +164,7 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getAntennaPositionLeft()
      */
-    @Override
+    
     public eAntennaPositions getAntennaPositionLeft() {
         // TODO (hinterleitner) - Auto-generated method stub
         return null;
@@ -178,7 +178,7 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getAntennaPositionRight()
      */
-    @Override
+    
     public eAntennaPositions getAntennaPositionRight() {
         // TODO (hinterleitner) - Auto-generated method stub
         return null;
@@ -192,7 +192,7 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getDistance()
      */
-    @Override
+    
     public eDistance getDistance() {
         // TODO (hinterleitner) - Auto-generated method stub
         return null;
@@ -206,7 +206,7 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getExactDebugX()
      */
-    @Override
+    
     public double getExactDebugX() {
         // TODO (hinterleitner) - Auto-generated method stub
         return 0;
@@ -220,7 +220,7 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getExactDebugY()
      */
-    @Override
+    
     public double getExactDebugY() {
         // TODO (hinterleitner) - Auto-generated method stub
         return 0;
@@ -234,7 +234,7 @@ public class clsSymbolAcoustic extends du.itf.sensors.clsAcoustic implements itf
      * 
      * @see pa._v38.symbolization.representationsymbol.itfSymbolAcoustic#getDebugSensorArousal()
      */
-    @Override
+    
     public double getDebugSensorArousal() {
         // TODO (hinterleitner) - Auto-generated method stub
         return 0;

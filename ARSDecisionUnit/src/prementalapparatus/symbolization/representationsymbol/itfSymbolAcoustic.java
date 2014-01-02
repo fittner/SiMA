@@ -6,16 +6,7 @@
  */
 package prementalapparatus.symbolization.representationsymbol;
 
-import java.awt.Color;
 import java.util.ArrayList;
-
-import du.enums.eAntennaPositions;
-import du.enums.eDistance;
-import du.enums.eShapeType;
-
-import bfg.utils.enums.eCount;
-import bfg.utils.enums.eSide;
-import du.enums.eSaliency;
 
 /**
  * DOCUMENT (hi) - insert description 
@@ -24,25 +15,6 @@ import du.enums.eSaliency;
  * 
  */
 public interface itfSymbolAcoustic extends itfSymbol {
-    public eShapeType getShapeType();
-    public eCount getNumEntitiesPresent();
     
-    public boolean getAlive();
-    public Color getColor();
-    public eSaliency getBrightness();
-    public eSide getObjectPosition(); 
-    public eAntennaPositions getAntennaPositionLeft();
-    public eAntennaPositions getAntennaPositionRight();
-    public eDistance getDistance();
-    public double getExactDebugX();
-    public double getExactDebugY();
-    public double getDebugSensorArousal();
-    /**
-     * DOCUMENT (hinterleitner) - insert description
-     *
-     * @since 24.08.2013 15:21:26
-     *
-     * @return
-     */
     ArrayList<itfSymbolAcousticEntry> getEntries();
 }
