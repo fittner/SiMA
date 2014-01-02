@@ -33,6 +33,7 @@ import base.modules.ePsychicInstances;
 import base.tools.toText;
 import config.clsProperties;
 import du.enums.eInternalActionIntensity;
+import du.itf.actions.clsActionInvite;
 import du.itf.actions.clsActionShare;
 import du.itf.actions.clsInternalActionCommand;
 import du.itf.actions.clsInternalActionSweat;
@@ -241,7 +242,12 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
             triggerSpeechYes(moEmotions_Input);
               
             } 
-        
+      
+	   
+        /*if (moActionCommand_Input.toString().contains("FOCUS") && moWordingToContext.toString().contains("INVITED")){
+            triggerSpeechInvite(moEmotions_Input);
+              
+            } */
 	    
 	    if (externalActionCommand.isNullObject()==false) {
 	        moActionCommands_Output.add(externalActionCommand);    
@@ -381,7 +387,13 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
         moInternalActions.add(testnew1);
     }
 
-  
+    
+    private void triggerSpeechInvite(ArrayList<clsEmotion> moEmotions_Input2) {
+        clsActionInvite testnew1 = new clsActionInvite(eInternalActionIntensity.HEAVY);
+
+        // Speech  - Share
+        moInternalActions.add(testnew1);
+    }
   
 
 //    // AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation

@@ -6,13 +6,11 @@
  */
 package du.itf.sensors;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
-
 import du.enums.eAntennaPositions;
 import du.enums.eEntityType;
 import du.enums.eSaliency;
@@ -26,7 +24,7 @@ import du.itf.tools.clsAbstractSpeech;
  * 27.02.2013, 11:23:41
  * 
  */
-public class clsAcousticEntry extends clsSensorExtern {
+public class clsAcousticEntry extends clsVisionEntry {
 	public static Object oEntry;
 
 	protected clsAbstractSpeech moAbstractSpeech = null;
@@ -39,64 +37,90 @@ public class clsAcousticEntry extends clsSensorExtern {
 	protected double moExactDebugY;
 	protected double moDebugSensorArousal;
 	protected boolean mnAlive = false;
-	protected Color moColor = new Color(0,0,0);
 	protected eSaliency moBrightness = eSaliency.UNDEFINED;
 	protected eSide moObjectPosition = eSide.UNDEFINED; 
 	protected eAntennaPositions moAntennaPositionLeft = eAntennaPositions.UNDEFINED; 
 	protected eAntennaPositions moAntennaPositionRight = eAntennaPositions.UNDEFINED;
 	protected double moExactDebugAngle;
 	protected double moObjectBodyIntegrity;
+	//clsAcousticEntry  
+	protected clsVisionEntryAction moAction;
+	
+	/**
+	 * @since 19.11.2013 13:38:03
+	 * 
+	 * @return the moAction
+	 */
+	@Override
+	public clsVisionEntryAction getAction() {
+		return moAction;
+	}
 
+	@Override
 	public clsPolarcoordinate getPolarcoordinate() {
 		return moPolarcoordinate;
 	}
+	@Override
 	public void setPolarcoordinate(clsPolarcoordinate poPolarcoordinate) {
 		moPolarcoordinate = poPolarcoordinate;
 	}
 	
+	@Override
 	public eSide getObjectPosition() {
 		return moObjectPosition;
 	}
+	@Override
 	public void setObjectPosition(eSide poObjectPosition) {
 		moObjectPosition = poObjectPosition;
 	}
+	@Override
 	public eEntityType getEntityType() {
 		return mnEntityType;
 	}
+	@Override
 	public void setEntityType(eEntityType pnEntityType) {
 		mnEntityType = pnEntityType;
 	}
 	
+	@Override
 	public eShapeType getShapeType() {
 		return mnShapeType;
 	}
+	@Override
 	public void setShapeType(eShapeType pnShapeType) {
 		mnShapeType = pnShapeType;
 	}
 	
+	@Override
 	public String getEntityId() {
 		return moEntityId;
 	}
+	@Override
 	public void setEntityId(String pnEntityId) {
 		moEntityId = pnEntityId;
 	}
 	
+	@Override
 	public double getExactDebugX() {
 		return moExactDebugX;
 	}
 
+	@Override
 	public double getExactDebugY() {
 		return moExactDebugY;
 	}
 	
+	@Override
 	public double getDebugSensorArousal() {
 		return moDebugSensorArousal;
 	}
 	
+	@Override
 	public void setDebugSensorArousal(double poDebugSensorArousal) {
 		moDebugSensorArousal = poDebugSensorArousal;
 	}
 	
+	@Override
 	public void setExactDebugPosition(double poExactX, double poExactY, double poExactAngle) {
 		moExactDebugX = poExactX;
 		moExactDebugY = poExactY;
@@ -117,6 +141,7 @@ public class clsAcousticEntry extends clsSensorExtern {
 		moAbstractSpeech = oAbstractSpeech;
 	}
 	
+	@Override
 	public String logXML(int pnId) {
 		String logEntry = "<Entry id=\""+pnId+"\">";	
 		logEntry += clsDataBase.addXMLTag("EntityId", "AbstractSpeech");
@@ -183,6 +208,7 @@ public class clsAcousticEntry extends clsSensorExtern {
 	 *
 	 * @return
 	 */
+	@Override
 	public eCount getNumEntitiesPresent() {
 		// TODO (hinterleitner) - Auto-generated method stub
 		return null;
@@ -194,21 +220,12 @@ public class clsAcousticEntry extends clsSensorExtern {
 	 *
 	 * @param b
 	 */
+	@Override
 	public void setAlive(boolean b) {
 		// TODO (hinterleitner) - Auto-generated method stub
 		return;
 	}
-	/**
-	 * DOCUMENT (hinterleitner) - insert description
-	 *
-	 * @since 21.08.2013 21:29:51
-	 *
-	 * @param color
-	 */
-	public void setColor(Color color) {
-		// TODO (hinterleitner) - Auto-generated method stub
-		return;
-	}
+
 	/**
 	 * DOCUMENT (hinterleitner) - insert description
 	 *
@@ -216,6 +233,7 @@ public class clsAcousticEntry extends clsSensorExtern {
 	 *
 	 * @param setMeNumber
 	 */
+	@Override
 	public void setNumEntitiesPresent(eCount setMeNumber) {
 		// TODO (hinterleitner) - Auto-generated method stub
 		
@@ -227,6 +245,7 @@ public class clsAcousticEntry extends clsSensorExtern {
 	 *
 	 * @return
 	 */
+	@Override
 	public double getExactDebugAngle() {
 		// TODO (hinterleitner) - Auto-generated method stub
 		return 0;
@@ -238,6 +257,7 @@ public class clsAcousticEntry extends clsSensorExtern {
 	 *
 	 * @return
 	 */
+	@Override
 	public eSaliency getBrightness() {
 		// TODO (hinterleitner) - Auto-generated method stub
 		return null;
@@ -249,6 +269,7 @@ public class clsAcousticEntry extends clsSensorExtern {
 	 *
 	 * @param entityBrightness
 	 */
+	@Override
 	public void setBrightness(eSaliency entityBrightness) {
 		// TODO (hinterleitner) - Auto-generated method stub
 		
@@ -260,6 +281,7 @@ public class clsAcousticEntry extends clsSensorExtern {
 	 *
 	 * @param bodyIntegrity
 	 */
+	@Override
 	public void setObjectBodyIntegrity(double bodyIntegrity) {
 		// TODO (hinterleitner) - Auto-generated method stub
 		
@@ -271,6 +293,7 @@ public class clsAcousticEntry extends clsSensorExtern {
 	 *
 	 * @param undefined
 	 */
+	@Override
 	public void setAntennaPositionLeft(eAntennaPositions undefined) {
 		// TODO (hinterleitner) - Auto-generated method stub
 		
@@ -282,6 +305,7 @@ public class clsAcousticEntry extends clsSensorExtern {
 	 *
 	 * @param undefined
 	 */
+	@Override
 	public void setAntennaPositionRight(eAntennaPositions undefined) {
 		// TODO (hinterleitner) - Auto-generated method stub
 		

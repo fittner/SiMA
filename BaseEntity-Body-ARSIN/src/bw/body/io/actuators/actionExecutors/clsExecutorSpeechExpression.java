@@ -52,7 +52,7 @@ public class clsExecutorSpeechExpression extends clsActionExecutor{
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS;
+		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_OUTERSPEECH;
 	}
 	@Override
 	protected void setName() {
@@ -84,31 +84,6 @@ public class clsExecutorSpeechExpression extends clsActionExecutor{
 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		clsSpeechExpression oFExp = oBody.getIntraBodySystem().getSpeechExpression();
-		
-		if (poCommand instanceof clsActionFacialExEyeSize) {
-			clsActionFacialExEyeSize oCmd = (clsActionFacialExEyeSize) poCommand;
-			oFExp.setEyeSize(oCmd.getSize());
-		}
-			
-		if (poCommand instanceof clsActionFacialExLeftAntennaPosition) {
-			clsActionFacialExLeftAntennaPosition oCmd = (clsActionFacialExLeftAntennaPosition) poCommand;
-			oFExp.setAntennaLeft(oCmd.getPosition());
-		}
-		
-		if (poCommand instanceof clsActionFacialExRightAntennaPosition) {
-			clsActionFacialExRightAntennaPosition oCmd = (clsActionFacialExRightAntennaPosition) poCommand;
-			oFExp.setAntennaRight(oCmd.getPosition());
-		}
-
-		if (poCommand instanceof clsActionFacialExLensShape) {
-			clsActionFacialExLensShape oCmd = (clsActionFacialExLensShape) poCommand;
-			oFExp.setLensShape(oCmd.getShape());
-		}
-
-		if (poCommand instanceof clsActionFacialExLensSize) {
-			clsActionFacialExLensSize oCmd = (clsActionFacialExLensSize) poCommand;
-			oFExp.setLensSize(oCmd.getSize());
-		}
 
 		return true;
 	}	

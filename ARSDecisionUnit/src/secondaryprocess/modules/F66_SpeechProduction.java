@@ -73,6 +73,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     
     private ArrayList<clsAssociation> moExternalAssociatedContent;
     private clsWordPresentationMesh moContext;
+    private clsWordPresentationMesh moWording_Invited;
     private clsWordPresentationMesh moWording_Share;
     private clsWordPresentationMesh moWording_Yes;
     private clsWordPresentationMesh moWordingToContext_OUT;
@@ -123,10 +124,14 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
         // text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getMoInternalAssociatedContent());
 
-        text += toText.h3("Concept and Situation");
+        text += toText.h3("Concept");
         text += toText.valueToTEXT("moConcept", moConcept.toString());
       
         text += toText.valueToTEXT("moShortTermMemory", moShortTermMemory.stateToTEXT());
+        
+        text += toText.h3("Context and Wording");
+        text += toText.valueToTEXT("moExternalAssociatedContent", moExternalAssociatedContent.toString());
+        text += toText.valueToTEXT("moWordingToContext_OUT", moWordingToContext_OUT.toString());
         return text;
     }
 
@@ -196,7 +201,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         if (moWordingToContext_OUT == null) {
             moWordingToContext_OUT = moContext;
         }
-        
+                
         //Scenario 1
         
         if (elementnew.contains("BODO(RIGHT:FAR)")) {
@@ -213,18 +218,18 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         }
         
         // Scenario 2 
-        if (elementnew.contains("CARROT(MIDDLE_LEFT:FAR)")) {
+        if (elementnew.contains("(WALL(RIGHT:FAR))")) {
            // triggerSpeech_schnitzel(moEmotions_Input); // share?
             moWording_Share = new clsConcept().moWording_Share;
             moWordingToContext_OUT = moWording_Share;
         }
         
-        if (elementnew.contains("CARROT(LEFT:FAR)")) {
+        if (elementnew.contains("CAKE")) {
             // triggerSpeech_schnitzel(moEmotions_Input); // Share?
-            moWording_Share = new clsConcept().moWording_Share;
-            moWordingToContext_OUT = moWording_Share;
+            moWording_Yes = new clsConcept().moWording_Yes;
+            moWordingToContext_OUT = moWording_Yes;
          }
-        
+       
         
         
         moPerceptionalMesh_OUT = moPerceptionalMesh_IN;

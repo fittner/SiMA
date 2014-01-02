@@ -15,7 +15,6 @@ import java.util.Vector;
 
 import org.slf4j.Logger;
 
-
 import sim.field.grid.DoubleGrid2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Circle;
@@ -38,7 +37,6 @@ import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorManipulateArea;
-import bw.body.io.sensors.external.clsSensorOlfactoric;
 import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.io.sensors.external.clsSensorVision;
@@ -55,12 +53,14 @@ import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.entities.base.clsAnimal;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsRemoteBot;
+import bw.entities.base.clsSpeech;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsSingletonProperties;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.sensors.clsSensorDataCalculation;
 import config.clsProperties;
 import du.enums.eAntennaPositions;
+import du.enums.eEntityType;
 import du.enums.eFastMessengerSources;
 import du.enums.eSaliency;
 import du.enums.eSensorExtType;
@@ -84,7 +84,6 @@ import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsIntestinePressure;
 import du.itf.sensors.clsManipulateArea;
 import du.itf.sensors.clsManipulateAreaEntry;
-import du.itf.sensors.clsOlfactoric;
 import du.itf.sensors.clsOlfactoricEntry;
 import du.itf.sensors.clsPositionChange;
 import du.itf.sensors.clsRadiation;
@@ -97,6 +96,7 @@ import du.itf.sensors.clsUnrealSensorValueVision;
 import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
 import du.itf.sensors.clsVisionEntryAction;
+import du.itf.tools.clsAbstractSpeech;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
@@ -196,13 +196,12 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
 		oData.addSensorExt(eSensorExtType.VISION_SELF, convertVisionSensor(eSensorExtType.VISION_SELF) );
-		//oData.addSensorExt(eSensorExtType.ACOUSTIC, convertAcousticSensor(eSensorExtType.ACOUSTIC) ); // MW
+		oData.addSensorExt(eSensorExtType.ACOUSTIC, convertAcousticSensor(eSensorExtType.ACOUSTIC) ); // MW
 		//oData.addSensorExt(eSensorExtType.OLFACTORIC, convertOlfactoricSensor(eSensorExtType.OLFACTORIC) );
 		oData.addSensorExt(eSensorExtType.ACOUSTIC_NEAR, convertAcousticSensor(eSensorExtType.ACOUSTIC_NEAR) );
 		oData.addSensorExt(eSensorExtType.ACOUSTIC_MEDIUM, convertAcousticSensor(eSensorExtType.ACOUSTIC_MEDIUM) );
         oData.addSensorExt(eSensorExtType.ACOUSTIC_FAR, convertAcousticSensor(eSensorExtType.ACOUSTIC_FAR) );
-        oData.addSensorExt(eSensorExtType.ACOUSTIC_SELF, convertAcousticSensor(eSensorExtType.ACOUSTIC_SELF) );
-        
+        oData.addSensorExt(eSensorExtType.ACOUSTIC_SELF, convertAcousticSensor(eSensorExtType.ACOUSTIC_SELF) );  
 		//oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
 		//oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
 		//ad homeostasis sensor data
@@ -584,7 +583,17 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
-				
+			
+			
+			case SPEECH:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.SPEECH );
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			
 			case  UNDEFINED:
 			{
 				oData.setEntityType(du.enums.eEntityType.UNDEFINED);
@@ -804,6 +813,26 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		
 	}
 
+	
+	
+	   private clsAcoustic convertAcousticSensor(eSensorExtType poAcType) {
+	        
+	        clsAcoustic oData = new clsAcoustic();
+	        oData.setSensorType(poAcType);
+	        clsSensorAcoustic oAcoustic = (clsSensorAcoustic)(moSensorsExt.get(poAcType));
+	        
+	        if(oAcoustic != null){
+	            ArrayList<clsCollidingObject> oDetectedObjectList = oAcoustic.getSensorData();
+	            
+	            for(clsCollidingObject oCollider : oDetectedObjectList){
+	                clsAcousticEntry oEntry = convertAcousticEntry(oCollider, poAcType);
+	                oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
+	                oData.add(oEntry);
+	            }
+	        }
+	        return oData;
+	    }
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -831,7 +860,7 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		return oData;
 	}
 	
-private clsOlfactoric convertOlfactoricSensor(eSensorExtType poSensorType) {
+/*private clsOlfactoric convertOlfactoricSensor(eSensorExtType poSensorType) {
 	
 
 	 
@@ -857,7 +886,7 @@ private clsOlfactoric convertOlfactoricSensor(eSensorExtType poSensorType) {
 	}
 	
 	return oData;
-	}
+	}*/
 	
 private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, clsOlfactoricEntry oEntry) {
 	
@@ -982,7 +1011,7 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 	 * @param collidingObj
 	 * @param poSensorType
 	 * @return
-	 */
+	 *//*
 	
 	//FIXME: Why accoustic entry has a shapetype color, brightness,... ?
 	private clsAcousticEntry convertAcousticEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
@@ -991,10 +1020,10 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		
 		if(oEntity != null){ 
 		   oData.setEntityType( getEntityType(collidingObj.moCollider));		
-		   oData.setShapeType( getShapeType(oEntity));
-		   oData.setColor( (Color) oEntity.get2DShape().getPaint());
+		 //  oData.setShapeType( getShapeType(oEntity));
+		 //  oData.setColor( (Color) oEntity.get2DShape().getPaint());
 		   oData.setEntityId(oEntity.getId());
-		   oData.setBrightness( getEntityBrightness(collidingObj.moCollider));
+		 //  oData.setBrightness( getEntityBrightness(collidingObj.moCollider));
 
 		   oData.setAlive(oEntity.isAlive());
 		
@@ -1022,16 +1051,11 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 			}
 			
 			if( oEntity instanceof clsAnimal ){ oData.setAlive( ((clsAnimal)oEntity).isAlive() ); }
-			
-			/*FIXME HZ actually the antenna positions are undefined*/
-			if (oEntity instanceof clsARSIN || oEntity instanceof  clsRemoteBot){
-				oData.setAntennaPositionLeft(eAntennaPositions.UNDEFINED); 
-				oData.setAntennaPositionRight(eAntennaPositions.UNDEFINED);
-			}
+		
 		}
 		
 		return oData;
-	}
+	}*/
 
 
 	/**
@@ -1119,23 +1143,7 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 
 	
 	
-   private clsAcoustic convertAcousticSensor(eSensorExtType poAcType) {
-        
-        clsAcoustic oData = new clsAcoustic();
-        oData.setSensorType(poAcType);
-        clsSensorAcoustic oAcoustic = (clsSensorAcoustic)(moSensorsExt.get(poAcType));
-        
-        if(oAcoustic != null){
-            ArrayList<clsCollidingObject> oDetectedObjectList = oAcoustic.getSensorData();
-            
-            for(clsCollidingObject oCollider : oDetectedObjectList){
-                clsAcousticEntry oEntry = convertAcousticEntry(oCollider, poAcType);
-                oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
-                oData.add(oEntry);
-            }
-        }
-        return oData;
-    }
+
 	   
 	   
 	
@@ -1167,7 +1175,7 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 	 *
 	 * @param oCollider
 	 * @param poSensorType
-	 *//*
+	 */
 	private clsAcousticEntry convertAcousticEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		clsAcousticEntry oData = new clsAcousticEntry();
@@ -1190,7 +1198,7 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		}
 		
 		return oData;
-	}*/
+	}
 	
 	//translate the Brightness Info to enum values
 	private  eSaliency getEntityBrightness(PhysicalObject2D poObject) {

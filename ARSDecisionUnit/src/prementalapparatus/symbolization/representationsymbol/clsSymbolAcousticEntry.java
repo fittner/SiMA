@@ -17,9 +17,8 @@ import du.enums.eSensorExtType;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (hi) - insert description 
  * 
- * @author zeilinger
  * 22.09.2009, 13:09:00
  * 
  */
@@ -66,7 +65,7 @@ public class clsSymbolAcousticEntry extends du.itf.sensors.clsAcousticEntry impl
     }
     @Override
     public Method[] getDataAccessMethods() {
-        return itfSymbolVisionEntry.class.getMethods();
+        return itfSymbolAcousticEntry.class.getMethods();
     }
     
 
