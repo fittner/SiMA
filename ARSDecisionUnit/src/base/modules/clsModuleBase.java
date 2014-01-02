@@ -66,6 +66,7 @@ public abstract class clsModuleBase implements
 	private ArrayList<eInterfaces> moInterfaces;
 	
 	protected final Logger log;
+	private final Logger logTiming;
 	
 	/**
 	 * This constructor creates all functional modules with the provided properties. Further, all attributes of the module like process type, 
@@ -88,6 +89,7 @@ public abstract class clsModuleBase implements
 		setInterfacesList();
 		
 		 log = logger.clsLogger.getLog("F" + mnModuleNumber);
+		 logTiming = logger.clsLogger.getLog("Timing");
 		//System.out.println("Set logger: "+ log.getName() + ", root " + log.ROOT_LOGGER_NAME);
 		
 		if (mnModuleNumber == null || mnModuleNumber == 0) {
@@ -192,8 +194,11 @@ public abstract class clsModuleBase implements
 	 *
 	 */
 	public final void step() {
+	    long start = System.currentTimeMillis();
 		process();
 		send();
+		long stop = System.currentTimeMillis();
+		logTiming.debug("Time used in F{}: {}ms", this.mnModuleNumber, stop-start);
 	}
 	
 	/**

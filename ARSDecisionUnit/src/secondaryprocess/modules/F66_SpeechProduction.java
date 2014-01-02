@@ -39,7 +39,6 @@ import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eInternalActionIntensity;
 import du.itf.actions.clsActionShare;
-import du.itf.actions.clsActionThink;
 import du.itf.actions.clsInternalActionCommand;
 import du.itf.actions.itfInternalActionProcessor;
 

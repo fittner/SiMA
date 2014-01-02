@@ -8,6 +8,8 @@ package control;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+
 import base.modules.clsPsychicApparatus;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.interfaces.itfSearchSpaceAccess;
@@ -52,6 +54,8 @@ public class clsProcessor implements itfProcessor  {
 	private itfSearchSpaceAccess moSearchSpace;
 	/** the rate of the constantly produced libido; @since 12.07.2011 11:00:52 */
 	private double mrLibidostream;
+	
+	private final Logger log = logger.clsLogger.getLog("General");
 		
 	/**
 	 * Creates an instance of the processor and thus the decision unit with the provided properties.
@@ -251,6 +255,7 @@ public class clsProcessor implements itfProcessor  {
 	
 	@Override
 	public void step() {
+	    log.info("=================== SENSING ========================");
 		//BODY --------------------------------------------- 
 		//data preprocessing
 	    //Resets the pleasure value to 0
@@ -270,6 +275,7 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF40_NeurosymbolizationOfLibido.step();
 
 		//PRIMARY PROCESSES -------------------------------
+		log.info("=================== PRIMARY PROCESS ========================");
 		//Self-PreservationDrive generation
 		moPsyApp.moF65_PartialSelfPreservationDrives.step();
 		//moPsyApp.moF03_GenerationOfSelfPreservationDrives.step(); //todo
@@ -324,6 +330,7 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF67_BodilyReactionOnEmotions.step();
 
 		//SECONDARY PROCESSES ----------------------------
+		log.info("=================== SECONDARY PROCESS ========================");
 		
 		//Spech generation
         moPsyApp.moF66_SpeechProduction.step();
@@ -348,6 +355,7 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF30_MotilityControl.step();
 		
 		//BODY --------------------------------------------- 
+		log.info("=================== ACTION EXECUTION ========================");
 		//execution
 		moPsyApp.moF31_NeuroDeSymbolizationActionCommands.step();
 		moPsyApp.moF32_Actuators.step();
