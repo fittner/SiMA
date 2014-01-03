@@ -8,7 +8,7 @@ package inspector.interfaces;
 
 import java.util.ArrayList;
 
-import primaryprocess.modules.F07_SuperEgoReactive.clsReadSuperEgoRules;
+import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;
 
 /**
  * DOCUMENT (Jordakieva) - If this interface is implemented by a module, an inspector tab that displays the rules returned by getDriverlules () is added.
@@ -19,7 +19,6 @@ import primaryprocess.modules.F07_SuperEgoReactive.clsReadSuperEgoRules;
  */
 public interface itfInspectorForRules {
     
-    //das ist die Funktion des Moduls welche der Inspektor aufrufen wird
     public ArrayList <clsReadSuperEgoRules> getDriverules ();
 
 }

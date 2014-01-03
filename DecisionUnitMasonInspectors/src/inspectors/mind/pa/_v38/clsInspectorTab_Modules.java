@@ -18,6 +18,7 @@ import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 import inspector.interfaces.itfInspectorGenericTimeChart;
 import inspector.interfaces.itfInspectorInternalState;
+import inspector.interfaces.itfInspectorModificationDrives;
 import inspector.interfaces.itfInspectorSpiderWebChart;
 import inspector.interfaces.itfInspectorStackedBarChart;
 import inspector.interfaces.itfInterfaceDescription;
@@ -43,6 +44,7 @@ import inspectors.mind.pa._v38.graph.clsGraphInterface;
 import inspectors.mind.pa._v38.graph.clsMeshInterface;
 import inspectors.mind.pa._v38.handcrafted.clsF26DecisionCalculation;
 import inspectors.mind.pa._v38.handcrafted.clsI_AllInterfaceData;
+import inspectors.mind.pa._v38.handcrafted.clsInspectorImageDrives;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -384,7 +386,13 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 			if (oModule instanceof itfInspectorForRules) {
 				poTI.addInspector(
 						new clsGraphForRules (true, (itfInspectorForRules) oModule),
-						"Rules");				
+						"Rules");		//erstellt einen neuen Tab mit diesen Namen		
+			}
+			
+			if (oModule instanceof itfInspectorModificationDrives) {
+				poTI.addInspector(
+						new clsInspectorImageDrives((itfInspectorModificationDrives) oModule),
+						"pictogram DM-Rules");
 			}
 			
 
