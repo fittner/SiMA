@@ -56,6 +56,7 @@ public class clsProcessor implements itfProcessor  {
 	private double mrLibidostream;
 	
 	private final Logger log = logger.clsLogger.getLog("General");
+	private final Logger logtiming = logger.clsLogger.getLog("Timing");
 		
 	/**
 	 * Creates an instance of the processor and thus the decision unit with the provided properties.
@@ -256,6 +257,7 @@ public class clsProcessor implements itfProcessor  {
 	@Override
 	public void step() {
 	    log.info("=================== SENSING ========================");
+	    long start = System.currentTimeMillis();
 		//BODY --------------------------------------------- 
 		//data preprocessing
 	    //Resets the pleasure value to 0
@@ -274,8 +276,10 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF39_SeekingSystem_LibidoSource.step();
 		moPsyApp.moF40_NeurosymbolizationOfLibido.step();
 
+		logtiming.info("Duration Sensing: {}", System.currentTimeMillis()-start);
 		//PRIMARY PROCESSES -------------------------------
 		log.info("=================== PRIMARY PROCESS ========================");
+		start = System.currentTimeMillis();
 		//Self-PreservationDrive generation
 		moPsyApp.moF65_PartialSelfPreservationDrives.step();
 		//moPsyApp.moF03_GenerationOfSelfPreservationDrives.step(); //todo
@@ -320,17 +324,18 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF06_DefenseMechanismsForDrives.step();
 		moPsyApp.moF19_DefenseMechanismsForPerception.step();
 
-		//primary to secondary
-		moPsyApp.moF08_ConversionToSecondaryProcessForDriveWishes.step();
-		moPsyApp.moF21_ConversionToSecondaryProcessForPerception.step();
-		moPsyApp.moF20_CompositionOfFeelings.step();
-		
-		
-		// BODILY REACTIONS ON EMOTIONS
-		moPsyApp.moF67_BodilyReactionOnEmotions.step();
+	    // BODILY REACTIONS ON EMOTIONS
+        moPsyApp.moF67_BodilyReactionOnEmotions.step();
 
+        logtiming.info("Duration Primary Process: {}", System.currentTimeMillis()-start);
 		//SECONDARY PROCESSES ----------------------------
 		log.info("=================== SECONDARY PROCESS ========================");
+		start = System.currentTimeMillis();
+		
+	    //primary to secondary
+        moPsyApp.moF08_ConversionToSecondaryProcessForDriveWishes.step();
+        moPsyApp.moF21_ConversionToSecondaryProcessForPerception.step();
+        moPsyApp.moF20_CompositionOfFeelings.step();
 		
 		//Spech generation
         moPsyApp.moF66_SpeechProduction.step();
@@ -354,11 +359,15 @@ public class clsProcessor implements itfProcessor  {
         
 		moPsyApp.moF30_MotilityControl.step();
 		
+		logtiming.info("Duration Secondary Process: {}", System.currentTimeMillis()-start);		
 		//BODY --------------------------------------------- 
 		log.info("=================== ACTION EXECUTION ========================");
+		start = System.currentTimeMillis();
 		//execution
 		moPsyApp.moF31_NeuroDeSymbolizationActionCommands.step();
 		moPsyApp.moF32_Actuators.step();
+		
+		logtiming.info("Duration action execution: {}", System.currentTimeMillis()-start);
 		
 		//UPDATE DataLogger Entries
 		//moPsyApp.moDataLogger.step();

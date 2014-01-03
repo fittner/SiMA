@@ -55,6 +55,8 @@ import memorymgmt.storage.DT4_PleasureStorage;
 import modules.interfaces.eInterfaces;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import externalmessager.DatapointHandler;
+import externalmessager.MonitorExecutor;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.decisionpreparation.GoalInitiationProcessor.GoalInitiator;
 import secondaryprocess.modules.F20_CompositionOfFeelings;
@@ -71,6 +73,7 @@ import secondaryprocess.modules.F61_Localization;
 import secondaryprocess.modules.F66_SpeechProduction;
 import statictools.clsGetARSPath;
 import testfunctions.clsTester;
+import timing.TimingStarter;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the
@@ -171,6 +174,12 @@ public class clsPsychicApparatus {
 	//public clsCodeletHandler moCodeletHandler;
 	public DecisionEngine moDecisionEngine;
 	
+	/** Datapoint handler can be seen as server, which keeps values from modules. External clients can access these modules to get updated values (wendt) - insert description; @since 03.01.2014 13:59:12 */
+	public final DatapointHandler datapointHandler;
+
+	/** The monitorexecutor is an engine with threads, which are monitoring certain parts of the system (wendt) - insert description; @since 03.01.2014 13:59:31 */
+	public MonitorExecutor monitor;
+	
 	/** (wendt) This is a temporary localization storage, which will save the last perceived objects for some steps; @since 15.11.2011 14:36:56 */
 	public clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
@@ -192,6 +201,7 @@ public class clsPsychicApparatus {
 	private int uid;
 	
 	private String moDebugLevel;
+	
 
 	/**
 	 * Creates an instance of this class with the provided properties and parameters. Further, the list of the incoming and outgoing
@@ -240,9 +250,25 @@ public class clsPsychicApparatus {
 		//Set testmode
 		clsTester.getTester().setActivated(false);
 		
+		//=== Set time monitoring ===//
+		//Init datapointhandler
+		this.datapointHandler =  new DatapointHandler();
+		
+		//Init Monitorexecutor singleton - just connect to datapointhandler
+		MonitorExecutor.init(this.datapointHandler);
+		//Set activated or not
+		MonitorExecutor.getMonitor().setActivated(false);
+		
+		//Start clients, which are running as individual threads. This is a temporal solution
+		if (MonitorExecutor.getMonitor().isActivated()==true) {
+		      TimingStarter ts = new TimingStarter();
+		      ts.startDebugInspectors(this.datapointHandler);
+		}
+
+		
+		//=== time monitoring end === //
 		applyProperties(poPrefix, poProp);
 	
-		
 		moDataLogger = new clsDataLogger(moModules, this.uid);
 		fillInterfaceMesh();
 		fillInterfaces_Recv_Send();
@@ -460,39 +486,4 @@ public class clsPsychicApparatus {
 			moInterfaceMesh.put(oKey, oList); 
 		}
 	}
-	
-//	@SuppressWarnings("unused")
-//	private void registerCodelets() {
-//		//Decision codelets
-//		clsIC_CheckSetFocus oCheckFocus = new clsIC_CheckSetFocus(moCodeletHandler);
-//		clsIC_InitContinuedGoal oContinousAnalysis = new clsIC_InitContinuedGoal(moCodeletHandler);
-//		clsIC_InitUnprocessedAct oInitUnprocessedAct = new clsIC_InitUnprocessedAct(moCodeletHandler);
-//		clsIC_InitUnprocessedDrive oInitUnprocessedDrive = new clsIC_InitUnprocessedDrive(moCodeletHandler);
-//		clsIC_InitUnprocessedPerception oInitUnprocessedPerception = new clsIC_InitUnprocessedPerception(moCodeletHandler);
-//		
-//		
-//		clsCC_EXECUTE_MOVEMENT oDCActionMovement = new clsCC_EXECUTE_MOVEMENT(moCodeletHandler);
-//		clsCC_FOCUS_MOVEMENT oDCActionFocusMovement = new clsCC_FOCUS_MOVEMENT(moCodeletHandler);
-//		clsCC_FOCUS_ON oDCActionFocusOn = new clsCC_FOCUS_ON(moCodeletHandler);
-//		clsCC_PERFORM_BASIC_ACT_ANALYSIS oDCActionPerformBasicActAnalysis = new clsCC_PERFORM_BASIC_ACT_ANALYSIS(moCodeletHandler);
-//		clsCC_SEND_TO_PHANTASY oDCActionSendToPhantasy = new clsCC_SEND_TO_PHANTASY(moCodeletHandler);
-//		
-//		clsDC_ExeMovementToNull oDCTrans_ExeMovementToNull = new clsDC_ExeMovementToNull(moCodeletHandler);
-//		clsDC_ActAnalysisToRecAction oDCTrans_ActAnalysisToRecAction = new clsDC_ActAnalysisToRecAction(moCodeletHandler);
-//		clsDC_XToMoveFocus oDCTrans_FocusToMove = new clsDC_XToMoveFocus(moCodeletHandler);
-//		clsDC_SetIntInfoToActAnalysis oDCTrans_IntInfoToActAnalysis = new clsDC_SetIntInfoToActAnalysis(moCodeletHandler);
-//		clsDC_SET_NEED_MOVEMENT_FOCUS oDCTrans_SET_NEED_FOCUS = new clsDC_SET_NEED_MOVEMENT_FOCUS(moCodeletHandler);
-//		clsDC_InitAction oDCTrans_InitAction = new clsDC_InitAction(moCodeletHandler);
-//
-//		clsDCComposed_Goto oDCComposed_Goto = new clsDCComposed_Goto(moCodeletHandler);
-//		
-//		//Action codelets
-//		clsAC_EXECUTE_EXTERNAL_ACTION oACExecuteExternalAction = new clsAC_EXECUTE_EXTERNAL_ACTION(moCodeletHandler);
-//		clsAC_FLEE oACFlee = new clsAC_FLEE(moCodeletHandler);
-//		clsAC_FOCUS_MOVEMENT oACFocusMovement = new clsAC_FOCUS_MOVEMENT(moCodeletHandler);
-//		clsAC_FOCUS_ON oACFocuOn = new clsAC_FOCUS_ON(moCodeletHandler);
-//		clsAC_PERFORM_BASIC_ACT_ANALYSIS oACPerformBasicActAnalysis = new clsAC_PERFORM_BASIC_ACT_ANALYSIS(moCodeletHandler);
-//		clsAC_SEND_TO_PHANTASY oACSendToPhantasy = new clsAC_SEND_TO_PHANTASY(moCodeletHandler);
-//
-//	}
 }

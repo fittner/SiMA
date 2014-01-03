@@ -21,6 +21,8 @@ import modules.interfaces.eInterfaces;
 import org.slf4j.Logger;
 
 import config.clsProperties;
+import externalmessager.MonitorExecutor;
+import externalmessager.MonitorExecutorForModuleBaseInterface;
 
 /**
  * The base class for all functional module implementations. Provides functionality like three different implementation stages for the 
@@ -33,11 +35,8 @@ import config.clsProperties;
  * 11.08.2009, 11:16:13
  * 
  */
-public abstract class clsModuleBase implements 
-		itfInspectorInternalState, 
-		itfInterfaceDescription, 
-		itfInterfaceInterfaceData {
-	
+public abstract class clsModuleBase implements itfInspectorInternalState, itfInterfaceDescription, itfInterfaceInterfaceData { 
+    
 	/** property key where the selected implemenation stage is stored.; @since 12.07.2011 14:54:42 */
 	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
 	
@@ -64,6 +63,8 @@ public abstract class clsModuleBase implements
 	private ArrayList<eInterfaces> moInterfacesSend;
 	/** List of all interfaces. Filled at startup by introspection.; @since 12.07.2011 15:02:08 */
 	private ArrayList<eInterfaces> moInterfaces;
+	
+	private final MonitorExecutorForModuleBaseInterface monitor = MonitorExecutor.getMonitor();
 	
 	protected final Logger log;
 	private final Logger logTiming;
@@ -101,7 +102,10 @@ public abstract class clsModuleBase implements
 		
 		moInterfaceData = poInterfaceData;
 		
-		applyProperties(poPrefix, poProp);		
+		applyProperties(poPrefix, poProp);	
+		
+		//Create timecollectors
+		//this.monitor.createProbe("F"+this.mnModuleNumber);
 	}	
 
 	/**
@@ -194,11 +198,19 @@ public abstract class clsModuleBase implements
 	 *
 	 */
 	public final void step() {
+	    //Start notify probes
+	    //monitor.notifyProbes("F" + this.mnModuleNumber);
 	    long start = System.currentTimeMillis();
 		process();
 		send();
 		long stop = System.currentTimeMillis();
-		logTiming.debug("Time used in F{}: {}ms", this.mnModuleNumber, stop-start);
+		
+		//Stop notifyProbes
+		//monitor.notifyProbes("F" + this.mnModuleNumber);
+		if (monitor.isActivated()==true) {
+		    monitor.writeToCodelet("F" + this.mnModuleNumber, (int) (stop-start));
+		}
+		
 	}
 	
 	/**
