@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
+import base.datatypes.clsWordPresentationMesh;
 
 
 /**
@@ -20,5 +21,5 @@ import base.datatypes.clsEmotion;
  * 
  */
 public interface I5_12_receive {
-	public void receive_I5_12(ArrayList<clsDriveMesh> poDrives, ArrayList<clsEmotion> poEmotions);
+	public void receive_I5_12(ArrayList<clsDriveMesh> poDrives, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2);
 }

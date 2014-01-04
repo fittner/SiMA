@@ -7,6 +7,7 @@
 package modules.interfaces;
 
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * Thing presentations and their quota of affects are transported from F37 to F35 and F57.
@@ -16,6 +17,6 @@ import base.datatypes.clsThingPresentationMesh;
  * 
  */
 public interface I5_7_receive {
-	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh);
+	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2);
 }
 

@@ -28,7 +28,7 @@ public class clsSingletonProperties {
 	private boolean mnShowTPMNetworkGridPortrayal;
 	private boolean mnShowFacialExpressionOverlay;
 	private boolean mnShowThoughtExpressionOverlay;
-	private boolean mnShowSpeechExpressionOverlay;
+	private boolean mnShowSpeechShareExpressionOverlay;
 
 	private boolean mnShowLifeIndicator;
 
@@ -114,8 +114,8 @@ public class clsSingletonProperties {
 		clsSingletonMasonGetter.getTPMNodeField().clear();
 	}
 	
-	static public boolean showSpeechExpressionOverlay() {
-		return (clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay;
+	static public boolean showSpeechShareExpressionOverlay() {
+		return (clsSingletonProperties.instance()).mnShowSpeechShareExpressionOverlay;
 	}
 	
 	static public boolean showThoughtExpressionOverlay() {
@@ -125,8 +125,8 @@ public class clsSingletonProperties {
 		(clsSingletonProperties.instance()).mnShowThoughtExpressionOverlay = value;
 	}
 	
-	static public void setShowSpeechExpressionOverlay(boolean value) {
-		(clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay = value;
+	static public void setShowSpeechShareExpressionOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowSpeechShareExpressionOverlay = value;
 	}
 	
 

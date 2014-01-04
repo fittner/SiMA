@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * Word presentations originating in F27 are reduced to thing presentations in F47. These are forwarded together with their attached quota of affects to F46.
@@ -19,5 +20,6 @@ import base.datatypes.clsThingPresentationMesh;
  * 
  */
 public interface I5_19_send {
-	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode);
+	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode,
+            clsWordPresentationMesh moWordingToContext2);
 }

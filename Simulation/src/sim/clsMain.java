@@ -167,11 +167,11 @@ public class clsMain extends SimState{
     	return clsSingletonProperties.showTPMNetworkGrid();
     }
     
-    public void setShowSpeechExpressionOverlay(boolean value){
-    	clsSingletonProperties.setShowSpeechExpressionOverlay(value);
+    public void setShowSpeechShareExpressionOverlay(boolean value){
+    	clsSingletonProperties.setShowSpeechShareExpressionOverlay(value);
     }
-    public boolean getShowSpeechExpressionOverlay(){
-    	return clsSingletonProperties.showSpeechExpressionOverlay();
+    public boolean getShowSpeechShareExpressionOverlay(){
+    	return clsSingletonProperties.showSpeechShareExpressionOverlay();
     }
        
     public void setShowThoughtExpressionOverlay(boolean value){

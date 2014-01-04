@@ -225,7 +225,7 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 			        }
 			        
 				      //display a Speech expressionoverlay Icon
-			        if(clsSingletonProperties.showSpeechExpressionOverlay()) {
+			        if(clsSingletonProperties.showSpeechShareExpressionOverlay()) {
 			        	if(moSpeechExpressionOverlayImage != null && moSpeechExpressionOverlayImage != eSpeechExpression.NONE){
 			        		
 				        	eImages oSpeechExpressionImage = eImages.valueOf(moSpeechExpressionOverlayImage.getEImagesString());

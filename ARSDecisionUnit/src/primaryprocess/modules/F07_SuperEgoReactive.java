@@ -32,6 +32,7 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
@@ -97,9 +98,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private ArrayList<String> Test= new ArrayList<String>() ;
 //	Ivy begin ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //
 	private ArrayList<String> moSuperEgoOutputRules = new ArrayList <String> (); //für die Ausgabe	
-	
 
-	
+	private clsWordPresentationMesh moWordingToContext;
+    
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description Ivy: liest die SuperEgoRules Datei aus
@@ -386,8 +387,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_10_receive#receive_I5_10(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I5_10(clsThingPresentationMesh poPerceptionalMesh) {
-		try {
+	public void receive_I5_10(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
+	    
+	    moWordingToContext =  moWordingToContext2;
+	    try {
 			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
 			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {
@@ -405,8 +408,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_12(ArrayList<clsDriveMesh> poDrives,  ArrayList<clsEmotion> poEmotions) {
-		
+	public void receive_I5_12(ArrayList<clsDriveMesh> poDrives,  ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
+	    
+	    moWordingToContext = moWordingToContext2;
 		moDrives = (ArrayList<clsDriveMesh>) deepCopy(poDrives); 
 		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
 		
@@ -775,7 +779,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@Override
 	protected void send() {
 		send_I5_13(moForbiddenDrives, moDrives,moForbiddenEmotions, moEmotions_Input ); 
-		send_I5_11(moForbiddenPerceptions, moPerceptionalMesh_OUT, moForbiddenEmotions, moEmotions_Input); 
+		send_I5_11(moForbiddenPerceptions, moPerceptionalMesh_OUT, moForbiddenEmotions, moEmotions_Input, moWordingToContext); 
 	}
 
 	/* (non-Javadoc)
@@ -851,10 +855,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh, ArrayList<eEmotionType> poForbiddenEmotions, ArrayList<clsEmotion> poEmotions) {
-		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poForbiddenPerceptions, poPerceptionalMesh, poForbiddenEmotions, poEmotions);
+	public void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh, ArrayList<eEmotionType> poForbiddenEmotions, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
+		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poForbiddenPerceptions, poPerceptionalMesh, poForbiddenEmotions, poEmotions, moWordingToContext2);
 		
-		putInterfaceData(I5_13_send.class, poForbiddenPerceptions, poPerceptionalMesh);
+		putInterfaceData(I5_13_send.class, poForbiddenPerceptions, poPerceptionalMesh, moWordingToContext2);
 	}
 
 	/* (non-Javadoc)
