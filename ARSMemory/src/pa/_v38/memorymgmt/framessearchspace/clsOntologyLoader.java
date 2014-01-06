@@ -9,6 +9,7 @@ package pa._v38.memorymgmt.framessearchspace;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
@@ -768,102 +769,74 @@ public class clsOntologyLoader {
 			Instance poElement,
 			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
 
-		boolean breakme = true;
-		assert false : "createPRIINSTANCEACTION";
-		breakme = false;
+		Instance oActionObject = null;
+		clsDataStructurePA oActionObjectTPM = null;
 		
-//		// Get the instance of the container structure
-//		Instance oInstanceOfType = (Instance) poElement
-//				.getOwnSlotValue(poDataContainer.a.getSlot("instance_type"));
-//		// If the data structure does not exist, create it
-//		initDataStructure(null, oInstanceOfType, poDataContainer);
-//		// Get the element of the data structure
-//		clsDataStructurePA oDS = (clsDataStructurePA) retrieveDataStructure(
-//				oInstanceOfType.getName(), poDataContainer.b);
-//
-//		// make a deepcopy of the data structure in order to get new association
-//		// ids
-//
-//		clsDataStructurePA oNewInstanceDS = null;
-//		if (oDS != null) {
-//			if (oDS instanceof clsThingPresentationMesh) {
-//				// TODO AW: Only TPM is covered here
-//				clsThingPresentationMesh oNewInstanceTPMDS = null;
-//				try {
-//					oNewInstanceTPMDS = (clsThingPresentationMesh) ((clsThingPresentationMesh) oDS)
-//							.clone();
-//				} catch (CloneNotSupportedException e) {
-//					log.error("Error in clsOntologyLoader.java in createPRIINSTANCE: oDS could not be cloned", e);
-//					
-//				}
-//				// IMPORTANT NOTE: InstanceIDs should only be set outside of the
-//				// memory management, but as association to drives has
-//				// to be instanciated, instanceIDs are set here. It is only set
-//				// for this data structure
-//				// Get new instanceID
-//				int nInstanceID = oNewInstanceTPMDS.hashCode();
-//				oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
-//				// Make this clsDataStructurePA to a TPM
-//				oNewInstanceDS = oNewInstanceTPMDS;
-//
-//				poDataContainer.b.put(poElement.getName(), oNewInstanceDS); // Use
-//																			// the
-//																			// containername
-//																			// as
-//																			// identifier
-//
-//				// TODO: IMPORTANT NOTE TO DOCUMENTv: In associationAttribute,
-//				// the rootelement must be the first element
-//
-//				// As drive meshes are no intrinsic data structures and are
-//				// bound to the type, they have to be cloned as well
-//				// and the cloned associations have to be assigned the new
-//				// PRIInstances
-//
-//				// Get associated drive meshes
-//				ArrayList<clsAssociationDriveMesh> oDMAssList = new ArrayList<clsAssociationDriveMesh>();
-//				Collection<clsDataStructurePA> oValueList = poDataContainer.b
-//						.values(); // Get all values from the hashtable
-//				// FIXME AW: To get all values from the hashtable is no very
-//				// nice solution, in order to extract the fitting associations
-//				// for an element.
-//				// A memory-PhD should make this part more efficient
-//
-//				for (clsDataStructurePA oStructure : oValueList) {
-//					if ((oStructure instanceof clsAssociationDriveMesh)) {
-//						clsAssociationDriveMesh oOriginalAssDM = (clsAssociationDriveMesh) oStructure;
-//						// If the rootelement of a DM-Ass is the original data
-//						// structure (e. g. CAKE)
-//						if (oOriginalAssDM.getRootElement() == oDS) {
-//							// For each found AssociationDriveMesh for that
-//							// structure, create a clone and change the root
-//							// element
-//							try {
-//								clsAssociationDriveMesh oNewAssDM = (clsAssociationDriveMesh) oOriginalAssDM
-//										.clone();
-//								// In this case, the Root element is B.
-//								// Therefore, set be
-//								oNewAssDM
-//										.setAssociationElementB(oNewInstanceDS);
-//								oDMAssList.add(oNewAssDM);
-//							} catch (CloneNotSupportedException e) {
-//								log.error("Error in clsOntologyLoader.java in createPRIINSTANCE: oNewAssDM could not be cloned", e);
-//								//e.printStackTrace();
-//							}
-//						}
-//					}
-//				}
-//
-//				int i = 0;
-//				for (clsAssociationDriveMesh oAssDM : oDMAssList) {
-//					// It would be better to create a real name as hash key.
-//					String oName = poElement.getName() + ":DM:NO" + i;
-//					poDataContainer.b.put(oName, oAssDM); // Add the new
-//															// association
-//					i++;
-//				}
-//			}
-//		}
+		// Get the instance of the container structure
+		Instance oInstanceOfType = (Instance) poElement
+				.getOwnSlotValue(poDataContainer.a.getSlot("instance_type"));
+
+		// If the data structure does not exist, create it
+		initDataStructure(null, oInstanceOfType, poDataContainer);
+
+		// Get the element of the data structure
+		clsDataStructurePA oDS = (clsDataStructurePA) retrieveDataStructure(
+				oInstanceOfType.getName(), poDataContainer.b);
+
+		// make a deepcopy of the data structure in order to get new association
+		// ids
+
+		clsDataStructurePA oNewInstanceDS = null;
+		if (oDS != null) {
+			if (oDS instanceof clsThingPresentationMesh) {
+				// TODO AW: Only TPM is covered here
+				clsThingPresentationMesh oNewInstanceTPMDS = null;
+				try {
+					oNewInstanceTPMDS = (clsThingPresentationMesh) ((clsThingPresentationMesh) oDS)
+							.clone();
+				} catch (CloneNotSupportedException e) {
+					log.error("Error in clsOntologyLoader.java in createPRIINSTANCEACTION: oDS could not be cloned", e);
+					
+				}
+				// IMPORTANT NOTE: InstanceIDs should only be set outside of the
+				// memory management, but as association to drives has
+				// to be instanciated, instanceIDs are set here. It is only set
+				// for this data structure
+				// Get new instanceID
+				int nInstanceID = oNewInstanceTPMDS.hashCode();
+				oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
+				
+				//Associate Primaryinstance-action with a primaryinstance-object, if applicable
+				for(Object oSlot : poElement.getOwnSlots()) {
+					System.out.println(oSlot.toString());
+				}
+				for(Object oActionElement : getSlotValues("element", poElement)) {
+					if(oActionElement instanceof Instance) {
+						oActionObject = (Instance) oActionElement;
+						
+						initDataStructure(null, oActionObject, poDataContainer);
+						
+						oActionObjectTPM = retrieveDataStructure(oActionObject.getName(), poDataContainer.b);
+						
+						if(oActionObjectTPM instanceof clsThingPresentationMesh) {
+							clsAssociation oAssociation = getNewAssociation(eContentType.ASSOCIATIONPRI, eDataType.ASSOCIATIONPRI, null, oNewInstanceTPMDS, oActionObjectTPM, 1.0);
+							
+							if(oAssociation instanceof clsAssociationPrimary) {
+								oNewInstanceTPMDS.addExternalAssociation(oAssociation);
+//								((clsThingPresentationMesh) oActionObjectTPM).addExternalAssociation(oAssociation);
+							}
+						}
+						
+						//oNewInstanceTPMDS.addExternalAssociation(oAssociation);
+					}
+				}
+				
+				// Make this clsDataStructurePA to a TPM
+				oNewInstanceDS = oNewInstanceTPMDS;
+				
+				poDataContainer.b.put(poElement.getName(), oNewInstanceDS);
+			}
+		}
 
 	}
 
