@@ -225,11 +225,11 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
             moWordingToContext_OUT = moWording_Share;
         }
         
-        if (elementnew.contains("CAKE")) {
+       /* if (elementnew.contains("CAKE")) {
             // triggerSpeech_schnitzel(moEmotions_Input); // Share?
             moWording_Yes = new clsConcept().moWording_Yes;
             moWordingToContext_OUT = moWording_Yes;
-         }
+         }*/
        
         
         

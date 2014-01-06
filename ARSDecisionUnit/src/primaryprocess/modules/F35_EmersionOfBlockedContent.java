@@ -12,6 +12,7 @@ import java.util.SortedMap;
 
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
@@ -56,7 +57,9 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	/** Output associated activated memories */
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
-
+	
+	private clsWordPresentationMesh moWordingToContext;
+    
 
 	/**
 	 * Get the blocked content storage. Apply properties from the config files.  
@@ -207,7 +210,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 */
 	@Override
 	protected void send() {
-		send_I5_8(moPerceptionalMesh_OUT);
+		send_I5_8(moPerceptionalMesh_OUT, moWordingToContext);
 	}
 
 	/* (non-Javadoc)
@@ -284,10 +287,10 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	
 	
 	@Override
-	public void send_I5_8(clsThingPresentationMesh poPerceptionalMesh) {
-		((I5_8_receive)moModuleList.get(45)).receive_I5_8(poPerceptionalMesh);
+	public void send_I5_8(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
+		((I5_8_receive)moModuleList.get(45)).receive_I5_8(poPerceptionalMesh, moWordingToContext2);
 	
-		putInterfaceData(I5_8_send.class, poPerceptionalMesh);
+		putInterfaceData(I5_8_send.class, poPerceptionalMesh, moWordingToContext2);
 	}
 
 	/* (non-Javadoc)
@@ -299,9 +302,11 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
+	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
 		//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
-		moPerceptionalMesh_IN = poPerceptionalMesh;
+	    moWordingToContext = moWordingToContext2;
+	    
+	    moPerceptionalMesh_IN = poPerceptionalMesh;
 	}
 	/* (non-Javadoc)
 	 *

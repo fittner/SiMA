@@ -15,6 +15,9 @@ import modules.interfaces.I5_19_receive;
 import modules.interfaces.I5_19_send;
 import modules.interfaces.I6_11_receive;
 import modules.interfaces.eInterfaces;
+import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsThingPresentationMesh;
@@ -24,9 +27,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import secondaryprocess.datamanipulation.clsActionTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import testfunctions.clsTester;
 import config.clsProperties;
 
 /**
@@ -251,7 +251,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@Override
 	protected void send() {
-		send_I5_19(returnedTPMemory_OUT, this.psychicSpreadingActivationMode);
+		send_I5_19(returnedTPMemory_OUT, this.psychicSpreadingActivationMode, moWordingToContext);
 	}
 
 	/* (non-Javadoc)
@@ -300,9 +300,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * @see pa.interfaces.send._v38.I7_7_send#send_I7_7(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode) {
-		((I5_19_receive)moModuleList.get(46)).receive_I5_19(poReturnedMemory, psychicSpreadingActivationMode);
-		putInterfaceData(I5_19_send.class, poReturnedMemory);
+	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode, clsWordPresentationMesh moWordingToContext2) {
+		((I5_19_receive)moModuleList.get(46)).receive_I5_19(poReturnedMemory, psychicSpreadingActivationMode, moWordingToContext2);
+		putInterfaceData(I5_19_send.class, poReturnedMemory, moWordingToContext2);
 	}
 
 	/* (non-Javadoc)
@@ -348,6 +348,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	public void setDescription() {
 		moDescription = "Contents of various action plans can be used to reduce libido tension in E45. Before they can be processed by primary process functions, they have to be converted back again. The preconscious parts of the contents - the word presentations - are removed by this module.";
 	}
+
+   
 
   
 }

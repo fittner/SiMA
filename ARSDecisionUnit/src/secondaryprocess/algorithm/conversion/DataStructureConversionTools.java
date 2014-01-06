@@ -82,7 +82,9 @@ public class DataStructureConversionTools {
         poProcessedList.add(poTPM);
 
         // Get the WPM for the thing presentation itself
+        //long start = System.currentTimeMillis();
         clsAssociationWordPresentation oWPforObject = ltm.getSecondaryDataStructure(poTPM, 1.0);
+        //System.out.println((System.currentTimeMillis()- start));
         // Copy object
         if (oWPforObject != null) {
             try {
@@ -96,7 +98,7 @@ public class DataStructureConversionTools {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("", e);
             }
 
         } else {
@@ -158,7 +160,8 @@ public class DataStructureConversionTools {
                     
                     
                     // Case drivemesh
-                } else if (oTPMExternalAss instanceof clsAssociationDriveMesh) {
+                } 
+                else if (oTPMExternalAss instanceof clsAssociationDriveMesh) {
                     // Get the affect templates
                     // Get the DriveMesh
                     clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement();

@@ -48,31 +48,38 @@ public class DataStructureConversion {
         clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oRetVal = null;
         // The input image is the perceived image (defined from the position).
         // Therefore, this image is taken to get the secondary process image
+        //long start = System.currentTimeMillis();
         clsWordPresentationMesh oPIWPM = DataStructureConversionTools.convertCompleteTPMtoWPMRoot(ltm, poPerceivedImage);
+        
+        //System.out.println("Time11: " + (System.currentTimeMillis()- start));
         
         log.debug("converted PI toWPM. \n>Perceived image WPM Part:\n" + oPIWPM.toString() + "\n>Perceived Image TPM part:\n" + poPerceivedImage.toString());
         // Search for all images from the primary process in the memory
 
         // Input: TPM
         // 1. Get all Images of the Mesh
+        //start = System.currentTimeMillis();
         ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 4);
         
+        //System.out.println("Time12: " + (System.currentTimeMillis()- start));
         //HackMethods.reduceImageListTPM("A01", oRITPMList);
         
         // 2. Search for WPM for the image and add the found image to a list.
         // The WPM is connected with the TPM by an associationWP
         //ArrayList<clsWordPresentationMesh> oRIWPMList = new ArrayList<clsWordPresentationMesh>();
+        //start = System.currentTimeMillis();
         ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = convertRITPMtoWPM(ltm, oRITPMList);
         
+        //System.out.println("Time13: " + (System.currentTimeMillis()- start));
         //Enhance all subimages of intentions with all secondary process associations
         ArrayList<clsWordPresentationMesh> enhancedRIWPMListWithIntentions = enhanceIntentions(oEnhancedRIWPMList, ltm);
         
-        
+        //System.out.println("Time14: " + (System.currentTimeMillis()- start));
         // Create a List of all loaded acts and other memories
-        //ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.organizeImagesInActs(oEnhancedRIWPMList);
+        //start = System.currentTimeMillis();
         ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.organizeImagesInActs(enhancedRIWPMListWithIntentions);
         log.debug("Found acts: {}", oCategorizedRIWPMList);
-        
+        //System.out.println("Time15: " + (System.currentTimeMillis()- start));
         //ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.processMemories(oEnhancedRIWPMList);
 
         // Output: ArrayList<WPM> for each TPM-Image. The WPM are already

@@ -23,6 +23,7 @@ import modules.interfaces.I5_8_receive;
 import modules.interfaces.I5_9_receive;
 import modules.interfaces.I5_9_send;
 import modules.interfaces.eInterfaces;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datahandlertools.clsDataStructureCompareTools;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationDriveMesh;
@@ -30,6 +31,7 @@ import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -38,7 +40,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import secondaryprocess.datamanipulation.clsMeshTools;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eOrifice;
@@ -60,6 +61,8 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
     public static final String P_MEMORY_REDUCE_FACTOR = "MEMORY_REDUCE_FACTOR";
     public static final String P_FANTASY_REDUCE_FACTOR = "FANTASY_REDUCE_FACTOR";
 
+    private clsWordPresentationMesh moWordingToContext;
+    
     /** Perceived Image in; @since 14.07.2011 14:02:10 */
     private clsThingPresentationMesh moPerceptionalMesh_IN;
     /** Associated memories in; @since 14.07.2011 14:02:10 */
@@ -524,7 +527,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
      */
     @Override
     protected void send() {
-        send_I5_9(moPerceptionalMesh_OUT);
+        send_I5_9(moPerceptionalMesh_OUT, moWordingToContext);
 
     }
 
@@ -576,9 +579,10 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
      */
     @SuppressWarnings("unchecked")
     @Override
-    public void receive_I5_8(clsThingPresentationMesh poPerceptionalMesh) {
+    public void receive_I5_8(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
         // moMergedPrimaryInformation_Rcv = poMergedPrimaryInformation;
-
+        moWordingToContext = moWordingToContext2;
+        
         try {
             // moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
             moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
@@ -596,10 +600,10 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
      * @see pa.interfaces.send._v38.I2_16_send#send_I2_16(java.util.ArrayList)
      */
     @Override
-    public void send_I5_9(clsThingPresentationMesh poPerceptionalMesh) {
-        ((I5_9_receive) moModuleList.get(18)).receive_I5_9(poPerceptionalMesh);
+    public void send_I5_9(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
+        ((I5_9_receive) moModuleList.get(18)).receive_I5_9(poPerceptionalMesh, moWordingToContext2);
 
-        putInterfaceData(I5_9_send.class, poPerceptionalMesh);
+        putInterfaceData(I5_9_send.class, poPerceptionalMesh, moWordingToContext2);
     }
 
     /*

@@ -25,6 +25,7 @@ import base.datatypes.clsAssociationDriveMesh;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
@@ -76,6 +77,7 @@ implements I5_6_receive, I5_7_send  {
 	 * */
 	private double mrActivationThreshold;
 	
+	private clsWordPresentationMesh moWordingToContext;
 	/**
 	 * Personality parameter:
 	 * Limit to adjust the maximum number of activated repressed drives.
@@ -363,7 +365,7 @@ implements I5_6_receive, I5_7_send  {
 	 */
 	@Override
 	protected void send() {
-		send_I5_7(moPerceptionalMesh_OUT);
+		send_I5_7(moPerceptionalMesh_OUT, moWordingToContext);
 	}
 	
 	/* (non-Javadoc)
@@ -374,11 +376,11 @@ implements I5_6_receive, I5_7_send  {
 	 * @see pa.interfaces.send._v38.I2_14_send#send_I2_14(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
+	public void send_I5_7(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
 
-		((I5_7_receive)moModuleList.get(35)).receive_I5_7(poPerceptionalMesh);	//Associated memories only for perception
+		((I5_7_receive)moModuleList.get(35)).receive_I5_7(poPerceptionalMesh, moWordingToContext2);	//Associated memories only for perception
 		
-		putInterfaceData(I5_7_send.class, poPerceptionalMesh);
+		putInterfaceData(I5_7_send.class, poPerceptionalMesh, moWordingToContext2);
 	}
 	
 	/* (non-Javadoc)
@@ -390,8 +392,9 @@ implements I5_6_receive, I5_7_send  {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_6(clsThingPresentationMesh poPerceptionalMesh) {
-		moPerceptionalMesh_IN = poPerceptionalMesh;
+	public void receive_I5_6(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
+	    moWordingToContext = moWordingToContext2;
+	    moPerceptionalMesh_IN = poPerceptionalMesh;
 //		try {
 //			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
 //			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();

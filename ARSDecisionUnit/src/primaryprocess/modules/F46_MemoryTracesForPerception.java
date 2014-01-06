@@ -30,11 +30,13 @@ import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsConcept;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -81,7 +83,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	/* Output */
 	/** A Perceived image incl. DMs */
 	private clsThingPresentationMesh moPerceptionalMesh_OUT; 
-	
+	private clsWordPresentationMesh moWordingToContext;
+    private clsWordPresentationMesh moWordingToContextNew;
+    private clsConcept moConcept;
 	
 	///* Internal */
 	//private clsThingPresentationMesh moEnhancedPerception;
@@ -168,7 +172,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	@Override
 	protected void process_basic() {
 		
-		
+	    if (moWordingToContext == null){
+            moConcept = new clsConcept();
+            moWordingToContextNew = moConcept.moWording;
+            moWordingToContext = moWordingToContextNew;}
 		
 		//Set new instance IDs
 		//clsDataStructureTools.createInstanceFromTypeList(oContainerWithTypes, true);
@@ -755,7 +762,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 */
 	@Override
 	protected void send() {
-		send_I5_6(moPerceptionalMesh_OUT);
+		send_I5_6(moPerceptionalMesh_OUT, moWordingToContext);
 	}
 
 	/* (non-Javadoc)
@@ -804,7 +811,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 * @see pa.interfaces.send._v38.I2_20_send#receive_I2_20(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_6(clsThingPresentationMesh poPerceptionalMesh) {
+	public void send_I5_6(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
 		/* The inputs and outputs can be changed if the following parameters are changed:
 		 * clsModuleBase.deepcopy
 		 * this function
@@ -813,10 +820,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		 * I5_6_receive.java
 		 */
 		//Give output to input of F37
-		((I5_6_receive)moModuleList.get(37)).receive_I5_6(poPerceptionalMesh);
+		((I5_6_receive)moModuleList.get(37)).receive_I5_6(poPerceptionalMesh, moWordingToContext2);
 		//Give output to input of F57
 		//v38g has no interface between F46 and F57 ((I5_6_receive)moModuleList.get(57)).receive_I5_6(poPerceptionalMesh);
-		putInterfaceData(I5_6_send.class, poPerceptionalMesh);
+		putInterfaceData(I5_6_send.class, poPerceptionalMesh, moWordingToContext2);
 	}
 	
 	
@@ -830,8 +837,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 * @see pa.interfaces.receive._v38.I7_7_receive#receive_I7_7(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode) {
-		moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
+	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2) {
+		
+	    moWordingToContext = moWordingToContext2;
+	    moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
 		this.psychicSpreadingActivationMode = mode;
 	}
 

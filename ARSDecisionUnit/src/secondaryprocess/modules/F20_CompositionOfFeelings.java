@@ -82,7 +82,8 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	private ArrayList<clsEmotion> moEmotions_Output;
 	private ArrayList<clsWordPresentationMeshFeeling> moFeelings = new ArrayList<clsWordPresentationMeshFeeling> ();
 	
-	
+	private clsWordPresentationMesh moWordingToContext;
+    
 	ArrayList <clsEmotion> oEmotion =new ArrayList <clsEmotion> ();
 	ArrayList<clsWordPresentationMesh> oWPMEmotion = new ArrayList<clsWordPresentationMesh>();
 	
@@ -199,9 +200,11 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions) {
+	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
 		//moDeniedAffects_Input  = (ArrayList<clsAssociationDriveMesh>)this.deepCopy(poDeniedAffects);	
-		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+	    moWordingToContext = moWordingToContext2;
+	    
+	    moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
 
 	}
 
