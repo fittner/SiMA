@@ -59,10 +59,10 @@ public class clsInspectorImageDrives extends Inspector {
 	private JPanel moCenter = new JPanel ();
 	private JPanel moRight = new JPanel (); //right oTopPanel
 	
-	private JPanel oCenterBladder = new JPanel ();
-	private JPanel oCenterRectum = new JPanel ();
-	private JPanel oCenterStamina = new JPanel ();
-	private JPanel oCenterStomach = new JPanel ();
+	private JPanel moCenterBladder = new JPanel ();
+	private JPanel moCenterRectum = new JPanel ();
+	private JPanel moCenterStamina = new JPanel ();
+	private JPanel moCenterStomach = new JPanel ();
 	
 	private DefaultPieDataset moPieDatasetAStamina;
 	private DefaultPieDataset moPieDatasetLStamina;
@@ -83,13 +83,13 @@ public class clsInspectorImageDrives extends Inspector {
 	private ArrayList <clsPair <String, Integer>> moARectum = new ArrayList <clsPair <String, Integer>> ();
 	
 	private int mnLastDisplayedElement;
-	private JScrollPane oScrollPane;
+	private JScrollPane moScrollPane;
 	
 	private HashMap <String, String> moImageNames = new HashMap <String, String> ();
 	private HashMap <String, Image> moConceptionalImages = new HashMap <String, Image> ();
 
 	/**
-	 * DOCUMENT (Jordakieva) - der Inspector gehört noch extremst umgebaut. Großes TODO 
+	 * DOCUMENT (Jordakieva) - der Inspector gehört noch extremst geschliffen und die Bilder durch nicht copyrighte ersetzt. Großes TODO 
 	 *
 	 * @since 20.11.2013 12:31:44
 	 *
@@ -125,15 +125,15 @@ public class clsInspectorImageDrives extends Inspector {
 		moTopPanel.add(moCenter, BorderLayout.CENTER);
 		moTopPanel.add(moLeft, BorderLayout.WEST);
 		
-		oCenterBladder.setLayout(new BoxLayout(oCenterBladder, BoxLayout.X_AXIS));
-		oCenterRectum.setLayout(new BoxLayout(oCenterRectum, BoxLayout.X_AXIS));
-		oCenterStamina.setLayout(new BoxLayout(oCenterStamina, BoxLayout.X_AXIS));
-		oCenterStomach.setLayout(new BoxLayout(oCenterStomach, BoxLayout.X_AXIS));
+		moCenterBladder.setLayout(new BoxLayout(moCenterBladder, BoxLayout.X_AXIS));
+		moCenterRectum.setLayout(new BoxLayout(moCenterRectum, BoxLayout.X_AXIS));
+		moCenterStamina.setLayout(new BoxLayout(moCenterStamina, BoxLayout.X_AXIS));
+		moCenterStomach.setLayout(new BoxLayout(moCenterStomach, BoxLayout.X_AXIS));
 		
-		moCenter.add(oCenterStamina);
-		moCenter.add(oCenterStomach);
-		moCenter.add(oCenterBladder);
-		moCenter.add(oCenterRectum);
+		moCenter.add(moCenterStamina);
+		moCenter.add(moCenterStomach);
+		moCenter.add(moCenterBladder);
+		moCenter.add(moCenterRectum);
 		
 		moPieDatasetAStamina = new DefaultPieDataset();
 		moPieDatasetLStamina = new DefaultPieDataset();
@@ -186,9 +186,9 @@ public class clsInspectorImageDrives extends Inspector {
 		moRight.add(piePiePie ("L-Rectum", moPieDatasetLRectum));
 		///////////////////////////
 		
-		oScrollPane = new JScrollPane(moTopPanel); //ScrollBar über das über drüber Panel
+		moScrollPane = new JScrollPane(moTopPanel); //ScrollBar über das über drüber Panel
 		this.setLayout(new BorderLayout());		//ohne das Layout wird er nicht checken, dass er scrollen muss
-		this.add(oScrollPane, BorderLayout.CENTER);
+		this.add(moScrollPane, BorderLayout.CENTER);
 
 	}
 	
@@ -217,7 +217,7 @@ public class clsInspectorImageDrives extends Inspector {
 	 * @param objekt is from the class clsChangedDrives and the function compares if the Pairs inside are equal 
 	 * @return true, if there is no difference
 	 */
-	boolean vergleichen (clsChangedDrives objekt) { 
+	boolean compareObject (clsChangedDrives objekt) { 
 		boolean ret = false;
 		
 		if (objekt.getQoA().a.equals(objekt.getQoA().b))
@@ -236,10 +236,8 @@ public class clsInspectorImageDrives extends Inspector {
 	 * @param Bild = the picture to display
 	 * @param panel = the panel where the picture will be displayed
 	 */
-	void unterschiedAusgeben (int Index, JPanel panel, int step) {
-		
+	void displayTheChangedDrive (int Index, JPanel panel, int step) {
 
-		
 		try {
 			Integer tStep = step;
 			
@@ -334,7 +332,7 @@ public class clsInspectorImageDrives extends Inspector {
 	 *
 	 * @param panel
 	 */
-	void leereBoxAusgeben (JPanel panel, int step) {
+	void displayEmptyBox (JPanel panel, int step) {
 		try {
 			Integer t = step;
 			
@@ -358,7 +356,7 @@ public class clsInspectorImageDrives extends Inspector {
 	 * @param i = schlechte Programmierung :D
 	 * @param defense = if false, then the defense mechanism didnt change any value
 	 */
-	void PieVariableBefuellen (ArrayList<clsPair<String, Integer>> moVariable, int i, boolean defense) {
+	void besetThePieVariables (ArrayList<clsPair<String, Integer>> moVariable, int i, boolean defense) {
 		if (defense) {
 			
 			boolean bla = false;
@@ -396,160 +394,193 @@ public class clsInspectorImageDrives extends Inspector {
 		ArrayList <Integer> lr = new ArrayList <Integer> (); //libi Rectum
 		ArrayList <Integer> ar = new ArrayList <Integer> ();
 		ArrayList <Integer> index = new ArrayList <Integer> (); //wird um den Element-Index erhöht wenn min eine der ArrayListen davor zugeschlagen haben
+		boolean befuellenAktiv = false;
 		
 		
-		if (!mDisplayDrives.isEmpty()) {
-			for (int i = mnLastDisplayedElement, step = mDisplayDrives.get(mnLastDisplayedElement).getStep(); i < nElemente; i++) { //damit die update-Funktion wirklich jeden Schritt nur einmal macht 
+		if (!mDisplayDrives.isEmpty()) { 
+//			for (int i = 0, step = mDisplayDrives.get(0).getStep(); i < nElemente; i++) { //damit die update-Funktion wirklich jeden Schritt nur einmal macht
+			for (int i = mnLastDisplayedElement, step = mDisplayDrives.get(mnLastDisplayedElement).getStep(); i < nElemente; i++) { //damit die update-Funktion wirklich jeden Schritt nur einmal macht
 				
 				boolean hmpf = false; //zeigt an ob ein stomach, rectum, bladder, stamina als Drive vorkommt im aktuellen mDisplayDrives.get(i).getMotivation
 				//sollte egtl immer sein
 				
 				if (step == mDisplayDrives.get(i).getStep()) { //wenn immer noch der selbe Step im mDisplayDrives
 					if (mDisplayDrives.get(i).getMotivation().startsWith("L.") && mDisplayDrives.get(i).getMotivation().endsWith("STOMACH")) {
-						if (vergleichen(mDisplayDrives.get(i))) //wenn die Abwehr nichts verändert hat, dann braucht auch kein Bild zusammengestückelt werden 
-							PieVariableBefuellen (moLStomach, i, false);
+						if (compareObject(mDisplayDrives.get(i))) //wenn die Abwehr nichts verändert hat, dann braucht auch kein Bild zusammengestückelt werden 
+							besetThePieVariables (moLStomach, i, false);
 						else {
-							PieVariableBefuellen (moLStomach, i, true);
+							besetThePieVariables (moLStomach, i, true);
 							lo.add(i);
 							hmpf = true;
 						}					
 					}
 					if (mDisplayDrives.get(i).getMotivation().startsWith("A.") && mDisplayDrives.get(i).getMotivation().endsWith("STOMACH")) {
-						if (vergleichen(mDisplayDrives.get(i))) 
-							PieVariableBefuellen (moAStomach, i, false);
+						if (compareObject(mDisplayDrives.get(i))) 
+							besetThePieVariables (moAStomach, i, false);
 						else {
-							PieVariableBefuellen (moAStomach, i, true);
+							besetThePieVariables (moAStomach, i, true);
 							ao.add(i);
 							hmpf = true;
 						}					
 					}
 									
 					if (mDisplayDrives.get(i).getMotivation().startsWith("L.") && mDisplayDrives.get(i).getMotivation().endsWith("RECTUM")) {
-						if (vergleichen(mDisplayDrives.get(i))) 
-							PieVariableBefuellen (moLRectum, i, false);
+						if (compareObject(mDisplayDrives.get(i))) 
+							besetThePieVariables (moLRectum, i, false);
 						else {
-							PieVariableBefuellen (moLRectum, i, true);
+							besetThePieVariables (moLRectum, i, true);
 							lr.add(i);
 							hmpf = true;
 						}					
 					}
 					if (mDisplayDrives.get(i).getMotivation().startsWith("A.") && mDisplayDrives.get(i).getMotivation().endsWith("RECTUM")) {
-						if (vergleichen(mDisplayDrives.get(i))) 
-							PieVariableBefuellen (moARectum, i, false);
+						if (compareObject(mDisplayDrives.get(i))) 
+							besetThePieVariables (moARectum, i, false);
 						else {
-							PieVariableBefuellen (moARectum, i, true);
+							besetThePieVariables (moARectum, i, true);
 							ar.add(i);
 							hmpf = true;
 						}					
 					}
 					
 					if (mDisplayDrives.get(i).getMotivation().startsWith("L.") && mDisplayDrives.get(i).getMotivation().endsWith("BLADDER")) {
-						if (vergleichen(mDisplayDrives.get(i))) 
-							PieVariableBefuellen (moLBladder, i, false);
+						if (compareObject(mDisplayDrives.get(i))) 
+							besetThePieVariables (moLBladder, i, false);
 						else {
-							PieVariableBefuellen (moLBladder, i, true);
+							besetThePieVariables (moLBladder, i, true);
 							lb.add(i);
 							hmpf = true;
 						}					
 					}
 					if (mDisplayDrives.get(i).getMotivation().startsWith("A.") && mDisplayDrives.get(i).getMotivation().endsWith("BLADDER")) {
-						if (vergleichen(mDisplayDrives.get(i))) 
-							PieVariableBefuellen (moABladder, i, false);
+						if (compareObject(mDisplayDrives.get(i))) 
+							besetThePieVariables (moABladder, i, false);
 						else {
-							PieVariableBefuellen (moABladder, i, true);
+							besetThePieVariables (moABladder, i, true);
 							ab.add(i);
 							hmpf = true;
 						}					
 					}
 					
 					if (mDisplayDrives.get(i).getMotivation().startsWith("L.") && mDisplayDrives.get(i).getMotivation().endsWith("STAMINA")) {
-						if (vergleichen(mDisplayDrives.get(i))) 
-							PieVariableBefuellen (moLStamina, i, false);
+						if (compareObject(mDisplayDrives.get(i))) 
+							besetThePieVariables (moLStamina, i, false);
 						else {
-							PieVariableBefuellen (moLStamina, i, true);
+							besetThePieVariables (moLStamina, i, true);
 							ls.add(i);
 							hmpf = true;
 						}					
 					}
 					if (mDisplayDrives.get(i).getMotivation().startsWith("A.") && mDisplayDrives.get(i).getMotivation().endsWith("STAMINA")) {
-						if (vergleichen(mDisplayDrives.get(i))) 
-							PieVariableBefuellen (moAStamina, i, false);
+						if (compareObject(mDisplayDrives.get(i))) 
+							besetThePieVariables (moAStamina, i, false);
 						else {
-							PieVariableBefuellen (moAStamina, i, true);
+							besetThePieVariables (moAStamina, i, true);
 							as.add(i);
 							hmpf = true;
 						}					
 					}
 					
-					if (hmpf) index.add (i);
+					if (hmpf) {
+						index.add (i);
+						befuellenAktiv = true;
+					}
 						
 				} else {
 					
-					double maxStock = Math.max(lo.size(), Math.max (ao.size(), Math.max (lr.size(), Math.max (ar.size(), 
-							Math.max (lb.size(), Math.max (ab.size(), Math.max (ls.size(), as.size()))))))); //die Maximale ArraySize von diesen Elementen wird ermittelt
-	
-					if (maxStock > 0) { //dh zumindest eines der Arrays hat Elemente
-						
-						for (int k = 0; k < maxStock; k++) {
-							JPanel sto = new JPanel ();
-							sto.setLayout(new BoxLayout(sto, BoxLayout.Y_AXIS));
-							JPanel sta = new JPanel ();
-							sta.setLayout(new BoxLayout(sta, BoxLayout.Y_AXIS));
-							JPanel re = new JPanel ();
-							re.setLayout(new BoxLayout(re, BoxLayout.Y_AXIS));
-							JPanel bl = new JPanel ();
-							bl.setLayout(new BoxLayout(bl, BoxLayout.Y_AXIS));
-							oCenterStamina.add (sta);
-							oCenterBladder.add (bl);
-							oCenterRectum.add (re);
-							oCenterStomach.add (sto);
-							////////////////////////////////////
-							
-							//da für libi und agg zwar der selbe Step aber verschiedener Index ist, wird das jetzt
-							//zusammen gewürfelt um einen Step jeweils nur einmal auszugeben
-													
-							if (lo.size() > k && lo.contains(index.get(k))) unterschiedAusgeben (index.get(k), sto, step); //(oNames.get(1), sto, step);
-							else leereBoxAusgeben (sto, step);
-							
-							if (ao.size() > k && ao.contains(index.get(k))) unterschiedAusgeben (index.get(k), sto, step); //(oNames.get(1), sto, step);
-							else leereBoxAusgeben (sto, step);
-							
-							if (ls.size() > k && ls.contains(index.get(k))) unterschiedAusgeben (index.get(k), sta, step); //(oNames.get(1), sta, step);
-							else leereBoxAusgeben (sta, step);
-							
-							if (as.size() > k && as.contains(index.get(k))) unterschiedAusgeben (index.get(k), sta, step); //(oNames.get(1), sta, step);
-							else leereBoxAusgeben (sta, step);
-							
-							if (lr.size() > k && lr.contains(index.get(k))) unterschiedAusgeben (index.get(k), re, step); //(oNames.get(1), re, step);
-							else leereBoxAusgeben (re, step);
-							
-							if (ar.size() > k && ar.contains(index.get(k))) unterschiedAusgeben (index.get(k), re, step); //(oNames.get(1), re, step);
-							else leereBoxAusgeben (re, step);
-							
-							if (lb.size() > k && lb.contains(index.get(k))) unterschiedAusgeben (index.get(k), bl, step); //(oNames.get(1), bl, step);
-							else leereBoxAusgeben (bl, step);
-							
-							if (ab.size() > k && ab.contains(index.get(k))) unterschiedAusgeben (index.get(k), bl, step); //(oNames.get(1), bl, step);
-							else leereBoxAusgeben (bl, step);
-						}
-	
-						lo.clear(); ao.clear();
-						lr.clear(); ar.clear();
-						lb.clear(); ab.clear();
-						ls.clear(); as.clear();
-						index.clear();
-						
-						step = mDisplayDrives.get(i).getStep(); //der Step wird aktualisiert
-						i--; //wird subtrachiert, sonst verpasst man min einen Schritt
-					}
-				
+					if (befuellenAktiv)
+						manageCenterOutput (lo, ao, ls, as, lr, ar, lb, ab, index, step-1);
+					befuellenAktiv = false;
+					step = mDisplayDrives.get(i).getStep(); //der Step wird aktualisiert
+					i--; //wird subtrachiert, sonst verpasst man min einen Schritt
 				} //Ende vom Else
+				mnLastDisplayedElement = i;
 			} //Ende der for-Schleife
+			
+			if (befuellenAktiv)	manageCenterOutput (lo, ao, ls, as, lr, ar, lb, ab, index, mDisplayDrives.get(mnLastDisplayedElement).getStep()-1);
+			mnLastDisplayedElement++; //da ich das i-te Element bereits ausgegeben habe; sonst wäre es doppelt
 		} //Ende vom if
-		
-		mnLastDisplayedElement = mDisplayDrives.size();		
 	}
 	
+
+	/**
+	 * DOCUMENT (Jordakieva) - insert description
+	 *
+	 * @since 06.01.2014 14:30:01
+	 *
+	 * @param lo
+	 * @param ao
+	 * @param ls
+	 * @param as
+	 * @param lr
+	 * @param ar
+	 * @param lb
+	 * @param ab
+	 * @param index 
+	 */
+	private void manageCenterOutput(ArrayList<Integer> lo, ArrayList<Integer> ao,
+			ArrayList<Integer> ls, ArrayList<Integer> as,
+			ArrayList<Integer> lr, ArrayList<Integer> ar,
+			ArrayList<Integer> lb, ArrayList<Integer> ab, ArrayList<Integer> index, int step) {
+		
+//		double maxStock = Math.max(lo.size(), Math.max (ao.size(), Math.max (lr.size(), Math.max (ar.size(), 
+//				Math.max (lb.size(), Math.max (ab.size(), Math.max (ls.size(), as.size()))))))); //die Maximale ArraySize von diesen Elementen wird ermittelt
+
+//		if (maxStock > 0) { //dh zumindest eines der Arrays hat Elemente
+		if (!index.isEmpty()) {
+
+			
+			for (int k = 0; k < index.size(); k++) {
+				JPanel sto = new JPanel ();
+				sto.setLayout(new BoxLayout(sto, BoxLayout.Y_AXIS));
+				JPanel sta = new JPanel ();
+				sta.setLayout(new BoxLayout(sta, BoxLayout.Y_AXIS));
+				JPanel re = new JPanel ();
+				re.setLayout(new BoxLayout(re, BoxLayout.Y_AXIS));
+				JPanel bl = new JPanel ();
+				bl.setLayout(new BoxLayout(bl, BoxLayout.Y_AXIS));
+				moCenterStamina.add (sta);
+				moCenterBladder.add (bl);
+				moCenterRectum.add (re);
+				moCenterStomach.add (sto);
+				////////////////////////////////////
+				
+				//da für libi und agg zwar der selbe Step aber verschiedener Index ist, wird das jetzt
+				//zusammen gewürfelt um einen Step jeweils nur einmal auszugeben
+										
+				if (lo.contains(index.get(k))) displayTheChangedDrive (index.get(k), sto, step); //(oNames.get(1), sto, step);
+				else displayEmptyBox (sto, step);
+				
+				if (ao.contains(index.get(k))) displayTheChangedDrive (index.get(k), sto, step); //(oNames.get(1), sto, step);
+				else displayEmptyBox (sto, step);
+				
+				if (ls.contains(index.get(k))) displayTheChangedDrive (index.get(k), sta, step); //(oNames.get(1), sta, step);
+				else displayEmptyBox (sta, step);
+				
+				if (as.contains(index.get(k))) displayTheChangedDrive (index.get(k), sta, step); //(oNames.get(1), sta, step);
+				else displayEmptyBox (sta, step);
+				
+				if (lr.contains(index.get(k))) displayTheChangedDrive (index.get(k), re, step); //(oNames.get(1), re, step);
+				else displayEmptyBox (re, step);
+				
+				if (ar.contains(index.get(k))) displayTheChangedDrive (index.get(k), re, step); //(oNames.get(1), re, step);
+				else displayEmptyBox (re, step);
+				
+				if (lb.contains(index.get(k))) displayTheChangedDrive (index.get(k), bl, step); //(oNames.get(1), bl, step);
+				else displayEmptyBox (bl, step);
+				
+				if (ab.contains(index.get(k))) displayTheChangedDrive (index.get(k), bl, step); //(oNames.get(1), bl, step);
+				else displayEmptyBox (bl, step);
+			}
+
+			lo.clear(); ao.clear();
+			lr.clear(); ar.clear();
+			lb.clear(); ab.clear();
+			ls.clear(); as.clear();
+			index.clear();
+		}
+		
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -602,14 +633,7 @@ public class clsInspectorImageDrives extends Inspector {
 			moPieDatasetLRectum.insertValue(0, moLRectum.get(k).a, moLRectum.get(k).b);
 		}			
 		
-		oCenterStamina.updateUI();
-		oCenterBladder.updateUI();
-		oCenterStomach.updateUI();
-		oCenterRectum.updateUI();
-		moCenter.validate();
-		
-//		moTopPanel.validate();
-		oScrollPane.validate();
+		moScrollPane.validate();
 		
 	}
 }
