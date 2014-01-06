@@ -174,12 +174,12 @@ public class clsMain extends SimState{
     	return clsSingletonProperties.showSpeechShareExpressionOverlay();
     }
        
-    public void setShowThoughtExpressionOverlay(boolean value){
-    	clsSingletonProperties.setShowThoughtExpressionOverlay(value);
+    public void setShowExpressionYesOverlay(boolean value){
+    	clsSingletonProperties.setShowExpressionYesOverlay(value);
     }
     
-    public boolean getShowThoughtExpressionOverlay(){
-    	return clsSingletonProperties.showThoughtExpressionOverlay();
+    public boolean getShowExpressionYesOverlay(){
+    	return clsSingletonProperties.showExpressionYesOverlay();
     }
     
     public void setShowLifeIndicator(boolean value){

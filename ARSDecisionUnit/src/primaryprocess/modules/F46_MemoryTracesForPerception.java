@@ -174,8 +174,11 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		
 	    if (moWordingToContext == null){
             moConcept = new clsConcept();
+            
             moWordingToContextNew = moConcept.moWording;
-            moWordingToContext = moWordingToContextNew;}
+            moWordingToContext = moWordingToContextNew;
+            
+	    }
 		
 		//Set new instance IDs
 		//clsDataStructureTools.createInstanceFromTypeList(oContainerWithTypes, true);

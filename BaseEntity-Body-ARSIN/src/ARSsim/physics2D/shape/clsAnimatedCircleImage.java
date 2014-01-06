@@ -205,7 +205,7 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 			        
 			        
 			      //display a Thought expressionoverlay Icon
-			        if(clsSingletonProperties.showThoughtExpressionOverlay()) {
+			        if(clsSingletonProperties.showExpressionYesOverlay()) {
 			        	if(moThoughtExpressionOverlayImage != null && moThoughtExpressionOverlayImage != eSpeechExpression.NONE){
 			        		
 				        	eImages oThoughtExpressionImage = eImages.valueOf(moThoughtExpressionOverlayImage.getEImagesString());

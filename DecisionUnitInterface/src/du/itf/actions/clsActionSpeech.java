@@ -13,21 +13,36 @@ import du.enums.eInternalActionIntensity;
  * 
  * @author MW
  * 25.02.2013, 14:02:37
+ * @param <clsWordPresentationMesh>
  * 
  */
-public class clsActionSpeech extends clsActionCommand {
+public class clsActionSpeech<clsWordPresentationMesh> extends clsActionCommand {
 
-	@SuppressWarnings("unused")
 	private eInternalActionIntensity moAbstractSpeech;
-
-	public clsActionSpeech(eInternalActionIntensity heavy) {
-		moAbstractSpeech=heavy;
+	private clsWordPresentationMesh moWording;
+	private String New_Wording;
+	private String New_Wording_shown;
+	
+	public clsActionSpeech(clsWordPresentationMesh poWording) {
+	
+	     moWording = poWording;
+	     
+	    New_Wording = moWording.toString();
+	    
+	    if (New_Wording.equals("::CONCEPT::1:SPEAK_YES:")){
+	    	New_Wording_shown  = "Speak_Yes";
+	    }
+	    
+	    if (New_Wording.equals("::CONCEPT::1:SPEAK_SHARE:")){
+	    	New_Wording_shown  = "Speak_Share";
+	    }
 	}
 	
 	@Override
 	public String getLog() {
 		// TODO MW
-		return "<Speech>" + "" + "</Speech>"; 
+		return "<Speech>" + New_Wording_shown + "</Speech>"; 
+		 
 	}
 
 	public eInternalActionIntensity getData() {
