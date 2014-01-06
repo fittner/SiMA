@@ -37,9 +37,6 @@ import base.modules.ePsychicInstances;
 import base.tools.toText;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
-import du.enums.eInternalActionIntensity;
-import du.itf.actions.clsActionShare;
-import du.itf.actions.clsActionThink;
 import du.itf.actions.clsInternalActionCommand;
 import du.itf.actions.itfInternalActionProcessor;
 
@@ -203,24 +200,26 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
             moWordingToContext_OUT = moContext;
         }
                 
-        //Scenario 1
         
-        if (elementnew.contains("BODO(RIGHT:FAR)")) {
-            
-            //triggerSpeech_schnitzel(moEmotions_Input); // share?
-            moWording_Share = new clsConcept().moWording_Share;
-            moWordingToContext_OUT = moWording_Share;
-        }
+        
 
-        if (elementnew.contains("CAKE(CENTER:FAR)")) {
+        /*if (elementnew.contains("PLANT(LEFT:MEDIUM)")) {
            // triggerSpeech_eat(moEmotions_Input); // Yes ?
             moWording_Yes = new clsConcept().moWording_Yes;
             moWordingToContext_OUT = moWording_Yes;
-        }
+        }*/
         
-        // Scenario 2 
-        if (elementnew.contains("(WALL(RIGHT:FAR))")) {
+        // Scenario 1 Step 15
+        if (elementnew.contains("BODO(RIGHT:MEDIUM)")) {
            // triggerSpeech_schnitzel(moEmotions_Input); // share?
+            moWording_Yes = new clsConcept().moWording_Yes;
+            moWordingToContext_OUT = moWording_Yes;
+          }
+        
+        // Scenario 1 Step 7
+        if (elementnew.contains("WALL(RIGHT:NEAR)")) {
+            
+            //triggerSpeech_schnitzel(moEmotions_Input); // share?
             moWording_Share = new clsConcept().moWording_Share;
             moWordingToContext_OUT = moWording_Share;
         }
@@ -252,30 +251,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         }
     }
 
-    /**
-     * DOCUMENT - create initial wording based on input
-     * 
-     * @author hinterleitner
-     * @param moEmotions_Input2
-     * @since 14.12.2013 16:47:31
-     * 
-     */
-    private void triggerSpeech_schnitzel(ArrayList<clsEmotion> moEmotions_Input2) {
-        clsActionThink test = new clsActionThink(eInternalActionIntensity.HEAVY);
-
-        // Speech Trigger - Eat
-        moInternalActions.add(test);
-
-    }
-
-    private void triggerSpeech_eat(ArrayList<clsEmotion> moEmotions_Input2) {
-        clsActionShare testnew1 = new clsActionShare(eInternalActionIntensity.HEAVY);
-
-        // Thought Trigger
-        moInternalActions.add(testnew1);
-    }
-
-
+  
     @Override
     protected void process_draft() {
         // TODO (zeilinger) - Auto-generated method stub
