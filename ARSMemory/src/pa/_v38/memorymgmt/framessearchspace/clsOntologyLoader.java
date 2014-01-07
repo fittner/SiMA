@@ -8,6 +8,7 @@ package pa._v38.memorymgmt.framessearchspace;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -49,6 +50,7 @@ import edu.stanford.smi.protege.model.Instance;
 import edu.stanford.smi.protege.model.KnowledgeBase;
 import edu.stanford.smi.protege.model.Project;
 import edu.stanford.smi.protege.model.Slot;
+import edu.stanford.smi.protege.util.GetOwnSlotValuesBrowserTextJob;
 
 /**
  * DOCUMENT (zeilinger) - insert description
@@ -768,76 +770,67 @@ public class clsOntologyLoader {
 			Instance poRootElement,
 			Instance poElement,
 			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
-
-		Instance oActionObject = null;
-		clsDataStructurePA oActionObjectTPM = null;
 		
-		// Get the instance of the container structure
-		Instance oInstanceOfType = (Instance) poElement
-				.getOwnSlotValue(poDataContainer.a.getSlot("instance_type"));
-
-		// If the data structure does not exist, create it
-		initDataStructure(null, oInstanceOfType, poDataContainer);
-
-		// Get the element of the data structure
-		clsDataStructurePA oDS = (clsDataStructurePA) retrieveDataStructure(
-				oInstanceOfType.getName(), poDataContainer.b);
-
-		// make a deepcopy of the data structure in order to get new association
-		// ids
-
-		clsDataStructurePA oNewInstanceDS = null;
-		if (oDS != null) {
-			if (oDS instanceof clsThingPresentationMesh) {
-				// TODO AW: Only TPM is covered here
-				clsThingPresentationMesh oNewInstanceTPMDS = null;
-				try {
-					oNewInstanceTPMDS = (clsThingPresentationMesh) ((clsThingPresentationMesh) oDS)
-							.clone();
-				} catch (CloneNotSupportedException e) {
-					log.error("Error in clsOntologyLoader.java in createPRIINSTANCEACTION: oDS could not be cloned", e);
+		try {
+			Instance oActionObject = null;
+			clsDataStructurePA oActionObjectTPM = null;
+			
+			// Get the instance type of the action instance (which type of action is it, e.g. EAT)
+			Instance oInstanceOfType = (Instance) poElement
+					.getOwnSlotValue(poDataContainer.a.getSlot("instance_type"));
+	
+			// If the data structure does not exist, create it
+			initDataStructure(null, oInstanceOfType, poDataContainer);
+	
+			// Get the newly created data structure as clsDataStructurePA (basic ARS data structure) 
+			clsDataStructurePA oDS = (clsDataStructurePA) retrieveDataStructure(
+					oInstanceOfType.getName(), poDataContainer.b);
+	
+			// make a deepcopy of the data structure in order to get new association id's
+			clsDataStructurePA oNewInstanceDS = null;
+			if (oDS != null) {
+				if (oDS instanceof clsThingPresentationMesh) {
+					clsThingPresentationMesh oNewInstanceTPMDS = null;
+					oNewInstanceTPMDS = (clsThingPresentationMesh) ((clsThingPresentationMesh) oDS).clone();
+					// not sure why we do that
+					int nInstanceID = oNewInstanceTPMDS.hashCode();
+					oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
 					
-				}
-				// IMPORTANT NOTE: InstanceIDs should only be set outside of the
-				// memory management, but as association to drives has
-				// to be instanciated, instanceIDs are set here. It is only set
-				// for this data structure
-				// Get new instanceID
-				int nInstanceID = oNewInstanceTPMDS.hashCode();
-				oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
-				
-				//Associate Primaryinstance-action with a primaryinstance-object, if applicable
-				for(Object oSlot : poElement.getOwnSlots()) {
-					System.out.println(oSlot.toString());
-				}
-				for(Object oActionElement : getSlotValues("element", poElement)) {
-					if(oActionElement instanceof Instance) {
-						oActionObject = (Instance) oActionElement;
-						
-						initDataStructure(null, oActionObject, poDataContainer);
-						
-						oActionObjectTPM = retrieveDataStructure(oActionObject.getName(), poDataContainer.b);
-						
-						if(oActionObjectTPM instanceof clsThingPresentationMesh) {
-							clsAssociation oAssociation = getNewAssociation(eContentType.ASSOCIATIONPRI, eDataType.ASSOCIATIONPRI, null, oNewInstanceTPMDS, oActionObjectTPM, 1.0);
+					//prepare all new associations for adding to the TPM
+					ArrayList<clsAssociation> oAssociationList = new ArrayList<clsAssociation>();
+					
+					//Associate primary instance-action with a primary instance-object, if applicable
+					for(Object oActionElement : getSlotValues("instance_association", poElement)) {
+						if(oActionElement instanceof Instance) {
+							oActionObject = (Instance) oActionElement;
 							
-							if(oAssociation instanceof clsAssociationPrimary) {
-								oNewInstanceTPMDS.addExternalAssociation(oAssociation);
-//								((clsThingPresentationMesh) oActionObjectTPM).addExternalAssociation(oAssociation);
+							initDataStructure(null, oActionObject, poDataContainer);
+							
+							oActionObjectTPM = retrieveDataStructure(oActionObject.getName(), poDataContainer.b);
+							
+							if(oActionObjectTPM instanceof clsThingPresentationMesh) {
+								clsAssociation oAssociation = getNewAssociation(eContentType.ASSOCIATIONPRI, eDataType.ASSOCIATIONPRI, null, oNewInstanceTPMDS, oActionObjectTPM, 1.0);
+								
+								if(oAssociation instanceof clsAssociationPrimary) {
+//									oNewInstanceTPMDS.addExternalAssociation(oAssociation);
+									oAssociationList.add(oAssociation);
+	//								((clsThingPresentationMesh) oActionObjectTPM).addExternalAssociation(oAssociation);
+								}
 							}
 						}
-						
-						//oNewInstanceTPMDS.addExternalAssociation(oAssociation);
 					}
+					oNewInstanceTPMDS.addInternalAssociations(oAssociationList);
+					poDataContainer.b.put(poElement.getName(), oNewInstanceTPMDS);
 				}
-				
-				// Make this clsDataStructurePA to a TPM
-				oNewInstanceDS = oNewInstanceTPMDS;
-				
-				poDataContainer.b.put(poElement.getName(), oNewInstanceDS);
 			}
+		}catch(NoSuchFieldError e) {
+			log.error("Error loading action instance: " + poElement.getName());
+			log.error(e.getMessage());
+		} catch (CloneNotSupportedException e) {
+			log.error("Error loading action instance: " + poElement.getName());
+			log.error("Could not clone data structure");
+			log.error(e.getMessage());
 		}
-
 	}
 
 	/**
