@@ -244,7 +244,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
             }  
         
         
-        if ((moActionCommand_Input.toString().contains("SPEAK") && ((moWordingToContext.toString().contains("SHARE")))) || ( moActionCommand_Input.toString().contains("GOTO")) && ((moWordingToContext.toString().contains("SHARE")))){
+        if ((moActionCommand_Input.toString().contains("SPEAK") && ((moWordingToContext.toString().contains("EAT")))) || ( moActionCommand_Input.toString().contains("GOTO")) && ((moWordingToContext.toString().contains("EAT")))){
             triggerSpeechShare(moEmotions_Input);
               
             } 

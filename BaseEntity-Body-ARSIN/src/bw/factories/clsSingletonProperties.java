@@ -27,8 +27,8 @@ public class clsSingletonProperties {
 	private boolean mnShowArousalGridPortrayal;
 	private boolean mnShowTPMNetworkGridPortrayal;
 	private boolean mnShowFacialExpressionOverlay;
-	private boolean mnShowExpressionQuestionOverlay;
-	private boolean mnShowSpeechAnswerExpressionOverlay;
+	private boolean mnShowSpeechQuestionOverlay;
+	private boolean mnShowSpeechAnswerOverlay;
 
 	private boolean mnShowLifeIndicator;
 
@@ -43,7 +43,7 @@ public class clsSingletonProperties {
 		mnShowArousalGridPortrayal = false;
 		mnShowTPMNetworkGridPortrayal = false;
 		mnShowFacialExpressionOverlay = false;
-		mnShowExpressionQuestionOverlay = false;
+		mnShowSpeechQuestionOverlay = false;
 		mnShowLifeIndicator =false;
 	}
 	
@@ -114,20 +114,22 @@ public class clsSingletonProperties {
 		clsSingletonMasonGetter.getTPMNodeField().clear();
 	}
 	
-	static public boolean showSpeechAnswerExpressionOverlay() {
-		return (clsSingletonProperties.instance()).mnShowSpeechAnswerExpressionOverlay;
+	static public boolean showSpeechAnswerOverlay() {
+		return (clsSingletonProperties.instance()).mnShowSpeechAnswerOverlay;
 	}
 	
-	static public boolean showExpressionQuestionOverlay() {
-		return (clsSingletonProperties.instance()).mnShowExpressionQuestionOverlay;
-	}
-	static public void setShowExpressionQuestionOverlay(boolean value) {
-		(clsSingletonProperties.instance()).mnShowExpressionQuestionOverlay = value;
+	static public void setShowSpeechAnswerOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowSpeechAnswerOverlay = value;
 	}
 	
-	static public void setShowSpeechAnswerExpressionOverlay(boolean value) {
-		(clsSingletonProperties.instance()).mnShowSpeechAnswerExpressionOverlay = value;
+	static public boolean showSpeechQuestionOverlay() {
+		return (clsSingletonProperties.instance()).mnShowSpeechQuestionOverlay;
 	}
+	static public void setShowSpeechQuestionOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowSpeechQuestionOverlay = value;
+	}
+	
+	
 	
 
 	
