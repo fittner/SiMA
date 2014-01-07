@@ -35,6 +35,7 @@ import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -104,6 +105,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private ArrayList<clsEmotion> moEmotions_Input; 
 	private ArrayList<clsEmotion> moEmotions_Output;
 	
+	private clsWordPresentationMesh moWordingToContext;
+    
 	ArrayList<clsThingPresentationMesh> oListWithNegativeObjects = new ArrayList<clsThingPresentationMesh>();
 	
 	ArrayList<clsThingPresentationMesh> oListWithPositiveObjects = new ArrayList<clsThingPresentationMesh>();
@@ -233,8 +236,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions,
 			                  clsThingPresentationMesh poPerceptionalMesh,
 			                  ArrayList<eEmotionType> poForbiddenEmotions,
-			                  ArrayList<clsEmotion> poEmotions) {
-		
+			                  ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
+	    moWordingToContext = moWordingToContext2;
+	    
 		// clone perceptions
 		try {
 			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
@@ -1026,7 +1030,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	@Override
 	protected void send() {
 		send_I5_15(moPerceptionalMesh_OUT, moEmotions_Output);
-		send_I5_16(moQuotasOfAffect_Output, moEmotions_Output);
+		send_I5_16(moQuotasOfAffect_Output, moEmotions_Output, moWordingToContext);
 	}
 	
 	/* (non-Javadoc)
@@ -1051,9 +1055,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.interfaces.send.I5_16_send#send_I5_16(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions) {
-		((I5_16_receive)moModuleList.get(20)).receive_I5_16(poAffectOnlyList, poEmotions);
-		putInterfaceData(I5_16_send.class, poAffectOnlyList);
+	public void send_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
+		((I5_16_receive)moModuleList.get(20)).receive_I5_16(poAffectOnlyList, poEmotions, moWordingToContext2);
+		putInterfaceData(I5_16_send.class, poAffectOnlyList, moWordingToContext2);
 	}
 
 	/* (non-Javadoc)

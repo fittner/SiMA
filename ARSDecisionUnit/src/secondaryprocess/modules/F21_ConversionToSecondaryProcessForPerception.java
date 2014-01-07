@@ -204,11 +204,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	@Override
 	protected void process_basic() {
 	    log.debug("=== module {} start ===", this.getClass().getName());
-
+	    
 		// --- Update short term memory ---//
 	    ShortTermMemoryFunctionality.createNewMentalSituation(this.moShortTermMemory);
 	    log.debug("Incoming associated images {}", PrintTools.printImagesInMesh(moPerceptionalMesh_IN));//clsMeshTools.getAllTPMImages(moPerceptionalMesh_IN, 5));
-
 		
 		// Search for all images from the primary process in the memory
 		// Input: TPM
@@ -218,8 +217,11 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// 4. For each WPM, search for more SP-WPM-Parts and connect them
 		// 5. Within the WPM-Structure, the allocation of images to acts is
 		// already done. Each image except the PI
+	    //long start = System.currentTimeMillis();
 		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = DataStructureConversion.getWordPresentationsForImages(this.getLongTermMemory(), moPerceptionalMesh_IN);
 
+		//System.out.println("Time2: " + (System.currentTimeMillis()- start));
+		
 		log.info("Perceived Image: " + oWPMConstruct.a);
 		log.info("Found Acts:" + oWPMConstruct.b);
 		

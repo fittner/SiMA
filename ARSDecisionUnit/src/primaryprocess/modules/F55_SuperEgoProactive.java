@@ -23,6 +23,7 @@ import modules.interfaces.I5_5_send;
 import modules.interfaces.eInterfaces;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
+import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
@@ -54,6 +55,8 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
+	private clsWordPresentationMesh moWordingToContext;
+    
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
@@ -307,7 +310,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	@Override
 	protected void send() {
 		send_I5_5(new ArrayList<clsDriveMesh>());
-		send_I5_12(moDrives_Output, moEmotions_Input);
+		send_I5_12(moDrives_Output, moEmotions_Input, moWordingToContext);
 		send_I5_14(new ArrayList<clsDriveMesh>());
 	}
 
@@ -371,11 +374,11 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_12(
-			ArrayList<clsDriveMesh> poDrives, ArrayList<clsEmotion> poEmotions) {
+			ArrayList<clsDriveMesh> poDrives, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
 		
-		((I5_12_receive)moModuleList.get(7)).receive_I5_12(poDrives, poEmotions);
+		((I5_12_receive)moModuleList.get(7)).receive_I5_12(poDrives, poEmotions, moWordingToContext2);
 		
-		putInterfaceData(I5_12_send.class, poDrives, poEmotions);
+		putInterfaceData(I5_12_send.class, poDrives, poEmotions, moWordingToContext2);
 	}
 
 	/* (non-Javadoc)
@@ -416,8 +419,11 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_21(ArrayList<clsEmotion> poEmotions) {
-		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions); 
+	public void receive_I5_21(ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
+		
+	    moWordingToContext = moWordingToContext2;
+	    
+	    moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions); 
 		
 	}
 

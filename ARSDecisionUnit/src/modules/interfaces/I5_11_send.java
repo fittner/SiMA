@@ -12,6 +12,7 @@ import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 
 /**
@@ -22,5 +23,7 @@ import base.datatypes.helpstructures.clsPair;
  * 
  */
 public interface I5_11_send {
-	public void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh, ArrayList<eEmotionType> poForbiddenEmotions, ArrayList<clsEmotion> poEmotions);
+	public 
+    void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh,
+            ArrayList<eEmotionType> poForbiddenEmotions, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2);
 }

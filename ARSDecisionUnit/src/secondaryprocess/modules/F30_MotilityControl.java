@@ -233,16 +233,18 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	    clsWordPresentationMesh externalActionCommand = PlanningFunctionality.getActionOfType(moActionCommand_Input, eActionType.SINGLE_EXTERNAL);
 	   
 	    //SPEECH from F66
-	    if (moActionCommand_Input.toString().contains("FOCUS") && moWordingToContext.toString().contains("SHARE")){
-	        triggerSpeechShare(moEmotions_Input);
-	          
-	        }   
-	    
-	    if (moActionCommand_Input.toString().contains("FOCUS") && moWordingToContext.toString().contains("YES")){
+ 
+        
+        if ((moActionCommand_Input.toString().contains("SPEAK") && ((moWordingToContext.toString().contains("YES")))) || ( moActionCommand_Input.toString().contains("GOTO")) && ((moWordingToContext.toString().contains("YES")))){
             triggerSpeechYes(moEmotions_Input);
               
+            }  
+        
+        
+        if ((moActionCommand_Input.toString().contains("SPEAK") && ((moWordingToContext.toString().contains("SHARE")))) || ( moActionCommand_Input.toString().contains("GOTO")) && ((moWordingToContext.toString().contains("SHARE")))){
+            triggerSpeechShare(moEmotions_Input);
+              
             } 
-      
 	   
         /*if (moActionCommand_Input.toString().contains("FOCUS") && moWordingToContext.toString().contains("INVITED")){
             triggerSpeechInvite(moEmotions_Input);
@@ -357,10 +359,12 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 			//when there are no actions, we do nothing
 		//}
 	    
-	    log.info("Predicted Speech Output based on F66: ", moWordingToContext.toString());
-	    log.debug("Sprachausgabe: {}", moWordingToContext);
-	    log.info(moActionCommands_Output.toString());
-	}
+	    
+        log.info("Predicted Speech Output based on F66: {}", moWordingToContext );
+        //log.info("Sprachausgabe: {}", moWordingToContext);
+        log.info(moActionCommands_Output.toString());
+        log.info("Action: {}", moActionCommand_Input);
+    }
 	
 	
 	

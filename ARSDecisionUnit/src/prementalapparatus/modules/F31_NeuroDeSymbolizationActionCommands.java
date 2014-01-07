@@ -376,7 +376,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if (oAction.equals(eAction.PICK_UP.toString())) {
 					moActionCommandList_Output.add( new clsActionPickUp() );
 				} else if (oAction.equals(eAction.SPEAK_EAT.toString())) {
-                    moActionCommandList_Output.add( new clsActionSpeech(moAbstractSpeech) );
+                    moActionCommandList_Output.add( new clsActionSpeech<clsWordPresentationMesh>(moWordingToContext) );
 				}
 				
 				else {

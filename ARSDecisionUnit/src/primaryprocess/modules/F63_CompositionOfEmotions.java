@@ -28,6 +28,7 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
@@ -86,6 +87,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	private double mrPerceptionPleasureImpactFactor;
 	private double mrPerceptionUnpleasureImpactFactor;
 	
+	private clsWordPresentationMesh moWordingToContext;
+    
 	double mrGrade = 0;
 	
 	
@@ -493,7 +496,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I5_21(moEmotions_OUT);
+		send_I5_21(moEmotions_OUT, moWordingToContext);
 	}
 
 	/* (non-Javadoc)
@@ -551,8 +554,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_10_receive#receive_I5_10(pa._v38.memorymgmt.datatypes.clsThingPresentationMesh)
 	 */
 	@Override
-	public void receive_I5_10(clsThingPresentationMesh poPerceptionalMesh) {
-		try {
+	public void receive_I5_10(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
+	    moWordingToContext = moWordingToContext2;
+	    try {
 			moPerceptions_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (muchitsch) - Auto-generated catch block
@@ -581,8 +585,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_21_send#send_I5_21(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_21(ArrayList<clsEmotion> poEmotions) {
-		((I5_21_receive)moModuleList.get(55)).receive_I5_21(poEmotions);
+	public void send_I5_21(ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
+		((I5_21_receive)moModuleList.get(55)).receive_I5_21(poEmotions, moWordingToContext2);
 		
 	}
 

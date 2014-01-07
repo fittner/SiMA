@@ -15,6 +15,7 @@ import modules.interfaces.I5_10_send;
 import modules.interfaces.I5_9_receive;
 import modules.interfaces.eInterfaces;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
@@ -40,7 +41,8 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
-
+	private clsWordPresentationMesh moWordingToContext;
+    
 	/**
 	 * F18_CompositionOfAffectsForPerception - merge all DMs by type comparison
 	 * 
@@ -168,7 +170,7 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 	 */
 	@Override
 	protected void send() {
-		send_I5_10(moPerceptionalMesh_OUT);
+		send_I5_10(moPerceptionalMesh_OUT, moWordingToContext);
 	}
 
 	/* (non-Javadoc)
@@ -179,9 +181,9 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 	 * @see pa.interfaces.send.I2_9_send#send_I2_9(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_10(clsThingPresentationMesh poPerceptionalMesh) {
-		((I5_10_receive)moModuleList.get(7)).receive_I5_10(poPerceptionalMesh);
-		((I5_10_receive)moModuleList.get(63)).receive_I5_10(poPerceptionalMesh);
+	public void send_I5_10(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
+		((I5_10_receive)moModuleList.get(7)).receive_I5_10(poPerceptionalMesh, moWordingToContext2);
+		((I5_10_receive)moModuleList.get(63)).receive_I5_10(poPerceptionalMesh, moWordingToContext2);
 		
 		putInterfaceData(I5_10_send.class, poPerceptionalMesh);
 	}
@@ -234,8 +236,10 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_9(clsThingPresentationMesh poPerceptionalMesh) {
-		try {
+	public void receive_I5_9(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
+	    moWordingToContext =  moWordingToContext2;
+	    
+	    try {
 			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
 			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {

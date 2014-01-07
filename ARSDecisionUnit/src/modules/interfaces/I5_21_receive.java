@@ -9,6 +9,7 @@ package modules.interfaces;
 import java.util.ArrayList;
 
 import base.datatypes.clsEmotion;
+import base.datatypes.clsWordPresentationMesh;
 
 
 /**
@@ -19,6 +20,6 @@ import base.datatypes.clsEmotion;
  * 
  */
 public interface I5_21_receive {
-	public void receive_I5_21(ArrayList<clsEmotion> poEmotions);
+	public void receive_I5_21(ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2);
 }
 

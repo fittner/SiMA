@@ -27,8 +27,8 @@ public class clsSingletonProperties {
 	private boolean mnShowArousalGridPortrayal;
 	private boolean mnShowTPMNetworkGridPortrayal;
 	private boolean mnShowFacialExpressionOverlay;
-	private boolean mnShowThoughtExpressionOverlay;
-	private boolean mnShowSpeechExpressionOverlay;
+	private boolean mnShowExpressionQuestionOverlay;
+	private boolean mnShowSpeechAnswerExpressionOverlay;
 
 	private boolean mnShowLifeIndicator;
 
@@ -43,7 +43,7 @@ public class clsSingletonProperties {
 		mnShowArousalGridPortrayal = false;
 		mnShowTPMNetworkGridPortrayal = false;
 		mnShowFacialExpressionOverlay = false;
-		mnShowThoughtExpressionOverlay = false;
+		mnShowExpressionQuestionOverlay = false;
 		mnShowLifeIndicator =false;
 	}
 	
@@ -114,19 +114,19 @@ public class clsSingletonProperties {
 		clsSingletonMasonGetter.getTPMNodeField().clear();
 	}
 	
-	static public boolean showSpeechExpressionOverlay() {
-		return (clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay;
+	static public boolean showSpeechAnswerExpressionOverlay() {
+		return (clsSingletonProperties.instance()).mnShowSpeechAnswerExpressionOverlay;
 	}
 	
-	static public boolean showThoughtExpressionOverlay() {
-		return (clsSingletonProperties.instance()).mnShowThoughtExpressionOverlay;
+	static public boolean showExpressionQuestionOverlay() {
+		return (clsSingletonProperties.instance()).mnShowExpressionQuestionOverlay;
 	}
-	static public void setShowThoughtExpressionOverlay(boolean value) {
-		(clsSingletonProperties.instance()).mnShowThoughtExpressionOverlay = value;
+	static public void setShowExpressionQuestionOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowExpressionQuestionOverlay = value;
 	}
 	
-	static public void setShowSpeechExpressionOverlay(boolean value) {
-		(clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay = value;
+	static public void setShowSpeechAnswerExpressionOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowSpeechAnswerExpressionOverlay = value;
 	}
 	
 
