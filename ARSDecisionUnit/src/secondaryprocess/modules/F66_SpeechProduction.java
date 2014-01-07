@@ -72,7 +72,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     private ArrayList<clsAssociation> moExternalAssociatedContent;
     private clsWordPresentationMesh moContext;
     private clsWordPresentationMesh moWording_Invited;
-    private clsWordPresentationMesh moWording_Share;
+    private clsWordPresentationMesh moWording_Eat;
     private clsWordPresentationMesh moWording_Yes;
     private clsWordPresentationMesh moWordingToContext_OUT;
     private ArrayList<clsEmotion> moEmotions_Input;
@@ -183,53 +183,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
        // this.moShortTermMemory.saveToShortTimeMemory(moConcept.returnContent());
         
-        moExternalAssociatedContent = moPerceptionalMesh_IN.getExternalAssociatedContent();
-
-        moPerceptionalMesh_IN.getExternalAssociatedContent();
-
-        clsAssociation element;
-        String elementnew;
-
-        element = moExternalAssociatedContent.get(0);
-        element.getAssociationElementB();
-        elementnew = element.getAssociationElementB().toString();
-
-        moContext = new clsConcept().moWording;
-        
-        if (moWordingToContext_OUT == null) {
-            moWordingToContext_OUT = moContext;
-        }
-                
-        
-        
-
-        /*if (elementnew.contains("PLANT(LEFT:MEDIUM)")) {
-           // triggerSpeech_eat(moEmotions_Input); // Yes ?
-            moWording_Yes = new clsConcept().moWording_Yes;
-            moWordingToContext_OUT = moWording_Yes;
-        }*/
-        
-        // Scenario 1 Step 15
-        if (elementnew.contains("BODO(RIGHT:MEDIUM)")) {
-           // triggerSpeech_schnitzel(moEmotions_Input); // share?
-            moWording_Yes = new clsConcept().moWording_Yes;
-            moWordingToContext_OUT = moWording_Yes;
-          }
-        
-        // Scenario 1 Step 7
-        if (elementnew.contains("WALL(RIGHT:NEAR)")) {
-            
-            //triggerSpeech_schnitzel(moEmotions_Input); // share?
-            moWording_Share = new clsConcept().moWording_Share;
-            moWordingToContext_OUT = moWording_Share;
-        }
-        
-       /* if (elementnew.contains("CAKE")) {
-            // triggerSpeech_schnitzel(moEmotions_Input); // Share?
-            moWording_Yes = new clsConcept().moWording_Yes;
-            moWordingToContext_OUT = moWording_Yes;
-         }*/
-       
+        getWordingFromContext();
         
         
         moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
@@ -252,6 +206,67 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     }
 
   
+    /**
+     * DOCUMENT - insert description
+     *
+     * @author hinterleitner
+     * @since 07.01.2014 19:30:57
+     *
+     */
+    private void getWordingFromContext() {
+        moExternalAssociatedContent = moPerceptionalMesh_IN.getExternalAssociatedContent();
+
+        moPerceptionalMesh_IN.getExternalAssociatedContent();
+
+        clsAssociation element;
+        String elementnew;
+
+        element = moExternalAssociatedContent.get(0);
+        element.getAssociationElementB();
+        elementnew = element.getAssociationElementB().toString();
+
+        
+        moContext = new clsConcept().moWording;
+        
+        if (moWordingToContext_OUT == null) {
+            moWordingToContext_OUT = moContext;
+        }
+                
+        
+
+        if (elementnew.contains("STONE(CENTER:MEDIUM)")) {
+           // triggerSpeech_eat(moEmotions_Input); // Yes ?
+            moWording_Eat = new clsConcept().moWording_Eat;
+            moWordingToContext_OUT = moWording_Eat;
+        }
+        
+        // Scenario 1 Step 15
+        if (elementnew.contains("BODO(RIGHT:MEDIUM)")) {
+           // triggerSpeech_schnitzel(moEmotions_Input); // share?
+            moWording_Yes = new clsConcept().moWording_Yes;
+            moWordingToContext_OUT = moWording_Yes;
+          }
+        
+        // Scenario 1 Step 7
+        if (elementnew.contains("WALL(RIGHT:NEAR)")) {
+            
+            //triggerSpeech_schnitzel(moEmotions_Input); // share?
+            moWording_Eat = new clsConcept().moWording_Eat;
+            moWordingToContext_OUT = moWording_Eat;
+        }
+        
+       /* if (elementnew.contains("CAKE")) {
+            // triggerSpeech_schnitzel(moEmotions_Input); // Share?
+            moWording_Yes = new clsConcept().moWording_Yes;
+            moWordingToContext_OUT = moWording_Yes;
+         }*/
+       
+        
+        
+
+        
+    }
+
     @Override
     protected void process_draft() {
         // TODO (zeilinger) - Auto-generated method stub

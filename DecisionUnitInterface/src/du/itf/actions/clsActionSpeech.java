@@ -29,12 +29,20 @@ public class clsActionSpeech<clsWordPresentationMesh> extends clsActionCommand {
 	     
 	    New_Wording = moWording.toString();
 	    
-	    if (New_Wording.equals("::CONCEPT::1:SPEAK_YES:")){
+	    if (New_Wording.contains("::CONCEPT::1:SPEAK_YES:")){
 	    	New_Wording_shown  = "Speak_Yes";
 	    }
 	    
-	    if (New_Wording.equals("::CONCEPT::1:SPEAK_SHARE:")){
-	    	New_Wording_shown  = "Speak_Share";
+	    if (New_Wording.contains("::CONCEPT::1:SPEAK_EAT:")){  
+	    	New_Wording_shown  = "Speak_Eat";
+	    }
+	    
+	    if (New_Wording.contains("::CONCEPT::1:SPEAK_INVITED:")){
+	    	New_Wording_shown  = "Speak_Invited";
+	    }
+	    
+	    if (New_Wording.contains("::CONCEPT::1:SPEAK_KNOWN:")){
+	    	New_Wording_shown  = "Speak_Known";
 	    }
 	}
 	

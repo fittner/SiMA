@@ -228,6 +228,9 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	 */
 	@Override
 	protected void process_basic() {
+	    
+	    
+	    
 	    //Get the action if it is not an internal action
 	    moActionCommands_Output = new ArrayList<clsWordPresentationMesh>();
 	    clsWordPresentationMesh externalActionCommand = PlanningFunctionality.getActionOfType(moActionCommand_Input, eActionType.SINGLE_EXTERNAL);

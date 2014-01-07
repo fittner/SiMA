@@ -55,6 +55,7 @@ public enum eContentType {
     SPEAK,
     SPEAK_SHARE,
     SPEAK_YES,
+    SPEAK_EAT,
     SPEAK_INVITED,
     
 	//--- Goals ---//
