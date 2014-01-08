@@ -192,9 +192,6 @@ public class clsOntologyLoader {
 			Instance poRootElement,
 			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
 		switch (poDataType) {
-		case ACT:
-			createACT(poRootElement, poElement, poDataContainer);
-			break;
 		case AFFECT:
 			createAFFECT(poRootElement, poElement, poDataContainer);
 			break;
@@ -772,9 +769,6 @@ public class clsOntologyLoader {
 			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
 		
 		try {
-			Instance oActionObject = null;
-			clsDataStructurePA oActionObjectTPM = null;
-			
 			// Get the instance type of the action instance (which type of action is it, e.g. EAT)
 			Instance oInstanceOfType = (Instance) poElement
 					.getOwnSlotValue(poDataContainer.a.getSlot("instance_type"));
@@ -787,7 +781,6 @@ public class clsOntologyLoader {
 					oInstanceOfType.getName(), poDataContainer.b);
 	
 			// make a deepcopy of the data structure in order to get new association id's
-			clsDataStructurePA oNewInstanceDS = null;
 			if (oDS != null) {
 				if (oDS instanceof clsThingPresentationMesh) {
 					clsThingPresentationMesh oNewInstanceTPMDS = null;
@@ -795,32 +788,50 @@ public class clsOntologyLoader {
 					// not sure why we do that
 					int nInstanceID = oNewInstanceTPMDS.hashCode();
 					oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
+					oNewInstanceTPMDS.setMoContentType(eContentType.ACTIONINSTANCE);
 					
-					//prepare all new associations for adding to the TPM
-					ArrayList<clsAssociation> oAssociationList = new ArrayList<clsAssociation>();
+					poDataContainer.b.put(poElement.getName(), oNewInstanceTPMDS);
 					
-					//Associate primary instance-action with a primary instance-object, if applicable
-					for(Object oActionElement : getSlotValues("instance_association", poElement)) {
-						if(oActionElement instanceof Instance) {
-							oActionObject = (Instance) oActionElement;
-							
-							initDataStructure(null, oActionObject, poDataContainer);
-							
-							oActionObjectTPM = retrieveDataStructure(oActionObject.getName(), poDataContainer.b);
-							
-							if(oActionObjectTPM instanceof clsThingPresentationMesh) {
-								clsAssociation oAssociation = getNewAssociation(eContentType.ASSOCIATIONPRI, eDataType.ASSOCIATIONPRI, null, oNewInstanceTPMDS, oActionObjectTPM, 1.0);
-								
-								if(oAssociation instanceof clsAssociationPrimary) {
-//									oNewInstanceTPMDS.addExternalAssociation(oAssociation);
-									oAssociationList.add(oAssociation);
-	//								((clsThingPresentationMesh) oActionObjectTPM).addExternalAssociation(oAssociation);
+					// As drive meshes are no intrinsic data structures and are
+					// bound to the type, they have to be cloned as well
+					// and the cloned associations have to be assigned the new
+					// PRIInstances
+
+					// Get associated drive meshes
+					ArrayList<clsAssociationDriveMesh> oDMAssList = new ArrayList<clsAssociationDriveMesh>();
+					Collection<clsDataStructurePA> oValueList = poDataContainer.b.values();
+
+					for (clsDataStructurePA oStructure : oValueList) {
+						if ((oStructure instanceof clsAssociationDriveMesh)) {
+							clsAssociationDriveMesh oOriginalAssDM = (clsAssociationDriveMesh) oStructure;
+							// If the rootelement of a DM-Ass is the original data
+							// structure (e. g. EAT)
+							if (oOriginalAssDM.getRootElement() == oDS) {
+								// For each found AssociationDriveMesh for that
+								// structure, create a clone and change the root
+								// element
+								try {
+									clsAssociationDriveMesh oNewAssDM = (clsAssociationDriveMesh) oOriginalAssDM.clone();
+									// In this case, the Root element is B.
+									// Therefore, set be
+									oNewAssDM.setAssociationElementB(oNewInstanceTPMDS);
+									oDMAssList.add(oNewAssDM);
+								} catch (CloneNotSupportedException e) {
+									log.error("Error in clsOntologyLoader.java in createPRIINSTANCE: oNewAssDM could not be cloned", e);
+									//e.printStackTrace();
 								}
 							}
 						}
 					}
-					oNewInstanceTPMDS.addInternalAssociations(oAssociationList);
-					poDataContainer.b.put(poElement.getName(), oNewInstanceTPMDS);
+
+					int i = 0;
+					for (clsAssociationDriveMesh oAssDM : oDMAssList) {
+						// It would be better to create a real name as hash key.
+						String oName = poElement.getName() + ":DM:NO" + i;
+						poDataContainer.b.put(oName, oAssDM); // Add the new
+																// association
+						i++;
+					}
 				}
 			}
 		}catch(NoSuchFieldError e) {
@@ -830,71 +841,6 @@ public class clsOntologyLoader {
 			log.error("Error loading action instance: " + poElement.getName());
 			log.error("Could not clone data structure");
 			log.error(e.getMessage());
-		}
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * 
-	 * @author zeilinger 22.06.2010, 17:11:56
-	 * 
-	 * @param poDataElements
-	 * @param poFrameKB
-	 * @param poDataStructurePA
-	 */
-	private static void createACT(
-			Instance poRootElement,
-			Instance poElement,
-			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
-
-		eDataType oElType = eDataType.ACT;
-		int oID = DS_ID++;
-		eContentType oElValType = eContentType.valueOf((String) poElement
-				.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
-		String oElVal = (String) poElement.getOwnSlotValue(poDataContainer.a
-				.getSlot("value"));
-		Collection<?> oPreCon = getSlotValues("precondition", poElement);
-		Collection<?> oAction = getSlotValues("action", poElement);
-		Collection<?> oConseq = getSlotValues("consequence", poElement);
-		clsWordPresentation oDS = null;
-		clsAct oAct = new clsAct(
-				new clsTriple<Integer, eDataType, eContentType>(oID, oElType,
-						oElValType),
-				new ArrayList<clsSecondaryDataStructure>(), oElVal);
-
-		poDataContainer.b.put(poElement.getName(), oAct);
-
-		oAct.setContent(oAct.getContent() + "|PRECONDITION|");
-
-		for (Object oElement : oPreCon) {
-			initDataStructure(null, (Instance) oElement, poDataContainer);
-			oDS = (clsWordPresentation) retrieveDataStructure(
-					((Instance) oElement).getName(), poDataContainer.b);
-			oAct.getMoAssociatedContent().add(oDS);
-			oAct.setContent(oAct.getContent() + oDS.getContentType()
-					+ ":" + oDS.getContent() + "|");
-		}
-
-		oAct.setContent(oAct.getContent() + "|ACTION|");
-
-		for (Object oElement : oAction) {
-			initDataStructure(null, (Instance) oElement, poDataContainer);
-			oDS = (clsWordPresentation) retrieveDataStructure(
-					((Instance) oElement).getName(), poDataContainer.b);
-			oAct.getMoAssociatedContent().add(oDS);
-			oAct.setContent(oAct.getContent() + oDS.getContentType()
-					+ ":" + oDS.getContent() + "|");
-		}
-
-		oAct.setContent(oAct.getContent() + "|CONSEQUENCE|");
-
-		for (Object oElement : oConseq) {
-			initDataStructure(null, (Instance) oElement, poDataContainer);
-			oDS = (clsWordPresentation) retrieveDataStructure(
-					((Instance) oElement).getName(), poDataContainer.b);
-			oAct.getMoAssociatedContent().add(oDS);
-			oAct.setContent(oAct.getContent() + oDS.getContentType()
-					+ ":" + oDS.getContent() + "|");
 		}
 	}
 
