@@ -5,11 +5,11 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
-	<classpathentry kind="lib" path="/Libraries/jcommon-1.0.14.jar"/>
-	<classpathentry kind="lib" path="/Libraries/jfreechart-1.0.11.jar"/>
-	<classpathentry kind="lib" path="/Libraries/jgraphx.jar"/>
-	<classpathentry kind="lib" path="/Libraries/l2fprod-common-all.jar"/>
-	<classpathentry kind="lib" path="/Libraries/mason.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSDecisionUnit"/>
+	<classpathentry kind="lib" path="/libraries/jcommon-1.0.14.jar"/>
+	<classpathentry kind="lib" path="/libraries/jfreechart-1.0.11.jar"/>
+	<classpathentry kind="lib" path="/libraries/jgraphx.jar"/>
+	<classpathentry kind="lib" path="/libraries/l2fprod-common-all.jar"/>
+	<classpathentry kind="lib" path="/libraries/mason.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

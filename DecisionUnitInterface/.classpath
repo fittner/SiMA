@@ -3,9 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
-	<classpathentry kind="lib" path="/Libraries/j3dcore.jar"/>
-	<classpathentry kind="lib" path="/Libraries/j3dutils.jar"/>
-	<classpathentry kind="lib" path="/Libraries/mason.jar"/>
-	<classpathentry kind="lib" path="/Libraries/vecmath.jar"/>
+	<classpathentry kind="lib" path="/libraries/j3dcore.jar"/>
+	<classpathentry kind="lib" path="/libraries/j3dutils.jar"/>
+	<classpathentry kind="lib" path="/libraries/mason.jar"/>
+	<classpathentry kind="lib" path="/libraries/vecmath.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
