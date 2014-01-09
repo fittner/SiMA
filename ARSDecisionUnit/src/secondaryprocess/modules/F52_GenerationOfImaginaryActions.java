@@ -201,7 +201,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		PlanningFunctionality.generatePlanForGoals(this.moDecisionEngine, this.moGoalList_IN);
 		
-		CalculateTotalEffortOfSpeech(); 
+		String GoalString;
+		
+		GoalString = this.moGoalList_IN.toString();
+		
+		if   (GoalString.contains("A07_SPEAK_EAT")){
+		    
+		    CalculatePossibleWordingsBasedOnContext(); 
+		    
+		}
+		
+		
+		
 		
 
 //		if (m_bUseDraftPlanning) {
@@ -311,24 +322,24 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
  * @since 07.01.2014 19:32:53
  *
  */
-private void CalculateTotalEffortOfSpeech() {
+private void        CalculatePossibleWordingsBasedOnContext() {
   //based on preselected speech statement it is decided what can actually spoken 
     if (moWordingToContext.toString().contains("EAT")) {
-    EffortOfSpeech = CalculateEffortOfSpeechActual(eSpeech.SPEAK_EAT);
+    EffortOfSpeech = CalculatePossibleSpeechStatements(eSpeech.SPEAK_EAT);
    
     }
     
     if (moWordingToContext.toString().contains("YES")) {
-    EffortOfSpeech = CalculateEffortOfSpeechActual(eSpeech.SPEAK_YES);
+    EffortOfSpeech = CalculatePossibleSpeechStatements(eSpeech.SPEAK_YES);
     }
     
     //Is not working yet
     if (moWordingToContext.toString().contains("KNOWN")) {
-        EffortOfSpeech = CalculateEffortOfSpeechActual(eSpeech.SPEAK_KNOWN);
+        EffortOfSpeech = CalculatePossibleSpeechStatements(eSpeech.SPEAK_KNOWN);
         }
         
     if (moWordingToContext.toString().contains("INVITED")) {
-        EffortOfSpeech = CalculateEffortOfSpeechActual(eSpeech.SPEAK_INVITED);
+        EffortOfSpeech = CalculatePossibleSpeechStatements(eSpeech.SPEAK_INVITED);
         }
         
   
@@ -342,7 +353,7 @@ private void CalculateTotalEffortOfSpeech() {
  *
  * @param moWordingToContext2
  */
-private static String CalculateEffortOfSpeechActual(eSpeech moWordingToContext2) {
+private static String CalculatePossibleSpeechStatements(eSpeech moWordingToContext2) {
     
     String oActionCondition = "";
     
