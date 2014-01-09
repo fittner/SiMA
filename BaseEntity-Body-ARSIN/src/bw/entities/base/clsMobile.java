@@ -7,12 +7,10 @@
  */
 package bw.entities.base;
 
-import javax.media.j3d.TransformGroup;
 
 import config.clsProperties;
 import bw.entities.tools.clsInventory;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.clsShape3DCreator;
 import bw.factories.clsRegisterEntity;
 import bw.inspector.interfaces.itfEntityInspectorFactory;
 //import bw.utils.inspectors.entity.clsInspectorBasic;
@@ -111,9 +109,6 @@ public abstract class clsMobile extends clsEntity {
 		String oDefaultShape = poProp.getPropertyString(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE);
 		Shape oShape2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
 		
-		TransformGroup oShape3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
-		set3DShape(oShape3D);
-
 		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), oVelocity, oShape2D, getTotalWeight());
 		
 		

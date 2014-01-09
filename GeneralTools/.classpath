@@ -6,8 +6,6 @@
 	<classpathentry kind="lib" path="/libraries/slf4j-1.7.5/slf4j-api-1.7.5.jar"/>
 	<classpathentry kind="lib" path="/libraries/slf4j-1.7.5/slf4j-log4j12-1.7.5.jar"/>
 	<classpathentry kind="lib" path="/libraries/itext-1.2.jar"/>
-	<classpathentry kind="lib" path="/libraries/j3dcore.jar"/>
-	<classpathentry kind="lib" path="/libraries/j3dutils.jar"/>
 	<classpathentry kind="lib" path="/libraries/jansi-1.9.jar"/>
 	<classpathentry kind="lib" path="/libraries/mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="/libraries/mason.jar"/>

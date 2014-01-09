@@ -7,19 +7,6 @@ package creation.simplePropertyLoader;
 
 import java.awt.Color;
 
-import com.sun.j3d.utils.geometry.Box;
-import com.sun.j3d.utils.universe.SimpleUniverse;
-
-import javax.media.j3d.AmbientLight;
-import javax.media.j3d.Appearance;
-import javax.media.j3d.BoundingSphere;
-import javax.media.j3d.BranchGroup;
-import javax.media.j3d.Material;
-import javax.media.j3d.Transform3D;
-import javax.vecmath.AxisAngle4f;
-import javax.vecmath.Color3f;
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
 
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.interfaces.itfSearchSpaceAccess;
@@ -53,14 +40,12 @@ import bw.entities.tools.eImagePositioning;
 import bw.ARSIN.factory.clsARSINFactory;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
-import bw.factories.clsSingletonProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 import bw.utils.inspectors.entity.clsInspectorEntity;
 import sim.clsSimLogger;
 import sim.engine.SimState;
-import statictools.cls3DUniverse;
 import statictools.clsGetARSPath;
 import statictools.clsUniqueIdGenerator;
 
@@ -128,59 +113,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 	 */
 	public clsSimplePropertyLoader(SimState poSimState, clsProperties poProperties) {
 		super(poSimState, poProperties);
-		applyProperties(getPrefix(), getProperties());
-		
-		//this boolean prevents opening the 3D frame, as the static cls3DUniverse opens it if not there CM
-		if(clsSingletonProperties.use3DPerception())
-		{
-			setup3Dworld();
-		}
-		
+		applyProperties(getPrefix(), getProperties());		
     }
-
-	
-	private Box getFloorPane() {
-		Color3f c3f = new Color3f(Color.white);
-		Appearance ap = new Appearance();
-        ap.setMaterial(new Material(c3f, c3f, c3f, c3f, 1.0f));
-		
-		Box b = new Box(1000, 1000, 0, ap);
-		return b;
-	}
-	
-	private AmbientLight getLighting() {
-		   BoundingSphere bounds = new BoundingSphere(new Point3d(0.0,0.0,0.0), 10000.0);
-		   AmbientLight ambientLight = new AmbientLight(new Color3f(1.0f,1.0f,1.0f));
-		   ambientLight.setInfluencingBounds(bounds);
-		   return ambientLight;
-	}
-	
-	private void setViewPane(SimpleUniverse universe) {
-		float x=0;
-		float y=-50;
-		float z=10f;
-		Transform3D t3d = new Transform3D();
-		t3d.setTranslation(new Vector3d(x, y, z));
-		t3d.setRotation(new AxisAngle4f(1,0,0, (float) (Math.PI/2.0)));
-		universe.getViewingPlatform().getViewPlatformTransform().setTransform(t3d);
-		//   universe.getViewingPlatform().setNominalViewingTransform();
-	}
-	
-	private void setup3Dworld() {
-		SimpleUniverse universe = cls3DUniverse.getSimpleUniverse();
-		// set looking direction
-		setViewPane(universe);
-
-		// Create a structure to contain objects
-		BranchGroup groupBasics = new BranchGroup();
-		// Create lights
-		groupBasics.addChild(getLighting());
-		// create the floor
-		groupBasics.addChild(getFloorPane());
-		// add the group of objects to the Universe
-		 universe.addBranchGraph(groupBasics);		
-	}
-
 	
     /**
      * Applies the provided properties and creates all instances of various member variables.
