@@ -11,8 +11,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.media.j3d.BranchGroup;
-import javax.media.j3d.TransformGroup;
 
 import bw.body.clsBaseBody;
 
@@ -32,7 +30,6 @@ import du.enums.eOdor;
 import du.enums.eSpeechExpression;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
-import statictools.cls3DUniverse;
 
 import statictools.clsSimState;
 import statictools.eventlogger.Event;
@@ -102,7 +99,6 @@ public abstract class clsEntity implements itfGetBody {
 	private ArrayList<clsAction> moExecutedActions;
 		
 	
-	private BranchGroup shapes3D; 
 	public abstract void registerEntity();
 	//public abstract void addEntityInspector(TabbedInspector poTarget, Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity);
 	
@@ -120,7 +116,6 @@ public abstract class clsEntity implements itfGetBody {
 		mnCurrentThoughtExpressionOverlay = eSpeechExpression.NONE;
 		setEntityType();
 		moPhysicalObject2D = null;
-		shapes3D = null;
 		
 		moExecutedActions= new ArrayList<clsAction>();
 		
@@ -325,23 +320,6 @@ public abstract class clsEntity implements itfGetBody {
 	 */
 	public void setPose(clsPose poPose) {
 		((itfSetupFunctions)moPhysicalObject2D).setPose(poPose);
-		
-		if (shapes3D != null) {
-/*			
-			for (int i=0; i<shapes3D.numChildren(); i++) {
-				TransformGroup oTG = (TransformGroup) shapes3D.getChild(i);
-				
-				Vector3f v = new Vector3f((float)poPose.getPosition().x, (float)poPose.getPosition().y, 0);
-				AxisAngle4f a = new AxisAngle4f(0,0,1, (float)poPose.getAngle().radians);
-				
-				Transform3D tr = new Transform3D();
-				tr.setTranslation(v);
-				tr.setRotation(a);
-				   
-//				oTG.setTransform(tr); //FIXME - ERROR
-			}
-*/			
-		}
 	}
 	
 	public clsPose getPose() {
@@ -364,33 +342,7 @@ public abstract class clsEntity implements itfGetBody {
 			((itfSetupFunctions)moPhysicalObject2D).setShape(poShape, poMass);
 		}
 	}
-	
-	public void set3DShape(TransformGroup poShape) {
-		//this boolean prevents opening the 3D frame, as the static cls3DUniverse opens it if not there CM
-		if(clsSingletonProperties.use3DPerception())
-		{
-			if (shapes3D != null) {
-				try {
-					shapes3D.detach(); //remove previous shape(s)!
-				} catch (javax.media.j3d.CapabilityNotSetException e) {
-					
-				}
-			}
-			
-			if (poShape != null) { // add new shape(s)
-				shapes3D = new BranchGroup();
-				
-				//encapsulate all entity related shapes in a transformgroup.
-	//			TransformGroup oTG = new TransformGroup();
-	//			oTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ | TransformGroup.ALLOW_TRANSFORM_WRITE);
-	//			oTG.addChild(poShape);
-	//			shapes3D.addChild(oTG);
-				
-				shapes3D.addChild(poShape);
-				cls3DUniverse.getSimpleUniverse().addBranchGraph(shapes3D);
-			}
-		}
-	}
+
 	
 	/**
 	 * see implementation clsMobileObject2D

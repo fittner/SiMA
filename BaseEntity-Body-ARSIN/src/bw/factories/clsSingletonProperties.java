@@ -22,7 +22,6 @@ public class clsSingletonProperties {
 	private clsProperties moSystemProperties;
 	private boolean mnDrawImages;
 	private boolean mnDrawSensors;
-	private boolean mnUse3DPerception;
 	private boolean mnUseLogger;
 	private boolean mnShowArousalGridPortrayal;
 	private boolean mnShowTPMNetworkGridPortrayal;
@@ -38,7 +37,6 @@ public class clsSingletonProperties {
 		moSystemProperties = new clsProperties();
 		mnDrawImages = false;
 		mnDrawSensors = false;
-		mnUse3DPerception = false;
 		mnUseLogger = false;
 		mnShowArousalGridPortrayal = false;
 		mnShowTPMNetworkGridPortrayal = false;
@@ -69,11 +67,10 @@ public class clsSingletonProperties {
 		return (clsSingletonProperties.instance()).moSystemProperties;
 	}
 	
-	static public void setSystemProperties(clsProperties poProperties, String P_DRAWIMAGES, String P_DRAWSENSORS, String P_USE3DPERCEPTION, String P_USELOGGER) {
+	static public void setSystemProperties(clsProperties poProperties, String P_DRAWIMAGES, String P_DRAWSENSORS, String P_USELOGGER) {
 		(clsSingletonProperties.instance()).moSystemProperties = poProperties;
 		(clsSingletonProperties.instance()).mnDrawImages = poProperties.getPropertyBoolean(P_DRAWIMAGES);
 		(clsSingletonProperties.instance()).mnDrawSensors = poProperties.getPropertyBoolean(P_DRAWSENSORS);
-		(clsSingletonProperties.instance()).mnUse3DPerception = poProperties.getPropertyBoolean(P_USE3DPERCEPTION);
 		(clsSingletonProperties.instance()).mnUseLogger = poProperties.getPropertyBoolean(P_USELOGGER);
 
 		//wenn wir die leute zwingen wollen das in ihren config zu haben.. wieder einkommentieren
@@ -87,11 +84,6 @@ public class clsSingletonProperties {
 		return (clsSingletonProperties.instance()).mnDrawSensors;
 	}
 	
-	/** Use this boolean to prevent the 3D View of the perception to open, if this is set to true Java3D has to be properly installed
-	 */
-	static public boolean use3DPerception() {
-		return (clsSingletonProperties.instance()).mnUse3DPerception;
-	}
 	
 	static public boolean useLogger() {
 		return (clsSingletonProperties.instance()).mnUseLogger;
