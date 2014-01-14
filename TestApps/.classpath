@@ -7,16 +7,13 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry kind="src" path="junit"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Libraries"/>
-	<classpathentry kind="lib" path="/Libraries/mason_physics2D.jar"/>
-	<classpathentry kind="lib" path="/Libraries/mason.jar"/>
-	<classpathentry kind="lib" path="/Libraries/j3dcore.jar"/>
-	<classpathentry kind="lib" path="/Libraries/j3dutils.jar"/>
-	<classpathentry kind="lib" path="/Libraries/vecmath.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/Libraries/mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BodyEntityMasonInspectors"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BaseEntity-Body-ARSIN"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSDecisionUnit"/>
+	<classpathentry kind="lib" path="/libraries/mason_physics2D.jar"/>
+	<classpathentry kind="lib" path="/libraries/mason.jar"/>
+	<classpathentry kind="lib" path="/libraries/mockito-all-1.9.5-rc1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/libraries"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -17,6 +17,7 @@ public enum eSpeech {
     
     NONE,
     SPEAK_YES,
+    SPEAK_EAT,
     SPEAK_SHARE,
     SPEAK_INVITED,
     SPEAK_WELCOME,

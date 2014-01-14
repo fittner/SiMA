@@ -398,6 +398,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 			*/
 		}
 		log.info("ActionCommandList: "+moActionCommandList_Output.toString());
+		log.info("Action: {}", moWordingToContext);
 		
 		//log.debug("=== END OF SECONDARY PROCESS ===\n");
 	}

@@ -93,7 +93,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private clsWordPresentationMesh moWordingToContext;
 	
-	private double EffortOfSpeech;
+	private String EffortOfSpeech;
 	//private ArrayList<clsWordPresentationMesh> moPossibleInternalActionPlans;
 
 	/**
@@ -201,22 +201,20 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		PlanningFunctionality.generatePlanForGoals(this.moDecisionEngine, this.moGoalList_IN);
 		
-		//Calculate Effort of Speech based on preselected speech statement
-		if (moWordingToContext.toString().contains("SHARE")) {
-		EffortOfSpeech = CalculateEffortOfSpeech(eSpeech.SPEAK_SHARE);
-		}
+		String GoalString;
 		
-		if (moWordingToContext.toString().contains("YES")) {
-		EffortOfSpeech = CalculateEffortOfSpeech(eSpeech.SPEAK_YES);
-		}
+		GoalString = this.moGoalList_IN.toString();
 		
-		boolean Speech_Is_planned;
-		if (EffortOfSpeech == 0.9){
-		    Speech_Is_planned = true;
-		
+		if   (GoalString.contains("A07_SPEAK_EAT")){
+		    
+		    CalculatePossibleWordingsBasedOnContext(); 
+		    
 		}
 		
 		
+		
+		
+
 //		if (m_bUseDraftPlanning) {
 //			process_draft();
 		//} else {
@@ -321,26 +319,56 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
  * DOCUMENT - insert description
  *
  * @author hinterleitner
+ * @since 07.01.2014 19:32:53
+ *
+ */
+private void        CalculatePossibleWordingsBasedOnContext() {
+  //based on preselected speech statement it is decided what can actually spoken 
+    if (moWordingToContext.toString().contains("EAT")) {
+    EffortOfSpeech = CalculatePossibleSpeechStatements(eSpeech.SPEAK_EAT);
+   
+    }
+    
+    if (moWordingToContext.toString().contains("YES")) {
+    EffortOfSpeech = CalculatePossibleSpeechStatements(eSpeech.SPEAK_YES);
+    }
+    
+    //Is not working yet
+    if (moWordingToContext.toString().contains("KNOWN")) {
+        EffortOfSpeech = CalculatePossibleSpeechStatements(eSpeech.SPEAK_KNOWN);
+        }
+        
+    if (moWordingToContext.toString().contains("INVITED")) {
+        EffortOfSpeech = CalculatePossibleSpeechStatements(eSpeech.SPEAK_INVITED);
+        }
+        
+  
+}
+
+    /**
+ * DOCUMENT - insert description
+ *
+ * @author hinterleitner
  * @since 29.12.2013 20:16:11
  *
  * @param moWordingToContext2
  */
-private static double CalculateEffortOfSpeech(eSpeech moWordingToContext2) {
+private static String CalculatePossibleSpeechStatements(eSpeech moWordingToContext2) {
     
-    double oActionCondition = 0.0;
+    String oActionCondition = "";
     
     switch (moWordingToContext2) {
-    case SPEAK_SHARE:
-        oActionCondition = 0.9;
+    case SPEAK_EAT:
+        oActionCondition = "EAT or INVITED";
        break;
     case SPEAK_INVITED:
-        oActionCondition = 0.3;
+        oActionCondition = "INVITED or KNOWN";
        break;
     case SPEAK_KNOWN:
-        oActionCondition = 0.2;
+        oActionCondition = "KNOWN or INVITED";
        break;
     case SPEAK_YES:
-        oActionCondition = 0.8;
+        oActionCondition = "YES or NO";
        break;
                 
 }

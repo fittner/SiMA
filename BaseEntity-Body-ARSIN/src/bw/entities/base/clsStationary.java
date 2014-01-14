@@ -7,7 +7,6 @@
  */
 package bw.entities.base;
 
-import javax.media.j3d.TransformGroup;
 
 import config.clsProperties;
 import sim.physics2D.shape.Shape;
@@ -15,7 +14,6 @@ import sim.physics2D.util.Double2D;
 import bw.body.clsBaseBody;
 import bw.body.clsSimpleBody;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.clsShape3DCreator;
 import bw.factories.clsRegisterEntity;
 import bw.inspector.interfaces.itfEntityInspectorFactory;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
@@ -68,8 +66,6 @@ public abstract class clsStationary extends clsEntity {
 		String oDefaultShape = poProp.getPropertyString(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE);
 		Shape oShape2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
 		
-		TransformGroup oShape3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
-		set3DShape(oShape3D);
 		
 		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), new Double2D(0.0,0.0), oShape2D, getTotalWeight());
 		

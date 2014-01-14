@@ -205,7 +205,7 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 			        
 			        
 			      //display a Thought expressionoverlay Icon
-			        if(clsSingletonProperties.showExpressionQuestionOverlay()) {
+			        if(clsSingletonProperties.showSpeechQuestionOverlay()) {
 			        	if(moThoughtExpressionOverlayImage != null && moThoughtExpressionOverlayImage != eSpeechExpression.NONE){
 			        		
 				        	eImages oThoughtExpressionImage = eImages.valueOf(moThoughtExpressionOverlayImage.getEImagesString());
@@ -225,7 +225,7 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 			        }
 			        
 				      //display a Speech expressionoverlay Icon
-			        if(clsSingletonProperties.showSpeechAnswerExpressionOverlay()) {
+			        if(clsSingletonProperties.showSpeechAnswerOverlay()) {
 			        	if(moSpeechExpressionOverlayImage != null && moSpeechExpressionOverlayImage != eSpeechExpression.NONE){
 			        		
 				        	eImages oSpeechExpressionImage = eImages.valueOf(moSpeechExpressionOverlayImage.getEImagesString());

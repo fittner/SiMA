@@ -10,8 +10,6 @@ package bw.ARSIN;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import javax.media.j3d.TransformGroup;
-
 import sim.physics2D.shape.Shape;
 import statictools.clsGetARSPath;
 import statictools.eventlogger.Event;
@@ -38,7 +36,6 @@ import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.tools.clsShape2DCreator;
-//import bw.entities.tools.clsShape3DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.enums.eBodyType;
@@ -66,8 +63,6 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	
 	private Shape moAlive2D;
 	private Shape moDead2D;
-	private TransformGroup moAlive3D;
-	private TransformGroup moDead3D;
 	
 	
 	private boolean mnAlive;
@@ -146,8 +141,6 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		
 		moAlive2D = clsShape2DCreator.createShapeWithOverlays(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp, true); 
 		moDead2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
-		//moAlive3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
-		//moDead3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
 		
 		mnAlive = poProp.getPropertyBoolean(pre+P_ALIVE);
 		mnImmortal = poProp.getPropertyBoolean(pre+P_IMMORTAL);
@@ -281,14 +274,12 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		 if (!mnAlive) {
 			clsEventLogger.add(new Event(this, getId(), eEvent.DEAD, ""));
 			set2DShape(moDead2D, getTotalWeight());
-			set3DShape(moDead3D);
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		} else {
 			
 			
 			clsEventLogger.add(new Event(this, getId(), eEvent.ALIVE, ""));
 			set2DShape(moAlive2D, getTotalWeight());
-			set3DShape(moAlive3D);
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}
 		 
