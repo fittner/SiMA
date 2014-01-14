@@ -221,8 +221,9 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         clsAssociation element;
         String elementnew;
 
+        
         element = moExternalAssociatedContent.get(0);
-        element.getAssociationElementB();
+       element.getAssociationElementB();
         elementnew = element.getAssociationElementB().toString();
 
         
@@ -232,7 +233,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
             moWordingToContext_OUT = moContext;
         }
                 
-        
+        //Depending on the context entities the wording is selected
 
         if (elementnew.contains("STONE(CENTER:MEDIUM)")) {
            // triggerSpeech_eat(moEmotions_Input); // Yes ?

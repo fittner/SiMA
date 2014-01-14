@@ -1,9 +1,4 @@
-/**
- * clsSensorVision.java: BW - bw.body.io.sensors.ext
- * 
- * @author langr
- * 09.09.2009, 13:14:37
- */
+
 package bw.body.io.sensors.external;
 
 import bw.body.io.clsBaseIO;
@@ -11,9 +6,10 @@ import bw.utils.enums.eBodyParts;
 import config.clsProperties;
 
 /**
- * DOCUMENT (langr) - insert description 
+ * DOCUMENT (hinterleitner) - sensor is used for acquiring acoustic data
+ * adapted from Sensor Vision 
  * 
- * @author langr
+ * @author langr / hin
  * 09.09.2009, 13:14:37
  * 
  */
