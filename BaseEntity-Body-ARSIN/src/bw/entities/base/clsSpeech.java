@@ -18,7 +18,6 @@ import statictools.clsGetARSPath;
 import tools.clsPolarcoordinate;
 import tools.clsPose;
 import tools.eImagePositioning;
-import bw.ARSIN.factory.clsARSINFactory;
 import bw.body.clsBaseBody;
 import bw.body.interBodyWorldSystems.clsCreateSpeech;
 import bw.entities.tools.clsShape2DCreator;
@@ -26,6 +25,7 @@ import bw.utils.enums.eShapeType;
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.itf.tools.clsAbstractSpeech;
+import entities.factory.clsARSINFactory;
 
 /**
  * DOCUMENT (MW) - insert description 

@@ -25,7 +25,6 @@ import bw.body.clsSimpleBody;
 
 import bw.body.io.actuators.actionExecutors.clsAction;
 import bw.body.itfget.itfGetBody;
-import bw.entities.logger.clsPositionLogger;
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eFacialExpression;
@@ -91,7 +90,6 @@ public abstract class clsEntity implements itfGetBody, itfEntity {
 	protected final int uid;
 	
 	protected clsBaseBody moBody; // the instance of a body
-	protected clsPositionLogger moPositionLogger;
 	
 	private eImages mnCurrentOverlay; //overlay to display currently executed actions and other attributes
 	private long mnLastSetOverlayCall = -1; //sim step of the last call of setOverlay
@@ -131,7 +129,6 @@ public abstract class clsEntity implements itfGetBody, itfEntity {
 		if (clsSingletonProperties.useLogger()){
 			clsEventLogger.add(new Event(this, moId, eEvent.CREATE, "uid="+this.uid));
 		}
-		moPositionLogger = new clsPositionLogger(this.uid);
 	}
 	
 	public abstract void setMasonInspectorFactory(itfEntityInspectorFactory poMasonInspector);
@@ -140,9 +137,7 @@ public abstract class clsEntity implements itfGetBody, itfEntity {
 		return uid;
 	}
 	
-	public clsPositionLogger getPositionLogger() {
-		return moPositionLogger;
-	}
+
 	
 	public abstract boolean isAlive();
 	
@@ -440,18 +435,12 @@ public abstract class clsEntity implements itfGetBody, itfEntity {
 	
 	@Override
 	public void updateEntityInternals() { //called each sim step by getSteppableSensing (clsMobileObject2D and clsStationaryObject2D)
-		if (clsSingletonProperties.useLogger()){
-			updatePositionLogger();
-		}
+
 		updateOverlayImage();
 		
 		
 	}
 	
-	private void updatePositionLogger() {
-		clsPose oPose =  ((itfSetupFunctions)moPhysicalObject2D).getPose();
-		moPositionLogger.add(oPose);
-	}
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description

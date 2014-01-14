@@ -20,8 +20,9 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import entities.clsARSIN;
+
 import panels.TextOutputPanel;
-import bw.ARSIN.clsARSIN;
 import bw.body.clsComplexBody;
 import bw.entities.base.clsMobile;
 import bw.entities.tools.clsInventory;

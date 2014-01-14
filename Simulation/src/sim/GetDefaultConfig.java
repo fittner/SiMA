@@ -8,9 +8,9 @@ package sim;
 import java.util.Iterator;
 
 import statictools.clsGetARSPath;
-import bw.ARSIN.factory.clsARSINFactory;
 import config.clsProperties;
 import creation.simplePropertyLoader.clsSimplePropertyLoader;
+import entities.factory.clsARSINFactory;
 import entities.factory.clsEntityFactory;
 
 /**

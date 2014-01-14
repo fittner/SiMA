@@ -17,7 +17,6 @@ import tools.eImagePositioning;
 
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
-import bw.entities.base.clsInanimate;
 import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
 

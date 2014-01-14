@@ -15,12 +15,13 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
+import entities.clsARSIN;
+
 //import decisionunit.clsBaseDecisionUnit;
 
 //import pa._v38.clsProcessor;
 //import pa._v38.modules.clsPsychicApparatus;
 
-import bw.ARSIN.clsARSIN;
 import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.base.clsEntity;

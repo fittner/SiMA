@@ -14,7 +14,6 @@ import singeltons.clsSingletonMasonGetter;
 import statictools.clsGetARSPath;
 import statictools.clsSimState;
 import statictools.clsUniqueIdGenerator;
-import bw.ARSIN.clsARSIN;
 import bw.body.clsComplexBody;
 import bw.body.clsUnrealBody;
 import bw.body.brainsocket.clsBrainSocket;
@@ -23,6 +22,7 @@ import creation.simplePropertyLoader.clsExternalARSINLoader;
 import du.enums.eEntityType;
 import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsUnrealSensorValueVision;
+import entities.clsARSIN;
 
 
 

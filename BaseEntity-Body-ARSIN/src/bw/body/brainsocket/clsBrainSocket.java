@@ -30,7 +30,6 @@ import singeltons.clsSingletonProperties;
 import tools.clsPolarcoordinate;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
-import bw.ARSIN.clsARSIN;
 import bw.body.itfStepProcessing;
 import bw.body.attributes.clsAttributeAlive;
 import bw.body.internalSystems.clsFastMessengerEntry;
@@ -97,6 +96,7 @@ import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
 import du.itf.sensors.clsVisionEntryAction;
 import du.itf.tools.clsAbstractSpeech;
+import entities.clsARSIN;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.

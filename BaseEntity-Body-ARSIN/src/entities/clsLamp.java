@@ -27,8 +27,6 @@ import bw.entities.base.clsMobile;
 import bw.entities.base.clsUnorganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.utils.enums.eBindingState;
-import bw.utils.enums.eBodyType;
-import bw.utils.enums.eNutritions;
 
 
 /**

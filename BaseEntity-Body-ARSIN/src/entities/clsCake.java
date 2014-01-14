@@ -1,5 +1,4 @@
 /**
- * @author schaat
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -12,64 +11,61 @@ import java.awt.Color;
 
 import registration.clsRegisterEntity;
 import statictools.clsGetARSPath;
-//import sim.display.GUIState;
-//import sim.portrayal.Inspector;
-//import sim.portrayal.LocationWrapper;
-//import sim.portrayal.inspector.TabbedInspector;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
-import tools.clsPose;
-import tools.eImagePositioning;
-
 import config.clsProperties;
 import du.enums.eEntityType;
 import entities.factory.clsEntityFactory;
 import bw.utils.enums.eShapeType;
 import bw.body.clsBaseBody;
 import bw.body.clsMeatBody;
-
 import bw.body.attributes.clsAttributes;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetBody;
 import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
-
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
 import bw.entities.base.clsMobile;
 import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
+import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.enums.eBindingState;
-import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
-//import bw.utils.inspectors.entity.clsInspectorBasic;
-
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
+import tools.clsPose;
+import tools.eImagePositioning;
 
 /**
- * DOCUMENT (schaat) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
- * @author schaat
- * Oct 03, 2012, 10:15:27 PM
+ * @author deutsch
+ * Jul 24, 2009, 10:15:27 PM
  * 
  */
-public class clsAppleGreen extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+public class clsCake extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable, itfAPDivideable {
+	public static final String CONFIG_FILE_NAME ="cake.default.properties";
 	
 	private boolean mnDestroyed = false;
 	
-	public clsAppleGreen(String poPrefix, clsProperties poProp, int uid)
+	
+	public final clsProperties moCreationProperties;
+	
+	public clsCake(String poPrefix, clsProperties poProp, int uid)
     {
 		super(poPrefix, poProp, uid);		
 		applyProperties(poPrefix, poProp);
+		moCreationProperties=poProp;
     } 
 	
 	private void applyProperties(String poPrefix, clsProperties poProp){		
 //		String pre = clsProperties.addDot(poPrefix);
-		
+
 		setVariableWeight(getFlesh().getWeight());
+
 	}	
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -83,18 +79,25 @@ public class clsAppleGreen extends clsOrganic implements itfGetFlesh, itfAPEatab
 		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
 		//add correct body
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
-		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
+	
+
+  		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
+ 
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 6.0);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.green);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "AppleGreen.png");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.pink);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "schnitzl.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());	
 		
-		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 150.0 );
-		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 5 );
+	
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 50.0 );
+		
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_LIBIDINOUS_STIMULATION, 0.07);
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_AGGRESSIV_STIMULATION, 0.03);
+		
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 8 );
 		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.FAT.name());
 		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONFRACTION, 500.0);
 		oProp.setProperty(pre+P_BODY+"."+"1."+clsFlesh.P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.name());
@@ -104,7 +107,13 @@ public class clsAppleGreen extends clsOrganic implements itfGetFlesh, itfAPEatab
 		oProp.setProperty(pre+P_BODY+"."+"3."+clsFlesh.P_NUTRITIONTYPE, eNutritions.PROTEIN.name());
 		oProp.setProperty(pre+P_BODY+"."+"3."+clsFlesh.P_NUTRITIONFRACTION, 500.0);
 		oProp.setProperty(pre+P_BODY+"."+"4."+clsFlesh.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.name());
-		oProp.setProperty(pre+P_BODY+"."+"4."+clsFlesh.P_NUTRITIONFRACTION, 200.0);				
+		oProp.setProperty(pre+P_BODY+"."+"4."+clsFlesh.P_NUTRITIONFRACTION, 200.0);
+		oProp.setProperty(pre+P_BODY+"."+"5."+clsFlesh.P_NUTRITIONTYPE, eNutritions.MINERAL.name());
+		oProp.setProperty(pre+P_BODY+"."+"5."+clsFlesh.P_NUTRITIONFRACTION, 500.0);	
+		oProp.setProperty(pre+P_BODY+"."+"6."+clsFlesh.P_NUTRITIONTYPE, eNutritions.TRACEELEMENT.name());
+		oProp.setProperty(pre+P_BODY+"."+"6."+clsFlesh.P_NUTRITIONFRACTION, 500.0);	
+		oProp.setProperty(pre+P_BODY+"."+"7."+clsFlesh.P_NUTRITIONTYPE, eNutritions.VITAMIN.name());
+		oProp.setProperty(pre+P_BODY+"."+"7."+clsFlesh.P_NUTRITIONFRACTION, 100.0);	
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 150);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_BODY+"."+clsBaseBody.P_ATTRIBUTES) );
@@ -117,7 +126,7 @@ public class clsAppleGreen extends clsOrganic implements itfGetFlesh, itfAPEatab
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.APPLEGREEN;
+		meEntityType = eEntityType.CAKE;
 		
 	}
 
@@ -131,16 +140,17 @@ public class clsAppleGreen extends clsOrganic implements itfGetFlesh, itfAPEatab
 	 */
 	@Override
 	public void updateInternalState() {
+		
+
 		if (getFlesh().getTotallyConsumed() && !mnDestroyed) {
 			mnDestroyed = true;
 			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
 			clsEventLogger.add(new Event(this, getId(), eEvent.DESTROY, ""));
-			//This command removes the APPLE from the playground
+			//This command removes the cake from the playground
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 		}
 	}
 
-	
 
 	
 	/*
@@ -190,17 +200,24 @@ public class clsAppleGreen extends clsOrganic implements itfGetFlesh, itfAPEatab
 
 	/* (non-Javadoc)
 	 *
-	 * @since Dec 11, 2012 4:22:26 PM
+	 * @since 18.07.2013 16:09:12
 	 * 
-	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 * @see bw.body.io.actuators.actionProxies.itfAPDivideable#devide(double)
 	 */
-/*	@Override
-	public void addEntityInspector(TabbedInspector poTarget,
-			Inspector poSuperInspector, LocationWrapper poWrapper,
-			GUIState poState, clsEntity poEntity) {
-		poTarget.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Apple");
-		
-	}*/
+	@Override
+	public void devide(double pfSplitFactor){
+		clsCake oNewEntity= (clsCake)dublicate(moCreationProperties,10,pfSplitFactor);
+		double oActualWeight= getFlesh().getWeight();
+		try {
+			this.getFlesh().setWeight(oActualWeight*pfSplitFactor);
+
+			oNewEntity.getFlesh().setWeight(oActualWeight*(1-pfSplitFactor));
+
+			
+		} catch (exFoodWeightBelowZero e) {
+			//should not be!
+		}
+	}
 	
 	@Override
 	public clsEntity dublicate(clsProperties poPrperties, double poDistance, double poSplitFactor){
@@ -220,5 +237,5 @@ public class clsAppleGreen extends clsOrganic implements itfGetFlesh, itfAPEatab
 		return oNewEntity;
 
 	}
-	
+
 }

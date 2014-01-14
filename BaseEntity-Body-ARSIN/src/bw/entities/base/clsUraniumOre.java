@@ -16,11 +16,11 @@ import tools.eImagePositioning;
 
 import config.clsProperties;
 import du.enums.eEntityType;
+import entities.factory.clsARSINFactory;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eShapeType;
 
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
-import bw.ARSIN.factory.clsARSINFactory;
 import bw.entities.tools.clsShape2DCreator;
 
 /**

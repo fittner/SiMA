@@ -19,9 +19,6 @@ import sim.physics2D.shape.Shape;
 
 
 import statictools.clsGetARSPath;
-import statictools.eventlogger.Event;
-import statictools.eventlogger.clsEventLogger;
-import statictools.eventlogger.eEvent;
 import tools.clsPose;
 import tools.eImagePositioning;
 import bw.body.clsMeatBody;

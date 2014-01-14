@@ -10,31 +10,16 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import registration.clsRegisterEntity;
 
-import bw.ARSIN.clsARSIN;
+import bw.entities.base.clsAnimal;
+import bw.entities.base.clsBase;
 import bw.entities.base.clsEntity;
-
-import entities.clsApple;
-import entities.clsAppleGreen;
-import entities.clsCake;
-import entities.clsCan;
-import entities.clsCarrot;
-import entities.clsFungus;
-import entities.clsFungusEater;
-import entities.clsHare;
-import entities.clsLamp;
-import entities.clsLynx;
-import entities.clsPlant;
-import entities.clsRectangleStationary;
-import entities.clsSprout;
-import entities.clsStone;
-import entities.clsToilet;
-import entities.clsTomato;
-import entities.clsUnrealHealth;
+import bw.entities.base.clsSmartExcrement;
+import bw.entities.base.clsUraniumOre;
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
+import entities.clsARSIN;
 
 
 /**
@@ -44,7 +29,7 @@ import du.itf.itfDecisionUnit;
  * Dec 13, 2012, 10:12:15 AM
  * 
  */
-public class clsEntityFactory {
+public class clsARSINFactory {
 
 	/*
 	 * holds a mapping from eEntityType to the entity classes 
@@ -54,28 +39,16 @@ public class clsEntityFactory {
 	private static void fillEntityMap(){
 		moEntities = new HashMap<eEntityType,Class>();
 		
-		moEntities.put(eEntityType.FUNGUS_EATER, clsFungusEater.class);
-		moEntities.put(eEntityType.PLANT, clsPlant.class);
-		moEntities.put(eEntityType.HARE, clsHare.class);
-		moEntities.put(eEntityType.LYNX, clsLynx.class);
-		moEntities.put(eEntityType.CAN, clsCan.class);
-		moEntities.put(eEntityType.CAKE, clsCake.class);
-		moEntities.put(eEntityType.APPLE, clsApple.class);
-		moEntities.put(eEntityType.TOMATO, clsTomato.class);
-		moEntities.put(eEntityType.STONE, clsStone.class);
-		moEntities.put(eEntityType.FUNGUS, clsFungus.class);
-		moEntities.put(eEntityType.CARROT, clsCarrot.class);
-		moEntities.put(eEntityType.TOILET, clsToilet.class);
-		moEntities.put(eEntityType.RECTANGLE_STATIONARY, clsRectangleStationary.class);
-		moEntities.put(eEntityType.HEALTH, clsUnrealHealth.class);
-		moEntities.put(eEntityType.LAMP, clsLamp.class);
-		moEntities.put(eEntityType.APPLEGREEN, clsAppleGreen.class);
-		moEntities.put(eEntityType.SPROUT, clsSprout.class);
+		moEntities.put(eEntityType.ARSIN, clsARSIN.class);
+		moEntities.put(eEntityType.BASE, clsBase.class);
+		moEntities.put(eEntityType.ANIMAL, clsAnimal.class);
+		moEntities.put(eEntityType.URANIUM, clsUraniumOre.class);
+		moEntities.put(eEntityType.SMARTEXCREMENT, clsSmartExcrement.class);
 		
 	}
 	
 	public static HashMap<eEntityType,Class> getEntities(){
-		if(moEntities==null) clsEntityFactory.fillEntityMap();
+		if(moEntities==null) clsARSINFactory.fillEntityMap();
 		return moEntities;
 	}
 	public static clsProperties getEntityDefaultProperties(Class poEntity, String poPrefix){
@@ -130,8 +103,14 @@ public class clsEntityFactory {
 				Constructor<clsEntity> oContructor=moEntities.get(pnEntityType).getConstructor(itfDecisionUnit.class, String.class, clsProperties.class, int.class);
 				oEntity = oContructor.newInstance(poDU,pre,poPropEntity,uid);
 			}
-
 			oEntity.registerEntity();
+	//		if((oEntity).moId.equals("ARSIN_ActionlessTestPA_0 (#4)")){
+	//			clsRegisterEntity.unRegisterPhysicalObject2D(((clsARSIN)oEntity).getMobileObject2D());
+	//			oEntity.setRegistered(false);
+	//		}
+				
+
+				//oEntity.registerEntity();
 
 		} catch (Exception e) {
 			System.out.println("The entity "+pnEntityType.name() +" doesn't have the right constructor");

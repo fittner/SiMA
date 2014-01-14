@@ -18,7 +18,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 
-import bw.ARSIN.clsARSIN;
+import entities.clsARSIN;
+
 import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.base.clsEntity;

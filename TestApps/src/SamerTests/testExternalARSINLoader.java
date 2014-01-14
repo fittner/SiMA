@@ -13,11 +13,11 @@ import singeltons.clsSingletonMasonGetter;
 import statictools.clsGetARSPath;
 import statictools.clsSimState;
 import statictools.clsUniqueIdGenerator;
-import bw.ARSIN.clsARSIN;
 
 import config.clsProperties;
 //import du.enums.eDecisionType;
 import creation.simplePropertyLoader.clsExternalARSINLoader;
+import entities.clsARSIN;
 
 
 /**

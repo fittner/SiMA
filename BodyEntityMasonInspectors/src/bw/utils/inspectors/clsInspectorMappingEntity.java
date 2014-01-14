@@ -8,7 +8,6 @@
  */
 package bw.utils.inspectors;
 
-import bw.ARSIN.clsARSIN;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
@@ -30,8 +29,6 @@ import bw.utils.inspectors.body.clsInspectorSlowMessengers;
 import bw.utils.inspectors.entity.clsInspectorARSin;
 import bw.utils.inspectors.entity.clsInspectorARSinDebugActions;
 import bw.utils.inspectors.entity.clsInspectorInventory;
-import bw.utils.inspectors.entity.clsInspectorPositionLogChart;
-import bw.utils.inspectors.entity.clsInspectorPositionLoggerCSV;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -115,10 +112,7 @@ public class clsInspectorMappingEntity {
 	    	}
     	}
     	
-    	//add position logger inspector
-    	oRetVal.addInspector( new clsInspectorPositionLoggerCSV(poEntity.getPositionLogger()), "Pos.CSV");
-    	oRetVal.addInspector( new clsInspectorPositionLogChart(poEntity.getPositionLogger()), "Pos.Chart");
-   
+  
     	
     	
     	//add standard inspector if nothing happened

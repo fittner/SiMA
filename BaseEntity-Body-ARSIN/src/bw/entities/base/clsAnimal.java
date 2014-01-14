@@ -16,7 +16,7 @@ import tools.clsPose;
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
-import bw.ARSIN.factory.clsARSINFactory;
+import entities.factory.clsARSINFactory;
 import bw.body.itfget.itfIsAlive;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetRadiation;

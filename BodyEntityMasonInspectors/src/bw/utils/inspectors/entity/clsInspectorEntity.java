@@ -24,8 +24,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
 import du.enums.eDecisionType;
+import entities.clsARSIN;
 
-import bw.ARSIN.clsARSIN;
 import bw.body.clsBaseBody;
 import bw.body.itfGetBrain;
 import bw.body.itfget.itfGetBody;

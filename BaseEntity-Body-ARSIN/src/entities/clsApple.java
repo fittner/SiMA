@@ -1,5 +1,5 @@
 /**
- * @author muchitsch
+ * @author schaat
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -7,10 +7,15 @@
  */
 package entities;
 
+
 import java.awt.Color;
 
 import registration.clsRegisterEntity;
 import statictools.clsGetARSPath;
+//import sim.display.GUIState;
+//import sim.portrayal.Inspector;
+//import sim.portrayal.LocationWrapper;
+//import sim.portrayal.inspector.TabbedInspector;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -20,13 +25,16 @@ import tools.eImagePositioning;
 import config.clsProperties;
 import du.enums.eEntityType;
 import entities.factory.clsEntityFactory;
+import bw.utils.enums.eShapeType;
 import bw.body.clsBaseBody;
 import bw.body.clsMeatBody;
+
 import bw.body.attributes.clsAttributes;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetBody;
 import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
+
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
@@ -34,30 +42,31 @@ import bw.entities.base.clsMobile;
 import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
 import bw.utils.enums.eBindingState;
-import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
-import bw.utils.enums.eShapeType;
+//import bw.utils.inspectors.entity.clsInspectorBasic;
+
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (schaat) - insert description 
  * 
- * @author deutsch
- * Jul 24, 2009, 10:15:27 PM
+ * @author schaat
+ * Oct 03, 2012, 10:15:27 PM
  * 
  */
-public class clsUnrealHealth extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+	
 	private boolean mnDestroyed = false;
 	
-	public clsUnrealHealth(String poPrefix, clsProperties poProp, int uid)
+	public clsApple(String poPrefix, clsProperties poProp, int uid)
     {
 		super(poPrefix, poProp, uid);		
 		applyProperties(poPrefix, poProp);
     } 
 	
 	private void applyProperties(String poPrefix, clsProperties poProp){		
-		String pre = clsProperties.addDot(poPrefix);
+//		String pre = clsProperties.addDot(poPrefix);
 		
 		setVariableWeight(getFlesh().getWeight());
 	}	
@@ -74,16 +83,13 @@ public class clsUnrealHealth extends clsOrganic implements itfGetFlesh, itfAPEat
 		//add correct body
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		
-
-		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
-
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 8.0);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.pink);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "schnitzl.jpg");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 6.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.red);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "Apple2.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 150.0 );
@@ -110,7 +116,7 @@ public class clsUnrealHealth extends clsOrganic implements itfGetFlesh, itfAPEat
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.HEALTH;
+		meEntityType = eEntityType.APPLE;
 		
 	}
 
@@ -128,62 +134,12 @@ public class clsUnrealHealth extends clsOrganic implements itfGetFlesh, itfAPEat
 			mnDestroyed = true;
 			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
 			clsEventLogger.add(new Event(this, getId(), eEvent.DESTROY, ""));
-			//This command removes the cake from the playground
+			//This command removes the APPLE from the playground
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 		}
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 12.05.2009, 19:26:16
-	 * 
-	 * @see bw.entities.clsEntity#execution()
-	 */
-	@Override
-	public void execution() {
-		// no executions
-		
-	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 12.05.2009, 19:26:16
-	 * 
-	 * @see bw.entities.clsEntity#processing()
-	 */
-	@Override
-	public void processing() {
-		// no processing
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 12.05.2009, 19:26:16
-	 * 
-	 * @see bw.entities.clsEntity#sensing()
-	 */
-	@Override
-	public void sensing() {
-		// no sensing
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 14.05.2009, 18:16:27
-	 * 
-	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
-	 */
-	@Override
-	public clsFlesh getFlesh() {
-		return ((clsMeatBody)moBody).getFlesh();
-	}
-	
 	/*
 	 * Interface Eatable
 	 */
@@ -215,17 +171,6 @@ public class clsUnrealHealth extends clsOrganic implements itfGetFlesh, itfAPEat
 		//handle binding-state implications 
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 08.09.2009, 17:25:18
-	 * 
-	 * @see bw.body.itfget.itfGetBody#getBody()
-	 */
-	@Override
-	public clsBaseBody getBody() {
-		return moBody;
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -238,6 +183,20 @@ public class clsUnrealHealth extends clsOrganic implements itfGetFlesh, itfAPEat
 	public boolean isConsumable() {
 		return getFlesh().getTotallyConsumed();
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:22:26 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+/*	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Apple");
+		
+	}*/
 	
 	@Override
 	public clsEntity dublicate(clsProperties poPrperties, double poDistance, double poSplitFactor){
@@ -257,5 +216,6 @@ public class clsUnrealHealth extends clsOrganic implements itfGetFlesh, itfAPEat
 		return oNewEntity;
 
 	}
+
 	
 }

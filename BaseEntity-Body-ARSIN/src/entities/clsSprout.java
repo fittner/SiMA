@@ -24,6 +24,7 @@ import tools.eImagePositioning;
 
 import config.clsProperties;
 import du.enums.eEntityType;
+import du.enums.eOdor;
 import entities.factory.clsEntityFactory;
 import bw.utils.enums.eShapeType;
 import bw.body.clsBaseBody;
@@ -56,11 +57,11 @@ import bw.body.io.actuators.actionProxies.*;
  * Oct 03, 2012, 10:15:27 PM
  * 
  */
-public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+public class clsSprout extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
 	
 	private boolean mnDestroyed = false;
 	
-	public clsApple(String poPrefix, clsProperties poProp, int uid)
+	public clsSprout(String poPrefix, clsProperties poProp, int uid)
     {
 		super(poPrefix, poProp, uid);		
 		applyProperties(poPrefix, poProp);
@@ -83,14 +84,18 @@ public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, i
 		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
 		//add correct body
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
+				
+
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 6.0);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.red);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "Apple2.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.green);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "SproutGreen.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 150.0 );
@@ -117,7 +122,7 @@ public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, i
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.APPLE;
+		meEntityType = eEntityType.SPROUT;
 		
 	}
 
@@ -140,7 +145,64 @@ public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, i
 		}
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.05.2009, 19:26:16
+	 * 
+	 * @see bw.entities.clsEntity#execution()
+	 */
+	@Override
+	public void execution() {
+		// no executions
+		
+	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.05.2009, 19:26:16
+	 * 
+	 * @see bw.entities.clsEntity#processing()
+	 */
+	@Override
+	public void processing() {
+		// no processing
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.05.2009, 19:26:16
+	 * 
+	 * @see bw.entities.clsEntity#sensing()
+	 */
+	@Override
+	public void sensing() {
+		// no sensing
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.05.2009, 18:16:27
+	 * 
+	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
+	 */
+	@Override
+	public clsFlesh getFlesh() {
+		return ((clsMeatBody)moBody).getFlesh();
+	}
+	
+	@Override
+	public eOdor getOdor() {
+		return eOdor.MUSKY;
+	}
+	
+
+	
 	/*
 	 * Interface Eatable
 	 */
@@ -172,6 +234,17 @@ public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, i
 		//handle binding-state implications 
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.09.2009, 17:25:18
+	 * 
+	 * @see bw.body.itfget.itfGetBody#getBody()
+	 */
+	@Override
+	public clsBaseBody getBody() {
+		return moBody;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -217,6 +290,5 @@ public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, i
 		return oNewEntity;
 
 	}
-
 	
 }

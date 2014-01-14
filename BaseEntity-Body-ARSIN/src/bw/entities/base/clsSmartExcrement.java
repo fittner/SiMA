@@ -14,7 +14,7 @@ import tools.eImagePositioning;
 
 import config.clsProperties;
 import du.enums.eEntityType;
-import bw.ARSIN.factory.clsARSINFactory;
+import entities.factory.clsARSINFactory;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.entities.tools.clsShape2DCreator;
