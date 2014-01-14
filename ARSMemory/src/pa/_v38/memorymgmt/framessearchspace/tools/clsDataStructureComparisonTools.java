@@ -609,24 +609,8 @@ public abstract class clsDataStructureComparisonTools {
 		
 		clsThingPresentationMesh oRetVal = poInput;
 		
-		//Readoutsearchspace searches everything with a certain moDSID
-		//Everything shall be returned
-		//A special case of the searchspace was used
-		
-		//Create Container for the DataStructure		
-	
-		//Check if that data structure can be found in the database, else return null
+			//Check if that data structure can be found in the database, else return null
 		if (oRetVal instanceof clsThingPresentationMesh) {
-			
-//			//Clone the structure as here often the structure comes directly from the memory
-//			try {
-//				//oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).cloneGraph();
-//				oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).clone();
-//			} catch (CloneNotSupportedException e) {
-//				// TODO (wendt) - Auto-generated catch block
-//				e.printStackTrace();
-//			}
-			
 			if (oRetVal.getDS_ID()>0 && pnLevel >=0) {
 				//Get the internal associations
 				//Add associations from intrinsic structures
