@@ -10,7 +10,6 @@ import java.util.Iterator;
 import statictools.clsGetARSPath;
 import config.clsProperties;
 import creation.simplePropertyLoader.clsSimplePropertyLoader;
-import entities.factory.clsARSINFactory;
 import entities.factory.clsEntityFactory;
 
 /**
@@ -46,10 +45,10 @@ public class GetDefaultConfig {
 			Class x = it.next();
 			clsProperties.writeProperties(clsEntityFactory.getEntityDefaultProperties(x, ""), oEntityDir, x.getName()+oSubExt, "");
 		}
-		it = clsARSINFactory.getEntities().values().iterator();
+		it = clsEntityFactory.getEntities().values().iterator();
 		while(it.hasNext()){
 			Class x = it.next();
-			clsProperties.writeProperties(clsARSINFactory.getEntityDefaultProperties(x, ""), oEntityDir, x.getName()+oSubExt, "");
+			clsProperties.writeProperties(clsEntityFactory.getEntityDefaultProperties(x, ""), oEntityDir, x.getName()+oSubExt, "");
 		}
 		clsProperties.writeProperties(control.clsPsychoAnalysis.getDefaultProperties(""), oDecisionUnitDir, "psychoanalysis"+oSubExt, "");
 		clsProperties.writeProperties(_MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties(""), oDecisionUnitDir, "pa_actionlesstest"+oSubExt, "");

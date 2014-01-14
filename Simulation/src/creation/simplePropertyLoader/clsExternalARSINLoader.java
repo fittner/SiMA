@@ -18,7 +18,7 @@ import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import entities.clsARSIN;
-import bw.entities.base.clsEntity;
+import entities.abstractEntities.clsEntity;
 import statictools.clsUniqueIdGenerator;
 
 /**

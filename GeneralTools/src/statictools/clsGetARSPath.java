@@ -65,16 +65,16 @@ public class clsGetARSPath {
 	
 	public static String getIconPath()
 	{
-		return getArsPath()+System.getProperty("file.separator")+"BaseEntity-Body-ARSIN"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator")+"EntitySelectorIcon"+System.getProperty("file.separator");
+		return getArsPath()+System.getProperty("file.separator")+"Entity"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator")+"EntitySelectorIcon"+System.getProperty("file.separator");
 	}
 	
 	public static String getImagePath()
 	{
-		return getArsPath()+System.getProperty("file.separator")+"BaseEntity-Body-ARSIN"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator");
+		return getArsPath()+System.getProperty("file.separator")+"Entity"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator");
 	}
 	
 	public static String getRelativImagePath(){
-		return System.getProperty("file.separator")+"BaseEntity-Body-ARSIN"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator");
+		return System.getProperty("file.separator")+"Entity"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator");
 	}
 	
 	public static String getXMLPath()

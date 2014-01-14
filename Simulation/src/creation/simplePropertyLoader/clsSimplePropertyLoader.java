@@ -13,6 +13,9 @@ import memorymgmt.interfaces.itfSearchSpaceAccess;
 
 import org.slf4j.Logger;
 
+import complexbody.internalSystems.clsFlesh;
+import complexbody.internalSystems.clsInternalSystem;
+
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
 import config.clsProperties;
@@ -27,18 +30,15 @@ import du.itf.itfDecisionUnit;
 import entities.clsWallAxisAlign;
 import entities.clsWallHorizontal;
 import entities.clsWallVertical;
-import entities.factory.clsARSINFactory;
+import entities.abstractEntities.clsAnimate;
+import entities.abstractEntities.clsEntity;
+import entities.enums.eBodyType;
+import entities.enums.eNutritions;
+import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
-import bw.body.clsComplexBody;
-import bw.body.clsMeatBody;
-import bw.body.internalSystems.clsFlesh;
-import bw.body.internalSystems.clsInternalSystem;
-import bw.entities.base.clsAnimate;
-import bw.entities.base.clsEntity;
-import bw.entities.tools.clsShape2DCreator;
-import bw.utils.enums.eBodyType;
-import bw.utils.enums.eNutritions;
-import bw.utils.enums.eShapeType;
+import entities.tools.clsShape2DCreator;
+import body.clsComplexBody;
+import body.clsMeatBody;
 import bw.utils.inspectors.entity.clsInspectorEntity;
 import registration.clsRegisterEntity;
 import sim.clsSimLogger;
@@ -135,7 +135,6 @@ public class clsSimplePropertyLoader extends clsLoader {
     		clsProperties oP = new clsProperties();
 
     		oP.putAll( clsEntityFactory.getEntityDefaults(pre+P_DEFAULTSENTITY) );
-    		oP.putAll( clsARSINFactory.getEntityDefaults(pre+P_DEFAULTSENTITY));
     		oP.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
     		oP.putAll( getMemoryDefaults(pre+P_KNOWLEDGEBASE) );
 	    	oP.putAll(poProp);
@@ -185,7 +184,6 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		if (pnAddDefaultEntities) {
 			oProp.putAll( clsEntityFactory.getEntityDefaults(pre+P_DEFAULTSENTITY) );
-			oProp.putAll( clsARSINFactory.getEntityDefaults(pre+P_DEFAULTSENTITY));
 		}	
 		if (pnAddDefaultDecisionUnits) {
 			oProp.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
@@ -430,14 +428,9 @@ public class clsSimplePropertyLoader extends clsLoader {
     		}
     	}
        	clsEntity temp;
-    	// select the appropriate factory
-    	if(pnEntityType == eEntityType.ANIMAL || pnEntityType == eEntityType.ARSIN || pnEntityType == eEntityType.BASE || 
-    			pnEntityType == eEntityType.REMOTEBOT || pnEntityType == eEntityType.SMARTEXCREMENT || pnEntityType == eEntityType.URANIUM){
-    		temp = clsARSINFactory.createEntity(poPropEntity, pnEntityType, oDU, uid);
-    	}
-    	else{
-    		temp = clsEntityFactory.createEntity(poPropEntity, pnEntityType, oDU, uid);
-    	}
+
+    	temp = clsEntityFactory.createEntity(poPropEntity, pnEntityType, oDU, uid);
+
 //    	if (moMasonInspector == null) {
 //			moMasonInspector = new TabbedInspector();
 //			Inspector oInspector = new clsInspectorEntity(super.getInspector(
