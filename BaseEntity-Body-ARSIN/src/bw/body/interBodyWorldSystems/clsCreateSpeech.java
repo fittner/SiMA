@@ -7,8 +7,8 @@
 package bw.body.interBodyWorldSystems;
 
 import statictools.clsUniqueIdGenerator;
-import ARSsim.physics2D.util.clsPolarcoordinate;
-import ARSsim.physics2D.util.clsPose;
+import tools.clsPolarcoordinate;
+import tools.clsPose;
 import bw.body.internalSystems.clsSpeechSystem;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsSpeech;

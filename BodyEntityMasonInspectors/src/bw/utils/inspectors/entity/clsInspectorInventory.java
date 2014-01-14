@@ -25,9 +25,9 @@ import bw.ARSIN.clsARSIN;
 import bw.body.clsComplexBody;
 import bw.entities.base.clsMobile;
 import bw.entities.tools.clsInventory;
-import bw.factories.clsSingletonMasonGetter;
 import bw.utils.tools.clsContentColumn;
 import sim.portrayal.Inspector;
+import singeltons.clsSingletonMasonGetter;
 import statictools.clsExceptionUtils;
 
 /**

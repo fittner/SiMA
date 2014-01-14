@@ -10,8 +10,9 @@ package bw.body.itfget;
 
 import java.util.TreeMap;
 
+import physics2D.physicalObject.sensors.clsEntitySensorEngine;
+
 import bw.body.io.sensors.external.clsSensorEngine;
-import bw.physicalObjects.sensors.clsEntitySensorEngine;;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

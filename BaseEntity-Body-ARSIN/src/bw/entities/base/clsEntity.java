@@ -7,9 +7,15 @@
  */
 package bw.entities.base;
 
+import interfaces.itfEntity;
+import interfaces.itfEntityInspectorFactory;
+import interfaces.itfSetupFunctions;
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import physics2D.shape.itfImageShape;
 
 
 import bw.body.clsBaseBody;
@@ -20,9 +26,6 @@ import bw.body.clsSimpleBody;
 import bw.body.io.actuators.actionExecutors.clsAction;
 import bw.body.itfget.itfGetBody;
 import bw.entities.logger.clsPositionLogger;
-import bw.factories.clsSingletonProperties;
-import bw.factories.eImages;
-import bw.inspector.interfaces.itfEntityInspectorFactory;
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eFacialExpression;
@@ -30,14 +33,14 @@ import du.enums.eOdor;
 import du.enums.eSpeechExpression;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
+import singeltons.clsSingletonProperties;
+import singeltons.eImages;
 
 import statictools.clsSimState;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
-import ARSsim.physics2D.physicalObject.itfSetupFunctions;
-import ARSsim.physics2D.shape.itfImageShape;
-import ARSsim.physics2D.util.clsPose;
+import tools.clsPose;
 
 
 /**
@@ -64,7 +67,7 @@ import ARSsim.physics2D.util.clsPose;
  * @author langr
  * 
  */
-public abstract class clsEntity implements itfGetBody {
+public abstract class clsEntity implements itfGetBody, itfEntity {
 	
 	public static final String P_ID = "id";
 	public static final String P_STRUCTURALWEIGHT = "weight_structural";
@@ -215,20 +218,9 @@ public abstract class clsEntity implements itfGetBody {
 		return moBody;
 	}	
 	
-	/**
-	 * the entities cycle for perception-deliberation-action
-	 * MUST implement these functions
-	 *
-	 * @author langr
-	 * 25.02.2009, 15:12:12
-	 *
-	 */
-	public abstract void updateInternalState();
-	public abstract void sensing();
-	public abstract void processing();
-	public abstract void execution();
+
 	
-	
+	@Override
 	public void exec(){
 		//delete all expired actions 
 		Iterator<clsAction> it = moExecutedActions.iterator();
@@ -237,15 +229,7 @@ public abstract class clsEntity implements itfGetBody {
 		}
 		execution();
 	}
-	/**
-	 * DOCUMENT (deutsch) - insert description
-	 *
-	 * @author deutsch
-	 * 26.02.2009, 11:16:51
-	 *
-	 * @return
-	 */
-	public abstract sim.physics2D.util.Double2D getPosition();
+
 	
 	
 	/**
@@ -322,6 +306,7 @@ public abstract class clsEntity implements itfGetBody {
 		((itfSetupFunctions)moPhysicalObject2D).setPose(poPose);
 	}
 	
+	@Override
 	public clsPose getPose() {
 		return ((itfSetupFunctions)moPhysicalObject2D).getPose();
 	}
@@ -453,6 +438,7 @@ public abstract class clsEntity implements itfGetBody {
 	
 	
 	
+	@Override
 	public void updateEntityInternals() { //called each sim step by getSteppableSensing (clsMobileObject2D and clsStationaryObject2D)
 		if (clsSingletonProperties.useLogger()){
 			updatePositionLogger();
@@ -497,6 +483,7 @@ public abstract class clsEntity implements itfGetBody {
 	 * 
 	 * @param mnRegistered the mnRegistered to set
 	 */
+	@Override
 	public void setRegistered(boolean mnRegistered) {
 		this.mnRegistered = mnRegistered;
 	}

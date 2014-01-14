@@ -15,6 +15,8 @@ import java.util.Iterator;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
+import physics2D.physicalObject.clsCollidingObject;
+
 import du.enums.eSensorExtType;
 
 import sim.display.GUIState;
@@ -22,7 +24,6 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.PropertyField;
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.base.clsEntity;

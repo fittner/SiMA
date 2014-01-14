@@ -12,14 +12,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import physics2D.physicalObject.clsCollidingObject;
+import physics2D.physicalObject.clsMobileObject2D;
+import physics2D.physicalObject.clsStationaryObject2D;
+
 import config.clsProperties;
 import du.enums.eSensorExtType;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.body.io.clsSensorActuatorBaseExt;
@@ -95,9 +96,9 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 			oEntity = null;
 			oObject = itr.next().moCollider;
 			if (oObject instanceof clsMobileObject2D) {
-				oEntity = ((clsMobileObject2D) oObject).getEntity();
+				oEntity = (clsEntity) ((clsMobileObject2D) oObject).getEntity();
 			} else if (oObject instanceof clsStationaryObject2D) {
-				oEntity = ((clsStationaryObject2D) oObject).getEntity();
+				oEntity = (clsEntity) ((clsStationaryObject2D) oObject).getEntity();
 			}
 			
 			if(oEntity != null){

@@ -14,22 +14,23 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import physics2D.physicalObject.clsCollidingObject;
+import physics2D.physicalObject.sensors.clsEntitySensorEngine;
+
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.util.Double2D;
+import tools.clsPolarcoordinate;
 import config.clsProperties;
 import du.enums.eSensorExtType;
 
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import ARSsim.physics2D.util.clsPolarcoordinate;
 
 import bfg.utils.enums.eSide;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsMobile;
-import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.exceptions.exInvalidSensorRange;
 
 /**
@@ -243,7 +244,7 @@ public class clsSensorEngine{
 			for( clsCollidingObject oCollision : eObjectList ) {
 				if(oCollision.moCollider.getShape() instanceof Circle) {
 					//FIXME (langr) - hack to get the actual distance. only valid for circle!!!
-					Double2D oCurrentPosition = moHostEntity.getPosition();
+					Double2D oCurrentPosition = moHostEntity.getPose().getPosition();
 					Double2D oObjectPosition = oCollision.moCollider.getPosition();
 					Double2D oDiffer = oCurrentPosition.subtract(oObjectPosition);
 					

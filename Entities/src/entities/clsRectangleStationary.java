@@ -10,16 +10,17 @@ package entities;
 
 import java.awt.Color;
 
+import tools.clsPose;
+import tools.eImagePositioning;
+
 //import sim.display.GUIState;
 //import sim.portrayal.Inspector;
 //import sim.portrayal.LocationWrapper;
 //import sim.portrayal.inspector.TabbedInspector;
 
-import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsStationary;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eShapeType;
 //import bw.utils.inspectors.entity.clsInspectorBasic;
 

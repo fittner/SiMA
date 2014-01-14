@@ -8,9 +8,9 @@
  */
 package bw.utils.sensors;
 
+import physics2D.physicalObject.clsCollidingObject;
 import bfg.utils.enums.eSide;
 import sim.physics2D.util.Double2D;
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

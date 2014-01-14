@@ -8,17 +8,18 @@
 package bw.entities.base;
 
 
+import physics2D.physicalObject.clsMobileObject2D;
+import interfaces.itfEntityInspectorFactory;
+import interfaces.itfMobile;
 import config.clsProperties;
 import bw.entities.tools.clsInventory;
 import bw.entities.tools.clsShape2DCreator;
-import bw.factories.clsRegisterEntity;
-import bw.inspector.interfaces.itfEntityInspectorFactory;
+import registration.clsRegisterEntity;
 //import bw.utils.inspectors.entity.clsInspectorBasic;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
+import tools.clsPose;
 
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import ARSsim.physics2D.util.clsPose;
 
 
 /**
@@ -27,7 +28,7 @@ import ARSsim.physics2D.util.clsPose;
  * @author deutsch
  * 
  */
-public abstract class clsMobile extends clsEntity {
+public abstract class clsMobile extends clsEntity implements itfMobile{
 	
 	
 	public static final String P_START_VELOCITY_X = "start_velocity_x";
@@ -149,13 +150,9 @@ public abstract class clsMobile extends clsEntity {
 	/**
 	 * @return the moMobile
 	 */
+	@Override
 	public clsMobileObject2D getMobileObject2D() {
 		return (clsMobileObject2D)moPhysicalObject2D;
-	}
-	
-	@Override
-	public sim.physics2D.util.Double2D getPosition() {
-		return getMobileObject2D().getPosition();
 	}
 	
 	public sim.physics2D.util.Double2D getVelocity() {

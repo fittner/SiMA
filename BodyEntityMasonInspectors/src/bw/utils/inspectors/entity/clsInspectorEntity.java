@@ -9,6 +9,9 @@
 package bw.utils.inspectors.entity;
 
 import inspectors.clsInspectorMappingDecision;
+import interfaces.itfEntity;
+import interfaces.itfEntityInspectorFactory;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +30,6 @@ import bw.body.clsBaseBody;
 import bw.body.itfGetBrain;
 import bw.body.itfget.itfGetBody;
 import bw.entities.base.clsEntity;
-import bw.inspector.interfaces.itfEntityInspectorFactory;
 import bw.utils.inspectors.clsInspectorMappingEntity;
 
 import sim.display.GUIState;
@@ -127,10 +129,10 @@ public class clsInspectorEntity extends TabbedInspector implements ActionListene
 		moPropMindyType = new PropertyField("Mind", oMindType, false, null, PropertyField.SHOW_TEXTFIELD);
 
 		moPropPosX = new PropertyField("Position X", ""
-				+ moEntity.getPosition().x, false, null,
+				+ moEntity.getPose().getPosition().x, false, null,
 				PropertyField.SHOW_TEXTFIELD);
 		moPropPosY = new PropertyField("Position Y", ""
-				+ moEntity.getPosition().y, false, null,
+				+ moEntity.getPose().getPosition().y, false, null,
 				PropertyField.SHOW_TEXTFIELD);
 
 		//add 3 buttons for detailes special inspectors
@@ -184,11 +186,11 @@ public class clsInspectorEntity extends TabbedInspector implements ActionListene
 	@Override
 	public void updateInspector() {
 		Formatter oDoubleFormatter = new Formatter();
-		moPropPosX.setValue(oDoubleFormatter.format("%.2f",	moEntity.getPosition().x).toString());
+		moPropPosX.setValue(oDoubleFormatter.format("%.2f",	moEntity.getPose().getPosition().x).toString());
 		oDoubleFormatter.close();
 		
 		oDoubleFormatter = new Formatter();
-		moPropPosY.setValue(oDoubleFormatter.format("%.2f",	moEntity.getPosition().y).toString());
+		moPropPosY.setValue(oDoubleFormatter.format("%.2f",	moEntity.getPose().getPosition().y).toString());
 		oDoubleFormatter.close();
 
 		for (Iterator<clsInspectorFrame> it = moEntityWindows.iterator(); it.hasNext();) 
@@ -303,5 +305,12 @@ public class clsInspectorEntity extends TabbedInspector implements ActionListene
 				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
 			}
 		}
+	}
+
+	@Override
+	public TabbedInspector getInspector(LocationWrapper poWrapper,
+			GUIState state, Inspector poOriginalInspector, itfEntity poEntity) {
+		// TODO Auto-generated method stub
+		return new clsInspectorEntity(poOriginalInspector, poWrapper, state, (clsEntity) poEntity);
 	}
 }

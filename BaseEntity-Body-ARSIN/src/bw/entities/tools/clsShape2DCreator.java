@@ -16,9 +16,10 @@ import java.util.ArrayList;
 import config.clsProperties;
 
 import sim.physics2D.shape.Shape;
+import singeltons.clsSingletonProperties;
 import statictools.clsGetARSPath;
+import tools.eImagePositioning;
 import bfg.tools.shapes.clsPoint;
-import bw.factories.clsSingletonProperties;
 import bw.utils.enums.eShapeType;
 
 
@@ -105,7 +106,7 @@ public class clsShape2DCreator {
 				throw new java.lang.NoSuchMethodError();
 				// TODO (everyone) - image positioning not implemented yet
 			}			
-			oShape = new ARSsim.physics2D.shape.clsCircleImage(
+			oShape = new physics2D.shape.clsCircleImage(
 					poProp.getPropertyDouble(pre+ P_RADIUS),							                     
 					poProp.getPropertyColor(pre+P_COLOR),
 					clsGetARSPath.getArsPath()+poProp.getPropertyString(pre +P_IMAGE_PATH)
@@ -135,7 +136,7 @@ public class clsShape2DCreator {
 				throw new java.lang.NoSuchMethodError();
 				// TODO (everyone) - image positioning not implemented yet
 			}			
-			oShape = new ARSsim.physics2D.shape.clsAnimatedCircleImage(
+			oShape = new physics2D.shape.clsAnimatedCircleImage(
 					poProp.getPropertyDouble(pre+ P_RADIUS),							                     
 					poProp.getPropertyColor(pre+P_COLOR),
 					clsGetARSPath.getArsPath()+poProp.getPropertyString(pre +P_IMAGE_PATH),
@@ -167,7 +168,7 @@ public class clsShape2DCreator {
 				throw new java.lang.NoSuchMethodError();
 				// TODO (everyone) - image positioning not implemented yet
 			}
-			oShape = new ARSsim.physics2D.shape.clsRectangleImage(
+			oShape = new physics2D.shape.clsRectangleImage(
 					poProp.getPropertyDouble(pre +P_WIDTH),
 					poProp.getPropertyDouble(pre +P_LENGTH),
 					poProp.getPropertyColor(pre +P_COLOR),

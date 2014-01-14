@@ -9,18 +9,19 @@ package bw.entities.base;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import physics2D.physicalObject.clsCollidingObject;
+
+import registration.clsRegisterEntity;
 import sim.physics2D.shape.Shape;
+import singeltons.clsSingletonMasonGetter;
 import statictools.clsGetARSPath;
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import ARSsim.physics2D.util.clsPolarcoordinate;
-import ARSsim.physics2D.util.clsPose;
+import tools.clsPolarcoordinate;
+import tools.clsPose;
+import tools.eImagePositioning;
 import bw.ARSIN.factory.clsARSINFactory;
 import bw.body.clsBaseBody;
 import bw.body.interBodyWorldSystems.clsCreateSpeech;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
-import bw.factories.clsRegisterEntity;
-import bw.factories.clsSingletonMasonGetter;
 import bw.utils.enums.eShapeType;
 import config.clsProperties;
 import du.enums.eEntityType;
@@ -150,7 +151,7 @@ public class clsSpeech extends clsPhysical {
 			ArrayList<clsCollidingObject> oCollidingObjects = moEntitySensorEngine.requestDetectedObjList();
 			
 			for (clsCollidingObject oCollidingObject : oCollidingObjects){
-				if (oCollidingObject != null && oCollidingObject.moEntity != null && oCollidingObject.moEntity.meEntityType == eEntityType.ARSIN) {
+				if (oCollidingObject != null && oCollidingObject.moEntity != null && ((clsEntity)oCollidingObject.moEntity).meEntityType == eEntityType.ARSIN) {
 					clsSpeech oSpeech = moCreateSpeech.getSpeech(moAbstractSpeech.changeProceedingsToS3(), miEcho);
 					
 					if (miEcho == 0){

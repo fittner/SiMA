@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
+import singeltons.clsSingletonMasonGetter;
 import statictools.clsGetARSPath;
 import statictools.clsSimState;
 import statictools.clsUniqueIdGenerator;
@@ -17,7 +18,6 @@ import bw.ARSIN.clsARSIN;
 import bw.body.clsComplexBody;
 import bw.body.clsUnrealBody;
 import bw.body.brainsocket.clsBrainSocket;
-import bw.factories.clsSingletonMasonGetter;
 import config.clsProperties;
 import creation.simplePropertyLoader.clsExternalARSINLoader;
 import du.enums.eEntityType;

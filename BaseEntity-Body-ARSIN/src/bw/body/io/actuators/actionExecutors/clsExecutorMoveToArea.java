@@ -123,7 +123,7 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 		if (!(oSensor instanceof clsSensorRingSegment))  return false;
 
 		//sim.physics2D.util.Double2D oDest = new sim.physics2D.util.Double2D(((clsSensorRingSegment)oSensor).getOffsetX(),0);
-		sim.physics2D.util.Double2D oDest = new sim.physics2D.util.Double2D(moEntity.getPosition().x+((clsSensorRingSegment)oSensor).getOffsetX(),moEntity.getPosition().y);
+		sim.physics2D.util.Double2D oDest = new sim.physics2D.util.Double2D(moEntity.getPose().getPosition().x+((clsSensorRingSegment)oSensor).getOffsetX(),moEntity.getPose().getPosition().y);
 		
 		//Move
 		oMEntity.getInventory().moveCarriedEntity(oDest);

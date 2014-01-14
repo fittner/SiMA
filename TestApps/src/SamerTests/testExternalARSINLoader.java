@@ -9,11 +9,11 @@ package SamerTests;
 //import statictools.clsGetARSPath;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
+import singeltons.clsSingletonMasonGetter;
 import statictools.clsGetARSPath;
 import statictools.clsSimState;
 import statictools.clsUniqueIdGenerator;
 import bw.ARSIN.clsARSIN;
-import bw.factories.clsSingletonMasonGetter;
 
 import config.clsProperties;
 //import du.enums.eDecisionType;

@@ -8,7 +8,6 @@
 
 package sim;
 
-import bw.factories.clsSingletonProperties;
 import config.clsProperties;
 import creation.clsLoader;
 import creation.simplePropertyLoader.clsSimplePropertyLoader;
@@ -16,6 +15,7 @@ import du.enums.eDecisionType;
 import ec.util.MersenneTwisterFast;
 import sim.engine.Schedule;
 import sim.engine.SimState;
+import singeltons.clsSingletonProperties;
 import statictools.clsGetARSPath;
 import statictools.clsSimState;
 

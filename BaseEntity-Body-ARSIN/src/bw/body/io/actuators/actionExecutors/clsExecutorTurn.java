@@ -12,10 +12,10 @@ import config.clsProperties;
 import java.util.ArrayList;
 
 import sim.physics2D.util.Angle;
+import singeltons.eImages;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsMobile;
-import bw.factories.eImages;
 import du.enums.eActionTurnDirection;
 import du.itf.actions.*;
 /**

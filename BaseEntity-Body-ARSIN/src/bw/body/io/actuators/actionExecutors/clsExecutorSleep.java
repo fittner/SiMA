@@ -9,9 +9,10 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
+import singeltons.eImages;
+
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.base.clsEntity;
-import bw.factories.eImages;
 import bw.body.io.actuators.actionProxies.*;
 import du.enums.eActionSleepIntensity;
 import du.itf.actions.*;

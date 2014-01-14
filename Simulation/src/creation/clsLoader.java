@@ -7,13 +7,13 @@
 package creation;
 
 import config.clsProperties;
-import bw.factories.clsSingletonProperties;
-import bw.factories.clsSingletonMasonGetter;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.field.grid.DoubleGrid2D;
 import sim.field.network.Network;
 import sim.physics2D.PhysicsEngine2D;
+import singeltons.clsSingletonMasonGetter;
+import singeltons.clsSingletonProperties;
 import statictools.clsGetARSPath;
 
 /**

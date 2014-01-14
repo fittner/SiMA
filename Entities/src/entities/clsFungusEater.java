@@ -10,6 +10,8 @@ package entities;
 import java.awt.Color;
 
 import statictools.clsGetARSPath;
+import tools.clsPose;
+import tools.eImagePositioning;
 
 //import sim.display.GUIState;
 //import sim.portrayal.Inspector;
@@ -18,7 +20,6 @@ import statictools.clsGetARSPath;
 
 import config.clsProperties;
 import du.enums.eEntityType;
-import ARSsim.physics2D.util.clsPose;
 import bw.utils.enums.eShapeType;
 import du.itf.itfDecisionUnit;
 import entities.factory.clsEntityFactory;
@@ -30,7 +31,6 @@ import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyType;
 //import bw.utils.inspectors.entity.clsInspectorFungusEater;
 

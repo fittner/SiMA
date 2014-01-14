@@ -13,8 +13,8 @@ import java.util.Random;
 import config.clsProperties;
 import du.enums.eEntityType;
 import entities.factory.clsEntityFactory;
-import ARSsim.physics2D.util.clsPose;
 import bw.utils.enums.eShapeType;
+import registration.clsRegisterEntity;
 import sim.physics2D.shape.Shape;
 
 
@@ -22,6 +22,8 @@ import statictools.clsGetARSPath;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
+import tools.clsPose;
+import tools.eImagePositioning;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
@@ -34,9 +36,7 @@ import bw.entities.base.clsInanimate;
 import bw.entities.base.clsMobile;
 import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
-import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;

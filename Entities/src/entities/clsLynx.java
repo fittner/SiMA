@@ -14,11 +14,12 @@ import config.clsProperties;
 
 import sim.physics2D.shape.Shape;
 import statictools.clsGetARSPath;
+import tools.clsPose;
+import tools.eImagePositioning;
 
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import entities.factory.clsEntityFactory;
-import ARSsim.physics2D.util.clsPose;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
@@ -27,7 +28,6 @@ import bw.entities.base.clsAnimal;
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;

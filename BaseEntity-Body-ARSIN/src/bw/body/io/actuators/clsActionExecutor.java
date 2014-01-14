@@ -10,12 +10,13 @@ package bw.body.io.actuators;
 
 import java.util.ArrayList;
 
+import physics2D.physicalObject.clsCollidingObject;
+import physics2D.physicalObject.clsMobileObject2D;
+import physics2D.physicalObject.clsStationaryObject2D;
+
 import config.clsProperties;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.clsComplexBody;
 import bw.body.io.clsSensorActuatorBaseExt;
 import bw.entities.base.clsEntity;
@@ -129,9 +130,9 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 
 			clsEntity oIntEntity=null;
 			if (poIntObject instanceof clsMobileObject2D) {
-				oIntEntity = ((clsMobileObject2D) poIntObject).getEntity();
+				oIntEntity =  (clsEntity) ((clsMobileObject2D) poIntObject).getEntity();
 			} else if (poIntObject instanceof clsStationaryObject2D) {
-				oIntEntity = ((clsStationaryObject2D) poIntObject).getEntity();
+				oIntEntity = (clsEntity) ((clsStationaryObject2D) poIntObject).getEntity();
 			}
 			
 			if (oIntEntity !=null && oIntEntity != poSelfReference) {
@@ -165,9 +166,9 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 
 			clsEntity oIntEntity=null;
 			if (poIntObject instanceof clsMobileObject2D) {
-				oIntEntity = ((clsMobileObject2D) poIntObject).getEntity();
+				oIntEntity = (clsEntity) ((clsMobileObject2D) poIntObject).getEntity();
 			} else if (poIntObject instanceof clsStationaryObject2D) {
-				oIntEntity = ((clsStationaryObject2D) poIntObject).getEntity();
+				oIntEntity = (clsEntity) ((clsStationaryObject2D) poIntObject).getEntity();
 			}
 			
 			if (oIntEntity !=null) {

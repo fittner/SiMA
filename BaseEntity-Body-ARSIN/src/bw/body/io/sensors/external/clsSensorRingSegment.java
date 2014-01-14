@@ -13,10 +13,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import physics2D.physicalObject.clsCollidingObject;
+
 import config.clsProperties;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.util.Double2D;
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.utils.enums.eBodyParts;

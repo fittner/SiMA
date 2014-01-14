@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<world width="1000" height="1000">
-	<defaultSurface defaultValue="0"/>
-	<surfaceArea startX="40" startY="15" endX="120" endY="75" surface="1"/>
-	<surfaceArea startX="550" startY="150" endX="700" endY="200" surface="1"/>
-	<surfaceArea startX="650" startY="600" endX="720" endY="700" surface="1"/>
-	<surfaceArea startX="900" startY="400" endX="970" endY="550" surface="1"/>
-	<surfaceArea startX="20" startY="900" endX="130" endY="980" surface="1"/>
-</world>

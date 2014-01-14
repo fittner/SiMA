@@ -8,16 +8,17 @@
 package bw.entities.base;
 
 
+import physics2D.physicalObject.clsStationaryObject2D;
+import interfaces.itfEntityInspectorFactory;
+import interfaces.itfStationary;
 import config.clsProperties;
+import registration.clsRegisterEntity;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
+import tools.clsPose;
 import bw.body.clsBaseBody;
 import bw.body.clsSimpleBody;
 import bw.entities.tools.clsShape2DCreator;
-import bw.factories.clsRegisterEntity;
-import bw.inspector.interfaces.itfEntityInspectorFactory;
-import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import ARSsim.physics2D.util.clsPose;
 
 
 /**
@@ -26,7 +27,7 @@ import ARSsim.physics2D.util.clsPose;
  * @author deutsch
  * 
  */
-public abstract class clsStationary extends clsEntity {
+public abstract class clsStationary extends clsEntity implements itfStationary{
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 		
 	private double mrDefaultRestitution; 			 //0.5 
@@ -90,6 +91,7 @@ public abstract class clsStationary extends clsEntity {
 		((clsStationaryObject2D)moPhysicalObject2D).setInspectorFactory(poMasonInspector);
 	}
 	
+	@Override
 	public clsStationaryObject2D getStationaryObject2D() {
 		return (clsStationaryObject2D)moPhysicalObject2D;
 	}
@@ -109,11 +111,7 @@ public abstract class clsStationary extends clsEntity {
 	public boolean isAlive(){
 		return false;
 	}
-		
-	@Override
-	public sim.physics2D.util.Double2D getPosition() {
-		return getStationaryObject2D().getPosition();
-	}	
+			
 	
 	/* (non-Javadoc)
 	 *

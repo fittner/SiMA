@@ -11,17 +11,18 @@ package bw.entities.tools;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import ARSsim.physics2D.shape.clsCircleImage;
-import ARSsim.physics2D.util.clsPose;
+import physics2D.shape.clsCircleImage;
+
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.entities.base.clsMobile;
 import bw.exceptions.exInventoryFull;
-import bw.factories.clsSingletonMasonGetter;
-import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
 
+import registration.clsRegisterEntity;
 import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.util.Double2D;
+import singeltons.clsSingletonMasonGetter;
+import tools.clsPose;
 
 /**
  * Class for managing an entities inventory. 

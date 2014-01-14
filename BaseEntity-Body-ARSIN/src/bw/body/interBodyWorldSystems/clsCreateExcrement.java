@@ -9,9 +9,9 @@ package bw.body.interBodyWorldSystems;
 import java.util.Random;
 
 import statictools.clsUniqueIdGenerator;
+import tools.clsPolarcoordinate;
+import tools.clsPose;
 
-import ARSsim.physics2D.util.clsPolarcoordinate;
-import ARSsim.physics2D.util.clsPose;
 
 import bw.body.internalSystems.clsDigestiveSystem;
 import bw.entities.base.clsEntity;

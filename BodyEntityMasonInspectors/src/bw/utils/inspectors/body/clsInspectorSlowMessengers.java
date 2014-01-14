@@ -25,10 +25,10 @@ import du.enums.eSlowMessenger;
 
 import bw.body.internalSystems.clsSlowMessengerSystem;
 import bw.exceptions.exSlowMessengerDoesNotExist;
-import bw.factories.clsSingletonMasonGetter;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
+import singeltons.clsSingletonMasonGetter;
 
 /**
  * DOCUMENT (deutsch) - insert description 

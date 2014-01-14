@@ -100,10 +100,6 @@ public class clsInspectorMappingEntity {
 	    	else if( poEntity instanceof clsPlant) {
 	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Plant");	    		
 	    	}
-	    	else if( poEntity instanceof clsRemoteBot) {
-	    		oRetVal.addInspector(new clsInspectorSensor(poSuperInspector, poWrapper,poState,(clsRemoteBot)poEntity), "RemoteBot Sensors");
-	    		oRetVal.addInspector( new clsInspectorRemoteBot(poSuperInspector, poWrapper, poState, (clsRemoteBot)poEntity), "RemoteBot");
-	    	}
 	    	else if( poEntity instanceof clsStone) {
 	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Stone");
 	    	}

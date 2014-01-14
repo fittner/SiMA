@@ -10,12 +10,13 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
+import registration.clsRegisterEntity;
+import singeltons.eImages;
+
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsSmartExcrement;
-import bw.factories.clsRegisterEntity;
-import bw.factories.eImages;
 import bw.body.itfget.itfGetBody;
 import du.itf.actions.*;
 

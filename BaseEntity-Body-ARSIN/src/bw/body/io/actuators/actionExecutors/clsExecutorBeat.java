@@ -8,12 +8,13 @@ package bw.body.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
+import singeltons.eImages;
+
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.itfAPBeatable;
 import bw.body.itfget.itfGetBody;
 import bw.entities.base.clsEntity;
-import bw.factories.eImages;
 import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.actions.clsActionAttackLightning;

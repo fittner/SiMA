@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="/libraries/mason.jar"/>
 	<classpathentry kind="lib" path="/libraries/mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/libraries"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MasonExtentions"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

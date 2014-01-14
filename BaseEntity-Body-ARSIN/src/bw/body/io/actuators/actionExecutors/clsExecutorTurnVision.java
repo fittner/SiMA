@@ -10,10 +10,11 @@ package bw.body.io.actuators.actionExecutors;
 
 import config.clsProperties;
 import java.util.ArrayList;
+
+import physics2D.physicalObject.sensors.clsEntitySensorEngine;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.base.clsEntity;
-import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import du.enums.eActionTurnDirection;
 import du.itf.actions.*;
 /**

@@ -28,7 +28,6 @@ import entities.clsWallAxisAlign;
 import entities.clsWallHorizontal;
 import entities.clsWallVertical;
 import entities.factory.clsEntityFactory;
-import ARSsim.physics2D.util.clsPose;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
@@ -36,18 +35,19 @@ import bw.body.internalSystems.clsInternalSystem;
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.ARSIN.factory.clsARSINFactory;
-import bw.factories.clsRegisterEntity;
-import bw.factories.clsSingletonMasonGetter;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 import bw.utils.inspectors.entity.clsInspectorEntity;
+import registration.clsRegisterEntity;
 import sim.clsSimLogger;
 import sim.engine.SimState;
+import singeltons.clsSingletonMasonGetter;
 import statictools.clsGetARSPath;
 import statictools.clsUniqueIdGenerator;
+import tools.clsPose;
+import tools.eImagePositioning;
 
 /**
  * Creates the world and all of its entities according to a simple property file. This file contains basic world settings

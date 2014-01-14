@@ -18,8 +18,8 @@ import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
+import singeltons.clsSingletonMasonGetter;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
-import bw.factories.clsSingletonMasonGetter;
 import bw.utils.enums.eBodyParts;
 import bw.utils.datatypes.clsMutableDouble;
 

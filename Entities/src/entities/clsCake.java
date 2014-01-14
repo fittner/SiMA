@@ -9,7 +9,10 @@ package entities;
 
 import java.awt.Color;
 
+import physics2D.shape.clsCircleImage;
 
+
+import registration.clsRegisterEntity;
 import statictools.clsGetARSPath;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
@@ -17,8 +20,6 @@ import statictools.eventlogger.eEvent;
 import config.clsProperties;
 import du.enums.eEntityType;
 import entities.factory.clsEntityFactory;
-import ARSsim.physics2D.shape.clsCircleImage;
-import ARSsim.physics2D.util.clsPose;
 import bw.utils.enums.eShapeType;
 import bw.body.clsBaseBody;
 import bw.body.clsMeatBody;
@@ -33,15 +34,15 @@ import bw.entities.base.clsInanimate;
 import bw.entities.base.clsMobile;
 import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
-import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 import sim.physics2D.shape.Shape;
+import tools.clsPose;
+import tools.eImagePositioning;
 
 /**
  * DOCUMENT (deutsch) - insert description 

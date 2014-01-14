@@ -8,11 +8,12 @@ package bw.body.io.actuators.actionExecutors;
 
 import config.clsProperties;
 import java.util.ArrayList;
+
+import physics2D.physicalObject.sensors.clsEntitySensorEngine;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsInternalActionExecutor;
 
 import bw.entities.base.clsEntity;
-import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.body.itfget.itfGetBody;
 import du.enums.eActionTurnDirection;
 import du.itf.actions.*;

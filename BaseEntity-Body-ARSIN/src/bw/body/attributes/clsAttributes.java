@@ -8,7 +8,6 @@ package bw.body.attributes;
 
 import java.util.HashMap;
 
-import bw.body.itfget.itfGetBotHand;
 import bw.entities.base.clsEntity;
 import bw.utils.enums.eBodyAttributes;
 import config.clsProperties;
@@ -46,21 +45,6 @@ public class clsAttributes {
 					case COLOR:
 						moAttributes.put(eType, new clsAttributeColor(tmp_pre, poProp, poEntity));
 						break;
-					case HAND_LEFT:
-						if (poEntity instanceof itfGetBotHand) {
-							moAttributes.put(eType, new clsAttributeHand(tmp_pre, poProp, (itfGetBotHand) poEntity, eBodyAttributes.HAND_LEFT));
-						} else {
-							throw new java.lang.IllegalArgumentException("itfGetBotHand not implemented");
-						}
-						
-						break;
-					case HAND_RIGHT:
-						if (poEntity instanceof itfGetBotHand) {
-							moAttributes.put(eType, new clsAttributeHand(tmp_pre, poProp, (itfGetBotHand) poEntity, eBodyAttributes.HAND_RIGHT));
-						} else {
-							throw new java.lang.IllegalArgumentException("itfGetBotHand not implemented");
-						}
-						break;							
 					case ANTENNA_LEFT:
 						moAttributes.put(eType, new clsAttributeAntenna(tmp_pre, poProp, eBodyAttributes.ANTENNA_LEFT));
 						break;

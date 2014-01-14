@@ -10,6 +10,8 @@ package entities;
 import java.awt.Color;
 
 import statictools.clsGetARSPath;
+import tools.clsPose;
+import tools.eImagePositioning;
 
 
 import config.clsProperties;
@@ -17,12 +19,10 @@ import du.enums.eEntityType;
 import entities.factory.clsEntityFactory;
 
 
-import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
 import bw.entities.base.clsUnorganic;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eShapeType;
 
 /**

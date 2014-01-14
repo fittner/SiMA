@@ -11,11 +11,12 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
+import singeltons.eImages;
+
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.base.clsEntity;
-import bw.factories.eImages;
 import bw.utils.enums.eBodyParts;
 import bw.body.io.actuators.actionProxies.*;
 import bw.body.itfget.itfGetBody;

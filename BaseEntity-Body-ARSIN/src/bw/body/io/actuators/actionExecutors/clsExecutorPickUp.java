@@ -11,13 +11,14 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
+import singeltons.eImages;
+
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.*;
 import du.enums.eSensorExtType;
 import du.itf.actions.*;
 import bw.entities.base.clsMobile;
-import bw.factories.eImages;
 import bw.body.itfget.itfGetBody;
 
 /**

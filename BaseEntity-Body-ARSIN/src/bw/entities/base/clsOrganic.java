@@ -6,6 +6,7 @@
  */
 package bw.entities.base;
 
+import registration.clsRegisterEntity;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -14,7 +15,6 @@ import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetBody;
 import bw.body.itfget.itfGetFlesh;
-import bw.factories.clsRegisterEntity;
 
 import config.clsProperties;
 

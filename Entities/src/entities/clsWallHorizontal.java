@@ -11,9 +11,9 @@ package entities;
 import java.awt.Color;
 
 import statictools.clsGetARSPath;
+import tools.eImagePositioning;
 
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eShapeType;
 import config.clsProperties;
 

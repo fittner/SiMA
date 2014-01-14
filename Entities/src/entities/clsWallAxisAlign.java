@@ -11,7 +11,8 @@ package entities;
 
 import java.awt.Color;
 
-import ARSsim.physics2D.util.clsPose;
+import tools.clsPose;
+
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsStationary;
 import bw.entities.tools.clsShape2DCreator;

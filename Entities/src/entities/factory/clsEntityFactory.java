@@ -10,9 +10,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import registration.clsRegisterEntity;
+
 import bw.ARSIN.clsARSIN;
 import bw.entities.base.clsEntity;
-import bw.factories.clsRegisterEntity;
 
 import entities.clsApple;
 import entities.clsAppleGreen;

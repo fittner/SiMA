@@ -2,7 +2,8 @@ package ClemLife;
 
 import java.awt.*;
 
-import ARSsim.physics2D.shape.clsRectangleImage;
+import physics2D.shape.clsRectangleImage;
+
 import sim.physics2D.physicalObject.*;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.*;

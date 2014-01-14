@@ -20,9 +20,9 @@ import javax.swing.ImageIcon;
 
 import org.slf4j.Logger;
 
-import bw.factories.clsSingletonMasonGetter;
 import PropertiesInspector.clsPropertiesInspector;
 import config.clsProperties;
+import singeltons.clsSingletonMasonGetter;
 import statictools.clsGetARSPath;
 
 /**

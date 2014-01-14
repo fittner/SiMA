@@ -9,15 +9,15 @@ package bw.entities.base;
 import java.awt.Color;
 
 import statictools.clsGetARSPath;
+import tools.clsPose;
+import tools.eImagePositioning;
 
 import config.clsProperties;
 import du.enums.eEntityType;
-import ARSsim.physics2D.util.clsPose;
 import bw.ARSIN.factory.clsARSINFactory;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;

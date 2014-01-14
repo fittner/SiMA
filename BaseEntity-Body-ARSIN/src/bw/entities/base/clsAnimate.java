@@ -10,6 +10,10 @@ package bw.entities.base;
 
 import java.util.TreeMap;
 
+import physics2D.physicalObject.sensors.clsEntitySensorEngine;
+
+import registration.clsRegisterEntity;
+
 import config.clsProperties;
 import du.itf.itfDecisionUnit;
 import bw.body.clsBaseBody;
@@ -18,8 +22,7 @@ import bw.body.clsMeatBody;
 import bw.body.itfGetBrain;
 import bw.body.itfGetExternalIO;
 import bw.body.io.sensors.external.clsSensorEngine;
-import bw.factories.clsRegisterEntity;
-import bw.physicalObjects.sensors.clsEntitySensorEngine;
+import bw.body.itfget.itfGetSensorEngine;
 import bw.utils.enums.eBodyType;
 
 /**
@@ -65,6 +68,9 @@ public abstract class clsAnimate extends clsMobile {
 	@Override
 	public void registerEntity(){
 		clsRegisterEntity.registerEntity(this);
+		if(this instanceof itfGetSensorEngine){
+			clsRegisterEntity.registerSensorEngine(((itfGetSensorEngine)this).getSensorEngineAreas());
+		}
 	}
 	/* (non-Javadoc)
 	 *

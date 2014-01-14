@@ -1,8 +1,8 @@
 package bw.entities.base;
 
-import bw.factories.clsRegisterEntity;
-import bw.factories.clsSingletonMasonGetter;
-import bw.physicalObjects.sensors.clsEntitySensorEnginePhysical;
+import physics2D.physicalObject.sensors.clsEntitySensorEnginePhysical;
+import registration.clsRegisterEntity;
+import singeltons.clsSingletonMasonGetter;
 import config.clsProperties;
 
 

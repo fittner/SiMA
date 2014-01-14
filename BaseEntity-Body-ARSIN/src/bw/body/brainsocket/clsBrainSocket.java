@@ -15,16 +15,19 @@ import java.util.Vector;
 
 import org.slf4j.Logger;
 
+import physics2D.physicalObject.clsCollidingObject;
+import physics2D.physicalObject.clsMobileObject2D;
+import physics2D.physicalObject.clsStationaryObject2D;
+
 import sim.field.grid.DoubleGrid2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.shape.Rectangle;
 import sim.physics2D.util.Angle;
 import sim.util.Double2D;
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import ARSsim.physics2D.util.clsPolarcoordinate;
+import singeltons.clsSingletonMasonGetter;
+import singeltons.clsSingletonProperties;
+import tools.clsPolarcoordinate;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
 import bw.ARSIN.clsARSIN;
@@ -52,10 +55,7 @@ import bw.body.io.sensors.internal.clsStomachTensionSensor;
 import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.entities.base.clsAnimal;
 import bw.entities.base.clsEntity;
-import bw.entities.base.clsRemoteBot;
 import bw.entities.base.clsSpeech;
-import bw.factories.clsSingletonMasonGetter;
-import bw.factories.clsSingletonProperties;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.sensors.clsSensorDataCalculation;
 import config.clsProperties;
@@ -1100,7 +1100,7 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		   oData.setObjectPosition( collidingObj.meColPos);  
 		   oData.setSensorType(poSensorType);
 		    
-		   oData.setExactDebugPosition(oEntity.getPosition().getX(), oEntity.getPosition().getY(), oEntity.getPose().getAngle().radians);
+		   oData.setExactDebugPosition(oEntity.getPose().getPosition().getX(), oEntity.getPose().getPosition().getY(), oEntity.getPose().getAngle().radians);
 		   
 		   double sensorArousalValue = oEntity.getVisionBrightness();
 		   oData.setDebugSensorArousal(sensorArousalValue);
@@ -1120,7 +1120,7 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 			if( oEntity instanceof clsAnimal ){ oData.setAlive( ((clsAnimal)oEntity).isAlive() ); }
 			
 			/*FIXME HZ actually the antenna positions are undefined*/
-			if (oEntity instanceof clsARSIN || oEntity instanceof  clsRemoteBot){
+			if (oEntity instanceof clsARSIN){
 				oData.setAntennaPositionLeft(eAntennaPositions.UNDEFINED); 
 				oData.setAntennaPositionRight(eAntennaPositions.UNDEFINED);
 			}
@@ -1187,7 +1187,7 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 			 
 			oData.setSensorType(poSensorType);
 		    
-			oData.setExactDebugPosition(oEntity.getPosition().getX(), oEntity.getPosition().getY(), oEntity.getPose().getAngle().radians);
+			oData.setExactDebugPosition(oEntity.getPose().getPosition().getX(), oEntity.getPose().getPosition().getY(), oEntity.getPose().getAngle().radians);
 		   
 			//values from 0-1, this is for testing, should be set to the real arousal value
 			double sensorArousalValue = 1;
@@ -1254,9 +1254,9 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		clsEntity oResult = null;
 		
 		if (poObject instanceof clsMobileObject2D) {
-			oResult = ((clsMobileObject2D) poObject).getEntity();
+			oResult = (clsEntity) ((clsMobileObject2D) poObject).getEntity();
 		} else if (poObject instanceof clsStationaryObject2D) {
-			oResult = ((clsStationaryObject2D) poObject).getEntity();
+			oResult = (clsEntity) ((clsStationaryObject2D) poObject).getEntity();
 		}	
 		
 		return oResult;

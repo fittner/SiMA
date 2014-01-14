@@ -11,15 +11,15 @@ package entities;
 import java.awt.Color;
 
 import statictools.clsGetARSPath;
+import tools.clsPose;
+import tools.eImagePositioning;
 
 
-import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
 import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 
 import config.clsProperties;
 import du.enums.eEntityType;

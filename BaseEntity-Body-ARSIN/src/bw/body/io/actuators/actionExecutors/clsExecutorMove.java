@@ -11,10 +11,11 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
+import singeltons.eImages;
+
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsMobile;
-import bw.factories.eImages;
 import du.itf.actions.*;
 
 

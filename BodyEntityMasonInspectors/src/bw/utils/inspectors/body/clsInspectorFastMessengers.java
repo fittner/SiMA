@@ -33,12 +33,12 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
+import singeltons.clsSingletonMasonGetter;
 import bfg.tools.clsMutableInteger;
 import bfg.tools.clsMutableDouble;
 import bw.body.internalSystems.clsFastMessengerEntry;
 import bw.body.internalSystems.clsFastMessengerKeyTuple;
 import bw.body.internalSystems.clsFastMessengerSystem;
-import bw.factories.clsSingletonMasonGetter;
 import bw.utils.enums.eBodyParts;
 
 /**

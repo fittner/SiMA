@@ -17,13 +17,13 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
-import bw.factories.clsSingletonMasonGetter;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
 import sim.portrayal.Inspector;
 import sim.portrayal.inspector.TabbedInspector;
+import singeltons.clsSingletonMasonGetter;
 
 /**
  * The InspectorFrame is responsible for the registration (in the CTOR) in the MASON-schedule to be updated

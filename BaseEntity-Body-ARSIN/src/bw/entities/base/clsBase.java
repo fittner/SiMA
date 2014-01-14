@@ -9,26 +9,27 @@ package bw.entities.base;
 
 import java.awt.Color;
 
+import physics2D.physicalObject.clsCollidingObject;
+import physics2D.physicalObject.clsMobileObject2D;
+import physics2D.physicalObject.clsStationaryObject2D;
+
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import bw.utils.enums.eShapeType;
+import registration.clsRegisterEntity;
 //import bw.utils.inspectors.entity.clsInspectorFungusBase;
 import sim.engine.SimState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import statictools.clsGetARSPath;
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import ARSsim.physics2D.util.clsPose;
+import tools.clsPose;
+import tools.eImagePositioning;
 import bw.ARSIN.factory.clsARSINFactory;
 import bw.body.io.clsExternalIO;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
-import bw.factories.clsRegisterEntity;
 
 /**
  * 
@@ -153,7 +154,7 @@ public class clsBase extends clsStationary {
 				if(oEntityObj.isRegistered() && oEntityObj.meEntityType == eEntityType.URANIUM){
 					if(((clsUraniumOre)oEntityObj).getHolders() == 0){
 						oEntityObj.setRegistered(false); 
-						bw.factories.clsRegisterEntity.unRegisterPhysicalObject2D(oColObj.moCollider);
+						registration.clsRegisterEntity.unRegisterPhysicalObject2D(oColObj.moCollider);
 						mnStoredOre++;
 					}
 				}
@@ -178,9 +179,9 @@ public class clsBase extends clsStationary {
 		clsEntity oResult = null;
 		
 		if (poObject instanceof clsMobileObject2D) {
-			oResult = ((clsMobileObject2D) poObject).getEntity();
+			oResult = (clsEntity) ((clsMobileObject2D) poObject).getEntity();
 		} else if (poObject instanceof clsStationaryObject2D) {
-			oResult = ((clsStationaryObject2D) poObject).getEntity();
+			oResult = (clsEntity) ((clsStationaryObject2D) poObject).getEntity();
 		}	
 		
 		return oResult;

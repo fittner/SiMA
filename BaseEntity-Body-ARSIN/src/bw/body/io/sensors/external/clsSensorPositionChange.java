@@ -8,16 +8,17 @@ package bw.body.io.sensors.external;
 
 import java.util.ArrayList;
 
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
+import physics2D.physicalObject.clsCollidingObject;
+
 import config.clsProperties;
 
-import ARSsim.physics2D.util.clsPose;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.base.clsEntity;
 import bw.utils.enums.eBodyParts;
 
 import sim.physics2D.util.Double2D;
+import tools.clsPose;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

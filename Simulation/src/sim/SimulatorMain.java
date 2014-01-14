@@ -25,8 +25,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import config.clsProperties;
-import bw.factories.clsSingletonProperties;
-import bw.factories.clsSingletonMasonGetter;
 
 import javax.swing.JFrame;
 
@@ -35,6 +33,8 @@ import org.slf4j.Logger;
 import java.awt.Graphics2D;
 
 import sim.portrayal.DrawInfo2D;
+import singeltons.clsSingletonMasonGetter;
+import singeltons.clsSingletonProperties;
 import du.itf.sensors.clsInspectorPerceptionItem;
 import factories.clsSingletonSimState;
 
@@ -79,7 +79,7 @@ public class SimulatorMain extends GUIState {
     
 	/** GUI widget which holds some number of field portrayals and frames, 
 	 * usually layered on top of one another */
-	private ARSsim.display.Display2D moDisplay;
+	private display.Display2D moDisplay;
 	/** window to hold Main Display2D panel */
 	private JFrame moDisplayGamegridFrame;
 	/** window to hold charting panel */
@@ -155,7 +155,7 @@ public class SimulatorMain extends GUIState {
 		//String oAutostart = clsMain.argumentForKey("-autostart", args, 0);
 		//Boolean nAutostart = new Boolean(oAutostart);
 		Boolean nAutostart = true;
-		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI, nAutostart) ); // 2011/06/14 CM+TD: adapted to new ARSsim.display.Console constructor
+		clsSingletonMasonGetter.setConsole( new console.Console(oMainWithUI, nAutostart) ); // 2011/06/14 CM+TD: adapted to new ARSsim.display.Console constructor
 		Dimension windowSize = clsSingletonMasonGetter.getConsole().getSize();
 		windowSize.height+=300;
 		clsSingletonMasonGetter.getConsole().setSize(windowSize);
@@ -192,7 +192,7 @@ public class SimulatorMain extends GUIState {
     public static clsProperties getDefaultProperties(String poPrefix) {
     	 String pre = clsProperties.addDot(poPrefix);
     	 
-    	 clsProperties oProp = ARSsim.display.Display2D.getDefaultProperties(pre);
+    	 clsProperties oProp = display.Display2D.getDefaultProperties(pre);
     	 
     	 oProp.setProperty(pre+P_BACKGROUNDCOLOR, Color.white);
     	 oProp.setProperty(pre+P_TITLE, "ARSin V1.0 GameGrid");
@@ -217,7 +217,7 @@ public class SimulatorMain extends GUIState {
     	clsProperties oProp = clsSingletonProperties.getSystemProperties();
     	String pre = "";
     	
-		moDisplay = ARSsim.display.Display2D.createDisplay2d("", oProp, this);
+		moDisplay = display.Display2D.createDisplay2d("", oProp, this);
 		moDisplay.setClipping( oProp.getPropertyBoolean(pre+P_CLIPPING) ); //we'd like to see objects outside the width & height box
 		
 		//let the display generate a frame for you

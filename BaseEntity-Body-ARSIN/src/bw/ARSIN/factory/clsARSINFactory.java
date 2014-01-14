@@ -15,7 +15,6 @@ import bw.ARSIN.clsARSIN;
 import bw.entities.base.clsAnimal;
 import bw.entities.base.clsBase;
 import bw.entities.base.clsEntity;
-import bw.entities.base.clsRemoteBot;
 import bw.entities.base.clsSmartExcrement;
 import bw.entities.base.clsUraniumOre;
 import config.clsProperties;
@@ -42,7 +41,6 @@ public class clsARSINFactory {
 		
 		moEntities.put(eEntityType.ARSIN, clsARSIN.class);
 		moEntities.put(eEntityType.BASE, clsBase.class);
-		moEntities.put(eEntityType.REMOTEBOT, clsRemoteBot.class);
 		moEntities.put(eEntityType.ANIMAL, clsAnimal.class);
 		moEntities.put(eEntityType.URANIUM, clsUraniumOre.class);
 		moEntities.put(eEntityType.SMARTEXCREMENT, clsSmartExcrement.class);

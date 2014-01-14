@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import physics2D.physicalObject.clsCollidingObject;
+import physics2D.physicalObject.clsMobileObject2D;
+import physics2D.physicalObject.clsStationaryObject2D;
+
 import config.clsProperties;
 import du.enums.eEntityType;
 
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.base.clsEntity;
@@ -144,9 +145,9 @@ public class clsSensorRadiation extends clsSensorExt {
 		clsEntity oResult = null;
 		
 		if (poObject instanceof clsMobileObject2D) {
-			oResult = ((clsMobileObject2D) poObject).getEntity();
+			oResult = (clsEntity) ((clsMobileObject2D) poObject).getEntity();
 		} else if (poObject instanceof clsStationaryObject2D) {
-			oResult = ((clsStationaryObject2D) poObject).getEntity();
+			oResult = (clsEntity) ((clsStationaryObject2D) poObject).getEntity();
 		}	
 		
 		return oResult;

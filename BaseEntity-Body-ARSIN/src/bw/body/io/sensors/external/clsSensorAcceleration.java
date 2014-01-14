@@ -8,10 +8,11 @@ package bw.body.io.sensors.external;
 
 import java.util.ArrayList;
 
+import physics2D.physicalObject.clsCollidingObject;
+
 import config.clsProperties;
 
 import sim.physics2D.util.Double2D;
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.base.clsEntity;

@@ -89,8 +89,8 @@ public class clsInspectorBasic extends Inspector {
 		moProp1 = new  PropertyField("ID", ""+moEntity.getId(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp1_1 = new  PropertyField("UID", ""+moEntity.uid(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp2 = new  PropertyField("Type", ""+moEntity.getEntityType().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
-		moProp3 = new  PropertyField("Position X", clsInspectorUtils.FormatDouble(moEntity.getPosition().x), false, null, PropertyField.SHOW_TEXTFIELD);
-		moProp4 = new  PropertyField("Position Y", clsInspectorUtils.FormatDouble(moEntity.getPosition().y), false, null, PropertyField.SHOW_TEXTFIELD);
+		moProp3 = new  PropertyField("Position X", clsInspectorUtils.FormatDouble(moEntity.getPose().getPosition().x), false, null, PropertyField.SHOW_TEXTFIELD);
+		moProp4 = new  PropertyField("Position Y", clsInspectorUtils.FormatDouble(moEntity.getPose().getPosition().y), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp5 = new  PropertyField("Color", ""+moEntity.get2DShape().getPaint().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp6 = new  PropertyField("Mass", clsInspectorUtils.FormatDouble(moEntity.getTotalWeight()), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp7 = new  PropertyField("Angle [deg]", clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians *180/Math.PI), false, null, PropertyField.SHOW_TEXTFIELD);
@@ -131,8 +131,8 @@ public class clsInspectorBasic extends Inspector {
 	public void updateInspector() {
 
 		//update the values that could change
-		moProp3.setValue(clsInspectorUtils.FormatDouble(moEntity.getPosition().x));
-		moProp4.setValue(clsInspectorUtils.FormatDouble(moEntity.getPosition().y));
+		moProp3.setValue(clsInspectorUtils.FormatDouble(moEntity.getPose().getPosition().x));
+		moProp4.setValue(clsInspectorUtils.FormatDouble(moEntity.getPose().getPosition().y));
 		moProp5.setValue(""+moEntity.get2DShape().getPaint().toString());
 		moProp6.setValue(clsInspectorUtils.FormatDouble(moEntity.getTotalWeight()));
 		moProp7.setValue(clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians *180/Math.PI));

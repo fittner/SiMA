@@ -9,11 +9,12 @@ package entities;
 
 import java.awt.Color;
 
+import tools.clsPose;
+
 import config.clsProperties;
 import du.enums.eEntityType;
 import entities.factory.clsEntityFactory;
 
-import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
 import bw.entities.base.clsOrganic;

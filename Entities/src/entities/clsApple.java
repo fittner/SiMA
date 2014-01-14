@@ -10,6 +10,7 @@ package entities;
 
 import java.awt.Color;
 
+import registration.clsRegisterEntity;
 import statictools.clsGetARSPath;
 //import sim.display.GUIState;
 //import sim.portrayal.Inspector;
@@ -18,11 +19,12 @@ import statictools.clsGetARSPath;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
+import tools.clsPose;
+import tools.eImagePositioning;
 
 import config.clsProperties;
 import du.enums.eEntityType;
 import entities.factory.clsEntityFactory;
-import ARSsim.physics2D.util.clsPose;
 import bw.utils.enums.eShapeType;
 import bw.body.clsBaseBody;
 import bw.body.clsMeatBody;
@@ -39,8 +41,6 @@ import bw.entities.base.clsInanimate;
 import bw.entities.base.clsMobile;
 import bw.entities.base.clsOrganic;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
-import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
