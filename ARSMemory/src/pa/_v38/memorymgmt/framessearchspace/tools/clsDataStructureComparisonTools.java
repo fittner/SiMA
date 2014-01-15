@@ -8,7 +8,9 @@ package pa._v38.memorymgmt.framessearchspace.tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 
@@ -66,7 +68,7 @@ public abstract class clsDataStructureComparisonTools {
 	
 	private static Logger log = clsLogger.getLog("Memory");
 	
-	
+	private static Set<Integer> moVisitedMeshes = new HashSet<Integer>();
 	
 	
 	public static ArrayList<clsPair<Double,clsDataStructurePA>> compareDataStructures
@@ -104,59 +106,59 @@ public abstract class clsDataStructureComparisonTools {
 		return oRetVal; 
 	}
 	
-	/**
-	 * Get matches for one input datastructure container. A list with the activated containers and their match 
-	 * factors are returned
-	 *
-	 * @since 14.07.2011 16:06:16
-	 *
-	 * @param poSearchSpaceHandler
-	 * @param poContainerUnknown
-	 * @return
-	 */
-	public static ArrayList<clsPair<Double, clsDataStructureContainer>> compareDataStructuresContainer(
-			clsSearchSpaceHandler poSearchSpaceHandler,
-			clsDataStructureContainer poContainerUnknown, double prThreshold) {
-		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
-		ArrayList<clsPair<Double, clsDataStructureContainer>> oPreliminaryRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
-		
-		clsSearchSpaceBase poSearchSpace = poSearchSpaceHandler.returnSearchSpace();
-		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oMap 
-											= poSearchSpace.returnSearchSpaceTable().get(poContainerUnknown.getMoDataStructure().getMoDataStructureType());	//Nehme nur nach Typ Image oder TI
-		//Get Searchspace for a certain datatype
-		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poContainerUnknown.getMoDataStructure().getContentType().toString());
-		
-		//For each template image in the storage compare with the input image
-		//1. First search to get all matches
-		for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oMapWithType.entrySet()){
-			clsDataStructurePA oCompareElement = oEntry.getValue().a;
-	
-			clsDataStructureContainer oCompareContainer = getCompleteContainer(oCompareElement, poSearchSpaceHandler);
-			
-			double oMatch = 0.0; //clsSpatialTools.getImageMatch((clsPrimaryDataStructureContainer)poContainerUnknown, (clsPrimaryDataStructureContainer)oCompareContainer);
-			//double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown, true); //Strong matching deactivated
-		
-			if (oMatch < prThreshold)
-				continue;
-			// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
-			int i = 0;
-			while ((i + 1 < oPreliminaryRetVal.size()) && oMatch < oPreliminaryRetVal.get(i).a) {
-				i++;
-			}
-			
-			//Set moInstanceID for all structures in the container
-			//FIXME AW: NOTE: No instanceIDs are allowed to be set here. InstanceIDs must be set "ausserhalb" from the memory
-			//clsDataStructureTools.createInstanceFromType(oCompareContainer);
-			//Add results
-			oPreliminaryRetVal.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oCompareContainer));
-		}
-		//2. Second search, where the best matches are newly ordered. This newly ordered list is given back as a result
-		oRetVal.addAll(compareBestResults(oPreliminaryRetVal, poContainerUnknown, mrBestMatchThreshold, mrAssociationMaxValue));
-		
-		//3. Sort the list
-		//TODO AW: Sort the output list
-		return oRetVal;
-	}
+//	/**
+//	 * Get matches for one input datastructure container. A list with the activated containers and their match 
+//	 * factors are returned
+//	 *
+//	 * @since 14.07.2011 16:06:16
+//	 *
+//	 * @param poSearchSpaceHandler
+//	 * @param poContainerUnknown
+//	 * @return
+//	 */
+//	public static ArrayList<clsPair<Double, clsDataStructureContainer>> compareDataStructuresContainer(
+//			clsSearchSpaceHandler poSearchSpaceHandler,
+//			clsDataStructureContainer poContainerUnknown, double prThreshold) {
+//		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+//		ArrayList<clsPair<Double, clsDataStructureContainer>> oPreliminaryRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+//		
+//		clsSearchSpaceBase poSearchSpace = poSearchSpaceHandler.returnSearchSpace();
+//		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oMap 
+//											= poSearchSpace.returnSearchSpaceTable().get(poContainerUnknown.getMoDataStructure().getMoDataStructureType());	//Nehme nur nach Typ Image oder TI
+//		//Get Searchspace for a certain datatype
+//		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poContainerUnknown.getMoDataStructure().getContentType().toString());
+//		
+//		//For each template image in the storage compare with the input image
+//		//1. First search to get all matches
+//		for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oMapWithType.entrySet()){
+//			clsDataStructurePA oCompareElement = oEntry.getValue().a;
+//	
+//			clsDataStructureContainer oCompareContainer = getCompleteContainer(oCompareElement, poSearchSpaceHandler);
+//			
+//			double oMatch = 0.0; //clsSpatialTools.getImageMatch((clsPrimaryDataStructureContainer)poContainerUnknown, (clsPrimaryDataStructureContainer)oCompareContainer);
+//			//double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown, true); //Strong matching deactivated
+//		
+//			if (oMatch < prThreshold)
+//				continue;
+//			// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
+//			int i = 0;
+//			while ((i + 1 < oPreliminaryRetVal.size()) && oMatch < oPreliminaryRetVal.get(i).a) {
+//				i++;
+//			}
+//			
+//			//Set moInstanceID for all structures in the container
+//			//FIXME AW: NOTE: No instanceIDs are allowed to be set here. InstanceIDs must be set "ausserhalb" from the memory
+//			//clsDataStructureTools.createInstanceFromType(oCompareContainer);
+//			//Add results
+//			oPreliminaryRetVal.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oCompareContainer));
+//		}
+//		//2. Second search, where the best matches are newly ordered. This newly ordered list is given back as a result
+//		oRetVal.addAll(compareBestResults(oPreliminaryRetVal, poContainerUnknown, mrBestMatchThreshold, mrAssociationMaxValue));
+//		
+//		//3. Sort the list
+//		//TODO AW: Sort the output list
+//		return oRetVal;
+//	}
 	
 	
 	/**
@@ -621,7 +623,7 @@ public abstract class clsDataStructureComparisonTools {
 						//Get the complete mesh for this structure
 						//FIXME AW: Shall the structure be copied?
 						getCompleteMesh(oSubMesh, poSearchSpaceHandler, pnLevel-1);
-
+						
 						//Get the extended structures from the searched one and add them to the TPM
 						((clsThingPresentationMesh)oAss.getLeafElement()).setExternalAssociatedContent(oSubMesh.getExternalAssociatedContent());
 						//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
@@ -652,42 +654,60 @@ public abstract class clsDataStructureComparisonTools {
 					
 					if (bFound==false) {
 						try {
-							clsAssociation oClonedAss = (clsAssociation) oAss.clone();
+							//Kollmann: For now we will follow primary associations infinitely - therefore we need to make sure to avoid loops
+							if(oAss instanceof clsAssociationPrimary) {
+								clsThingPresentationMesh oSubMesh = (clsThingPresentationMesh)oAss.getLeafElement();
 							
-							if (oClonedAss instanceof clsAssociationPrimary || 
-									oClonedAss instanceof clsAssociationPrimaryDM) {
-								//If pnLevel is at least 1 and this association does not exist in the list
-								if (pnLevel>=1 && oRetVal.getExternalAssociatedContent().contains(oClonedAss)==false) {
-									//Replace the erroneous associations
-									if (oRetVal.getDS_ID()==oClonedAss.getRootElement().getDS_ID()) {
-										oClonedAss.setRootElement(oRetVal);
-									} else if (oRetVal.getDS_ID()==oClonedAss.getLeafElement().getDS_ID()) {
-										oClonedAss.setLeafElement(oRetVal);
-									} else {
-										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
-									}
-									
-									oRetVal.getExternalAssociatedContent().add(oClonedAss);
-								}
-							} else if (oClonedAss instanceof clsAssociationAttribute || 
-									oClonedAss instanceof clsAssociationDriveMesh || 
-									oClonedAss instanceof clsAssociationEmotion) {
-								//If pnLevel is at least 1 and this association does not exist in the list
-								if (oRetVal.getExternalAssociatedContent().contains(oClonedAss)==false) {
-									//Replace the erroneous associations
-									if (oRetVal.getDS_ID()==oClonedAss.getRootElement().getDS_ID()) {
-										oClonedAss.setRootElement(oRetVal);
-									} else if (oRetVal.getDS_ID()==oClonedAss.getLeafElement().getDS_ID()) {
-										oClonedAss.setLeafElement(oRetVal);
-									} else {
-										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
-									}
-									
-									oRetVal.getExternalAssociatedContent().add(oClonedAss);
+								if(!moVisitedMeshes.contains(oSubMesh.getDS_ID())) {
+									moVisitedMeshes.add(oSubMesh.getDS_ID());
+									getCompleteMesh(oSubMesh, poSearchSpaceHandler, pnLevel);
 								}
 								
-							} else if ((oClonedAss instanceof clsAssociationTime)==false) {
-								oRetVal.getExternalAssociatedContent().add(oClonedAss);
+								if (oRetVal.getExternalAssociatedContent().contains(oAss)==false) {
+									//Replace the erroneous associations
+									if (oRetVal.getDS_ID()==oAss.getRootElement().getDS_ID()) {
+										oAss.setRootElement(oRetVal);
+									} else if (oRetVal.getDS_ID()==oAss.getLeafElement().getDS_ID()) {
+										oAss.setLeafElement(oRetVal);
+									} else {
+										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oAss);
+									}
+									
+									oRetVal.getExternalAssociatedContent().add(oAss);
+								}
+							} else if (oAss instanceof clsAssociationPrimaryDM) {
+								//If pnLevel is at least 1 and this association does not exist in the list
+								if (pnLevel>=1 && oRetVal.getExternalAssociatedContent().contains(oAss)==false) {
+									//Replace the erroneous associations
+									if (oRetVal.getDS_ID()==oAss.getRootElement().getDS_ID()) {
+										oAss.setRootElement(oRetVal);
+									} else if (oRetVal.getDS_ID()==oAss.getLeafElement().getDS_ID()) {
+										oAss.setLeafElement(oRetVal);
+									} else {
+										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oAss);
+									}
+									
+									oRetVal.getExternalAssociatedContent().add(oAss);
+								}
+							} else if (oAss instanceof clsAssociationAttribute || 
+									oAss instanceof clsAssociationDriveMesh || 
+									oAss instanceof clsAssociationEmotion) {
+								//If pnLevel is at least 1 and this association does not exist in the list
+								if (pnLevel>=1 && oRetVal.getExternalAssociatedContent().contains(oAss)==false) {
+									//Replace the erroneous associations
+									if (oRetVal.getDS_ID()==oAss.getRootElement().getDS_ID()) {
+										oAss.setRootElement(oRetVal);
+									} else if (oRetVal.getDS_ID()==oAss.getLeafElement().getDS_ID()) {
+										oAss.setLeafElement(oRetVal);
+									} else {
+										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oAss);
+									}
+									
+									oRetVal.getExternalAssociatedContent().add(oAss);
+								}
+								
+							} else if ((oAss instanceof clsAssociationTime)==false) {
+								oRetVal.getExternalAssociatedContent().add(oAss);
 							}
 							
 						} catch (CloneNotSupportedException e) {

@@ -181,6 +181,25 @@ public class DataStructureConversionTools {
                     clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
                     
                     clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
+//                } else if(oTPMExternalAss instanceof clsAssociationPrimary) {
+//                	clsDataStructurePA oSubDataStructure = ((clsAssociationPrimary) oTPMExternalAss).getLeafElement();
+//                	
+//                	if(oSubDataStructure instanceof clsThingPresentationMesh) {
+//                	    clsThingPresentationMesh oSubTPM = (clsThingPresentationMesh)oSubDataStructure;
+//                	    
+//                        //Kollmann: currently the TPMs seem to store primary associations in both the root and the leaf of the association
+//                	    //          therefore we only consider associations where the current TPM is NOT the leaf
+//                	    if(!(oSubTPM.getDS_ID() == poTPM.getDS_ID())) {
+//                        	// Convert the complete structure to a WPM
+//                            clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, (clsThingPresentationMesh)oSubDataStructure, poProcessedList, pnLevel, contentType);
+//                            
+//                            if(oSubDataStructure.getContentType() == eContentType.ACTIONINSTANCE) {
+//                        	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
+//                        	} else if(oSubDataStructure.getContentType() == eContentType.ENTITY) {
+//                        	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTIONOBJECT, false);
+//                        	}
+//                	    }
+//                	}
                 }
                 
                 
@@ -221,11 +240,7 @@ public class DataStructureConversionTools {
                     clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, oSubTPM, poProcessedList, pnLevel - 1, contentType);
 
                     // Add the subWPM to the WPM structure
-                    if(oSubWPM.getContentType() == eContentType.ENTITY) {
-                        clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
-                    } else if(oSubWPM.getContentType() == eContentType.ACTIONINSTANCE) {
-                        clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
-                    }
+                    clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
                 }
             }
         }
