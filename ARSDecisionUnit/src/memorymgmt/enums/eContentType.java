@@ -144,6 +144,7 @@ public enum eContentType {
 	WP,
 	WPM,			//What should be done here
 	PRIINSTANCE, 	//This datatype is necessary in order to store actual experiences
+	ACTIONINSTANCE,
 	EMOTION, 
 	LIBIDO,
 	CONTEXT,
