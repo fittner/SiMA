@@ -18,8 +18,8 @@ import complexbody.io.sensors.external.clsSensorVision;
 
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
+import properties.clsProperties;
 
-import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import entities.abstractEntities.clsEntity;
@@ -29,9 +29,9 @@ import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
 import sim.engine.SimState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import statictools.clsGetARSPath;
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 
 /**
  * DOCUMENT Is a landmark for safe defection and stores smart excrements. Has infinite capacity.

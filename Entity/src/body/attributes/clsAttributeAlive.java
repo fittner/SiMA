@@ -6,7 +6,7 @@
  */
 package body.attributes;
 
-import config.clsProperties;
+import properties.clsProperties;
 import du.enums.eTriState;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyAttributes;

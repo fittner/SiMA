@@ -6,7 +6,7 @@
  */
 package loader;
 
-import config.clsProperties;
+import properties.clsProperties;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.field.grid.DoubleGrid2D;
@@ -14,7 +14,7 @@ import sim.field.network.Network;
 import sim.physics2D.PhysicsEngine2D;
 import singeltons.clsSingletonMasonGetter;
 import singeltons.clsSingletonProperties;
-import statictools.clsGetARSPath;
+import utils.clsGetARSPath;
 
 /**
  * Abstract loader definition. Provides the basic framework for the loaders to be called by clsBWMain. Silblings have to

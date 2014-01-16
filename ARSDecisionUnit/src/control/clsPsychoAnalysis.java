@@ -7,9 +7,9 @@ package control;
 
 
 
+import properties.clsProperties;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.interfaces.itfSearchSpaceAccess;
-import config.clsProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
 

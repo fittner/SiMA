@@ -10,11 +10,12 @@ package complexbody.intraBodySystems;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import properties.clsProperties;
+
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsFastMessengerSystem;
 import complexbody.internalSystems.clsHealthSystem;
 
-import config.clsProperties;
 import entities.enums.eBodyParts;
 import entities.enums.eNutritions;
 

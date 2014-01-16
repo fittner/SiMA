@@ -26,6 +26,9 @@ import modules.interfaces.eInterfaces;
 
 import org.apache.log4j.Logger;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentation;
@@ -36,8 +39,6 @@ import base.modules.clsModuleBase;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eFastMessengerSources;
 import du.enums.eOrgan;
 import du.enums.eOrifice;

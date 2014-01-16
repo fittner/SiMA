@@ -14,9 +14,10 @@ import memorymgmt.situationloader.clsSituationLoader;
 
 import org.junit.Test;
 
+import properties.clsProperties;
+
 import base.datatypes.clsConcept;
 import base.datatypes.clsSituation;
-import config.clsProperties;
 
 /**
  * DOCUMENT (havlicek) - test cases for the implementation of the itfSituationLoader
@@ -28,7 +29,7 @@ public class clsSituationLoaderTest {
 
     /**
      * Test method for
-     * {@link memorymgmt.situationloader.clsSituationLoader# clsSituationLoader(base.datatypes.clsConcept, java.lang.String, config.clsProperties, pa._v38.memorymgmt.itfKnowledgeBaseHandler)}
+     * {@link memorymgmt.situationloader.clsSituationLoader# clsSituationLoader(base.datatypes.clsConcept, java.lang.String, properties.clsProperties, pa._v38.memorymgmt.itfKnowledgeBaseHandler)}
      * .
      */
     @Test

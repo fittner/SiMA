@@ -47,7 +47,7 @@ import com.l2fprod.common.swing.JTaskPane;
 import com.l2fprod.common.swing.JTaskPaneGroup;
 
 import sim.portrayal.Inspector;
-import statictools.clsGetARSPath;
+import utils.clsGetARSPath;
 
 
 /**

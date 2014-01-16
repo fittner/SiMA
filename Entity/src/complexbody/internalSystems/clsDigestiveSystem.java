@@ -10,12 +10,13 @@ package complexbody.internalSystems;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import utils.exceptions.exContentColumnMaxContentExceeded;
 import utils.exceptions.exContentColumnMinContentUnderrun;
 import utils.exceptions.exNoSuchNutritionType;
 
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
 import entities.enums.eNutritions;
 import body.itfStepUpdateInternalState;
 import body.utils.clsFillLevel;

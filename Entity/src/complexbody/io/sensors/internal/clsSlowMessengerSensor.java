@@ -9,13 +9,14 @@ package complexbody.io.sensors.internal;
 import java.util.HashMap;
 import java.util.Map;
 
+import properties.clsProperties;
+
 import complexbody.internalSystems.clsSlowMessengerSystem;
 import complexbody.io.clsBaseIO;
 
 import body.clsBaseBody;
 import body.clsComplexBody;
 import body.utils.clsDecayColumn;
-import config.clsProperties;
 import du.enums.eSlowMessenger;
 import entities.enums.eBodyParts;
 

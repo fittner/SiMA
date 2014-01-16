@@ -18,6 +18,7 @@ import java.util.Iterator;
 import complexbody.io.actuators.actionExecutors.clsAction;
 
 import physics2D.shape.itfImageShape;
+import properties.clsProperties;
 
 
 import body.clsBaseBody;
@@ -26,20 +27,15 @@ import body.itfget.itfGetBody;
 
 
 
-import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eFacialExpression;
 import du.enums.eOdor;
 import du.enums.eSpeechExpression;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
-import singeltons.clsSingletonProperties;
+import singeltons.clsSimState;
 import singeltons.eImages;
 
-import statictools.clsSimState;
-import statictools.eventlogger.Event;
-import statictools.eventlogger.clsEventLogger;
-import statictools.eventlogger.eEvent;
 import tools.clsPose;
 
 
@@ -127,9 +123,7 @@ public abstract class clsEntity implements itfGetBody, itfEntity {
 		
 		mnUniqueId = uid;
 		
-		if (clsSingletonProperties.useLogger()){
-			clsEventLogger.add(new Event(this, moId, eEvent.CREATE, "uid="+this.uid));
-		}
+
 	}
 	
 	public abstract void setMasonInspectorFactory(itfEntityInspectorFactory poMasonInspector);

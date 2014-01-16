@@ -10,17 +10,15 @@ package entities;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import properties.clsProperties;
+
 import complexbody.io.clsExternalIO;
 
 import sim.physics2D.shape.Shape;
-import statictools.clsGetARSPath;
-import statictools.eventlogger.Event;
-import statictools.eventlogger.clsEventLogger;
-import statictools.eventlogger.eEvent;
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 
-import config.clsProperties;
 
 import du.enums.eActionKissIntensity;
 import du.enums.eEntityType;
@@ -272,13 +270,9 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	
 	private void updateShape() {
 		 if (!mnAlive) {
-			clsEventLogger.add(new Event(this, getId(), eEvent.DEAD, ""));
 			set2DShape(moDead2D, getTotalWeight());
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		} else {
-			
-			
-			clsEventLogger.add(new Event(this, getId(), eEvent.ALIVE, ""));
 			set2DShape(moAlive2D, getTotalWeight());
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}

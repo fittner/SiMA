@@ -44,7 +44,7 @@ import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
-import config.clsProperties;
+import properties.clsProperties;
 import base.datatypes.helpstructures.clsQuadruppel;
 import du.enums.pa.eDriveComponent;
 

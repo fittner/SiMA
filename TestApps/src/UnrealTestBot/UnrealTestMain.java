@@ -8,19 +8,20 @@ package UnrealTestBot;
 
 import java.util.Vector;
 
+import properties.clsProperties;
+
 
 import complexbody.brainsocket.clsBrainSocket;
 
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
+import singeltons.clsSimState;
 import singeltons.clsSingletonMasonGetter;
-import statictools.clsGetARSPath;
-import statictools.clsSimState;
-import statictools.clsUniqueIdGenerator;
+import utils.clsGetARSPath;
+import utils.clsUniqueIdGenerator;
 import alternativeLoader.clsExternalARSINLoader;
 import body.clsComplexBody;
 import body.clsUnrealBody;
-import config.clsProperties;
 import du.enums.eEntityType;
 import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsUnrealSensorValueVision;

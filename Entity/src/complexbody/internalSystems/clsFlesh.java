@@ -11,9 +11,10 @@ import body.utils.clsFood;
 
 import java.lang.Math;
 
+import properties.clsProperties;
+
 import utils.exceptions.exFoodWeightBelowZero;
 
-import config.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

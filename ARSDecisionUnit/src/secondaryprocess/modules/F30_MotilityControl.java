@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import memorymgmt.enums.eActionType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -31,7 +33,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 import du.enums.eInternalActionIntensity;
 import du.itf.actions.clsActionInvite;
 import du.itf.actions.clsActionShare;

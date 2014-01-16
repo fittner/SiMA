@@ -18,15 +18,13 @@ import sim.portrayal.network.NetworkPortrayal2D;
 import sim.portrayal.network.SimpleEdgePortrayal2D;
 import sim.portrayal.network.SpatialNetwork2D;
 import sim.portrayal.simple.OvalPortrayal2D;
-import statictools.clsGetARSPath;
-import statictools.eventlogger.clsEventLogger;
-import statictools.eventlogger.clsEventLoggerInspector;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import config.clsProperties;
 
 import javax.swing.JFrame;
+
+import properties.clsProperties;
 
 
 import java.awt.Graphics2D;
@@ -34,6 +32,7 @@ import java.awt.Graphics2D;
 import sim.portrayal.DrawInfo2D;
 import singeltons.clsSingletonMasonGetter;
 import singeltons.clsSingletonProperties;
+import utils.clsGetARSPath;
 import du.itf.sensors.clsInspectorPerceptionItem;
 
 
@@ -158,9 +157,9 @@ public class SimulatorMain extends GUIState {
 		clsSingletonMasonGetter.getConsole().setSize(windowSize);
 		clsSingletonMasonGetter.getConsole().setVisible(true);
 		
-		clsEventLoggerInspector oELI = new clsEventLoggerInspector();
-		clsSingletonMasonGetter.getConsole().getTabPane().addTab("Eventlog", oELI);
-		clsEventLogger.setELI(oELI);
+		//clsEventLoggerInspector oELI = new clsEventLoggerInspector();
+		//clsSingletonMasonGetter.getConsole().getTabPane().addTab("Eventlog", oELI);
+		//clsEventLogger.setELI(oELI);
 		
 		//TODO CM load the properties Inspector Tab here
 		//clsPropertiesInspector oMagnumPI = new clsPropertiesInspector();

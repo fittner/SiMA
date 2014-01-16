@@ -9,12 +9,13 @@ package entities;
 
 import java.awt.Color;
 
+import properties.clsProperties;
+
 import tools.clsPose;
 
 
 
 
-import config.clsProperties;
 import du.enums.eEntityType;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsInanimate;

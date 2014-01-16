@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
@@ -27,7 +29,6 @@ import modules.interfaces.I5_7_receive;
 import modules.interfaces.I5_8_receive;
 import modules.interfaces.I5_8_send;
 import modules.interfaces.eInterfaces;
-import config.clsProperties;
 import testfunctions.clsTester;
 
 /**

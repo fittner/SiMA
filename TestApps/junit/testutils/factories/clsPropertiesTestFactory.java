@@ -6,7 +6,7 @@
  */
 package testutils.factories;
 
-import config.clsProperties;
+import properties.clsProperties;
 
 /**
  * DOCUMENT (ende) - insert description 

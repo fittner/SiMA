@@ -6,8 +6,8 @@
  */
 package memorymgmt.situationloader;
 
+import properties.clsProperties;
 import base.datatypes.clsConcept;
-import config.clsProperties;
 
 /**
  * DOCUMENT (havlicek) - abstract implementation of the search algorithms interface for the situation search.

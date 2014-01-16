@@ -40,6 +40,7 @@ import complexbody.io.sensors.uitils.clsSensorDataCalculation;
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
+import properties.clsProperties;
 
 import sim.field.grid.DoubleGrid2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -54,7 +55,6 @@ import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
 import body.itfStepProcessing;
 import body.attributes.clsAttributeAlive;
-import config.clsProperties;
 import du.enums.eAntennaPositions;
 import du.enums.eEntityType;
 import du.enums.eFastMessengerSources;

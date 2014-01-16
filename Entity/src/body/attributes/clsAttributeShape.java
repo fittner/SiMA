@@ -6,8 +6,8 @@
  */
 package body.attributes;
 
+import properties.clsProperties;
 import sim.physics2D.shape.Shape;
-import config.clsProperties;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyAttributes;
 

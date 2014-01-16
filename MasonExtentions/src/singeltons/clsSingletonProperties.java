@@ -8,7 +8,7 @@
  */
 package singeltons;
 
-import config.clsProperties;
+import properties.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

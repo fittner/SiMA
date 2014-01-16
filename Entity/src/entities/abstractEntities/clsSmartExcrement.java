@@ -8,14 +8,15 @@ package entities.abstractEntities;
 
 import java.awt.Color;
 
+import properties.clsProperties;
+
 import complexbody.internalSystems.clsFlesh;
 
-import statictools.clsGetARSPath;
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 import utils.exceptions.exFoodWeightBelowZero;
 
-import config.clsProperties;
 import du.enums.eEntityType;
 import entities.enums.eBodyType;
 import entities.enums.eNutritions;

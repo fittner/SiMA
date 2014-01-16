@@ -10,11 +10,12 @@ package complexbody.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
+import properties.clsProperties;
+
 import complexbody.io.actuators.clsInternalActionExecutor;
 
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
-import config.clsProperties;
 import du.enums.eSpeechExpression;
 import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionTurn;

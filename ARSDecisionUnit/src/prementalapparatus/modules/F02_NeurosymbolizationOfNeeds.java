@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.Map;
 
+import properties.clsProperties;
+
 import modules.interfaces.I1_2_receive;
 import modules.interfaces.I2_2_receive;
 import modules.interfaces.I2_2_send;
@@ -23,7 +25,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;

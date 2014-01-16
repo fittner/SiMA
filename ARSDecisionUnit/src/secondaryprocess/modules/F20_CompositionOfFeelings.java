@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationWordPresentation;
@@ -45,7 +47,6 @@ import modules.interfaces.I6_4_receive;
 import modules.interfaces.I6_5_receive;
 import modules.interfaces.eInterfaces;
 import secondaryprocess.datamanipulation.clsMeshTools;
-import config.clsProperties;
 
 /**
  * - Converts separated quota of affect into affects for the secondary process.

@@ -6,12 +6,12 @@
  */
 package complexbody.interBodyWorldSystems;
 
+import properties.clsProperties;
 import complexbody.internalSystems.clsSpeechSystem;
 
-import statictools.clsUniqueIdGenerator;
 import tools.clsPolarcoordinate;
 import tools.clsPose;
-import config.clsProperties;
+import utils.clsUniqueIdGenerator;
 import du.itf.tools.clsAbstractSpeech;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsSpeech;

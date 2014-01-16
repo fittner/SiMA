@@ -7,9 +7,9 @@
  */
 package complexbody.io;
 
-import config.clsProperties;
+import properties.clsProperties;
 import entities.enums.eBodyParts;
-import statictools.clsUniqueIdGenerator;
+import utils.clsUniqueIdGenerator;
 
 /**
  * Base class for all sensors and actuators, contains methods and definitions for the extending classes

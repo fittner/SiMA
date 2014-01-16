@@ -42,6 +42,8 @@ import primaryprocess.modules.F57_MemoryTracesForDrives;
 import primaryprocess.modules.F63_CompositionOfEmotions;
 import primaryprocess.modules.F64_PartialSexualDrives;
 import primaryprocess.modules.F65_PartialSelfPreservationDrives;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.helpstructures.clsPair;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -52,8 +54,6 @@ import memorymgmt.storage.DT2_BlockedContentStorage;
 import memorymgmt.storage.DT3_PsychicEnergyStorage;
 import memorymgmt.storage.DT4_PleasureStorage;
 import modules.interfaces.eInterfaces;
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
 import externalmessager.DatapointHandler;
 import externalmessager.MonitorExecutor;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
@@ -70,9 +70,9 @@ import secondaryprocess.modules.F52_GenerationOfImaginaryActions;
 import secondaryprocess.modules.F53_RealityCheckActionPlanning;
 import secondaryprocess.modules.F61_Localization;
 import secondaryprocess.modules.F66_SpeechProduction;
-import statictools.clsGetARSPath;
 import testfunctions.clsTester;
 import timing.TimingStarter;
+import utils.clsGetARSPath;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the

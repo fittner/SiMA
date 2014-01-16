@@ -6,12 +6,12 @@
  */
 package complexbody.io.actuators.actionExecutors;
 
-import config.clsProperties;
 import java.util.ArrayList;
 
 import complexbody.io.actuators.clsInternalActionExecutor;
 
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
+import properties.clsProperties;
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
 

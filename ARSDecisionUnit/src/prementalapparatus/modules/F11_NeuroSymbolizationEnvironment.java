@@ -23,6 +23,7 @@ import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntry;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import prementalapparatus.symbolization.representationsymbol.itfSymbolVisionEntry;
+import properties.clsProperties;
 import modules.interfaces.I1_3_receive;
 import modules.interfaces.I2_3_receive;
 import modules.interfaces.I2_3_send;
@@ -32,7 +33,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 

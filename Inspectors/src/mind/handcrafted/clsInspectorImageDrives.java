@@ -36,7 +36,7 @@ import base.datatypes.helpstructures.clsPair;
 import inspector.interfaces.itfInspectorModificationDrives;
 import primaryprocess.modules.F06_DefenseMechanismsForDrives.clsChangedDrives;
 import sim.portrayal.Inspector;
-import statictools.clsGetARSPath;
+import utils.clsGetARSPath;
 
 /**
  * DOCUMENT (Jordakieva) - insert description 

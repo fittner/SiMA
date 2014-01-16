@@ -6,9 +6,9 @@
  */
 package entities.abstractEntities;
 
+import properties.clsProperties;
 import body.clsBaseBody;
 import body.clsSimpleBody;
-import config.clsProperties;
 
 /**
  * DOCUMENT (herret) - insert description 

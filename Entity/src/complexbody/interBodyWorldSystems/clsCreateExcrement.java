@@ -8,15 +8,16 @@ package complexbody.interBodyWorldSystems;
 
 import java.util.Random;
 
+import properties.clsProperties;
+
 import complexbody.internalSystems.clsDigestiveSystem;
 
-import statictools.clsUniqueIdGenerator;
 import tools.clsPolarcoordinate;
 import tools.clsPose;
+import utils.clsUniqueIdGenerator;
 import utils.exceptions.exNoSuchNutritionType;
 
 
-import config.clsProperties;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsSmartExcrement;
 import entities.enums.eNutritions;

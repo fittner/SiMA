@@ -7,13 +7,13 @@
  */
 package complexbody.interBodyWorldSystems;
 
+import properties.clsProperties;
 import utils.exceptions.exSlowMessengerDoesNotExist;
 import utils.exceptions.exValueNotWithinRange;
 import complexbody.internalSystems.clsFastMessengerSystem;
 import complexbody.internalSystems.clsHealthSystem;
 import complexbody.internalSystems.clsSlowMessengerSystem;
 
-import config.clsProperties;
 import du.enums.eSlowMessenger;
 import entities.enums.eBodyParts;
 import body.itfStep;

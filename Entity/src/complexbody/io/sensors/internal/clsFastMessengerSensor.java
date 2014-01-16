@@ -8,11 +8,12 @@ package complexbody.io.sensors.internal;
 
 import java.util.ArrayList;
 
+import properties.clsProperties;
+
 import complexbody.internalSystems.clsFastMessengerEntry;
 import complexbody.internalSystems.clsFastMessengerSystem;
 import complexbody.io.clsBaseIO;
 
-import config.clsProperties;
 import entities.enums.eBodyParts;
 import body.clsBaseBody;
 import body.clsComplexBody;

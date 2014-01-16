@@ -7,9 +7,9 @@
  */
 package complexbody.io;
 
+import properties.clsProperties;
 import complexbody.internalSystems.clsInternalEnergyConsumption;
 
-import config.clsProperties;
 import datatypes.clsMutableDouble;
 import entities.enums.eBodyParts;
 import body.clsBaseBody;

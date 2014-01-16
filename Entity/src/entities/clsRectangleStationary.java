@@ -10,6 +10,8 @@ package entities;
 
 import java.awt.Color;
 
+import properties.clsProperties;
+
 import tools.clsPose;
 import tools.eImagePositioning;
 
@@ -20,7 +22,6 @@ import tools.eImagePositioning;
 
 //import bw.utils.inspectors.entity.clsInspectorBasic;
 
-import config.clsProperties;
 import du.enums.eEntityType;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsStationary;

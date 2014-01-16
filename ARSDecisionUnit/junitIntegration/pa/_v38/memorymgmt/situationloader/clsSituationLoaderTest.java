@@ -14,9 +14,10 @@ import memorymgmt.situationloader.clsSituationLoader;
 
 import org.junit.Test;
 
+import properties.clsProperties;
+
 import base.datatypes.clsConcept;
 import base.datatypes.clsSituation;
-import config.clsProperties;
 
 /**
  * DOCUMENT (havlicek) - test cases for the implementation of the itfSituationLoader

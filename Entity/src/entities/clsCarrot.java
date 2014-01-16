@@ -11,9 +11,10 @@ package entities;
 import java.awt.Color;
 import java.util.Random;
 
+import properties.clsProperties;
+
 import complexbody.internalSystems.clsFlesh;
 
-import config.clsProperties;
 import du.enums.eEntityType;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
@@ -36,9 +37,9 @@ import registration.clsRegisterEntity;
 import sim.physics2D.shape.Shape;
 
 
-import statictools.clsGetARSPath;
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 import utils.exceptions.exFoodWeightBelowZero;
 
 /**

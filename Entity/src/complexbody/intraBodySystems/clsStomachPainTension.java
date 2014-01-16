@@ -6,10 +6,10 @@
  */
 package complexbody.intraBodySystems;
 
+import properties.clsProperties;
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsFastMessengerSystem;
 
-import config.clsProperties;
 import entities.enums.eBodyParts;
 import body.itfStepUpdateInternalState;
 

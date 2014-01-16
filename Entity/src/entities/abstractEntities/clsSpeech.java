@@ -12,16 +12,16 @@ import java.util.ArrayList;
 import complexbody.interBodyWorldSystems.clsCreateSpeech;
 
 import physics2D.physicalObject.clsCollidingObject;
+import properties.clsProperties;
 
 import registration.clsRegisterEntity;
 import sim.physics2D.shape.Shape;
 import singeltons.clsSingletonMasonGetter;
-import statictools.clsGetARSPath;
 import tools.clsPolarcoordinate;
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 import body.clsBaseBody;
-import config.clsProperties;
 import du.enums.eEntityType;
 import du.itf.tools.clsAbstractSpeech;
 import entities.enums.eShapeType;

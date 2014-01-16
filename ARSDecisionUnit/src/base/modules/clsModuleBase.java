@@ -20,7 +20,8 @@ import modules.interfaces.eInterfaces;
 
 import org.slf4j.Logger;
 
-import config.clsProperties;
+import properties.clsProperties;
+
 import externalmessager.MonitorExecutor;
 import externalmessager.MonitorExecutorForModuleBaseInterface;
 

@@ -7,9 +7,9 @@
  */
 package complexbody.intraBodySystems;
 
+import properties.clsProperties;
 import body.attributes.clsAttributeAntenna;
 import body.attributes.clsAttributeEye;
-import config.clsProperties;
 import du.enums.eAntennaPositions;
 import du.enums.eEyeSize;
 import du.enums.eLensShape;

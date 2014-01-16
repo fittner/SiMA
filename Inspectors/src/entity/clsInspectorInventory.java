@@ -29,7 +29,7 @@ import body.clsComplexBody;
 import body.utils.clsContentColumn;
 import sim.portrayal.Inspector;
 import singeltons.clsSingletonMasonGetter;
-import statictools.clsExceptionUtils;
+import utils.clsExceptionUtils;
 
 /**
  * DOCUMENT (Jordakieva) - Visualizes the inventory of a selected agent in three forms of representation. 

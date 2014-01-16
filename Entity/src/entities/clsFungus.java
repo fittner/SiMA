@@ -9,21 +9,19 @@ package entities;
 
 import java.awt.Color;
 
+import properties.clsProperties;
+
 import complexbody.internalSystems.clsFlesh;
 
 import registration.clsRegisterEntity;
-import statictools.clsGetARSPath;
 //import sim.display.GUIState;
 //import sim.portrayal.Inspector;
 //import sim.portrayal.LocationWrapper;
 //import sim.portrayal.inspector.TabbedInspector;
-import statictools.eventlogger.Event;
-import statictools.eventlogger.clsEventLogger;
-import statictools.eventlogger.eEvent;
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 
-import config.clsProperties;
 import du.enums.eEntityType;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
@@ -127,8 +125,6 @@ public class clsFungus extends clsOrganic implements itfGetFlesh, itfAPEatable, 
 	public void updateInternalState() {		
 		if (getFlesh().getTotallyConsumed() && !mnDestroyed) {
 			mnDestroyed = true;
-			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
-			clsEventLogger.add(new Event(this, getId(), eEvent.DESTROY, ""));
 			//This command removes the cake from the playground
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 		}

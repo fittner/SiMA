@@ -20,6 +20,7 @@ import modules.interfaces.I6_3_receive;
 import modules.interfaces.I6_6_send;
 import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_6_receive;
+import properties.clsProperties;
 import secondaryprocess.functionality.FocusFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
@@ -35,7 +36,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 
 /**
  * The task of this module is to focus the external perception on ``important'' things. Important things are decided by the

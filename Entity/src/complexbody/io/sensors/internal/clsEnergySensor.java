@@ -6,10 +6,10 @@
  */
 package complexbody.io.sensors.internal;
 
+import properties.clsProperties;
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.io.clsBaseIO;
 
-import config.clsProperties;
 import entities.enums.eBodyParts;
 import body.clsBaseBody;
 import body.clsComplexBody;

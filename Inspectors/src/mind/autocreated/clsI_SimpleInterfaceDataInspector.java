@@ -16,7 +16,7 @@ import base.datatypes.helpstructures.clsPair;
 import base.tools.toText;
 import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
-import statictools.clsExceptionUtils;
+import utils.clsExceptionUtils;
 
 /**
  * DOCUMENT (deutsch) - insert description 

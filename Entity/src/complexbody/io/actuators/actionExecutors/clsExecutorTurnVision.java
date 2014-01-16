@@ -8,12 +8,12 @@
  */
 package complexbody.io.actuators.actionExecutors;
 
-import config.clsProperties;
 import java.util.ArrayList;
 
 import complexbody.io.actuators.clsActionExecutor;
 
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
+import properties.clsProperties;
 import body.clsComplexBody;
 import du.enums.eActionTurnDirection;
 import du.itf.actions.*;

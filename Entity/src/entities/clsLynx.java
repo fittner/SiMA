@@ -10,16 +10,17 @@ package entities;
 
 import java.awt.Color;
 
+import properties.clsProperties;
+
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsFlesh;
 import complexbody.internalSystems.clsInternalSystem;
 
-import config.clsProperties;
 
 import sim.physics2D.shape.Shape;
-import statictools.clsGetARSPath;
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;

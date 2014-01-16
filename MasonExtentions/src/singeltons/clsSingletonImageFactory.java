@@ -12,7 +12,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-import statictools.clsGetARSPath;
+
+import utils.clsGetARSPath;
 
 /**
  * DOCUMENT (muchitsch) - insert description 

@@ -7,7 +7,7 @@
 package complexbody.internalSystems;
 
 
-import config.clsProperties;
+import properties.clsProperties;
 import entities.actionProxies.itfAPSpeakable;
 import body.itfStepUpdateInternalState;
 

@@ -7,11 +7,11 @@
  */
 package complexbody.intraBodySystems;
 
+import properties.clsProperties;
 import complexbody.internalSystems.clsFastMessengerSystem;
 import complexbody.internalSystems.clsHealthSystem;
 import complexbody.internalSystems.clsTemperatureSystem;
 
-import config.clsProperties;
 import entities.enums.eBodyParts;
 import body.itfStepUpdateInternalState;
 

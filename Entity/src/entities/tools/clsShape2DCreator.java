@@ -12,14 +12,15 @@ import java.awt.Color;
 
 import java.util.ArrayList;
 
+import properties.clsProperties;
 
-import config.clsProperties;
+
 import entities.enums.eShapeType;
 
 import sim.physics2D.shape.Shape;
 import singeltons.clsSingletonProperties;
-import statictools.clsGetARSPath;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 import bfg.tools.shapes.clsPoint;
 
 

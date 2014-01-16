@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import memorymgmt.storage.DT3_PsychicEnergyStorage;
 import modules.interfaces.I5_12_receive;
 import modules.interfaces.I5_12_send;
@@ -29,7 +31,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 import du.enums.pa.eDriveComponent;
 
 /**

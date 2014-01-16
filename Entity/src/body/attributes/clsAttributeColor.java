@@ -8,7 +8,8 @@ package body.attributes;
 
 import java.awt.Color;
 
-import config.clsProperties;
+import properties.clsProperties;
+
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyAttributes;
 

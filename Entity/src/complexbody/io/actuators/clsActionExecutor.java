@@ -18,8 +18,8 @@ import complexbody.io.sensors.external.clsSensorVision;
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
+import properties.clsProperties;
 
-import config.clsProperties;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import body.clsComplexBody;

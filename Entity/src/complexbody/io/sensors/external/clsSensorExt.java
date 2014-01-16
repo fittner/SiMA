@@ -21,8 +21,8 @@ import complexbody.io.sensors.uitils.clsSensorDataCalculation;
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
+import properties.clsProperties;
 
-import config.clsProperties;
 import du.enums.eSensorExtType;
 import entities.abstractEntities.clsEntity;
 

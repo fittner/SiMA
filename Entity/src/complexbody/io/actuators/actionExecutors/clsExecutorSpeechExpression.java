@@ -6,8 +6,9 @@
  */
 package complexbody.io.actuators.actionExecutors;
 
-import config.clsProperties;
 import java.util.ArrayList;
+
+import properties.clsProperties;
 
 import complexbody.intraBodySystems.clsSpeechExpression;
 import complexbody.io.actuators.clsActionExecutor;

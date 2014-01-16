@@ -18,8 +18,8 @@ import complexbody.io.clsExternalIO;
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
+import properties.clsProperties;
 
-import config.clsProperties;
 import du.enums.eEntityType;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;

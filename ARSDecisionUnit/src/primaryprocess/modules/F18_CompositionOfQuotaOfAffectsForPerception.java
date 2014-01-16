@@ -21,8 +21,8 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 import primaryprocess.functionality.DataMergeFunctionality;
+import properties.clsProperties;
 
 /**
  * DOCUMENT (wendt) - insert description 

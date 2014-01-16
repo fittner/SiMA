@@ -22,6 +22,7 @@ import prementalapparatus.symbolization.representationsymbol.itfGetDataAccessMet
 import prementalapparatus.symbolization.representationsymbol.itfGetSymbolName;
 import prementalapparatus.symbolization.representationsymbol.itfIsContainer;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
+import properties.clsProperties;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eContent;
 import memorymgmt.enums.eContentType;
@@ -58,7 +59,6 @@ import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
 import bfg.utils.enums.eSide;
-import config.clsProperties;
 import du.enums.eActionTurnDirection;
 import du.enums.eDistance;
 import du.enums.eSaliency;

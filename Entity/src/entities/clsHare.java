@@ -10,22 +10,16 @@ package entities;
 
 import java.awt.Color;
 
+import properties.clsProperties;
+
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsFlesh;
 import complexbody.internalSystems.clsInternalSystem;
 
-import config.clsProperties;
-//import sim.display.GUIState;
 import sim.physics2D.shape.Shape;
-import statictools.clsGetARSPath;
-//import sim.portrayal.Inspector;
-//import sim.portrayal.LocationWrapper;
-//import sim.portrayal.inspector.TabbedInspector;
-import statictools.eventlogger.Event;
-import statictools.eventlogger.clsEventLogger;
-import statictools.eventlogger.eEvent;
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 import du.enums.eEntityType;
 import body.clsComplexBody;
 import body.itfget.itfGetFlesh;
@@ -288,11 +282,9 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		if ( !isAlive() && getFlesh().getTotallyConsumed() ) {
 			//This command removes the cake from the playground
 			//clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
-			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
 			set2DShape(moDeadAndEaten2D, getTotalWeight());
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		} else if (!isAlive()) {
-			clsEventLogger.add(new Event(this, getId(), eEvent.DEAD, ""));
 			set2DShape(moDead2D, getTotalWeight());
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}		

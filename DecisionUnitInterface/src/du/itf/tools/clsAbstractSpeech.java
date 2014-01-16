@@ -8,12 +8,13 @@
  */
 package du.itf.tools;
 
-import config.clsProperties;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.lang.Double;
+
+import properties.clsProperties;
 
 import du.itf.tools.clsAbstractSpeech.clsGrainLevel.clsGrain;
 import du.itf.tools.itfSpeakable;

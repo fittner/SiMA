@@ -6,7 +6,7 @@
  */
 package body.attributes;
 
-import config.clsProperties;
+import properties.clsProperties;
 import entities.enums.eBodyAttributes;
 
 /**

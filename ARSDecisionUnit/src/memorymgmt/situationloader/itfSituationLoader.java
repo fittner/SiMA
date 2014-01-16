@@ -6,9 +6,9 @@
  */
 package memorymgmt.situationloader;
 
+import properties.clsProperties;
 import base.datatypes.clsConcept;
 import base.datatypes.clsSituation;
-import config.clsProperties;
 
 /**
  * DOCUMENT (havlicek) - the SituationLoader takes as input pregenerated context entities and 

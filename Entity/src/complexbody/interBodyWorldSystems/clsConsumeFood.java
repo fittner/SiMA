@@ -11,12 +11,13 @@ import java.util.HashMap;
 
 import java.util.Iterator;
 
+import properties.clsProperties;
+
 import utils.exceptions.exFoodNotFinalized;
 import utils.exceptions.exNoSuchNutritionType;
 
 import complexbody.internalSystems.clsDigestiveSystem;
 
-import config.clsProperties;
 import datatypes.clsMutableDouble;
 import entities.enums.eNutritions;
 

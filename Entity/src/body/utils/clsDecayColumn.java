@@ -7,10 +7,10 @@
  */
 package body.utils;
 
+import properties.clsProperties;
 import utils.exceptions.exContentColumnMaxContentExceeded;
 import utils.exceptions.exContentColumnMinContentUnderrun;
 import utils.exceptions.exValueNotWithinRange;
-import config.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

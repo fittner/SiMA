@@ -20,6 +20,8 @@ import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.functionality.EffortFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalConditionFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
@@ -36,8 +38,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
 
 /**
  * The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}. 

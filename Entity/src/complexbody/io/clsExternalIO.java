@@ -9,6 +9,8 @@ package complexbody.io;
 
 import java.util.ArrayList;
 
+import properties.clsProperties;
+
 import complexbody.io.actuators.clsActionProcessor;
 import complexbody.io.actuators.actionExecutors.clsExecutorAttackBite;
 import complexbody.io.actuators.actionExecutors.clsExecutorAttackLightning;
@@ -44,7 +46,6 @@ import complexbody.io.sensors.external.clsSensorRadiation;
 import complexbody.io.sensors.external.clsSensorVision;
 
 import body.clsBaseBody;
-import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.actions.clsActionAttackBite;
 import du.itf.actions.clsActionAttackLightning;

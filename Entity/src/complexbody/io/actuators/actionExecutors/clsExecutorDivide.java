@@ -8,13 +8,14 @@ package complexbody.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
+import properties.clsProperties;
+
 import complexbody.io.actuators.clsActionExecutor;
 
 import singeltons.eImages;
 
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
-import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.actions.clsActionAttackLightning;
 import du.itf.actions.clsActionCommand;

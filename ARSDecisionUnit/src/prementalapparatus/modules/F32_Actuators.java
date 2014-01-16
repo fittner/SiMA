@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import modules.interfaces.I0_6_send;
 import modules.interfaces.I1_5_receive;
 import modules.interfaces.eInterfaces;
@@ -19,7 +21,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.itfActionProcessor;
 

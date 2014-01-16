@@ -10,9 +10,10 @@ package entities;
 
 import java.awt.Color;
 
+import properties.clsProperties;
+
 import complexbody.internalSystems.clsFlesh;
 
-import config.clsProperties;
 import du.enums.eEntityType;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
@@ -26,9 +27,9 @@ import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
 import body.clsMeatBody;
 import sim.physics2D.shape.Shape;
-import statictools.clsGetARSPath;
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 
 
 /**

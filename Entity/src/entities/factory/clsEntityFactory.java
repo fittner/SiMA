@@ -10,6 +10,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import properties.clsProperties;
+
 
 
 import entities.clsARSIN;
@@ -35,7 +37,6 @@ import entities.abstractEntities.clsBase;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsSmartExcrement;
 import entities.abstractEntities.clsUraniumOre;
-import config.clsProperties;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 

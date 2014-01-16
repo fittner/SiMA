@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import modules.interfaces.I1_1_receive;
 import modules.interfaces.I2_1_receive;
 import modules.interfaces.I2_1_send;
@@ -19,7 +21,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 import du.enums.eFastMessengerSources;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;

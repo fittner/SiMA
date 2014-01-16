@@ -8,7 +8,8 @@ package decisionunit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import config.clsProperties;
+import properties.clsProperties;
+
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
 import du.itf.actions.itfActionProcessor;

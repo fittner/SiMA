@@ -19,6 +19,7 @@ import complexbody.io.clsExternalIO;
 
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
+import properties.clsProperties;
 
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -26,7 +27,6 @@ import sim.physics2D.shape.Circle;
 import sim.physics2D.util.Double2D;
 import tools.clsPolarcoordinate;
 import utils.exceptions.exInvalidSensorRange;
-import config.clsProperties;
 import du.enums.eSensorExtType;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;

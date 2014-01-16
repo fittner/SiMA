@@ -2,7 +2,8 @@ package utils.PropertiesInspector;
 
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
-import config.clsProperties;
+
+import properties.clsProperties;
 
 
 public class clsTestFramePropertiesInspector extends JFrame {

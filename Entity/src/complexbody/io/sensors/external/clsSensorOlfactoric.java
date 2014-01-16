@@ -14,7 +14,7 @@ import complexbody.io.clsBaseIO;
 import complexbody.io.clsExternalIO;
 
 import physics2D.physicalObject.clsCollidingObject;
-import config.clsProperties;
+import properties.clsProperties;
 import entities.enums.eBodyParts;
 
 

@@ -41,11 +41,11 @@ import base.modules.ePsychicInstances;
 import base.tools.toText;
 import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
-import statictools.clsGetARSPath;
+import utils.clsGetARSPath;
 
 /**
  * Checks incoming drives and perceptions according to internalized rules.

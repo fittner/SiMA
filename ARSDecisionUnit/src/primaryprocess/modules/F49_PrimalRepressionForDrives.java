@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import modules.interfaces.I5_1_receive;
 import modules.interfaces.I5_2_receive;
 import modules.interfaces.I5_2_send;
@@ -28,8 +31,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 

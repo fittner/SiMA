@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
@@ -36,7 +38,6 @@ import modules.interfaces.eInterfaces;
 import secondaryprocess.functionality.conversion.DataStructureConversion;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import testfunctions.clsTester;
-import config.clsProperties;
 
 /**
  * This module does the same as {E8} but with perceptions instead of drive

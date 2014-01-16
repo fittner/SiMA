@@ -18,9 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
-import config.personality_parameter.clsPersonalityParameter;
-import config.personality_parameter.clsPersonalityParameterContainer;
-import config.personality_parameter.clsPersonalityParameterModule;
+import properties.personality_parameter.clsPersonalityParameter;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+import properties.personality_parameter.clsPersonalityParameterModule;
+
 import sim.portrayal.Inspector;
 
 /**

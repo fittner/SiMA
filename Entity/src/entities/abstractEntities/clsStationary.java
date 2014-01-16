@@ -9,9 +9,9 @@ package entities.abstractEntities;
 
 
 import physics2D.physicalObject.clsStationaryObject2D;
+import properties.clsProperties;
 import interfaces.itfEntityInspectorFactory;
 import interfaces.itfStationary;
-import config.clsProperties;
 import entities.tools.clsShape2DCreator;
 import registration.clsRegisterEntity;
 import sim.physics2D.shape.Shape;

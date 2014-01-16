@@ -6,10 +6,10 @@
  */
 package complexbody.io.sensors.external;
 
+import properties.clsProperties;
 import complexbody.io.clsBaseIO;
 import complexbody.io.clsExternalIO;
 
-import config.clsProperties;
 import entities.enums.eBodyParts;
 
 import sim.physics2D.util.Double2D;

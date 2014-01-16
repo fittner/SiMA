@@ -12,10 +12,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import properties.clsProperties;
+
 import utils.exceptions.exFoodAlreadyNormalized;
 import utils.exceptions.exFoodNotFinalized;
 
-import config.clsProperties;
 import datatypes.clsMutableDouble;
 import entities.enums.eNutritions;
 

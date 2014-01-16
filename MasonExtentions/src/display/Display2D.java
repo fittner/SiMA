@@ -9,7 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 
-import config.clsProperties;
+import properties.clsProperties;
+
 
 
 import sim.display.GUIState;

@@ -44,7 +44,7 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 import sim.portrayal.Inspector;
-import statictools.clsGetARSPath;
+import utils.clsGetARSPath;
 
 import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;

@@ -7,8 +7,8 @@
  */
 package complexbody.internalSystems;
 
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import datatypes.clsMutableDouble;
 import entities.enums.eBodyParts;
 import body.itfStepUpdateInternalState;

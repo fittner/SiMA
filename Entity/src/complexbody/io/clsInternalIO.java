@@ -9,6 +9,8 @@ package complexbody.io;
 
 import java.util.HashMap;
 
+import properties.clsProperties;
+
 import complexbody.io.sensors.internal.clsEnergyConsumptionSensor;
 import complexbody.io.sensors.internal.clsEnergySensor;
 import complexbody.io.sensors.internal.clsFastMessengerSensor;
@@ -21,7 +23,6 @@ import complexbody.io.sensors.internal.clsStomachSensor;
 import complexbody.io.sensors.internal.clsStomachTensionSensor;
 import complexbody.io.sensors.internal.clsTemperatureSensor;
 
-import config.clsProperties;
 import du.enums.eSensorIntType;
 import body.clsBaseBody;
 

@@ -4,9 +4,9 @@
  * 2011/07/06 TD - added javadoc comments. code sanitation.
  */
 package control.factory;
+import properties.clsProperties;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.interfaces.itfSearchSpaceAccess;
-import config.clsProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
 //import du.itf.itfDecisionUnitFactory;

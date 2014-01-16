@@ -6,9 +6,9 @@
  */
 package complexbody.intraBodySystems;
 
+import properties.clsProperties;
 import complexbody.internalSystems.clsFastMessengerSystem;
 
-import config.clsProperties;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
 import body.itfStepUpdateInternalState;

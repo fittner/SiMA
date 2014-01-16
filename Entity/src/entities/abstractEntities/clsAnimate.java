@@ -13,10 +13,10 @@ import java.util.TreeMap;
 import complexbody.io.sensors.external.clsSensorEngine;
 
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
+import properties.clsProperties;
 
 import registration.clsRegisterEntity;
 
-import config.clsProperties;
 import du.itf.itfDecisionUnit;
 import entities.enums.eBodyType;
 import body.clsBaseBody;

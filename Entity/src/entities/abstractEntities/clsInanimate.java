@@ -8,7 +8,7 @@
 package entities.abstractEntities;
 
 
-import config.clsProperties;
+import properties.clsProperties;
 
 
 

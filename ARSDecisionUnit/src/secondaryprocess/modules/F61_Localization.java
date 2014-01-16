@@ -16,13 +16,13 @@ import modules.interfaces.I6_1_receive;
 import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_12_send;
 import pa._v38.interfaces.modules.I6_13_receive;
+import properties.clsProperties;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.clsDumper;
-import config.clsProperties;
 
 /**
  *  Generates localization information for decision making from perceptual information and knowledge 

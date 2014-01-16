@@ -15,7 +15,7 @@ import modules.interfaces.eInterfaces;
 import base.tools.toText;
 import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
-import statictools.clsExceptionUtils;
+import utils.clsExceptionUtils;
 
 /**
  * DOCUMENT (deutsch) - insert description 

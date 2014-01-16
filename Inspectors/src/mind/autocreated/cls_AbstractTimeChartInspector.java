@@ -24,8 +24,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
 import base.datatypes.helpstructures.clsPair;
-import statictools.clsExceptionUtils;
-import statictools.clsSimState;
+import singeltons.clsSimState;
+import utils.clsExceptionUtils;
 
 /**
  * DOCUMENT (deutsch) - insert description 

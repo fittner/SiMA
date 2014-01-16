@@ -21,6 +21,8 @@ import modules.interfaces.I6_8_receive;
 import modules.interfaces.I6_8_send;
 import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_7_receive;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
@@ -38,8 +40,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 

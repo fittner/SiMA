@@ -18,8 +18,8 @@ import complexbody.io.clsExternalIO;
 import complexbody.io.sensors.external.clsSensorExt;
 
 import physics2D.physicalObject.clsCollidingObject;
+import properties.clsProperties;
 
-import config.clsProperties;
 import entities.enums.eBodyParts;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.util.Double2D;

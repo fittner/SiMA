@@ -7,7 +7,6 @@
  */
 package singeltons;
 
-import factories.clsSingletonSimState;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.field.grid.DoubleGrid2D;

@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import config.clsProperties;
+import properties.clsProperties;
+
 import entities.enums.eBodyParts;
 import body.itfStepUpdateInternalState;
 

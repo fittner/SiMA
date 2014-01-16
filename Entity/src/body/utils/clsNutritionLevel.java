@@ -7,9 +7,9 @@
  */
 package body.utils;
 
+import properties.clsProperties;
 import utils.exceptions.exContentColumnMaxContentExceeded;
 import utils.exceptions.exContentColumnMinContentUnderrun;
-import config.clsProperties;
 import body.itfStep;
 
 /**

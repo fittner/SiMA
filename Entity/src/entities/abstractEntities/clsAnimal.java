@@ -9,11 +9,9 @@ package entities.abstractEntities;
 
 import java.awt.Color;
 
-import statictools.eventlogger.Event;
-import statictools.eventlogger.clsEventLogger;
-import statictools.eventlogger.eEvent;
+import properties.clsProperties;
+
 import tools.clsPose;
-import config.clsProperties;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import entities.enums.eShapeType;
@@ -84,9 +82,7 @@ public abstract class clsAnimal extends clsAnimate implements itfGetRadiation, i
 	 * @param mnAlive the mnAlive to set
 	 */
 	public void setAlive(boolean mnAlive) {
-		if (this.mnAlive != mnAlive) {
-			clsEventLogger.add(new Event(this, getId(), eEvent.ALIVE, ""+mnAlive));
-		}
+
 		this.mnAlive = mnAlive;
 	}
 

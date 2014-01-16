@@ -7,7 +7,7 @@
  */
 package body.utils;
 
-import config.clsProperties;
+import properties.clsProperties;
 
 /**
  * Extends the content column by two concepts: 1. dividing the column into three parts (low, normal, high);  

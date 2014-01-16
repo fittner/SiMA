@@ -1,7 +1,5 @@
 package granov.props;
 
-import config.clsRandomProperties;
-import config.clsColorParser;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,6 +19,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
+
+import properties.clsRandomProperties;
+
+import utils.clsColorParser;
 
 /**
  * clsProperties is a specialization of the java.util.Properties class. 

@@ -1,8 +1,8 @@
 package memorymgmt.situationloader;
 
+import properties.clsProperties;
 import base.datatypes.clsConcept;
 import base.datatypes.clsDataStructurePA;
-import config.clsProperties;
 
 /**
  * DOCUMENT (havlicek) - This interface specifies the methods for a Concept Loader. Such a loader will take an 

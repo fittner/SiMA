@@ -10,9 +10,10 @@ package complexbody.io.actuators;
 
 import java.util.ArrayList;
 
+import properties.clsProperties;
+
 import complexbody.io.clsSensorActuatorBaseExt;
 
-import config.clsProperties;
 import du.itf.actions.clsInternalActionCommand;
 
 

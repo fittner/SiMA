@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import prementalapparatus.symbolization.clsSensorToSymbolConverter;
 import prementalapparatus.symbolization.eSymbolExtType;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
+import properties.clsProperties;
 import modules.interfaces.I1_4_receive;
 import modules.interfaces.I2_4_receive;
 import modules.interfaces.I2_4_send;
@@ -22,7 +23,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 

@@ -35,7 +35,7 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 import sim.util.gui.PropertyField;
-import statictools.clsExceptionUtils;
+import utils.clsExceptionUtils;
 import utils.clsInspectorMappingDecisionUnit;
 import utils.clsInspectorMappingEntity;
 

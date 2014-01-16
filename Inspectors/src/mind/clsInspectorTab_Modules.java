@@ -70,7 +70,7 @@ import mind.handcrafted.clsInspectorImageDrives;
 import modules.interfaces.eInterfaces;
 import sim.portrayal.Inspector;
 import sim.portrayal.inspector.TabbedInspector;
-import statictools.clsExceptionUtils;
+import utils.clsExceptionUtils;
 
 /**
  * DOCUMENT (langr) - insert description 

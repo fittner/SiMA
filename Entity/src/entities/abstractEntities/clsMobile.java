@@ -9,9 +9,9 @@ package entities.abstractEntities;
 
 
 import physics2D.physicalObject.clsMobileObject2D;
+import properties.clsProperties;
 import interfaces.itfEntityInspectorFactory;
 import interfaces.itfMobile;
-import config.clsProperties;
 import entities.systems.clsInventory;
 import entities.tools.clsShape2DCreator;
 import registration.clsRegisterEntity;

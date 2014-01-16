@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
@@ -44,7 +46,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 //import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 //import pa._v38.tools.clsMeshTools;
 import testfunctions.clsTester;

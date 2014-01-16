@@ -6,9 +6,10 @@ import memorymgmt.situationloader.itfContextEntitySearchAlgorithm.ALGORITHMS;
 
 import org.apache.log4j.Logger;
 
+import properties.clsProperties;
+
 import base.datatypes.clsConcept;
 import base.datatypes.clsDataStructurePA;
-import config.clsProperties;
 
 /**
  * DOCUMENT (havlicek) - the concept loader class holds the functionality for the implemented {@link itfConceptLoader}

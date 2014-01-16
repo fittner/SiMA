@@ -7,15 +7,15 @@
 package SamerTests;
 
 //import statictools.clsGetARSPath;
+import properties.clsProperties;
 import alternativeLoader.clsExternalARSINLoader;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
+import singeltons.clsSimState;
 import singeltons.clsSingletonMasonGetter;
-import statictools.clsGetARSPath;
-import statictools.clsSimState;
-import statictools.clsUniqueIdGenerator;
+import utils.clsGetARSPath;
+import utils.clsUniqueIdGenerator;
 
-import config.clsProperties;
 //import du.enums.eDecisionType;
 import entities.clsARSIN;
 

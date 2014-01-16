@@ -6,7 +6,7 @@
  */
 package body.attributes;
 
-import config.clsProperties;
+import properties.clsProperties;
 import du.enums.eEyeSize;
 import du.enums.eLensShape;
 import du.enums.eLensSize;

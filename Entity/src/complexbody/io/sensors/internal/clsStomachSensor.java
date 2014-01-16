@@ -10,11 +10,12 @@ package complexbody.io.sensors.internal;
 
 import java.util.HashMap;
 
+import properties.clsProperties;
+
 
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.io.clsBaseIO;
 
-import config.clsProperties;
 import datatypes.clsMutableDouble;
 import entities.enums.eBodyParts;
 import entities.enums.eNutritions;

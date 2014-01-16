@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.modules.clsModuleBase;
@@ -26,7 +28,6 @@ import modules.interfaces.I6_3_send;
 import modules.interfaces.I6_5_receive;
 import modules.interfaces.I6_5_send;
 import modules.interfaces.eInterfaces;
-import config.clsProperties;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 
 /**

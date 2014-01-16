@@ -6,18 +6,15 @@
  */
 package entities.abstractEntities;
 
+import properties.clsProperties;
 import complexbody.internalSystems.clsFlesh;
 
 import registration.clsRegisterEntity;
-import statictools.eventlogger.Event;
-import statictools.eventlogger.clsEventLogger;
-import statictools.eventlogger.eEvent;
 import body.clsBaseBody;
 import body.clsMeatBody;
 import body.itfget.itfGetBody;
 import body.itfget.itfGetFlesh;
 
-import config.clsProperties;
 
 /**
  * DOCUMENT (herret) - insert description 
@@ -81,8 +78,6 @@ public abstract class  clsOrganic extends clsInanimate implements itfGetFlesh, i
 				
 		if (getFlesh().getTotallyConsumed() && !mnDestroyed) {
 			mnDestroyed = true;
-			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
-			clsEventLogger.add(new Event(this, getId(), eEvent.DESTROY, ""));
 			//This command removes the cake from the playground
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 		}

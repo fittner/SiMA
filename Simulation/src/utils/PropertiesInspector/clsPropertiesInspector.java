@@ -1,7 +1,6 @@
 package utils.PropertiesInspector;
 
 
-import config.clsProperties;
 
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -39,7 +38,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import statictools.clsGetARSPath;
+import properties.clsProperties;
+
+import utils.clsGetARSPath;
 
 
 /**

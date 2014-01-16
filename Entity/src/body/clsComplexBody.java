@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import complexbody.brainsocket.clsBrainSocket;
 import complexbody.interBodyWorldSystems.clsInterBodyWorldSystem;
 import complexbody.internalSystems.clsInternalEnergyConsumption;
@@ -27,12 +30,10 @@ import complexbody.io.actuators.actionExecutors.clsExecutorInternalTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechInvite;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechShare;
 
-import statictools.clsGetARSPath;
+import utils.clsGetARSPath;
 import utils.exceptions.exFoodAlreadyNormalized;
 import utils.exceptions.exFoodWeightBelowZero;
 
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
 import datatypes.clsMutableDouble;
 import du.enums.eBodyActionType;
 import du.enums.eFacialExpression;

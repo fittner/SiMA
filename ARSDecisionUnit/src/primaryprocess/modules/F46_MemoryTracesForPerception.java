@@ -46,11 +46,11 @@ import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
 import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.datamanipulation.clsEntityTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
 
 /**
  * Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). 

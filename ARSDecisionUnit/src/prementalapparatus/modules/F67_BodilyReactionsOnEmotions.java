@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import modules.interfaces.I6_14_receive;
 import modules.interfaces.eInterfaces;
 import base.datatypes.clsEmotion;
@@ -18,7 +20,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 import du.enums.eInternalActionIntensity;
 import du.itf.actions.clsActionShare;
 import du.itf.actions.clsInternalActionCommand;

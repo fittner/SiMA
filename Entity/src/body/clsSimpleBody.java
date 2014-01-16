@@ -6,8 +6,8 @@
  */
 package body;
 
+import properties.clsProperties;
 import body.attributes.clsAttributes;
-import config.clsProperties;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyType;
 

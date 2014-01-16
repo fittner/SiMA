@@ -7,7 +7,7 @@
  */
 package complexbody.io;
 
-import config.clsProperties;
+import properties.clsProperties;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import properties.clsProperties;
 
-import config.clsProperties;
+
 import datatypes.clsMutableDouble;
 import entities.enums.eBodyParts;
 

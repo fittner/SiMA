@@ -1,9 +1,9 @@
 package entities.abstractEntities;
 
 import physics2D.physicalObject.sensors.clsEntitySensorEnginePhysical;
+import properties.clsProperties;
 import registration.clsRegisterEntity;
 import singeltons.clsSingletonMasonGetter;
-import config.clsProperties;
 
 
 /**

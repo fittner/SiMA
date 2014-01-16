@@ -14,9 +14,10 @@ import java.util.Iterator;
 
 import org.slf4j.Logger;
 
-import config.clsProperties;
+import properties.clsProperties;
 
-import statictools.clsUniqueIdGenerator;
+
+import utils.clsUniqueIdGenerator;
 import datatypes.clsMutableDouble;
 import du.enums.eCallPriority;
 import du.itf.actions.*;

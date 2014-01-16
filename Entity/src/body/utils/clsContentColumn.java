@@ -7,7 +7,7 @@
  */
 package body.utils;
 
-import config.clsProperties;
+import properties.clsProperties;
 
 
 /**

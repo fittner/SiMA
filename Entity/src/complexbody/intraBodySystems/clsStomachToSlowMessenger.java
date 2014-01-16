@@ -9,6 +9,8 @@ package complexbody.intraBodySystems;
 import java.util.HashMap;
 import java.util.Map;
 
+import properties.clsProperties;
+
 import utils.exceptions.exContentColumnMaxContentExceeded;
 import utils.exceptions.exContentColumnMinContentUnderrun;
 import utils.exceptions.exSlowMessengerDoesNotExist;
@@ -17,7 +19,6 @@ import utils.exceptions.exValueNotWithinRange;
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsSlowMessengerSystem;
 
-import config.clsProperties;
 import du.enums.eSlowMessenger;
 import entities.enums.eNutritions;
 import body.itfStepUpdateInternalState;

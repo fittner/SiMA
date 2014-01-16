@@ -8,9 +8,9 @@
  */
 package body;
 
+import properties.clsProperties;
 import complexbody.internalSystems.clsFlesh;
 
-import config.clsProperties;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyType;
 import body.attributes.clsAttributes;

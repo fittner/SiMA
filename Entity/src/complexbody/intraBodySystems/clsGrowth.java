@@ -7,7 +7,7 @@
  */
 package complexbody.intraBodySystems;
 
-import config.clsProperties;
+import properties.clsProperties;
 import body.itfStepUpdateInternalState;
 
 /**

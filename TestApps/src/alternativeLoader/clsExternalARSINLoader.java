@@ -10,16 +10,16 @@ package alternativeLoader;
 
 
 
+import properties.clsProperties;
 import loader.clsLoader;
 import loader.eLoader;
-import config.clsProperties;
 import control.factory.clsARSDecisionUnitFactory;
 import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import entities.clsARSIN;
 import entities.abstractEntities.clsEntity;
-import statictools.clsUniqueIdGenerator;
+import utils.clsUniqueIdGenerator;
 
 /**
  * Loads the properties and and creates an ARSINI for external use. No dependencies to MASON or other simulation code.

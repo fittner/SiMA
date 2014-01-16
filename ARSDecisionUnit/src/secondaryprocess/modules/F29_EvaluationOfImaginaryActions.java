@@ -14,6 +14,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshGoal;
@@ -42,7 +44,6 @@ import secondaryprocess.functionality.PlanningFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
-import config.clsProperties;
 
 /**
  * DOCUMENT (perner) - insert description

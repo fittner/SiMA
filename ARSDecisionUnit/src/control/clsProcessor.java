@@ -10,10 +10,11 @@ import java.util.HashMap;
 
 import org.slf4j.Logger;
 
+import properties.clsProperties;
+
 import base.modules.clsPsychicApparatus;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.interfaces.itfSearchSpaceAccess;
-import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.itf.actions.itfActionProcessor;

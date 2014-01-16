@@ -44,8 +44,8 @@ import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
+import properties.clsProperties;
 import secondaryprocess.modules.F21_ConversionToSecondaryProcessForPerception;
-import config.clsProperties;
 
 /**
  * DOCUMENT (havlicek) - insert description
@@ -141,7 +141,7 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 
 	/**
 	 * Test method for
-	 * {@link secondaryprocess.modules.F21_ConversionToSecondaryProcessForPerception#F21_ConversionToSecondaryProcessForPerception(java.lang.String, config.clsProperties, java.util.HashMap, java.util.SortedMap, pa._v38.memorymgmt.clsKnowledgeBaseHandler, memorymgmt.shorttermmemory.clsShortTermMemory, memorymgmt.shorttermmemory.clsEnvironmentalImageMemory)}
+	 * {@link secondaryprocess.modules.F21_ConversionToSecondaryProcessForPerception#F21_ConversionToSecondaryProcessForPerception(java.lang.String, properties.clsProperties, java.util.HashMap, java.util.SortedMap, pa._v38.memorymgmt.clsKnowledgeBaseHandler, memorymgmt.shorttermmemory.clsShortTermMemory, memorymgmt.shorttermmemory.clsEnvironmentalImageMemory)}
 	 * .
 	 */
 	@Test

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import modules.interfaces.I5_19_receive;
 import modules.interfaces.I5_19_send;
@@ -27,7 +29,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
 
 /**
  * From an incoming list of action plan together with a list of their associated data structures, the primary data structures

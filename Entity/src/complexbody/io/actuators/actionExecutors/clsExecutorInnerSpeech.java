@@ -9,11 +9,12 @@ package complexbody.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
+import properties.clsProperties;
+
 import complexbody.io.actuators.clsActionExecutor;
 
 import singeltons.eImages;
 
-import config.clsProperties;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionMove;
 import entities.abstractEntities.clsEntity;

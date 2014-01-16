@@ -8,9 +8,10 @@ package complexbody.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
+import properties.clsProperties;
+
 import complexbody.io.actuators.clsActionExecutor;
 
-import config.clsProperties;
 import du.enums.eInternalActionIntensity;
 import du.enums.eSpeechExpression;
 import du.itf.actions.clsActionAttackBite;

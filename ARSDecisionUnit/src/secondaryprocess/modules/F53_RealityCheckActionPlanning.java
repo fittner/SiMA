@@ -23,6 +23,8 @@ import modules.interfaces.eInterfaces;
 
 import org.slf4j.Logger;
 
+import properties.clsProperties;
+
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
@@ -35,7 +37,6 @@ import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
-import config.clsProperties;
 
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 

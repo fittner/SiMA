@@ -9,13 +9,14 @@ package entities.abstractEntities;
 
 import java.awt.Color;
 
+import properties.clsProperties;
 
-import statictools.clsGetARSPath;
+
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
 
 
-import config.clsProperties;
 import du.enums.eEntityType;
 import entities.actionProxies.itfAPCarryable;
 import entities.enums.eBindingState;

@@ -7,9 +7,9 @@
  */
 package body;
 
+import properties.clsProperties;
 import utils.exceptions.exFoodAlreadyNormalized;
 import utils.exceptions.exFoodWeightBelowZero;
-import config.clsProperties;
 import datatypes.clsMutableDouble;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyType;

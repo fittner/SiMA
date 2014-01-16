@@ -21,6 +21,8 @@ import modules.interfaces.I6_3_receive;
 import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_13_receive;
 import pa._v38.interfaces.modules.I6_13_send;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsConcept;
@@ -35,8 +37,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import config.clsProperties;
-import config.personality_parameter.clsPersonalityParameterContainer;
 import du.itf.actions.clsInternalActionCommand;
 import du.itf.actions.itfInternalActionProcessor;
 

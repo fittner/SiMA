@@ -16,7 +16,7 @@ import complexbody.internalSystems.clsInternalSystem;
 
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
-import config.clsProperties;
+import properties.clsProperties;
 import control.clsProcessor;
 import control.clsPsychoAnalysis;
 import control.factory.clsARSDecisionUnitFactory;
@@ -39,10 +39,10 @@ import body.clsMeatBody;
 import registration.clsRegisterEntity;
 import sim.engine.SimState;
 import singeltons.clsSingletonMasonGetter;
-import statictools.clsGetARSPath;
-import statictools.clsUniqueIdGenerator;
 import tools.clsPose;
 import tools.eImagePositioning;
+import utils.clsGetARSPath;
+import utils.clsUniqueIdGenerator;
 import utils.ePositionType;
 
 /**
