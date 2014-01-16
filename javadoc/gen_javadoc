@@ -1,6 +1,0 @@
-#!/bin/bash
-./gen_DUI
-./gen_DUMI
-./gen_sim
-./gen_world
-./gen_DU

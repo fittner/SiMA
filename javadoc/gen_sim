@@ -1,3 +1,0 @@
-#!/bin/bash
-# generate sim 
-javadoc -d ../javadoc/website/Sim -sourcepath ../Sim/src -subpackages ARSsim:sim:creation: -use -splitIndex -version -author -doctitle "Sim" -overview ../Sim/src/overview.html -quiet 

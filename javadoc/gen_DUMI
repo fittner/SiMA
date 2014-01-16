@@ -1,4 +1,0 @@
-#!/bin/bash
-# generate DecisionUnitMasonInspectors
-javadoc -d ../javadoc/website/DecisionUnitMasonInspectors -sourcepath ../DecisionUnitMasonInspectors/src -overview ../DecisionUnitMasonInspectors/src/overview.html -subpackages inspectors:resources: -exclude inspectors.mind.pa._v19:inspectors.mind.pa._v30: -use -splitIndex -version -author -doctitle "Decision Unit Inspectors" -quiet 
- 

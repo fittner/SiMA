@@ -1,4 +1,0 @@
-#!/bin/bash
-# generate DecisionUnitInterface
-javadoc -d ../javadoc/website/DecisionUnitInterface -sourcepath ../DecisionUnitInterface/src -overview ../DecisionUnitInterface/src/overview.html -subpackages bfg:config:du:factories:panels:statictools: -use -splitIndex -version -author -doctitle "Decision Unit Interfaces and Static/Global Tools" -quiet 
- 
