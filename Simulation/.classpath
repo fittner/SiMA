@@ -4,7 +4,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/EntityInspectors"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Entity"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSDecisionUnit"/>
@@ -20,5 +19,6 @@
 	<classpathentry kind="lib" path="/libraries/mason.jar"/>
 	<classpathentry kind="lib" path="/libraries/mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MasonExtentions"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Inspectors"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

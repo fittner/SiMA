@@ -2,13 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInspectors"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Inspectors"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Simulation"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry kind="src" path="junit"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/EntityInspectors"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Entity"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSDecisionUnit"/>
 	<classpathentry kind="lib" path="/libraries/mason_physics2D.jar"/>
