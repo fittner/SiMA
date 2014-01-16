@@ -12,18 +12,15 @@ package sim;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
-import org.slf4j.Logger;
-
-import PropertiesInspector.clsPropertiesInspector;
 import config.clsProperties;
 import singeltons.clsSingletonMasonGetter;
 import statictools.clsGetARSPath;
+import utils.PropertiesInspector.clsPropertiesInspector;
 
 /**
  * GUI to select a scenario and start the simulation with the corresponding runtime arguments.
@@ -45,21 +42,13 @@ public class ScenarioSelector extends javax.swing.JFrame {
 	private static final String P_ADAPTOR="adapter";
 	private static final String P_IMPLEMENTATIONSTAGE="implementation_stage";
 	private static final String P_AUTOSTART="autostart";
-	
-
-	
-	private final Logger log = clsSimLogger.getLog("sim");
-	
+		
 	/** Creates new form clsBWScenarioSelectorUI and initializes the JFrame and 
 	 * the other components. it also fills the List with the scenarios (config files)*/
     public ScenarioSelector() {
     	GetCurrentUser();
     	this.setTitle("ARS Scenario Selector - user: " + mUserName);
-        
-    	//PropertyConfigurator.configure("log4j_" + mUserName + ".properties");
-    	//logger.debug("Loading log properties from + log4j_" + mUserName + ".properties");
-    	log.debug("Start scenario selector");
-    	
+            	
     	initComponents();
         FillScenarioList();
         loadSavedValues();
@@ -107,7 +96,6 @@ public class ScenarioSelector extends javax.swing.JFrame {
 		}
 		catch(Exception e){
 			
-			log.error("",e);						
 		}
 		
 
@@ -597,8 +585,6 @@ class ScenarioEntry {
 	  private String moFieldHeight;
 	  private ImageIcon moScreenshotImage;
 	  
-	  private final Logger log = clsSimLogger.getLog("sim");
-
 	  public ScenarioEntry(String poFilename) {
 	    this.moFilename = poFilename;
 	    
@@ -612,11 +598,7 @@ class ScenarioEntry {
 	        moFieldHeight = oProp.getPropertyString("field_height");
 	              
 	        String oImagepath = clsGetARSPath.getConfigImagePath()+oProp.getPropertyString("image");
-	        
-			File oFile = new File( oImagepath ); 
-			if(!oFile.exists()){
-				log.warn("Image for scenario not found. Path: "+oImagepath);
-			}
+	       
 			
 	        moScreenshotImage = new ImageIcon( oImagepath , "scenario screenshot");
 	        Image oTMPimg = moScreenshotImage.getImage();  
@@ -625,7 +607,6 @@ class ScenarioEntry {
         } catch (NullPointerException e) {
 			//not a vaiable property file
         	moName = "ERROR File "+ moFilename;
-        	log.error("Key not found ERROR, no property file for scenario: " + moFilename, e);
 		}
 	  }
 

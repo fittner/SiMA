@@ -28,7 +28,6 @@ import config.clsProperties;
 
 import javax.swing.JFrame;
 
-import org.slf4j.Logger;
 
 import java.awt.Graphics2D;
 
@@ -36,7 +35,6 @@ import sim.portrayal.DrawInfo2D;
 import singeltons.clsSingletonMasonGetter;
 import singeltons.clsSingletonProperties;
 import du.itf.sensors.clsInspectorPerceptionItem;
-import factories.clsSingletonSimState;
 
 
 
@@ -93,7 +91,6 @@ public class SimulatorMain extends GUIState {
 	NetworkPortrayal2D moTPMNetworkPortrayal = new NetworkPortrayal2D();
 	private ContinuousPortrayal2D moTPMNodePortrayal = new ContinuousPortrayal2D();
 	
-	private static final Logger log = clsSimLogger.getLog("sim");
 
 
 	
@@ -169,9 +166,6 @@ public class SimulatorMain extends GUIState {
 		//clsPropertiesInspector oMagnumPI = new clsPropertiesInspector();
 		//clsSingletonMasonGetter.getConsole().getTabPane().addTab("PropertyInspector", oMagnumPI);
 		//oMagnumPI.setPropertyObjecttoShowHere(oProp);
-		if (clsSingletonSimState.getSimState()!=null) {
-			log.trace("Simulation step: {}", String.valueOf(clsSingletonSimState.getSimState().schedule.getSteps()));
-		}
 
 	}
 

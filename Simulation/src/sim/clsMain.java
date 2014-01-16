@@ -8,9 +8,9 @@
 
 package sim;
 
+import loader.clsLoader;
+import loader.clsSimplePropertyLoader;
 import config.clsProperties;
-import creation.clsLoader;
-import creation.simplePropertyLoader.clsSimplePropertyLoader;
 import du.enums.eDecisionType;
 import ec.util.MersenneTwisterFast;
 import sim.engine.Schedule;
@@ -122,13 +122,7 @@ public class clsMain extends SimState{
 			//merge settings - overwrites exsiting entries
 			oProp.putAll(oPropImp);
 		}
-		
-		// show adapter if desired
-		if (nAdapter) {
-			@SuppressWarnings("unused")
-			clsFastEntityAdapter oAdapterFrame = new clsFastEntityAdapter(null, "BWv1 - Fast Entity Adapter", oProp);
-		}
-		
+			
 		// process config
 		
 		clsLoader oLoader = new clsSimplePropertyLoader(this, oProp);
