@@ -21,8 +21,10 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
 import base.datatypes.clsAssociationEmotion;
+import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsAssociationTime;
 import base.datatypes.clsAssociationWordPresentation;
+import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructure;
@@ -60,6 +62,10 @@ public class DataStructureConversionTools {
         return convertCompleteTPMtoWPM(ltm, poTPM, new ArrayList<clsThingPresentationMesh>(), 1, poTPM.getContentType());
     }
     
+    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess poLongTermMemory, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel, eContentType poContentType) {
+        return convertCompleteTPMtoWPM(poLongTermMemory, poTPM, new ArrayList<clsThingPresentationMesh>(), pnLevel, pnLevel, poTPM.getContentType());
+    }
+    
     /**
      * For each single image, get the complete image with their objects as WPM.
      * Each image has internal associations to the objects within. These objects
@@ -75,7 +81,7 @@ public class DataStructureConversionTools {
      * @param poSubTPM
      * @return
      */
-    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel, eContentType contentType) {
+    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevelInternal, int pnLevelExternal, eContentType contentType) {
         clsWordPresentationMesh oRetVal = null;
 
         // add the current TPM to the list
@@ -111,7 +117,7 @@ public class DataStructureConversionTools {
 
         // Go deeper, only if the pnLevel allows
         // If nothing was found, then the structure is null
-        if (((pnLevel >= 0) || (pnLevel == -1)) && oRetVal != null) {
+        if (((pnLevelExternal >= 0) || (pnLevelExternal == -1)) && oRetVal != null) {
             // DOCUMENT AW: Internal sub structures are not considered here, as
             // only the word of the object is relevant
             // Search for the other external substructures of the WPM, i. e.
@@ -181,25 +187,25 @@ public class DataStructureConversionTools {
                     clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
                     
                     clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
-//                } else if(oTPMExternalAss instanceof clsAssociationPrimary) {
-//                	clsDataStructurePA oSubDataStructure = ((clsAssociationPrimary) oTPMExternalAss).getLeafElement();
-//                	
-//                	if(oSubDataStructure instanceof clsThingPresentationMesh) {
-//                	    clsThingPresentationMesh oSubTPM = (clsThingPresentationMesh)oSubDataStructure;
-//                	    
-//                        //Kollmann: currently the TPMs seem to store primary associations in both the root and the leaf of the association
-//                	    //          therefore we only consider associations where the current TPM is NOT the leaf
-//                	    if(!(oSubTPM.getDS_ID() == poTPM.getDS_ID())) {
-//                        	// Convert the complete structure to a WPM
-//                            clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, (clsThingPresentationMesh)oSubDataStructure, poProcessedList, pnLevel, contentType);
-//                            
-//                            if(oSubDataStructure.getContentType() == eContentType.ACTIONINSTANCE) {
-//                        	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
-//                        	} else if(oSubDataStructure.getContentType() == eContentType.ENTITY) {
-//                        	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTIONOBJECT, false);
-//                        	}
-//                	    }
-//                	}
+                } else if(oTPMExternalAss instanceof clsAssociationPrimary) {
+                	clsDataStructurePA oSubDataStructure = ((clsAssociationPrimary) oTPMExternalAss).getLeafElement();
+                	
+                	if(oSubDataStructure instanceof clsThingPresentationMesh) {
+                	    clsThingPresentationMesh oSubTPM = (clsThingPresentationMesh)oSubDataStructure;
+                	    
+                        //Kollmann: currently the TPMs seem to store primary associations in both the root and the leaf of the association
+                	    //          therefore we only consider associations where the current TPM is NOT the leaf
+                	    if(!(oSubTPM.getDS_ID() == poTPM.getDS_ID())) {
+                        	// Convert the complete structure to a WPM
+                            clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, (clsThingPresentationMesh)oSubDataStructure, poProcessedList, pnLevelInternal, pnLevelExternal - 1, contentType);
+                            
+                            if(oSubDataStructure.getContentType() == eContentType.ACTIONINSTANCE) {
+                        	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
+                        	} else if(oSubDataStructure.getContentType() == eContentType.ENTITY) {
+                        	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTIONOBJECT, false);
+                        	}
+                	    }
+                	}
                 }
                 
                 
@@ -223,7 +229,7 @@ public class DataStructureConversionTools {
             }
         }
 
-        if (((pnLevel > 0) || (pnLevel == -1)) && oRetVal != null) {
+        if (((pnLevelInternal > 0) || (pnLevelInternal == -1)) && oRetVal != null) {
 
             // Check the inner associations, if they are associationtime, as it
             // means that is an image
@@ -237,7 +243,7 @@ public class DataStructureConversionTools {
 
                     clsThingPresentationMesh oSubTPM = ((clsAssociationTime) oTPMInternalAss).getLeafElement();
                     // Convert the complete structure to a WPM
-                    clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, oSubTPM, poProcessedList, pnLevel - 1, contentType);
+                    clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, oSubTPM, poProcessedList, pnLevelInternal - 1, pnLevelExternal, contentType);
 
                     // Add the subWPM to the WPM structure
                     clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
