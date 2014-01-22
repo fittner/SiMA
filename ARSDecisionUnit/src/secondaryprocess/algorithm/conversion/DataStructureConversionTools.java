@@ -221,7 +221,11 @@ public class DataStructureConversionTools {
                     clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, oSubTPM, poProcessedList, pnLevel - 1, contentType);
 
                     // Add the subWPM to the WPM structure
-                    clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
+                    if(oSubWPM.getContentType() == eContentType.ENTITY) {
+                        clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
+                    } else if(oSubWPM.getContentType() == eContentType.ACTIONINSTANCE) {
+                        clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
+                    }
                 }
             }
         }

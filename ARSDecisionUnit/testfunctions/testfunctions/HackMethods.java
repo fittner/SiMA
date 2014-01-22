@@ -8,6 +8,7 @@ package testfunctions;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.Set;
 
 import logger.clsLogger;
 import memorymgmt.enums.eGoalType;
@@ -15,10 +16,12 @@ import memorymgmt.interfaces.itfModuleMemoryAccess;
 
 import org.slf4j.Logger;
 
+import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.helpstructures.clsPair;
 import du.enums.eShapeType;
 
 /**
@@ -60,6 +63,33 @@ public class HackMethods {
         
         //moReachableGoalList_IN = oReplaceList;
         return oReplaceList;
+    }
+    
+    /**
+     * Remove all search results, which do not match any of the provided strings
+     *
+     * @author wendt
+     * @since 02.10.2013 21:14:05
+     *
+     * @param poAcceptedContent List of strings that are matched against the content type of the search results (with .contains(...) on each content
+     * @param poSearchResults List of TPM search results that will be filtered (any nonTPM entries will be ignored and therefore remain in the list)
+     */
+    public static void filterTPMSearchResultList(Set<String> poAcceptedContent, ArrayList<clsPair<Double,clsDataStructurePA>> poSearchResults) {
+        log.warn("HACKMETHOD filterSearchResultList ACTIVATED");
+        clsDataStructurePA poItem = null;
+        
+        for(String oAcceptedContent : poAcceptedContent) {
+            ListIterator<clsPair<Double, clsDataStructurePA>> oResultIterator = poSearchResults.listIterator();
+            
+            while(oResultIterator.hasNext()) {
+                poItem = oResultIterator.next().b;
+                if(poItem instanceof clsThingPresentationMesh) {
+                    if(!((clsThingPresentationMesh)poItem).getContent().contains(oAcceptedContent)) {
+                        oResultIterator.remove();
+                    }
+                }
+            }
+        }
     }
     
     /**

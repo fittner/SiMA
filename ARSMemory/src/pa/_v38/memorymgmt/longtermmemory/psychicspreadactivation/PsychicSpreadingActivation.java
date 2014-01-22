@@ -9,6 +9,7 @@ package pa._v38.memorymgmt.longtermmemory.psychicspreadactivation;
 import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
@@ -25,6 +26,7 @@ import base.datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadActivationNode;
 import secondaryprocess.datamanipulation.clsImportanceTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.HackMethods;
 import testfunctions.clsTester;
 
 /**
@@ -121,6 +123,9 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 			}
 		}
 		
+		//This is a hack method that can be used to focus the list of activate able entries 
+		//HackMethods.filterTPMSearchResultList(Collections.singleton("A13"), oSearchResultMesh);
+		
 		log.debug("Create direct associations between " + poOriginImage.getContent() + " and ");
 		if (poOriginImage.getContentType().equals(eContentType.PI) || poOriginImage.getContentType().equals(eContentType.PHI)) {
 			for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
@@ -141,7 +146,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	 * @param poOriginImage
 	 */
 	public void getAssociatedImagesMemory(clsThingPresentationMesh poOriginImage) {
-		poOriginImage = (clsThingPresentationMesh) moModuleBase.getCompleteMesh(poOriginImage, 2);
+		poOriginImage = (clsThingPresentationMesh) moModuleBase.getCompleteMesh(poOriginImage, 1);
 		
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {

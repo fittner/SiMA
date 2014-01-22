@@ -8,7 +8,9 @@ package pa._v38.memorymgmt.framessearchspace;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
@@ -48,6 +50,7 @@ import edu.stanford.smi.protege.model.Instance;
 import edu.stanford.smi.protege.model.KnowledgeBase;
 import edu.stanford.smi.protege.model.Project;
 import edu.stanford.smi.protege.model.Slot;
+import edu.stanford.smi.protege.util.GetOwnSlotValuesBrowserTextJob;
 
 /**
  * DOCUMENT (zeilinger) - insert description
@@ -189,9 +192,6 @@ public class clsOntologyLoader {
 			Instance poRootElement,
 			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
 		switch (poDataType) {
-		case ACT:
-			createACT(poRootElement, poElement, poDataContainer);
-			break;
 		case AFFECT:
 			createAFFECT(poRootElement, poElement, poDataContainer);
 			break;
@@ -767,168 +767,80 @@ public class clsOntologyLoader {
 			Instance poRootElement,
 			Instance poElement,
 			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
-
-		boolean breakme = true;
-		assert false : "createPRIINSTANCEACTION";
-		breakme = false;
 		
-//		// Get the instance of the container structure
-//		Instance oInstanceOfType = (Instance) poElement
-//				.getOwnSlotValue(poDataContainer.a.getSlot("instance_type"));
-//		// If the data structure does not exist, create it
-//		initDataStructure(null, oInstanceOfType, poDataContainer);
-//		// Get the element of the data structure
-//		clsDataStructurePA oDS = (clsDataStructurePA) retrieveDataStructure(
-//				oInstanceOfType.getName(), poDataContainer.b);
-//
-//		// make a deepcopy of the data structure in order to get new association
-//		// ids
-//
-//		clsDataStructurePA oNewInstanceDS = null;
-//		if (oDS != null) {
-//			if (oDS instanceof clsThingPresentationMesh) {
-//				// TODO AW: Only TPM is covered here
-//				clsThingPresentationMesh oNewInstanceTPMDS = null;
-//				try {
-//					oNewInstanceTPMDS = (clsThingPresentationMesh) ((clsThingPresentationMesh) oDS)
-//							.clone();
-//				} catch (CloneNotSupportedException e) {
-//					log.error("Error in clsOntologyLoader.java in createPRIINSTANCE: oDS could not be cloned", e);
-//					
-//				}
-//				// IMPORTANT NOTE: InstanceIDs should only be set outside of the
-//				// memory management, but as association to drives has
-//				// to be instanciated, instanceIDs are set here. It is only set
-//				// for this data structure
-//				// Get new instanceID
-//				int nInstanceID = oNewInstanceTPMDS.hashCode();
-//				oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
-//				// Make this clsDataStructurePA to a TPM
-//				oNewInstanceDS = oNewInstanceTPMDS;
-//
-//				poDataContainer.b.put(poElement.getName(), oNewInstanceDS); // Use
-//																			// the
-//																			// containername
-//																			// as
-//																			// identifier
-//
-//				// TODO: IMPORTANT NOTE TO DOCUMENTv: In associationAttribute,
-//				// the rootelement must be the first element
-//
-//				// As drive meshes are no intrinsic data structures and are
-//				// bound to the type, they have to be cloned as well
-//				// and the cloned associations have to be assigned the new
-//				// PRIInstances
-//
-//				// Get associated drive meshes
-//				ArrayList<clsAssociationDriveMesh> oDMAssList = new ArrayList<clsAssociationDriveMesh>();
-//				Collection<clsDataStructurePA> oValueList = poDataContainer.b
-//						.values(); // Get all values from the hashtable
-//				// FIXME AW: To get all values from the hashtable is no very
-//				// nice solution, in order to extract the fitting associations
-//				// for an element.
-//				// A memory-PhD should make this part more efficient
-//
-//				for (clsDataStructurePA oStructure : oValueList) {
-//					if ((oStructure instanceof clsAssociationDriveMesh)) {
-//						clsAssociationDriveMesh oOriginalAssDM = (clsAssociationDriveMesh) oStructure;
-//						// If the rootelement of a DM-Ass is the original data
-//						// structure (e. g. CAKE)
-//						if (oOriginalAssDM.getRootElement() == oDS) {
-//							// For each found AssociationDriveMesh for that
-//							// structure, create a clone and change the root
-//							// element
-//							try {
-//								clsAssociationDriveMesh oNewAssDM = (clsAssociationDriveMesh) oOriginalAssDM
-//										.clone();
-//								// In this case, the Root element is B.
-//								// Therefore, set be
-//								oNewAssDM
-//										.setAssociationElementB(oNewInstanceDS);
-//								oDMAssList.add(oNewAssDM);
-//							} catch (CloneNotSupportedException e) {
-//								log.error("Error in clsOntologyLoader.java in createPRIINSTANCE: oNewAssDM could not be cloned", e);
-//								//e.printStackTrace();
-//							}
-//						}
-//					}
-//				}
-//
-//				int i = 0;
-//				for (clsAssociationDriveMesh oAssDM : oDMAssList) {
-//					// It would be better to create a real name as hash key.
-//					String oName = poElement.getName() + ":DM:NO" + i;
-//					poDataContainer.b.put(oName, oAssDM); // Add the new
-//															// association
-//					i++;
-//				}
-//			}
-//		}
+		try {
+			// Get the instance type of the action instance (which type of action is it, e.g. EAT)
+			Instance oInstanceOfType = (Instance) poElement
+					.getOwnSlotValue(poDataContainer.a.getSlot("instance_type"));
+	
+			// If the data structure does not exist, create it
+			initDataStructure(null, oInstanceOfType, poDataContainer);
+	
+			// Get the newly created data structure as clsDataStructurePA (basic ARS data structure) 
+			clsDataStructurePA oDS = (clsDataStructurePA) retrieveDataStructure(
+					oInstanceOfType.getName(), poDataContainer.b);
+	
+			// make a deepcopy of the data structure in order to get new association id's
+			if (oDS != null) {
+				if (oDS instanceof clsThingPresentationMesh) {
+					clsThingPresentationMesh oNewInstanceTPMDS = null;
+					oNewInstanceTPMDS = (clsThingPresentationMesh) ((clsThingPresentationMesh) oDS).clone();
+					// not sure why we do that
+					int nInstanceID = oNewInstanceTPMDS.hashCode();
+					oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
+					oNewInstanceTPMDS.setMoContentType(eContentType.ACTIONINSTANCE);
+					
+					poDataContainer.b.put(poElement.getName(), oNewInstanceTPMDS);
+					
+					// As drive meshes are no intrinsic data structures and are
+					// bound to the type, they have to be cloned as well
+					// and the cloned associations have to be assigned the new
+					// PRIInstances
 
-	}
+					// Get associated drive meshes
+					ArrayList<clsAssociationDriveMesh> oDMAssList = new ArrayList<clsAssociationDriveMesh>();
+					Collection<clsDataStructurePA> oValueList = poDataContainer.b.values();
 
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * 
-	 * @author zeilinger 22.06.2010, 17:11:56
-	 * 
-	 * @param poDataElements
-	 * @param poFrameKB
-	 * @param poDataStructurePA
-	 */
-	private static void createACT(
-			Instance poRootElement,
-			Instance poElement,
-			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
+					for (clsDataStructurePA oStructure : oValueList) {
+						if ((oStructure instanceof clsAssociationDriveMesh)) {
+							clsAssociationDriveMesh oOriginalAssDM = (clsAssociationDriveMesh) oStructure;
+							// If the rootelement of a DM-Ass is the original data
+							// structure (e. g. EAT)
+							if (oOriginalAssDM.getRootElement() == oDS) {
+								// For each found AssociationDriveMesh for that
+								// structure, create a clone and change the root
+								// element
+								try {
+									clsAssociationDriveMesh oNewAssDM = (clsAssociationDriveMesh) oOriginalAssDM.clone();
+									// In this case, the Root element is B.
+									// Therefore, set be
+									oNewAssDM.setAssociationElementB(oNewInstanceTPMDS);
+									oDMAssList.add(oNewAssDM);
+								} catch (CloneNotSupportedException e) {
+									log.error("Error in clsOntologyLoader.java in createPRIINSTANCE: oNewAssDM could not be cloned", e);
+									//e.printStackTrace();
+								}
+							}
+						}
+					}
 
-		eDataType oElType = eDataType.ACT;
-		int oID = DS_ID++;
-		eContentType oElValType = eContentType.valueOf((String) poElement
-				.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
-		String oElVal = (String) poElement.getOwnSlotValue(poDataContainer.a
-				.getSlot("value"));
-		Collection<?> oPreCon = getSlotValues("precondition", poElement);
-		Collection<?> oAction = getSlotValues("action", poElement);
-		Collection<?> oConseq = getSlotValues("consequence", poElement);
-		clsWordPresentation oDS = null;
-		clsAct oAct = new clsAct(
-				new clsTriple<Integer, eDataType, eContentType>(oID, oElType,
-						oElValType),
-				new ArrayList<clsSecondaryDataStructure>(), oElVal);
-
-		poDataContainer.b.put(poElement.getName(), oAct);
-
-		oAct.setContent(oAct.getContent() + "|PRECONDITION|");
-
-		for (Object oElement : oPreCon) {
-			initDataStructure(null, (Instance) oElement, poDataContainer);
-			oDS = (clsWordPresentation) retrieveDataStructure(
-					((Instance) oElement).getName(), poDataContainer.b);
-			oAct.getMoAssociatedContent().add(oDS);
-			oAct.setContent(oAct.getContent() + oDS.getContentType()
-					+ ":" + oDS.getContent() + "|");
-		}
-
-		oAct.setContent(oAct.getContent() + "|ACTION|");
-
-		for (Object oElement : oAction) {
-			initDataStructure(null, (Instance) oElement, poDataContainer);
-			oDS = (clsWordPresentation) retrieveDataStructure(
-					((Instance) oElement).getName(), poDataContainer.b);
-			oAct.getMoAssociatedContent().add(oDS);
-			oAct.setContent(oAct.getContent() + oDS.getContentType()
-					+ ":" + oDS.getContent() + "|");
-		}
-
-		oAct.setContent(oAct.getContent() + "|CONSEQUENCE|");
-
-		for (Object oElement : oConseq) {
-			initDataStructure(null, (Instance) oElement, poDataContainer);
-			oDS = (clsWordPresentation) retrieveDataStructure(
-					((Instance) oElement).getName(), poDataContainer.b);
-			oAct.getMoAssociatedContent().add(oDS);
-			oAct.setContent(oAct.getContent() + oDS.getContentType()
-					+ ":" + oDS.getContent() + "|");
+					int i = 0;
+					for (clsAssociationDriveMesh oAssDM : oDMAssList) {
+						// It would be better to create a real name as hash key.
+						String oName = poElement.getName() + ":DM:NO" + i;
+						poDataContainer.b.put(oName, oAssDM); // Add the new
+																// association
+						i++;
+					}
+				}
+			}
+		}catch(NoSuchFieldError e) {
+			log.error("Error loading action instance: " + poElement.getName());
+			log.error(e.getMessage());
+		} catch (CloneNotSupportedException e) {
+			log.error("Error loading action instance: " + poElement.getName());
+			log.error("Could not clone data structure");
+			log.error(e.getMessage());
 		}
 	}
 
