@@ -16,7 +16,7 @@ import base.datatypes.helpstructures.clsPair;
  * 
  * @author zeilinger
  * 23.05.2010, 21:42:21
- * @deprecated
+ * 
  */
 public class clsPrimaryDataStructureContainer extends clsDataStructureContainer {
 	

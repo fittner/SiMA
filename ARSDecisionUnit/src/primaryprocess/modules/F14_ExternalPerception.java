@@ -8,15 +8,12 @@ package primaryprocess.modules;
 
 import inspector.interfaces.itfGraphCompareInterfaces;
 
-import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedMap;
-
 import prementalapparatus.symbolization.eSymbolExtType;
 import prementalapparatus.symbolization.representationsymbol.itfGetDataAccessMethods;
 import prementalapparatus.symbolization.representationsymbol.itfGetSymbolName;
@@ -24,12 +21,9 @@ import prementalapparatus.symbolization.representationsymbol.itfIsContainer;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
 import memorymgmt.enums.eActivationType;
-import memorymgmt.enums.eContent;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEntityExternalAttributes;
-import memorymgmt.enums.ePhiPosition;
-import memorymgmt.enums.eRadius;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import modules.interfaces.I2_3_receive;
 import modules.interfaces.I2_4_receive;
@@ -45,7 +39,6 @@ import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
-import base.datatypes.clsPhysicalRepresentation;
 import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
@@ -60,13 +53,11 @@ import base.modules.ePsychicInstances;
 import base.tools.toText;
 import bfg.utils.enums.eSide;
 import du.enums.eActionTurnDirection;
-import du.enums.eDistance;
 import du.enums.eSaliency;
 import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.actions.clsInternalActionCommand;
 import du.itf.actions.clsInternalActionTurnVision;
 import du.itf.actions.itfInternalActionProcessor;
-import testfunctions.clsTester;
 
 /**
  * In this module neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and 
@@ -101,7 +92,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	/** OUT member of F14, this holds the converted symbols of the two perception paths and the recognized TPMs (OUT I2.6) @since 20.07.2011 10:26:23 */
 	private ArrayList<clsThingPresentationMesh> moCompleteThingPresentationMeshList;
 	
-	ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP;
+	//ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP;
 	
 	ArrayList<clsInspectorPerceptionItem> moPerceptionSymbolsForInspectors;
 	ArrayList<String> Test = new ArrayList<String>();
@@ -224,178 +215,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process_basic() {
-	 
-		clsThingPresentationMesh oCandidateTPM_DM = null;
-		clsDriveMesh oMemorizedDriveMesh = null;
-		
-		PrepareSensorInformatinForInspector(moEnvironmentalData);
-		log.debug("Incoming perception: {} ", moEnvironmentalData.toString());
-		
-		
-		//here also the body data should be processed, but nothing is coming from this path until now.
-		
-		// 1. Convert Neurosymbols to TPs/TPMs
-		
-		moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>();
-		clsPrimaryDataStructureContainer oSelf = null;
-		for(Map.Entry<eSymbolExtType, itfSymbol> oEntry : moEnvironmentalData.entrySet()){
-		    itfSymbol oSymbol = oEntry.getValue();
-			if(oSymbol!=null){
-				for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
-					//convert the symbol to a PDSC/TP
-					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
-					
-					if( oEntry.getKey()==eSymbolExtType.VISION_SELF){
-					    //self vision
-					    oSelf =new clsPrimaryDataStructureContainer(oDataStructure,null);
-					    moEnvironmentalTP.add(oSelf);
-					}
-					else{
-					    //environmental vision
-					    moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
-					}
-	                
-					  
-					
-				}	
-			}
-		}
-		
-		// FIXME: delete this, if CM have changed the sensors to avoid the occurence of non-entites in moEnvironmentalData 
-		ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
-		for (clsPrimaryDataStructureContainer oEnvEntity : moEnvironmentalTP) {
-			clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
-			if(oCheckEntity.getMoDataStructure().getContentType() != eContentType.ENTITY) {
-				oRemoveDS.add(oCheckEntity);
-				
-			}
-		}		
-		for(clsPrimaryDataStructureContainer oDS: oRemoveDS){
-			moEnvironmentalTP.remove(oDS);			
-		}
-		
-		//FocusAttentionF14
-		//where is the saliency? -> angle
-		if(useAttentionMechanism)
-		       PrepareSensorInformatinForAttention(moEnvironmentalData);
-		       
-		//     for (clsPrimaryDataStructureContainer oEnvEntity : moEnvironmentalTP) {
-		//         clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;  //alle entities
-		//         if(oCheckEntity.getMoDataStructure().getMoContentType() != eContentType.ENTITY) {
-		//             oRemoveDS.add(oCheckEntity);
-		//         }
-		//     }
-		
-		
-		//add the perception of the floor, as we dont have a sensor detecting the floor
-		
-		//AW 20120522: Outcommented this part as it is never used later
-		//clsPrimaryDataStructure oFloorDataStructure = (clsPrimaryDataStructure) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("FLOOR", "EMPTYSPACE"));
-		//moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oFloorDataStructure,null));
-		
-		//prepared, but nothing is coming through so not much to do
-		//TODO: bodyData should be associated to the self-entity as external associations 
-		for(itfSymbol oSymbol : moBodyData.values()){
-			if(oSymbol!=null){
-				for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
-					//convert the symbol to a PDSC/TP
-					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
-					moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
-				}	
-			}
-		}
-		
-		// The self will be perceived via the VISION_SELF sensor
-		
-		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
-		//TODO @CM: Please adapt the SELF for your needs. 
-/*		
-		
-		clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes(eContent.SELF.toString(), "CIRCLE", "#FFFFBF");
-		Test.add(oSELF.toString());
-		removeLast(Test);
-		//clsMeshTools.createAssociationAttribute(oSELF, poStructureB, prWeight, pnAddMode)
-		
-		//clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
-		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSELF,new ArrayList<clsAssociation>());
-		
-		//Add Position to SELF
-		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
-		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSELF, oPos);
-		//oSelfContainer.addMoAssociatedDataStructure(oPosAss);
-		oSELF.addExternalAssociation(oPosAss);
-		//((clsThingPresentationMesh)oSELF).assignDataStructure(oPosAss);
-				
-		//Add Distance to SELF
-		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
-		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSELF, oDist);
-		oSELF.addExternalAssociation(oDistAss);
-		//oSelfContainer.addMoAssociatedDataStructure(oDistAss);
-		//((clsThingPresentationMesh)oSELF).assignDataStructure(oDistAss);
-//		
-//		//Add color and shape
-//		clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.Color, new Color(255, 255, 191)));
-//		clsAssociationAttribute oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oColor);
-//		oSelfContainer.addMoAssociatedDataStructure(oColorAss);
-//		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oColorAss);
-		
-		//clsThingPresentation oShape = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ShapeType, "CIRCLE"));
-		//clsAssociationAttribute oShapeAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oShape);
-		
-		//oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
-		//((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
-		
-	*/	
-			
-	//	moEnvironmentalTP.add(oSelfContainer);		
-		
-		
-		//Variables
-		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
-				
-		//Workaround of Bug Eatable/Manipulatable sensors bug
-		//TODO CM: Remove this function, if the eatable area objects are working.
-	//	solveBUGFIXEATABLEAREA(moEnvironmentalTP);
-				
-		/* Construction of perceived images*/
-		/* Assign objects from storage to perception */
-		oContainerWithTypes = retrieveImages(moEnvironmentalTP);	
-		
+	protected void process_draft() {
 
-		//Convert all objects to enhanced TPMs 
-		moCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
-		
-		log.debug("Recognized obejcts: {} ", moCompleteThingPresentationMeshList.toString());
-		
-
-		
-		for(clsThingPresentationMesh oCandidateTPM : moCompleteThingPresentationMeshList){
-			//  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged
-			for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
-				for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalAssociatedContent() ) {
-
-					oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
-					oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
-					
-					// is it the same TPM?
-					if(oCandidateTPM_DM.getDS_ID() == oCandidateTPM.getDS_ID()){
-						oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
-					}
-					
-				}
-			}
-		}
-		//=== Perform system tests ===//
-		if (clsTester.getTester().isActivated()) {
-			try {
-				clsTester.getTester().exeTestAssociationAssignmentTPMArray(moCompleteThingPresentationMeshList);
-			} catch (Exception e) {
-				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
-			}
-		}
-		
-			
 	}
 	
 	
@@ -432,46 +253,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
                             if (oM.getName().equals("getSymbolObjects")) {
                                 continue;
                             }
-                            
-                            
-                            
-//                          if (oM.getName().equals("getExactDebugX")) {
-//                              try {
-//                                  oInspectorItem.moExactX = Double.parseDouble( (String) oM.invoke(poSymbolObject,new Object[0]).toString() );
-//                              } catch (IllegalArgumentException e) {
-//                                  e.printStackTrace();
-//                              } catch (IllegalAccessException e) {
-//                                  e.printStackTrace();
-//                              } catch (InvocationTargetException e) {
-//                                  e.printStackTrace();
-//                              }
-//                          }
-//                          
-//                          if (oM.getName().equals("getExactDebugY")) {
-//                              try {
-//                                  oInspectorItem.moExactY = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
-//                              } catch (IllegalArgumentException e) {
-//                                  e.printStackTrace();
-//                              } catch (IllegalAccessException e) {
-//                                  e.printStackTrace();
-//                              } catch (InvocationTargetException e) {
-//                                  e.printStackTrace();
-//                              }
-//                          }
-//                          
-//                          
-//                          if (oM.getName().equals("getDebugSensorArousal")) {
-//                              try {
-//                                  oInspectorItem.moSensorArousal = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
-//                              } catch (IllegalArgumentException e) {
-//                                  e.printStackTrace();
-//                              } catch (IllegalAccessException e) {
-//                                  e.printStackTrace();
-//                              } catch (InvocationTargetException e) {
-//                                  e.printStackTrace();
-//                              }
-//                          }
-//                          
+                         
                             eContentType oContentTypeTP = eContentType.DEFAULT; 
                             Object oContentTP = "DEFAULT";
                             
@@ -566,137 +348,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
                 
                 }   
             }
-        }
-    
-
-	/**
-	 * DOCUMENT (muchitsch) - insert description
-	 *
-	 * @since 19.09.2012 16:00:47
-	 *
-	 * @param moEnvironmentalData2
-	 */
-	private void PrepareSensorInformatinForInspector( HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
-
-		
-		moPerceptionSymbolsForInspectors.clear();
-		
-		for(itfSymbol oSymbol : moEnvironmentalData.values()){
-			if(oSymbol!=null){
-				for(itfSymbol poSymbolObject : oSymbol.getSymbolObjects()) {
-					
-					if(poSymbolObject instanceof itfIsContainer) {
-					
-					
-					clsInspectorPerceptionItem oInspectorItem = new clsInspectorPerceptionItem();
-					
-					Method[] oMethods = ((itfGetDataAccessMethods)poSymbolObject).getDataAccessMethods();
-					eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)poSymbolObject).getSymbolType());
-					oInspectorItem.moContentType = oContentType.toString();
-					oInspectorItem.moContent = ((itfIsContainer)poSymbolObject).getSymbolMeshContent().toString();
-					
-					if (oContentType.equals(eContentType.POSITIONCHANGE)) {
-						//do nothing, we dont want this sensor info
-					}
-					else
-					{
-					
-						for(Method oM : oMethods){
-							if (oM.getName().equals("getSymbolObjects")) {
-								continue;
-							}
-							
-							if (oM.getName().equals("getExactDebugX")) {
-								try {
-									oInspectorItem.moExactX = Double.parseDouble( (String) oM.invoke(poSymbolObject,new Object[0]).toString() );
-								} catch (IllegalArgumentException e) {
-									e.printStackTrace();
-								} catch (IllegalAccessException e) {
-									e.printStackTrace();
-								} catch (InvocationTargetException e) {
-									e.printStackTrace();
-								}
-							}
-							
-							if (oM.getName().equals("getExactDebugY")) {
-								try {
-									oInspectorItem.moExactY = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
-								} catch (IllegalArgumentException e) {
-									e.printStackTrace();
-								} catch (IllegalAccessException e) {
-									e.printStackTrace();
-								} catch (InvocationTargetException e) {
-									e.printStackTrace();
-								}
-							}
-							
-							
-							if (oM.getName().equals("getDebugSensorArousal")) {
-								try {
-									oInspectorItem.moSensorArousal = 1;
-									//oInspectorItem.moSensorArousal = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
-									oInspectorItem.moSensorArousal = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
-								} catch (IllegalArgumentException e) {
-									e.printStackTrace();
-								} catch (IllegalAccessException e) {
-									e.printStackTrace();
-								} catch (InvocationTargetException e) {
-									e.printStackTrace();
-								}
-							}
-							
-							eContentType oContentTypeTP = eContentType.DEFAULT; 
-							Object oContentTP = "DEFAULT";
-							
-							try{
-							    oContentTypeTP = eContentType.valueOf(removePrefix(oM.getName())); 
-							}
-							catch(Exception e){
-							    continue;
-							}
-		
-							if(oContentTypeTP.equals(eContentType.ObjectPosition)) {
-								oContentTypeTP = eContentType.POSITION; 
-								try {
-									oInspectorItem.moPosition = oM.invoke(poSymbolObject,new Object[0]).toString();
-								} catch (IllegalArgumentException e) {
-									e.printStackTrace();
-								} catch (IllegalAccessException e) {
-									e.printStackTrace();
-								} catch (InvocationTargetException e) {
-									e.printStackTrace();
-								}
-								
-							}
-							
-							if (oContentTypeTP.equals(eContentType.Distance)) {
-								oContentTypeTP = eContentType.DISTANCE;
-								try {
-									oInspectorItem.moDistance = oM.invoke(poSymbolObject,new Object[0]).toString();
-								} catch (IllegalArgumentException e) {
-									e.printStackTrace();
-								} catch (IllegalAccessException e) {
-									e.printStackTrace();
-								} catch (InvocationTargetException e) {
-									e.printStackTrace();
-								}
-							}
-
-						}
-						
-						moPerceptionSymbolsForInspectors.add(oInspectorItem);	
-					}
-						
-						}
-					else {
-						//TODO)
-						}				
-					}
-				
-				}	
-			}
-		}
-		
+        }		
 	
 	
 	private static String removePrefix(String poName) {
@@ -743,28 +395,22 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	 * @see pa.modules.clsModuleBase#process_draft()
 	 */
 	@Override
-	protected void process_draft() {
+	protected void process_basic() {
         // 1. Convert Neurosymbols to TPMs
-        convertSymbolToTPM();
-        //  addSelfToPerception();
-                
-        //Workaround of Bug Eatable/Manipulatable sensors bug
-        //TODO CM: Remove this function, if the eatable area objects are working.
-        //solveBUGFIXEATABLEAREA(moEnvironmentalTP);
-                
+	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP= convertSymbolToTPM(moEnvironmentalData);
+       
+        if(useAttentionMechanism)
+            PrepareSensorInformatinForAttention(moEnvironmentalData);
+
         // 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment. 
         // since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activaiton is done) 
-        //drivesActivateEntities();
-	    moCompleteThingPresentationMeshList = searchTPMList(moEnvironmentalTP);				
+	    moCompleteThingPresentationMeshList = searchTPMList(oEnvironmentalTP);				
 	}
 	
 	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
         ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
         ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
-    
-
-
-                        
+                 
         // 3. similarity criterion. perceptual activation. memory-search
         oRankedCandidateTPMs = stimulusActivatesEntities(poEnvironmentalTP);            
         
@@ -805,7 +451,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             
         }
         return oOutputTPMs;
-        //moCompleteThingPresentationMeshList = oOutputTPMs;
                 
 
 	}
@@ -842,314 +487,17 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	}
 
 
-	/**
-	 * This is a temporary bugfix for the problem if there are objects in the eatable area. They are not loaded with all attributes and are recognized false
-	 * 
-	 * (wendt)
-	 *
-	 * @since 21.11.2011 16:30:06
-	 *
-	 * @param poEnvironmentalPerception_IN
-	 */
-	private void solveBUGFIXEATABLEAREA(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalPerception_IN) {
-		//Exchange all objects in the EATABLE AREA with the objects in the MANIPULATEABLE AREA
-		ArrayList<clsPrimaryDataStructureContainer> oEatableList = new ArrayList<clsPrimaryDataStructureContainer>();
-		//ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		//Search in the input for an object with location EATABLE and add them to a new list
-		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
-			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-				//Go through all associated structures
-				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getInternalAssociatedContent()) {
-					if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getContent().equals(eDistance.EATABLE)==true)) {
-						oEatableList.add(oContainer);
-					}
-				}
-				
-			}
-		}
-		
-//		Search for all objects with the area MANIPULATABLE and add them to a new list
-//		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
-//			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-//				//Go through all associated structures
-//				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoAssociatedContent()) {
-//					if (oAss.getLeafElement().getMoContentType().equals("LOCATION")==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals("MANIPULATABLE")==true) {
-//						oManipulatableList.add(oContainer);
-//					}
-//				}
-//				
-//			}
-//		}
-		
-		//Search for all elements in the EATABLE area for the same content in the MANIPULATABLE area
-		for (clsPrimaryDataStructureContainer oEContainer : oEatableList) {
-			boolean bFound=false;
-			for (clsPrimaryDataStructureContainer oMContainer : poEnvironmentalPerception_IN) {
-				//When found, add all TP, which are not location to the EATABLE area
-				if (oMContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-					if (((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getContent().equals(((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getContent())) {
-						for (clsAssociation oAss : ((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getInternalAssociatedContent()) {
-							if (oAss.getLeafElement().getContentType().equals("Color")) {
-								((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getInternalAssociatedContent().add(oAss);
-								bFound=true;
-								break;
-							}
-						}
-					}
-				}
+	
+	
+	
 
-				if (bFound==true) {
-					break;
-				}
-			}
-		
-			//Replace the EATABLE through another distance and position
-			boolean bconv=false;
-			for (clsAssociation oAss : ((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getInternalAssociatedContent()) {
-				if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)==true && ((clsThingPresentation)oAss.getLeafElement()).getContent().equals(eDistance.EATABLE)==true) {
-					((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
-					bconv=true;
-				}
-			}
-			
-			if (bconv==true) {
-				clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.POSITION, ePhiPosition.CENTER));
-				clsAssociationAttribute oPosAss = (clsAssociationAttribute) clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.POSITIONASSOCIATION, (clsPrimaryDataStructure) oEContainer.getMoDataStructure(), oPos, 1.0);
-				((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getInternalAssociatedContent().add(oPosAss);
-			}
-		}
-		
-		
-		ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
-		//ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		//Search in the input for an object with location EATABLE and add them to a new list
-		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
-			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-				//Go through all associated structures
-				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getInternalAssociatedContent()) {
-					if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getContent().equals(eDistance.MANIPULATEABLE)==true)) {
-						((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
-						//oManipulatableList.add(oContainer);
-					}
-				}
-				
-			}
-		}
-		
-	}
 	
-	/**
-	 * DOCUMENT (zeilinger) - retrieves memory matches for environmental input; objects are identified and exchanged by their 
-	 * stored correspondance.
-	 *
-	 * @author zeilinger
-	 * 14.03.2011, 14:27:30
-	 *
-	 */
-	private ArrayList<clsPrimaryDataStructureContainer> retrieveImages(ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN) {
-		
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal;
-		
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-		
-		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
-		
-		// SSCH: separate internal from external associations. for search just internal associations are relevant
-		for(clsPrimaryDataStructureContainer oEnvTPM :oPerceivedImage_IN) {
-			if (oEnvTPM.getMoDataStructure().getContentType() == eContentType.ENTITY) {
-				
-				clsThingPresentationMesh oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
-				
-				ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
-				// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
-				for (clsAssociation oIntAss: oUnknownTPM.getInternalAssociatedContent()) {
-					if (isInternalAttribute(oIntAss.getAssociationElementB().getContentType().toString()) == false) {
-						// remove Assoc from internal and put it in external assoc
-						oRemoveAss.add(oIntAss);
-					}				
-				}
+	
+	
+	
 
-				for(clsAssociation oAss: oRemoveAss){
-					oUnknownTPM.removeInternalAssociation(oAss);
-					oUnknownTPM.addExternalAssociation(oAss);
-				
-
-				}
-				poSearchPattern.add(oUnknownTPM);	
-				
-			}
-		}
-				
-		//Assign TP to the identified object in PerceivedImage_IN
-		oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TP, poSearchPattern); 
-		//Take the best match for object
-		
-		
-		oRetVal = createImage(oSearchResult);
-		
-		//Assign drive meshes to each found image
-		
-		
-		//THIS METHOD IS CORRUPT AND REPLACE assignDriveMeshes(oRetVal); // associated emotions are also fetched, because they have the same nBinaryValue as DM
-		//INFO AW: Why are the external TPs necessary? No. It was only thought for the self to load default values.
-		//These values are now added in F14
-		//assignExternalTPAssociations(oRetVal);
-		
-		//assignEmotions(oRetVal);
-		Test1.add(oRetVal.toString());
-		removeLast(Test1);
-		return oRetVal;
-	}	
 	
-	private ArrayList<clsThingPresentationMesh> retrieveImagesTPM(ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN) {
-		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
-		
-		for (clsPrimaryDataStructureContainer oContainer : oPerceivedImage_IN) {
-			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-				clsThingPresentationMesh oTPM = (clsThingPresentationMesh) oContainer.getMoDataStructure();
-				oTPM.getExternalAssociatedContent().addAll(oContainer.getMoAssociatedDataStructures());
-				
-				oRetVal.add(oTPM);
-			}
-		}
-		
-		return oRetVal;
-	}
-	private ArrayList<String> removeLast(ArrayList<String> Test){
-		
-		for(int i=0; i<Test.size();i++){
-			
-			if (i>0){
-				Test.remove(0);
-			}
-		}
-		return Test;
-	}
 	
-	/**
-	 * Add associations 
-	 * wendt
-	 *
-	 * @since 18.08.2011 11:22:36
-	 *
-	 * @param poPerception
-	 */
-	private void assignDriveMeshes(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
-		
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-	
-		//oSearchResult = search(eDataType.DM, poPerception);
-		
-		oSearchResult = this.getLongTermMemory().searchEntity(eDataType.DM, poPerception);
-		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
-		addAssociations(oSearchResult, poPerception);
-		//}
-		//addAssociations(oSearchResult, poPerception);
-	}
-	
-	/**
-	 * This method adds the associated items from the search result to the
-	 * associatedDataStructures of the (perception) container.
-	 *
-	 * @author Marcus Zottl (e0226304)
-	 * 22.06.2011, 18:29:38
-	 *
-	 * @param poSearchResult	- the result of a MemorySearch in the KnowledgeBase 
-	 * @param poPerception		- the perception to which the items in the search
-	 * result should be added.
-	 */
-	private void addAssociations(
-			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
-			ArrayList<clsPrimaryDataStructureContainer> poPerception) {
-
-		//oEntry: Data structure with a double association weight and an object e. g. CAKE with its associated DM.
-		if (poSearchResult.size()!=poPerception.size()) {
-			try {
-				throw new Exception("F14: addAssociations, Error, different Sizes");
-			} catch (Exception e) {
-				// TODO (wendt) - Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		for (int i=0;i<poSearchResult.size();i++) {
-			ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchPair = poSearchResult.get(i);
-			clsPrimaryDataStructureContainer oPC = poPerception.get(i);
-			if (oSearchPair.size()>0) {
-				poPerception.get(i).getMoAssociatedDataStructures().addAll(oSearchPair.get(0).b.getMoAssociatedDataStructures());
-				
-				
-			}
-			
-		}
-		
-		/*for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult) {
-			if(oEntry.size() > 0){
-				//get associated DM from a the object e. g. CAKE
-				ArrayList<clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures();
-				//Add associated DM to the input list. Now the list moAssociatedDataStructures contains DM and ATTRIBUTES
-				poPerception.getMoAssociatedDataStructures().addAll(oAssociationList);
-			}
-		}*/
-	}	
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 14.03.2011, 23:06:52
-	 *
-	 */
-	private ArrayList<clsPrimaryDataStructureContainer> createImage(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
-		
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
-		
-				int nEntryIndex = poSearchResult.indexOf(oEntry); 
-				clsPrimaryDataStructureContainer oNewImage;
-				clsPrimaryDataStructureContainer oPerceptionEntry =  moEnvironmentalTP.get(nEntryIndex); 
-				
-				if(oEntry.size() > 0){
-					oNewImage = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
-					oNewImage.setMoAssociatedDataStructures(oPerceptionEntry.getMoAssociatedDataStructures()); 
-					mergePerceptionAndKnowledge(oNewImage, oPerceptionEntry);
-					
-					oRetVal.add(oNewImage);
-				}
-			}
-		
-		return oRetVal;
-		 
-	}
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 17.08.2010, 20:39:09
-	 *
-	 * @param oSearchResult
-	 * @param poEnvironmentalInput
-	 */
-	private void mergePerceptionAndKnowledge(clsPrimaryDataStructureContainer poNewImage,
-												   clsPrimaryDataStructureContainer poPerceptionEntry) {
-
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		ArrayList<clsDataStructurePA> oAssociatedElements = new ArrayList<clsDataStructurePA>(); 
-		
-		if(poNewImage.getMoDataStructure() instanceof clsThingPresentationMesh 
-			&& poPerceptionEntry.getMoDataStructure() instanceof clsThingPresentationMesh){
-
-			extractUnknownData(oAssociatedElements, poPerceptionEntry, poNewImage); 
-			oSearchResult = this.getLongTermMemory().searchEntity(eDataType.UNDEFINED, oAssociatedElements); 
-		 	addAttributeAssociations(oSearchResult, poNewImage); 
-		 }
-	}
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -1162,67 +510,9 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 	}
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 15.03.2011, 10:27:04
-	 *
-	 * @param oUnknownData
-	 * @param poPerceptionEntry
-	 * @param poNewImage 
-	 */
-	private void extractUnknownData(ArrayList<clsDataStructurePA> poUnknownData,
-			clsPrimaryDataStructureContainer poPerceptionEntry, 
-			clsPrimaryDataStructureContainer poNewImage) {
-		
-		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getInternalAssociatedContent()){
-	 		
-	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getAssociationElementB())){
-	 			poUnknownData.add(oEntry.getAssociationElementB()); 
-	 		}
-	 	}
-		
-		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getExternalAssociatedContent()){
-	 		
-	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getAssociationElementB())){
-	 			poUnknownData.add(oEntry.getAssociationElementB()); 
-	 		}
-	 	}
-	}
+	
 
-	/**
-	 * Add corresponding attribute associations to a container
-	 *
-	 * @author zeilinger
-	 * 15.03.2011, 10:25:24
-	 *
-	 * @param oSearchResult
-	 * @param poNewImage
-	 */
-	private void addAttributeAssociations(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
-						clsPrimaryDataStructureContainer poNewImage) {
-		
-		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
-			if(oEntry.size() > 0){
-				clsPrimaryDataStructureContainer oBestMatch = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
-				if(oBestMatch.getMoDataStructure() instanceof clsThingPresentation){
-				    clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
-							-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
-							(clsThingPresentationMesh)poNewImage.getMoDataStructure(), 
-							(clsThingPresentation)oBestMatch.getMoDataStructure());
-				    poNewImage.getMoAssociatedDataStructures().add(oAssociation);
-				}
-				else if (oBestMatch.getMoDataStructure()  instanceof clsThingPresentationMesh){
-                    clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
-                            -1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
-                            (clsThingPresentationMesh)poNewImage.getMoDataStructure(), 
-                            (clsThingPresentationMesh)oBestMatch.getMoDataStructure());
-                    poNewImage.getMoAssociatedDataStructures().add(oAssociation);
-				}
-			}
-		}
-	}
+	
 	
 	/**
 	 * Get the first element of the input arraylist
@@ -1240,68 +530,33 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		return oBestMatch; 
 	}
 	
-	
-	
-	
-	//////////////////////// DRAFT FUNCTIONS
-	
-	private void convertSymbolToTPM() {
-		moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		for(itfSymbol oSymbol : moEnvironmentalData.values()){
+		
+	private  ArrayList<clsPrimaryDataStructureContainer> convertSymbolToTPM( HashMap<eSymbolExtType, itfSymbol> poData) {
+	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		for(itfSymbol oSymbol : poData.values()){
 			if(oSymbol!=null){
 				for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
 					//convert the symbol to a PDSC/TP
 					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
-					moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+					oEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
 				}	
 			}
 		}
 		
 		// FIXME: SSCH delete this, if CM have changed the sensors to avoid the occurence of non-entities in moEnvironmentalData 
 		ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
-		for (clsPrimaryDataStructureContainer oEnvEntity : moEnvironmentalTP) {
+		for (clsPrimaryDataStructureContainer oEnvEntity : oEnvironmentalTP) {
 			clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
 			if(oCheckEntity.getMoDataStructure().getContentType() != eContentType.ENTITY) {
 				oRemoveDS.add(oCheckEntity);
 			}
 		}		
 		for(clsPrimaryDataStructureContainer oDS: oRemoveDS){
-			moEnvironmentalTP.remove(oDS);			
+		    oEnvironmentalTP.remove(oDS);			
 		}
+		return oEnvironmentalTP;
 	}
 	
-	
-	private void addSelfToPerception() {
-		
-		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
-		//TODO @CM: Please adapt the SELF for your needs. 
-		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
-		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
-		//Add Position to SELF
-		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
-		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
-		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oPosAss);
-				
-		//Add Distance to SELF
-		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
-		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
-		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oDistAss);
-		
-		//Add color and shape
-		clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.Color, new Color(255, 255, 191)));
-		clsAssociationAttribute oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oColor);
-		oSelfContainer.addMoAssociatedDataStructure(oColorAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oColorAss);
-		
-		clsThingPresentation oShape = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ShapeType, "CIRCLE"));
-		clsAssociationAttribute oShapeAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oShape);
-		oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
-		
-		moEnvironmentalTP.add(oSelfContainer);
-	}
 	
 	
 	private void drivesActivateEntities(){
@@ -1622,96 +877,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	       for( clsInternalActionCommand oCmd : moInternalActions ) {
 	           poInternalActionContainer.call(oCmd);
 	    }
-	  }
-	
-	private void CalculateSimilarityPerceptionMainTest()
-    {
-        
-        ArrayList<ArrayList<clsDataStructureContainer>> oRankedExemplarTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
-        ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
-        ArrayList<clsPrimaryDataStructureContainer> oEnvPerceptionTPAL = new ArrayList<clsPrimaryDataStructureContainer>(); 
-        
-        ///Convert symbol features to associated TPs
-        //go through every symbol created by the different sensors and make associations
-        //done by invoking the symbols get methods
-        for(itfSymbol oSymbol : moEnvironmentalData.values()){
-            if(oSymbol!=null){
-                for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
-                    //convert the symbol to a PDSC/TP
-                    clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
-                    oEnvPerceptionTPAL.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
-                }   
-            }
-        }
-        
-        // remove coccurence of non-entities in moEnvironmentalData
-        //preapares a list to remove double TPs
-        ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
-        for (clsPrimaryDataStructureContainer oEnvEntity : oEnvPerceptionTPAL) {
-            clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
-            if(oCheckEntity.getMoDataStructure().getContentType() != eContentType.ENTITY) {
-                oRemoveDS.add(oCheckEntity);
-            }
-        }
-        //the actual remove
-        for(clsPrimaryDataStructureContainer oDS: oRemoveDS){
-            oEnvPerceptionTPAL.remove(oDS);         
-        }
-        
-        ///remove eatable area doubles?
-        
-        ///Appearance Recognition
-        clsThingPresentationMesh oCandidateTPM = null;
-        clsThingPresentationMesh oCandidateTPM_DM = null;
-        
-        clsDriveMesh oMemorizedDriveMesh = null;
-        
-        ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
-    
-        ArrayList<clsAssociation> oRemoveAss = null;
-        ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResults = 
-                        new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-                    
-        ArrayList<clsThingPresentationMesh> oMemorySearchQuery = new ArrayList<clsThingPresentationMesh>();
-                        
-        clsThingPresentationMesh oTPMToSearch = null;
-        
-        //loop through every TPM of the environmental meshes
-        for(clsPrimaryDataStructureContainer oEnvTPM :oEnvPerceptionTPAL) {
-
-            
-            //before a seach through the data handler the external associations which are not used have to be removed
-            oRemoveAss = new ArrayList<clsAssociation>();
-            
-            oTPMToSearch = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();             
-                                            
-                    //  separate internal attributes (which identify the entity) from external attributes (which are additional information)
-                    for (clsAssociation oIntAss: oTPMToSearch.getInternalAssociatedContent()) {
-                        if (isInternalAttribute(oIntAss.getAssociationElementB().getContentType().toString()) == false) {
-                            // remove Assoc from internal and put it in external assoc
-                            oRemoveAss.add(oIntAss);
-                        }
-                                    
-                    }
-                                
-                    for(clsAssociation oAss: oRemoveAss){
-                        oTPMToSearch.removeInternalAssociation(oAss);
-                        oTPMToSearch.addExternalAssociation(oAss);
-                    }
-                    
-                    //add the searchable TPM to the list of search query
-                    oMemorySearchQuery.add(oTPMToSearch);           
-        }//end prepare internal associations
-        
-        //do the memory seach for 
-        oSearchResults = this.getLongTermMemory().searchEntity(eDataType.DM, oMemorySearchQuery);
-        
-        
-        
-    }//end method
-	
-	////// DRAFT FUNCTIONS END
-	
+	  }	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * 
  * @author zeilinger
  * 24.05.2010, 10:38:31
- * @deprecated
+ * 
  */
 public abstract class clsDataStructureContainer implements Cloneable{
 	protected clsDataStructurePA moDataStructure; 
