@@ -2,6 +2,7 @@
  * CHANGELOG
  *
  * 13.11.2013 Kollmann - File created
+ * 22.01.2014 Gelbard - Conflict tension added 
  *
  */
 package primaryprocess.functionality.superegofunctionality;
@@ -22,9 +23,17 @@ public class clsSuperEgoConflict {
     private eDriveComponent moConflictComponent;
     private eOrgan moConflictOrgan;
     private eDefenseType moPreferedDefense;
+    private Double moConflictTension = 0.0; // FG 22.01.2014: initialized with 0.0 to avoid null-pointer exceptions
 
     public clsSuperEgoConflict(clsPair<eDriveComponent, eOrgan> poConflictIdentification) {
         this(poConflictIdentification.a, poConflictIdentification.b);
+    }
+    
+    public clsSuperEgoConflict(clsPair<eDriveComponent, eOrgan> poConflictIdentification, double oConflictTension) {
+        setConflictComponent(poConflictIdentification.a);
+        setConflictOrgan(poConflictIdentification.b);
+        setPreferedDefense(eDefenseType.UNSPECIFIED_DEFENSE);
+        setConflictTension(oConflictTension);
     }
     
     public clsSuperEgoConflict(eDriveComponent poConflictComponent, eOrgan poConflictOrgan) {
@@ -54,7 +63,12 @@ public class clsSuperEgoConflict {
     
     @Override
     public String toString() {
-        return "Super-ego conflict (" + moConflictComponent.toString() + "|" + moConflictOrgan.toString() + " -> " + moPreferedDefense.toString() + ")";
+        return "Super-ego conflict (" + moConflictComponent.toString() + "|" + moConflictOrgan.toString() + "|" + moConflictTension.toString() + " -> " + moPreferedDefense.toString() + ")";
+    }
+    
+    
+    public void addConflictTension(double oConflictTension) {
+        this.moConflictTension += oConflictTension;
     }
     
     // Only Getters and Setter from here on
@@ -75,5 +89,8 @@ public class clsSuperEgoConflict {
     }
     public void setPreferedDefense(eDefenseType poPreferedDefense) {
         this.moPreferedDefense = poPreferedDefense;
+    }
+    public void setConflictTension(double oConflictTension) {
+        this.moConflictTension = oConflictTension;
     }
 }
