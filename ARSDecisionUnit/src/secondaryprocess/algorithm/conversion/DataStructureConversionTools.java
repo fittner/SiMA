@@ -199,7 +199,7 @@ public class DataStructureConversionTools {
                         	// Convert the complete structure to a WPM
                             clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, (clsThingPresentationMesh)oSubDataStructure, poProcessedList, pnLevelInternal, pnLevelExternal - 1, contentType);
                             
-                            if(oSubDataStructure.getContentType() == eContentType.ACTIONINSTANCE) {
+                            if(oSubDataStructure.getContentType() == eContentType.ACTION) {
                         	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
                         	} else if(oSubDataStructure.getContentType() == eContentType.ENTITY) {
                         	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTIONOBJECT, false);

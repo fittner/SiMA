@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationPrimary;
+import base.datatypes.clsAssociationTime;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
@@ -82,7 +83,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 		//2. Consolidate mesh
 		
 		//3. Calculate activation
-		ArrayList<clsPair<clsThingPresentationMesh, Double>> oPossibleActivationList = activateAssociatedImages(poImage, rAvailablePsychicEnergy, pnMaximumDirectActivationValue, poDrivesForFilteringList, recognizedImageMultiplyFactor, preferredImages, poAlreadyActivatedImages);
+		ArrayList<clsPair<clsThingPresentationMesh, Double>> oPossibleActivationList = activateAssociatedImages(poImage, rAvailablePsychicEnergy, pnMaximumDirectActivationValue, poDrivesForFilteringList, recognizedImageMultiplyFactor, preferredImages, poAlreadyActivatedImages, useDirectActivation);
 		log.info("Possible images, which can be activated: {}", PrintTools.printArrayListWithLineBreaks(oPossibleActivationList));
 		
 		//4. Delete non activated images		
@@ -113,7 +114,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 		
 		//moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, prThreshold, 1);
 		oSearchResultMesh = moModuleBase.searchMesh(poOriginImage, eContentType.RI, prThreshold, 1);
-
+		
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {
@@ -170,14 +171,15 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	 * @param poEnhancedOriginImage
 	 * @param prPsychicEnergyIn
 	 * @param poAlreadyActivatedImages
+	 * @param pbDirectActivation 
 	 * @return
 	 */
-	public ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
+	public ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, boolean pbDirectActivation) {
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
 		log.trace("Calculate activation for " + poEnhancedOriginImage.getContent());
 		
 		//1. Get all unprocessed images. Only they will be used in the calculation
-		ArrayList<clsPair<clsThingPresentationMesh, Double>> oAssociatedUnprocessedImages = getUnprocessedImages(poEnhancedOriginImage, poAlreadyActivatedImages);
+		ArrayList<clsPair<clsThingPresentationMesh, Double>> oAssociatedUnprocessedImages = getUnprocessedImages(poEnhancedOriginImage, poAlreadyActivatedImages, pbDirectActivation);
 		log.trace("Get unprocessed images" + oAssociatedUnprocessedImages.toString());
 		
 		ArrayList<PsychicSpreadActivationNode> oNodeTable = new ArrayList<PsychicSpreadActivationNode>();
@@ -359,7 +361,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 		return prPsychicPotential * (prPsychicEnergyIn/prConsumptionEnergy - 1);
 	}
 	
-	private ArrayList<clsPair<clsThingPresentationMesh, Double>> getUnprocessedImages(clsThingPresentationMesh poEnhancedOriginImage, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
+	private ArrayList<clsPair<clsThingPresentationMesh, Double>> getUnprocessedImages(clsThingPresentationMesh poEnhancedOriginImage, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, boolean pbDirectActivation) {
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
 		
 		for (clsAssociation oAss : poEnhancedOriginImage.getExternalAssociatedContent()) {
@@ -380,6 +382,32 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 				if (bFound==false) {
 					double rAssociationWeight = oAss.getMrWeight();
 					oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oLeafImage, rAssociationWeight));
+				}
+			}
+		}
+		
+		// TODO(Kollmann) - change THIS activation of internal associations
+		// Kollmann: for indirect activation use internal associations as well (for now)
+		if(!pbDirectActivation) {
+			for(clsAssociation oAss : poEnhancedOriginImage.getInternalAssociatedContent()) {
+				if(oAss instanceof clsAssociationTime) {
+					//Get the other image, i. e. the leaf image of all association primary
+					clsThingPresentationMesh oLeafEntity = (clsThingPresentationMesh) oAss.getTheOtherElement(poEnhancedOriginImage);
+					
+					boolean bFound = false;
+					//Check if the association is not already activated, check only the IDs
+					for (clsThingPresentationMesh oAlreadyActivatedImages : poAlreadyActivatedImages) {
+						if (oAlreadyActivatedImages.getDS_ID()==oLeafEntity.getDS_ID()) {
+							bFound=true;
+							break;
+	
+						}
+					}
+					
+					if (bFound==false) {
+						double rAssociationWeight = oAss.getMrWeight();
+						oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oLeafEntity, rAssociationWeight));
+					}
 				}
 			}
 		}

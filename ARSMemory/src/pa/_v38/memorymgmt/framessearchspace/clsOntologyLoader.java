@@ -788,7 +788,6 @@ public class clsOntologyLoader {
 					// not sure why we do that
 					int nInstanceID = oNewInstanceTPMDS.hashCode();
 					oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
-					oNewInstanceTPMDS.setMoContentType(eContentType.ACTIONINSTANCE);
 					
 					poDataContainer.b.put(poElement.getName(), oNewInstanceTPMDS);
 					
