@@ -8,7 +8,6 @@ package primaryprocess.modules;
 
 import inspector.interfaces.itfGraphCompareInterfaces;
 
-import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -23,12 +22,10 @@ import prementalapparatus.symbolization.representationsymbol.itfGetSymbolName;
 import prementalapparatus.symbolization.representationsymbol.itfIsContainer;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import memorymgmt.enums.eActivationType;
-import memorymgmt.enums.eContent;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEntityExternalAttributes;
 import memorymgmt.enums.ePhiPosition;
-import memorymgmt.enums.eRadius;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import modules.interfaces.I2_3_receive;
 import modules.interfaces.I2_4_receive;
@@ -44,7 +41,6 @@ import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
-import base.datatypes.clsPhysicalRepresentation;
 import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
@@ -1269,40 +1265,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 			moEnvironmentalTP.remove(oDS);			
 		}
 	}
-	
-	
-	private void addSelfToPerception() {
-		
-		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
-		//TODO @CM: Please adapt the SELF for your needs. 
-		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
-		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
-		//Add Position to SELF
-		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
-		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
-		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oPosAss);
-				
-		//Add Distance to SELF
-		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
-		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
-		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oDistAss);
-		
-		//Add color and shape
-		clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.Color, new Color(255, 255, 191)));
-		clsAssociationAttribute oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oColor);
-		oSelfContainer.addMoAssociatedDataStructure(oColorAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oColorAss);
-		
-		clsThingPresentation oShape = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ShapeType, "CIRCLE"));
-		clsAssociationAttribute oShapeAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oShape);
-		oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
-		
-		moEnvironmentalTP.add(oSelfContainer);
-	}
-	
 	
 	private void drivesActivateEntities(){
 		

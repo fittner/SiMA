@@ -201,6 +201,9 @@ public class DataStructureConversionTools {
                             
                             if(oSubDataStructure.getContentType() == eContentType.ACTION) {
                         	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
+                        	    
+                        	    //for now we associate the action to the self AND to the image containing the self, therefore we climb up the graph 'till we hit a remembered image
+                        	    
                         	} else if(oSubDataStructure.getContentType() == eContentType.ENTITY) {
                         	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTIONOBJECT, false);
                         	}

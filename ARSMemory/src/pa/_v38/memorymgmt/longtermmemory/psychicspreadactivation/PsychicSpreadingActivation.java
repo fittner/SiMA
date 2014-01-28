@@ -147,8 +147,26 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	 * @param poOriginImage
 	 */
 	public void getAssociatedImagesMemory(clsThingPresentationMesh poOriginImage) {
-		poOriginImage = (clsThingPresentationMesh) moModuleBase.getCompleteMesh(poOriginImage, 1);
-		
+//		poOriginImage = (clsThingPresentationMesh) moModuleBase.getCompleteMesh(poOriginImage, 10);
+	    clsThingPresentationMesh oTPM = null;
+	    
+	    //Kollmann: complete the meshes for all entities in the image
+	    for(clsAssociation oAssociation : poOriginImage.getInternalAssociatedContent()) {
+	        if(oAssociation instanceof clsAssociationTime) {
+	            if(oAssociation.getLeafElement() instanceof clsThingPresentationMesh) {
+	                oTPM = (clsThingPresentationMesh) oAssociation.getLeafElement();
+	                
+	                if(oTPM == poOriginImage || oTPM.getDS_ID() == poOriginImage.getDS_ID()) {
+	                    log.warn("The following internal association seems to have root and leaf mixed up:\n" + oAssociation.toString());
+	                    //switch root and leaf
+	                    oTPM = (clsThingPresentationMesh) oAssociation.getRootElement();
+	                }
+	                
+	                moModuleBase.complementMesh(poOriginImage, 5); // 5 is an arbitrary value ... change as needed (lower values means that less is loaded) 
+	            }
+	        }
+	    }
+	    
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {
@@ -362,57 +380,31 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	}
 	
 	private ArrayList<clsPair<clsThingPresentationMesh, Double>> getUnprocessedImages(clsThingPresentationMesh poEnhancedOriginImage, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, boolean pbDirectActivation) {
-		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
-		
-		for (clsAssociation oAss : poEnhancedOriginImage.getExternalAssociatedContent()) {
-			if (oAss instanceof clsAssociationPrimary) {
-				//Get the other image, i. e. the leaf image of all association primary
-				clsThingPresentationMesh oLeafImage = (clsThingPresentationMesh) oAss.getTheOtherElement(poEnhancedOriginImage);
-				
-				boolean bFound = false;
-				//Check if the association is not already activated, check only the IDs
-				for (clsThingPresentationMesh oAlreadyActivatedImages : poAlreadyActivatedImages) {
-					if (oAlreadyActivatedImages.getDS_ID()==oLeafImage.getDS_ID()) {
-						bFound=true;
-						break;
+        ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
+        
+        for (clsAssociation oAss : poEnhancedOriginImage.getExternalAssociatedContent()) {
+            if (oAss instanceof clsAssociationPrimary) {
+                //Get the other image, i. e. the leaf image of all association primary
+                clsThingPresentationMesh oLeafImage = (clsThingPresentationMesh) oAss.getTheOtherElement(poEnhancedOriginImage);
+                
+                boolean bFound = false;
+                //Check if the association is not already activated, check only the IDs
+                for (clsThingPresentationMesh oAlreadyActivatedImages : poAlreadyActivatedImages) {
+                    if (oAlreadyActivatedImages.getDS_ID()==oLeafImage.getDS_ID()) {
+                        bFound=true;
+                        break;
 
-					}
-				}
-				
-				if (bFound==false) {
-					double rAssociationWeight = oAss.getMrWeight();
-					oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oLeafImage, rAssociationWeight));
-				}
-			}
-		}
-		
-		// TODO(Kollmann) - change THIS activation of internal associations
-		// Kollmann: for indirect activation use internal associations as well (for now)
-		if(!pbDirectActivation) {
-			for(clsAssociation oAss : poEnhancedOriginImage.getInternalAssociatedContent()) {
-				if(oAss instanceof clsAssociationTime) {
-					//Get the other image, i. e. the leaf image of all association primary
-					clsThingPresentationMesh oLeafEntity = (clsThingPresentationMesh) oAss.getTheOtherElement(poEnhancedOriginImage);
-					
-					boolean bFound = false;
-					//Check if the association is not already activated, check only the IDs
-					for (clsThingPresentationMesh oAlreadyActivatedImages : poAlreadyActivatedImages) {
-						if (oAlreadyActivatedImages.getDS_ID()==oLeafEntity.getDS_ID()) {
-							bFound=true;
-							break;
-	
-						}
-					}
-					
-					if (bFound==false) {
-						double rAssociationWeight = oAss.getMrWeight();
-						oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oLeafEntity, rAssociationWeight));
-					}
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
+                    }
+                }
+                
+                if (bFound==false) {
+                    double rAssociationWeight = oAss.getMrWeight();
+                    oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oLeafImage, rAssociationWeight));
+                }
+            }
+        }
+        
+        return oRetVal;
+    }
 
 }

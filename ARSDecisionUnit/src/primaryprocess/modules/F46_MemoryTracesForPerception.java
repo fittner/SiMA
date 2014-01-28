@@ -447,7 +447,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
         //Add SELF to the image if it does not exist
         if (clsMeshTools.getSELF(sourceImagePhantasy).isNullObject()==true) {
             //FIXME AW SELF should be loaded somewhere else.
-            clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "CIRCLE", "#FFFFBF");
+            clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "CIRCLE", "#33FF33");
             ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
             oSELFList.add(oSELF);
             clsMeshTools.addTPMToTPMImage(sourceImagePhantasy, oSELFList);
