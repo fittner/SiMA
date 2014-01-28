@@ -134,13 +134,15 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 		//Test get protege content
 		
 		//Make a deepcopy of the input parameter, else the difference cannot be correctly displayed in statetotext
-		try {
+		//try {
 			//moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
-			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.clone();
-		} catch (CloneNotSupportedException e) {
+			//moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.clone();
+		    
+		//} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+		//	e.printStackTrace();
+		//}
+	    moPerceptionalMesh_OUT=moPerceptionalMesh_IN;
 		//moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
 		/* MZ 2011/07/05: everything that is done with the input is now happening
 		 * inside enrichWithBlockedContent. This was done so that in the future
