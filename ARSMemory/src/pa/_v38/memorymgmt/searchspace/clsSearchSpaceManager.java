@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.searchspace;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
@@ -296,7 +297,6 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		return oRetVal;
 	}
 	
-	
 	/* (non-Javadoc)
 	 *
 	 * @since 25.02.2013 16:13:59
@@ -359,6 +359,19 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			oClone.add(oClonedList); 
 		}
 		return oClone;
+	}
+
+	@Override
+	public void complementMesh(clsDataStructurePA poInput, int pnLevel) {
+		try {
+			if(poInput instanceof clsThingPresentationMesh){
+				clsDataStructureComparisonTools.complementMesh((clsThingPresentationMesh) poInput, moSearchSpaceHandler, pnLevel, new HashMap<Integer, clsThingPresentationMesh>());
+			} else { 
+				throw new IllegalArgumentException("DataStructure unknown ");
+			}
+		} catch(Exception e) {
+			log.error("Error in clsSearchSpacemanager::complementMesh(...) with + " + poInput.toString());
+		}
 	}
 
 	

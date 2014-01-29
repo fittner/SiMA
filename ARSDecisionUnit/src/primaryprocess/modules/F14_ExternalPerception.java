@@ -24,6 +24,7 @@ import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEntityExternalAttributes;
+import memorymgmt.enums.ePhiPosition;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import modules.interfaces.I2_3_receive;
 import modules.interfaces.I2_4_receive;
@@ -556,8 +557,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		}
 		return oEnvironmentalTP;
 	}
-	
-	
 	
 	private void drivesActivateEntities(){
 		

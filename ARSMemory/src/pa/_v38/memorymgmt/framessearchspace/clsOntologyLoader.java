@@ -788,7 +788,6 @@ public class clsOntologyLoader {
 					// not sure why we do that
 					int nInstanceID = oNewInstanceTPMDS.hashCode();
 					oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
-					oNewInstanceTPMDS.setMoContentType(eContentType.ACTIONINSTANCE);
 					
 					poDataContainer.b.put(poElement.getName(), oNewInstanceTPMDS);
 					
@@ -908,16 +907,25 @@ public class clsOntologyLoader {
 		double rAssociationWeight =  Double.valueOf((Float) getSlotValues("weight", poAssociation).toArray()[0]);
 
 		if (poRootElement == null) {
-			Instance oIns_a = (Instance) getSlotValues("element", poAssociation).toArray()[0];
-			Instance oIns_b = (Instance) getSlotValues("element", poAssociation).toArray()[1];
+			Collection<?> oElements = getSlotValues("element", poAssociation);
+			if(oElements.size() < 2) {
+				log.error("\tError in Association " + poAssociation.getName() + " (no root element): Not enough elements.\n\n");
+			} else {
+				if(oElements.size() > 2) {
+					log.warn("\tAssociation " + poAssociation.getName() + " connects more than 2 elements.\n\n");
+				}
+				
+				Instance oIns_a = (Instance) getSlotValues("element", poAssociation).toArray()[0];
+				Instance oIns_b = (Instance) getSlotValues("element", poAssociation).toArray()[1];
 
-			initDataStructure(null, oIns_a, poDataContainer);
-			initDataStructure(null, oIns_b, poDataContainer);
-			clsDataStructurePA oDS_a = retrieveDataStructure(oIns_a.getName(),
-					poDataContainer.b);
-			clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(),
-					poDataContainer.b);
-			oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
+				initDataStructure(null, oIns_a, poDataContainer);
+				initDataStructure(null, oIns_b, poDataContainer);
+				clsDataStructurePA oDS_a = retrieveDataStructure(oIns_a.getName(),
+						poDataContainer.b);
+				clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(),
+						poDataContainer.b);
+				oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
+			}
 		} else {
 			for (Object oElement : getSlotValues("element", poAssociation)) {
 				String oRootName = poRootElement.getName();

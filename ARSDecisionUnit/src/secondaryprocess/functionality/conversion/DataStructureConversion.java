@@ -144,7 +144,7 @@ public class DataStructureConversion {
         ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = new ArrayList<clsWordPresentationMesh>();
         for (clsThingPresentationMesh oRITPM : oRITPMList) {
             // Convert the complete image to WPM
-            clsWordPresentationMesh oRIWPM = DataStructureConversionTools.convertCompleteTPMtoWPMRoot(ltm, oRITPM);
+            clsWordPresentationMesh oRIWPM = DataStructureConversionTools.convertCompleteTPMtoWPM(ltm, oRITPM, new ArrayList<clsThingPresentationMesh>(), 1, 3, oRITPM.getContentType());
             
             // 3. Search for WPM for all internal objects in the WPM if they are
             // available

@@ -423,69 +423,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	    } else {
 	        log.warn("Phantasyinputs were supposed to be used, but because of errors normal activation will be used.");
 	        activateWithPerceivedImageAsSource(perceivedImage, returnedPhantasyImageList);
-	    }
-
-	    
-//		//default is to use perception
-//		boolean bUsePerception = true;
-//		boolean bMergePhantasyAndPerception = false;
-//		
-//		if (returnedPhantasyImage.isNullObject()==false) {
-//			bMergePhantasyAndPerception=true;
-//			//Only if the returned memory contains a special flag, it shall activate phantasy
-//			if (clsPhantasyTools.checkPhantasyActivate(returnedPhantasyImage)==true) {
-//				bUsePerception=false;
-//			}
-//		}
-//		
-//		if (bUsePerception==true) {	//Activate with perception
-//			
-//			//--- Enhance perception with environmental image ---//
-//			enhancePerceptionWithEnhancedEnvironmentalImage(perceivedImage, moTempLocalizationStorage);
-//			
-//			//=== Perform system tests ===//
-//			if (clsTester.getTester().isActivated()) {
-//				try {
-//					clsTester.getTester().exeTestAssociationAssignment(perceivedImage);
-//				} catch (Exception e) {
-//					log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
-//				}
-//			}
-//			
-//			this.getLongTermMemory().executePsychicSpreadActivation(perceivedImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION);
-//			
-//			//=== Perform system tests ===//
-//			if (clsTester.getTester().isActivated()) {
-//				try {
-//					clsTester.getTester().exeTestAssociationAssignment(perceivedImage);
-//				} catch (Exception e) {
-//					log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
-//				}
-//			}
-//			
-//			//--- Remove enhanced perception from PI as these were only there to activate memories
-//			removeEnhancedEnvironmentalImageFromPerception(perceivedImage);
-//			
-//			
-//		} else {						//Activate with returned memory
-//			//Add SELF to the image if it does not exist
-//			if (clsMeshTools.getSELF(returnedPhantasyImage).isNullObject()==true) {
-//			    //FIXME AW SELF should be loaded somewhere else.
-//				clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "CIRCLE", "#FFFFBF");
-//				ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
-//				oSELFList.add(oSELF);
-//				clsMeshTools.addTPMToTPMImage(returnedPhantasyImage, oSELFList);
-//			}
-//			
-//			this.getLongTermMemory().executePsychicSpreadActivation(returnedPhantasyImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION/2, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION);
-//		}
-//		
-//		
-//		//Merge perception and phantasy
-//		if (bMergePhantasyAndPerception==true) {
-//			clsMeshTools.createAssociationPrimary(perceivedImage, returnedPhantasyImage, 1.0);
-//		}
-				
+	    }				
 	}
 
     /**
@@ -509,7 +447,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
         //Add SELF to the image if it does not exist
         if (clsMeshTools.getSELF(sourceImagePhantasy).isNullObject()==true) {
             //FIXME AW SELF should be loaded somewhere else.
-            clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "CIRCLE", "#FFFFBF");
+            clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "CIRCLE", "#33FF33");
             ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
             oSELFList.add(oSELF);
             clsMeshTools.addTPMToTPMImage(sourceImagePhantasy, oSELFList);
