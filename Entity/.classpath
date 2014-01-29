@@ -4,13 +4,13 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
-	<classpathentry kind="lib" path="/libraries/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="/libraries/slf4j-1.7.5/slf4j-api-1.7.5.jar"/>
-	<classpathentry kind="lib" path="/libraries/slf4j-1.7.5/slf4j-log4j12-1.7.5.jar"/>
-	<classpathentry kind="lib" path="/libraries/jcommon-1.0.14.jar"/>
-	<classpathentry kind="lib" path="/libraries/jfreechart-1.0.11.jar"/>
-	<classpathentry kind="lib" path="/libraries/mason.jar"/>
-	<classpathentry kind="lib" path="/libraries/mason_physics2D.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MasonExtentions"/>
+	<classpathentry kind="lib" path="/GeneralTools/lib/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="/GeneralTools/lib/slf4j-1.7.5/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="lib" path="/GeneralTools/lib/slf4j-1.7.5/slf4j-log4j12-1.7.5.jar"/>
+	<classpathentry kind="lib" path="/GeneralTools/lib/jcommon-1.0.14.jar"/>
+	<classpathentry kind="lib" path="/GeneralTools/lib/jfreechart-1.0.11.jar"/>
+	<classpathentry kind="lib" path="/GeneralTools/lib/mason_physics2D.jar"/>
+	<classpathentry kind="lib" path="/GeneralTools/lib/mason.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
-	<classpathentry kind="lib" path="/libraries/mason.jar"/>
+	<classpathentry kind="lib" path="/GeneralTools/lib/mason.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
