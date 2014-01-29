@@ -12,7 +12,7 @@
 /Simulation/bin
 /TestApps/bin
 
-
+/Simulator/config/config.save
 
 /Simulation/config/config.save
 /log/*.log
