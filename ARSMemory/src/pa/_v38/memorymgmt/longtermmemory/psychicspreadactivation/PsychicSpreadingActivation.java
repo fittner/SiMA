@@ -109,7 +109,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	 * @return 
 	 * @return
 	 */
-	public void getAssociatedImagesPerception(clsThingPresentationMesh poOriginImage, double prThreshold) {
+	private void getAssociatedImagesPerception(clsThingPresentationMesh poOriginImage, double prThreshold) {
 		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 		
 		//moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, prThreshold, 1);
@@ -146,7 +146,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	 *
 	 * @param poOriginImage
 	 */
-	public void getAssociatedImagesMemory(clsThingPresentationMesh poOriginImage) {
+	private void getAssociatedImagesMemory(clsThingPresentationMesh poOriginImage) {
 //		poOriginImage = (clsThingPresentationMesh) moModuleBase.getCompleteMesh(poOriginImage, 10);
 	    clsThingPresentationMesh oTPM = null;
 	    
@@ -192,7 +192,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	 * @param pbDirectActivation 
 	 * @return
 	 */
-	public ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, boolean pbDirectActivation) {
+	private ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, boolean pbDirectActivation) {
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
 		log.trace("Calculate activation for " + poEnhancedOriginImage.getContent());
 		
