@@ -14,12 +14,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
+
 import prementalapparatus.symbolization.eSymbolExtType;
 import prementalapparatus.symbolization.representationsymbol.itfGetDataAccessMethods;
 import prementalapparatus.symbolization.representationsymbol.itfGetSymbolName;
 import prementalapparatus.symbolization.representationsymbol.itfIsContainer;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
+import testfunctions.clsTester;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -404,7 +406,20 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 
         // 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment. 
         // since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activaiton is done) 
-	    moCompleteThingPresentationMeshList = searchTPMList(oEnvironmentalTP);				
+        moCompleteThingPresentationMeshList = searchTPMList(oEnvironmentalTP);		
+        
+      //=== Perform system tests ===//
+        boolean status = clsTester.getTester().isActivated();
+        clsTester.getTester().setActivated(false);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                clsTester.getTester().exeTestAssociationAssignmentTPMArray(moCompleteThingPresentationMeshList);
+            } catch (Exception e) {
+                log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
+            }
+        }
+        clsTester.getTester().setActivated(status);
+	    
 	}
 	
 	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){

@@ -202,15 +202,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		PlanningFunctionality.generatePlanForGoals(this.moDecisionEngine, this.moGoalList_IN);
 		
-		String GoalString;
-		
-		GoalString = this.moGoalList_IN.toString();
-		
-		if   (GoalString.contains("A07_SPEAK_EAT")){
-		    
-		    CalculatePossibleWordingsBasedOnContext(); 
-		    
-		}
+//		String GoalString;
+//		
+//		GoalString = this.moGoalList_IN.toString();
+//		
+//		if   (GoalString.contains("A07_SPEAK_EAT")){
+//		    
+//		    CalculatePossibleWordingsBasedOnContext(); 
+//		    
+//		}
 		
 		
 		

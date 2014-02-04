@@ -797,6 +797,20 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	public void receive_I2_6(ArrayList<clsThingPresentationMesh> poEnvironmentalPerception, ArrayList<clsDriveMesh> poDrives_IN) {
 		
 		moEnvironmentalPerception_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poEnvironmentalPerception); 
+		
+	      //=== Perform system tests ===//
+        boolean status = clsTester.getTester().isActivated();
+        clsTester.getTester().setActivated(true);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                clsTester.getTester().exeTestAssociationAssignmentTPMArray(moEnvironmentalPerception_IN);
+                clsTester.getTester().exeTestAssociationAssignmentTPMArray(poEnvironmentalPerception);
+            } catch (Exception e) {
+                log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
+            }
+        }
+        clsTester.getTester().setActivated(status);
+		
 		moDrives_IN = poDrives_IN;
 	}
 	
