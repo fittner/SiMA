@@ -95,7 +95,6 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_SEARCH1, eCondition.IS_CONTINUED_PLANGOAL));
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_STRAFE_LEFT, eCondition.IS_CONTINUED_PLANGOAL));
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_STRAFE_RIGHT, eCondition.IS_CONTINUED_PLANGOAL));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.GOTO_GOAL_IN_PERCEPTION, eCondition.IS_CONTINUED_PLANGOAL));
 	}
 
 	/* (non-Javadoc)

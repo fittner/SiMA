@@ -233,73 +233,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
         //Init codelets
         this.moDecisionEngine.setInitialSettings(moReachableGoalList_OUT);
         log.debug("Incoming goals after applience of init operations: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
-        
-	
-//		// --- INIT INCOMING GOALS --- //
-//		try {
-//		    log.trace("Incoming goals before init: " + moReachableGoalList_IN);
-//            this.moDecisionEngine.initIncomingGoals(moReachableGoalList_IN);
-//            log.debug("Incoming goals after init: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
-//        } catch (Exception e) {
-//            log.error("Error at init of goals. ", e);
-//        }
-		
-		
-//		// --- INIT CONTINUED GOAL --- //
-//		ArrayList<clsWordPresentationMeshSelectableGoal> oContinuedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>(); //new ArrayList<clsWordPresentationMeshSelectableGoal>(); //clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
-//		clsWordPresentationMeshSelectableGoal planGoal = clsWordPresentationMeshSelectableGoal.getNullObject();
-//		
-//        //Init with special variables from F51
-//		//TODO: It should not be necessary to poll the reachable goal list all the time
-//        moDecisionEngine.getCodeletHandler().initF51(moReachableGoalList_IN);
-//        try {
-//            oContinuedGoalList = this.moDecisionEngine.initContinuedGoalList(moShortTimeMemory, moReachableGoalList_IN);
-//            for (clsWordPresentationMeshSelectableGoal continuedGoal : oContinuedGoalList) {
-//                if (continuedGoal.checkIfConditionExists(eCondition.IS_CONTINUED_PLANGOAL)) {
-//                    planGoal = continuedGoal;
-//                    break;
-//                }
-//            }
-//            
-//            //oContinuedGoal = this.moDecisionEngine.initContinuedGoal(moReachableGoalList_IN, moShortTimeMemory);
-//            log.trace("Incoming goals after getting continued goal: " + moReachableGoalList_IN);
-//            log.info("Continued selectable goallist: {}", PrintTools.printArrayListWithLineBreaks(oContinuedGoalList));
-//            log.info("Continiued plan goal: {}", planGoal);
-//        } catch (Exception e) {
-//            this.log.error(e.getMessage());
-//        }
-		
-		
-		
-		// --- INIT GOALS --- //
-		//Preprocess all new goals and assign one goal as continued goal
-//		clsWordPresentationMeshGoal oContinuedGoal = clsDecisionPreparationTools.getContinuedGoal(moShortTimeMemory, moReachableGoalList_IN);
-//		if (oResult.isNullObject()==false) {
-//            oResult.setCondition(eCondition.IS_CONTINUED_GOAL);
-//        }
-//        log.debug("Continued goal:" + oResult.toString());
-		
-		
-		// --- PROVE CONTINUOUS CONDITIONS --- //
-		//Start codelets for new continuous goals 
-		//proveContinousConditions(oContinuedGoal);
-		
-		
-		// --- APPEND PREVIOUS PERFORMED ACTIONS AS CONDITIONS --- //
-		//clsDecisionPreparationTools.appendPreviousActionsAsPreconditions(oContinuedGoal, moShortTimeMemory);
-		
-		
+  
 		// --- APPLY ACTION CONSEQUENCES ON THE CONTINUED GOAL --- //
-		//applyConsequencesOfActionsOnContinuedGoal(moReachableGoalList_IN, oContinuedGoal);
 		this.moDecisionEngine.applyConsequencesOfActionOnContinuedGoal(moReachableGoalList_OUT); //.a is the last plangoal
 		
 		//Apply the GOAL_NOT_REACHABLE AND COMPLETED on all other goals with the same supportive data structures
 		GoalConditionFunctionality.setCommonConditionsToGoals(moReachableGoalList_OUT);		
-		
-        // --- SET NEW PRECONDITIONS FOR ACTIONS AS WELL AS DEFAULT CONDITIONS FOR NEW GOALS --- //
-        //setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
-        //FIXME Put in F52 instead
-        //this.moDecisionEngine.generatePlan(oContinuedGoal);
 		
 		// --- ADD IMPORTANCE OF FEELINGS --- //
 		//applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN);
@@ -413,16 +352,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 @Override
 public void receive_I6_6(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList,
         clsWordPresentationMesh poContextToWording) {
-    moPerceptionalMesh_IN = poPerception;
-//  try {
-//      moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
-//  } catch (CloneNotSupportedException e) {
-//      // TODO (wendt) - Auto-generated catch block
-//      e.printStackTrace();
-//  }
-    //moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poReachableGoalList);
-    //moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemoriesSecondary);
-    
+    moPerceptionalMesh_IN = poPerception;    
     moReachableGoalList_IN = poReachableGoalList;
     moWordingToContext = poContextToWording;
 }
