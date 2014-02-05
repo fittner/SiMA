@@ -107,6 +107,9 @@ public enum eContentType {
 	BASICEMOTION,
 	COMPLEXEMOTION,
 	
+	// Feelings
+	BASICFEELING,
+	
 	//--- Positioning
 	DISTANCE,
 	POSITION,
@@ -136,6 +139,7 @@ public enum eContentType {
 	ASSOCIATIONPRIDM,
 	ASSOCIATIONSEC,
 	ASSOCIATIONEMOTION,
+	ASSOCIATIONFEELING,
 	DRIVEDEMAND,
 	DM,
 	TI,

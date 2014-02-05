@@ -85,25 +85,34 @@ public class FeelingAlgorithmTools {
     
         /**
      * 
-     * DOCUMENT (wendt) - insert description
+     * DOCUMENT (wendt, schaat) - insert description
      *
      * @since 23.05.2013 13:30:24
      *
      * @param poGoal 
      */
     public static double getConsequencesOfFeelingsOnGoalAsImportance(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
-        return temporaryAffectComputation(poGoal,  poFeltFeelingList);
-        /*
+        //return temporaryAffectComputation(poGoal,  poFeltFeelingList);
+        
         double rResult = 0;
+        double rMatchingFactor = 0;
+        
         //Get Feeling affect
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
             
-        for (clsWordPresentationMeshFeeling oF : oFeelingList) {
-            double nAffectFromFeeling = oF.getIntensity();
-            rResult += nAffectFromFeeling;
+        for (clsWordPresentationMeshFeeling oGoalFeeling : oFeelingList) {
+            
+            for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
+                if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
+                    rMatchingFactor =+ 1- (Math.abs(oCurrentFeeling.getIntensity()-oGoalFeeling.getIntensity()));
+                }
+            }
+            
         }
         
+        rResult += rMatchingFactor;
+        
         return rResult;
-        */
+        
     }
 }

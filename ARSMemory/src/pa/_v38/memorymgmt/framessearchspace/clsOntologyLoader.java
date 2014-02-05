@@ -26,6 +26,7 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
 import base.datatypes.clsAssociationEmotion;
+import base.datatypes.clsAssociationFeeling;
 import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsAssociationSecondary;
 import base.datatypes.clsAssociationTime;
@@ -41,6 +42,7 @@ import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentation;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.itfExternalAssociatedDataStructure;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
@@ -116,7 +118,8 @@ public class clsOntologyLoader {
 				eDataType.ASSOCIATIONATTRIBUTE,
 				eDataType.ASSOCIATIONPRI, 
 				eDataType.ASSOCIATIONSEC,
-				eDataType.ASSOCIATIONEMOTION, 
+				eDataType.ASSOCIATIONEMOTION,
+				eDataType.ASSOCIATIONFEELING, 
 				eDataType.AFFECT, 
 				eDataType.DM,
 				eDataType.TP, 
@@ -125,7 +128,8 @@ public class clsOntologyLoader {
 				eDataType.WPM,
 				eDataType.EMOTION, 
 				eDataType.DOMAIN,
-				eDataType.ASSOCIATIONTEMP 
+				eDataType.ASSOCIATIONTEMP, 
+				eDataType.FEELING
 			};
 
 		/*
@@ -201,6 +205,9 @@ public class clsOntologyLoader {
 		case ASSOCIATIONEMOTION:
 			createAssociation(poRootElement, poElement, poDataContainer);
 			break;
+		case ASSOCIATIONFEELING:
+            createAssociation(poRootElement, poElement, poDataContainer);
+            break;
 		case ASSOCIATIONWP:
 			createAssociation(poRootElement, poElement, poDataContainer);
 			break;
@@ -252,6 +259,9 @@ public class clsOntologyLoader {
 
 		case PRIINSTANCEACTION:
 			createPRIINSTANCEACTION(poRootElement, poElement, poDataContainer);
+			break;
+		case FEELING:
+		    createFeeling(poRootElement, poElement, poDataContainer);
 			break;
 			
 		default:
@@ -423,6 +433,9 @@ public class clsOntologyLoader {
 
 	}
 
+
+
+
 	/**
 	 * DOCUMENT (schaat) - insert description
 	 * 
@@ -475,6 +488,51 @@ public class clsOntologyLoader {
 		}
 
 	}
+	
+	/**
+     * DOCUMENT (schaat) - insert description
+     * 
+     * @author schaat 3.07.2012, 21:24:42
+     * 
+     * @param poDataElements
+     * @param poFrameKB
+     * @param poDataStructurePA
+     */
+    private static void createFeeling(
+            Instance poRootElement,
+            Instance poElement,
+            clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
+
+        eDataType oElementType = eDataType.FEELING;
+        int oID = DS_ID++;
+        // TODO ...
+        eContentType oElementValueType = eContentType
+                .valueOf((String) poElement.getOwnSlotValue(poDataContainer.a
+                        .getSlot("value_type")));
+        String oElementValue = (String) poElement
+                .getOwnSlotValue(poDataContainer.a.getSlot("value"));
+        
+        float rFeelingIntensity = ((Float) poElement
+                .getOwnSlotValue(poDataContainer.a.getSlot("feelingIntensity")));
+      
+        eEmotionType oEmotionType = eEmotionType.getEmotionType(oElementValue);
+
+        clsWordPresentationMeshFeeling oDataStructure = new clsWordPresentationMeshFeeling(
+                new clsTriple<Integer, eDataType, eContentType>(oID,
+                        oElementType, oElementValueType), new ArrayList<clsAssociation>(), oElementValue);
+        
+        poDataContainer.b.put(poElement.getName(), oDataStructure);
+
+        ArrayList<clsAssociation> oAssociationList = loadInstanceAssociations(
+                poElement, poDataContainer);
+
+        for (clsAssociation element : oAssociationList) {
+            if (element instanceof clsAssociationEmotion) {
+                oDataStructure.assignDataStructure(element);
+            }
+        }
+
+    }
 
 	/**
 	 * DOCUMENT (hinterleitner) - insert description
@@ -1086,7 +1144,15 @@ public class clsOntologyLoader {
 							peElementType, peContentType),
 					(clsEmotion) oAssociationElements.a,
 					(clsThingPresentationMesh) oAssociationElements.b);
-		case ASSOCIATIONPRI:
+		case ASSOCIATIONFEELING:
+            oAssociationElements = evaluateElementOrder(poElementA, poElementB,
+                    eDataType.FEELING);
+            return new clsAssociationFeeling(
+                    new clsTriple<Integer, eDataType, eContentType>(oID,
+                            peElementType, peContentType),
+                    (clsWordPresentationMeshFeeling) oAssociationElements.a,
+                    (clsWordPresentationMesh) oAssociationElements.b);
+       case ASSOCIATIONPRI:
 			return new clsAssociationPrimary(
 					new clsTriple<Integer, eDataType, eContentType>(oID,
 							peElementType, peContentType),

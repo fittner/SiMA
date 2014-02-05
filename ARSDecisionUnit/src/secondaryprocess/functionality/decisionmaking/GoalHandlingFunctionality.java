@@ -26,6 +26,7 @@ import base.datatypes.clsWordPresentationMeshGoal;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsPair;
 import secondaryprocess.algorithm.aimofdrives.clsAimOfDrivesTools;
+import secondaryprocess.algorithm.feelings.FeelingAlgorithmTools;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 import secondaryprocess.algorithm.goals.GoalGenerationTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
@@ -69,23 +70,23 @@ public class GoalHandlingFunctionality {
     /**
      * Apply feelings on all incoming goals
      *
-     * @author wendt
+     * @author wendt, schaat
      * @since 29.09.2013 13:09:09
      *
      * @param reachableGoalList
      * @param currentFeelingsList
      */
     public static void applyFeelingsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings, boolean activateEmotionalInfluence) {
-        GoalGenerationTools.TEMP_METHOD_generatePanicGoal(reachableGoalList, currentFeelings, activateEmotionalInfluence);
+        
+        //GoalGenerationTools.TEMP_METHOD_generatePanicGoal(reachableGoalList, currentFeelings, activateEmotionalInfluence);
         
         
         for (clsWordPresentationMeshPossibleGoal goal : reachableGoalList) {
            
-            //TODO SSCH: Implement this function, which is outcommented here. This is the work of SHAHIN
-            //FeelingAlgorithmTools.getConsequencesOfFeelingsOnGoalAsImportance(goal, currentFeelings);
-            
+            // SSCH: Implement this function, which is outcommented here.
             if (goal.getFeelings().isEmpty()==false) {
-               goal.setFeelingsImportance(goal.getFeelings().get(0).getIntensity());
+                
+               goal.setFeelingsImportance(FeelingAlgorithmTools.getConsequencesOfFeelingsOnGoalAsImportance(goal, currentFeelings));
            }
             
         }
