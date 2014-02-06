@@ -69,6 +69,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		
 		mrQuotaOfAffect = prQuotaOfAffect;
 		moInternalAssociatedContent = poInternalAssociatedContent;
+		
 		moDebugInfo = poContent;
 			
 		moPartialDrive = poPartialDrive;
@@ -76,6 +77,33 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		moDriveComponent = poDriveComponent;
 		mrPsychicSatisfactionValue = 0.0;
 	}
+	
+	   public clsDriveMesh(    clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, clsDriveMesh poTemplate, double prQuotaOfAffect, String poDebugInfo) {
+	        super(poDataStructureIdentifier);
+	        // TODO (schaat) - Auto-generated constructor stub
+	        
+	        mrQuotaOfAffect = prQuotaOfAffect;
+	        //moInternalAssociatedContent = poTemplate.getInternalAssociatedContent();
+	        
+	        //set the right association element
+
+	        for(clsAssociation oAssociation : poTemplate.getInternalAssociatedContent()){
+                        // Create new identifier
+                        clsTriple<Integer, eDataType, eContentType> oIdentifyer = new clsTriple<Integer, eDataType, eContentType>(-1,
+                                eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM);
+                        // Create new association drivemesh but with the new root element
+                        clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, this,
+                                (clsThingPresentationMesh) oAssociation.getAssociationElementB());
+                        
+                        moInternalAssociatedContent.add(oDriveAss);
+	        }
+	        moDebugInfo = poDebugInfo;
+	            
+	        moPartialDrive = poTemplate.getPartialDrive();
+	        
+	        moDriveComponent = poTemplate.getDriveComponent();
+	        mrPsychicSatisfactionValue = 0.0;
+	    }
 	
 	   public clsDriveMesh(    clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poInternalAssociatedContent, double prQuotaOfAffect, String poContent, eDriveComponent poDriveComponent, ePartialDrive poPartialDrive, double poPsychicSatisfaction) {
 	        super(poDataStructureIdentifier);
