@@ -14,7 +14,6 @@ import properties.clsProperties;
 
 import base.modules.clsPsychicApparatus;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.interfaces.itfSearchSpaceAccess;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.itf.actions.itfActionProcessor;
@@ -52,7 +51,6 @@ public class clsProcessor implements itfProcessor  {
 	/** the private instance of the knowledgebasehandeler/memory; @since 12.07.2011 11:00:30 */
 	//private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	private itfModuleMemoryAccess moMemory;
-	private itfSearchSpaceAccess moSearchSpace;
 	/** the rate of the constantly produced libido; @since 12.07.2011 11:00:52 */
 	private double mrLibidostream;
 	
@@ -68,9 +66,8 @@ public class clsProcessor implements itfProcessor  {
 	 * @param poProp The property file in form of an instance of clsProperties.
 	 * @param uid A unique identifier. It is the same for the decision unit and the body for one agent.
 	 */
-	public clsProcessor(String poPrefix, clsProperties poProp, int uid, itfSearchSpaceAccess poSearchSpace,
+	public clsProcessor(String poPrefix, clsProperties poProp, int uid,
             itfModuleMemoryAccess poMemory) {
-	    moSearchSpace = poSearchSpace;
 	    moMemory = poMemory;
 		applyProperties(poPrefix, poProp, uid);
 		

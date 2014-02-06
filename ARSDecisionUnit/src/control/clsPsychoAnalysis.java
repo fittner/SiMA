@@ -9,7 +9,6 @@ package control;
 
 import properties.clsProperties;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.interfaces.itfSearchSpaceAccess;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
 
@@ -45,11 +44,11 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	 * @param poProp - the stored properties
 	 * @param uid - the unique id for this agent. the same for the body and the decision unit. eases debugging and logging.
 	 */
-	public clsPsychoAnalysis(String poPrefix, clsProperties poProp, int uid, itfSearchSpaceAccess poSearchSpace,
+	public clsPsychoAnalysis(String poPrefix, clsProperties poProp, int uid,
             itfModuleMemoryAccess poMemory) {
 		super(poPrefix, poProp, uid);
 		
-		applyProperties(poPrefix, poProp, uid, poSearchSpace, poMemory);
+		applyProperties(poPrefix, poProp, uid, poMemory);
 	}
 
 	/**
@@ -110,7 +109,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	 * @param uid
 	 */
 	@SuppressWarnings("deprecation")
-	private void applyProperties(String poPrefix, clsProperties poProp, int uid, itfSearchSpaceAccess poSearchSpace,
+	private void applyProperties(String poPrefix, clsProperties poProp, int uid,
             itfModuleMemoryAccess poMemory) {
 		String pre = clsProperties.addDot(poPrefix);
 	 
@@ -122,7 +121,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 //		} else if (oModelVersion.equals(eModelVersion.v30.name())) {
 //			moProcessor = new pa._v30.clsProcessor(pre+P_PROCESSOR, poProp, uid);
 //		} else {
-			moProcessor = new control.clsProcessor(pre+P_PROCESSOR, poProp, uid, poSearchSpace, poMemory);
+			moProcessor = new control.clsProcessor(pre+P_PROCESSOR, poProp, uid, poMemory);
 //		}
 
 	}

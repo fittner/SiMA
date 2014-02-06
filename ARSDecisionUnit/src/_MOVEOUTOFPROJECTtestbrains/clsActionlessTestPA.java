@@ -8,7 +8,6 @@ package _MOVEOUTOFPROJECTtestbrains;
 
 import properties.clsProperties;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.interfaces.itfSearchSpaceAccess;
 import control.clsPsychoAnalysis;
 import du.enums.eDecisionType;
 
@@ -29,9 +28,9 @@ public class clsActionlessTestPA extends clsPsychoAnalysis {
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsActionlessTestPA(String poPrefix, clsProperties poProp, int uid, itfSearchSpaceAccess poSearchSpace,
+	public clsActionlessTestPA(String poPrefix, clsProperties poProp, int uid,
             itfModuleMemoryAccess poMemory) {
-		super(poPrefix, poProp, uid, poSearchSpace, poMemory);
+		super(poPrefix, poProp, uid, poMemory);
 	}
 
 	/* (non-Javadoc)

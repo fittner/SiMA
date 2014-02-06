@@ -416,7 +416,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     		if(pnDecisionType == eDecisionType.PA || pnDecisionType == eDecisionType.ActionlessTestPA) {
     			itfSearchSpaceAccess oSearchSpace = new clsSearchSpaceManager("",poPropMemory);
     			itfModuleMemoryAccess oMemory = new clsLongTermMemoryHandler(oSearchSpace);
-    			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid, oSearchSpace, oMemory);
+    			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid, oMemory);
     		} else {
     			throw new IllegalArgumentException("The provided decission unit is not supported.");
     		}

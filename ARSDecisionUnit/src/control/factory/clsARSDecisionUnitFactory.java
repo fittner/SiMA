@@ -6,7 +6,6 @@
 package control.factory;
 import properties.clsProperties;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.interfaces.itfSearchSpaceAccess;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
 //import du.itf.itfDecisionUnitFactory;
@@ -34,9 +33,9 @@ public class clsARSDecisionUnitFactory {
 	 * @throws java.lang.IllegalArgumentException
 	 */
 	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType,
-			String poPrefix, clsProperties poProp, int uid, itfSearchSpaceAccess poSearchSpace,
+			String poPrefix, clsProperties poProp, int uid,
             itfModuleMemoryAccess poMemory) throws java.lang.IllegalArgumentException {
-		return createDecisionUnit_static(nDecisionType, poPrefix, poProp, uid, poSearchSpace, poMemory);
+		return createDecisionUnit_static(nDecisionType, poPrefix, poProp, uid, poMemory);
 	}
 
 	/**
@@ -52,17 +51,17 @@ public class clsARSDecisionUnitFactory {
 	 * @throws java.lang.IllegalArgumentException
 	 */
 	public static itfDecisionUnit createDecisionUnit_static(eDecisionType nDecisionType,
-				String poPrefix, clsProperties poProp, int uid, itfSearchSpaceAccess poSearchSpace,
+				String poPrefix, clsProperties poProp, int uid,
 	            itfModuleMemoryAccess poMemory) throws java.lang.IllegalArgumentException {		
 		clsBaseDecisionUnit oDecisionUnit = null;
 		
 		//create the defined decision unit...
 		switch(nDecisionType) {
 			case PA:
-				oDecisionUnit = new control.clsPsychoAnalysis(poPrefix, poProp, uid, poSearchSpace, poMemory);
+				oDecisionUnit = new control.clsPsychoAnalysis(poPrefix, poProp, uid, poMemory);
 				break;
 			case ActionlessTestPA:
-				oDecisionUnit = new _MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA(poPrefix, poProp, uid, poSearchSpace, poMemory);
+				oDecisionUnit = new _MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA(poPrefix, poProp, uid, poMemory);
 				break;
 			default:
 				throw new java.lang.IllegalArgumentException("eDecisionType."+nDecisionType.name());
