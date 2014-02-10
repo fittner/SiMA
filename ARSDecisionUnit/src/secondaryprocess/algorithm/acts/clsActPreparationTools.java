@@ -36,9 +36,41 @@ public class clsActPreparationTools {
 	private static final int mnMovementTimeoutStartValue = 30;
 	private static final int mnMovementTimeoutEstalishValue = 20;
 	
+	private static final double P_ACTMATCHACTIVATIONTHRESHOLD = 1.0;
+	
 	//private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
 	private static Logger log = Logger.getLogger("Acts");
 
+	public static ArrayList<eCondition> initActInGoal(clsWordPresentationMesh oIntention) {
+	    ArrayList<eCondition> result = new ArrayList<eCondition>();
+	    
+	   // clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(moGoal.getSupportiveDataStructure());
+        
+        double rCurrentImageMatch = 0.0;
+        
+        //If the act has to start with the first image:
+        if (clsActTools.checkIfConditionExists(oIntention, eCondition.START_WITH_FIRST_IMAGE)==true) {
+            //Cases:
+            //1. If the first image has match 1.0 and there is no first act ||
+            //2. If the this act is the same as from the previous goal -> start this act as normal
+            //else set GOAL_CONDITION_BAD
+            clsWordPresentationMesh oFirstImage = clsActTools.getFirstImageFromIntention(oIntention);
+            rCurrentImageMatch = clsActTools.getPIMatch(oFirstImage);
+            
+        } else {
+            //Get best match from an intention
+            clsWordPresentationMesh oBestMatchEvent = clsActTools.getHighestPIMatchFromSubImages(oIntention);
+            rCurrentImageMatch = clsActTools.getPIMatch(oBestMatchEvent);
+        }
+        
+        if (rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
+            result.add(eCondition.ACT_MATCH_TOO_LOW);
+            //moGoal.setCondition(eCondition.ACT_MATCH_TOO_LOW);
+        } 
+        
+        return result;
+	}
+	
 	/**
 	 * Perform basic act analysis, i. e. extract moment and expectation from an intention
 	 * 
@@ -305,7 +337,7 @@ public class clsActPreparationTools {
 		
 		//If the PI match of the moment is over the recognition threshold, then set a new timeout value, else not.
 		double oPIMatch = clsActTools.getPIMatch(oResult);
-		if (oPIMatch == mrMomentActivationThreshold && oResult.getDS_ID() != oPreviousMoment.getDS_ID()) {
+		if (oPIMatch >= mrMomentActivationThreshold && oResult.getDS_ID() != oPreviousMoment.getDS_ID()) {
 			//Check if the moment already has a default movement timeout value
 			int nIndividualMovementTimeout = clsActTools.getIndividualMovementTimeoutValue(oResult);
 			

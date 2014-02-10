@@ -692,6 +692,12 @@ public class clsGoalManipulationTools {
             if (poPreviousGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==false) {
                 clsWordPresentationMeshPossibleGoal oNewGoalFromPrevious = clsGoalManipulationTools.copyBareGoal(poPreviousGoal);
                 
+                //Clear act if memory source
+                if (poPreviousGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
+                    //Remove PI-Matches as they do not match anymore
+                    clsActTools.removePIMatchFromWPMAndSubImages(oNewGoalFromPrevious.getSupportiveDataStructure());
+                }
+                
                 oResult = oNewGoalFromPrevious;  
             }
         } else {

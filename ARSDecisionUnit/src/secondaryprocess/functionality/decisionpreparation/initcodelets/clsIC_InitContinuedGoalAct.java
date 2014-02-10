@@ -54,21 +54,6 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
 	protected void processGoal() {
 		clsWordPresentationMeshGoal oPreviousPlanGoal = clsCommonCodeletTools.getPreviousCorrespondingGoalFromShortTermMemory(moShortTermMemory, moGoal);
 		
-		
-//		//Transfer previous stati in general
-//		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==true) {
-//		    this.moGoal.setCondition(eCondition.SET_INTERNAL_INFO);
-//		}
-//		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
-//		    this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);
-//		}
-//		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)==true) {
-//		    this.moGoal.setCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
-//		}
-//		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_FOLLOW_ACT)==true) {
-//		    this.moGoal.setCondition(eCondition.SET_FOLLOW_ACT);
-//		}
-		
 		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
             //this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
         } else {
@@ -123,8 +108,7 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
                     this.moGoal.setSupportiveDataStructure(oClonedPreviousAct);
                     
                 } catch (CloneNotSupportedException e) {
-                    // TODO (wendt) - Auto-generated catch block
-                    e.printStackTrace();
+                    log.error("", e);
                 }
             }
             
@@ -149,9 +133,6 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
             MeshProcessor processor = new MeshProcessor();
             processor.setSafeControlMode(false);
             processor.complementMesh(oContinuedSupportiveDataStructure, poNewAct, true);
-            
-            
-            //clsMeshTools.mergeMesh(oContinuedSupportiveDataStructure, poNewAct);
 
             //-----------------------------------------------//
             

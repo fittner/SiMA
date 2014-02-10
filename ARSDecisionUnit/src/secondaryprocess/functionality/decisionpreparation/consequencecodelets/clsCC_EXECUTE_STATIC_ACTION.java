@@ -6,8 +6,11 @@
  */
 package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
+import base.datatypes.clsWordPresentationMesh;
 import base.tools.ElementNotFoundException;
 import memorymgmt.enums.eCondition;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -41,6 +44,27 @@ public class clsCC_EXECUTE_STATIC_ACTION extends clsConsequenceCodelet {
     @Override
     protected void processGoal() {
         moGoal.setCondition(eCondition.SET_DECISION_PHASE_COMPLETE);
+        
+      //Remove conditions for the movement
+        try {
+            
+            if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
+                
+                clsWordPresentationMesh oAct = this.moGoal.getSupportiveDataStructure();
+                clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oAct);
+                
+                if (oMoment.isNullObject()==false) {
+                    int nTimeOutValue = clsActTools.getMovementTimeoutValue(oMoment);
+                    
+                    if (nTimeOutValue>0) {
+                        nTimeOutValue--;
+                        clsActTools.setMovementTimeoutValue(oMoment, nTimeOutValue);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("", e);
+        }
         
     }
 
