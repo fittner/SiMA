@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import modules.interfaces.D3_1_receive;
 import modules.interfaces.D3_1_send;
 import modules.interfaces.eInterfaces;
@@ -36,7 +38,9 @@ import base.tools.toText;
  */
 public class DT3_PsychicEnergyStorage 
 implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D3_1_receive, D3_1_send, itfInspectorStackedBarChart {
-	// distributed energy for all modules <module number, <energy in buffer, last requested energy, priority of request>> 
+	
+    private static final String P_PSYCHIC_INTENSITY_CONTAINER_LIMIT ="PSYCHIC_INTENSITY_CONTAINER_LIMIT";
+    // distributed energy for all modules <module number, <energy in buffer, last requested energy, priority of request>> 
 	private Hashtable<Integer, clsPsychicEnergyPerModule> moPsychicEnergyPerModule;
 	
 	private static int srMaxRoundStorageSize = 10;
@@ -48,8 +52,9 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 	private double mrConsumedPsychicEnergy = 0.0;
 	private double mrExpiredPsychicEnergy = 0.0;
 	
-	public DT3_PsychicEnergyStorage() {
-		initializeBuffers();
+	public DT3_PsychicEnergyStorage(clsPersonalityParameterContainer poPersonalityParameterContainer) {
+		double psychicIntensityContainerLimit =poPersonalityParameterContainer.getPersonalityParameter("DT3", P_PSYCHIC_INTENSITY_CONTAINER_LIMIT).getParameterDouble();
+	    initializeBuffers();
 	}
 
 	private void initializeBuffers() {
