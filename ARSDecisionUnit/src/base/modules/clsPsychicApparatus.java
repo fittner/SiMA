@@ -228,10 +228,7 @@ public class clsPsychicApparatus {
 		//moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		moLongTermMemory = poMemory;
 		
-		moLibidoBuffer = new DT1_PsychicIntensityBuffer();
-		moBlockedContentStorage = new DT2_BlockedContentStorage();
-		moPsychicEnergyStorage = new DT3_PsychicEnergyStorage();
-		moPleasureStorage = new DT4_PleasureStorage();
+
 		//Initialize short time memory
 		moShortTimeMemory = new clsShortTermMemory<clsWordPresentationMeshMentalSituation>(60, 7, clsWordPresentationMeshMentalSituation.getNullObject());
 		moEnvironmentalImageStorage = new clsEnvironmentalImageMemory(4, 30);	//Memorize 3 turns, 30 entities
@@ -351,7 +348,12 @@ public class clsPsychicApparatus {
 		    String moFilename= poProp.getProperty(pre +P_PERSONALITY_PARAMETER);
 			moPersonalityParameterContainer= new clsPersonalityParameterContainer(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(),moFilename,P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 
-			
+            // init buffers
+            moLibidoBuffer = new DT1_PsychicIntensityBuffer();
+            moBlockedContentStorage = new DT2_BlockedContentStorage();
+            moPsychicEnergyStorage = new DT3_PsychicEnergyStorage(moPersonalityParameterContainer);
+            moPleasureStorage = new DT4_PleasureStorage();
+
 			moF01_SensorsMetabolism = new F01_SensorsMetabolism(pre + F01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF02_NeurosymbolizationOfNeeds = new F02_NeurosymbolizationOfNeeds(pre + F02_NeurosymbolizationOfNeeds.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			//moF03_GenerationOfSelfPreservationDrives = new F03_GenerationOfSelfPreservationDrives(pre + F03_GenerationOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer);
@@ -402,6 +404,8 @@ public class clsPsychicApparatus {
 			moF67_BodilyReactionOnEmotions =  new F67_BodilyReactionsOnEmotions(pre + F67_BodilyReactionsOnEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData);
             
 			moDebugLevel = poProp.getPropertyString(pre+P_DEBUG_LEVEL);
+			
+			
 		} catch (Exception e) {
 			
 			e.printStackTrace();
