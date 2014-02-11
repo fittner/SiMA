@@ -54,12 +54,8 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 		
 		//Remove conditions for the movement
 		try {
-            //this.moGoal.removeCondition(eCondition.SET_FOCUS_MOVEMENT);
-            //this.moGoal.removeCondition(eCondition.SET_FOCUS_ON);
             
             if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
-                //this.moGoal.removeCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
-                //this.moGoal.removeCondition(eCondition.SET_FOLLOW_ACT);
                 
                 clsWordPresentationMesh oAct = this.moGoal.getSupportiveDataStructure();
                 clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oAct);

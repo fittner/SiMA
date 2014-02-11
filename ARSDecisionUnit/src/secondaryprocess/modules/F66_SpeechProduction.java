@@ -189,20 +189,20 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
         moAssociatedMemories_OUT = moAssociatedMemories_IN;
        
-      
-        //=== Perform system tests ===//
-        clsTester.getTester().setActivated(false);
-        if (clsTester.getTester().isActivated()) {
-            try {
-                log.warn("System tests activated");
-                for (clsWordPresentationMesh mesh :moAssociatedMemories_IN) {
-                    
-                    clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
-                }
-            } catch (Exception e) {
-                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
-            }
-        }
+//      
+//        //=== Perform system tests ===//
+//        clsTester.getTester().setActivated(false);
+//        if (clsTester.getTester().isActivated()) {
+//            try {
+//                log.warn("System tests activated");
+//                for (clsWordPresentationMesh mesh :moAssociatedMemories_IN) {
+//                    
+//                    clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
+//                }
+//            } catch (Exception e) {
+//                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+//            }
+//        }
     }
 
   

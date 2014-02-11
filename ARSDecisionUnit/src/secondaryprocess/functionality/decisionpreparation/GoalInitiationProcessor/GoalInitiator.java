@@ -164,6 +164,7 @@ public class GoalInitiator implements GoalInitiatorInterface {
      * @return
      */
     private clsWordPresentationMeshPossibleGoal getContinuedGoal(clsWordPresentationMeshPossibleGoal poPreviousGoal, ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
+        //Get a copy of the previous goal
         clsWordPresentationMeshPossibleGoal oContinuedGoal = clsGoalManipulationTools.getContinuedGoalFromPreviousGoal(poPreviousGoal, poGoalList);
         
         return oContinuedGoal;
