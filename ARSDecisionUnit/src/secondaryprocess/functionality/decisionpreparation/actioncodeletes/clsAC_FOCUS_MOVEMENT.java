@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
 import base.datatypes.clsWordPresentationMesh;
+import secondaryprocess.algorithm.planning.clsActionRefiner;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -37,6 +38,26 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
+	/**
+     * DOCUMENT - checks if any of the actions can be further refined.
+     *            For example: action GOTO can be refined to TURN_LEFT, TURN_RIGHT or MOVE_FORWARD 
+     *
+     * @author Kollmann
+     * @since 10.02.2014 20:47:50
+     *
+     * @param poMovementActions: ArrayList of action WPMs (which should be part a sub mesh of greater WPM)
+     */
+    protected void refineMovementActions(ArrayList<clsWordPresentationMesh> poMovementActions) {
+        clsWordPresentationMesh oOldItem = null, oNewItem = null;
+        clsActionRefiner oRefiner = clsActionRefiner.getInstance();
+        
+        for(int i = 0; i < poMovementActions.size(); ++i) {
+            oOldItem = poMovementActions.get(i);
+            
+            oRefiner.refineAction(oOldItem);
+        }
+    }
+	
 	/* (non-Javadoc)
 	 *
 	 * @since 26.09.2012 11:22:53
@@ -53,6 +74,8 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
 			oExternalPlans.addAll(this.moExternalActionPlanner.extractRecommendedActionsFromAct(this.moGoal));
 		}
+		
+		refineMovementActions(oExternalPlans);
 		
 		eAction oChosenAction = eAction.NONE;
 		

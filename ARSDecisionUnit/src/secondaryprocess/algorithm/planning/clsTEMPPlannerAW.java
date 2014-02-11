@@ -219,20 +219,23 @@ public class clsTEMPPlannerAW {
 	 * @return
 	 */
 	public ArrayList<clsWordPresentationMesh> extractRecommendedActionsFromAct(clsWordPresentationMeshGoal poGoal) {
-		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
-		
-		clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(poGoal.getSupportiveDataStructure());
-		
-		if (oMoment.isNullObject()==false) {
-			eAction oAction = clsActTools.getRecommendedAction(oMoment);
-			
-			if (oAction.equals(eAction.NULLOBJECT)==false) {
-				oResult.add(clsActionTools.createAction(oAction));
-			}
-		}
-		
-		return oResult;
-	}
+        ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+        
+        clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(poGoal.getSupportiveDataStructure());
+        clsWordPresentationMesh oAction = null;
+        
+        if(oMoment != null) {
+            oAction = clsActTools.getRecommendedActionMesh(oMoment);
+            clsActionTools.setActionType(oAction);
+            if(oAction != null) {
+                oResult.add(oAction);
+            }
+        } else {
+            log.warn("Could not find moment in " + poGoal + " for recomended action extraction");
+        }
+        
+        return oResult;
+    }
 	
 	/**
 	 * Extract clsImage from a normal Perceived Image (wendt)

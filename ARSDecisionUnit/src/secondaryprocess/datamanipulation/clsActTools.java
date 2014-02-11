@@ -607,8 +607,36 @@ public class clsActTools {
 	 * @return
 	 */
 	public static eAction getRecommendedAction(clsWordPresentationMesh poImage) {
-		return eAction.valueOf(clsMeshTools.getUniquePredicateWPM(poImage, ePredicate.HASACTION).getContent());
-	}
+        clsWordPresentationMesh oActionMesh = getRecommendedActionMesh(poImage);
+        eAction oAction = eAction.NONE;
+        
+        if(oActionMesh != null) {
+            oAction = eAction.valueOf(oActionMesh.getContent());
+        }
+        
+        return oAction;
+    }
+    
+    public static clsWordPresentationMesh getRecommendedActionMesh(clsWordPresentationMesh poImage) {
+        //Kollmann: There are currently two ways to store an action in a moment. Either the action is associated
+        //          directly to the moment, or it is associated to the "SELF" object in the image. Therefor, if
+        //          an image has no directly associated action (ASSOCIATIONSECUNDARY with predicat HASACTION) the
+        //          check for a "SELF" entity (in word presentation it's currently ADAM) and see if it has an
+        //          action and, possibly an action object.
+        
+        clsWordPresentationMesh oAction = clsMeshTools.getUniquePredicateWPM(poImage, ePredicate.HASACTION); 
+        
+        if(oAction == null || oAction.isNullObject()) {
+            //try to get SELF
+            clsWordPresentationMesh oWPMSelf = clsMeshTools.getSELF(poImage);
+            if(oWPMSelf != null) {
+                //try to get action of SELF
+                oAction = clsMeshTools.getUniquePredicateWPM(oWPMSelf, ePredicate.HASACTION);
+            }
+        }
+        
+        return oAction;
+    }
 	
 	/**
 	 * Set confidence level

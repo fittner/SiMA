@@ -45,6 +45,7 @@ import base.modules.ePsychicInstances;
 import base.tools.toText;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
 import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.helpstructures.clsQuadruppel;
 import du.enums.pa.eDriveComponent;
 
@@ -75,8 +76,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send, itfInspectorBarChartF06,itfInspectorCombinedTimeChart,itfInspectorModificationDrives {
 	public static final String P_MODULENUMBER = "06";
 
+	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
+	   
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	private ArrayList<clsDriveMesh> moDriveList_Output;
+	
+	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
 
 	
 	private ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input;
@@ -220,13 +225,17 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	*/
    public F06_DefenseMechanismsForDrives(String poPrefix, clsProperties poProp, HashMap<Integer,
 		   clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-		   DT2_BlockedContentStorage poBlockedContentStorage)
+		   DT2_BlockedContentStorage poBlockedContentStorage,
+		   clsPersonalityParameterContainer poPersonalityParameterContainer)
 		   throws Exception {
 	    super(poPrefix, poProp, poModuleList, poInterfaceData);
 	    moBlockedContentStorage = poBlockedContentStorage;
 	    applyProperties(poPrefix, poProp);
 	    moTimeChartData =  new HashMap<String, Double>();
 	   
+	    applyProperties(poPrefix, poProp);
+	    // the Ego strength is equal to the neutralization rate
+	    moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_ENERGY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
 	}
 
 
@@ -1002,7 +1011,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		
 		String oOriginalDOContent = poOriginalDM.getActualDriveObject().getContent();
 		
-		// if the Drive-Object-List doesn't contain the receiving Object, it should no Defense Happens 
+		// if the Drive-Object-List doesn't contain the receiving object, no defense is activated 
 		if(!(oDisplaceDriveObjectList.containsKey(oOriginalDOContent))){
 			
 			clsThingPresentationMesh oDisplacedDriveObject = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
