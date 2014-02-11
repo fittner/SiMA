@@ -8,6 +8,9 @@ package secondaryprocess.datamanipulation;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+
+import logger.clsLogger;
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eActionType;
@@ -17,6 +20,7 @@ import memorymgmt.enums.eContentType;
 import memorymgmt.enums.ePredicate;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationSecondary;
 import base.datatypes.clsWordPresentation;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
@@ -29,9 +33,9 @@ import base.datatypes.helpstructures.clsPair;
  * 
  */
 public class clsActionTools {
-	
 	private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
-	
+	   private static final Logger log = clsLogger.getLog("action");
+
 	
 	/**
 	 * @since 05.07.2012 22:04:13
@@ -50,7 +54,36 @@ public class clsActionTools {
 		return oResult;
 	}
 	
-	private static void setActionType(clsWordPresentationMesh oResult) {
+	public static clsWordPresentationMesh createAction(eAction poAction, clsWordPresentationMesh poActionObject) {
+        clsWordPresentationMesh oAction = createAction(poAction);
+        
+        setActionObject(oAction, poActionObject);
+        
+        return oAction;
+    }
+    
+    private static boolean setActionObject(clsWordPresentationMesh oAction, clsWordPresentationMesh poActionObject) {
+        boolean bOutcome = false;
+        
+        if(oAction != null && poActionObject != null) {
+            clsAssociationSecondary oObjectAssociation = clsMeshTools.createAssociationSecondary(oAction, 1, poActionObject, 1, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTIONOBJECT, false);
+            bOutcome = true;
+        }
+        
+        return bOutcome;
+    }
+	
+    public static clsWordPresentationMesh getActionObject(clsWordPresentationMesh poAction) {
+        clsWordPresentationMesh oActionObject = null;
+        
+        if(poAction != null && !poAction.isNullObject()) {
+            oActionObject = clsMeshTools.getUniquePredicateWPM(poAction, ePredicate.HASACTIONOBJECT);
+        }
+        
+        return oActionObject;
+    }
+    
+	public static void setActionType(clsWordPresentationMesh oResult) {
 		
 		if (clsActionTools.getAction(oResult).equals(eAction.FOCUS_ON.toString()) || 
 				clsActionTools.getAction(oResult).equals(eAction.SEND_TO_PHANTASY.toString()) || 
