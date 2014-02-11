@@ -89,6 +89,7 @@ public class clsIC_CheckStillSetFocus extends clsInitCodelet {
 	protected void setPreconditions() {
 		//1. Perception
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.IS_CONTINUED_PLANGOAL));
 		
 	}
 

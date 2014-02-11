@@ -105,7 +105,7 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 		//Perception
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.NEED_FOCUS_MOVEMENT, eCondition.SET_FOCUS_ON));
 		//Memory
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.NEED_PERFORM_RECOMMENDED_ACTION));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.NEED_PERFORM_RECOMMENDED_ACTION, eCondition.SET_FOCUS_ON));
 		
 		
 		
