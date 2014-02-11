@@ -537,7 +537,7 @@ public class clsImportanceTools {
 		double nResult = 0;
 		
 		if (poCondition.equals(eCondition.IS_DRIVE_SOURCE)) {
-			nResult+=-0.40;
+			nResult+=-0.71;
 		} else if (poCondition.equals(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			nResult+= 0;
 		} else if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
@@ -547,9 +547,9 @@ public class clsImportanceTools {
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_GOAL)) {
-			nResult+=0.8;
+			nResult+=0.5;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_PLANGOAL)) {
-            nResult+=0.25;
+            nResult+=0.2;
 		} else if (poCondition.equals(eCondition.ACT_MATCH_TOO_LOW)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.GOAL_COMPLETED)) {
