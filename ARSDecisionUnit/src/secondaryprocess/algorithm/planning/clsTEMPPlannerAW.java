@@ -345,6 +345,10 @@ public class clsTEMPPlannerAW {
 		// moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
 
 		// plGraph.setStartPlanningNode(n)
+		if (oRetVal.isEmpty()==true) {
+		    log.warn("No action plan could be chosen for {} for goal {}. Therefore no action could be chosen", poPIImageStructure, poGoal);
+		}
+		
 		return oRetVal;
 	}
 	
