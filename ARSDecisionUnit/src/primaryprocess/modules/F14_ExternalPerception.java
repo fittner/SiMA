@@ -432,7 +432,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
         // 4.  decide category membership
         for(ArrayList<clsDataStructureContainer> oRankedCandidates :oRankedCandidateTPMs) {
             
-            // a. how many exemplars shuold be used for deciding drive categories
+            // a. how many exemplars should be used for deciding drive categories
             long k = determineK(oRankedCandidates);
         
             // b. get AssDM of k-exemplars, group AssDM from same drives
