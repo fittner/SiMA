@@ -96,6 +96,8 @@ public class DataStructureConversionTools {
             try {
                 if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
                     oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
+                    
+                    oRetVal.setMoDSInstance_ID(oWPforObject.getRootElement().getDSInstance_ID());
 
                     // Add the external association as it is correctly assigned.
                     oRetVal.getExternalAssociatedContent().add(oWPforObject);
