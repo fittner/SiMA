@@ -145,7 +145,7 @@ public class MeshProcessor implements MeshProcessorInterface {
         clsAssociationSecondary result = null;
         for (clsAssociationSecondary compareass : list) {
             if (ass.isEquivalentDataStructure(compareass)==true) {
-                result=ass;
+                result=compareass;
                 break;
             }
         }

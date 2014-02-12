@@ -104,8 +104,16 @@ public class AssociationCorrespondenceSec {
         
         //return newCorrespondingList;
     }
-    
-    
-    
-    
+
+    @Override
+    public String toString() {
+        String oOutput = super.toString();
+        oOutput += "\nAssociationCorrespondenceSec for " + fromAss.getContentType() + " (" + fromAss.getDS_ID() + "|" + fromAss.getDSInstance_ID() + ")\n";
+        oOutput += "\tfromRootElement: " + fromRootElement.getContentType() + ":" + fromRootElement.getContent() + " (" + fromRootElement.getDS_ID() + "|" + fromRootElement.getDSInstance_ID() + ") [hash:" + fromRootElement.hashCode() + "]\n";
+        oOutput += "\tfromLeafElement: " + fromLeafElement.getContentType() + ":" + fromLeafElement.getContent() + " (" + fromLeafElement.getDS_ID() + "|" + fromLeafElement.getDSInstance_ID() + ") [hash:" + fromLeafElement.hashCode() + "]\n";
+        oOutput += "\ttoRootElement: " + toRootElement.getContentType() + ":" + toRootElement.getContent() + " (" + toRootElement.getDS_ID() + "|" + toRootElement.getDSInstance_ID() + ") [hash:" + toRootElement.hashCode() + "]\n";
+        oOutput += "\ttoLeafElement: " + toLeafElement.getContentType() + ":" + toLeafElement.getContent() + " (" + toLeafElement.getDS_ID() + "|" + toLeafElement.getDSInstance_ID() + ") [hash:" + toLeafElement.hashCode() + "]\n";
+        
+        return oOutput;
+    }
 }
