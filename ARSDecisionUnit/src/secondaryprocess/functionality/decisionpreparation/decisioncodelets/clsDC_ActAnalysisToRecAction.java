@@ -43,6 +43,7 @@ public class clsDC_ActAnalysisToRecAction extends clsDecisionCodelet {
 	@Override
 	protected void processGoal() {
 	    this.moGoal.setCondition(eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+	    this.moGoal.setCondition(eCondition.NEED_GOAL_FOCUS);
 		
 	}
 

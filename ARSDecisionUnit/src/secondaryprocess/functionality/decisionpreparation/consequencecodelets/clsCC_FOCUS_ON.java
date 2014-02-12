@@ -61,6 +61,7 @@ public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 	@Override
 	protected void setPreconditions() {
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.EXECUTED_FOCUS_ON, eCondition.IS_CONTINUED_PLANGOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.EXECUTED_FOCUS_ON, eCondition.IS_CONTINUED_PLANGOAL));
 		
 	}
 

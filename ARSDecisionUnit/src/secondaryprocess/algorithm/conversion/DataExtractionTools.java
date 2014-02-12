@@ -29,6 +29,8 @@ public class DataExtractionTools {
     
     /**
      * Get all instances in one image (perceived image), which match the instances of another image (supportive image) and provide an importance for them
+     * 
+     * Only if an exact match has been found, the entities are taken. Entities are compared by ID
      *
      * @author wendt
      * @since 01.10.2013 11:43:28

@@ -9,6 +9,7 @@ package secondaryprocess.functionality.decisionpreparation.actioncodeletes;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
 import base.datatypes.clsWordPresentationMesh;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
@@ -49,10 +50,20 @@ public class clsAC_FOCUS_ON extends clsActionCodelet {
 		//Get the supportive data structure
 		clsWordPresentationMesh oSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
 		
-		//Associate this structure with the action
-		clsActionTools.setSupportiveDataStructureForAction(this.moAction, oSupportiveDataStructure);
-		
-		
+		if (this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true && (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true)) {
+		    //Associate this structure with the action
+	        clsActionTools.setSupportiveDataStructureForAction(this.moAction, oSupportiveDataStructure);
+		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
+		    //Get Moment of Act
+		    clsWordPresentationMesh moment = clsActDataStructureTools.getMoment(oSupportiveDataStructure);
+		    if (moment.isNullObject()==false) {
+		        clsActionTools.setSupportiveDataStructureForAction(this.moAction, moment);
+		    } else {
+		        log.warn("Action FOCUS_ON has been selected for an act {}, but there is no moment and no entities can be focused", oSupportiveDataStructure);
+		    }
+		    
+		}
+
 		setActionAssociationInGoal();
 	}
 
