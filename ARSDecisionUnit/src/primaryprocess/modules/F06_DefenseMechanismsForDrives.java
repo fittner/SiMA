@@ -285,6 +285,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		//PassForbiddenDrives to do
 	}
+	
 	/* (non-Javadoc)
 	*
 	* @author deutsch
@@ -411,12 +412,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 *
 	 */
 	private void detect_conflict_and_activate_defense_machanisms() {
-		
-		
-		
+			
 		GetCombinedTimeDefenseYaxisData();	
-		
-		
 		
 		 // If no Defense to defend return immediately (otherwise NullPointerException)
 		
@@ -485,14 +482,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			 
 		         defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
 			 
-		/*
-		 * Turning against Self is defined that the new Drive Object is "Self"
-		 * - Projection is defined that the new Drive Source is the old Drive Object and new Drive object is Self
-         *    Since Drive Source in ARS is Organ we use projection to protect ARSIN From  Turning against self if drive aim such as EAT and Bite
-		 * 
-		 * 
-		 * 
-		 */
+
 		         
 		         
 		 }else if((oQoA > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.4)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.6)){
@@ -538,6 +528,84 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	}
 	
 	
+   /* (non-Javadoc)
+    *
+    * @author gelbard
+    * 12.02.2014, 10:56:00
+    * 
+    * This function chooses a defense mechanism depending on the conflict tension and the ego strength
+    * and activates the defense mechanism.
+    * - Low ego strength means a primitive defense mechanism is selected
+    * - High ego strength means an elevated defense mechanism is selected
+    * - If the conflict tension is high repression must no be selected because the drive wish must be satisfied
+    *
+    */
+	private void selectAndActivateDefenseMechanisms()
+	{
+	    
+	    double conflictTension = 0.4; // nur fuer Testzwecke 
+	    
+	    // defense is only activated if there is a basic anxiety
+	    if (GetEmotionIntensity(eEmotionType.ANXIETY) < 0.1) {
+	        NoDefenseIsDone(); // just to see in the inspectors in the simulation that no defense is done
+	        return;
+	    }
+
+	    // no defense if the forbidden drive wishes are too strong
+	    if (getQuotaOfAffect(moForbiddenDrives_Input) > 0.9) {
+	        NoDefenseIsDone(); // just to see in the inspectors in the simulation that no defense is done
+	        return;
+	    }
+
+
+	    // Selection of defense mechanisms for drives depending on the conflict tension and the ego strength
+	    if (conflictTension <= 0.1) {
+	             NoDefenseIsDone(); // just to see in the Mason-inspectors that no defense is done
+	    }
+	    
+	    else if (conflictTension <= 0.5) {
+	        if (moEgoStrength <= 0.25) { 
+	            defenseMechanism_Turning_Against_Self (moForbiddenDrives_Input); 
+	                                
+	            // ARSIN should not hurt him self
+	            
+	            /* Younes Lofti:
+	             *
+	             * Turning against Self is defined that the new Drive Object is "Self"
+	             * - Projection is defined that the new Drive Source is the old Drive Object and new Drive object is Self
+	             *    Since Drive Source in ARS is Organ we use projection to protect ARSIN From  Turning against self if drive aim such as EAT and Bite
+	             *  
+	             */
+	            ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
+	                     
+	            for(clsDriveMesh Drive_After_Turning_Against_Self: oMatchingDrives){
+	                if(Drive_After_Turning_Against_Self.getActualDriveAim().getContent().equals("EAT") ||
+	                   Drive_After_Turning_Against_Self.getActualDriveAim().getContent().equals("BITE"))                 
+	                    Projection(Drive_After_Turning_Against_Self);
+	            }
+	        }
+	        else if (moEgoStrength <= 0.5)  defenseMechanism_Repression(moForbiddenDrives_Input);
+	        else if (moEgoStrength <= 0.75) defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
+	        else                            defenseMechanism_Sublimation(moForbiddenDrives_Input);
+	        
+	    }       
+	    else {
+	        if (moEgoStrength <= 0.3) {
+	                // den folgenden defense mechanism gibt es noch nicht. Es muss aber nur eine Hash-tabell wie z. B. Sublimation angelegt werden.
+	                // (drive aim active -> passive)
+	                //defenseMechanism_ReversalIntoTheOpposite(moForbiddenDrives_Input);
+	        }
+	        else if (moEgoStrength <= 0.7)  defenseMechanism_Displacement(moForbiddenDrives_Input);
+	        else {
+	                // ACHTUNG: fuer diesen Abwehrmechanismus gibt es noch kein fuktionierendes drive aim (= act)
+	                // -> ist daher einstweilen nur ein dummy-Aufruf
+	                defenseMechanism_Intellectualization(moForbiddenDrives_Input);
+	        }
+	    }       
+
+	}
+	
+	
 	
 	
 	private void NoDefenseIsDone(){
@@ -547,10 +615,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 	}
 	
-	
-	
-
-
 	// Search of the emotion types if they exist
 	private boolean searchInEmotions (eEmotionType oEmotionType) {	
 		
@@ -738,7 +802,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
     *
     */
 	
-	protected void defenseMechanism_Turning_Against_Self (ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
+	private void defenseMechanism_Turning_Against_Self (ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
 	    Turning_Against_Self ++;
 	    TimeTurning_Against_Self=1.0;
 	    
@@ -758,7 +822,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	    
 	    
 	}
-protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
+	
+	private clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 
         //Drive_After_Turning_Against_Self= poOriginalDM;
         oOriginalDOContentForTurning_Against_Self = poOriginalDM.getActualDriveObject().getContent();
@@ -803,7 +868,8 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
         
         return poOriginalDM;
     }
-	protected void defenseMechanism_Projection(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
+	
+	private void defenseMechanism_Projection(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
 //	    Projection ++;
 //        TimeProjection=1.0;
 
@@ -826,7 +892,8 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
         
 
 	}
-	protected clsDriveMesh Projection (clsDriveMesh poOriginalDM){
+	
+	private clsDriveMesh Projection (clsDriveMesh poOriginalDM){
 	    
 	    Projection ++;
 	    TimeProjection =1.0;
@@ -892,7 +959,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	 * Displacement means that the drive object is changed.
 	 *
 	 */
-	protected void defenseMechanism_Displacement(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
+	private void defenseMechanism_Displacement(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
 		
 	    Displacement ++;
 	    TimeDisplacement=1.0;
@@ -915,7 +982,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	   
 	}
 	
-	protected void defense_done(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
+	private void defense_done(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
 		// Ivy-Frage: fügt er da alle gelöschten verbotenen Drives quasi wieder zurück?
 		
 		   ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
@@ -929,7 +996,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 					
 			   }
 		
-		}
+	}
 	
 	
 	
@@ -938,15 +1005,10 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	* @author Lotfi
 	* 10.10.2012, 17:30:00
 	* 
-	* This method represents the defense mechanism "displacement"
-	* The defense mechanism displacement replaces the original drive object by a new drive object.
+	* Helper function for the defense mechanism "displacement"
 	*
 	*/
-	
-	
-	
-	protected clsDriveMesh displacement(clsDriveMesh poOriginalDM) {
-		
+	private clsDriveMesh displacement(clsDriveMesh poOriginalDM) {
 		
 		HashMap<String, String> oDisplaceDriveObjectList = new HashMap<String, String> ();
 		
@@ -1025,7 +1087,8 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 				}
 						
 							
-		}else{
+		}
+		else {
 			
 			//  replace the Drive Object 
 			
@@ -1045,6 +1108,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		
 		return poOriginalDM;
 	}
+	
 	// For TimeChart And BarChart
 	//
 	private HashMap<String, Double>  moTimeInputChartData(){
@@ -1073,22 +1137,20 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	private void defenseMechanism_ReactionFormation (ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
 		
 		// List from eDriveContent
-			oOppositeTP.put("NOURISH","BITE");
-			oOppositeTP.put("BITE","NOURISH"); 
-			oOppositeTP.put("DEPOSITE","REPRESS");
-			oOppositeTP.put("REPRESS","DEPOSITE");
-			oOppositeTP.put("EAT","SLEEP");
-			
-			//old values...
-			oOppositeTP.put("EXCRETE","BREATH");
-			oOppositeTP.put("SLEEP","SEXUAL_AROUSAL");
-			oOppositeTP.put("BREATH","EXCRETE");
-			oOppositeTP.put("RELAX","AGGRESSION");
-			oOppositeTP.put("SEXUAL_AROUSAL","SLEEP");
-			oOppositeTP.put("AGGRESSION","RELAX");
-			
-			
+		oOppositeTP.put("NOURISH","BITE");
+		oOppositeTP.put("BITE","NOURISH"); 
+		oOppositeTP.put("DEPOSITE","REPRESS");
+		oOppositeTP.put("REPRESS","DEPOSITE");
+		oOppositeTP.put("EAT","SLEEP");
 		
+		//old values...
+		oOppositeTP.put("EXCRETE","BREATH");
+		oOppositeTP.put("SLEEP","SEXUAL_AROUSAL");
+		oOppositeTP.put("BREATH","EXCRETE");
+		oOppositeTP.put("RELAX","AGGRESSION");
+		oOppositeTP.put("SEXUAL_AROUSAL","SLEEP");
+		oOppositeTP.put("AGGRESSION","RELAX");
+			
 		defenseMechanism_ReactionFormation_Sublimation_Intellectualization(oForbiddenDrives_Input);
 		
 		 TimeReactionFormation=1.0;
@@ -1097,7 +1159,6 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	
 	private void defenseMechanism_Sublimation (ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
 		
-	  
 		oOppositeTP.put("NOURISH","TASTE_FOOD_FOR_OTHERS");
 		oOppositeTP.put("BITE","DESTROY_DANGEROUS_ANIMALS");
 		oOppositeTP.put("REPRESS","GUARD_DOR");
@@ -1105,8 +1166,6 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		//Just for Test
 		oOppositeTP.put("EAT","DIVIDE");
 		 
-		
-		
 		defenseMechanism_ReactionFormation_Sublimation_Intellectualization(oForbiddenDrives_Input);
 		
 	
@@ -1116,7 +1175,6 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	
 	private void defenseMechanism_Intellectualization(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
 		
-	
 		oOppositeTP.put("NOURISH","TAKE_PART_IN_SOCIAL_ACTIVITY");
 		oOppositeTP.put("BITE","MOVE_JAW_MUSCLES");	
 		oOppositeTP.put("REPRESS","TRAIN_PATIENCE");
@@ -1124,24 +1182,20 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		// Just for Test
 		oOppositeTP.put("EAT","JUST_TO_TEST");
 		
-		
-		
 		defenseMechanism_ReactionFormation_Sublimation_Intellectualization(oForbiddenDrives_Input);
-		
 	}
 	
 	
 	/*
 	 * (non-Javadoc)
-	*
-	* @author Lotfi
-	* @since 10.10.2012 14:35:51
+	 *
+	 * @author Lotfi
+	 * @since 10.10.2012 14:35:51
 	 * 
-	 * The Reaction Formation, Sublimation and Intellectualization, all of those Defense Mechanisms have to change Drive Aim
+	 * Helper function for Reaction Formation, Sublimation and Intellectualization
+	 * all of those Defense Mechanisms have to change Drive Aim
 	 * 
 	 */
-	
-	
 	private void defenseMechanism_ReactionFormation_Sublimation_Intellectualization (ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input){
 				
 			ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
@@ -1173,19 +1227,8 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 //                   moProcessDifference.get(1).getChartShortString();
 //                   sumdi2 = sumdi;
 			  }
-						       
-				
 	}
 	
-	
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @author Lotfi
-	 *This method changes the DriveAim, if it exists in the List otherwise no change will happen
-	 * since 08.11.2012 16:35:51
-	 *
-	 */
 	
 	/**
      * DOCUMENT - insert description
@@ -1213,8 +1256,15 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
         } else mDisplayDrives.add(changedDrives);
     }
 
-    private  clsDriveMesh replaceDriveAim(clsDriveMesh poOriginalDM){  
-		  
+    /*
+     * (non-Javadoc)
+     *
+     * @author Lotfi
+     *This method changes the DriveAim, if it exists in the List otherwise no change will happen
+     * since 08.11.2012 16:35:51
+     *
+     */
+    private  clsDriveMesh replaceDriveAim(clsDriveMesh poOriginalDM){  	  
 		
 		// get the original Drive Aim from incoming Drive
 		String oOriginalTPContent = poOriginalDM.getActualDriveAim().getContent();
@@ -1261,16 +1311,18 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		return poOriginalDM;
 		
 	}
-	protected void sendDriveToBlockedContentStorage(clsDriveMesh poDM) {
+    
+	private void sendDriveToBlockedContentStorage(clsDriveMesh poDM) {
 		
 		// Only store the drive in blocked content storage, if there are no similar drives in blocked content storage
-			if (moBlockedContentStorage.getMatchesForDrives(poDM, 0.0).isEmpty()){
+		if (moBlockedContentStorage.getMatchesForDrives(poDM, 0.0).isEmpty()){
 				//if (!moBlockedContentStorage.existsMatch(null, poDM)) {		
 					// insert DriveMesh i into BlockedContentStorage
 					send_D2_3(poDM);
-				}
-				
 		}
+				
+	}
+	
 	/* (non-Javadoc)
 	*
 	* @author gelbard
@@ -1279,8 +1331,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	* This method represents the defense mechanism "repression"
 	* 
 	*/
-	protected void defenseMechanism_Repression(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
-		
+	private void defenseMechanism_Repression(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
 		
 		// Iterate over all forbidden drives
 		for (clsSuperEgoConflict oConflict : oForbiddenDrives_Input) {
@@ -1318,7 +1369,8 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		
 		 TimeRepression=1.0;
 		 Repression++;			 
-	}	
+	}
+	
 	/* (non-Javadoc)
 	*
 	* @author gelbard
@@ -1328,7 +1380,6 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	* (matching drives are drives which are forbidden drives and which are element of the input drive list)
 	* 
 	*/
-	
 	private double getQuotaOfAffect(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
 		
 	  double oSumOfQuotaOfAffect = 0.0;
@@ -1345,32 +1396,6 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 			   
 	  if (i==0) return 0.0;
 	  else      return oSumOfQuotaOfAffect / i;
-	  
-	  
-	  
-	  
-	  
-	/*	   
-		// If PassForbiddenDrives to repress return immediately (otherwise NullPointerException)
-		if (oForbiddenDrives_Input == null) return 0.0;
-		
-		// Iterate over all forbidden drives
-		for (String oContent : oForbiddenDrives_Input) {
-				
-			// search in list of incoming drives
-			for(clsDriveMesh oDrive : moDriveList_Output){
-				// check DriveMesh
-				if (oDrive.getActualDriveAim().equals(oContent)){
-	
-					// drive found
-					// return quota of affect
-				    return oDrive.getQuotaOfAffect();
-				}
-			}
-		}
-		
-		return 0.0;
-	*/
 	
 	}	
 	
@@ -1614,6 +1639,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 	
 		return moTimeChartData;
 	}
+	
 	private void GetCombinedTimeDefenseYaxisData(){
 		
 		if((TimeRepression==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeSublimation == 1.0)||
