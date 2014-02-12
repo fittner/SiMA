@@ -67,6 +67,7 @@ public abstract class clsSecondaryDataStructure extends clsDataStructurePA{
 	    
 	    if (ds.getClass().getName().equals(this.getClass().getName()) &&
 	        ds.getDS_ID()==this.moDS_ID &&
+	        ds.getDSInstance_ID() == this.moDSInstance_ID &&
 	        ds.getContent()==this.getContent() &&
 	        ds.getContentType()==this.getContentType()) {
 	        isEqual=true;

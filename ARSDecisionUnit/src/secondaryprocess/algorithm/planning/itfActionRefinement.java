@@ -15,12 +15,6 @@ import base.datatypes.clsWordPresentationMesh;
  * 10.02.2014, 20:09:53
  * 
  */
-public class clsActionRefinement {
-    clsActionRefinement() {
-        
-    }
-    
-    public void refine(clsWordPresentationMesh poActionWPM) {
-        
-    }
+public interface itfActionRefinement {
+    public void refine(clsWordPresentationMesh poActionWPM);
 }

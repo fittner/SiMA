@@ -49,7 +49,7 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
      */
     protected void refineMovementActions(ArrayList<clsWordPresentationMesh> poMovementActions) {
         clsWordPresentationMesh oOldItem = null, oNewItem = null;
-        clsActionRefiner oRefiner = clsActionRefiner.getInstance();
+        clsActionRefiner oRefiner = new clsActionRefiner(this.moShortTermMemory, this.moEnvironmentalImage);
         
         for(int i = 0; i < poMovementActions.size(); ++i) {
             oOldItem = poMovementActions.get(i);

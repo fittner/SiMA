@@ -5,11 +5,13 @@
  *
  */
 package secondaryprocess.algorithm.planning;
+
 import logger.clsLogger;
-
+import memorymgmt.shorttermmemory.clsShortTermMemory;
 import org.slf4j.Logger;
-
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import secondaryprocess.algorithm.planning.itfActionRefinement;
 
 /**
  * DOCUMENT (Kollmann) - This class can be used to refine actions.
@@ -27,12 +29,23 @@ import base.datatypes.clsWordPresentationMesh;
  * 
  */
 public class clsActionRefiner {
-    private static clsActionRefiner moInstance;
-    private static Logger moLogger = clsLogger.getLog("planning");
+    private Logger moLogger = clsLogger.getLog("planning");
+    private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory = null;
+    private clsWordPresentationMesh moEnvironmentalImage = null;
     
     //remove access to constructor and copy constructor
     private clsActionRefiner() {}
     private clsActionRefiner(clsActionRefiner poOrientationReasoner) {}
+    
+    public clsActionRefiner(clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTermMemory, clsWordPresentationMesh poEnvironmentalImage) {
+        moShortTermMemory = poShortTermMemory;
+        moEnvironmentalImage = poEnvironmentalImage;
+    }
+    
+    public clsActionRefiner(clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTermMemory, clsWordPresentationMesh poEnvironmentalImage, Logger poNewLogger) {
+        this(poShortTermMemory, poEnvironmentalImage);
+        replaceLogger(poNewLogger);
+    }
     
     /**
      * DOCUMENT - By default the class uses the logger "planning", if required this logger can
@@ -50,15 +63,15 @@ public class clsActionRefiner {
         return oOldLogger;
     }
     
-    public static synchronized clsActionRefiner getInstance() {
-        if(moInstance == null) {
-            moInstance = new clsActionRefiner();
-            moLogger.info("Initializing clsRefiner with lazy initialization");
-        }
-        
-        return moInstance;
-    }
-    
+//    public static synchronized clsActionRefiner getInstance() {
+//        if(moInstance == null) {
+//            moInstance = new clsActionRefiner();
+//            moLogger.info("Initializing clsRefiner with lazy initialization");
+//        }
+//        
+//        return moInstance;
+//    }
+//    
     /**
      * DOCUMENT - Lookup or create a clsActionRefinement object that fits for the given action.
      * 
@@ -71,11 +84,11 @@ public class clsActionRefiner {
      * @param poActionWPM: the WPM of the action to be refined
      * @return a refinement that can be used to further refine the provided action 
      */
-    public clsActionRefinement getActionRefinementFor(clsWordPresentationMesh poActionWPM) {
-        clsActionRefinement oActionRefinement = null;
+    public itfActionRefinement getActionRefinementFor(clsWordPresentationMesh poActionWPM) {
+        itfActionRefinement oActionRefinement = null;
         
         if(poActionWPM.getContent().toString().equals("GOTO")) {
-            oActionRefinement = new clsActionRefinementHardcoded_GOTO(); 
+            oActionRefinement = new clsActionRefinementHardcoded_GOTO(moEnvironmentalImage); 
         } else {
          //   
         }
@@ -116,7 +129,7 @@ public class clsActionRefiner {
      */
     public void refineAction(clsWordPresentationMesh poActionWPM) {
         if(isRefineable(poActionWPM)) {
-            clsActionRefinement oRefinementClass = getActionRefinementFor(poActionWPM);
+            itfActionRefinement oRefinementClass = getActionRefinementFor(poActionWPM);
             
             if(oRefinementClass != null) {
                 oRefinementClass.refine(poActionWPM);

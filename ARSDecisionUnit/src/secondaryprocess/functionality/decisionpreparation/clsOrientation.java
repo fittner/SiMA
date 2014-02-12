@@ -83,13 +83,17 @@ public class clsOrientation {
             case LEFT:
             case MIDDLE_LEFT:
                 oChange = eAction.TURN_LEFT;
+                break;
             case RIGHT:
             case MIDDLE_RIGHT:
                 oChange = eAction.TURN_RIGHT;
+                break;
             case CENTER:
                 oChange = eAction.MOVE_FORWARD;
+                break;
             case UNKNOWNPOSITION:
                 //TODO(Kollmann): add code for searching
+                break;
             default:
                 moLogger.warn("relative position of target entity invalid.");
         }
