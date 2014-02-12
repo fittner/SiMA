@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.functionality.decisionpreparation.clsOrientationReasoner;
+import base.datatypes.clsAssociation;
 import base.datatypes.clsWordPresentationMesh;
 import logger.clsLogger;
 import memorymgmt.enums.eAction;
@@ -28,8 +29,38 @@ import memorymgmt.enums.eAction;
  * 10.02.2014, 20:15:28
  * 
  */
-public class clsActionRefinementHardcoded_GOTO extends clsActionRefinement {
+public class clsActionRefinementHardcoded_GOTO implements itfActionRefinement {
     private static final Logger moLogger = clsLogger.getLog("planning");
+
+    clsWordPresentationMesh moEnvironmentalImage = null;
+    
+    public clsActionRefinementHardcoded_GOTO(clsWordPresentationMesh poEnvironmentalImage) {
+        moEnvironmentalImage = poEnvironmentalImage;
+    }
+    
+    private clsWordPresentationMesh findActionObjectInstance(clsWordPresentationMesh poActionObjectType) {
+        clsWordPresentationMesh oActionObjectInstance = null;
+        clsWordPresentationMesh oEnvironmentalEntity = null;
+        
+        for(clsAssociation oEnvironmentalEntityAssociation : moEnvironmentalImage.getInternalAssociatedContent()) {
+            if(oEnvironmentalEntityAssociation.getLeafElement() instanceof clsWordPresentationMesh) {
+                oEnvironmentalEntity = (clsWordPresentationMesh) oEnvironmentalEntityAssociation.getLeafElement();
+    
+                //Kollmann: lazy compare
+                if(oEnvironmentalEntity.getDS_ID() == poActionObjectType.getDS_ID()) {
+                    oActionObjectInstance = oEnvironmentalEntity;
+                }
+            } else {
+                moLogger.error("Environmental image contains association that does not point to WPM: {}", oEnvironmentalEntityAssociation);
+            }
+        }
+        
+        return oActionObjectInstance;
+    }
+    
+    private clsWordPresentationMesh getActionObjectType(clsWordPresentationMesh poActionWPM) {
+        return clsActionTools.getActionObject(poActionWPM);
+    }
     
     /**
      * DOCUMENT - Return the target object for the GOTO action
@@ -41,7 +72,7 @@ public class clsActionRefinementHardcoded_GOTO extends clsActionRefinement {
      * @return the WPM of the target object
      */
     private clsWordPresentationMesh getActionObject(clsWordPresentationMesh poActionWPM) {
-        return clsActionTools.getActionObject(poActionWPM);
+        return findActionObjectInstance(getActionObjectType(poActionWPM));
     }
     
     
