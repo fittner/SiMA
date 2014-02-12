@@ -67,10 +67,6 @@ public class clsSuperEgoConflict {
     }
     
     
-    public void addConflictTension(double oConflictTension) {
-        this.moConflictTension += oConflictTension;
-    }
-    
     // Only Getters and Setter from here on
     public eDriveComponent getConflictComponent() {
         return moConflictComponent;

@@ -24,13 +24,17 @@ import du.enums.pa.eDriveComponent;
  */
 public class clsReadSuperEgoRules {
     
+    // right side of a rule (perceptions, drives, emotions)
     private ArrayList <clsPair <eContentType, String>> oForbiddenPerceptionRule = new ArrayList <clsPair <eContentType, String>> ();
     private ArrayList <clsTriple <eDriveComponent, eOrgan, Double[]>> oForbiddenDriveRule = new ArrayList <clsTriple <eDriveComponent, eOrgan, Double[]>> ();
     private ArrayList <clsPair <eEmotionType, Double[]>> oForbiddenEmotionRule = new ArrayList <clsPair <eEmotionType, Double[]>> ();
     
+    // right side of a rule (forbidden perceptions, drives, emotions)
     private ArrayList <clsPair <eContentType, String>> oForbiddenObject = new ArrayList <clsPair <eContentType, String>> (); //zB: eContentType.ENTITY, "CAKE"
     private ArrayList <clsPair <eDriveComponent, eOrgan>> oForbiddenDrive = new ArrayList <clsPair <eDriveComponent, eOrgan>> (); //zB: eDriveComponent.AGGRESSIVE, eOrgan STOMACH
     private ArrayList <eEmotionType> oForbiddenEmotion = new ArrayList <eEmotionType> ();
+    
+    private double superEgoRuleStrength; // indicates how important a super-ego rule is
     
     
     public clsReadSuperEgoRules (eContentType ect, String str) {
@@ -141,6 +145,8 @@ public class clsReadSuperEgoRules {
     public void addFObject (eDriveComponent edc, eOrgan eor) {
         oForbiddenDrive.add(new clsPair <eDriveComponent, eOrgan> (edc, eor));
     }
+    
+    
     /**
      * DOCUMENT (Jordakieva) - speichert die zu verbietende Emotion
      *
@@ -150,6 +156,11 @@ public class clsReadSuperEgoRules {
      */
     public void addFObject (eEmotionType em) {
         oForbiddenEmotion.add(em);
+    }
+    
+
+    public void setSuperEgoRuleStrength(double newSuperEgoRuleStrength) {
+        superEgoRuleStrength = newSuperEgoRuleStrength;
     }
     
     
@@ -247,6 +258,11 @@ public class clsReadSuperEgoRules {
         return oForbiddenEmotionRule.get(i);
     }
     
+    
+    
+    public double getSuperEgoRuleStrength() {
+        return superEgoRuleStrength;
+    }
     
     
     /**

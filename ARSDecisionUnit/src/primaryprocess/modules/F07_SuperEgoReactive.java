@@ -95,7 +95,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
-	private ArrayList<String> Test= new ArrayList<String>() ;
+	//private ArrayList<String> Test= new ArrayList<String>() ;
 //	Ivy begin ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //
 	private ArrayList<String> moSuperEgoOutputRules = new ArrayList <String> (); //für die Ausgabe	
 
@@ -316,6 +316,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
                                         oRegeln.get(nListe).addFObject(eEmotionType.valueOf(oSplit[1]));
                                     }
                                 }
+                                
+                                // superEgoStrength abspeichern
+                                oRegeln.get(nListe).setSuperEgoRuleStrength(nSuperEgo);
+                                
                                 nListe++;
                             }
                         }
@@ -616,9 +620,11 @@ public class F07_SuperEgoReactive extends clsModuleBase
                     int drivesInOneRule = oRegeln.get(i).driveSize();
                     int perceptionInOneRule = oRegeln.get(i).perceptionSize();
                     int emotionsInOneRule = oRegeln.get(i).emotionSize();
+                    
+                    double quotaOfAffect_of_ForbiddenDrives = checkForDrives (drivesInOneRule, i);
                         
                     //wurden alle DM, TPM und Emotions von der aktuellen = i Regel gefunden
-                    if (checkForDrives (drivesInOneRule, i) && checkForPerception (perceptionInOneRule, i) && checkForEmotions (emotionsInOneRule, i)) { 
+                    if (quotaOfAffect_of_ForbiddenDrives >= 0 && checkForPerception (perceptionInOneRule, i) && checkForEmotions (emotionsInOneRule, i)) { 
 
                         moSuperEgoOutputRules.add("FileRule: " + (i+1) + "\nDrives:");
                         for (int tmp=0; tmp < drivesInOneRule; tmp++) {
@@ -639,9 +645,16 @@ public class F07_SuperEgoReactive extends clsModuleBase
                         moSuperEgoOutputRules.add("----------------------------------------------");
 
                         
+                        double conflictTension;
                         for (int fd = 0; fd < oRegeln.get(i).FDriveSize(); fd++) {
-                            if (!moForbiddenDrives.contains(oRegeln.get(i).getForbiddenDrive(fd))) 
-                                moForbiddenDrives.add(new clsSuperEgoConflict(oRegeln.get(i).getForbiddenDrive(fd)));
+                            conflictTension = (quotaOfAffect_of_ForbiddenDrives + oRegeln.get(i).getSuperEgoRuleStrength());
+                            
+                            if (!moForbiddenDrives.contains(oRegeln.get(i).getForbiddenDrive(fd))) {
+                                moForbiddenDrives.add(new clsSuperEgoConflict(oRegeln.get(i).getForbiddenDrive(fd), conflictTension));
+                            }
+                            // if drive is already in list of forbidden drives: change conflict tension
+                            else
+                                moForbiddenDrives.get(moForbiddenDrives.lastIndexOf(oRegeln.get(i).getForbiddenDrive(fd))).setConflictTension(conflictTension);
                         }
                         for (int fp = 0; fp < oRegeln.get(i).FObjectSize(); fp++) {
                             if (!moForbiddenPerceptions.contains(oRegeln.get(i).getForbiddenObject(fp))) 
@@ -706,7 +719,6 @@ public class F07_SuperEgoReactive extends clsModuleBase
      * @param i
      * @return
      */
-    @SuppressWarnings("deprecation")
     private boolean checkForPerception(int perceptionSize, int position) {
 
         boolean bPerception;
@@ -734,8 +746,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
         } else return false;
     }
 
-    /**
-     * DOCUMENT - insert description
+    /* (non-Javadoc)
+     * 
+     * checks whether all conflicting drive meshes of one super-ego rule are contained in the array list of incoming drive mashes
+     * 
+     * returns the sum of quotas of affect of all forbidden drives (if all forbidden drives are in the array list os incoming drives)
+     * returns -1 if not all forbidden drives are in the array list of incoming drives
      *
      * @author Jordakieva
      * @since 11.12.2013 15:17:59
@@ -743,31 +759,36 @@ public class F07_SuperEgoReactive extends clsModuleBase
      * @param driveSize
      * @return
      */
-    private boolean checkForDrives(int driveSize, int position) {
+    private double checkForDrives(int driveSize, int position) {
 
         boolean match;
         int d;
+        double sum_of_QuoataOfAffect_of_MatchingDrives = 0;
         
         for (d = 0, match = true; d < driveSize && match; d++) { //für alle DM in einer Regel
             
             match = false;
-            for (clsDriveMesh oDrives : moDrives) { //moDrives ist received_I5_12 moDrives = (ArrayList<clsDriveMesh>) deepCopy(poDrives);
+            for (clsDriveMesh oDrive : moDrives) { //moDrives ist received_I5_12 moDrives = (ArrayList<clsDriveMesh>) deepCopy(poDrives);
                 
-                if (oDrives.getDriveComponent().equals(oRegeln.get(position).getDriveRule(d).a) &&
-                        oDrives.getActualDriveSourceAsENUM().equals(oRegeln.get(position).getDriveRule(d).b) &&
-                        oDrives.getQuotaOfAffect() >= oRegeln.get(position).getDriveRule(d).c[0] && 
-                        oDrives.getQuotaOfAffect() <= oRegeln.get(position).getDriveRule(d).c[1]) 
+                if (oDrive.getDriveComponent().equals(oRegeln.get(position).getDriveRule(d).a) &&
+                        oDrive.getActualDriveSourceAsENUM().equals(oRegeln.get(position).getDriveRule(d).b) &&
+                        oDrive.getQuotaOfAffect() >= oRegeln.get(position).getDriveRule(d).c[0] && 
+                        oDrive.getQuotaOfAffect() <= oRegeln.get(position).getDriveRule(d).c[1]) 
                 {
                     match = true;
+                    sum_of_QuoataOfAffect_of_MatchingDrives += oDrive.getQuotaOfAffect();
                     break;
                 } 
             }
+
         }
         
         if (d == driveSize && match)        
-            return true;
-        else return false;
+            return sum_of_QuoataOfAffect_of_MatchingDrives;
+
+        else return -1.0; // no match found or not all drive mashes of the super-ego-rule match
     }
+
 
     /* (non-Javadoc)
 	 *
