@@ -77,38 +77,45 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 		
 		refineMovementActions(oExternalPlans);
 		
-		eAction oChosenAction = eAction.NONE;
-		
-		if (oExternalPlans.isEmpty()==false) {
-			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getContent());
-		}
-		
-		//Now the movement is gotten. Compose a new action for focusing, rename the action
-		if (oChosenAction.equals(eAction.MOVE_FORWARD)) {
-			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
-		} else if (oChosenAction.equals(eAction.TURN_LEFT)) {
-			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
-		} else if (oChosenAction.equals(eAction.TURN_RIGHT)) {
-			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
-		} else if (oChosenAction.equals(eAction.SEARCH1)) {
-			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+		if(oExternalPlans.isEmpty()==false) {
+		    this.moAction = oExternalPlans.get(0);
 		} else {
-//		    //FIXME This concept has to be remade as here a condition is corrected, which it should not be
-//		    try {
-//                this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
-//                this.moGoal.removeCondition(eCondition.SET_FOCUS_MOVEMENT);
-//            } catch (ElementNotFoundException e) {
-//                log.error("", e);
-//            }
+		    this.generateAction(eAction.NONE);
 		}
 		
+//		eAction oChosenAction = eAction.NONE;
+//		
+//		if (oExternalPlans.isEmpty()==false) {
+//			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getContent());
+//		}
+//		
+//		//Now the movement is gotten. Compose a new action for focusing, rename the action
+//		if (oChosenAction.equals(eAction.MOVE_FORWARD)) {
+//			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+//		} else if (oChosenAction.equals(eAction.TURN_LEFT)) {
+//			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+//		} else if (oChosenAction.equals(eAction.TURN_RIGHT)) {
+//			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+//		} else if (oChosenAction.equals(eAction.SEARCH1)) {
+//			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+//		} else {
+////		    //FIXME This concept has to be remade as here a condition is corrected, which it should not be
+////		    try {
+////                this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
+////                this.moGoal.removeCondition(eCondition.SET_FOCUS_MOVEMENT);
+////            } catch (ElementNotFoundException e) {
+////                log.error("", e);
+////            }
+//		}
+//		
+//		
+//		
+//		//else if (oExternalActionWPM.getMoContent().equals(eAction.FLEE.toString())) {
+//		//	oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
+//		//}
+//		
+//		this.generateAction(oChosenAction);
 		
-		
-		//else if (oExternalActionWPM.getMoContent().equals(eAction.FLEE.toString())) {
-		//	oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
-		//}
-		
-		this.generateAction(oChosenAction);
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();

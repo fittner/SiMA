@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import properties.clsProperties;
-
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshGoal;
@@ -30,6 +29,7 @@ import base.tools.ElementNotFoundException;
 import base.tools.toText;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
+import memorymgmt.enums.ePredicate;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -40,6 +40,7 @@ import modules.interfaces.I6_11_send;
 import modules.interfaces.I6_2_receive;
 import modules.interfaces.eInterfaces;
 import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import secondaryprocess.functionality.PlanningFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
@@ -240,7 +241,20 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         //Get action command from goal
         try {
             moActionCommand = PlanningFunctionality.getActionCommandFromPlanGoal(planGoal);
-            log.info("Selected Action: {}", moActionCommand);
+            
+            //Kollmann: use refined action if available
+            if (!moActionCommand.isNullObject()) {
+                clsWordPresentationMesh oPossibleRefinement = clsMeshTools.getUniquePredicateWPM(moActionCommand, ePredicate.HASACTIONREFINEMENT);
+                
+                //action has refinement
+                if(!oPossibleRefinement.isNullObject()) {
+                    log.info("Selected Action: {} ({})", moActionCommand, oPossibleRefinement);
+                    moActionCommand = oPossibleRefinement;
+                } else {
+                    log.info("Selected Action: {}", moActionCommand);
+                }
+            }
+            
         } catch (Exception e) {
             log.error("", e);
         }  
