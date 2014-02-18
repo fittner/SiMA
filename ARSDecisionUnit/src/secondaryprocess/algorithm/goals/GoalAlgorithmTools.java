@@ -171,6 +171,9 @@ public class GoalAlgorithmTools {
         case GOTO:
             oActionCondition = eCondition.GOTO_GOAL_IN_PERCEPTION;
             break;
+        case DROP:
+            oActionCondition = eCondition.EXECUTED_DROP;
+            break;
         case NULLOBJECT:
             oActionCondition = eCondition.NULLOBJECT;
             break;

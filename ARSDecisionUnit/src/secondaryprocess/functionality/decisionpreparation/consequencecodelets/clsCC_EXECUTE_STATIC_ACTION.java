@@ -86,8 +86,7 @@ public class clsCC_EXECUTE_STATIC_ACTION extends clsConsequenceCodelet {
         this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_RELAX, eCondition.IS_CONTINUED_PLANGOAL));
         this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_SPEAK_EAT, eCondition.IS_CONTINUED_PLANGOAL));
         this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_DIVIDE, eCondition.IS_CONTINUED_PLANGOAL));
-        
-        
+        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_DROP, eCondition.IS_CONTINUED_PLANGOAL));
     }
 
     /* (non-Javadoc)
