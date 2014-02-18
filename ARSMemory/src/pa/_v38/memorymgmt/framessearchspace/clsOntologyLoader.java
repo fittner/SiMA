@@ -1029,26 +1029,29 @@ public class clsOntologyLoader {
 		double rAssociationWeight =  Double.valueOf((Float) getSlotValues("weight", poAssociation).toArray()[0]);
 
 		if (poRootElement == null) {
+			Collection<?> oElements = getSlotValues("element", poAssociation);
 			
-			assert getSlotValues("element", poAssociation).toArray().length < 2 : "Association Secundary " + poAssociation.toString() + " has not enough elements";
+			if(oElements.size() < 2) {
+				log.error("\tError in Association " + poAssociation.getName() + " (no root element): Not enough elements.\n\n");
+			} else {
+				if(oElements.size() > 2) {
+					log.warn("\tAssociation " + poAssociation.getName() + " connects more than 2 elements.\n\n");
+				}
 			
-			if(getSlotValues("element", poAssociation).toArray().length < 2) {
-				boolean breakme = true;
+				Instance oIns_a = (Instance) getSlotValues("element", poAssociation).toArray()[0];
+				Instance oIns_b = (Instance) getSlotValues("element", poAssociation).toArray()[1];
+	
+				// Extract predicate
+				ePredicate oPredicate = ePredicate.valueOf((String) getSlotValue("predicate", poAssociation));
+	
+				initDataStructure(null, oIns_a, poDataContainer);
+				initDataStructure(null, oIns_b, poDataContainer);
+				clsDataStructurePA oDS_a = retrieveDataStructure(oIns_a.getName(),
+						poDataContainer.b);
+				clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(),
+						poDataContainer.b);
+				oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight, oPredicate);
 			}
-			
-			Instance oIns_a = (Instance) getSlotValues("element", poAssociation).toArray()[0];
-			Instance oIns_b = (Instance) getSlotValues("element", poAssociation).toArray()[1];
-
-			// Extract predicate
-			ePredicate oPredicate = ePredicate.valueOf((String) getSlotValue("predicate", poAssociation));
-
-			initDataStructure(null, oIns_a, poDataContainer);
-			initDataStructure(null, oIns_b, poDataContainer);
-			clsDataStructurePA oDS_a = retrieveDataStructure(oIns_a.getName(),
-					poDataContainer.b);
-			clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(),
-					poDataContainer.b);
-			oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight, oPredicate);
 		} else {
 			// Extract predicate
 			ePredicate oPredicate = ePredicate.valueOf((String) getSlotValue(
