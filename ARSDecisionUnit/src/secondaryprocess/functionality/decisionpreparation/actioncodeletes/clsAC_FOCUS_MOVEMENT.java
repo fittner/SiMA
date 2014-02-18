@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
 import base.datatypes.clsWordPresentationMesh;
-import secondaryprocess.algorithm.planning.clsActionRefiner;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -38,26 +37,6 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
-	/**
-     * DOCUMENT - checks if any of the actions can be further refined.
-     *            For example: action GOTO can be refined to TURN_LEFT, TURN_RIGHT or MOVE_FORWARD 
-     *
-     * @author Kollmann
-     * @since 10.02.2014 20:47:50
-     *
-     * @param poMovementActions: ArrayList of action WPMs (which should be part a sub mesh of greater WPM)
-     */
-    protected void refineMovementActions(ArrayList<clsWordPresentationMesh> poMovementActions) {
-        clsWordPresentationMesh oOldItem = null, oNewItem = null;
-        clsActionRefiner oRefiner = new clsActionRefiner(this.moShortTermMemory, this.moEnvironmentalImage);
-        
-        for(int i = 0; i < poMovementActions.size(); ++i) {
-            oOldItem = poMovementActions.get(i);
-            
-            oRefiner.refineAction(oOldItem);
-        }
-    }
-	
 	/* (non-Javadoc)
 	 *
 	 * @since 26.09.2012 11:22:53
@@ -75,47 +54,34 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 			oExternalPlans.addAll(this.moExternalActionPlanner.extractRecommendedActionsFromAct(this.moGoal));
 		}
 		
-		refineMovementActions(oExternalPlans);
+		eAction oChosenAction = eAction.NONE;
 		
-		if(oExternalPlans.isEmpty()==false) {
-		    this.moAction = oExternalPlans.get(0);
-		} else {
-		    this.generateAction(eAction.NONE);
+		if (oExternalPlans.isEmpty()==false) {
+			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getContent());
 		}
 		
-//		eAction oChosenAction = eAction.NONE;
-//		
-//		if (oExternalPlans.isEmpty()==false) {
-//			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getContent());
-//		}
-//		
-//		//Now the movement is gotten. Compose a new action for focusing, rename the action
-//		if (oChosenAction.equals(eAction.MOVE_FORWARD)) {
-//			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
-//		} else if (oChosenAction.equals(eAction.TURN_LEFT)) {
-//			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
-//		} else if (oChosenAction.equals(eAction.TURN_RIGHT)) {
-//			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
-//		} else if (oChosenAction.equals(eAction.SEARCH1)) {
-//			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
-//		} else {
-////		    //FIXME This concept has to be remade as here a condition is corrected, which it should not be
-////		    try {
-////                this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
-////                this.moGoal.removeCondition(eCondition.SET_FOCUS_MOVEMENT);
-////            } catch (ElementNotFoundException e) {
-////                log.error("", e);
-////            }
-//		}
-//		
-//		
-//		
-//		//else if (oExternalActionWPM.getMoContent().equals(eAction.FLEE.toString())) {
-//		//	oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
-//		//}
-//		
-//		this.generateAction(oChosenAction);
-		
+		//Now the movement is gotten. Compose a new action for focusing, rename the action
+		if (oChosenAction.equals(eAction.MOVE_FORWARD)) {
+			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+		} else if (oChosenAction.equals(eAction.TURN_LEFT)) {
+			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+		} else if (oChosenAction.equals(eAction.TURN_RIGHT)) {
+			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+		} else if (oChosenAction.equals(eAction.SEARCH1)) {
+			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+		} else if (oChosenAction.equals(eAction.GOTO)) {
+		    oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+		} else {
+//		    //FIXME This concept has to be remade as here a condition is corrected, which it should not be
+//		    try {
+//                this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
+//                this.moGoal.removeCondition(eCondition.SET_FOCUS_MOVEMENT);
+//            } catch (ElementNotFoundException e) {
+//                log.error("", e);
+//            }
+		}
+
+		this.generateAction(oChosenAction);
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();
