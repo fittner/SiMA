@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.SortedMap;
 
 import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -74,6 +75,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send,itfInspectorCombinedTimeChart,itfInspectorBarChartF19{
 	public static final String P_MODULENUMBER = "19";
 	
+	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
+	
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -85,6 +88,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_Output;
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
+	
+	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
 	
 	// Perceptions and emotions not "liked" by Super-Ego
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions_Input;
@@ -148,17 +153,21 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	public F19_DefenseMechanismsForPerception(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces,
 			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage,
-			itfModuleMemoryAccess poMemory)
+			itfModuleMemoryAccess poMemory,
+			clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
 		applyProperties(poPrefix, poProp);	
+	    // the Ego strength is equal to the neutralization rate
+        moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_ENERGY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
+
  		
  		//Get Blocked content storage
 		moBlockedContentStorage = poBlockedContentStorage;
 		
 		//Fill the blocked content storage with initial data from protege
 		moBlockedContentStorage.addAll(initialFillRepressedContent());
-		moTimeChartData =  new HashMap<String, Double>(); 
+		moTimeChartData =  new HashMap<String, Double>(); 		
 	}
 
 	/* (non-Javadoc)
@@ -426,6 +435,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 		// Defense for emotions
 		if(!moForbiddenEmotions_Input.isEmpty()){
+		    if (moEgoStrength <= 0.15) {
 			
             defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output);
 
@@ -442,6 +452,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 								
 			}
 			*/
+		    }
 		}
 			
 		// If no ForbidenEmotion Y-Axis of TimeCharts are inactive
