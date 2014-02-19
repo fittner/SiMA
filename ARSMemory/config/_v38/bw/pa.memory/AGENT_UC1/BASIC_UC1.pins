@@ -1,4 +1,4 @@
-; Wed Feb 19 18:07:59 CET 2014
+; Wed Feb 19 19:29:22 CET 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -844,6 +844,13 @@
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01]
+		[EMOTION%3AANGER%3ACARL_CAKE])
+	(weight 1.0 1.0))
+
+([AE%3AA12_EAT_CAKE%3AANGER] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AA12_EAT_CAKE_L01]
 		[EMOTION%3AANGER%3ACARL_CAKE])
 	(weight 1.0 1.0))
 
@@ -2640,7 +2647,7 @@
 ([EMOTION%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 0.8)
-	(sourceAggr 0.7)
+	(sourceAggr 0.6)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.7)
