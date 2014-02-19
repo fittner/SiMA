@@ -262,8 +262,9 @@ public class clsActPreparationTools {
 					
 					log.trace("=== Momentcandidate: " + oMoment.getContent() + ", confidence: " + rMomentConfidence + "Image position: " + nImagePosition + "===");
 					
-					if (nBestImagePosition>nImagePosition) {
+					if (nBestImagePosition > nImagePosition) {
 						oResult = oMoment;
+						nBestImagePosition = nImagePosition;
 					}
 					
 				}
