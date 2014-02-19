@@ -125,7 +125,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 		}
 		
 		//This is a hack method that can be used to focus the list of activate able entries 
-		//HackMethods.filterTPMSearchResultList(Collections.singleton("A13"), oSearchResultMesh);
+//		HackMethods.filterTPMSearchResultList(Collections.singleton("A10"), oSearchResultMesh);
 		
 		log.debug("Create direct associations between " + poOriginImage.getContent() + " and ");
 		if (poOriginImage.getContentType().equals(eContentType.PI) || poOriginImage.getContentType().equals(eContentType.PHI)) {

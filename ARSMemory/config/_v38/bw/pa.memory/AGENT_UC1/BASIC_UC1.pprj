@@ -1,4 +1,4 @@
-; Wed Feb 19 11:50:54 CET 2014
+; Wed Feb 19 17:21:26 CET 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,56 +45,56 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BASIC_UC1_ProjectKB_Class193] of  String
+([BASIC_UC1_ProjectKB_Class708] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([BASIC_UC1_ProjectKB_Class194] of  String
+([BASIC_UC1_ProjectKB_Class709] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([BASIC_UC1_ProjectKB_Class195] of  String
+([BASIC_UC1_ProjectKB_Class710] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([BASIC_UC1_ProjectKB_Class196] of  String
+([BASIC_UC1_ProjectKB_Class711] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([BASIC_UC1_ProjectKB_Class197] of  String
+([BASIC_UC1_ProjectKB_Class712] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BASIC_UC1_ProjectKB_Class198] of  Map_Entry
+([BASIC_UC1_ProjectKB_Class713] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_UC1_ProjectKB_Class199] of  Map_Entry
+([BASIC_UC1_ProjectKB_Class714] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_UC1_ProjectKB_Class200] of  Map
+([BASIC_UC1_ProjectKB_Class715] of  Map
 )
 
-([BASIC_UC1_ProjectKB_Class201] of  Map_Entry
+([BASIC_UC1_ProjectKB_Class716] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BASIC_UC1_ProjectKB_Class200")
+	(value "BASIC_UC1_ProjectKB_Class715")
 	(value_class "java.util.Map"))
 
-([BASIC_UC1_ProjectKB_Class202] of  Map_Entry
+([BASIC_UC1_ProjectKB_Class717] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BASIC_UC1_ProjectKB_Class193]
-		[BASIC_UC1_ProjectKB_Class194]
-		[BASIC_UC1_ProjectKB_Class195]
-		[BASIC_UC1_ProjectKB_Class196]
-		[BASIC_UC1_ProjectKB_Class197]))
+		[BASIC_UC1_ProjectKB_Class708]
+		[BASIC_UC1_ProjectKB_Class709]
+		[BASIC_UC1_ProjectKB_Class710]
+		[BASIC_UC1_ProjectKB_Class711]
+		[BASIC_UC1_ProjectKB_Class712]))
 
 ([CLSES_TAB] of  Widget
 
@@ -161,11 +161,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BASIC_UC1_ProjectKB_Class198]
-		[BASIC_UC1_ProjectKB_Class199]
-		[BASIC_UC1_ProjectKB_Class201]
-		[BASIC_UC1_ProjectKB_Class202])
-	(referenced_maps [BASIC_UC1_ProjectKB_Class200]))
+		[BASIC_UC1_ProjectKB_Class713]
+		[BASIC_UC1_ProjectKB_Class714]
+		[BASIC_UC1_ProjectKB_Class716]
+		[BASIC_UC1_ProjectKB_Class717])
+	(referenced_maps [BASIC_UC1_ProjectKB_Class715]))
 
 ([KB_610615_Class10] of  Property_List
 )
