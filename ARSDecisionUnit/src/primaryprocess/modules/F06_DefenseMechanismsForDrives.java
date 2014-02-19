@@ -1175,9 +1175,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oOppositeTP.put("BITE","DESTROY_DANGEROUS_ANIMALS");
 		oOppositeTP.put("REPRESS","GUARD_DOR");
 		oOppositeTP.put("DEPOSIT","THROW_OUT_GARBAGE");
-		//Just for Test
-		//oOppositeTP.put("EAT","DIVIDE");
-        oOppositeTP.put("EAT","SHARE");
+
+		oOppositeTP.put("EAT","DIVIDE");
+        //oOppositeTP.put("EAT","SHARE");
 		 
 		defenseMechanism_ReactionFormation_Sublimation_Intellectualization(oForbiddenDrives_Input);
 		
