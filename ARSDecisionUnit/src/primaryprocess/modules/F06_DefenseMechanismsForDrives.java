@@ -230,12 +230,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		   throws Exception {
 	    super(poPrefix, poProp, poModuleList, poInterfaceData);
 	    moBlockedContentStorage = poBlockedContentStorage;
-	    applyProperties(poPrefix, poProp);
-	    moTimeChartData =  new HashMap<String, Double>();
-	   
+
 	    applyProperties(poPrefix, poProp);
 	    // the Ego strength is equal to the neutralization rate
 	    moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_ENERGY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
+	    
+	    moTimeChartData =  new HashMap<String, Double>();
 	}
 
 
@@ -595,7 +595,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	                    Projection(Drive_After_Turning_Against_Self);
 	            }
 	        }
-	        else if (moEgoStrength < 0.25)  defenseMechanism_Repression(moForbiddenDrives_Input);
+	        else if (moEgoStrength < 0.25)  ;//defenseMechanism_Repression(moForbiddenDrives_Input);
 	        else if (moEgoStrength < 0.35) defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
 	        else                            defenseMechanism_Sublimation(moForbiddenDrives_Input);
 	        

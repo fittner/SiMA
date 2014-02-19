@@ -31,7 +31,7 @@ eDriveComponent LIBIDINOUS;eOrgan STOMACH;QoA 0.01587 0.3;eContentType ENTITY CA
 
 -- Friedrich 2014-02-19
 -- Super Ego rule for UC1: "Du darfst nicht wütend sein!"
-eEmotionType ANGER;QoA 0.72 0.9#eEmotionType ANGER
+eDriveComponent AGGRESSIVE;eOrgan LIBIDO;QoA 0.0 0.35;eEmotionType ANGER;QoA 0.72 0.9#eEmotionType ANGER
 
 -- von SK aus SuperEgoRules_UC1
 --SuperEgoStrength 0,3;eDriveComponent LIBIDINOUS;eOrgan STOMACH;eContentType ENTITY BODO#eDriveComponent LIBIDINOUS#eOrgan STOMACH
