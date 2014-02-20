@@ -247,7 +247,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 //		    }
 //		}
 
-			boolean isRoot=true ;
+			boolean isRoot=false;
 			if(this instanceof clsAssociationDriveMesh||this instanceof clsAssociationPrimary|| this instanceof clsAssociationSecondary|| this instanceof clsAssociationPrimaryDM|| this instanceof clsAssociationEmotion || this instanceof clsAssociationFeeling || this instanceof clsAssociationWordPresentation|| this instanceof clsAssociationFeeling){
 		        isRoot = true; 
 			}
