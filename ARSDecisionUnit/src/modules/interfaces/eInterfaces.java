@@ -75,6 +75,7 @@ public enum eInterfaces {
 	I5_18("Transports (unchanged or adapted) drive contents which passed the defense mechanisms from F6 to the conversion module F8."),
 	I5_19("Word presentations originating in F27 are reduced to thing presentations in F47. These are forwarded together with their attached quota of affects to F46."),
 	I5_21("F63 to F55."),
+	I5_22("Supder Ego Strength form F56 to F6 and F19"),
 	I6_1("The perception contents consisting of word presentations, thing presentations, and affects are sent from F21 to F61 and F66 for further processing."),
 	I6_2("Differentiated experienced moods (Feelings, Thing Presentations, Symbol Presentations) are transported from F20 to F26, F52, and F29."),
 	I6_3("This interface distributes the drive wishes produced by module F8 to the modules F23 and F26."),

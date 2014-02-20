@@ -25,6 +25,7 @@ import modules.interfaces.I5_17_receive;
 import modules.interfaces.I5_17_send;
 import modules.interfaces.I5_18_receive;
 import modules.interfaces.I5_18_send;
+import modules.interfaces.I5_22_receive;
 import modules.interfaces.I5_5_receive;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
@@ -73,7 +74,7 @@ defend the forbidden drives or not.
  * 
  */
 public class F06_DefenseMechanismsForDrives extends clsModuleBase implements 
-					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send, itfInspectorBarChartF06,itfInspectorCombinedTimeChart,itfInspectorModificationDrives {
+					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send,I5_22_receive, itfInspectorBarChartF06,itfInspectorCombinedTimeChart,itfInspectorModificationDrives {
 	public static final String P_MODULENUMBER = "06";
 
 	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
@@ -82,6 +83,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsDriveMesh> moDriveList_Output;
 	
 	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
+	
+	private double moSuperEgoStrength=0.0;
 
 	
 	private ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input;
@@ -1895,6 +1898,19 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
     public ArrayList<clsChangedDrives> processList() {
 
         return mDisplayDrives;
+    }
+
+
+    /* (non-Javadoc)
+     *
+     * @since 20.02.2014 11:04:28
+     * 
+     * @see modules.interfaces.I5_22_receive#receive_I5_22(double)
+     */
+    @Override
+    public void receive_I5_22(double poSuperEgoStrength) {
+        moSuperEgoStrength = poSuperEgoStrength;
+        
     }
 	
 }
