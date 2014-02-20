@@ -8,13 +8,30 @@
 -- QoA kann entweder nicht angegeben sein, oder nur einen Wert haben (dann ist es der max Wert), oder zwei Werte haben (wobei der echte QoA dazwischen liegen muss)
 
 -- Beispiel: WENN aggressive stomach vorkommt mit dem QoA unter 0.22587 und Arsin Bodo und eine CAKE sieht, DANN soll die CAKE und aggressive stomach verboten werden
--- eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0.22587;eEmotionType ANXIETY;eContentType ENTITY CAKE;eContentType ENTITY BODO#eContentType ENTITY CAKE#eDriveComponent AGGRESSIVE#eOrgan STOMACH#eEmotionType ANGER#eEmotionType ANXIETY
+--eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0.22587;eEmotionType ANXIETY;eContentType ENTITY CAKE;eContentType ENTITY BODO#eContentType ENTITY CAKE#eDriveComponent AGGRESSIVE#eOrgan STOMACH#eEmotionType ANGER#eEmotionType ANXIETY
 
 -- Beispiel: fÃ¼r alle aggressive stomach (da kein QoA angegeben wurde) und entity cake + bodo, DANN soll die CAKE und aggressive stomach verboten werden
--- eDriveComponent AGGRESSIVE;eOrgan STOMACH;eContentType ENTITY CAKE;eEmotionType ANXIETY;QoA 0,5;eContentType ENTITY BODO#eDriveComponent AGGRESSIVE#eOrgan STOMACH#eContentType ENTITY CAKE
+--eDriveComponent AGGRESSIVE;eOrgan STOMACH;eContentType ENTITY CAKE;eEmotionType ANXIETY;QoA 0,5;eContentType ENTITY BODO#eDriveComponent AGGRESSIVE#eOrgan STOMACH#eContentType ENTITY CAKE
 
 -- Beispiel: mit min und max QoA
--- eEmotionType ANGER;QoA 0.5 1;eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0.01587 0.3;eContentType ENTITY CAKE;eContentType ENTITY BODO#eDriveComponent AGGRESSIVE#eOrgan STOMACH#eContentType ENTITY CAKE#eEmotionType ANXIETY
+--eEmotionType ANGER;QoA 0.5 1;eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0.01587 0.3;eContentType ENTITY CAKE;eContentType ENTITY BODO#eDriveComponent AGGRESSIVE#eOrgan STOMACH#eContentType ENTITY CAKE#eEmotionType ANXIETY
 
 -- QoA zu hoch um anzuschlagen Schritt 10
--- SuperEgoStrength 0,3;eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0,23678;eEmotionType ANXIETY;QoA 0,94#eContentType ENTITY CAKE
+--SuperEgoStrength 0,3;eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0,23678;eEmotionType ANXIETY;QoA 0,94#eContentType ENTITY CAKE
+
+
+
+-- Friedrich 2014-02-18
+-- Super Ego rule for UC1: aus "Beispiel: mit min und max QoA abgewandelt"
+eDriveComponent LIBIDINOUS;eOrgan STOMACH;QoA 0.01587 0.3;eContentType ENTITY CAKE;eContentType ENTITY BODO#eDriveComponent LIBIDINOUS#eOrgan STOMACH
+
+-- Friedrich 2014-02-18
+-- Super Ego rule for UC1: "Du darfst keine hohe Libido beim Triebwunsch Hunger haben!"
+--eDriveComponent LIBIDINOUS;eOrgan STOMACH;QoA 0.01587 0.3;eDriveComponent AGGRESSIVE;eOrgan LIBIDO;QoA 0.01587 0.3#eEmotionType JOY
+
+-- Friedrich 2014-02-19
+-- Super Ego rule for UC1: "Du darfst nicht wütend sein!"
+eDriveComponent AGGRESSIVE;eOrgan LIBIDO;QoA 0.0 0.35;eEmotionType ANGER;QoA 0.72 0.9#eEmotionType ANGER
+
+-- von SK aus SuperEgoRules_UC1
+--SuperEgoStrength 0,3;eDriveComponent LIBIDINOUS;eOrgan STOMACH;eContentType ENTITY BODO#eDriveComponent LIBIDINOUS#eOrgan STOMACH

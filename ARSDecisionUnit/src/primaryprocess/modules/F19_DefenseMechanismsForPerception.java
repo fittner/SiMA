@@ -11,9 +11,11 @@ import inspector.interfaces.itfInspectorCombinedTimeChart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.SortedMap;
 
 import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -73,6 +75,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send,itfInspectorCombinedTimeChart,itfInspectorBarChartF19{
 	public static final String P_MODULENUMBER = "19";
 	
+	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
+	
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -84,6 +88,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_Output;
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
+	
+	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
 	
 	// Perceptions and emotions not "liked" by Super-Ego
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions_Input;
@@ -118,18 +124,20 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	
 	// For TimeChart and ChartBar
 	HashMap<String, Double>  moTimeChartData = new HashMap<String, Double>();
-	double denial=0.0;
-	double idealization=0.0;
-	double depreciation =0.0;
-	double reversalOfAffect =0.0;
-	double PassForbidenEmotions=0.0;
-	double PassForbidenPerceptions=0.0;
-	double ChartBarDenial=0.0;
-	double ChartBarIdealization=0.0;
-	double ChartBarDepreciation=0.0;
-	double ChartBarReversalOfAffect=0.0;
-	double ChartBarPassForbidenEmotion=0.0;
-	double ChartBarPassForbidenPerception=0.0;
+	double denial                         = 0.0;
+	double idealization                   = 0.0;
+	double depreciation                   = 0.0;
+	double reversalOfAffect               = 0.0;
+	double reactionFormation              = 0.0;
+	double PassForbidenEmotions           = 0.0;
+	double PassForbidenPerceptions        = 0.0;
+	double ChartBarDenial                 = 0.0;
+	double ChartBarIdealization           = 0.0;
+	double ChartBarDepreciation           = 0.0;
+	double ChartBarReversalOfAffect       = 0.0;
+	double ChartBarReactionFormation      = 0.0;
+	double ChartBarPassForbidenEmotion    = 0.0;
+	double ChartBarPassForbidenPerception = 0.0;
 	
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -145,17 +153,21 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	public F19_DefenseMechanismsForPerception(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces,
 			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage,
-			itfModuleMemoryAccess poMemory)
+			itfModuleMemoryAccess poMemory,
+			clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
 		applyProperties(poPrefix, poProp);	
+	    // the Ego strength is equal to the neutralization rate
+        moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_ENERGY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
+
  		
  		//Get Blocked content storage
 		moBlockedContentStorage = poBlockedContentStorage;
 		
 		//Fill the blocked content storage with initial data from protege
 		moBlockedContentStorage.addAll(initialFillRepressedContent());
-		moTimeChartData =  new HashMap<String, Double>(); 
+		moTimeChartData =  new HashMap<String, Double>(); 		
 	}
 
 	/* (non-Javadoc)
@@ -418,12 +430,20 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 		}
 		
-		if(!moForbiddenEmotions_Input.isEmpty()){
 		
+		
+		
+		// Defense for emotions
+		if(!moForbiddenEmotions_Input.isEmpty()){
+		    if (moEgoStrength <= 0.15) {
 			
-			if((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.4) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
+            defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output);
+
+
+		    /*
+		    if((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
 				
-				defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output);
+			    defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output);
 				
 								
 			}else{
@@ -431,6 +451,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 				ResetTimeChartDefenseForbidenEmotionData();
 								
 			}
+			*/
+		    }
 		}
 			
 		// If no ForbidenEmotion Y-Axis of TimeCharts are inactive
@@ -934,6 +956,15 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		}
 	}
 	*/
+	
+    /*(non-Javadoc)
+    *
+    * @author gelbard
+    * 06.07.2013, 13:23:49
+    * 
+    * Defense mechanism reversal of affect for emotions
+    * 
+    */
 	private ArrayList<clsEmotion> defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output) {
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
 		reversalOfAffect =1.0;
@@ -992,6 +1023,97 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		}
 		return oEmotions_Output;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/* @author SUN 01.2014
+     * This Function transfer the Source Emotion(s) to other Emotion(s) as the Target, based on a Emotion-to-Emotion Hashmap.
+     * If the Target Emotion(s) already exist, the current Emotion Intensity will be controlled, it will be decided, 
+     * whether the Source Emotion should be deleted or remained, but with updated Intensity.
+     * Otherwise will the new Target Emotion(s) created, and the Source Emotion should be deleted.
+     */
+    private ArrayList<clsEmotion> defenseMechanism_ReactionFormation(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output) {
+        
+        reactionFormation =1.0;
+        PassForbidenEmotions=0.0;
+        ChartBarReactionFormation++;
+        boolean oDMflag=false; //Flag for whether this DM will be activated.
+        boolean oNewEmotionFlag=false; //Identified, whether a new Emotion should be created in the Output or not. false means new Emotion should be created
+        
+        HashMap<eEmotionType,eEmotionType> oEmotionMap=new HashMap<eEmotionType,eEmotionType>(); //HashMap of the Table(Emotion-Emotion) for Reaction Formation
+        oEmotionMap.put(eEmotionType.ANGER,eEmotionType.GUILT);
+        oEmotionMap.put(eEmotionType.MOURNING,eEmotionType.JOY);
+        oEmotionMap.put(eEmotionType.ELATION,eEmotionType.MELANCHOLIA);
+        oEmotionMap.put(eEmotionType.JOY,eEmotionType.DISGUST);  
+        oEmotionMap.put(eEmotionType.HATE,eEmotionType.LOVE);
+        oEmotionMap.put(eEmotionType.LOVE,eEmotionType.HATE);
+        
+        if (oForbiddenEmotions_Input == null) return oEmotions_Output; // if no Emotion should be defensed, return immediately
+        
+        ArrayList<eEmotionType> oSuitableEmotions = new ArrayList<eEmotionType>(); //List for the "Forbidden" Emotion Types in Input, which can be transformed with this DM
+        for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input){ 
+            for(Iterator<eEmotionType> i = oEmotionMap.keySet().iterator(); i.hasNext();){
+                eEmotionType key = i.next();
+                if(oOneForbiddenEmotion==key){ //found a Emotion Type, which can be transformed with this DM.
+                    oSuitableEmotions.add(key);  // add it to the List
+                    oDMflag=true;  
+                }
+            }
+        }
+        if(oDMflag==false) return oEmotions_Output; //If no input Emotion Types can be transformed with this DM, return immediately
+        
+
+        for(eEmotionType oOneForbiddenEmotion : oSuitableEmotions) {
+            for(clsEmotion oOneEmotion : oEmotions_Output) {
+                if(oOneEmotion.getContent() == oOneForbiddenEmotion) { //Original Emotion in output found, which should be transformed.
+                    for(clsEmotion oOneEmotion1 : oEmotions_Output) {
+                       if(oEmotionMap.get(oOneForbiddenEmotion) == oOneEmotion1.getContent()){ //if the Target Emotion already exists
+                           double oNewEmotionIntensity = oOneEmotion1.getEmotionIntensity() + oOneEmotion.getEmotionIntensity();
+                           if (oNewEmotionIntensity > 1.0) {                                   // The Target Emotion will be too strong, if the intensity is higher than 1   
+                               oOneEmotion1.setEmotionIntensity(1.0);                        // the original emotion can not 100% transformed
+                               oOneEmotion .setEmotionIntensity(oNewEmotionIntensity - 1.0); // -> the original emotion has a lower EmotionIntensity but still exists 
+                           }
+                           else{                                                          //If the Target Emotion will not be too strong
+                               oOneEmotion1.setEmotionIntensity(oNewEmotionIntensity);  //The original Emotion can be 100% transformed,
+                               oEmotions_Output.remove(oOneEmotion);                      //Delete the original Emotion from the Output
+                               return oEmotions_Output; // Friedrich 2014-02-19
+                           }
+                           oNewEmotionFlag=true;                                           // Set the Flag, let the Program know, it's not necessary to create a new Emotion
+                       }
+                    }
+                    if(oNewEmotionFlag==false){                                   //Target Emotion doesn't exist in the Output
+                        eContentType oContentType = eContentType.COMPLEXEMOTION;
+                        if(oEmotionMap.get(oOneForbiddenEmotion)==eEmotionType.JOY){ //only "Joy" in Hash-Value belong to Basic Emotion 
+                            oContentType=eContentType.BASICEMOTION;
+                        }
+                        clsEmotion oNewEmotion = clsDataStructureGenerator.generateEMOTION( //Create the new Target Emotion
+                                new clsTriple <eContentType, eEmotionType, Object>(oContentType, oEmotionMap.get(oOneForbiddenEmotion), 
+                                oOneEmotion.getEmotionIntensity()),
+                                oOneEmotion.getSourcePleasure(),
+                                oOneEmotion.getSourceUnpleasure(),
+                                oOneEmotion.getSourceLibid(),
+                                oOneEmotion.getSourceAggr()); 
+                        oEmotions_Output.add(oNewEmotion);      //Add the Target Emotion   
+                        oEmotions_Output.remove(oOneEmotion);   //Remove the Original Emotion
+                        return oEmotions_Output; // Friedrich 2014-02-19
+                    }                                  
+                }
+            }
+        }
+        return oEmotions_Output;
+    }
+    
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * This function load all images with the content type "IMAGE:REPRESSED" from the knowledgebase. Those images are defined in

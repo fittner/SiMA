@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import properties.clsProperties;
-
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshGoal;
@@ -241,6 +240,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         try {
             moActionCommand = PlanningFunctionality.getActionCommandFromPlanGoal(planGoal);
             log.info("Selected Action: {}", moActionCommand);
+            
         } catch (Exception e) {
             log.error("", e);
         }  

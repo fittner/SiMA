@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
 import base.datatypes.clsWordPresentationMesh;
+import secondaryprocess.algorithm.planning.clsActionRefiner;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -37,6 +38,26 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
+	/**
+     * DOCUMENT - checks if any of the actions can be further refined.
+     *            For example: action GOTO can be refined to TURN_LEFT, TURN_RIGHT or MOVE_FORWARD 
+     *
+     * @author Kollmann
+     * @since 10.02.2014 20:47:50
+     *
+     * @param poMovementActions: ArrayList of action WPMs (which should be part a sub mesh of greater WPM)
+     */
+    protected void refineMovementActions(ArrayList<clsWordPresentationMesh> poMovementActions) {
+        clsWordPresentationMesh oOldItem = null, oNewItem = null;
+        clsActionRefiner oRefiner = new clsActionRefiner(this.moShortTermMemory, this.moEnvironmentalImage);
+        
+        for(int i = 0; i < poMovementActions.size(); ++i) {
+            oOldItem = poMovementActions.get(i);
+            
+            oRefiner.refineAction(oOldItem);
+        }
+    }
+	
 	/* (non-Javadoc)
 	 *
 	 * @since 26.09.2012 11:52:28
@@ -53,13 +74,15 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 			oExternalPlans.addAll(this.moExternalActionPlanner.extractRecommendedActionsFromAct(this.moGoal));
 		}
 		
+		refineMovementActions(oExternalPlans);
+      
 		eAction oChosenAction = eAction.NONE;
 		
 		if (oExternalPlans.isEmpty()==false) {
-			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getContent());
+		    this.generateAction(oExternalPlans.get(0));
+		} else {
+		    this.generateAction(eAction.NONE);
 		}
-		
-		this.generateAction(oChosenAction);
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();

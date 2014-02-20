@@ -86,8 +86,7 @@ public class clsCC_EXECUTE_STATIC_ACTION extends clsConsequenceCodelet {
         this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_RELAX, eCondition.IS_CONTINUED_PLANGOAL));
         this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_SPEAK_EAT, eCondition.IS_CONTINUED_PLANGOAL));
         this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_DIVIDE, eCondition.IS_CONTINUED_PLANGOAL));
-        
-        
+        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_DROP, eCondition.IS_CONTINUED_PLANGOAL));
     }
 
     /* (non-Javadoc)
@@ -127,6 +126,7 @@ public class clsCC_EXECUTE_STATIC_ACTION extends clsConsequenceCodelet {
         this.moGoal.removeCondition(eCondition.EXECUTED_BEAT);
         this.moGoal.removeCondition(eCondition.EXECUTED_PICKUP);
         this.moGoal.removeCondition(eCondition.EXECUTED_DIVIDE);
+        this.moGoal.removeCondition(eCondition.EXECUTED_DROP);
         this.moGoal.removeCondition(eCondition.EXECUTED_DEPOSIT);
         this.moGoal.removeCondition(eCondition.EXECUTED_REPRESS);
         this.moGoal.removeCondition(eCondition.EXECUTED_SLEEP);

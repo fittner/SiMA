@@ -11,11 +11,13 @@ import java.security.InvalidParameterException;
 import org.slf4j.Logger;
 
 import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import secondaryprocess.functionality.decisionpreparation.clsOrientationReasoner;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsWordPresentationMesh;
 import logger.clsLogger;
 import memorymgmt.enums.eAction;
+import memorymgmt.enums.ePredicate;
 
 
 /**
@@ -93,9 +95,7 @@ public class clsActionRefinementHardcoded_GOTO implements itfActionRefinement {
     private void replaceAction(clsWordPresentationMesh poOldActionWPM, clsWordPresentationMesh poNewActionWPM) {
         eAction oNewAction = eAction.valueOf(poNewActionWPM.getContent().toString());
         
-        if(!oNewAction.equals(eAction.NULLOBJECT) && !oNewAction.equals(eAction.NONE)) {
-            clsActionTools.setAction(poOldActionWPM, oNewAction);
-        }
+        clsMeshTools.setUniquePredicateWPM(poOldActionWPM, ePredicate.HASACTIONREFINEMENT, poNewActionWPM, false);
     }
     
     /* (non-Javadoc)

@@ -41,7 +41,7 @@ public class GoalAlgorithmTools {
 
 	private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
 	
-    private static final double mrAimIncrease = 0.3; //TODO kollmann: this is just hack - make this adjustable via property file
+    private static final double mrAimIncrease = 0.5; //TODO kollmann: this is just hack - make this adjustable via property file
     
 	   /**
      * Get the goal condition from the goal and set it
@@ -170,6 +170,9 @@ public class GoalAlgorithmTools {
             break;
         case GOTO:
             oActionCondition = eCondition.GOTO_GOAL_IN_PERCEPTION;
+            break;
+        case DROP:
+            oActionCondition = eCondition.EXECUTED_DROP;
             break;
         case NULLOBJECT:
             oActionCondition = eCondition.NULLOBJECT;
