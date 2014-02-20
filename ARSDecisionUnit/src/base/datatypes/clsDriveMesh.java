@@ -695,7 +695,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         		for(clsAssociation oAssociation : moInternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					if(dupl!= null) oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
@@ -708,7 +708,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}

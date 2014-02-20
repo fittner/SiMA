@@ -174,7 +174,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}

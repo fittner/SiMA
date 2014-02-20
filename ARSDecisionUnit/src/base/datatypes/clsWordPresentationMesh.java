@@ -264,19 +264,23 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         		for(clsAssociation oAssociation : moInternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					if(dupl!= null) {
+    					    oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     					
     					
-    					clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
-    					if (dupl instanceof clsAssociationSecondary) {
-    					    ePredicate oCT = ((clsAssociationSecondary)dupl).getPredicate();
-                            
-                            ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
-                            if (oS==null) {
-                                oS = new ArrayList<clsSecondaryDataStructure>();
-                            }
-                            oS.add((clsSecondaryDataStructure) oOtherElement);
-                            oClone.moAssociationMapping.put(oCT, oS);
+    					
+    					
+        					clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
+        					if (dupl instanceof clsAssociationSecondary) {
+        					    ePredicate oCT = ((clsAssociationSecondary)dupl).getPredicate();
+                                
+                                ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
+                                if (oS==null) {
+                                    oS = new ArrayList<clsSecondaryDataStructure>();
+                                }
+                                oS.add((clsSecondaryDataStructure) oOtherElement);
+                                oClone.moAssociationMapping.put(oCT, oS);
+        					}
     					}
     					
     				} catch (Exception e) {
@@ -291,19 +295,21 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
         			try {
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
-    					
-                        clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
-                        if (dupl instanceof clsAssociationSecondary) {
-                            ePredicate oCT = ((clsAssociationSecondary)dupl).getPredicate();
-                            
-                            ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
-                            if (oS==null) {
-                                oS = new ArrayList<clsSecondaryDataStructure>();
+    					if(dupl!= null) {
+        					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+        					
+                            clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
+                            if (dupl instanceof clsAssociationSecondary) {
+                                ePredicate oCT = ((clsAssociationSecondary)dupl).getPredicate();
+                                
+                                ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
+                                if (oS==null) {
+                                    oS = new ArrayList<clsSecondaryDataStructure>();
+                                }
+                                oS.add((clsSecondaryDataStructure) oOtherElement);
+                                oClone.moAssociationMapping.put(oCT, oS);
                             }
-                            oS.add((clsSecondaryDataStructure) oOtherElement);
-                            oClone.moAssociationMapping.put(oCT, oS);
-                        }
+    					}
     				} catch (Exception e) {
     					return e;
     				}

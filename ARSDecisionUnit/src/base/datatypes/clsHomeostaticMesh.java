@@ -65,7 +65,7 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
         		for(clsAssociation oAssociation : moAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
-    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					if(dupl != null) oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
