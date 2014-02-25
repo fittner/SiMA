@@ -1,4 +1,4 @@
-; Tue Feb 25 12:58:15 CET 2014
+; Thu Feb 20 11:35:04 CET 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1895,13 +1895,6 @@
 		[WP%3APOSITIVE])
 	(weight 1.0 1.0))
 
-([AW%3ADISTANCE%3ACARRYING_CARRYING] of  ASSOCIATIONWP
-
-	(element
-		[TP%3ADISTANCE%3ACARRYING]
-		[WP%3ADISTANCE%3ACARRYING])
-	(weight 1.0 1.0))
-
 ([AW%3ADISTANCE%3AEATABLE_EATABLE] of  ASSOCIATIONWP
 
 	(element
@@ -2634,7 +2627,7 @@
 ([EMOTION%3AANGER%3ABEAT] of  EMOTION
 
 	(emotionIntensity 0.0)
-	(sourceAggr 0.9)
+	(sourceAggr 0.53)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)
@@ -2644,7 +2637,7 @@
 ([EMOTION%3AANGER%3ACARL_CAKE] of  EMOTION
 
 	(emotionIntensity 0.0)
-	(sourceAggr 0.8)
+	(sourceAggr 0.47)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)
@@ -2917,10 +2910,6 @@
 ([TP%3AACTION%3ATURN_RIGHT] of  _OBSOLETE_ACTION
 
 	(value "TURN_RIGHT"))
-
-([TP%3ADISTANCE%3ACARRYING] of  DISTANCE
-
-	(value "CARRYING"))
 
 ([TP%3ADISTANCE%3AEATABLE] of  DISTANCE
 
@@ -3757,10 +3746,6 @@
 ([WP%3ADEPOSIT] of  WP%3ACONTENT
 
 	(value "DEPOSIT"))
-
-([WP%3ADISTANCE%3ACARRYING] of  WP%3ADISTANCE
-
-	(value "CARRYING"))
 
 ([WP%3ADISTANCE%3AEATABLE] of  WP%3ADISTANCE
 
