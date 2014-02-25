@@ -201,6 +201,8 @@ public class clsProcessor implements itfProcessor  {
 		oResult.put(eSensorExtType.POSITIONCHANGE, poData.getSensorExt(eSensorExtType.POSITIONCHANGE));
 		oResult.put(eSensorExtType.RADIATION, poData.getSensorExt(eSensorExtType.RADIATION));
 		oResult.put(eSensorExtType.VISION_SELF, poData.getSensorExt(eSensorExtType.VISION_SELF));
+	    oResult.put(eSensorExtType.VISION_CARRIED_ITEMS, poData.getSensorExt(eSensorExtType.VISION_CARRIED_ITEMS));
+
 		//oResult.put(eSensorExtType.ACOUSTIC_SELF, poData.getSensorExt(eSensorExtType.ACOUSTIC_SELF));
 		
 		return oResult;

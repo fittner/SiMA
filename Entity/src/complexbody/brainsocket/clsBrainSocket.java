@@ -197,6 +197,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
 		oData.addSensorExt(eSensorExtType.VISION_SELF, convertVisionSensor(eSensorExtType.VISION_SELF) );
+		oData.addSensorExt(eSensorExtType.VISION_CARRIED_ITEMS, convertVisionSensorCarriedItems() );
 		//oData.addSensorExt(eSensorExtType.ACOUSTIC, convertAcousticSensor(eSensorExtType.ACOUSTIC) ); // MW
 		//oData.addSensorExt(eSensorExtType.OLFACTORIC, convertOlfactoricSensor(eSensorExtType.OLFACTORIC) );
 		//oData.addSensorExt(eSensorExtType.ACOUSTIC_NEAR, convertAcousticSensor(eSensorExtType.ACOUSTIC_NEAR) );
@@ -224,6 +225,33 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 	
+	/**
+	 * DOCUMENT (herret) - insert description
+	 *
+	 * @since 25.02.2014 09:45:45
+	 *
+	 * @param visionSelf
+	 * @return
+	 */
+	private clsDataBase convertVisionSensorCarriedItems() {
+		
+		clsVision oData = new clsVision();
+		oData.setSensorType(eSensorExtType.VISION_CARRIED_ITEMS);
+		clsSensorExt oSensor = (moSensorsExt.get(eSensorExtType.VISION_CARRIED_ITEMS));
+		
+
+		HashMap <Double, ArrayList<clsCollidingObject>> oDetectedObjectList = oSensor.getSensorDataObj().getMeDetectedObject();
+			
+			for(ArrayList<clsCollidingObject> oColliderList : oDetectedObjectList.values()){
+				for (clsCollidingObject oCollider : oColliderList){
+					clsVisionEntry oEntry = convertVisionEntry(oCollider, eSensorExtType.VISION_CARRIED_ITEMS);
+					oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
+					oData.add(oEntry);
+				}
+			}
+		return oData;
+	}
+
 	private void ConvertTPMDataAndAddToTPMNetworkGrid(HashMap<String, ArrayList<clsInspectorPerceptionItem>> poPerceptionInspectorData){
 		if(poPerceptionInspectorData != null && poPerceptionInspectorData.containsKey("F14")){
 			ArrayList<clsInspectorPerceptionItem> oF14Data = poPerceptionInspectorData.get("F14");

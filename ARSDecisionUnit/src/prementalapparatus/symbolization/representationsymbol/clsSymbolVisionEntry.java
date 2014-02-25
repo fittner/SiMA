@@ -135,6 +135,9 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 		else if(moSensorType == eSensorExtType.VISION_SELF){
 		    oRetVal = eDistance.NODISTANCE;
 		}      
+		else if (moSensorType == eSensorExtType.VISION_CARRIED_ITEMS){
+		    oRetVal = eDistance.CARRYING;
+		}
 		return oRetVal;
 	}
 }

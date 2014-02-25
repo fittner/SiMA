@@ -21,5 +21,6 @@ public enum eDistance {
 	NEAR,
 	MEDIUM,
 	FAR, 
-	NODISTANCE
+	NODISTANCE,
+	CARRYING
 }

@@ -68,6 +68,8 @@ public class clsSensorToSymbolConverter {
                     case ACOUSTIC_NEAR:oResult.put(eSymbolExtType.ACOUSTIC_NEAR, new clsSymbolAcoustic((clsAcoustic) oEntry.getValue()));break; 
                     case ACOUSTIC:oResult.put(eSymbolExtType.ACOUSTIC, new clsSymbolAcoustic((clsAcoustic) oEntry.getValue()));break;
                     case OLFACTORIC:oResult.put(eSymbolExtType.OLFACTORIC, new clsSymbolOlfactoric((clsOlfactoric) oEntry.getValue()));break;
+                    case VISION_CARRIED_ITEMS:oResult.put(eSymbolExtType.VISION_CARRIED_ITEMS, new clsSymbolVision((clsVision) oEntry.getValue()));break;
+
                     default: throw new java.lang.IllegalArgumentException("unknown key "+oEntry.getKey());
                 }
             }

@@ -36,6 +36,7 @@ import complexbody.io.actuators.actionExecutors.clsExecutorTurnVision;
 import complexbody.io.sensors.external.clsSensorAcceleration;
 import complexbody.io.sensors.external.clsSensorAcoustic;
 import complexbody.io.sensors.external.clsSensorBump;
+import complexbody.io.sensors.external.clsSensorCarriedItems;
 import complexbody.io.sensors.external.clsSensorEatableArea;
 import complexbody.io.sensors.external.clsSensorEngine;
 import complexbody.io.sensors.external.clsSensorExt;
@@ -194,6 +195,12 @@ public class clsExternalIO extends clsBaseIO {
 			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 0);
 			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 0 );
 			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+			numsensors++;
+			
+			//Vision Carried Items
+			oProp.putAll( clsSensorVision.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_CARRIED_ITEMS.name());
 			numsensors++;
 			
 		} else {
@@ -425,6 +432,8 @@ public class clsExternalIO extends clsBaseIO {
 					if(eType.name().equals(eSensorExtType.VISION_FAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this); 
 					
+					if(eType.name().equals(eSensorExtType.VISION_CARRIED_ITEMS.name()))sensorExt=new clsSensorCarriedItems(tmp_pre, poProp, this,moEntity); 
+					
 					if(eType.name().equals(eSensorExtType.ACOUSTIC_NEAR.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.ACOUSTIC_MEDIUM.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.ACOUSTIC_FAR.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
@@ -438,6 +447,7 @@ public class clsExternalIO extends clsBaseIO {
 					
 					if(eType.name().equals(eSensorExtType.VISION_SELF.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.OLFACTORIC.name()))sensorExt=new clsSensorOlfactoric(tmp_pre, poProp, this); 
+					
 					
 					moSensorEngine.registerSensor(eType, sensorExt);
 			}
