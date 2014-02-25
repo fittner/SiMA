@@ -449,7 +449,7 @@ public class clsActPreparationTools {
 			log.debug("The possible moment is here the expectation, but its PImatch is low and it is within the establish zone, i. e. it may be erroneously put as an expectation. Prefer the past moment as the new moment");
 		} else if (bPossibleMomentIsPreviousExpectation==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==true) {
             //This is a perfect match of the expectation inside of the establish zone of the previous moment. Change the moment to the expectation
-            rReinforceFactor += 0.8;
+            rReinforceFactor += 0.9;
             log.debug("This is a perfect match of the expectation inside of the establish zone of the previous moment. Change the moment to the expectation"); 
 	    } else if (bPossibleMomentIsPreviousExpectation==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==false) {
 			//This is a perfect match of the expectation outside of the establish zone of the previous moment. Change the moment to the expectation
