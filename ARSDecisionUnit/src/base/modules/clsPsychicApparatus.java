@@ -349,7 +349,7 @@ public class clsPsychicApparatus {
 			moPersonalityParameterContainer= new clsPersonalityParameterContainer(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(),moFilename,P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 
             // init buffers
-            moLibidoBuffer = new DT1_PsychicIntensityBuffer();
+            moLibidoBuffer = new DT1_PsychicIntensityBuffer(moPersonalityParameterContainer);
             moBlockedContentStorage = new DT2_BlockedContentStorage();
             moPsychicEnergyStorage = new DT3_PsychicEnergyStorage(moPersonalityParameterContainer);
             moPleasureStorage = new DT4_PleasureStorage();

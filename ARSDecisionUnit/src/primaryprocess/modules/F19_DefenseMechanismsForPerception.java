@@ -28,6 +28,7 @@ import modules.interfaces.I5_15_receive;
 import modules.interfaces.I5_15_send;
 import modules.interfaces.I5_16_receive;
 import modules.interfaces.I5_16_send;
+import modules.interfaces.I5_22_receive;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAffect;
@@ -72,7 +73,7 @@ import testfunctions.clsTester;
  *
  * **/
 public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implements 
-			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send,itfInspectorCombinedTimeChart,itfInspectorBarChartF19{
+			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send,I5_22_receive,itfInspectorCombinedTimeChart,itfInspectorBarChartF19{
 	public static final String P_MODULENUMBER = "19";
 	
 	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
@@ -90,7 +91,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	
 	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
-	
+	private double moSuperEgoStrength =0.0;
 	// Perceptions and emotions not "liked" by Super-Ego
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions_Input;
 	private ArrayList<eEmotionType>                  moForbiddenEmotions_Input;
@@ -1399,4 +1400,15 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		// TODO (Lotfi) - Auto-generated method stub
 		return moTimeChartData;
 	}
+
+    /* (non-Javadoc)
+     *
+     * @since 20.02.2014 11:06:01
+     * 
+     * @see modules.interfaces.I5_22_receive#receive_I5_22(double)
+     */
+    @Override
+    public void receive_I5_22(double poSuperEgoStrength) {
+        moSuperEgoStrength=poSuperEgoStrength;
+    }
 }

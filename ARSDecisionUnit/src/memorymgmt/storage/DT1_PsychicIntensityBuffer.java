@@ -26,6 +26,8 @@ import modules.interfaces.eInterfaces;
 
 import org.slf4j.Logger;
 
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import base.datatypes.helpstructures.clsPair;
 import base.tools.toText;
 
@@ -37,15 +39,22 @@ import base.tools.toText;
  * 
  */
 public class DT1_PsychicIntensityBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_4_send, D1_5_send, D1_6_receive, D1_1_receive, D1_2_receive, D1_3_receive, D1_7_send {
-	private double mrBufferedLibido;
+    private static final String P_LIBIDO_START_VALUE="LIBIDO_START_VALUE";
+
+    
+    
+    private double mrBufferedLibido;
 	private HashMap<eDrive,clsDriveBuffer> moLibidoBuffers;
+	
+	private double moLibidoInitValue=0.0;
 protected final Logger log;
 
 
 
 	
-	public DT1_PsychicIntensityBuffer() {
+	public DT1_PsychicIntensityBuffer(clsPersonalityParameterContainer poPersonalityParameterContainer) {
 		mrBufferedLibido = 0;
+		moLibidoInitValue= poPersonalityParameterContainer.getPersonalityParameter("DT1", P_LIBIDO_START_VALUE).getParameterDouble();
 		moLibidoBuffers = initBuffers();
 		log = logger.clsLogger.getLog("PsychicIntensityBuffer");
 	}
@@ -54,10 +63,10 @@ protected final Logger log;
 	    oRetVal.put(eDrive.STOMACH, new clsDriveBuffer());
 	    oRetVal.put(eDrive.RECTUM, new clsDriveBuffer());
 	    oRetVal.put(eDrive.STAMINA, new clsDriveBuffer());
-	    oRetVal.put(eDrive.ORAL, new clsDriveBuffer());
-	    oRetVal.put(eDrive.ANAL, new clsDriveBuffer());
-	    oRetVal.put(eDrive.GENITAL, new clsDriveBuffer());
-	    oRetVal.put(eDrive.PHALLIC, new clsDriveBuffer());
+	    oRetVal.put(eDrive.ORAL, new clsDriveBuffer(moLibidoInitValue/8,moLibidoInitValue/8));
+	    oRetVal.put(eDrive.ANAL, new clsDriveBuffer(moLibidoInitValue/8,moLibidoInitValue/8));
+	    oRetVal.put(eDrive.GENITAL, new clsDriveBuffer(moLibidoInitValue/8,moLibidoInitValue/8));
+	    oRetVal.put(eDrive.PHALLIC, new clsDriveBuffer(moLibidoInitValue/8,moLibidoInitValue/8));
 	    
 	    return oRetVal;
 	}
@@ -481,10 +490,21 @@ public clsPair<Boolean,Boolean> send_D1_7(eDrive peType) {
         private double moAggrValueOld=0.0;
         private double moLibValueOld=0.0;
         
+        
+        public clsDriveBuffer(){
+            
+        }
+        public clsDriveBuffer(double poAggrInit, double poLibInit){
+            moAggrValue = poAggrInit;
+            moAggrValueOld = poAggrInit;
+            moLibValue =poLibInit;
+            moLibValueOld =  poLibInit;
+        }
         public void newStep(){
             moAggrValueOld=moAggrValue;
             moLibValueOld=moLibValue;
         }
+        
         
         public boolean aggressivDecreased(){
             if(moAggrValueOld>moAggrValue) return true;

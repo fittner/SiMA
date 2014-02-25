@@ -222,7 +222,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
         		for(clsAssociation oAssociation : moInternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
-    					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					if(dupl!= null) oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
