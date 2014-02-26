@@ -396,75 +396,110 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		 * In F19 ForbidenEmotions and ForbidenPerceptions should be defended 
 		 * 		 
 		 */ 
-		 
-		if (!moForbiddenPerceptions_Input.isEmpty()){ 
-			
-						
-			if(GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.4){
-				 
-				 defenseMechanism_Idealization(moForbiddenPerceptions_Input);
-				 
-				 
-				 				 
-			}else if ((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.4) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
-			 		
-				defenseMechanism_Depreciation(moForbiddenPerceptions_Input);
-				
-				
-				
-			}else if(GetEmotionIntensity(eEmotionType.ANXIETY) > 1.5) {
-				
-				defenseMechanism_Denial(moForbiddenPerceptions_Input);
-				
-				
+		 selectAndActivateDefenseMechanisms();
 
-			}else{
-				
-				// For TimeChart
-				
-				ResetTimeChartDefenseForbidenPerceptionData();
-				
-				
-			}
-			
-		// If no ForbidenPerception Y-Axis of TimeCharts have to be inactive 
-		
-		}
-		
-		
-		
-		
-		// Defense for emotions
-		if(!moForbiddenEmotions_Input.isEmpty()){
-		    if (moEgoStrength <= 0.15) {
-			
-            defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output);
-
-
-		    /*
-		    if((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
-				
-			    defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output);
-				
-								
-			}else{
-				
-				ResetTimeChartDefenseForbidenEmotionData();
-								
-			}
-			*/
-		    }
-		}
-			
-		// If no ForbidenEmotion Y-Axis of TimeCharts are inactive
 		
 		  			 
-	 
-		moTimeInputChartData();
-
-		 
+		 // For time chart
+		 moTimeInputChartData();
 	}
 	
+	
+	private void selectAndActivateDefenseMechanisms_Lotfi() {
+	       if (!moForbiddenPerceptions_Input.isEmpty()){ 
+	            
+               
+	            if(GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.4){
+	                 
+	                 defenseMechanism_Idealization(moForbiddenPerceptions_Input);
+	                 
+	                 
+	                                 
+	            }else if ((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.4) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
+	                    
+	                defenseMechanism_Depreciation(moForbiddenPerceptions_Input);
+	                
+	                
+	                
+	            }else if(GetEmotionIntensity(eEmotionType.ANXIETY) > 1.5) {
+	                
+	                defenseMechanism_Denial(moForbiddenPerceptions_Input);
+	                
+	                
+
+	            }else{
+	                
+	                // For TimeChart
+	                
+	                ResetTimeChartDefenseForbidenPerceptionData();
+	                
+	                
+	            }
+	            
+	        // If no ForbidenPerception Y-Axis of TimeCharts have to be inactive 
+	        
+	        }
+	        
+	        
+	        
+	        
+	        // Defense for emotions
+	        if(!moForbiddenEmotions_Input.isEmpty()){
+
+	            if((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
+	                
+	                defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output);
+	                
+	                             
+	            }else{
+	                
+	                ResetTimeChartDefenseForbidenEmotionData();
+	                                
+	            }
+	        }
+	            
+	        // If no ForbidenEmotion Y-Axis of TimeCharts are inactive
+	        
+	                     
+	}
+	
+	
+	/* (non-Javadoc)
+    *
+    * @author gelbard
+    * 12.02.2014, 10:56:00
+    * 
+    * This function chooses a defense mechanism depending on the conflict tension and the ego strength
+    * and activates the defense mechanism.
+    * - Low ego strength means a primitive defense mechanism is selected
+    * - High ego strength means an elevated defense mechanism is selected
+    *
+    */
+    private void selectAndActivateDefenseMechanisms() {
+        
+           // Defense for perceptions
+           if (!moForbiddenPerceptions_Input.isEmpty()){ 
+                if (moEgoStrength <= 0.15) {
+                    defenseMechanism_Denial(moForbiddenPerceptions_Input);                      
+                }
+                else
+                {
+                    // For TimeChart    
+                    ResetTimeChartDefenseForbidenPerceptionData();
+                }       
+            }
+            
+            // Defense for emotions
+            if(!moForbiddenEmotions_Input.isEmpty()){
+                if (moEgoStrength <= 0.15) {
+                    defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output);  
+                }
+                else
+                {   
+                    ResetTimeChartDefenseForbidenEmotionData();                 
+                }
+            }
+    }
 	
 	
 	// get the intensity of the emotions MOURNING, ANXIETY and ANGER 
