@@ -203,9 +203,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 				
 				
 		//Create EMPTYSPACE objects
-		//ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
+		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
 		//Add those to the PI
-		//clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
+		clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 		    log.warn("Systemtester activated");
