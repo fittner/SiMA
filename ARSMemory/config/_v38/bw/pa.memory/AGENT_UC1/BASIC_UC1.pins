@@ -1,4 +1,4 @@
-; Tue Feb 25 16:24:09 CET 2014
+; Thu Mar 06 09:52:54 CET 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2457,7 +2457,6 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ADIVIDE]
 		[AD%3AAIM%3ACAKE%3ADIVIDE])
 	(partial_drive "UNDEFINED")
-	(psychic_satisfaction 0.2)
 	(quotaOfAffect 0.2)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
