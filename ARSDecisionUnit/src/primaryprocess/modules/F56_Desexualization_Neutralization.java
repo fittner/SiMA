@@ -16,6 +16,9 @@ import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
+import modules.interfaces.I5_22_send;
+import modules.interfaces.I5_22_receive;
+
 import modules.interfaces.I5_3_receive;
 import modules.interfaces.I5_4_receive;
 import modules.interfaces.I5_4_send;
@@ -40,7 +43,7 @@ import du.enums.pa.ePartialDrive;
  * 
  */
 public class F56_Desexualization_Neutralization extends clsModuleBase
-implements I5_3_receive, I5_4_send, itfInspectorBarChart {
+implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 
 	public static final String P_MODULENUMBER = "56";
 
@@ -69,6 +72,8 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 	
 	private HashMap<String,Double> moChartInputData;
 	private HashMap<String,Double> moChartOutputData;
+
+    private double moSuperEgoStrength=0.0;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 
@@ -100,6 +105,7 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 		mrIntensityReductionRateSexual=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_INTENSITY_REDUCTION_RATE_SEXUAL).getParameterDouble();
 		mrIntensityReductionRateSelfPreserv=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_INTENSITY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
 
+		
 		moChartInputData = new HashMap<String,Double>();
 		moChartOutputData = new HashMap<String,Double>();
 		
@@ -211,6 +217,10 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 		return oProp;
 	}	
 	
+	private double calculateSuperEgoStrength(double poReducedIntensity) {
+	    return poReducedIntensity;
+	}
+	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//String pre = clsProperties.addDot(poPrefix);
 
@@ -254,6 +264,7 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 	@Override	
 	protected void send() {
 		send_I5_4(moDrives_OUT);
+		send_I5_22(moSuperEgoStrength);
 	}
 
 	/* (non-Javadoc)
@@ -323,6 +334,21 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 
 		putInterfaceData(I5_4_send.class, poDrives);
 	}
+	
+    /* (non-Javadoc)
+    *
+    * @since 20.02.2014 10:59:31
+    * 
+    * @see modules.interfaces.I5_22_send#send_I5_21(double)
+    */
+   @Override
+   public void send_I5_22(double poSuperEgoStrength) {
+       ((I5_22_receive)moModuleList.get(6)).receive_I5_22(poSuperEgoStrength);
+       ((I5_22_receive)moModuleList.get(19)).receive_I5_22(poSuperEgoStrength);
+
+       putInterfaceData(I5_22_send.class, poSuperEgoStrength);
+       
+   }
 
 
 	/* (non-Javadoc)
@@ -388,5 +414,8 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 		return oResult;
 
 	}
+
+
+
 
 }

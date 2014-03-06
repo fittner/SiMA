@@ -55,6 +55,7 @@ public enum eCondition {
 	EXECUTED_BITE,
 	EXECUTED_SUCK,
 	EXECUTED_DIVIDE,
+	EXECUTED_DROP,
 	//SPEAK
 	EXECUTED_SPEAK_EAT,
 	//Actions - Unreal

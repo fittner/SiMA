@@ -1692,9 +1692,9 @@ public class clsMeshTools {
 	}
 	
 	/**
-	 * Add a new WPM with predicate asspredicate to a certain other wpm. This is used to add an action to a goal.
+	 * Add a WPM with predicate association to another WPM - if the an association with that predicate already exists, use the existing association and replace its end point, if necessary. 
 	 * 
-	 * (wendt)
+	 * (Kollmann)
 	 *
 	 * @since 26.09.2012 12:31:58
 	 *
@@ -1703,36 +1703,99 @@ public class clsMeshTools {
 	 * @param poAddWPM
 	 * @param pbAddToInternalAssociations
 	 */
-	public static void setNonUniquePredicateWPM(clsWordPresentationMesh poOriginWPM, ePredicate poAssPredicate, clsWordPresentationMesh poAddWPM, boolean pbAddToInternalAssociations) {
+	public static void setUniquePredicateWPM(clsWordPresentationMesh poOriginWPM, ePredicate poAssPredicate, clsWordPresentationMesh poAddWPM, boolean pbAddToInternalAssociations) {
 		//Get association if exists
 		ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poOriginWPM, poAssPredicate, 0, true, false);
+		boolean bReplaceLeaf = false;
+		clsWordPresentationMesh oWPMtoRemove = null;
 		
-		boolean bWPFound = false;
-		
-		for (clsDataStructurePA oAss : oAssList) {
-			clsDataStructurePA oDS = ((clsAssociation)oAss).getLeafElement();
-			if (oDS instanceof clsWordPresentationMesh) {
-				clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
-				
-				if (oWPM.getContent().equals(poAddWPM.getContent()) && oWPM.getContentType().equals(poAddWPM.getContentType())) {
-					bWPFound = true;	//Do nothing as it is already set
-					break;
-				}
-			}
-		}
-		
-		if (bWPFound==false) {
-			
-			//Create and add association
-			if (pbAddToInternalAssociations==false) {
-				clsMeshTools.createAssociationSecondary(poOriginWPM, 2, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
-			} else {
-				clsMeshTools.createAssociationSecondary(poOriginWPM, 1, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
-			}
+		if(oAssList.size() > 0) {
+		    if(oAssList.size() > 1) {
+                log.warn("Found predicate {} ambiguous while trying to set WPM {} as unique predicate on WPM {}", poAssPredicate, poAddWPM, poOriginWPM);
+            }
+
+		    //modify the association if possible
+		    clsAssociation oAssociation = (clsAssociation) oAssList.get(0);
+		    
+		    //check which end of the association should be replaced
+		    if(oAssociation.getRootElement().equals(poOriginWPM)) {
+		        bReplaceLeaf = true;
+		        oWPMtoRemove = (clsWordPresentationMesh) oAssociation.getLeafElement();
+		    } else if(oAssociation.getLeafElement().equals(poOriginWPM)) {
+		        bReplaceLeaf = false;
+		        oWPMtoRemove = (clsWordPresentationMesh) oAssociation.getRootElement();
+		    } else {
+		        log.error("Association {} was found to WPM {} but seems to be orphan.", oAssociation, poOriginWPM);
+		    }
+		    
+		    //clean up the WPM that will be removed
+		    if(oWPMtoRemove.getExternalAssociatedContent().contains(oAssociation)) {
+		        oWPMtoRemove.getExternalAssociatedContent().remove(oAssociation);
+		    } else if(oWPMtoRemove.getInternalAssociatedContent().contains(oAssociation)) {
+		        oWPMtoRemove.getInternalAssociatedContent().remove(oAssociation);
+		    } else {
+		        log.error("Association {} was not anchored in WPM {} which is one endpoint of the association", oAssociation, oWPMtoRemove);
+		    }
+		    
+		    //replace the old WPM
+		    if(bReplaceLeaf) {
+		        oAssociation.setLeafElement(poAddWPM);
+		    } else {
+		        oAssociation.setRootElement(poAddWPM);
+		    }
+		    
+		    //anchor the association in its new endpoint
+		    poAddWPM.addExternalAssociation(oAssociation);
+		} else {
+		    //set a new association
+		    if(pbAddToInternalAssociations) {
+		        clsMeshTools.createAssociationSecondary(poOriginWPM, 1, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+		    } else {
+		        clsMeshTools.createAssociationSecondary(poOriginWPM, 2, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+		    }
 		}
 	}
 	
-	
+	/**
+     * Add a new WPM with predicate asspredicate to a certain other wpm. This is used to add an action to a goal.
+     * 
+     * (wendt)
+     *
+     * @since 26.09.2012 12:31:58
+     *
+     * @param poOriginWPM
+     * @param poAssPredicate
+     * @param poAddWPM
+     * @param pbAddToInternalAssociations
+     */
+    public static void setNonUniquePredicateWPM(clsWordPresentationMesh poOriginWPM, ePredicate poAssPredicate, clsWordPresentationMesh poAddWPM, boolean pbAddToInternalAssociations) {
+        //Get association if exists
+        ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poOriginWPM, poAssPredicate, 0, true, false);
+        
+        boolean bWPFound = false;
+        
+        for (clsDataStructurePA oAss : oAssList) {
+            clsDataStructurePA oDS = ((clsAssociation)oAss).getLeafElement();
+            if (oDS instanceof clsWordPresentationMesh) {
+                clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
+                
+                if (oWPM.getContent().equals(poAddWPM.getContent()) && oWPM.getContentType().equals(poAddWPM.getContentType())) {
+                    bWPFound = true;    //Do nothing as it is already set
+                    break;
+                }
+            }
+        }
+        
+        if (bWPFound==false) {
+            
+            //Create and add association
+            if (pbAddToInternalAssociations==false) {
+                clsMeshTools.createAssociationSecondary(poOriginWPM, 2, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+            } else {
+                clsMeshTools.createAssociationSecondary(poOriginWPM, 1, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+            }
+        }
+    }
 	
 	/**
 	 * Remove all secondary data structures, which are connected with poWPM via a certain ePredicate

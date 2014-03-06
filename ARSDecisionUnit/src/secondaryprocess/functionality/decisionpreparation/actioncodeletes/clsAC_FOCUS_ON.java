@@ -50,7 +50,7 @@ public class clsAC_FOCUS_ON extends clsActionCodelet {
 		//Get the supportive data structure
 		clsWordPresentationMesh oSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
 		
-		if (this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true && (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true)) {
+		if (this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true || (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true)) {
 		    //Associate this structure with the action
 	        clsActionTools.setSupportiveDataStructureForAction(this.moAction, oSupportiveDataStructure);
 		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {

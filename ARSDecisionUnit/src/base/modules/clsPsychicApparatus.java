@@ -349,7 +349,7 @@ public class clsPsychicApparatus {
 			moPersonalityParameterContainer= new clsPersonalityParameterContainer(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(),moFilename,P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 
             // init buffers
-            moLibidoBuffer = new DT1_PsychicIntensityBuffer();
+            moLibidoBuffer = new DT1_PsychicIntensityBuffer(moPersonalityParameterContainer);
             moBlockedContentStorage = new DT2_BlockedContentStorage();
             moPsychicEnergyStorage = new DT3_PsychicIntensityStorage(moPersonalityParameterContainer);
             moPleasureStorage = new DT4_PleasureStorage();
@@ -366,7 +366,7 @@ public class clsPsychicApparatus {
 			moF13_NeuroSymbolizationBody = new F13_NeuroSymbolizationBody(pre + F13_NeuroSymbolizationBody.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF14_ExternalPerception = new F14_ExternalPerception(pre + F14_ExternalPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory);
 			moF18_CompositionOfAffectsForPerception = new F18_CompositionOfQuotaOfAffectsForPerception(pre + F18_CompositionOfQuotaOfAffectsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF19_DefenseMechanismsForPerception = new F19_DefenseMechanismsForPerception(pre + F19_DefenseMechanismsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage, moLongTermMemory);
+			moF19_DefenseMechanismsForPerception = new F19_DefenseMechanismsForPerception(pre + F19_DefenseMechanismsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage, moLongTermMemory, moPersonalityParameterContainer);
 			
 			//moLongTermMemory is added
 			moF20_CompositionOfFeelings = new F20_CompositionOfFeelings(pre + F20_CompositionOfFeelings.P_MODULENUMBER, poProp, moModules, moInterfaceData,moLongTermMemory, moPsychicEnergyStorage,moPersonalityParameterContainer);

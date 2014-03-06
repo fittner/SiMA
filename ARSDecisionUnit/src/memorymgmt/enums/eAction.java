@@ -37,6 +37,7 @@ public enum eAction {
 	NONE,
 	BEAT,
 	DIVIDE,
+	GIVE,
 	
 	//Actions with Objects
 	GOTO,
@@ -69,7 +70,7 @@ public enum eAction {
 	STRAFE_LEFT,
 	SPEAK,
 	SPEAK_EAT,
-	SPEAK_WELCOME, GO_TO;
+	SPEAK_WELCOME;
 	
 	public static eAction getAction(String poAction) {
 		return eAction.valueOf(poAction);

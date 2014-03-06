@@ -203,7 +203,7 @@ public class clsCake extends clsOrganic implements itfGetFlesh, itfAPEatable, it
 	 */
 	@Override
 	public void devide(double pfSplitFactor){
-		clsCake oNewEntity= (clsCake)dublicate(moCreationProperties,10,pfSplitFactor);
+		clsCake oNewEntity= (clsCake)dublicate(moCreationProperties,0,pfSplitFactor);
 		double oActualWeight= getFlesh().getWeight();
 		try {
 			this.getFlesh().setWeight(oActualWeight*pfSplitFactor);

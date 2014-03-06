@@ -487,8 +487,13 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 					oOverallWeights += 1;
 				}
 				else {
-					oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType);	
-					oOverallWeights += moCriterionWeights.get(oActivationType);
+					try{
+					    oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType);	
+					    oOverallWeights += moCriterionWeights.get(oActivationType);
+					}
+					catch(Exception e){
+					   // System.out.println("sad");
+					}
 				}				
 			}
 			mrAggregatedActivationValue = oOverallActivation/oOverallWeights;
@@ -662,7 +667,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
         		for(clsAssociation oAssociation : this.moInternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					if(dupl!= null) oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
@@ -675,7 +680,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
         		for(clsAssociation oAssociation : this.moExternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}

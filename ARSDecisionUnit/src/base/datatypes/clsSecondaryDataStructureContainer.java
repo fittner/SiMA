@@ -38,7 +38,7 @@ public class clsSecondaryDataStructureContainer extends clsDataStructureContaine
         		for(clsAssociation oAssociation : moAssociatedDataStructures){
         				try { 
         					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
-        					oClone.moAssociatedDataStructures.add((clsAssociation)dupl); 
+        					if (dupl!=null) oClone.moAssociatedDataStructures.add((clsAssociation)dupl); 
         				} catch (Exception e) {
         					return e;
         				}

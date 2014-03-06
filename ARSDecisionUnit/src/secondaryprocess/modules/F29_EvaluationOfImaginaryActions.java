@@ -250,6 +250,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         try {
             moActionCommand = PlanningFunctionality.getActionCommandFromPlanGoal(planGoal);
             log.info("Selected Action: {}", moActionCommand);
+            
         } catch (Exception e) {
             log.error("", e);
         }  

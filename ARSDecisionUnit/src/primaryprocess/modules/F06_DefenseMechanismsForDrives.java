@@ -25,6 +25,7 @@ import modules.interfaces.I5_17_receive;
 import modules.interfaces.I5_17_send;
 import modules.interfaces.I5_18_receive;
 import modules.interfaces.I5_18_send;
+import modules.interfaces.I5_22_receive;
 import modules.interfaces.I5_5_receive;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
@@ -73,7 +74,7 @@ defend the forbidden drives or not.
  * 
  */
 public class F06_DefenseMechanismsForDrives extends clsModuleBase implements 
-					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send, itfInspectorBarChartF06,itfInspectorCombinedTimeChart,itfInspectorModificationDrives {
+					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send,I5_22_receive, itfInspectorBarChartF06,itfInspectorCombinedTimeChart,itfInspectorModificationDrives {
 	public static final String P_MODULENUMBER = "06";
 
 	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
@@ -82,6 +83,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsDriveMesh> moDriveList_Output;
 	
 	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
+	
+	private double moSuperEgoStrength=0.0;
 
 	
 	private ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input;
@@ -230,12 +233,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		   throws Exception {
 	    super(poPrefix, poProp, poModuleList, poInterfaceData);
 	    moBlockedContentStorage = poBlockedContentStorage;
-	    applyProperties(poPrefix, poProp);
-	    moTimeChartData =  new HashMap<String, Double>();
-	   
+
 	    applyProperties(poPrefix, poProp);
 	    // the Ego strength is equal to the neutralization rate
 	    moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_ENERGY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
+	    
+	    moTimeChartData =  new HashMap<String, Double>();
 	}
 
 
@@ -449,82 +452,91 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 // Super-Ego requests to defend the drives moForbiddenDrives_Input
 		 // Ego decides now which defense mechanisms to apply (depending on the quota of affect of the forbidden drive)
 		 
-		 // get quota of affect of forbidden drive (for now only one forbidden drive is possible)
-		 // many forbidden drives possible
 		 
-		 double oQoA = getQuotaOfAffect(moForbiddenDrives_Input);
-		 //int Displacement=0;
+		 
+		 selectAndActivateDefenseMechanisms();
+		 
+		 
 		
-		 
-		 /*
-		  *  @author Lotfi
-		  * 	12.12.2012, 17:30:00
-		  * The Defense Mechanisms are depending on Emotion "Anxiety" and Quota of Affect"
-		  */
-		 
-				 
-		if((oQoA < 0.1)&& (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.6)){
-			 
-		          defenseMechanism_Sublimation(moForbiddenDrives_Input);
-			
-						 
-		 }else if((oQoA < 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.6) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 1.0)){
-			 
-		         defenseMechanism_Displacement(moForbiddenDrives_Input);
-			
-						 
-		 }else  if((oQoA < 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.0) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 1.2)){
-			 
-		         defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
-		     
-			 						
-		 }else if((oQoA > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.2)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.4)){
-			 
-		         defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
-			 
-
-		         
-		         
-		 }else if((oQoA > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.4)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.6)){
-		 
-		         defenseMechanism_Turning_Against_Self (moForbiddenDrives_Input); 
-             		        
-		         // ARSIN should not hurt him self
-		         
-		         ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
-		         
-		         for(clsDriveMesh Drive_After_Turning_Against_Self: oMatchingDrives){
-		             if(Drive_After_Turning_Against_Self.getActualDriveAim().getContent().equals("EAT")||Drive_After_Turning_Against_Self.getActualDriveAim().getContent().equals("BITE")){		            
-		                 Projection(Drive_After_Turning_Against_Self);
-		             }
-		        }
 	
-		        
-		         
-            
-//         }else if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.8)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.0)){
-//             
-            // defenseMechanism_Projection (moForbiddenDrives_Input); 
-
-		 }else if((oQoA > 0.8) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 2.0)){
-			 
-			     defenseMechanism_Repression(moForbiddenDrives_Input);
-			 
-
-			 
-		 }
-		 else{
-			 // Just to see on the Simulation that no defense is done 
-		     
-			 NoDefenseIsDone();
-		 	
-		}
-	 
-		
-//	
-//	   // for Bar Chart and Time Chart
+ 	    // for Bar Chart and Time Chart
 		moTimeInputChartData();
 		GetCombinedTimeDefenseYaxisData();
+	}
+	
+	
+	private void selectAndActivateDefenseMechanisms_Lotfi() {
+	 // get quota of affect of forbidden drive (for now only one forbidden drive is possible)
+        // many forbidden drives possible
+        
+        double oQoA = getQuotaOfAffect(moForbiddenDrives_Input);
+        //int Displacement=0;
+       
+        
+        /*
+         *  @author Lotfi
+         *     12.12.2012, 17:30:00
+         * The Defense Mechanisms are depending on Emotion "Anxiety" and Quota of Affect"
+         */
+        
+                
+       if((oQoA < 0.1)&& (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.6)){
+            
+                 defenseMechanism_Sublimation(moForbiddenDrives_Input);
+           
+                        
+        }else if((oQoA < 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.6) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 1.0)){
+            
+                defenseMechanism_Displacement(moForbiddenDrives_Input);
+           
+                        
+        }else  if((oQoA < 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.0) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 1.2)){
+            
+                defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
+            
+                                   
+        }else if((oQoA > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.2)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.4)){
+            
+                defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
+            
+
+                
+                
+        }else if((oQoA > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.4)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.6)){
+        
+                defenseMechanism_Turning_Against_Self (moForbiddenDrives_Input); 
+                           
+                // ARSIN should not hurt him self
+                
+                ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
+                
+                for(clsDriveMesh Drive_After_Turning_Against_Self: oMatchingDrives){
+                    if(Drive_After_Turning_Against_Self.getActualDriveAim().getContent().equals("EAT")||Drive_After_Turning_Against_Self.getActualDriveAim().getContent().equals("BITE")){                 
+                        Projection(Drive_After_Turning_Against_Self);
+                    }
+               }
+   
+               
+                
+           
+//        }else if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.8)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.0)){
+//            
+           // defenseMechanism_Projection (moForbiddenDrives_Input); 
+
+        }else if((oQoA > 0.8) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 2.0)){
+            
+                defenseMechanism_Repression(moForbiddenDrives_Input);
+            
+
+            
+        }
+        else{
+            // Just to see on the Simulation that no defense is done 
+            
+            NoDefenseIsDone();
+           
+       }
+    
 	}
 	
 	
@@ -560,11 +572,13 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 	    // Selection of defense mechanisms for drives depending on the conflict tension and the ego strength
 	    if (conflictTension <= 0.1) {
-	             NoDefenseIsDone(); // just to see in the Mason-inspectors that no defense is done
+	        NoDefenseIsDone(); // just to see in the Mason-inspectors that no defense is done
+	        return;
 	    }
 	    
-	    else if (conflictTension <= 0.5) {
-	        if (moEgoStrength <= 0.25) { 
+	    
+	    if (conflictTension <= 0.5) {
+	        if (moEgoStrength < 0.15) { 
 	            defenseMechanism_Turning_Against_Self (moForbiddenDrives_Input); 
 	                                
 	            // ARSIN should not hurt him self
@@ -584,8 +598,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	                    Projection(Drive_After_Turning_Against_Self);
 	            }
 	        }
-	        else if (moEgoStrength <= 0.5)  defenseMechanism_Repression(moForbiddenDrives_Input);
-	        else if (moEgoStrength <= 0.75) defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
+	        else if (moEgoStrength < 0.25)  ;//defenseMechanism_Repression(moForbiddenDrives_Input);
+	        else if (moEgoStrength < 0.35) defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
 	        else                            defenseMechanism_Sublimation(moForbiddenDrives_Input);
 	        
 	    }       
@@ -1141,7 +1155,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oOppositeTP.put("BITE","NOURISH"); 
 		oOppositeTP.put("DEPOSITE","REPRESS");
 		oOppositeTP.put("REPRESS","DEPOSITE");
-		oOppositeTP.put("EAT","SLEEP");
+		//oOppositeTP.put("EAT","SLEEP");
+        oOppositeTP.put("EAT","GIVE");
 		
 		//old values...
 		oOppositeTP.put("EXCRETE","BREATH");
@@ -1163,8 +1178,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oOppositeTP.put("BITE","DESTROY_DANGEROUS_ANIMALS");
 		oOppositeTP.put("REPRESS","GUARD_DOR");
 		oOppositeTP.put("DEPOSIT","THROW_OUT_GARBAGE");
-		//Just for Test
+
 		oOppositeTP.put("EAT","DIVIDE");
+        //oOppositeTP.put("EAT","SHARE");
 		 
 		defenseMechanism_ReactionFormation_Sublimation_Intellectualization(oForbiddenDrives_Input);
 		
@@ -1882,6 +1898,19 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
     public ArrayList<clsChangedDrives> processList() {
 
         return mDisplayDrives;
+    }
+
+
+    /* (non-Javadoc)
+     *
+     * @since 20.02.2014 11:04:28
+     * 
+     * @see modules.interfaces.I5_22_receive#receive_I5_22(double)
+     */
+    @Override
+    public void receive_I5_22(double poSuperEgoStrength) {
+        moSuperEgoStrength = poSuperEgoStrength;
+        
     }
 	
 }

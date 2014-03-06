@@ -41,7 +41,7 @@ public class GoalAlgorithmTools {
 
 	private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
 	
-    private static final double mrAimIncrease = 0.3; //TODO kollmann: this is just hack - make this adjustable via property file
+    private static final double mrAimIncrease = 0.5; //TODO kollmann: this is just hack - make this adjustable via property file
     
 	   /**
      * Get the goal condition from the goal and set it
@@ -171,6 +171,9 @@ public class GoalAlgorithmTools {
         case GOTO:
             oActionCondition = eCondition.GOTO_GOAL_IN_PERCEPTION;
             break;
+        case DROP:
+            oActionCondition = eCondition.EXECUTED_DROP;
+            break;
         case NULLOBJECT:
             oActionCondition = eCondition.NULLOBJECT;
             break;
@@ -262,7 +265,7 @@ public class GoalAlgorithmTools {
 		else if (poGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
 			if (poGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)) {
 				//There are only the acts: Check the act confidence. If it is low, then lower the pleasure value
-				nResult = clsImportanceTools.getEffortValueOfActConfidence(clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure()));
+				nResult -= clsImportanceTools.getEffortValueOfActConfidence(clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure()));
 			}
 			
 		}
