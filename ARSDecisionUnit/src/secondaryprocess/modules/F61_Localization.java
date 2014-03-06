@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I6_12_receive;
 import modules.interfaces.I6_1_receive;
 import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_12_send;
 import pa._v38.interfaces.modules.I6_13_receive;
 import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
@@ -34,6 +35,12 @@ import base.tools.clsDumper;
 public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_12_send, I6_13_receive {
 	public static final String P_MODULENUMBER = "61";
 	
+    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+	private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+	        
+	private double mrModuleStrength;
+	private double mrInitialRequestIntensity;
+	
 	private ArrayList<clsWordPresentationMesh> moWording_IN;
     
     private clsWordPresentationMesh moWordingToContext;
@@ -47,7 +54,7 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	
-	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -67,12 +74,15 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 	 */
 	public F61_Localization(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
-		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-		this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F61", P_MODULE_STRENGHT).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F61", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
 		
 		applyProperties(poPrefix, poProp);	
 		

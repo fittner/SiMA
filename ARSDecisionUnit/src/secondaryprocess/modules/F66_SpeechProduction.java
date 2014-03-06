@@ -14,7 +14,7 @@ import memorymgmt.situationloader.clsConceptLoader;
 import memorymgmt.situationloader.clsSituationLoader;
 import memorymgmt.situationloader.itfConceptLoader;
 import memorymgmt.situationloader.itfSituationLoader;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I6_1_receive;
 import modules.interfaces.I6_2_receive;
 import modules.interfaces.I6_3_receive;
@@ -65,7 +65,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     private clsProperties moProperties;
 //    private String moWording;
     private float mnSpeechThresold;
-    DT3_PsychicEnergyStorage poPsychicEnergyStorage;
+    DT3_PsychicIntensityStorage poPsychicEnergyStorage;
     clsPersonalityParameterContainer poPersonalityParameterContainer;
     private clsShortTermMemory moShortTermMemory;
     
@@ -79,7 +79,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
     
     public F66_SpeechProduction(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage,
+            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicIntensityStorage poPsychicEnergyStorage,
             clsPersonalityParameterContainer poPersonalityParameterContainer, clsShortTermMemory poShortTermMemory) throws Exception {
         super(poPrefix, poProp, poModuleList, poInterfaceData);
 

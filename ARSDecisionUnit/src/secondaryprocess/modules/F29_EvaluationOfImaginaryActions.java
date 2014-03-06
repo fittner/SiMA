@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import properties.clsProperties;
-
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshGoal;
@@ -33,7 +33,7 @@ import memorymgmt.enums.eCondition;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I6_10_receive;
 import modules.interfaces.I6_11_receive;
 import modules.interfaces.I6_11_send;
@@ -54,6 +54,12 @@ import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionali
 public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements I6_2_receive, I6_10_receive, I6_11_send,
         itfInspectorGenericActivityTimeChart {
     public static final String P_MODULENUMBER = "29";
+    
+    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+                
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
 
     private ArrayList<String> moTEMPWriteLastActions = new ArrayList<String>();
 
@@ -69,7 +75,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
-	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	private final DecisionEngine moDecisionEngine;
 	
@@ -90,11 +96,14 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      */
     public F29_EvaluationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine decisionEngine,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
         super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
         
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F29", P_MODULE_STRENGHT).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F29", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
         
         applyProperties(poPrefix, poProp);
         

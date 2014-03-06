@@ -15,7 +15,7 @@ import java.util.SortedMap;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
@@ -48,6 +48,12 @@ import base.tools.toText;
  */
 public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send {
 	public static final String P_MODULENUMBER = "51";
+	
+    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+                
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
 	
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
@@ -88,7 +94,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	//private clsCodeletHandler moCodeletHandler;
 	private DecisionEngineInterface moDecisionEngine;
 	
-	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -104,12 +110,15 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
-		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F51", P_MODULE_STRENGHT).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F51", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
 		 
 		applyProperties(poPrefix, poProp);	
 		

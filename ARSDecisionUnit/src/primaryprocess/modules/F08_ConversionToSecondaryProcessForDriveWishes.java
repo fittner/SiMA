@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import properties.clsProperties;
-
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.modules.clsModuleBase;
@@ -21,7 +21,7 @@ import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_18_receive;
 import modules.interfaces.I6_3_receive;
 import modules.interfaces.I6_3_send;
@@ -42,6 +42,12 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	public static final String P_MODULENUMBER = "08";
 	
+    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+    
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
+	
 	/** Specialized Logger for this class */
 	//private Logger log = Logger.getLogger(this.getClass());
 	
@@ -49,7 +55,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	private ArrayList<clsWordPresentationMeshAimOfDrive> moDriveList_Output = new ArrayList<clsWordPresentationMeshAimOfDrive>();
 
-	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -64,12 +70,15 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	public F08_ConversionToSecondaryProcessForDriveWishes(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
 		
-		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F08", P_MODULE_STRENGHT).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F08", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
 		
 		applyProperties(poPrefix, poProp);
 	}
@@ -167,7 +176,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
             this.log.error("",e);
         } 
 
-		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 3, 1);
+		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 	}
 	
 	
@@ -232,7 +241,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
             e.printStackTrace();
         } 
 
-		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 3, 1);
+		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 	}
 
 	/* (non-Javadoc)

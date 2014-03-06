@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import properties.clsProperties;
-
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationWordPresentation;
@@ -36,7 +36,7 @@ import memorymgmt.enums.eEmotionType;
 import memorymgmt.enums.ePredicate;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_16_receive;
 import modules.interfaces.I5_17_receive;
 import modules.interfaces.I6_14_receive;
@@ -70,6 +70,12 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 					I5_17_receive, I5_16_receive, I6_5_receive, I6_4_receive, I6_2_send, I6_14_send {
 	public static final String P_MODULENUMBER = "20";
 	
+    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+    
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
+	
 	//private enum affect {CONFLICT, ANXIETY, WORRIEDNESS, PRICKLE}; // These affects can be sent to secondary process by F20
 	private ArrayList<clsPrimaryDataStructure> moAffectOnlyList_Input;
 	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
@@ -92,7 +98,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	ArrayList<String> Test1= new ArrayList<String>();
 	private ArrayList<clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentation>>> moFeelingsAssociatedMemories_OUT = new ArrayList<clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentation>>>(); 
 	private clsShortTermMemory moShortTimeMemory;
-	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 
 	private boolean add;
 	
@@ -106,15 +112,19 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poModuleList
+	 * @param poPersonalityParameterContainer 
 	 * @throws Exception
 	 */
 	public F20_CompositionOfFeelings(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
+		
+	    mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F20", P_MODULE_STRENGHT).getParameterDouble();
+	    mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F20", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
 		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
         
 		applyProperties(poPrefix, poProp);
 	}

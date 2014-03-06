@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import properties.clsProperties;
-
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_12_receive;
 import modules.interfaces.I5_12_send;
 import modules.interfaces.I5_14_send;
@@ -44,6 +44,14 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		implements I5_4_receive, I5_5_send, I5_12_send, I5_14_send, I5_21_receive, itfInspectorGenericDynamicTimeChart{
 
 	public static final String P_MODULENUMBER = "55";
+	
+	private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+	private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+	    
+	private double mrModuleStrength;
+	private double mrInitialRequestIntensity;
+	
+	
 	private ArrayList<clsDriveMesh> moDrives_Input;
 	private ArrayList<clsDriveMesh> moDrives_Output;	
 	private ArrayList<clsEmotion> moEmotions_Input;
@@ -54,7 +62,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData;
 	
-	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	private clsWordPresentationMesh moWordingToContext;
     
@@ -75,12 +83,15 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	public F55_SuperEgoProactive(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
-		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-		this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F55", P_MODULE_STRENGHT).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F55", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
 		
 
 		applyProperties(poPrefix, poProp); 
@@ -162,7 +173,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		
 		// check drives and apply pro-active internalizes rules
 		//checkInternalizedRules();
-		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 2, 10);
+		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 		
 		//write chart Data
 		for (clsDriveMesh oDriveMeshEntry : moDrives_Output)

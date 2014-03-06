@@ -14,12 +14,12 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import properties.clsProperties;
-
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.enums.eSpeech;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I6_8_receive;
 import modules.interfaces.I6_9_receive;
 import modules.interfaces.I6_9_send;
@@ -49,6 +49,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	public static final String newline = System.getProperty("line.separator");
 
 	public static final String P_MODULENUMBER = "52";
+	
+    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+                
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
 	
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
@@ -90,7 +96,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	//private PlanningGraph plGraph;
 	
-	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	private clsWordPresentationMesh moWordingToContext;
 	
@@ -109,11 +115,14 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	public F52_GenerationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine,
-		DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
+		DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 
-		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F51", P_MODULE_STRENGHT).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F51", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
 		 
 		//Get STM
 		this.moShortTermMemory = poShortTermMemory;

@@ -13,11 +13,11 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import properties.clsProperties;
-
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.enums.eActionType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I2_5_receive;
 import modules.interfaces.I2_5_send;
 import modules.interfaces.I6_11_receive;
@@ -51,6 +51,12 @@ import du.itf.actions.itfInternalActionProcessor;
 public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receive, I2_5_send, I6_14_receive, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "30";
 	
+    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+    
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
+	
 	private clsWordPresentationMesh moActionCommand_Input;
 	private clsWordPresentationMesh moEnvironmentalPerception_IN; // AP added environmental perception
 	private ArrayList<clsWordPresentationMesh> moActionCommands_Output;
@@ -62,7 +68,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	
 	private clsShortTermMemory moEnvironmentalImageStorage;
 	
-	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	private clsWordPresentationMesh moWordingToContext;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
@@ -80,11 +86,14 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	 */
 	public F30_MotilityControl(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F30", P_MODULE_STRENGHT).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F30", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
         
 		applyProperties(poPrefix, poProp);	
 		

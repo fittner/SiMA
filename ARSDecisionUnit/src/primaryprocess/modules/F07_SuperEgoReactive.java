@@ -15,12 +15,13 @@ import java.lang.Object;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 import java.util.regex.PatternSyntaxException;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_10_receive;
 import modules.interfaces.I5_11_receive;
 import modules.interfaces.I5_11_send;
@@ -67,6 +68,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 
 	public static final String P_MODULENUMBER = "07";
 	
+    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+    
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
+	
 	public static final String P_SUPER_EGO_STRENGTH = "SUPER_EGO_STRENGTH";
 	public static final String P_SUPER_EGO_RULES_FILE = "SUPER_EGO_RULES_FILE";
 	public static final String P_PSYCHIC_ENERGY_THESHOLD = "PSYCHIC_ENERGY_THESHOLD";
@@ -93,7 +100,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions;
 	private ArrayList<eEmotionType> moForbiddenEmotions;
 	
-	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	//private ArrayList<String> Test= new ArrayList<String>() ;
 //	Ivy begin ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //
@@ -118,11 +125,14 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	public F07_SuperEgoReactive(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicIntensityStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
-		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F07", P_MODULE_STRENGHT).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F07", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
 		
 		moForbiddenDrives = new ArrayList<clsSuperEgoConflict>();
 		moForbiddenPerceptions = new ArrayList<clsPair<eContentType,String>>();
@@ -439,17 +449,22 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			e.printStackTrace();
 		}
 		
+		Random randomGenerator = new Random();
 		
+		double rRequestedPsychicIntensity = threshold_psychicEnergy + (randomGenerator.nextFloat() - 0.5);
 		
-		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, threshold_psychicEnergy, msPriorityPsychicEnergy);
-		// if there is enough psychic energy
-	
+		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 		
+		// if there is enough psychic energy	
 
 		if (rReceivedPsychicEnergy > threshold_psychicEnergy
 				/* for test purposes only: */ || true)
 			checkInternalizedRules();	// check perceptions and drives, and apply internalized rules
-
+		
+		double rConsumedPsychicIntensity = threshold_psychicEnergy;
+		
+	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
+				
 	}
 
 	/* (non-Javadoc)
