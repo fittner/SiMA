@@ -86,6 +86,9 @@ public class clsSuperEgoConflict {
     public void setPreferedDefense(eDefenseType poPreferedDefense) {
         this.moPreferedDefense = poPreferedDefense;
     }
+    public double getConflictTension() {
+        return moConflictTension;
+    }
     public void setConflictTension(double oConflictTension) {
         this.moConflictTension = oConflictTension;
     }
