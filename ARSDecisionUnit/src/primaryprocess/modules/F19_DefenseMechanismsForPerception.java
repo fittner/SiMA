@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedMap;
 
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
@@ -92,7 +93,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	
 	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
 	// Perceptions and emotions not "liked" by Super-Ego
-	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions_Input;
+	private ArrayList<clsSuperEgoConflictPerception> moForbiddenPerceptions_Input;
 	private ArrayList<eEmotionType>                  moForbiddenEmotions_Input;
 	
 
@@ -244,7 +245,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
 	 */
 	@Override
-	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions,
+	public void receive_I5_11(ArrayList<clsSuperEgoConflictPerception> poForbiddenPerceptions,
 			                  clsThingPresentationMesh poPerceptionalMesh,
 			                  ArrayList<eEmotionType> poForbiddenEmotions,
 			                  ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
@@ -607,16 +608,16 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * searches in the input-perception for example for an ENTITY like a ARSIN
 	 * 
 	 */
-	private void defenseMechanism_Denial (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+	private void defenseMechanism_Denial (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions) {
 		ChartBarDenial ++;
 		
     	// If nothing to deny return immediately (otherwise NullPointerException)
     	if (oForbiddenPerceptions == null) return;
 		
 		// check list of forbidden perceptions
-		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
-			eContentType oContentType = oOneForbiddenPerception.a;
-			String oContent     = oOneForbiddenPerception.b;
+		for(clsSuperEgoConflictPerception oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			eContentType oContentType = oOneForbiddenPerception.getContentType();
+			String oContent     = oOneForbiddenPerception.getContent();
 			
 			// search in perceptions
 			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getInternalAssociatedContent();
@@ -645,14 +646,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * The call of defense mechanism Depreciation delete the positive parameters of the forbidden perception  
 	 * 
 	 */
-	private ArrayList<clsThingPresentationMesh> CreateListWithPositiveObjects (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+	private ArrayList<clsThingPresentationMesh> CreateListWithPositiveObjects (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions) {
 		
 		ArrayList<clsAssociation> oListWithPositiveAssociations = new ArrayList<clsAssociation>();
 
-		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+		for(clsSuperEgoConflictPerception oOneForbiddenPerception : oForbiddenPerceptions) {	    	
 			
-			eContentType oContentType = oOneForbiddenPerception.a;
-			String oContent     = oOneForbiddenPerception.b;
+			eContentType oContentType = oOneForbiddenPerception.getContentType();
+			String oContent           = oOneForbiddenPerception.getContent();
 			
 		
 						
@@ -724,14 +725,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	}
 	// Create list with negative associations
 	
-	private  ArrayList<clsThingPresentationMesh> CreateListWithNegativeObjects (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions){
+	private  ArrayList<clsThingPresentationMesh> CreateListWithNegativeObjects (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions){
 		
 		ArrayList<clsAssociation> oListWithNegativeAssociations = new ArrayList<clsAssociation>();
 
-		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+		for(clsSuperEgoConflictPerception oOneForbiddenPerception : oForbiddenPerceptions) {	    	
 			
-			eContentType oContentType = oOneForbiddenPerception.a;
-			String oContent     = oOneForbiddenPerception.b;
+			eContentType oContentType = oOneForbiddenPerception.getContentType();
+			String oContent           = oOneForbiddenPerception.getContent();
 			
 		
 				clsThingPresentationMesh oObjectDataStructure= 	(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure
@@ -816,7 +817,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	}
 	
 	
-	private void defenseMechanism_Idealization (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+	private void defenseMechanism_Idealization (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions) {
 		
 		idealization = 1.0;
 		denial=0.0;
@@ -843,7 +844,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 	}
 	
-	private void defenseMechanism_Depreciation (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+	private void defenseMechanism_Depreciation (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions) {
 		
 		depreciation= 1.0;
 		denial=0.0;
@@ -870,7 +871,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	}
 		
 		
-	private void deleteAssociationsFromPerception (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions, ArrayList<clsThingPresentationMesh> oListWithPositiveOrNegativeObjects) {
+	private void deleteAssociationsFromPerception (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions, ArrayList<clsThingPresentationMesh> oListWithPositiveOrNegativeObjects) {
 		
 		
 		boolean found = false;
@@ -881,9 +882,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	   	if (oForbiddenPerceptions == null) return;
 
 		// check list of forbidden perceptions
-		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
-			eContentType oContentType = oOneForbiddenPerception.a;
-			String oContent     = oOneForbiddenPerception.b;
+		for(clsSuperEgoConflictPerception oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			eContentType oContentType = oOneForbiddenPerception.getContentType();
+			String oContent     = oOneForbiddenPerception.getContent();
 			
 			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getInternalAssociatedContent();
 			//Search in perception

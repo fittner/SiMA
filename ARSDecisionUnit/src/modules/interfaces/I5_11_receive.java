@@ -8,12 +8,12 @@ package modules.interfaces;
 
 import java.util.ArrayList;
 
-import memorymgmt.enums.eContentType;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
+
 import memorymgmt.enums.eEmotionType;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.helpstructures.clsPair;
 
 
 
@@ -25,7 +25,7 @@ import base.datatypes.helpstructures.clsPair;
  * 
  */
 public interface I5_11_receive {
-	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions,
+	public void receive_I5_11(ArrayList<clsSuperEgoConflictPerception> poForbiddenPerceptions,
 			                  clsThingPresentationMesh poPerceptionalMesh,
 			                  ArrayList<eEmotionType> poForbiddenEmotions,
 			                  ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2);
