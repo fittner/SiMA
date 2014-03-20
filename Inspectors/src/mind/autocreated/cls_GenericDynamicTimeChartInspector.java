@@ -55,7 +55,6 @@ public class cls_GenericDynamicTimeChartInspector extends cls_GenericTimeChartIn
     @Override
     protected XYSeriesCollection createDataset() {
     	XYSeriesCollection poDataset = super.createDataset();
-		
 		return poDataset;
     }    
     
