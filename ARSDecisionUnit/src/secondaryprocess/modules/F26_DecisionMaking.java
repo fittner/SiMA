@@ -10,6 +10,7 @@ import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -58,7 +59,7 @@ import base.tools.toText;
 public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
 	
-    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
     private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
                 
     private double mrModuleStrength;
@@ -118,7 +119,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
-        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F26", P_MODULE_STRENGHT).getParameterDouble();
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F26", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F26", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
@@ -291,6 +292,16 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		} catch (Exception e) {
 		    log.error("Decided goal: No goal ", e);
 		}
+		
+	    Random randomGenerator = new Random();
+	        
+	    double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	            
+	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	        
+	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	        
+	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	}
 	
 

@@ -8,6 +8,7 @@ package secondaryprocess.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -35,7 +36,7 @@ import base.tools.clsDumper;
 public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_12_send, I6_13_receive {
 	public static final String P_MODULENUMBER = "61";
 	
-    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
 	private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
 	        
 	private double mrModuleStrength;
@@ -78,7 +79,7 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
-        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F61", P_MODULE_STRENGHT).getParameterDouble();
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F61", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F61", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
@@ -178,6 +179,17 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 		//TODO implement localization
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
+		
+		
+	   Random randomGenerator = new Random();
+          
+	   double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	                
+	   double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	            
+	   double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	            
+	   moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 		
 	}
 

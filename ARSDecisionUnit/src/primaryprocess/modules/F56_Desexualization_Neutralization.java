@@ -204,6 +204,8 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 			moChartInputData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
 		}
 		
+		
+		
 	}
 
 	public static clsProperties getDefaultProperties(String poPrefix) {

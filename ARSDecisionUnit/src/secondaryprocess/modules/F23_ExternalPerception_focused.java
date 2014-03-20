@@ -10,6 +10,7 @@ import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -51,7 +52,7 @@ import base.tools.toText;
 public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I6_12_receive, I6_3_receive, I6_6_send {
 	public static final String P_MODULENUMBER = "23";
 	
-    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
     private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
                 
     private double mrModuleStrength;
@@ -108,7 +109,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 
-        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F23", P_MODULE_STRENGHT).getParameterDouble();
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F23", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F23", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
@@ -309,6 +310,16 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//could be done here. It is also a possibility to use the complete perception for this task.
 		
 		//=========================================================//
+		
+	 Random randomGenerator = new Random();
+	        
+	 double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	            
+	 double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	        
+	 double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	        
+	 moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	}
 	
 	

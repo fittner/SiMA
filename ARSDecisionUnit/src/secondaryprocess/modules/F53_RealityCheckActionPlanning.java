@@ -10,6 +10,7 @@ import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import logger.clsLogger;
@@ -50,7 +51,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	public static final String P_MODULENUMBER = "53";
 	
 	    
-	private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+	private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
 	private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
 	    
 	private double mrModuleStrength;
@@ -92,7 +93,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		// TODO (zeilinger) - Auto-generated constructor stub
 		
-        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F53", P_MODULE_STRENGHT).getParameterDouble();
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F53", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F53", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
@@ -158,6 +159,16 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	    //Debug output - sort the list of goals by attractiveness and log it
 	    ArrayList <clsWordPresentationMeshPossibleGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(this.selectableGoals, this.selectableGoals.size());
 	    log.info("Sorted Goals:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
+	    
+	    Random randomGenerator = new Random();
+           
+	    double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	                
+	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	            
+	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	            
+	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	}
 
 	/* (non-Javadoc)

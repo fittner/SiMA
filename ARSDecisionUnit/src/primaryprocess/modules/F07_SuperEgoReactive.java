@@ -68,7 +68,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 
 	public static final String P_MODULENUMBER = "07";
 	
-    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
     private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
     
     private double mrModuleStrength;
@@ -128,7 +128,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicIntensityStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
-        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F07", P_MODULE_STRENGHT).getParameterDouble();
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F07", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F07", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
@@ -451,7 +451,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		Random randomGenerator = new Random();
 		
-		double rRequestedPsychicIntensity = threshold_psychicEnergy + (randomGenerator.nextFloat() - 0.5);
+		
+		double rRequestedPsychicIntensity = threshold_psychicEnergy + (randomGenerator.nextDouble()*(0.1 - -0.1) + -0.1);
 		
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 		
@@ -461,7 +462,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				/* for test purposes only: */ || true)
 			checkInternalizedRules();	// check perceptions and drives, and apply internalized rules
 		
-		double rConsumedPsychicIntensity = threshold_psychicEnergy;
+		
+		double rConsumedPsychicIntensity = rReceivedPsychicEnergy*0.9;
 		
 	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 				

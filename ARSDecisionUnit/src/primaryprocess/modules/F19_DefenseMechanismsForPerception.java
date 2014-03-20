@@ -76,7 +76,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send,I5_22_receive,itfInspectorCombinedTimeChart,itfInspectorBarChartF19{
 	public static final String P_MODULENUMBER = "19";
 	
-	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
+	public static final String P_INTENSITY_REDUCTION_RATE_SELF_PRESERV = "INTENSITY_REDUCTION_RATE_SELF_PRESERV";
 	
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
@@ -160,7 +160,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
 		applyProperties(poPrefix, poProp);	
 	    // the Ego strength is equal to the neutralization rate
-        moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_ENERGY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
+        moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_INTENSITY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
 
  		
  		//Get Blocked content storage

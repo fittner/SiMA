@@ -10,6 +10,7 @@ import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import properties.clsProperties;
@@ -51,7 +52,7 @@ import du.itf.actions.itfInternalActionProcessor;
 public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receive, I2_5_send, I6_14_receive, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "30";
 	
-    private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+    private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
     private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
     
     private double mrModuleStrength;
@@ -89,7 +90,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
-        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F30", P_MODULE_STRENGHT).getParameterDouble();
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F30", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F30", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
@@ -377,6 +378,17 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
         //log.info("Sprachausgabe: {}", moWordingToContext);
         log.info(moActionCommands_Output.toString());
         log.info("Action: {}", moActionCommand_Input);
+        
+        
+        Random randomGenerator = new Random();
+        
+        double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+                
+        double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+            
+        double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+            
+        moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
     }
 	
 	

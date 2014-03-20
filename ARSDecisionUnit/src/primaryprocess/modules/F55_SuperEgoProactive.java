@@ -10,6 +10,7 @@ import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import properties.clsProperties;
@@ -45,7 +46,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 
 	public static final String P_MODULENUMBER = "55";
 	
-	private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+	private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
 	private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
 	    
 	private double mrModuleStrength;
@@ -87,7 +88,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
-        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F55", P_MODULE_STRENGHT).getParameterDouble();
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F55", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F55", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
@@ -173,7 +174,15 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		
 		// check drives and apply pro-active internalizes rules
 		//checkInternalizedRules();
-		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	      Random randomGenerator = new Random();
+          
+	      double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	                
+	      double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	            
+	      double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	            
+	      moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 		
 		//write chart Data
 		for (clsDriveMesh oDriveMeshEntry : moDrives_Output)

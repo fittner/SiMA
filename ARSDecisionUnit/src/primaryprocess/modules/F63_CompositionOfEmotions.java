@@ -12,6 +12,7 @@ import inspector.interfaces.itfInspectorGenericTimeChart;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import properties.clsProperties;
@@ -60,7 +61,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	//Statics for the module
 	public static final String P_MODULENUMBER = "63";
 	
-	private static final String P_MODULE_STRENGHT ="MODULE_STRENGHT";
+	private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
 	private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
 	        
 	private double mrModuleStrength;
@@ -114,7 +115,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
-        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F55", P_MODULE_STRENGHT).getParameterDouble();
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F55", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F55", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
@@ -339,6 +340,15 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			}
 		}
 		
+	    Random randomGenerator = new Random();
+          
+	    double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	                
+	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	            
+	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	            
+	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	
 		
 	}
