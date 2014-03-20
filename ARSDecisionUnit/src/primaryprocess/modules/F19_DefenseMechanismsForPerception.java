@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedMap;
 
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
@@ -73,7 +74,7 @@ import testfunctions.clsTester;
  *
  * **/
 public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implements 
-			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send,I5_22_receive,itfInspectorCombinedTimeChart,itfInspectorBarChartF19{
+			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send, I5_22_receive, itfInspectorCombinedTimeChart, itfInspectorBarChartF19{
 	public static final String P_MODULENUMBER = "19";
 	
 	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
@@ -91,9 +92,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	
 	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
-	private double moSuperEgoStrength =0.0;
 	// Perceptions and emotions not "liked" by Super-Ego
-	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions_Input;
+	private ArrayList<clsSuperEgoConflictPerception> moForbiddenPerceptions_Input;
 	private ArrayList<eEmotionType>                  moForbiddenEmotions_Input;
 	
 
@@ -158,10 +158,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
-		applyProperties(poPrefix, poProp);	
-	    // the Ego strength is equal to the neutralization rate
-        moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_ENERGY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
-
+		
+		applyProperties(poPrefix, poProp);
  		
  		//Get Blocked content storage
 		moBlockedContentStorage = poBlockedContentStorage;
@@ -247,7 +245,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
 	 */
 	@Override
-	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions,
+	public void receive_I5_11(ArrayList<clsSuperEgoConflictPerception> poForbiddenPerceptions,
 			                  clsThingPresentationMesh poPerceptionalMesh,
 			                  ArrayList<eEmotionType> poForbiddenEmotions,
 			                  ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
@@ -477,28 +475,66 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     */
     private void selectAndActivateDefenseMechanisms() {
         
-           // Defense for perceptions
-           if (!moForbiddenPerceptions_Input.isEmpty()){ 
-                if (moEgoStrength <= 0.15) {
-                    defenseMechanism_Denial(moForbiddenPerceptions_Input);                      
-                }
-                else
-                {
-                    // For TimeChart    
-                    ResetTimeChartDefenseForbidenPerceptionData();
-                }       
+        double conflictTension = 0.4;
+        
+        // conflictTension <= 0.1
+        if (conflictTension <= 0.1) {
+            // For TimeChart
+            ResetTimeChartDefenseForbidenPerceptionData();
+        }
+        
+        // conflictTension <= 0.5
+        else if (conflictTension <= 0.5) {
+            if (moEgoStrength <= 0.3) {
+                         defenseMechanism_Idealization(moForbiddenPerceptions_Input);
             }
+            else if (moEgoStrength <= 0.7) {
+                         defenseMechanism_Denial(moForbiddenPerceptions_Input);
+            }
+            else {
+                         // ACHTUNG !!!: Projektion ist nur implementiert fuer drives.
+                         // Ist aber ganz einfach fuer perceptions:
+                         // Einfach das Thing presentation and das andere Objekt als Assoziation dranhängen und beim origianlobjekt löschen.
+                         // Genauso funktioniert Projektion fuer drives und fuer emotions  
+                         //defenseMechanism_Projection(moForbiddenPerceptions_Input);
+            }
+        }
+        
+        // conflictTension > 0.5        
+        else {
+            if (moEgoStrength <= 0.3) {
+                         defenseMechanism_Depreciation(moForbiddenPerceptions_Input);
+            }
+            else if (moEgoStrength <= 0.7) {
+                         // ACHTUNG !!!: Displacement ist nur fuer Triebe implementiert.
+                         // Wuerde aber fuer Wahrnehmung auch Sinn machen.
+                         // -> Abklaeren, ob Displacement fuer Wahrnehmung im ARS vorgesehen ist.
+                         //defenseMechanism_Displacement(moForbiddenPerceptions_Input);
+            }
+            else {
+                         // ACHTUNG !!!: Projektion ist nur implementiert fuer drives.
+                         // Ist aber ganz einfach fuer perceptions:
+                         // Einfach das Thing presentation and das andere Objekt als Assoziation dranhängen und beim origianlobjekt löschen.
+                         // Genauso funktioniert Projektion fuer drives und fuer emotions  
+                         //defenseMechanism_Projection(moForbiddenPerceptions_Input);
+            }
+        }        
             
-            // Defense for emotions
-            if(!moForbiddenEmotions_Input.isEmpty()){
-                if (moEgoStrength <= 0.15) {
-                    defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output);  
-                }
-                else
-                {   
-                    ResetTimeChartDefenseForbidenEmotionData();                 
-                }
+            
+            
+        
+        
+            
+        // Defense for emotions
+        if(!moForbiddenEmotions_Input.isEmpty()){
+            if (moEgoStrength <= 0.15) {
+                defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output);  
             }
+            else
+            {   
+                ResetTimeChartDefenseForbidenEmotionData();                 
+            }
+        }
     }
 	
 	
@@ -572,16 +608,16 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * searches in the input-perception for example for an ENTITY like a ARSIN
 	 * 
 	 */
-	private void defenseMechanism_Denial (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+	private void defenseMechanism_Denial (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions) {
 		ChartBarDenial ++;
 		
     	// If nothing to deny return immediately (otherwise NullPointerException)
     	if (oForbiddenPerceptions == null) return;
 		
 		// check list of forbidden perceptions
-		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
-			eContentType oContentType = oOneForbiddenPerception.a;
-			String oContent     = oOneForbiddenPerception.b;
+		for(clsSuperEgoConflictPerception oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			eContentType oContentType = oOneForbiddenPerception.getContentType();
+			String oContent     = oOneForbiddenPerception.getContent();
 			
 			// search in perceptions
 			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getInternalAssociatedContent();
@@ -610,14 +646,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * The call of defense mechanism Depreciation delete the positive parameters of the forbidden perception  
 	 * 
 	 */
-	private ArrayList<clsThingPresentationMesh> CreateListWithPositiveObjects (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+	private ArrayList<clsThingPresentationMesh> CreateListWithPositiveObjects (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions) {
 		
 		ArrayList<clsAssociation> oListWithPositiveAssociations = new ArrayList<clsAssociation>();
 
-		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+		for(clsSuperEgoConflictPerception oOneForbiddenPerception : oForbiddenPerceptions) {	    	
 			
-			eContentType oContentType = oOneForbiddenPerception.a;
-			String oContent     = oOneForbiddenPerception.b;
+			eContentType oContentType = oOneForbiddenPerception.getContentType();
+			String oContent           = oOneForbiddenPerception.getContent();
 			
 		
 						
@@ -689,14 +725,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	}
 	// Create list with negative associations
 	
-	private  ArrayList<clsThingPresentationMesh> CreateListWithNegativeObjects (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions){
+	private  ArrayList<clsThingPresentationMesh> CreateListWithNegativeObjects (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions){
 		
 		ArrayList<clsAssociation> oListWithNegativeAssociations = new ArrayList<clsAssociation>();
 
-		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+		for(clsSuperEgoConflictPerception oOneForbiddenPerception : oForbiddenPerceptions) {	    	
 			
-			eContentType oContentType = oOneForbiddenPerception.a;
-			String oContent     = oOneForbiddenPerception.b;
+			eContentType oContentType = oOneForbiddenPerception.getContentType();
+			String oContent           = oOneForbiddenPerception.getContent();
 			
 		
 				clsThingPresentationMesh oObjectDataStructure= 	(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure
@@ -781,7 +817,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	}
 	
 	
-	private void defenseMechanism_Idealization (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+	private void defenseMechanism_Idealization (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions) {
 		
 		idealization = 1.0;
 		denial=0.0;
@@ -808,7 +844,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 	}
 	
-	private void defenseMechanism_Depreciation (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+	private void defenseMechanism_Depreciation (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions) {
 		
 		depreciation= 1.0;
 		denial=0.0;
@@ -835,7 +871,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	}
 		
 		
-	private void deleteAssociationsFromPerception (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions, ArrayList<clsThingPresentationMesh> oListWithPositiveOrNegativeObjects) {
+	private void deleteAssociationsFromPerception (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions, ArrayList<clsThingPresentationMesh> oListWithPositiveOrNegativeObjects) {
 		
 		
 		boolean found = false;
@@ -846,9 +882,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	   	if (oForbiddenPerceptions == null) return;
 
 		// check list of forbidden perceptions
-		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
-			eContentType oContentType = oOneForbiddenPerception.a;
-			String oContent     = oOneForbiddenPerception.b;
+		for(clsSuperEgoConflictPerception oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			eContentType oContentType = oOneForbiddenPerception.getContentType();
+			String oContent     = oOneForbiddenPerception.getContent();
 			
 			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getInternalAssociatedContent();
 			//Search in perception
@@ -1443,7 +1479,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
      * @see modules.interfaces.I5_22_receive#receive_I5_22(double)
      */
     @Override
-    public void receive_I5_22(double poSuperEgoStrength) {
-        moSuperEgoStrength=poSuperEgoStrength;
+    public void receive_I5_22(double poEgoStrength) {
+        moEgoStrength=poEgoStrength;
     }
 }
