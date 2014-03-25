@@ -70,7 +70,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 	private HashMap<String,Double> moChartInputData;
 	private HashMap<String,Double> moChartOutputData;
 
-    private double moSuperEgoStrength=0.0;
+    private double moEgoStrength=0.0;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 
@@ -197,7 +197,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 		
 		
 		// 3. calculate Super Ego Strength according to the sum of reduced intensity
-	      moSuperEgoStrength = calculateSuperEgoStrength(sumReducedEnergy);
+	      moEgoStrength = calculateEgoStrength(sumReducedEnergy);
 
 		
 		//create chart Data
@@ -223,8 +223,9 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 		return oProp;
 	}	
 	
-	private double calculateSuperEgoStrength(double poReducedIntensity) {
-	    return poReducedIntensity;
+	private double calculateEgoStrength(double poReducedIntensity) {
+	    //Ego Strength is the summation of a constant value (Drive reduction rate) and a dynamic value (reduced intensity)
+	    return (mrEnergyReductionRateSexual + mrEnergyReductionRateSelfPreserv )/2 + poReducedIntensity;
 	}
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
@@ -270,7 +271,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 	@Override	
 	protected void send() {
 		send_I5_4(moDrives_OUT);
-		send_I5_22(moSuperEgoStrength);
+		send_I5_22(moEgoStrength);
 	}
 
 	/* (non-Javadoc)
