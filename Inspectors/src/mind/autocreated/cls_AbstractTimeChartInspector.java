@@ -75,6 +75,7 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
 
     	moDataset=createDataset();
     	moChartPanel=create();
+    	
     	add(moChartPanel);
     	
     }
@@ -209,11 +210,16 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
         XYPlot plot = (XYPlot) oChartPanel.getPlot();
         customizePlot(plot);
 
+        NumberAxis domainAxis = (NumberAxis) plot.getRangeAxis();
+        domainAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
-     // change the auto tick unit selection to integer units only...
+        // change the auto tick unit selection to integer units only...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        
+        //rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        //rangeAxis.setRange(new Range(0.0,0.5));
+        rangeAxis.setAutoRange(true);
+        //rangeAxis.setTickLabelsVisible(true);
+       // rangeAxis.s
         ChartPanel poChartPanel = new ChartPanel(oChartPanel);
         poChartPanel.setFillZoomRectangle(true);
         poChartPanel.setPreferredSize(new Dimension(mnWidth, mnHeight));
