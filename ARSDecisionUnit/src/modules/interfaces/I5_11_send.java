@@ -8,12 +8,12 @@ package modules.interfaces;
 
 import java.util.ArrayList;
 
-import memorymgmt.enums.eContentType;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
+
 import memorymgmt.enums.eEmotionType;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.helpstructures.clsPair;
 
 /**
  * Superego bans and rules are transported from F7 to F19.
@@ -24,6 +24,6 @@ import base.datatypes.helpstructures.clsPair;
  */
 public interface I5_11_send {
 	public 
-    void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh,
+    void send_I5_11(ArrayList<clsSuperEgoConflictPerception> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh,
             ArrayList<eEmotionType> poForbiddenEmotions, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2);
 }

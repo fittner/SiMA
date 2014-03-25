@@ -10,12 +10,13 @@ import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import logger.clsLogger;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I6_10_receive;
 import modules.interfaces.I6_10_send;
 import modules.interfaces.I6_9_receive;
@@ -24,7 +25,7 @@ import modules.interfaces.eInterfaces;
 import org.slf4j.Logger;
 
 import properties.clsProperties;
-
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
@@ -49,8 +50,15 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	
 	public static final String P_MODULENUMBER = "53";
 	
+	    
+	private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
+	private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+	    
+	private double mrModuleStrength;
+	private double mrInitialRequestIntensity;
 	
-	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
+	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	private clsWordPresentationMesh moWording_IN;
 	
 	private ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoals;
@@ -81,13 +89,16 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			itfModuleMemoryAccess poLongTermMemory,
 			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTermMemory,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		// TODO (zeilinger) - Auto-generated constructor stub
 		
-		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
-		 this.moShortTimeMemory = poShortTermMemory;
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F53", P_MODULE_STRENGTH).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F53", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
+		this.moShortTimeMemory = poShortTermMemory;
 		 
 	}
 	
@@ -148,6 +159,16 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	    //Debug output - sort the list of goals by attractiveness and log it
 	    ArrayList <clsWordPresentationMeshPossibleGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(this.selectableGoals, this.selectableGoals.size());
 	    log.info("Sorted Goals:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
+	    
+	    Random randomGenerator = new Random();
+           
+	    double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	                
+	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	            
+	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	            
+	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	}
 
 	/* (non-Javadoc)

@@ -10,11 +10,12 @@ import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I6_2_receive;
 import modules.interfaces.I6_3_receive;
 import modules.interfaces.I6_8_receive;
@@ -58,6 +59,12 @@ import base.tools.toText;
 public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
 	
+    private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+                
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
+	
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -94,7 +101,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	
 	private clsWordPresentationMesh moWordingToContext;
 	
-	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description 
@@ -108,12 +115,15 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	 * @throws Exception
 	 */
 	public F26_DecisionMaking(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine, DT3_PsychicEnergyStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine, DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
-		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F26", P_MODULE_STRENGTH).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F26", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
         
         
 		applyProperties(poPrefix, poProp);	
@@ -282,6 +292,16 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		} catch (Exception e) {
 		    log.error("Decided goal: No goal ", e);
 		}
+		
+	    Random randomGenerator = new Random();
+	        
+	    double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	            
+	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	        
+	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	        
+	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	}
 	
 

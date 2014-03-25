@@ -6,6 +6,7 @@
  */
 package primaryprocess.functionality.superegofunctionality;
 
+import base.datatypes.helpstructures.clsPair;
 import memorymgmt.enums.eContentType;
 
 /**
@@ -21,11 +22,20 @@ public class clsSuperEgoConflictPerception {
     private eDefenseType moPreferedDefense;
     private Double moConflictTension = 0.0;
     
+    /*
     public clsSuperEgoConflictPerception(eContentType poContentType, String poContent, eDefenseType poPreferedDefense, double poConflictTension) {
         setContentType(poContentType);
         setContent(poContent);
         setPreferedDefense(poPreferedDefense);
         setConflictTension(poConflictTension);
+    }
+    */
+    
+    public clsSuperEgoConflictPerception(clsPair<eContentType, String> poConflictIdentification, double oConflictTension) {
+        setContentType(poConflictIdentification.a);
+        setContent(poConflictIdentification.b);
+        setPreferedDefense(eDefenseType.UNSPECIFIED_DEFENSE);
+        setConflictTension(oConflictTension);
     }
     
     @Override
