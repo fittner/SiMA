@@ -10,17 +10,19 @@ import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I6_12_receive;
 import modules.interfaces.I6_3_receive;
 import modules.interfaces.I6_6_send;
 import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_6_receive;
 import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.functionality.FocusFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
@@ -50,6 +52,12 @@ import base.tools.toText;
 public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I6_12_receive, I6_3_receive, I6_6_send {
 	public static final String P_MODULENUMBER = "23";
 	
+    private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+                
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
+    
 	private clsWordPresentationMesh moWordingToContext;
 	/** Perception IN */
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
@@ -81,7 +89,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	/** As soon as DT3 is implemented, replace this variable and value */
 	private double mrAvailableFocusEnergy = 5;
 	
-	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	private static final double P_STRONGEST_GOAL_THRESHOLD = 0.8;
 	
 	/**
@@ -97,12 +105,15 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 */
 	public F23_ExternalPerception_focused(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 
-		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F23", P_MODULE_STRENGTH).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F23", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
         
 		applyProperties(poPrefix, poProp);	
 		
@@ -299,6 +310,16 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//could be done here. It is also a possibility to use the complete perception for this task.
 		
 		//=========================================================//
+		
+	 Random randomGenerator = new Random();
+	        
+	 double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	            
+	 double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	        
+	 double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	        
+	 moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	}
 	
 	

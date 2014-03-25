@@ -12,14 +12,14 @@ import inspector.interfaces.itfInspectorGenericTimeChart;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import memorymgmt.storage.DT4_PleasureStorage;
 import modules.interfaces.I5_10_receive;
 import modules.interfaces.I5_21_receive;
@@ -60,6 +60,12 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 
 	//Statics for the module
 	public static final String P_MODULENUMBER = "63";
+	
+	private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
+	private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+	        
+	private double mrModuleStrength;
+	private double mrInitialRequestIntensity;
 
 	public static final String P_REALATIV_THRESHOLD = "REALATIV_THRESHOLD";
 	public static final String P_THRESHOLD_RANGE = "THRESHOLD_RANGE";
@@ -93,7 +99,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	double mrGrade = 0;
 	
 	
-	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -105,12 +111,15 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			DT4_PleasureStorage poPleasureStorage,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
-		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-		this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F55", P_MODULE_STRENGTH).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F55", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
 		
 		applyProperties(poPrefix, poProp);	
 		
@@ -331,6 +340,15 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			}
 		}
 		
+	    Random randomGenerator = new Random();
+          
+	    double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	                
+	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+	            
+	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	            
+	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	
 		
 	}

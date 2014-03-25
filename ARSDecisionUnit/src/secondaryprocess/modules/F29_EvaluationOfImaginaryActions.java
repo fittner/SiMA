@@ -12,9 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 
 import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshGoal;
@@ -32,7 +34,7 @@ import memorymgmt.enums.eCondition;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I6_10_receive;
 import modules.interfaces.I6_11_receive;
 import modules.interfaces.I6_11_send;
@@ -53,6 +55,12 @@ import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionali
 public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements I6_2_receive, I6_10_receive, I6_11_send,
         itfInspectorGenericActivityTimeChart {
     public static final String P_MODULENUMBER = "29";
+    
+    private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+                
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
 
     private ArrayList<String> moTEMPWriteLastActions = new ArrayList<String>();
 
@@ -68,7 +76,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
-	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	private final DecisionEngine moDecisionEngine;
 	
@@ -89,11 +97,14 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      */
     public F29_EvaluationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine decisionEngine,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
         super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
         
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F29", P_MODULE_STRENGTH).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F29", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
         
         applyProperties(poPrefix, poProp);
         
@@ -259,6 +270,17 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         if (selectedAction.equals(eAction.NONE.toString())==true) {
             log.warn("Erroneous action taken. Action cannot be NONE. This must be an error in the codelets");
         }
+        
+        
+        Random randomGenerator = new Random();
+        
+        double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+                
+        double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+            
+        double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+            
+        moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
         
         
 //        //=== TEST ONLY ONE ACTION === //

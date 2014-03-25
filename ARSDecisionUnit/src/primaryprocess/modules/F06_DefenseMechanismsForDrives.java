@@ -77,7 +77,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send, I5_22_receive, itfInspectorBarChartF06,itfInspectorCombinedTimeChart,itfInspectorModificationDrives {
 	public static final String P_MODULENUMBER = "06";
 
-	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
+	public static final String P_INTENSITY_REDUCTION_RATE_SELF_PRESERV = "INTENSITY_REDUCTION_RATE_SELF_PRESERV";
 	   
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	private ArrayList<clsDriveMesh> moDriveList_Output;

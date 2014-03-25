@@ -15,7 +15,7 @@ import java.util.SortedMap;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_22_send;
 import modules.interfaces.I5_22_receive;
 
@@ -32,11 +32,14 @@ import base.tools.toText;
 import du.enums.pa.ePartialDrive;
 
 /**
- * This function reduces the affect values of drives by spliting them according to the attached modules. 
- * It controls the amount of the neutralized drive energy and generates lust 
+ * This function reduces the affect values of drives by splitting them according to the attached modules. 
+ * It controls the amount of the neutralized drive intensity and generates lust 
  * 
  * @author zeilinger
  * 07.05.2012, 15:47:42
+ * 
+ * @author Aldo Martinez Pinanez
+ * @since 13.03.2014
  * 
  */
 public class F56_Desexualization_Neutralization extends clsModuleBase
@@ -44,8 +47,8 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 
 	public static final String P_MODULENUMBER = "56";
 
-	public static final String P_ENERGY_REDUCTION_RATE_SEXUAL = "ENERGY_REDUCTION_RATE_SEXUAL";
-	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
+	public static final String P_INTENSITY_REDUCTION_RATE_SEXUAL = "INTENSITY_REDUCTION_RATE_SEXUAL";
+	public static final String P_INTENSITY_REDUCTION_RATE_SELF_PRESERV = "INTENSITY_REDUCTION_RATE_SELF_PRESERV";
 	
 	/*
 	 * Input/Output of module
@@ -54,11 +57,11 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 	private ArrayList<clsDriveMesh> moDrives_OUT;
 	
 	/** Reference to the storage for freed psychic energy, to distribute it to other modules.; @since 12.10.2011 19:28:27 */
-	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final DT3_PsychicIntensityStorage moPsychicIntensityStorage;
 	
 	/** Personality parameter, determines how much drive energy is reduced.; @since 12.10.2011 19:18:39 */
-	private double mrEnergyReductionRateSexual;
-	private double mrEnergyReductionRateSelfPreserv;
+	private double mrIntensityReductionRateSexual;
+	private double mrIntensityReductionRateSelfPreserv;
 
 	/**
 	 * property key where the selected implementation stage is stored.
@@ -79,6 +82,8 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 	 * 
 	 * @author zeilinger
 	 * 02.05.2011, 15:54:40
+	 * @author Aldo Martinez Pinanez
+	 * @since 13.02.2014
 	 *
 	 * @param poPrefix
 	 * @param poProp
@@ -90,15 +95,15 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT3_PsychicIntensityStorage poPsychicIntensityStorage , clsPersonalityParameterContainer poPersonalityParameterContainer)
 	throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
-		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+		this.moPsychicIntensityStorage = poPsychicIntensityStorage;
 		
 		applyProperties(poPrefix, poProp); 
-		mrEnergyReductionRateSexual=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_ENERGY_REDUCTION_RATE_SEXUAL).getParameterDouble();
-		mrEnergyReductionRateSelfPreserv=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_ENERGY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
+		mrIntensityReductionRateSexual=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_INTENSITY_REDUCTION_RATE_SEXUAL).getParameterDouble();
+		mrIntensityReductionRateSelfPreserv=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_INTENSITY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
 
 		
 		moChartInputData = new HashMap<String,Double>();
@@ -120,7 +125,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 		String text ="";
 		text += toText.listToTEXT("moDrives_IN", moDrives_IN);	
 		text += toText.listToTEXT("moDrives_OUT", moDrives_OUT);
-		text += toText.valueToTEXT("moPsychicEnergyStorage", moPsychicEnergyStorage);
+		text += toText.valueToTEXT("moPsychicIntensityStorage", moPsychicIntensityStorage);
 		
 		return text;
 	}
@@ -152,7 +157,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 		
 		// 1.Reduce drive energy and send it to DT3
 		
-		double sumReducedEnergy = 0.0;
+        double rSumReducedIntensity = 0.0d;
 		// copy input to allow comparison before/after
 		moDrives_OUT = (ArrayList<clsDriveMesh>)deepCopy(moDrives_IN);
 		
@@ -161,15 +166,15 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 			// take specified amount of drive energy
 			
 			if (oEntry.getPartialDrive() != ePartialDrive.UNDEFINED) {
-				sumReducedEnergy += oEntry.getQuotaOfAffect() * mrEnergyReductionRateSexual;
+			    rSumReducedIntensity += oEntry.getQuotaOfAffect() * mrIntensityReductionRateSexual;
 				// update the drive energy 
-				oEntry.setQuotaOfAffect(oEntry.getQuotaOfAffect() * (1 - mrEnergyReductionRateSexual));
+				oEntry.setQuotaOfAffect(oEntry.getQuotaOfAffect() * (1 - mrIntensityReductionRateSexual));
 			}
 			else {
-				sumReducedEnergy += oEntry.getQuotaOfAffect() * mrEnergyReductionRateSelfPreserv;
+			    rSumReducedIntensity += oEntry.getQuotaOfAffect() * mrIntensityReductionRateSelfPreserv;
 				
 				// update the drive energy 
-				oEntry.setQuotaOfAffect(oEntry.getQuotaOfAffect() * (1 - mrEnergyReductionRateSelfPreserv));
+				oEntry.setQuotaOfAffect(oEntry.getQuotaOfAffect() * (1 - mrIntensityReductionRateSelfPreserv));
 			}
 
 			
@@ -177,30 +182,20 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 		
 		
 		// send free drive energy to DT3 for distribution to other modules
-		moPsychicEnergyStorage.receive_D3_1(sumReducedEnergy);
-		
-		
+        moPsychicIntensityStorage.receive_D3_1(rSumReducedIntensity);
 		
 		
 		// 2. Distribute free energy
 		
-		moPsychicEnergyStorage.divideFreePsychicEnergy();
+        moPsychicIntensityStorage.divideFreePsychicIntensity(moPsychicIntensityStorage.calculatePsychicIntensityDemand(),moPsychicIntensityStorage.calculateSumPriorities());
+        
+        
+        // 3. update estimations
+        moPsychicIntensityStorage.updateEstimations();
 		
-		// also include libido from DT1 (MZ: really? I'm still not sure about this, but IH tells me to do this.)
-		/*reducedEnergy = 0.0;
-		reducedEnergy = moLibidoBuffer.send_D1_2() * mrEnergyReductionRate;
-		// update libidobuffer
-		moLibidoBuffer.receive_D1_3(reducedEnergy);*/
-		// send free drive energy to DT3 for distribution to other modules
-		//moPsychicEnergyStorage.receive_D3_1(reducedEnergy);
-		
-		
-		
-		// 3. calculate Super Ego Strength according to the sum of reduced intensity
 	      moEgoStrength = calculateEgoStrength(sumReducedEnergy);
 
-		
-		//create chart Data
+		//4. create chart Data
 		for( clsDriveMesh oDriveMeshEntry:moDrives_OUT){
 			String oaKey = oDriveMeshEntry.getChartShortString();
 			moChartOutputData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
@@ -209,6 +204,8 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 			String oaKey = oDriveMeshEntry.getChartShortString();
 			moChartInputData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
 		}
+		
+		
 		
 	}
 
@@ -321,7 +318,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "This function reduces the affect values of drives by spliting them according to the attached modules. It controls the amount of the neutralized drive energy and generates lust";
+		moDescription = "This function reduces the affect values of drives by spliting them according to the attached modules. It controls the amount of the neutralized drive intensity and generates lust";
 	}
 
 	/* (non-Javadoc)
