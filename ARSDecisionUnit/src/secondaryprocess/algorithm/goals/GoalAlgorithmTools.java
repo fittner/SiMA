@@ -223,7 +223,7 @@ public class GoalAlgorithmTools {
         }
 		
 		
-		if (oActionCondition.equals(eCondition.NULLOBJECT)==false && oActionCondition.equals(eCondition.EXECUTED_NONE)==false) {
+		if (oActionCondition.equals(eCondition.NULLOBJECT)==false) {
 		    poContinuedGoalAsPlanGoal.setCondition(oActionCondition);
 		}
 		
