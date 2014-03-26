@@ -104,9 +104,15 @@ public enum eCondition {
 	GOTO_GOAL_IN_PERCEPTION,
 	COMPOSED_CODELET,
 	
+	ACT_FINISHED,
+	
 	//Special condition by emotions
 	PANIC,
 	SPEECH;
+	
+	
+	
+	
 	
 
 	

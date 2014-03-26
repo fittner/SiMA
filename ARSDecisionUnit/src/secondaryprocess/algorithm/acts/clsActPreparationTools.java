@@ -135,6 +135,7 @@ public class clsActPreparationTools {
 	                //Goal completed, close goal
 	                oResult.add(eCondition.GOAL_COMPLETED);
 	            }
+	            oResult.add(eCondition.ACT_FINISHED);
 	        } else {
 	            //If not the last image
 	            oResult.add(eCondition.SET_FOLLOW_ACT);

@@ -58,6 +58,13 @@ protected final Logger log;
 		moLibidoBuffers = initBuffers();
 		log = logger.clsLogger.getLog("PsychicIntensityBuffer");
 	}
+	
+	   public DT1_PsychicIntensityBuffer() {
+	        mrBufferedLibido = 0;
+	        moLibidoInitValue= 0.0;
+	        moLibidoBuffers = initBuffers();
+	        log = logger.clsLogger.getLog("PsychicIntensityBuffer");
+	    }
 	private HashMap<eDrive,clsDriveBuffer> initBuffers(){
 	    HashMap<eDrive,clsDriveBuffer> oRetVal = new HashMap<eDrive,clsDriveBuffer>();
 	    oRetVal.put(eDrive.STOMACH, new clsDriveBuffer());

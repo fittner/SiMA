@@ -17,6 +17,7 @@ import base.tools.ElementNotFoundException;
 import logger.clsLogger;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 
 /**
@@ -32,6 +33,7 @@ public abstract class clsCodelet {
 	protected clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
 	protected clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;	//Current STM, in order to get the previous actions
 	protected clsCodeletHandler moCodeletHandler;		//The codelethandler, in order to execute other codelets within this one
+    protected DT1_PsychicIntensityBuffer moPsychicIntensityBuffer; //Buffer of Psychic Intensity (the drive generation is based an these values)
 	protected String moCodeletName = "";
 	protected String moCodeletDescription = "";
 	
