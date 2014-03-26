@@ -92,10 +92,20 @@ public class clsOrientation {
                 oChange = eAction.MOVE_FORWARD;
                 break;
             case UNKNOWNPOSITION:
-                //TODO(Kollmann): add code for searching
+                //Kollmann: temporarly removed, as this somehow increases the chance of the
+                //          object instance staying infinitely in the tempLocalizationStorage (in F46)
+                oChange = eAction.SEARCH1;
                 break;
             default:
                 moLogger.warn("relative position of target entity invalid.");
+        }
+        
+        switch(moPosition.b) {
+        case CARRYING:
+            oChange = eAction.DROP;
+            break;
+        default:
+            break;
         }
         
         clsWordPresentationMesh oDifferenceWPM = clsActionTools.createAction(oChange);

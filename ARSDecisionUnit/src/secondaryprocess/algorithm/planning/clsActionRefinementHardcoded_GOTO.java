@@ -110,7 +110,6 @@ public class clsActionRefinementHardcoded_GOTO implements itfActionRefinement {
         {
             clsWordPresentationMesh oRefinedAction = null;
             
-//            clsWordPresentationMesh oActionObject = getActionObject(poActionWPM);
             clsWordPresentationMesh oActionObjectType = getActionObjectType(poActionWPM); 
             clsWordPresentationMesh oActionObjectInstance = findActionObjectInstance(oActionObjectType);
             if(oActionObjectInstance == null) {
@@ -120,7 +119,6 @@ public class clsActionRefinementHardcoded_GOTO implements itfActionRefinement {
                 {
                     moLogger.info("The action object " + oActionObjectType + " for action " + poActionWPM + " could not be found in list of focused objects - possibly search for it");
                     oRefinedAction = clsActionTools.createAction(eAction.SEARCH1);
-//                    oRefinedAction = clsActionTools.createAction(eAction.NONE);
                 }
             } else { 
                 oRefinedAction = clsOrientationReasoner.getInstance().getActionToEntity(oActionObjectInstance);
