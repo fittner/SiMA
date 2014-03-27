@@ -72,9 +72,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	 * @param poWordPresentationAssociation
 	 * @param poDriveMeshAssociation
 	 */
-	public clsThingPresentationMesh(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
-									ArrayList<clsAssociation> poAssociatedPhysicalRepresentations,
-									String poContent) {
+	public clsThingPresentationMesh(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poAssociatedPhysicalRepresentations, String poContent) {
 		
 		super(poDataStructureIdentifier);
 		moInternalAssociatedContent = poAssociatedPhysicalRepresentations; 
