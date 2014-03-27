@@ -18,6 +18,7 @@ import logger.clsLogger;
 import memorymgmt.enums.eCondition;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import secondaryprocess.functionality.decisionpreparation.GoalInitiationProcessor.GoalInitiatorInterface;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_EXECUTE_EXTERNAL_ACTION;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_FLEE;
@@ -61,10 +62,10 @@ public class DecisionEngine implements DecisionEngineInterface {
     private final GoalInitiatorInterface goalInitiator;
     private final clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm;
 
-    public DecisionEngine(clsEnvironmentalImageMemory poEnvironmentalImageStorage, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, GoalInitiatorInterface goalInitiator) {
+    public DecisionEngine(clsEnvironmentalImageMemory poEnvironmentalImageStorage, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, DT1_PsychicIntensityBuffer libidoBuffer, GoalInitiatorInterface goalInitiator) {
         //Init codelethandler
         stm = poShortTimeMemory;
-        moCodeletHandler = new clsCodeletHandler(poEnvironmentalImageStorage, poShortTimeMemory);
+        moCodeletHandler = new clsCodeletHandler(poEnvironmentalImageStorage, poShortTimeMemory, libidoBuffer);
         
         //Register codelets
         this.registerCodelets();

@@ -235,7 +235,7 @@ public class clsPsychicApparatus {
 		moConceptMemory = new clsShortTermMemory<clsWordPresentationMeshMentalSituation>(60, 7, clsWordPresentationMeshMentalSituation.getNullObject());
 		
 		//Init codelethandler
-		moDecisionEngine = new DecisionEngine(moEnvironmentalImageStorage, moShortTimeMemory, new GoalInitiator());
+		moDecisionEngine = new DecisionEngine(moEnvironmentalImageStorage, moShortTimeMemory, moLibidoBuffer, new GoalInitiator());
 		//moCodeletHandler = new clsCodeletHandler(moEnvironmentalImageStorage, moShortTimeMemory);
 		//this.registerCodelets();
 		
