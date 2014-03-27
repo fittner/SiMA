@@ -64,10 +64,10 @@ public class cls_GenericTimeChartInspector extends cls_AbstractTimeChartInspecto
 	
     private void addLimitLines(XYSeriesCollection poDataset) {
     	//tweak to have a nice static upper and lower limit 
-    	moUpperLimit = new XYSeries("");
-    	moUpperLimit.setMaximumItemCount(mnHistoryLength);
-    	moUpperLimit.add(mnCurrentTime, mrUpper);
-    	poDataset.addSeries(moUpperLimit);    
+    	//moUpperLimit = new XYSeries("");
+    	//moUpperLimit.setMaximumItemCount(mnHistoryLength);
+    	//moUpperLimit.add(mnCurrentTime, mrUpper);
+    	//poDataset.addSeries(moUpperLimit);    
 		
     	moLowerLimit = new XYSeries("");
     	moLowerLimit.setMaximumItemCount(mnHistoryLength);
@@ -79,14 +79,14 @@ public class cls_GenericTimeChartInspector extends cls_AbstractTimeChartInspecto
     protected XYSeriesCollection createDataset() {
     	XYSeriesCollection poDataset = super.createDataset();
 		
-		addLimitLines(poDataset);
-		
+    	addLimitLines(poDataset);
+	
 		return poDataset;
     }    
     
     protected void updateLimitLines() {
 		moLowerLimit.add(mnCurrentTime, mrLower );
-		moUpperLimit.add(mnCurrentTime, mrUpper );    	
+		//moUpperLimit.add(mnCurrentTime, mrUpper );    	
     }	
     
     @Override

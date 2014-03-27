@@ -110,8 +110,19 @@ public class clsActionRefinementHardcoded_GOTO implements itfActionRefinement {
         {
             clsWordPresentationMesh oRefinedAction = null;
             
-            clsWordPresentationMesh oActionObject = getActionObject(poActionWPM);
-            oRefinedAction = clsOrientationReasoner.getInstance().getActionToEntity(oActionObject);
+            clsWordPresentationMesh oActionObjectType = getActionObjectType(poActionWPM); 
+            clsWordPresentationMesh oActionObjectInstance = findActionObjectInstance(oActionObjectType);
+            if(oActionObjectInstance == null) {
+                if(oActionObjectType == null) {
+                    moLogger.error("Action " + poActionWPM + " can not be refined via GOTO refinement, as the action has no action object");
+                } else
+                {
+                    moLogger.info("The action object " + oActionObjectType + " for action " + poActionWPM + " could not be found in list of focused objects - possibly search for it");
+                    oRefinedAction = clsActionTools.createAction(eAction.SEARCH1);
+                }
+            } else { 
+                oRefinedAction = clsOrientationReasoner.getInstance().getActionToEntity(oActionObjectInstance);
+            }
     
             replaceAction(poActionWPM, oRefinedAction);
         } catch (InvalidParameterException e) {

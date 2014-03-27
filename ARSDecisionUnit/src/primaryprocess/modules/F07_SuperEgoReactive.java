@@ -15,12 +15,13 @@ import java.lang.Object;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.SortedMap;
 import java.util.regex.PatternSyntaxException;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
-import memorymgmt.storage.DT3_PsychicEnergyStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_10_receive;
 import modules.interfaces.I5_11_receive;
 import modules.interfaces.I5_11_send;
@@ -33,7 +34,6 @@ import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.helpstructures.clsPair;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
@@ -41,6 +41,7 @@ import base.modules.ePsychicInstances;
 import base.tools.toText;
 import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eOrgan;
@@ -67,6 +68,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 
 	public static final String P_MODULENUMBER = "07";
 	
+    private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
+    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
+    
+    private double mrModuleStrength;
+    private double mrInitialRequestIntensity;
+	
 	public static final String P_SUPER_EGO_STRENGTH = "SUPER_EGO_STRENGTH";
 	public static final String P_SUPER_EGO_RULES_FILE = "SUPER_EGO_RULES_FILE";
 	public static final String P_PSYCHIC_ENERGY_THESHOLD = "PSYCHIC_ENERGY_THESHOLD";
@@ -90,10 +97,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDrives;
 	private ArrayList<clsReadSuperEgoRules> oRegeln;     //die Regeln die das Über-Ich verbietet Ivy
 	private ArrayList<clsSuperEgoConflict> moForbiddenDrives;
-	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions;
+	private ArrayList<clsSuperEgoConflictPerception> moForbiddenPerceptions;
 	private ArrayList<eEmotionType> moForbiddenEmotions;
 	
-	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	//private ArrayList<String> Test= new ArrayList<String>() ;
 //	Ivy begin ~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~.~*~ //
@@ -118,14 +125,17 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	public F07_SuperEgoReactive(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicIntensityStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
-		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
-        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F07", P_MODULE_STRENGTH).getParameterDouble();
+        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F07", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
 		
 		moForbiddenDrives = new ArrayList<clsSuperEgoConflict>();
-		moForbiddenPerceptions = new ArrayList<clsPair<eContentType,String>>();
+		moForbiddenPerceptions = new ArrayList<clsSuperEgoConflictPerception>();
 		moForbiddenEmotions = new ArrayList<eEmotionType>();
 		
 		applyProperties(poPrefix, poProp); 
@@ -439,17 +449,24 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			e.printStackTrace();
 		}
 		
+		Random randomGenerator = new Random();
 		
 		
-		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, threshold_psychicEnergy, msPriorityPsychicEnergy);
-		// if there is enough psychic energy
-	
+		double rRequestedPsychicIntensity = threshold_psychicEnergy + (randomGenerator.nextDouble()*(0.1 - -0.1) + -0.1);
 		
+		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+		
+		// if there is enough psychic energy	
 
 		if (rReceivedPsychicEnergy > threshold_psychicEnergy
 				/* for test purposes only: */ || true)
 			checkInternalizedRules();	// check perceptions and drives, and apply internalized rules
-
+		
+		
+		double rConsumedPsychicIntensity = rReceivedPsychicEnergy*0.9;
+		
+	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
+				
 	}
 
 	/* (non-Javadoc)
@@ -646,20 +663,36 @@ public class F07_SuperEgoReactive extends clsModuleBase
 
                         
                         double conflictTension;
+                        
                         for (int fd = 0; fd < oRegeln.get(i).FDriveSize(); fd++) {
-                            conflictTension = (quotaOfAffect_of_ForbiddenDrives + oRegeln.get(i).getSuperEgoRuleStrength());
+                            conflictTension = quotaOfAffect_of_ForbiddenDrives + oRegeln.get(i).getSuperEgoRuleStrength();
                             
-                            if (!moForbiddenDrives.contains(oRegeln.get(i).getForbiddenDrive(fd))) {
+                            // hier ist noch ein Fehler drinnen: am 18.03.2014 war
+                            // der Datentyp von moForbiddenDrives: ArrayList<clsSuperEgoConflict>
+                            // aber
+                            // der Datentyp von oRegeln.get(i).getForbiddenDrive(fd): clsPair <eDriveComponent, eOrgan>
+                            // Das heißt, die folgende if-Bedingung kann niemals false werden - der Compiler wurde da ausgetrickst.
+                            // Das Gleiche gilt auch für die übernächste if-Bedingung.
+                            if (!moForbiddenDrives.contains(oRegeln.get(i).getForbiddenDrive(fd)))
                                 moForbiddenDrives.add(new clsSuperEgoConflict(oRegeln.get(i).getForbiddenDrive(fd), conflictTension));
-                            }
+                          
                             // if drive is already in list of forbidden drives: change conflict tension
                             else
                                 moForbiddenDrives.get(moForbiddenDrives.lastIndexOf(oRegeln.get(i).getForbiddenDrive(fd))).setConflictTension(conflictTension);
                         }
+                        
                         for (int fp = 0; fp < oRegeln.get(i).FObjectSize(); fp++) {
+                            // bei der folgenden Zeile könnte man noch schauen, ob es bei perceptions nicht soetwas gibt wie "Stärke einer Wahrnehmung" - analog dem quota of affect eines Triebes
+                            conflictTension = oRegeln.get(i).getSuperEgoRuleStrength();
+                            
                             if (!moForbiddenPerceptions.contains(oRegeln.get(i).getForbiddenObject(fp))) 
-                                moForbiddenPerceptions.add(oRegeln.get(i).getForbiddenObject(fp));
+                                moForbiddenPerceptions.add(new clsSuperEgoConflictPerception(oRegeln.get(i).getForbiddenObject(fp), conflictTension));
+                            
+                            // if perception is already in list of forbidden perceptions: change conflict tension
+                            else
+                                moForbiddenPerceptions.get(moForbiddenPerceptions.lastIndexOf(oRegeln.get(i).getForbiddenDrive(fp))).setConflictTension(conflictTension);
                         }
+                        
                         for (int fe = 0; fe < oRegeln.get(i).FEmotionSize(); fe++) {
                             if (!moForbiddenEmotions.contains(oRegeln.get(i).getForbiddenEmotion(fe))) 
                                 moForbiddenEmotions.add(oRegeln.get(i).getForbiddenEmotion(fe));
@@ -748,9 +781,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 
     /* (non-Javadoc)
      * 
-     * checks whether all conflicting drive meshes of one super-ego rule are contained in the array list of incoming drive mashes
+     * checks whether all conflicting drive meshes of one super-ego rule are contained in the array list of incoming drive meshes
      * 
-     * returns the sum of quotas of affect of all forbidden drives (if all forbidden drives are in the array list os incoming drives)
+     * returns the sum of quotas of affect of all forbidden drives (if all forbidden drives are in the array list of incoming drives)
      * returns -1 if not all forbidden drives are in the array list of incoming drives
      *
      * @author Jordakieva
@@ -876,7 +909,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh, ArrayList<eEmotionType> poForbiddenEmotions, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
+	public void send_I5_11(ArrayList<clsSuperEgoConflictPerception> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh, ArrayList<eEmotionType> poForbiddenEmotions, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
 		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poForbiddenPerceptions, poPerceptionalMesh, poForbiddenEmotions, poEmotions, moWordingToContext2);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenPerceptions, poPerceptionalMesh, moWordingToContext2);

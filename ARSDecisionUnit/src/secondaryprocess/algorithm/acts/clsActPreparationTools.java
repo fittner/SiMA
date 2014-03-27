@@ -33,8 +33,8 @@ public class clsActPreparationTools {
 	private static final double mrMomentConfidenceThreshold = 0.25;
 	private static final double mrDefaultConfidenceIncreasement = 0.5;
 	private static final double mrActConfidenceThreshold = 0.5;
-	private static final int mnMovementTimeoutStartValue = 30;
-	private static final int mnMovementTimeoutEstalishValue = 20;
+	private static final int mnMovementTimeoutStartValue = 2;
+	private static final int mnMovementTimeoutEstalishValue = 1;
 	
 	private static final double P_ACTMATCHACTIVATIONTHRESHOLD = 1.0;
 	
@@ -135,6 +135,7 @@ public class clsActPreparationTools {
 	                //Goal completed, close goal
 	                oResult.add(eCondition.GOAL_COMPLETED);
 	            }
+	            oResult.add(eCondition.ACT_FINISHED);
 	        } else {
 	            //If not the last image
 	            oResult.add(eCondition.SET_FOLLOW_ACT);
@@ -338,7 +339,8 @@ public class clsActPreparationTools {
 		
 		//If the PI match of the moment is over the recognition threshold, then set a new timeout value, else not.
 		double oPIMatch = clsActTools.getPIMatch(oResult);
-		if (oPIMatch >= mrMomentActivationThreshold && oResult.getDS_ID() != oPreviousMoment.getDS_ID()) {
+
+		if (oPIMatch >= mrMomentActivationThreshold) {
 			//Check if the moment already has a default movement timeout value
 			int nIndividualMovementTimeout = clsActTools.getIndividualMovementTimeoutValue(oResult);
 			

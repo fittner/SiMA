@@ -74,18 +74,15 @@ defend the forbidden drives or not.
  * 
  */
 public class F06_DefenseMechanismsForDrives extends clsModuleBase implements 
-					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send,I5_22_receive, itfInspectorBarChartF06,itfInspectorCombinedTimeChart,itfInspectorModificationDrives {
+					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send, I5_22_receive, itfInspectorBarChartF06,itfInspectorCombinedTimeChart,itfInspectorModificationDrives {
 	public static final String P_MODULENUMBER = "06";
 
-	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
+	public static final String P_INTENSITY_REDUCTION_RATE_SELF_PRESERV = "INTENSITY_REDUCTION_RATE_SELF_PRESERV";
 	   
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	private ArrayList<clsDriveMesh> moDriveList_Output;
 	
 	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
-	
-	private double moSuperEgoStrength=0.0;
-
 	
 	private ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
@@ -235,8 +232,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	    moBlockedContentStorage = poBlockedContentStorage;
 
 	    applyProperties(poPrefix, poProp);
-	    // the Ego strength is equal to the neutralization rate
-	    moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_ENERGY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
 	    
 	    moTimeChartData =  new HashMap<String, Double>();
 	}
@@ -555,7 +550,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private void selectAndActivateDefenseMechanisms()
 	{
 	    
-	    double conflictTension = 0.4; // nur fuer Testzwecke 
+	    double conflictTension = calculateConflictTension(moForbiddenDrives_Input); 
 	    
 	    // defense is only activated if there is a basic anxiety
 	    if (GetEmotionIntensity(eEmotionType.ANXIETY) < 0.1) {
@@ -598,9 +593,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	                    Projection(Drive_After_Turning_Against_Self);
 	            }
 	        }
-	        else if (moEgoStrength < 0.25)  ;//defenseMechanism_Repression(moForbiddenDrives_Input);
+	        else if (moEgoStrength < 0.25) defenseMechanism_Repression(moForbiddenDrives_Input);
 	        else if (moEgoStrength < 0.35) defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
-	        else                            defenseMechanism_Sublimation(moForbiddenDrives_Input);
+	        else                           defenseMechanism_Sublimation(moForbiddenDrives_Input);
 	        
 	    }       
 	    else {
@@ -609,7 +604,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	                // (drive aim active -> passive)
 	                //defenseMechanism_ReversalIntoTheOpposite(moForbiddenDrives_Input);
 	        }
-	        else if (moEgoStrength <= 0.7)  defenseMechanism_Displacement(moForbiddenDrives_Input);
+	        else if (moEgoStrength <= 0.7) defenseMechanism_Displacement(moForbiddenDrives_Input);
 	        else {
 	                // ACHTUNG: fuer diesen Abwehrmechanismus gibt es noch kein fuktionierendes drive aim (= act)
 	                // -> ist daher einstweilen nur ein dummy-Aufruf
@@ -627,6 +622,25 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		PassForbiddenDrives++;
 
 		
+	}
+	
+	/* (non-Javadoc)
+    *
+    * @author gelbard
+    * 11.03.2014, 15:51:00
+    * 
+    * This function calculates the average conflict tension of the drives in the list of forbidden drives.
+    *
+    */
+	private double calculateConflictTension(ArrayList<clsSuperEgoConflict> forbiddenDrives_Input) {
+	    double conflictTension = 0.0;
+	    int sizeOfForbiddenDrivesList = forbiddenDrives_Input.size();
+	    
+	    for(int i=0; i < sizeOfForbiddenDrivesList; i++) {
+	        conflictTension += forbiddenDrives_Input.get(i).getConflictTension();
+	    }
+	    
+	    return conflictTension / sizeOfForbiddenDrivesList;
 	}
 	
 	// Search of the emotion types if they exist
@@ -1908,8 +1922,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
      * @see modules.interfaces.I5_22_receive#receive_I5_22(double)
      */
     @Override
-    public void receive_I5_22(double poSuperEgoStrength) {
-        moSuperEgoStrength = poSuperEgoStrength;
+    public void receive_I5_22(double poEgoStrength) {
+        moEgoStrength = poEgoStrength;
         
     }
 	

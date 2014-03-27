@@ -61,6 +61,8 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
                 clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oAct);
                 
                 if (oMoment.isNullObject()==false) {
+                    //TODO (Kollmann): Decrement deadlock timeout when available
+                    
                     int nTimeOutValue = clsActTools.getMovementTimeoutValue(oMoment);
                     
                     if (nTimeOutValue>0) {

@@ -95,6 +95,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	
 	/** (wendt) Localitzation of things for the primary process. With the localization, memories can be triggered; @since 15.11.2011 16:23:43 */
 	private clsEnvironmentalImageMemory moTempLocalizationStorage;
+	// This array holds references to the clones created from the localization storage entities. These clones will be added to the perceived image
+	// so they can be used during spreading activation. After spreading activation, they need to be removed from the perceived image again - therefore
+	// we hold the references.
+	private ArrayList<clsThingPresentationMesh> moTempEntities = new ArrayList<>();
 
 	/* Module-Parameters */
 	
@@ -335,7 +339,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 			
 			//if not then add to 
 			if (oFoundTPM.isNullObject()==true) {
-				clsThingPresentationMesh oNewTPM;
+				clsThingPresentationMesh oNewTPM = null;
 				try {
 					oNewTPM = (clsThingPresentationMesh) oTPM.clone();
 					String distance = clsMeshTools.getUniqueTP(oNewTPM, eContentType.DISTANCE);
@@ -345,13 +349,15 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 					    clsEntityTools.removeDistanceAndPosition(oNewTPM);
 					}
 					
-					
+					//Store reference to the cloned TPM so it can be removed later
+					moTempEntities.add(oNewTPM);
+                    
 					oExtendEntityList.add(oNewTPM);
 				} catch (CloneNotSupportedException e) {
 					// TODO (wendt) - Auto-generated catch block
+				    log.warn("Could enchance perception with envionmental TPM {} because TPM could not be cloned", oTPM);
 					e.printStackTrace();
 				}
-
 			}
 		}
 		
@@ -369,14 +375,13 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 * @param poPI
 	 */
 	private void removeEnhancedEnvironmentalImageFromPerception(clsThingPresentationMesh poPI) {
-		ArrayList<clsThingPresentationMesh> oTPMList = clsMeshTools.getAllSubTPMFromTPM(poPI);
-		
-		for (clsThingPresentationMesh oTPM : oTPMList) {
-			clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPos = clsPrimarySpatialTools.getPosition(oTPM);
-			if (oPos.b==null && oPos.c==null) {
-				clsMeshTools.deleteAssociationInObject(poPI, oTPM);
-			}
+	    
+		for(clsThingPresentationMesh oTempTPM : moTempEntities) {
+		    clsMeshTools.deleteAssociationInObject(poPI, oTempTPM);
 		}
+		
+		//clear the array - we don't need it anymore
+		moTempEntities.clear();
 	}
 	
 	/**

@@ -43,7 +43,7 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eOrifice;
+import du.enums.eOrgan;
 import du.enums.pa.ePartialDrive;
 
 /**
@@ -292,7 +292,8 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                             clsThingPresentationMesh oActionObject = null;
                             for (clsAssociation oAssActionObject : oPerceivedAction.getExternalAssociatedContent()) {
                                 try {
-                                    oActionObject = (clsThingPresentationMesh) oAssActionObject.getLeafElement();
+                                        oActionObject = (clsThingPresentationMesh) oAssActionObject.getLeafElement();
+
                                 } catch (Exception E) {
                                     continue;
                                 }
@@ -314,7 +315,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                                                     oDrive = eDrive.valueOf(oDM.getPartialDrive().toString());
                                                 } else {
                                                     // if DM is self preservation drive
-                                                    if (oDM.getActualBodyOrificeAsENUM() == eOrifice.UNDEFINED)
+                                                    if (oDM.getActualDriveSourceAsENUM()==eOrgan.UNDEFINED)
                                                         continue;
                                                     oDrive = eDrive.valueOf(oDM.getActualDriveSourceAsENUM().toString());
                                                 }
