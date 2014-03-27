@@ -47,7 +47,6 @@ public class clsCC_SEND_TO_PHANTASY extends clsConsequenceCodelet {
 		if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
 			
 			//clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);	//Set first focus, Trigger search no transfer between images
-			
 			//Set the focus structure for phantasy
 			//clsActionTools.setSupportiveDataStructure(this.moGoal, this.moGoal.getSupportiveDataStructure());
 		

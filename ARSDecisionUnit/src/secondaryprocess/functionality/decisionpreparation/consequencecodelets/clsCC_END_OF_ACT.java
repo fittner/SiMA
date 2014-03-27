@@ -42,14 +42,13 @@ public class clsCC_END_OF_ACT extends clsConsequenceCodelet {
 	@Override
 	protected void processGoal() {
 	    
-	    
 	    // 1. Read out drives form Intentional Image
 	    
 	    // 2. Determine drives for satisfaction
 	    
 	    // 3. satisfy drives 
 	    
-	        // Access to moPsychicIntensityBuffer
+	    // Access to moPsychicIntensityBuffer
 	}
 
 	/* (non-Javadoc)
