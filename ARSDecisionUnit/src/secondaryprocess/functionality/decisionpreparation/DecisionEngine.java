@@ -26,6 +26,7 @@ import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_FOCUS_ON;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_PERFORM_BASIC_ACT_ANALYSIS;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_SEND_TO_PHANTASY;
+import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_END_OF_ACT;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_EXECUTE_MOVEMENT;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_EXECUTE_STATIC_ACTION;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_FOCUS_MOVEMENT;
@@ -324,6 +325,7 @@ public class DecisionEngine implements DecisionEngineInterface {
         clsDC_InitAction oDCTrans_InitAction = new clsDC_InitAction(moCodeletHandler);
 
         clsDCComposed_Goto oDCComposed_Goto = new clsDCComposed_Goto(moCodeletHandler);
+        clsCC_END_OF_ACT oCC_END_OF_ACT = new clsCC_END_OF_ACT(moCodeletHandler);
         
         //Action codelets
         clsAC_EXECUTE_EXTERNAL_ACTION oACExecuteExternalAction = new clsAC_EXECUTE_EXTERNAL_ACTION(moCodeletHandler);
