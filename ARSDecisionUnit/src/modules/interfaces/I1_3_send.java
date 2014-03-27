@@ -6,10 +6,8 @@
  */
 package modules.interfaces;
 
-import java.util.HashMap;
 
-import du.enums.eSensorExtType;
-import du.itf.sensors.clsSensorExtern;
+import communication.datatypes.clsDataContainer;
 
 /**
  * Connection of a bodily module to its neurosymbolization module. F10->F11
@@ -19,5 +17,5 @@ import du.itf.sensors.clsSensorExtern;
  * 
  */
 public interface I1_3_send {
-	public void send_I1_3(HashMap<eSensorExtType, clsSensorExtern> pnData);
+	public void send_I1_3(clsDataContainer pnData);
 }

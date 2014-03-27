@@ -8,6 +8,7 @@
 package body;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -38,8 +39,10 @@ import datatypes.clsMutableDouble;
 import du.enums.eBodyActionType;
 import du.enums.eFacialExpression;
 import du.enums.eSpeechExpression;
+import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionShare;
 import du.itf.actions.clsActionSpeechInvited;
+import du.itf.actions.clsInternalActionCommand;
 import du.itf.actions.clsInternalActionSweat;
 import du.itf.actions.clsInternalActionTurnVision;
 import entities.abstractEntities.clsEntity;
@@ -281,6 +284,7 @@ public class clsComplexBody extends clsBaseBody implements
 	public void stepSensing() {
 		moExternalIO.stepSensing();
 		moInternalIO.stepSensing();
+		moBrain.sendDataToDU();
 	}
 	
 	@Override
@@ -331,11 +335,27 @@ public class clsComplexBody extends clsBaseBody implements
 
 	@Override
 	public void stepExecution() {
+		//Execute Action Commands
+		processActionCommands(moBrain.getActions());
+		processInternalActionCommands(moBrain.getInternalActions());
+	
 		moInternalActionProcessor.dispatch();
 		moExternalIO.stepExecution();
 		moInternalIO.stepExecution();
 	}
 
+	private void processActionCommands(ArrayList<clsActionCommand> moCommands){
+		for( clsActionCommand oCmd : moCommands ) {
+			moExternalIO.getActionProcessor().call(oCmd);
+		}
+	}
+	
+	private void processInternalActionCommands(ArrayList<clsInternalActionCommand> moCommands){
+		for( clsInternalActionCommand oCmd : moCommands ) {
+			moInternalActionProcessor.call(oCmd);
+		}
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

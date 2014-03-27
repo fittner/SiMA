@@ -243,6 +243,7 @@ public abstract class clsEntity implements itfGetBody, itfEntity {
 	 *
 	 */
 	protected abstract void setEntityType();
+	public abstract sim.physics2D.util.Double2D getPosition();
 
 
 	/**

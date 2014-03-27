@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
 import prementalapparatus.symbolization.clsSensorToSymbolConverter;
 import prementalapparatus.symbolization.eSymbolExtType;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolAcousticEntry;
@@ -33,9 +35,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eSensorExtType;
-import du.itf.sensors.clsSensorExtern;
-
 /**
  * Conversion of raw data into neuro-symbols.
  * 
@@ -60,7 +59,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	public static final String P_MODULENUMBER = "11";
 	
 	/** holds the sensor symbols of the external perception (IN I1.3) @since 27.07.2011 13:58:58 */
-	private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
+	private clsDataContainer moEnvironmentalData;
 	/** holds the sensortype and the sensor symbol (converted from the extSensor value) (OUT I2.3) @since 27.07.2011 14:00:18 */
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;
 
@@ -96,7 +95,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.mapToTEXT("moEnvironmentalData", moEnvironmentalData);
+        text += toText.valueToTEXT("moEnvironmentalData", moEnvironmentalData);
 		text += toText.mapToTEXT("moSymbolData", moSymbolData);
 
 		return text;
@@ -150,8 +149,8 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_3(HashMap<eSensorExtType, clsSensorExtern> poData) {
-		moEnvironmentalData = (HashMap<eSensorExtType, clsSensorExtern>) deepCopy(poData); 
+	public void receive_I1_3(clsDataContainer poData) {
+	    moEnvironmentalData = poData; 
 	}
 
 	/* (non-Javadoc)

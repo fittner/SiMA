@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
@@ -25,8 +27,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eSensorIntType;
-import du.itf.sensors.clsDataBase;
 
 
 /**
@@ -48,9 +48,9 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	private double libidoImpactFactor;
 	
 
-	private HashMap<eSensorIntType, clsDataBase> moSensorSystems_IN;
-	
-	private HashMap<eSensorIntType, clsDataBase> moSensorSystems_OUT;
+    private clsDataContainer moSensorSystems_IN;
+    
+    private clsDataContainer moSensorSystems_OUT;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -186,7 +186,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 * @see pa.interfaces.send._v38.I1_8_send#send_I1_8(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_1(double prData, HashMap<eSensorIntType, clsDataBase> poData) {
+	public void send_I1_1(double prData, clsDataContainer poData) {
 		((I1_1_receive)moModuleList.get(40)).receive_I1_1(prData,poData);
 		putInterfaceData(I1_1_send.class, prData);
 	}
@@ -200,8 +200,8 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I0_2(HashMap<eSensorIntType, clsDataBase> poData) {
-		moSensorSystems_IN = (HashMap<eSensorIntType, clsDataBase>) deepCopy(poData); 
+	public void receive_I0_2(clsDataContainer poData) {
+		moSensorSystems_IN = poData; 
 	}
 
 	/* (non-Javadoc)

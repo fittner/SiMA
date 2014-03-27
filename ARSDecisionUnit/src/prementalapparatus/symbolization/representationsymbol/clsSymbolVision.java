@@ -3,22 +3,40 @@ package prementalapparatus.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import communication.datatypes.clsDataPoint;
+
+import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsVisionEntry;
 
-public class clsSymbolVision extends du.itf.sensors.clsVision implements itfGetDataAccessMethods, itfSymbolVision {
-	
-	public clsSymbolVision(du.itf.sensors.clsVision poSensor) {
-		super();
-		
-		moSensorType = poSensor.getSensorType();
-		
-		for (du.itf.sensors.clsSensorExtern oEntry:poSensor.getDataObjects()) {
-			clsSymbolVisionEntry oE = new clsSymbolVisionEntry( (du.itf.sensors.clsVisionEntry)oEntry);
-			moEntries.add(oE);
-		}		
-	}
+public class clsSymbolVision implements itfGetDataAccessMethods, itfSymbolVision {
+    protected eSensorExtType moSensorType;
+    protected ArrayList<clsSymbolVisionEntry> moEntries = new ArrayList<clsSymbolVisionEntry>();
 
+
+    public clsSymbolVision(clsDataPoint poSensor) {
+        super();
+        
+        moSensorType = eSensorExtType.valueOf(poSensor.getType());
+        for(clsDataPoint oEntry: poSensor.getAssociatedDataPoints()){
+            if(oEntry.getType().equals("ENTITY")){
+                clsSymbolVisionEntry oE = new clsSymbolVisionEntry(oEntry);
+                moEntries.add(oE);
+            }
+        }
+ 
+    }
+    public eSensorExtType getSensorType() {
+        return moSensorType;
+    }
+    public void setSensorType(eSensorExtType poSensorType) {
+        moSensorType = poSensorType;
+    }
+    
+    public ArrayList<clsSymbolVisionEntry> getDataObjects() {
+        return moEntries;
+        }
+    
 	@Override
 	public Method[] getDataAccessMethods() {
 		return itfSymbolVision.class.getMethods();

@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import base.clsCommunicationInterface;
 
+import communication.datatypes.clsDataContainer;
 import communicationPorts.clsCommunicationPortBodyData;
 import communicationPorts.clsCommunicationPortControl;
 
@@ -148,8 +149,8 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	 *
 	 * @return
 	 */
-	public clsSensorData getSensorData() {
-		return moSensorData;
+	public clsDataContainer getSensorData() {
+		return moCommunicationPortBodyData.getSensorData();
 	}
 	
 	/**

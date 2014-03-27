@@ -8,8 +8,6 @@ package modules.interfaces;
 
 import java.util.HashMap;
 
-import du.enums.eFastMessengerSources;
-
 
 
 
@@ -21,5 +19,5 @@ import du.enums.eFastMessengerSources;
  * 
  */
 public interface I2_1_receive  {
-	public void receive_I2_1(Double poLibidoSymbol ,HashMap<eFastMessengerSources, Double> poData);
+	public void receive_I2_1(Double poLibidoSymbol ,HashMap<String, Double> poData);
 }

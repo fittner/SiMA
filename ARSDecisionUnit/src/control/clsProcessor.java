@@ -10,18 +10,16 @@ import java.util.HashMap;
 
 import org.slf4j.Logger;
 
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
+
 import properties.clsProperties;
 
 import base.modules.clsPsychicApparatus;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
-import du.enums.eSensorExtType;
-import du.enums.eSensorIntType;
 import du.itf.actions.itfActionProcessor;
 import du.itf.actions.itfInternalActionProcessor;
-import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsInspectorPerceptionItem;
-import du.itf.sensors.clsSensorData;
-import du.itf.sensors.clsSensorExtern;
 //import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 //import pa._v38.memorymgmt.old.clsInformationRepresentationManagement;
 //import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
@@ -120,7 +118,7 @@ public class clsProcessor implements itfProcessor  {
 	}
 		
 	@Override
-	public void applySensorData(clsSensorData poData) {
+	public void applySensorData(clsDataContainer poData) {
 		moPsyApp.moF39_SeekingSystem_LibidoSource.receive_I0_1( mrLibidostream );
 		moPsyApp.moF39_SeekingSystem_LibidoSource.receive_I0_2( separateFASTMESSENGERData(poData) );
 		moPsyApp.moF01_SensorsMetabolism.receive_I0_3( separateHomeostaticData(poData) );
@@ -136,12 +134,15 @@ public class clsProcessor implements itfProcessor  {
 	 * @param poData
 	 * @return
 	 */
-	private HashMap<eSensorIntType, clsDataBase> separateFASTMESSENGERData(clsSensorData poData) {
-		HashMap<eSensorIntType, clsDataBase> oResult = new HashMap<eSensorIntType, clsDataBase>();
-		
-		oResult.put(eSensorIntType.FASTMESSENGER, poData.getSensorInt(eSensorIntType.FASTMESSENGER));
-
-		return oResult;
+	private clsDataContainer separateFASTMESSENGERData(clsDataContainer poData) {
+        clsDataContainer oResult = new clsDataContainer();
+        
+        for(clsDataPoint oDataPoint :poData.getData()){
+            if(oDataPoint.getType().equals("FAST_MESSENGER_SYSTEM")){
+                oResult.addDataPoints(oDataPoint.getAssociatedDataPoints());
+            }
+        }
+        return oResult;
 	}
 
 	/**
@@ -153,86 +154,62 @@ public class clsProcessor implements itfProcessor  {
 	 * @param poData The sensor data collected by the various sources of the body.
 	 * @return
 	 */
-	private HashMap<eSensorIntType, clsDataBase> separateHomeostaticData(clsSensorData poData) {
-		HashMap<eSensorIntType, clsDataBase> oResult = new HashMap<eSensorIntType, clsDataBase>();
-		
-		oResult.put(eSensorIntType.ENERGY, poData.getSensorInt(eSensorIntType.ENERGY));
-		oResult.put(eSensorIntType.ENERGY_CONSUMPTION, poData.getSensorInt(eSensorIntType.ENERGY_CONSUMPTION));
-		oResult.put(eSensorIntType.HEALTH, poData.getSensorInt(eSensorIntType.HEALTH));
-		oResult.put(eSensorIntType.STAMINA, poData.getSensorInt(eSensorIntType.STAMINA));
-		oResult.put(eSensorIntType.STOMACH, poData.getSensorInt(eSensorIntType.STOMACH));
-		oResult.put(eSensorIntType.STOMACHTENSION, poData.getSensorInt(eSensorIntType.STOMACHTENSION));
-		oResult.put(eSensorIntType.INTESTINEPRESSURE, poData.getSensorInt(eSensorIntType.INTESTINEPRESSURE));
-		oResult.put(eSensorIntType.TEMPERATURE, poData.getSensorInt(eSensorIntType.TEMPERATURE));
-		oResult.put(eSensorIntType.FASTMESSENGER, poData.getSensorInt(eSensorIntType.FASTMESSENGER));
-		oResult.put(eSensorIntType.SLOWMESSENGER, poData.getSensorInt(eSensorIntType.SLOWMESSENGER));
-		
-		
-		return oResult;
+	private clsDataContainer separateHomeostaticData(clsDataContainer poData) {
+        clsDataContainer oResult = new clsDataContainer();
+        HashMap<String,String> oF01Data = new HashMap<String,String>();
+        oF01Data.put("SLOW_MESSENGER_SYSTEM", "");
+        oF01Data.put("FAST_MESSENGER_SYSTEM", "");
+        oF01Data.put("STOMACH_ENERGY", "");
+        oF01Data.put("STOMACH_TENSION", "");
+        oF01Data.put("STOMACH_INTESTINE_TENSION", "");
+        oF01Data.put("STAMINA", "");
+        oF01Data.put("HEALTH", "");
+        oF01Data.put("TEMPERATUR", "");
+        oF01Data.put("ENERGY_CONSUMPTION", "");
+        
+           for(clsDataPoint oDataPoint :poData.getData()){
+                if(oF01Data.containsKey(oDataPoint.getType())){
+                    oResult.addDataPoint(oDataPoint);
+                }
+            }        
+           return oResult;
 	}
 
-	/**
-	 * Extracts the external sensor data (more or less the five senses) from the rest of the sensor data. Necessary to create the input for F10.
-	 *
-	 * @author langr
-	 * 12.08.2009, 20:41:51
-	 *
-	 * @param poData The sensor data collected by the various sources of the body.
-	 * @return
-	 */
-	private HashMap<eSensorExtType, clsSensorExtern> separateEnvironmentalData(clsSensorData poData) {
-		HashMap<eSensorExtType, clsSensorExtern> oResult = new HashMap<eSensorExtType, clsSensorExtern>();
-//      |
-		
-		//collect environmental data only
-		oResult.put(eSensorExtType.ACCELERATION, poData.getSensorExt(eSensorExtType.ACCELERATION));
-		oResult.put(eSensorExtType.ACOUSTIC, poData.getSensorExt(eSensorExtType.ACOUSTIC));
-		oResult.put(eSensorExtType.BUMP, poData.getSensorExt(eSensorExtType.BUMP));
-		oResult.put(eSensorExtType.EATABLE_AREA, poData.getSensorExt(eSensorExtType.EATABLE_AREA));
-		oResult.put(eSensorExtType.MANIPULATE_AREA, poData.getSensorExt(eSensorExtType.MANIPULATE_AREA));
-		oResult.put(eSensorExtType.OLFACTORIC, poData.getSensorExt(eSensorExtType.OLFACTORIC));
-		oResult.put(eSensorExtType.TACTILE, poData.getSensorExt(eSensorExtType.TACTILE));
-		oResult.put(eSensorExtType.VISION_NEAR, poData.getSensorExt(eSensorExtType.VISION_NEAR));
-		oResult.put(eSensorExtType.VISION_MEDIUM, poData.getSensorExt(eSensorExtType.VISION_MEDIUM));
-		oResult.put(eSensorExtType.VISION_FAR, poData.getSensorExt(eSensorExtType.VISION_FAR));
-		oResult.put(eSensorExtType.ACOUSTIC_NEAR, poData.getSensorExt(eSensorExtType.ACOUSTIC_NEAR));
-        oResult.put(eSensorExtType.ACOUSTIC_MEDIUM, poData.getSensorExt(eSensorExtType.ACOUSTIC_MEDIUM));
-        oResult.put(eSensorExtType.ACOUSTIC_FAR, poData.getSensorExt(eSensorExtType.ACOUSTIC_FAR));
-		oResult.put(eSensorExtType.POSITIONCHANGE, poData.getSensorExt(eSensorExtType.POSITIONCHANGE));
-		oResult.put(eSensorExtType.RADIATION, poData.getSensorExt(eSensorExtType.RADIATION));
-		oResult.put(eSensorExtType.VISION_SELF, poData.getSensorExt(eSensorExtType.VISION_SELF));
-	    oResult.put(eSensorExtType.VISION_CARRIED_ITEMS, poData.getSensorExt(eSensorExtType.VISION_CARRIED_ITEMS));
-
-		//oResult.put(eSensorExtType.ACOUSTIC_SELF, poData.getSensorExt(eSensorExtType.ACOUSTIC_SELF));
-		
-		return oResult;
-	}
-
-	/**
-	 * Extract the internal sensor data (like pain or position of the elbow) from the rest of the sensor data. Necessary to create the input for F12.
-	 *
-	 * @author langr
-	 * 12.08.2009, 20:41:48
-	 *
-	 * @param poData The sensor data collected by the various sources of the body.
-	 * @return
-	 */
-	private HashMap<eSensorExtType, clsSensorExtern> separateBodyData(clsSensorData poData) {
-		HashMap<eSensorExtType, clsSensorExtern> oResult = new HashMap<eSensorExtType, clsSensorExtern>();
-		
-//		//TODO: (all) collect (but first generate) bodily data only
-//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
-//		oResult.put(eSensorExtType., poData.eSensorExtType(eSensorIntType.));
-//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
-//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
-//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
-//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
-//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
-//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
-
-		return oResult;
-	}
-
+    /**
+     * Extracts the external sensor data (more or less the five senses) from the rest of the sensor data. Necessary to create the input for F10.
+     *
+     * @author langr
+     * 12.08.2009, 20:41:51
+     *
+     * @param poData The sensor data collected by the various sources of the body.
+     * @return
+     */
+    private clsDataContainer separateEnvironmentalData(clsDataContainer poData) {
+        clsDataContainer oResult = new clsDataContainer();
+            HashMap<String,String> oEnvData = new HashMap<String,String>();
+            oEnvData.put("VISION", "");
+            
+               for(clsDataPoint oDataPoint :poData.getData()){
+                    if(oEnvData.containsKey(oDataPoint.getType())){
+                        oResult.addDataPoint(oDataPoint);
+                    }
+                }        
+    return oResult;
+}
+    /**
+     * Extract the internal sensor data (like pain or position of the elbow) from the rest of the sensor data. Necessary to create the input for F12.
+     *
+     * @author langr
+     * 12.08.2009, 20:41:48
+     *
+     * @param poData The sensor data collected by the various sources of the body.
+     * @return
+     */
+    private clsDataContainer separateBodyData(clsDataContainer poData) {  
+        return new clsDataContainer();
+    }
+    
+    
 	@Override
 	public void getActionCommands(itfActionProcessor poActionContainer) {
 		moPsyApp.moF32_Actuators.getOutput(poActionContainer);

@@ -125,6 +125,11 @@ public abstract class clsMobile extends clsEntity implements itfMobile{
 	/*
 	 * Override to configure inventory-size
 	 */
+	
+	@Override
+	public sim.physics2D.util.Double2D getPosition() {
+		return getMobileObject2D().getPosition();
+	}
 	protected void setEntityInventory() {
 		moInventory= new clsInventory(this, mnMaxItems, mnMaxMass);
 	}

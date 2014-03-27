@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
-import java.util.Map;
+
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
 
 import properties.clsProperties;
 
@@ -25,18 +27,7 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eOrgan;
 import du.enums.eSensorIntType;
-import du.enums.eSlowMessenger;
-import du.itf.sensors.clsDataBase;
-import du.itf.sensors.clsFastMessenger;
-import du.itf.sensors.clsFastMessengerEntry;
-import du.itf.sensors.clsHealthSystem;
-import du.itf.sensors.clsIntestinePressure;
-import du.itf.sensors.clsSlowMessenger;
-import du.itf.sensors.clsStaminaSystem;
-import du.itf.sensors.clsStomachTension;
-
 
 
 /**
@@ -62,7 +53,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	private ArrayList<String> moChartColumnsCaptions;
 	
 	/** holds a map of all homoestatic values sorted by eSensorIntType as key (IN I1.2) @since 27.07.2011 13:15:08 */
-	private HashMap<eSensorIntType, clsDataBase> moBodilyDemands_IN;
+	private clsDataContainer moBodilyDemands_IN;
 	
 	/** holds the symbolized list of homoestatic values (OUT I2.2)
 	 * String is the name eSensorIntType
@@ -119,7 +110,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.mapToTEXT("moHomeostasis", moBodilyDemands_IN);
+        text += toText.valueToTEXT("moHomeostasis", moBodilyDemands_IN);
 		text += toText.mapToTEXT("moHomeostaticSymbol", moHomeostaticSymbol_OUT);
 		
 		return text;
@@ -157,10 +148,9 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 * @see pa.interfaces.I1_1#receive_I1_1(int)
 	 */
 	@Override
-	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> pnData) {
+	public void receive_I1_2(clsDataContainer pnData) {
 		
-		moBodilyDemands_IN = (HashMap<eSensorIntType, clsDataBase>) deepCopy(pnData);
-		
+	    moBodilyDemands_IN = pnData;		
 		//System.out.printf("\n F03 in ="+ moHomeostasis);
 	}
 
@@ -198,60 +188,38 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 		*/
 	}
 
-	/**
-	 * here we collect all the information from the body relevant for homeostatic drives in one list <symbol, tendion>
-	 * Normalize them if necessary
-	 *
-	 * @since 16.07.2012 13:37:23
-	 *
-	 */
-	private void CollectBodilyDemandsInOneList() {
-		
-		//STOMACHTENSION
-		if(moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)!=null)
-			moHomeostaticSymbol_OUT.put(eOrgan.STOMACH.name(), ((clsStomachTension)moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)).getTension() );
-
-		//INTESTINEPRESSURE
-		if(moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)!=null)
-			moHomeostaticSymbol_OUT.put(eOrgan.RECTUM.name(), ((clsIntestinePressure)moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)).getPressure() );
-
-		//HEALTH
-		if(moBodilyDemands_IN.get(eSensorIntType.HEALTH)!=null)
-			moHomeostaticSymbol_OUT.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moBodilyDemands_IN.get(eSensorIntType.HEALTH)).getHealthValue()  );
-		
-		//STAMINA
-		if(moBodilyDemands_IN.get(eSensorIntType.STAMINA)!=null)
-			moHomeostaticSymbol_OUT.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moBodilyDemands_IN.get(eSensorIntType.STAMINA)).getStaminaValue() );
-		
-		//SLOWMESSENGER
-		clsSlowMessenger oSlowMessengerSystem = (clsSlowMessenger)moBodilyDemands_IN.get(eSensorIntType.SLOWMESSENGER);
-		if(oSlowMessengerSystem!=null)
-		{
-			for(  Map.Entry< eSlowMessenger, Double > oSlowMessenger : oSlowMessengerSystem.getSlowMessengerValues().entrySet() ) {
-				moHomeostaticSymbol_OUT.put(oSlowMessenger.getKey().name(), oSlowMessenger.getValue());
-			}
-		}
-		
-		//FASTMESSENGER
-		clsFastMessenger oFastMessengerSystem = (clsFastMessenger)moBodilyDemands_IN.get(eSensorIntType.FASTMESSENGER);
-		if(oFastMessengerSystem!=null)
-		{
-			for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.getEntries() ) {
-				String oName = oFastMessenger.getSource().name();
-				Double rValue = oFastMessenger.getIntensity();
-				if (oName.equals("STOMACH")) {
-					oName += "_PAIN";
-
-					Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
-					moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
-
-				}
-				moHomeostaticSymbol_OUT.put(oName, rValue);
-			}
-		}
-	
-		
-	}
+    /**
+     * here we collect all the information from the body relevant for homeostatic drives in one list <symbol, tendion>
+     * Normalize them if necessary
+     *
+     * @since 16.07.2012 13:37:23
+     *
+     */
+    private void CollectBodilyDemandsInOneList() {
+        //TODO: remove this ampping and use the receieved values
+        for (clsDataPoint oDataPoint : moBodilyDemands_IN.getData()) {
+            if (oDataPoint.getType().equals("STOMACH_TENSION")) {
+                moHomeostaticSymbol_OUT.put("STOMACH", Double.parseDouble(oDataPoint.getValue()));
+            } else if (oDataPoint.getType().equals("STOMACH_INTESTINE_TENSION")) {
+                moHomeostaticSymbol_OUT.put("RECTUM", Double.parseDouble(oDataPoint.getValue()));
+            } else if (oDataPoint.getType().equals("HEALTH")) {
+                moHomeostaticSymbol_OUT.put("HEALTH", Double.parseDouble(oDataPoint.getValue()));
+            } else if (oDataPoint.getType().equals("STAMINA")) {
+                moHomeostaticSymbol_OUT.put("STAMINA", Double.parseDouble(oDataPoint.getValue()));
+            } else if (oDataPoint.getType().equals("SLOW_MESSENGER_SYSTEM")) {
+                for(clsDataPoint oEntry: oDataPoint.getAssociatedDataPoints()){
+                    moHomeostaticSymbol_OUT.put(oEntry.getType(), Double.parseDouble(oEntry.getValue()));
+                }
+            }
+            else if (oDataPoint.getType().equals("FAST_MESSENGER_SYSTEM")) {
+                for(clsDataPoint oEntry: oDataPoint.getAssociatedDataPoints()){
+                    moHomeostaticSymbol_OUT.put(oEntry.getType(), Double.parseDouble(oEntry.getValue()));
+                }
+            }
+        }
+    
+        
+    }
 	
 	
 

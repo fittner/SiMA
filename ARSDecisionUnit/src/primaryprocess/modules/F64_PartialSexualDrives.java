@@ -35,7 +35,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eFastMessengerSources;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
 import du.enums.pa.eDriveComponent;
@@ -84,7 +83,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 	
 	private DT4_PleasureStorage moPleasureStorage;
 	
-	private HashMap<eFastMessengerSources, Double> moErogenousZones_IN;
+	private HashMap<String, Double> moErogenousZones_IN;
 
 	private boolean mnChartColumnsChanged = true;
 
@@ -116,7 +115,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		moPleasureStorage = poPleasureStorage;
 		
 		moLibidoInput=0.0;
-		moErogenousZones_IN = new HashMap<eFastMessengerSources, Double>();
+        moErogenousZones_IN = new HashMap<String, Double>();
 		moSplitterFactors = new HashMap<String, Double>();
 		moSplitterFactors.put("ORAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_ORAL).getParameterDouble());
 		moSplitterFactors.put("ANAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_ANAL).getParameterDouble());
@@ -197,7 +196,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 	 * @see pa._v38.interfaces.modules.I2_1_receive#receive_I2_1(java.lang.Double)
 	 */
 	@Override
-	public void receive_I2_1(Double poLibidoSymbol, HashMap<eFastMessengerSources, Double> poData) {
+	public void receive_I2_1(Double poLibidoSymbol, HashMap<String, Double> poData) {
 		moLibidoInput = poLibidoSymbol;
 		moErogenousZones_IN = poData;
 	}
@@ -227,29 +226,29 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		    before += oDriveValues.a;
 		    before += oDriveValues.b;
 		}
-		for (eFastMessengerSources eType: moErogenousZones_IN.keySet()){
-			if(eType == eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA){
-			    send_D1_3(eDrive.ORAL,new clsPair<Double,Double>(moErogenousZones_IN.get(eType)*moImpactFactors.get("ORAL"),0.0));
-			}
-			else if(eType == eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA){
-			    send_D1_3(eDrive.ORAL,new clsPair<Double,Double>(0.0,moErogenousZones_IN.get(eType)*moImpactFactors.get("ORAL")));
-			}
-			else if(eType == eFastMessengerSources.ORIFICE_PHALLIC_MUCOSA){
-			    double rVal = moErogenousZones_IN.get(eType)*moImpactFactors.get("PHALLIC");
-			    send_D1_3(eDrive.PHALLIC,new clsPair<Double,Double>(rVal/2,rVal/2));
+		for (String eType: moErogenousZones_IN.keySet()){
+            if(eType.equals("ORIFICE_ORAL_AGGRESSIV_MUCOSA")){
+                send_D1_3(eDrive.ORAL,new clsPair<Double,Double>(moErogenousZones_IN.get(eType)*moImpactFactors.get("ORAL"),0.0));
+            }
+            else if(eType.equals("ORIFICE_ORAL_LIBIDINOUS_MUCOSA")){
+                send_D1_3(eDrive.ORAL,new clsPair<Double,Double>(0.0,moErogenousZones_IN.get(eType)*moImpactFactors.get("ORAL")));
+            }
+            else if(eType.equals("ORIFICE_PHALLIC_MUCOSA")){
+                double rVal = moErogenousZones_IN.get(eType)*moImpactFactors.get("PHALLIC");
+                send_D1_3(eDrive.PHALLIC,new clsPair<Double,Double>(rVal/2,rVal/2));
 
-			}
-			else if(eType == eFastMessengerSources.ORIFICE_RECTAL_MUCOSA){
-	             double rVal = moErogenousZones_IN.get(eType)*moImpactFactors.get("ANAL");
-	             send_D1_3(eDrive.ANAL,new clsPair<Double,Double>(rVal/2,rVal/2));
+            }
+            else if(eType.equals("ORIFICE_RECTAL_MUCOSA")){
+                 double rVal = moErogenousZones_IN.get(eType)*moImpactFactors.get("ANAL");
+                 send_D1_3(eDrive.ANAL,new clsPair<Double,Double>(rVal/2,rVal/2));
 
 
-			}
-			else if(eType == eFastMessengerSources.ORIFICE_GENITAL_MUCOSA){
-	             double rVal = moErogenousZones_IN.get(eType)*moImpactFactors.get("GENITAL");
-	             send_D1_3(eDrive.GENITAL,new clsPair<Double,Double>(rVal/2,rVal/2));
-			}
-		}
+            }
+            else if(eType.equals("ORIFICE_GENITAL_MUCOSA")){
+                 double rVal = moErogenousZones_IN.get(eType)*moImpactFactors.get("GENITAL");
+                 send_D1_3(eDrive.GENITAL,new clsPair<Double,Double>(rVal/2,rVal/2));
+            }
+        }
 		//TODO: handle pleasure calculation
 	    double after=0.0;
 	    for(clsPair<Double,Double> oDriveValues: receive_D1_5().values()){

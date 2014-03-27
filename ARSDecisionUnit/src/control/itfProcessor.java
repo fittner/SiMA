@@ -8,10 +8,11 @@ package control;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import communication.datatypes.clsDataContainer;
+
 import du.itf.actions.itfActionProcessor;
 import du.itf.actions.itfInternalActionProcessor;
 import du.itf.sensors.clsInspectorPerceptionItem;
-import du.itf.sensors.clsSensorData;
 
 /**
  * The interface for the different implementations of the psychoanalytically inspired decision units. The three methods are to be called in the following
@@ -49,7 +50,7 @@ public interface itfProcessor {
 	 *
 	 * @param poData
 	 */
-	public abstract void applySensorData(clsSensorData poData);
+	public abstract void applySensorData(clsDataContainer poData);
 	
 	
 	/**
