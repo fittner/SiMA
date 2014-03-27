@@ -24,6 +24,9 @@ public class clsActionSleep extends clsActionCommand {
 	public clsActionSleep(eActionSleepIntensity peIntensity) {
 		meIntensity=peIntensity;
 	}
+	public clsActionSleep() {
+		meIntensity=eActionSleepIntensity.LIGHT;
+	}
 	
 	@Override
 	public String getLog() {

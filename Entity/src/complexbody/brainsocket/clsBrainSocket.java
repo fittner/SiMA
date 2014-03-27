@@ -15,6 +15,8 @@ import java.util.Vector;
 
 import org.slf4j.Logger;
 
+import communicationPorts.clsCommunicationPortDUControl;
+import communicationPorts.clsCommunicationPortDUData;
 import complexbody.internalSystems.clsFastMessengerEntry;
 import complexbody.io.actuators.actionExecutors.clsAction;
 import complexbody.io.sensors.external.clsSensorAcoustic;
@@ -51,6 +53,7 @@ import sim.util.Double2D;
 import singeltons.clsSingletonMasonGetter;
 import singeltons.clsSingletonProperties;
 import tools.clsPolarcoordinate;
+import base.clsCommunicationInterface;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
 import body.itfStepProcessing;
@@ -122,6 +125,9 @@ public class clsBrainSocket implements itfStepProcessing {
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt; //reference
 //	private clsSensorDataCalculation moSensorCalculation;
 	
+	private clsCommunicationPortDUData moCommunicationPortDUData;
+	private clsCommunicationPortDUControl moCommunicationPortControl;
+	
 	private Vector<clsUnrealSensorValueVision> moUnrealVisionValues;
 	protected final Logger log;
 	
@@ -131,8 +137,21 @@ public class clsBrainSocket implements itfStepProcessing {
 		moInternalActionProcessor=poInternalActionProcessor;
 		moSensorsExt = poSensorsExt;
 		moSensorsInt = poSensorsInt;
+		
+		moCommunicationPortDUData = new clsCommunicationPortDUData(this);
+		moCommunicationPortControl = new clsCommunicationPortDUControl(this);
+		
 //		moSensorCalculation = new clsSensorDataCalculation();
 		applyProperties(poPrefix, poProp);
+	}
+	
+	public void setDUDataInterface(clsCommunicationInterface poInterface){
+		moCommunicationPortDUData.setCommunicationInterface(poInterface);
+	}
+	
+
+	public void setDUControlInterface(clsCommunicationInterface poInterface){
+		moCommunicationPortControl.setCommunicationInterface(poInterface);
 	}
 
 	public static clsProperties getDefaultProperties(String poPrefix) {

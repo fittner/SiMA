@@ -8,6 +8,11 @@ package decisionunit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import base.clsCommunicationInterface;
+
+import communicationPorts.clsCommunicationPortBodyData;
+import communicationPorts.clsCommunicationPortControl;
+
 import properties.clsProperties;
 
 import du.enums.eDecisionType;
@@ -36,6 +41,10 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	///** history of selected and executed actions.; @since 06.07.2011 12:47:05 */
 	//public clsActionLogger moActionLogger;
 	
+	protected clsCommunicationPortControl moCommunicationPortControl;
+	protected clsCommunicationPortBodyData moCommunicationPortBodyData;
+
+	
 	protected HashMap<String, ArrayList<clsInspectorPerceptionItem>> moPerceptionInspectorData;
 
 	/**
@@ -51,6 +60,19 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 		setDecisionUnitType();
 		applyProperties(poPrefix, poProp);
 		//moActionLogger = new clsActionLogger(uid);
+		
+		moCommunicationPortBodyData = new clsCommunicationPortBodyData(this);
+		moCommunicationPortControl = new clsCommunicationPortControl(this);
+	}
+	
+	@Override
+	public void setBodyDataInterface(clsCommunicationInterface poInterface){
+		moCommunicationPortBodyData.setCommunicationInterface(poInterface);
+	}
+	
+	@Override
+	public void setControlInterface(clsCommunicationInterface poInterface){
+		moCommunicationPortControl.setControlInterface(poInterface);
 	}
 	
 	/**

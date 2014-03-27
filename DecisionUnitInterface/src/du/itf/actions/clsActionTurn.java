@@ -16,6 +16,11 @@ public class clsActionTurn extends clsActionCommand {
 	private eActionTurnDirection meDirection;
 	private double mnAngle; //in degrees, will automatically be transformed to rad 
 
+	
+	public clsActionTurn(){
+		meDirection = eActionTurnDirection.TURN_LEFT;
+		mnAngle=2;
+	}
 	//Default Angle per Cycle is 2 degrees
 	public clsActionTurn(eActionTurnDirection peDirection) {
 		meDirection=peDirection;

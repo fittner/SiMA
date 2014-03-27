@@ -9,6 +9,8 @@ package du.itf;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import base.clsCommunicationInterface;
+
 import du.enums.eDecisionType;
 import du.itf.actions.itfActionProcessor;
 import du.itf.actions.itfInternalActionProcessor;
@@ -71,4 +73,8 @@ public interface itfDecisionUnit {
 	
 	
 	public HashMap<String, ArrayList<clsInspectorPerceptionItem>> getPerceptionInspectorData();
+	
+	public void setBodyDataInterface(clsCommunicationInterface poInterface);
+	
+	public void setControlInterface(clsCommunicationInterface poInterface);
 }

@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="/GeneralTools/lib/jfreechart-1.0.11.jar"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/mason.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CommunicationInterface"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
