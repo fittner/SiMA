@@ -29,7 +29,7 @@ public class clsCC_END_OF_ACT extends clsConsequenceCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-    
+
 	public clsCC_END_OF_ACT(clsCodeletHandler poCodeletHandler) {
 		super(poCodeletHandler);
 	}
@@ -43,14 +43,13 @@ public class clsCC_END_OF_ACT extends clsConsequenceCodelet {
 	@Override
 	protected void processGoal() {
 	    
-	    
 	    // 1. Read out drives form Intentional Image
 	    
 	    // 2. Determine drives for satisfaction
 	    
 	    // 3. satisfy drives 
 	    
-	        // Access to moPsychicIntensityBuffer
+	    // Access to moPsychicIntensityBuffer
 	        DT1_PsychicIntensityBuffer x = this.moCodeletHandler.getLibidoBuffer();
 	}
 
