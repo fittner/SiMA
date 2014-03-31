@@ -233,6 +233,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 	    applyProperties(poPrefix, poProp);
 	    
+        // for use case 1: the Ego strength is equal to the neutralization rate
+        // (normalerweise wird sie über receive_I5_22 empfangen - siehe vorletzte Zeile in diesem File)
+        moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_INTENSITY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
+	    
 	    moTimeChartData =  new HashMap<String, Double>();
 	}
 
@@ -566,7 +570,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 
 	    // Selection of defense mechanisms for drives depending on the conflict tension and the ego strength
-	    if (conflictTension <= 0.1) {
+	    if (conflictTension <= 0.01) {
 	        NoDefenseIsDone(); // just to see in the Mason-inspectors that no defense is done
 	        return;
 	    }
@@ -593,7 +597,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	                    Projection(Drive_After_Turning_Against_Self);
 	            }
 	        }
-	        else if (moEgoStrength < 0.25) defenseMechanism_Repression(moForbiddenDrives_Input);
+	        else if (moEgoStrength < 0.25) ;//Das ist nur für UC1 deaktiviert. Sollte man wieder aktivieren. Repression funktioniert einwandfrei. //defenseMechanism_Repression(moForbiddenDrives_Input);
 	        else if (moEgoStrength < 0.35) defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
 	        else                           defenseMechanism_Sublimation(moForbiddenDrives_Input);
 	        
@@ -1923,8 +1927,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
      */
     @Override
     public void receive_I5_22(double poEgoStrength) {
-        moEgoStrength = poEgoStrength;
-        
+        //moEgoStrength = poEgoStrength;
     }
 	
 }
