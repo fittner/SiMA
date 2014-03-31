@@ -5,21 +5,18 @@
  */
 package control;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.slf4j.Logger;
 
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
+import control.interfaces.itfProcessor;
 
 import properties.clsProperties;
 
 import base.modules.clsPsychicApparatus;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
-import du.itf.actions.itfActionProcessor;
-import du.itf.actions.itfInternalActionProcessor;
-import du.itf.sensors.clsInspectorPerceptionItem;
 //import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 //import pa._v38.memorymgmt.old.clsInformationRepresentationManagement;
 //import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
@@ -209,27 +206,6 @@ public class clsProcessor implements itfProcessor  {
         return new clsDataContainer();
     }
     
-    
-	@Override
-	public void getActionCommands(itfActionProcessor poActionContainer) {
-		moPsyApp.moF32_Actuators.getOutput(poActionContainer);
-	}
-	
-	
-	/* (non-Javadoc)
-	 *
-	 * @since 30.10.2012 14:15:44
-	 * 
-	 * @see pa.itfProcessor#getInternalActionCommands(du.itf.actions.itfInternalActionProcessor)
-	 */
-	@Override
-	public void getInternalActionCommands(
-			itfInternalActionProcessor poInternalActionContainer) {
-		moPsyApp.moF67_BodilyReactionOnEmotions.getBodilyReactions(poInternalActionContainer);
-		moPsyApp.moF14_ExternalPerception.getBodilyReactions(poInternalActionContainer);
-		moPsyApp.moF66_SpeechProduction.getBodilyReactions(poInternalActionContainer); //only Debug
-		moPsyApp.moF30_MotilityControl.getBodilyReactions(poInternalActionContainer);
-	}
 	
 	@Override
 	public void step() {
@@ -349,6 +325,15 @@ public class clsProcessor implements itfProcessor  {
 		//UPDATE DataLogger Entries
 		//moPsyApp.moDataLogger.step();
 	}
+	
+	   @Override
+    public clsDataContainer getActions(){
+           return moPsyApp.moF32_Actuators.getActions();
+       }
+       @Override
+    public clsDataContainer getInternalActions(){
+           return moPsyApp.moF67_BodilyReactionOnEmotions.getBodilyReactions();
+       }
 
 	/**
 	 * Getter method for the psychic apparatus. Needed primarily by the various inspectors.
@@ -361,24 +346,9 @@ public class clsProcessor implements itfProcessor  {
 	public clsPsychicApparatus getPsychicApparatus() {
 		return moPsyApp;
 	}
+	
+	
 
-	/* (non-Javadoc)
-	 *
-	 * @since 20.09.2012 10:23:14
-	 * 
-	 * @see pa.itfProcessor#getPerceptionInspectorData()
-	 */
-	@Override
-	public HashMap<String, ArrayList<clsInspectorPerceptionItem>> getPerceptionInspectorData() {
-		
-		HashMap<String, ArrayList<clsInspectorPerceptionItem>> oInspectorData = new HashMap<String, ArrayList<clsInspectorPerceptionItem>>();
-		
-		ArrayList<clsInspectorPerceptionItem> oF14sensorData =  moPsyApp.moF14_ExternalPerception.GetSensorDataForInspectors();
-		
-		oInspectorData.put("F14", oF14sensorData);
-		
-		return oInspectorData;
-	}
 
 	
 }

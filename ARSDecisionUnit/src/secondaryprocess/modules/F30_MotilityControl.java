@@ -34,12 +34,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eInternalActionIntensity;
-import du.itf.actions.clsActionInvite;
-import du.itf.actions.clsActionShare;
-import du.itf.actions.clsInternalActionCommand;
-import du.itf.actions.clsInternalActionSweat;
-import du.itf.actions.itfInternalActionProcessor;
 
 
 /**
@@ -64,7 +58,6 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	private ArrayList<clsEmotion> moEmotions_Input;
 	private clsEntity moEntity;
 	//private int mnCounter, lastTurnDirection, mnTurns;
-	 private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
 	private clsShortTermMemory moShortTermMemory;
 	
 	private clsShortTermMemory moEnvironmentalImageStorage;
@@ -142,19 +135,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	
 
 	
-	 /**
-     * DOCUMENT (hinterleitner) - insert description
-     *
-     * @since 31.10.2013 12:54:43
-     *
-     * @param poInternalActionContainer
-     */
-    public void getBodilyReactions( itfInternalActionProcessor poInternalActionContainer) {
-        
-        for( clsInternalActionCommand oCmd : moInternalActions ) {
-            poInternalActionContainer.call(oCmd);
-        }
-    }
+
 
 
 	/**
@@ -250,13 +231,11 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
  
         
         if ((moActionCommand_Input.toString().contains("SPEAK") && ((moWordingToContext.toString().contains("YES")))) || ( moActionCommand_Input.toString().contains("GOTO")) && ((moWordingToContext.toString().contains("YES")))){
-            triggerSpeechYes(moEmotions_Input);
               
             }  
         
         
         if ((moActionCommand_Input.toString().contains("SPEAK") && ((moWordingToContext.toString().contains("EAT")))) || ( moActionCommand_Input.toString().contains("GOTO")) && ((moWordingToContext.toString().contains("EAT")))){
-            triggerSpeechShare(moEmotions_Input);
               
             } 
 	   
@@ -393,36 +372,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	
 	
 	
-	 /**
-     * DOCUMENT - create initial wording based on input
-     * 
-     * @author hinterleitner
-     * @param moEmotions_Input2
-     * @since 14.12.2013 16:47:31
-     * 
-     */
-    private void triggerSpeechYes(ArrayList<clsEmotion> moEmotions_Input2) {
-        clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
-
-        // Speech  - Yes
-        moInternalActions.add(test);
-
-    }
-
-    private void triggerSpeechShare(ArrayList<clsEmotion> moEmotions_Input2) {
-        clsActionShare testnew1 = new clsActionShare(eInternalActionIntensity.HEAVY);
-
-        // Speech  - Share
-        moInternalActions.add(testnew1);
-    }
-
-    
-    private void triggerSpeechInvite(ArrayList<clsEmotion> moEmotions_Input2) {
-        clsActionInvite testnew1 = new clsActionInvite(eInternalActionIntensity.HEAVY);
-
-        // Speech  - Share
-        moInternalActions.add(testnew1);
-    }
+	
   
 
 //    // AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation

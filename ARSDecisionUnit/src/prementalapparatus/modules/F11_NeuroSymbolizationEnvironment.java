@@ -17,14 +17,7 @@ import communication.datatypes.clsDataContainer;
 
 import prementalapparatus.symbolization.clsSensorToSymbolConverter;
 import prementalapparatus.symbolization.eSymbolExtType;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolAcousticEntry;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolBump;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolEatableArea;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolManipulateArea;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntry;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
-import prementalapparatus.symbolization.representationsymbol.itfSymbolVisionEntry;
 import properties.clsProperties;
 import modules.interfaces.I1_3_receive;
 import modules.interfaces.I2_3_receive;
@@ -287,19 +280,9 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 			itfSymbol oValue = moSymbolData.get(oKey);
 			
 			switch (oKey) {
-				case BUMP: if (((clsSymbolBump)oValue).getBumped()) {
-							oData.set(10, 1.0);
-						} break;
-				case EATABLE_AREA: if (((clsSymbolEatableArea)oValue).getEntries().size() > 1) {
-							oData.set(9, 0.5);
-						} else if (((clsSymbolEatableArea)oValue).getEntries().size() == 1) {
-							oData.set(9, 1.0);
-						} break;
-				case MANIPULATE_AREA: if (((clsSymbolManipulateArea)oValue).getEntries().size() > 1) {
-							oData.set(8, 0.5);
-						} else if (((clsSymbolManipulateArea)oValue).getEntries().size() == 1) {
-							oData.set(8, 1.0);
-						} break; 
+				case BUMP: break;
+				case EATABLE_AREA: break;
+				case MANIPULATE_AREA: break; 
 				case VISION_FAR:
 				case VISION_MEDIUM:
 				case VISION_NEAR:
@@ -311,53 +294,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
                 case ACOUSTIC_NEAR:
                 case ACOUSTIC_MEDIUM:      
                     
-						ArrayList<itfSymbolVisionEntry> oEntries = ((clsSymbolVision)oValue).getEntries();
-						for (int j=0; j<oEntries.size(); j++) {
-							clsSymbolVisionEntry oE = (clsSymbolVisionEntry) oEntries.get(j);
-							int x = -1;
-							switch (oE.getEntityType()) {
-								case ARSIN: x=0; break;
-								case CAKE:   x=1; break;
-								case CAN:    x=2; break;
-								case CARROT: x=3; break;
-								case EXCREMENT: x=4; break;
-								case PLANT: x=5; break;
-								case REMOTEBOT: x=6; break;
-								case STONE:  x=7; break;
-								case WALL:   x=8; break;
-								case RECTANGLE:   x=9; break;
-								
-							}
-							
-							if (x>=0) {
-								oData.set(x, max(rValue=1, oData.get(x)));
-							}
-							 
-						}
-					
-						for (int u=0; i<oEntries.size(); u++) {
-                            clsSymbolAcousticEntry oE = (clsSymbolAcousticEntry) oEntries.get(u);
-                            int x = -1;
-                            switch (oE.getEntityType()) {
-                                case ARSIN: x=0; break;
-                                case CAKE:   x=1; break;
-                                case CAN:    x=2; break;
-                                case CARROT: x=3; break;
-                                case EXCREMENT: x=4; break;
-                                case PLANT: x=5; break;
-                                case REMOTEBOT: x=6; break;
-                                case STONE:  x=7; break;
-                                case WALL:   x=8; break;
-                                case RECTANGLE:   x=9; break;
-                                
-                            }
-                            
-                            if (x>=0) {
-                                oData.set(x, max(rValue=1, oData.get(x)));
-                            }
-                             
-                        }
-            			
+   			
 						
 					break;
 			}

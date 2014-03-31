@@ -9,6 +9,8 @@ package entities;
 
 import java.awt.Color;
 
+import control.interfaces.itfDecisionUnit;
+
 import properties.clsProperties;
 
 import tools.clsPose;
@@ -26,7 +28,6 @@ import body.itfGetExternalIO;
 import body.itfget.itfGetInternalEnergyConsumption;
 import body.itfget.itfGetRadiation;
 import body.itfget.itfGetSensorEngine;
-import du.itf.itfDecisionUnit;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyType;

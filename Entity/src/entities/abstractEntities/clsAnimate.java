@@ -11,13 +11,13 @@ package entities.abstractEntities;
 import java.util.TreeMap;
 
 import complexbody.io.sensors.external.clsSensorEngine;
+import control.interfaces.itfDecisionUnit;
 
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
 import properties.clsProperties;
 
 import registration.clsRegisterEntity;
 
-import du.itf.itfDecisionUnit;
 import entities.enums.eBodyType;
 import body.clsBaseBody;
 import body.clsComplexBody;

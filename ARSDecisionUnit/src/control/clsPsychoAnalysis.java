@@ -5,11 +5,10 @@
  */
 package control;
 
-
-
+import control.interfaces.clsBaseDecisionUnit;
+import control.interfaces.itfProcessor;
 import properties.clsProperties;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
-import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
 
 
@@ -137,9 +136,9 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	public void process() {
 		moProcessor.applySensorData( getSensorData() );
 		moProcessor.step();
-		moPerceptionInspectorData = moProcessor.getPerceptionInspectorData();
-		moProcessor.getInternalActionCommands( getInternalActionProcessor() );
-		moProcessor.getActionCommands( getActionProcessor() );
+		
+		//send Data to Body
+		moCommunicationPortBodyData.sendToBody(moProcessor.getActions(), moProcessor.getInternalActions());
 
 	}
 
@@ -169,6 +168,8 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 		meDecisionType = eDecisionType.PA;
 		
 	}
+
+
 
 
 

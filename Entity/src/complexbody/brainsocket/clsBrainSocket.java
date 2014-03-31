@@ -36,6 +36,8 @@ import complexbody.io.sensors.internal.clsStaminaSensor;
 import complexbody.io.sensors.internal.clsStomachTensionSensor;
 import complexbody.io.sensors.internal.clsTemperatureSensor;
 import complexbody.io.sensors.uitils.clsSensorDataCalculation;
+import control.interfaces.itfDecisionUnit;
+import control.interfaces.itfProcessKeyPressed;
 
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
@@ -60,8 +62,6 @@ import du.enums.eSaliency;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;
-import du.itf.itfDecisionUnit;
-import du.itf.itfProcessKeyPressed;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsInternalActionCommand;
 import du.itf.actions.itfActionProcessor;
@@ -1134,8 +1134,8 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 
 	public void setDecisionUnit(itfDecisionUnit poDecisionUnit) {
 		moDecisionUnit = poDecisionUnit;
-		moDecisionUnit.setInternalActionProcessor(moInternalActionProcessor);
-		moDecisionUnit.setActionProcessor(moActionProcessor);
+		//moDecisionUnit.setInternalActionProcessor(moInternalActionProcessor);
+		//moDecisionUnit.setActionProcessor(moActionProcessor);
 	}
 	
 	

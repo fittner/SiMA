@@ -9,11 +9,12 @@ package entities.abstractEntities;
 
 import java.awt.Color;
 
+import control.interfaces.itfDecisionUnit;
+
 import properties.clsProperties;
 
 import tools.clsPose;
 import du.enums.eEntityType;
-import du.itf.itfDecisionUnit;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;

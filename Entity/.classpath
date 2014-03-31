@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="/GeneralTools/lib/mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/mason.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CommunicationInterface"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ARSDecisionUnit"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

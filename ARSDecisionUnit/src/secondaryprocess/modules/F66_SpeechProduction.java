@@ -37,9 +37,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.itf.actions.clsInternalActionCommand;
-import du.itf.actions.itfInternalActionProcessor;
-
 /**
  * 
  * @author hinterleitner
@@ -76,7 +73,6 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     private clsWordPresentationMesh moWording_Yes;
     private clsWordPresentationMesh moWordingToContext_OUT;
     private ArrayList<clsEmotion> moEmotions_Input;
-    private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
     
     public F66_SpeechProduction(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicIntensityStorage poPsychicEnergyStorage,
@@ -372,20 +368,6 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
        putInterfaceData(I6_13_send.class, moWordingToContext_OUT, poPerception, poAssociatedMemoriesSecondary);
        
    }
-
-/**
- * DOCUMENT - insert description
- *
- * @author hinterleitner
- * @since 27.12.2013 19:21:09
- *
- * @param poInternalActionContainer
- */
-public void getBodilyReactions(itfInternalActionProcessor poInternalActionContainer) {
-    for (clsInternalActionCommand oCmd : moInternalActions) {
-        poInternalActionContainer.call(oCmd);
-    }
-}
 
   
 

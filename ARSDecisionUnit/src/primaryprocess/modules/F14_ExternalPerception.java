@@ -56,11 +56,6 @@ import base.tools.toText;
 import bfg.utils.enums.eSide;
 import du.enums.eActionTurnDirection;
 import du.enums.eSaliency;
-import du.itf.sensors.clsInspectorPerceptionItem;
-import du.itf.actions.clsInternalActionCommand;
-import du.itf.actions.clsInternalActionTurnVision;
-import du.itf.actions.itfInternalActionProcessor;
-
 /**
  * In this module neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and 
  * environment sensors can be processed by the mental functions. The generated thing presentations are associated among each others 
@@ -96,11 +91,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	
 	//ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP;
 	
-	ArrayList<clsInspectorPerceptionItem> moPerceptionSymbolsForInspectors;
 	ArrayList<String> Test = new ArrayList<String>();
 	ArrayList<String> Test1 = new ArrayList<String>();
-	//list of internal actions, fill it with what you want to be shown
-	private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private boolean useAttentionMechanism = false;
@@ -121,7 +113,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public F14_ExternalPerception(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
-		moPerceptionSymbolsForInspectors = new ArrayList<clsInspectorPerceptionItem>();
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -222,9 +213,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	}
 	
 	
-	public ArrayList<clsInspectorPerceptionItem> GetSensorDataForInspectors(){
-		return moPerceptionSymbolsForInspectors;
-	}
+
 	
 private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
 
@@ -238,12 +227,9 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
                     
                     if(poSymbolObject instanceof itfIsContainer) {
                     
-                    clsInspectorPerceptionItem oInspectorItem = new clsInspectorPerceptionItem();
                     
                     Method[] oMethods = ((itfGetDataAccessMethods)poSymbolObject).getDataAccessMethods();
                     eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)poSymbolObject).getSymbolType());
-                    oInspectorItem.moContentType = oContentType.toString();
-                    oInspectorItem.moContent = ((itfIsContainer)poSymbolObject).getSymbolMeshContent().toString();
                     
                     if (oContentType.equals(eContentType.POSITIONCHANGE)) {
                         //do nothing, we dont want this sensor info
@@ -289,18 +275,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
                                 
                             }
                             
-                            if (oContentTypeTP.equals(eContentType.Distance)) {
-                                oContentTypeTP = eContentType.DISTANCE;
-                                try {
-                                    oInspectorItem.moDistance = oM.invoke(poSymbolObject,new Object[0]).toString();
-                                } catch (IllegalArgumentException e) {
-                                    e.printStackTrace();
-                                } catch (IllegalAccessException e) {
-                                    e.printStackTrace();
-                                } catch (InvocationTargetException e) {
-                                    e.printStackTrace();
-                                }
-                            }
 
                         }
                         
@@ -328,13 +302,10 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
                                      focusDirection = eActionTurnDirection.TURN_RIGHT;
                                  }
                              
-                                clsInternalActionTurnVision focus = new clsInternalActionTurnVision(focusDirection, focusAngle);
-                                moInternalActions.add( focus );
+                                 //TODO CM: create internal action
                              }
                              else{
                                  //return to normal
-                                 clsInternalActionTurnVision focus = new clsInternalActionTurnVision(eActionTurnDirection.TURN_LEFT, 0.0);
-                                    moInternalActions.add( focus );
                              }
                             }
                         
@@ -888,12 +859,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	    }
 	}
 	
-	public void getBodilyReactions(    itfInternalActionProcessor poInternalActionContainer) {
-	       
-	       for( clsInternalActionCommand oCmd : moInternalActions ) {
-	           poInternalActionContainer.call(oCmd);
-	    }
-	  }	
+
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

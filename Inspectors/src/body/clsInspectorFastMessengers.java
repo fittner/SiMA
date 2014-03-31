@@ -33,15 +33,14 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import complexbody.internalSystems.clsFastMessengerEntry;
 import complexbody.internalSystems.clsFastMessengerKeyTuple;
 import complexbody.internalSystems.clsFastMessengerSystem;
+import datatypes.clsMutableDouble;
+import datatypes.clsMutableInteger;
 import entities.enums.eBodyParts;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import singeltons.clsSingletonMasonGetter;
-import bfg.tools.clsMutableInteger;
-import bfg.tools.clsMutableDouble;
-
 /**
  * DOCUMENT (deutsch) - insert description 
  * 

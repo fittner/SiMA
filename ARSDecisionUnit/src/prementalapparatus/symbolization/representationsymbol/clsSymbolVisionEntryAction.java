@@ -9,7 +9,7 @@ package prementalapparatus.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import du.itf.sensors.clsVisionEntryAction;
+import communication.datatypes.clsDataPoint;
 
 /**
  * DOCUMENT (herret) - insert description 
@@ -23,9 +23,9 @@ public class clsSymbolVisionEntryAction implements itfSymbolVisionEntryAction, i
     protected String moName;
     protected clsSymbolVisionEntry moObject;
     
-    public clsSymbolVisionEntryAction(clsVisionEntryAction poAction){
-        setActionName(poAction.getActionName());
-        if(poAction.getObjectVisionEntry()!=null)this.setObject(new clsSymbolVisionEntry(poAction.getObjectVisionEntry()));
+    public clsSymbolVisionEntryAction(clsDataPoint poAction){
+       // setActionName(poAction.getActionName());
+        //if(poAction.getObjectVisionEntry()!=null)this.setObject(new clsSymbolVisionEntry(poAction.getObjectVisionEntry()));
     }
 
     /* (non-Javadoc)

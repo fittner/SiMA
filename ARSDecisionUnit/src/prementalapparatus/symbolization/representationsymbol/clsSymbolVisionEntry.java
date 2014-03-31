@@ -13,16 +13,8 @@ import java.util.ArrayList;
 import communication.datatypes.clsDataPoint;
 
 import bfg.tools.shapes.clsPolarcoordinate;
-import bfg.utils.enums.eCount;
-import bfg.utils.enums.eSide;
-
-
-import du.enums.eAntennaPositions;
 import du.enums.eDistance;
-import du.enums.eEntityType;
-import du.enums.eSaliency;
 import du.enums.eSensorExtType;
-import du.enums.eShapeType;
 
 
 /**
@@ -37,73 +29,46 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
 
     
     protected clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
-    protected eEntityType mnEntityType = eEntityType.UNDEFINED;
-    protected eShapeType mnShapeType = eShapeType.UNDEFINED;
+    protected String mnEntityType = "UNDEFINED";
+    protected String mnShapeType = "UNDEFINED";
     protected String moEntityId = "";
-    protected eCount mnNumEntitiesPresent = eCount.UNDEFINED; 
+    protected String mnNumEntitiesPresent = "UNDEFINED"; 
     
     protected boolean mnAlive = false;
     protected Color moColor = new Color(0,0,0);
-    protected eSaliency moBrightness = eSaliency.UNDEFINED;
-    protected eSide moObjectPosition = eSide.UNDEFINED; 
-    protected eAntennaPositions moAntennaPositionLeft = eAntennaPositions.UNDEFINED; 
-    protected eAntennaPositions moAntennaPositionRight = eAntennaPositions.UNDEFINED;
+    protected String moBrightness = "UNDEFINED";
+    protected String moObjectPosition = "UNDEFINED"; 
+    protected String moAntennaPositionLeft = "UNDEFINED"; 
+    protected String moAntennaPositionRight = "UNDEFINED";
     protected double moExactDebugX;
     protected double moExactDebugY;
     protected double moExactDebugAngle;
     protected double moDebugSensorArousal;
     protected double moObjectBodyIntegrity;
     protected clsSymbolVisionEntryAction moAction;
-    protected eDistance moDistance;
+    protected String moDistance;
 
-    
-    public clsSymbolVisionEntry(du.itf.sensors.clsVisionEntry poSensor) {
-		super();
-		
-		moSensorType = poSensor.getSensorType();
-		
-		moPolarcoordinate = poSensor.getPolarcoordinate();
-		mnEntityType = poSensor.getEntityType();
-		mnShapeType = poSensor.getShapeType();
-		moEntityId = poSensor.getEntityId();
-		mnNumEntitiesPresent = poSensor.getNumEntitiesPresent(); 
-		
-		mnAlive = poSensor.getAlive();
-		moColor = poSensor.getColor();
-		moObjectPosition = poSensor.getObjectPosition(); 
-		moAntennaPositionLeft = poSensor.getAntennaPositionLeft(); 
-		moAntennaPositionRight = poSensor.getAntennaPositionRight();	
-		moExactDebugX = poSensor.getExactDebugX();
-		moExactDebugY = poSensor.getExactDebugY();
-		moExactDebugAngle = poSensor.getExactDebugAngle();
-		moBrightness = poSensor.getBrightness();
-		moDebugSensorArousal = poSensor.getDebugSensorArousal();
-		
-		if(poSensor.getAction() != null){
-		    moAction=new clsSymbolVisionEntryAction(poSensor.getAction());
-		}
-	}
     
     public clsSymbolVisionEntry(clsDataPoint poEntry) {
         super();
         
         //moSensorType = eSensorExtType.valueOf(poEntry.getAssociation("SENSOR_TYPE").getValue());
-        moDistance = convertDistance(poEntry.getAssociation("DISTANCE").getValue());
+        moDistance = poEntry.getAssociation("DISTANCE").getValue();//convertDistance(poEntry.getAssociation("DISTANCE").getValue());
         moPolarcoordinate = new clsPolarcoordinate(Double.parseDouble(poEntry.getAssociation("POLARCOORDINATE").getAssociation("LENGTH").getValue()),Double.parseDouble(poEntry.getAssociation("POLARCOORDINATE").getAssociation("RADIANS").getValue()));
-        mnEntityType = eEntityType.valueOf(poEntry.getValue());
+        mnEntityType = poEntry.getValue();//eEntityType.valueOf(poEntry.getValue());
 
-        mnShapeType = eShapeType.valueOf(poEntry.getAssociation("SHAPE").getValue());
+        mnShapeType = poEntry.getAssociation("SHAPE").getValue();// eShapeType.valueOf(poEntry.getAssociation("SHAPE").getValue());
 
         moEntityId = poEntry.getAssociation("ENTITYID").getValue();
         
         mnAlive = Boolean.parseBoolean(poEntry.getAssociation("ALIVE").getValue());
         
         moColor = new Color(Integer.parseInt(poEntry.getAssociation("COLOR").getValue()));
-        moObjectPosition =eSide.valueOf( poEntry.getAssociation("OBJECT_POSITION").getValue()); 
+        moObjectPosition =poEntry.getAssociation("OBJECT_POSITION").getValue();//eSide.valueOf( poEntry.getAssociation("OBJECT_POSITION").getValue()); 
         moExactDebugX = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("X").getValue());
         moExactDebugY = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("Y").getValue());
         moExactDebugAngle = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("ANGLE").getValue());
-        moBrightness = eSaliency.valueOf( poEntry.getAssociation("BRIGHTNESS").getValue()); 
+        moBrightness = poEntry.getAssociation("BRIGHTNESS").getValue();//eSaliency.valueOf( poEntry.getAssociation("BRIGHTNESS").getValue()); 
         
         //TODO: Set new Action types
         //moActions = poSensor.getActions();
@@ -132,7 +97,7 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
 	 */
 	@Override
 	public String getSymbolName() {
-		return mnEntityType.name();
+		return mnEntityType;
 	}
 	/* (non-Javadoc)
 	 *
@@ -193,7 +158,7 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
 	 * @see pa.symbolization.representationsymbol.itfSymbolVisionEntry#getDistance()
 	 */
 	@Override
-	public eDistance getDistance() {
+	public String getDistance() {
 
 		return moDistance;
 	}
@@ -256,34 +221,34 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
 	    }
 	    
 	    @Override
-        public eSaliency getBrightness() {
+        public String getBrightness() {
 	        return moBrightness;
 	    }
-	    public void setBrightness(eSaliency poBrightness) {
+	    public void setBrightness(String poBrightness) {
 	        moBrightness = poBrightness;
 	    }
 	    
 	    @Override
-        public eSide getObjectPosition() {
+        public String getObjectPosition() {
 	        return moObjectPosition;
 	    }
-	    public void setObjectPosition(eSide poObjectPosition) {
+	    public void setObjectPosition(String poObjectPosition) {
 	        moObjectPosition = poObjectPosition;
 	    }
 	    
 	    @Override
-        public eAntennaPositions getAntennaPositionLeft() {
+        public String getAntennaPositionLeft() {
 	        return moAntennaPositionLeft;
 	    }
-	    public void setAntennaPositionLeft(eAntennaPositions poAntennaPositionLeft) {
+	    public void setAntennaPositionLeft(String poAntennaPositionLeft) {
 	        moAntennaPositionLeft = poAntennaPositionLeft;
 	    }
 	    
 	    @Override
-        public eAntennaPositions getAntennaPositionRight() {
+        public String getAntennaPositionRight() {
 	        return moAntennaPositionRight;
 	    }
-	    public void setAntennaPositionRight(eAntennaPositions poAntennaPositionRight) {
+	    public void setAntennaPositionRight(String poAntennaPositionRight) {
 	        moAntennaPositionRight = poAntennaPositionRight;
 	    }
 	    
@@ -295,18 +260,18 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
 	        moPolarcoordinate = poPolarcoordinate;
 	    }
 	    
-	    public eEntityType getEntityType() {
+	    public String getEntityType() {
 	        return mnEntityType;
 	    }
-	    public void setEntityType(eEntityType pnEntityType) {
+	    public void setEntityType(String pnEntityType) {
 	        mnEntityType = pnEntityType;
 	    }
 	    
 	    @Override
-        public eShapeType getShapeType() {
+        public String getShapeType() {
 	        return mnShapeType;
 	    }
-	    public void setShapeType(eShapeType pnShapeType) {
+	    public void setShapeType(String pnShapeType) {
 	        mnShapeType = pnShapeType;
 	    }
 	    
@@ -318,10 +283,10 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
 	    }
 	    
 	    @Override
-        public eCount getNumEntitiesPresent() {
+        public String getNumEntitiesPresent() {
 	        return mnNumEntitiesPresent;
 	    }
-	    public void setNumEntitiesPresent(eCount pnNumEntitiesPresent) {
+	    public void setNumEntitiesPresent(String pnNumEntitiesPresent) {
 	        mnNumEntitiesPresent = pnNumEntitiesPresent;
 	    }
 	    

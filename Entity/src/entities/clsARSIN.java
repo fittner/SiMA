@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.clsExternalIO;
+import control.interfaces.itfDecisionUnit;
 
 import sim.physics2D.shape.Shape;
 import tools.clsPose;
@@ -22,7 +23,6 @@ import utils.clsGetARSPath;
 
 import du.enums.eActionKissIntensity;
 import du.enums.eEntityType;
-import du.itf.itfDecisionUnit;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsInternalActionCommand;
 import entities.abstractEntities.clsAnimate;

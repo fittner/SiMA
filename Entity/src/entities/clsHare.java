@@ -15,6 +15,7 @@ import properties.clsProperties;
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsFlesh;
 import complexbody.internalSystems.clsInternalSystem;
+import control.interfaces.itfDecisionUnit;
 
 import sim.physics2D.shape.Shape;
 import tools.clsPose;
@@ -26,7 +27,6 @@ import body.itfget.itfGetFlesh;
 import body.itfget.itfIsConsumeable;
 import body.utils.clsFood;
 import body.utils.clsNutritionLevel;
-import du.itf.itfDecisionUnit;
 import entities.abstractEntities.clsAnimal;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
