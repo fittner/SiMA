@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.*;
+import complexbody.io.sensors.datatypes.enums.eActionTurnDirection;
 
 import sim.physics2D.util.Angle;
 import singeltons.eImages;
-import du.enums.eActionTurnDirection;
-import du.itf.actions.*;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
 /**

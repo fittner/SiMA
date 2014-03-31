@@ -37,6 +37,7 @@ import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.enums.eDriveComponent;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -48,7 +49,6 @@ import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.helpstructures.clsQuadruppel;
-import du.enums.pa.eDriveComponent;
 
 /**
  * Defends forbidden drives. Super-Ego (F7 and F55) sends a list with forbidden drives to F06. F06 decides whether to 

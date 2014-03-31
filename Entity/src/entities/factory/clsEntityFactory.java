@@ -10,6 +10,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+
 import control.interfaces.itfDecisionUnit;
 
 import properties.clsProperties;
@@ -39,7 +41,6 @@ import entities.abstractEntities.clsBase;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsSmartExcrement;
 import entities.abstractEntities.clsUraniumOre;
-import du.enums.eEntityType;
 
 
 /**

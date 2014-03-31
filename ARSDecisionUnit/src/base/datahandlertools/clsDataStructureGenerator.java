@@ -34,10 +34,10 @@ import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentation;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.enums.eDriveComponent;
+import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import du.enums.pa.eDriveComponent;
-import du.enums.pa.ePartialDrive;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

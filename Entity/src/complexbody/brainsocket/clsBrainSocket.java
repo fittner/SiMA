@@ -20,6 +20,23 @@ import communication.datatypes.clsDataPoint;
 import communicationPorts.clsCommunicationPortDUControl;
 import communicationPorts.clsCommunicationPortDUData;
 import complexbody.internalSystems.clsFastMessengerEntry;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
+import complexbody.io.actuators.actionCommands.itfActionProcessor;
+import complexbody.io.actuators.actionCommands.itfInternalActionProcessor;
+import complexbody.io.sensors.datatypes.clsBump;
+import complexbody.io.sensors.datatypes.clsInspectorPerceptionItem;
+import complexbody.io.sensors.datatypes.clsOlfactoricEntry;
+import complexbody.io.sensors.datatypes.clsRadiation;
+import complexbody.io.sensors.datatypes.clsSensorData;
+import complexbody.io.sensors.datatypes.clsUnrealSensorValueVision;
+import complexbody.io.sensors.datatypes.clsVision;
+import complexbody.io.sensors.datatypes.clsVisionEntry;
+import complexbody.io.sensors.datatypes.enums.eFastMessengerSources;
+import complexbody.io.sensors.datatypes.enums.eSaliency;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
+import complexbody.io.sensors.datatypes.enums.eSensorIntType;
+import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
 import complexbody.io.sensors.external.clsSensorBump;
 import complexbody.io.sensors.external.clsSensorExt;
 import complexbody.io.sensors.external.clsSensorPositionChange;
@@ -39,6 +56,8 @@ import complexbody.io.sensors.uitils.clsSensorDataCalculation;
 import control.interfaces.itfDecisionUnit;
 import control.interfaces.itfProcessKeyPressed;
 
+import physical2d.physicalObject.datatypes.eCount;
+import physical2d.physicalObject.datatypes.eSide;
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
@@ -53,27 +72,8 @@ import sim.util.Double2D;
 import singeltons.clsSingletonMasonGetter;
 import tools.clsPolarcoordinate;
 import base.clsCommunicationInterface;
-import bfg.utils.enums.eCount;
-import bfg.utils.enums.eSide;
 import body.itfStepProcessing;
 import body.attributes.clsAttributeAlive;
-import du.enums.eFastMessengerSources;
-import du.enums.eSaliency;
-import du.enums.eSensorExtType;
-import du.enums.eSensorIntType;
-import du.enums.eSlowMessenger;
-import du.itf.actions.clsActionCommand;
-import du.itf.actions.clsInternalActionCommand;
-import du.itf.actions.itfActionProcessor;
-import du.itf.actions.itfInternalActionProcessor;
-import du.itf.sensors.clsBump;
-import du.itf.sensors.clsInspectorPerceptionItem;
-import du.itf.sensors.clsOlfactoricEntry;
-import du.itf.sensors.clsRadiation;
-import du.itf.sensors.clsSensorData;
-import du.itf.sensors.clsUnrealSensorValueVision;
-import du.itf.sensors.clsVision;
-import du.itf.sensors.clsVisionEntry;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyAttributes;
 
@@ -626,27 +626,27 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		{
 			case HEALTH:
 			{
-				oData.setEntityType(du.enums.eEntityType.HEALTH);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.HEALTH);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor( new Color(34,139,34) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
 			case ARSIN:
 			{
-				oData.setEntityType(du.enums.eEntityType.ARSIN);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.ARSIN);
 				oData.setAlive(true);
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor( new Color(204,0,0) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
 			case WALL:
 			{
-				oData.setEntityType(du.enums.eEntityType.WALL);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.WALL);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.SQUARE);
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE);
 				oData.setColor(Color.BLACK);
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -654,17 +654,17 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case MINI_HEALTH:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.MINI_HEALTH );
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.MINI_HEALTH );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor( new Color(0,128,0) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 				
 			}case SMALL_ARMOR:
 			{
-				oData.setEntityType(du.enums.eEntityType.SMALL_ARMOR);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.SMALL_ARMOR);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor( new Color(255,0,0) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -673,17 +673,17 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case SUPER_ARMOR:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.SUPER_ARMOR );
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.SUPER_ARMOR );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor(  new Color(255,69,0)  );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 				
 			}case UDAMAGE:
 			{
-				oData.setEntityType(du.enums.eEntityType.UDAMAGE);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.UDAMAGE);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor( new Color(255,20,147) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -692,16 +692,16 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case FLAKCANNON_WEAPON:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.FLAKCANNON_WEAPON );
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.FLAKCANNON_WEAPON );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor( new Color(133,216,230));
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}case FLAKCANNON_AMMO:
 			{
-				oData.setEntityType(du.enums.eEntityType.FLAKCANNON_AMMO);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.FLAKCANNON_AMMO);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor( new Color(133,216,230));
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -710,16 +710,16 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case BIORIFLE_WEAPON:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.BIORIFLE_WEAPON );
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.BIORIFLE_WEAPON );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor( new Color(175,238,238) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}case BIORIFLE_AMMO:
 			{
-				oData.setEntityType(du.enums.eEntityType.BIORIFLE_AMMO);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.BIORIFLE_AMMO);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor( new Color(175,238,238) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -728,17 +728,17 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case LINKGUN_WEAPON:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.LINKGUN_WEAPON );
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.LINKGUN_WEAPON );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor( new Color(95,158,160) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 				
 			}case LINKGUN_AMMO:
 			{
-				oData.setEntityType(du.enums.eEntityType.LINKGUN_AMMO);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.LINKGUN_AMMO);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor( new Color(95,158,160) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -747,16 +747,16 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case MINIGUN_WEAPON:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.MINIGUN_WEAPON );
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.MINIGUN_WEAPON );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor( new Color(176,196,222) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}case MINIGUN_AMMO:
 			{
-				oData.setEntityType(du.enums.eEntityType.MINIGUN_AMMO);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.MINIGUN_AMMO);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor( new Color(176,196,222) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -765,16 +765,16 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case ROCKET_WEAPON:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.ROCKET_WEAPON );
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.ROCKET_WEAPON );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor( new Color(135,206,250));
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}case ROCKET_AMMO:
 			{
-				oData.setEntityType(du.enums.eEntityType.ROCKET_AMMO);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.ROCKET_AMMO);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor( new Color(135,206,250) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -783,17 +783,17 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case SNIPER_WEAPON:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.SNIPER_WEAPON );
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.SNIPER_WEAPON );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor(new Color(65,105,225));
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 				
 			}case SNIPER_AMMO:
 			{
-				oData.setEntityType(du.enums.eEntityType.SNIPER_AMMO);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.SNIPER_AMMO);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor(new Color(65,105,225));
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -802,16 +802,16 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case SHOCKRIFLE_WEAPON:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.SHOCKRIFLE_WEAPON );
-				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.SHOCKRIFLE_WEAPON );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
 				oData.setColor( new Color(72,209,204) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}case SHOCKRIFLE_AMMO:
 			{
-				oData.setEntityType(du.enums.eEntityType.SHOCKRIFLE_AMMO);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.SHOCKRIFLE_AMMO);
 				oData.setAlive(false);
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor( new Color(72,209,204) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -820,8 +820,8 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case CAKE:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.CAKE );
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.CAKE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor( Color.PINK );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -829,7 +829,7 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 				
 			case  CAN:
 			{
-				oData.setEntityType(du.enums.eEntityType.CAN);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.CAN);
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
@@ -837,8 +837,8 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case  STONE:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.STONE );
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.STONE );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setColor( Color.DARK_GRAY );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
@@ -848,15 +848,15 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			case SPEECH:
 			{
 				oData.setAlive(false);
-				oData.setEntityType( du.enums.eEntityType.SPEECH );
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.SPEECH );
+				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
 			
 			case  UNDEFINED:
 			{
-				oData.setEntityType(du.enums.eEntityType.UNDEFINED);
+				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.UNDEFINED);
 				break;
 			}
 				
@@ -1044,18 +1044,18 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		//translate the Brightness Info to enum values
 	private  eSaliency getEntityBrightness(PhysicalObject2D poObject) {
 		clsEntity oEntity = getEntity(poObject);
-		du.enums.eSaliency retVal = du.enums.eSaliency.UNDEFINED;
+		complexbody.io.sensors.datatypes.enums.eSaliency retVal = complexbody.io.sensors.datatypes.enums.eSaliency.UNDEFINED;
 			if (oEntity != null) {
 			double oVisionBrightness = oEntity.getVisionBrightness();
 	        
 	        if(oVisionBrightness  >= 0 && oVisionBrightness < 0.25  )
-	        	retVal = du.enums.eSaliency.LOW;
+	        	retVal = complexbody.io.sensors.datatypes.enums.eSaliency.LOW;
 	       if(oVisionBrightness  >= 0.25 && oVisionBrightness <0.5)
-	       	retVal = du.enums.eSaliency.MEDIUM;
+	       	retVal = complexbody.io.sensors.datatypes.enums.eSaliency.MEDIUM;
 	        if(oVisionBrightness   >= 0.5 && oVisionBrightness <0.75)
-	        	retVal = du.enums.eSaliency.HIGH;
+	        	retVal = complexbody.io.sensors.datatypes.enums.eSaliency.HIGH;
 	        if(oVisionBrightness   >= 0.75 && oVisionBrightness <1)
-	        	retVal = du.enums.eSaliency.VERYHIGH;
+	        	retVal = complexbody.io.sensors.datatypes.enums.eSaliency.VERYHIGH;
 			}
 			return retVal;
 	}
@@ -1081,13 +1081,13 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		}
 	}
 	
-	private  du.enums.eEntityType getEntityType(PhysicalObject2D poObject) {
+	private  complexbody.io.sensors.datatypes.enums.eEntityType getEntityType(PhysicalObject2D poObject) {
 		clsEntity oEntity = getEntity(poObject);
 		
 		if (oEntity != null) {
 		  return getEntity(poObject).getEntityType();
 		} else {
-			return du.enums.eEntityType.UNDEFINED;
+			return complexbody.io.sensors.datatypes.enums.eEntityType.UNDEFINED;
 		}
 	}
 	
@@ -1103,14 +1103,14 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		return oResult;
 	}
 	
-	private  du.enums.eShapeType getShapeType(PhysicalObject2D poObject) {
+	private  complexbody.io.sensors.datatypes.enums.eShapeType getShapeType(PhysicalObject2D poObject) {
 		
 		if (poObject.getShape() instanceof  Circle) {
-			return du.enums.eShapeType.CIRCLE;
+			return complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE;
 		}else if(poObject.getShape() instanceof  Rectangle){
-			return du.enums.eShapeType.SQUARE;
+			return complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE;
 		} else {
-			return du.enums.eShapeType.UNDEFINED;
+			return complexbody.io.sensors.datatypes.enums.eShapeType.UNDEFINED;
 		}
 	}
 	

@@ -27,7 +27,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eSensorIntType;
 
 
 /**
@@ -76,8 +75,8 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 		applyProperties(poPrefix, poProp);	
 		moChartColumnsCaptions = new ArrayList<String>();
 		//add data that should be displayed
-		moChartColumnsCaptions.add(eSensorIntType.STAMINA.toString());
-		moChartColumnsCaptions.add(eSensorIntType.STOMACH.toString());
+		moChartColumnsCaptions.add("STAMINA");
+		moChartColumnsCaptions.add("STOMACH");
 		moChartColumnsCaptions.add("RECTUM");
 		moChartColumnsCaptions.add("ADRENALIN");
 		moChartColumnsCaptions.add("BLOODSUGAR");

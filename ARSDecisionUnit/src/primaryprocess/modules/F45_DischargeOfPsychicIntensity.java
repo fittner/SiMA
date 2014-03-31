@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import base.datatypes.enums.eOrgan;
+
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
@@ -35,6 +37,7 @@ import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -43,8 +46,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eOrgan;
-import du.enums.pa.ePartialDrive;
 
 /**
  * F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine whether they qualify for libido

@@ -5,17 +5,16 @@ import java.util.ArrayList;
 
 import communication.datatypes.clsDataPoint;
 
-import du.enums.eSensorExtType;
 
 public class clsSymbolVision implements itfGetDataAccessMethods, itfSymbolVision {
-    protected eSensorExtType moSensorType;
+    protected String moSensorType;
     protected ArrayList<clsSymbolVisionEntry> moEntries = new ArrayList<clsSymbolVisionEntry>();
 
 
     public clsSymbolVision(clsDataPoint poSensor) {
         super();
         
-        moSensorType = eSensorExtType.valueOf(poSensor.getType());
+        moSensorType = poSensor.getType();
         for(clsDataPoint oEntry: poSensor.getAssociatedDataPoints()){
             if(oEntry.getType().equals("ENTITY")){
                 clsSymbolVisionEntry oE = new clsSymbolVisionEntry(oEntry);
@@ -24,10 +23,10 @@ public class clsSymbolVision implements itfGetDataAccessMethods, itfSymbolVision
         }
  
     }
-    public eSensorExtType getSensorType() {
+    public String getSensorType() {
         return moSensorType;
     }
-    public void setSensorType(eSensorExtType poSensorType) {
+    public void setSensorType(String poSensorType) {
         moSensorType = poSensorType;
     }
     

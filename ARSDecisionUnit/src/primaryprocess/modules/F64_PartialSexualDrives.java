@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
@@ -28,6 +29,10 @@ import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.enums.eDriveComponent;
+import base.datatypes.enums.eOrgan;
+import base.datatypes.enums.eOrifice;
+import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -35,10 +40,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eOrgan;
-import du.enums.eOrifice;
-import du.enums.pa.eDriveComponent;
-import du.enums.pa.ePartialDrive;
 
 
 

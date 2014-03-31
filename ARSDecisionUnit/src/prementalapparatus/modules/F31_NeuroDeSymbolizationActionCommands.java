@@ -29,7 +29,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eInternalActionIntensity;
 import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
@@ -54,7 +53,6 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<String> inputActionHistory;
 	private ArrayList<String> realActionHistory;
 	private static final boolean bUSEUNREAL = false;
-	private eInternalActionIntensity moAbstractSpeech;
 	private clsWordPresentationMesh moWordingToContext;
 	private int mnTestCounter =0;
 	

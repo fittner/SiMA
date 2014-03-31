@@ -12,10 +12,7 @@ import java.util.ArrayList;
 
 import communication.datatypes.clsDataPoint;
 
-import bfg.tools.shapes.clsPolarcoordinate;
-import du.enums.eDistance;
-import du.enums.eSensorExtType;
-
+import datatypes.clsPolarcoordinate;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -25,7 +22,7 @@ import du.enums.eSensorExtType;
  * 
  */
 public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, itfSymbolVisionEntry, itfGetDataAccessMethods  {
-    protected eSensorExtType moSensorType;
+    protected String moSensorType;
 
     
     protected clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
@@ -53,7 +50,7 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
         super();
         
         //moSensorType = eSensorExtType.valueOf(poEntry.getAssociation("SENSOR_TYPE").getValue());
-        moDistance = poEntry.getAssociation("DISTANCE").getValue();//convertDistance(poEntry.getAssociation("DISTANCE").getValue());
+        moDistance = convertDistance(poEntry.getAssociation("DISTANCE").getValue());//convertDistance(poEntry.getAssociation("DISTANCE").getValue());
         moPolarcoordinate = new clsPolarcoordinate(Double.parseDouble(poEntry.getAssociation("POLARCOORDINATE").getAssociation("LENGTH").getValue()),Double.parseDouble(poEntry.getAssociation("POLARCOORDINATE").getAssociation("RADIANS").getValue()));
         mnEntityType = poEntry.getValue();//eEntityType.valueOf(poEntry.getValue());
 
@@ -77,7 +74,7 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
     }
     
 
-    public eDistance convertDistance(String poDistance) {
+   /* public eDistance convertDistance(String poDistance) {
 
         eDistance oRetVal = eDistance.UNDEFINED;
         if(poDistance.equals("SELF")) oRetVal = eDistance.NODISTANCE;
@@ -86,8 +83,12 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
         else if(poDistance.equals("FAR")) oRetVal = eDistance.FAR;
 
         return oRetVal;
-    }
+    }*/
     
+    private String convertDistance(String poDist){
+        if(poDist.equals("SELF")) return "NODISTANCE";
+        else return poDist;
+    }
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -291,10 +292,10 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
 	    }
 	    
 	    
-	    public eSensorExtType getSensorType() {
+	    public String getSensorType() {
 	        return moSensorType;
 	    }
-	    public void setSensorType(eSensorExtType poSensorType) {
+	    public void setSensorType(String poSensorType) {
 	        moSensorType = poSensorType;
 	    }
 	    

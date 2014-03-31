@@ -7,8 +7,8 @@
  */
 package physics2D.physicalObject;
 
+import physical2d.physicalObject.datatypes.eSide;
 import interfaces.itfEntity;
-import bfg.utils.enums.eSide;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import tools.clsPolarcoordinate;
 

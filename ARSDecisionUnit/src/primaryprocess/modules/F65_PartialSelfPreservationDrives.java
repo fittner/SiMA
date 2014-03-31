@@ -26,6 +26,9 @@ import modules.interfaces.eInterfaces;
 
 import org.apache.log4j.Logger;
 
+
+
+
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
@@ -33,19 +36,16 @@ import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.enums.eDriveComponent;
+import base.datatypes.enums.eOrgan;
+import base.datatypes.enums.eOrifice;
+import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eFastMessengerSources;
-import du.enums.eOrgan;
-import du.enums.eOrifice;
-import du.enums.eSensorIntType;
-import du.enums.eSlowMessenger;
-import du.enums.pa.eDriveComponent;
-import du.enums.pa.ePartialDrive;
 
 /**
  * F65 receives the neuro-symbolic homeostatic values from F2 and generates the corresponding drives.
@@ -609,11 +609,11 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	    if(rChange <0 ){
             double rAgrStimulation =0.0;
             double rLibStimulation =0.0;
-            if(moHomeostasisSymbols_IN.containsKey(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString())){
-                rAgrStimulation = moHomeostasisSymbols_IN.get(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString());
+            if(moHomeostasisSymbols_IN.containsKey("ORIFICE_ORAL_AGGRESSIV_MUCOSA")){
+                rAgrStimulation = moHomeostasisSymbols_IN.get("ORIFICE_ORAL_AGGRESSIV_MUCOSA");
             }
-            if(moHomeostasisSymbols_IN.containsKey(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString())){
-                rLibStimulation = moHomeostasisSymbols_IN.get(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString());
+            if(moHomeostasisSymbols_IN.containsKey("ORIFICE_ORAL_LIBIDINOUS_MUCOSA")){
+                rLibStimulation = moHomeostasisSymbols_IN.get("ORIFICE_ORAL_LIBIDINOUS_MUCOSA");
             }
             if(rAgrStimulation + rLibStimulation > 0){
                 rErrogenousZonesFactor = rAgrStimulation / (rAgrStimulation + rLibStimulation);
@@ -785,26 +785,26 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 				rEntryTension /= 7;
 			}
 			//Special HEALTH
-			if(oEntry.getKey() == eSensorIntType.HEALTH.name())
+			if(oEntry.getKey() == "HEALTH")
 			{
 				rEntryTension /= 100;
 			}
 			
 			//Special STOMACH
-			if(oEntry.getKey() == eSensorIntType.STOMACH.name())
+			if(oEntry.getKey() == "STOMACH")
 			{
 				rEntryTension = 1-rEntryTension ;
 			}
 			
 
 			//Special STOMACH
-			if(oEntry.getKey() == eSlowMessenger.BLOODSUGAR.name())
+			if(oEntry.getKey() == "BLOODSUGAR")
 			{
 				rEntryTension = 1-rEntryTension ;
 			}
 			
 			//Special STAMINA
-			if(oEntry.getKey() == eSensorIntType.STAMINA.name())
+			if(oEntry.getKey() == "STAMINA")
 			{
 				rEntryTension = 1-rEntryTension ;
 			}

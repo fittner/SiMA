@@ -6,8 +6,9 @@
  */
 package body.attributes;
 
+import complexbody.io.sensors.datatypes.enums.eAntennaPositions;
+
 import properties.clsProperties;
-import du.enums.eAntennaPositions;
 import entities.enums.eBodyAttributes;
 
 /**

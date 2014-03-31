@@ -19,9 +19,9 @@ import modules.interfaces.D4_1_send;
 import modules.interfaces.D4_2_receive;
 import modules.interfaces.eInterfaces;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.enums.eDriveComponent;
 import base.datatypes.helpstructures.clsPair;
 import base.tools.toText;
-import du.enums.pa.eDriveComponent;
 
 /**
  * Storage module for pleasure coming from the drive system

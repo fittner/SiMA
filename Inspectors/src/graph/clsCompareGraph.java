@@ -62,12 +62,12 @@ import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.sensors.datatypes.clsSensorExtern;
+import complexbody.io.sensors.datatypes.clsSensorIntern;
+import complexbody.io.sensors.datatypes.clsVisionEntry;
+import complexbody.io.sensors.datatypes.clsVisionEntryAction;
 
-import du.itf.actions.clsActionCommand;
-import du.itf.sensors.clsSensorExtern;
-import du.itf.sensors.clsSensorIntern;
-import du.itf.sensors.clsVisionEntry;
-import du.itf.sensors.clsVisionEntryAction;
 
 
 

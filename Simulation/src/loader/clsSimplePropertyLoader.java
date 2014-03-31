@@ -14,6 +14,7 @@ import memorymgmt.interfaces.itfSearchSpaceAccess;
 import communication.layer1.implementations.clsLayer1ProcedureCall;
 import complexbody.internalSystems.clsFlesh;
 import complexbody.internalSystems.clsInternalSystem;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
@@ -23,7 +24,6 @@ import control.clsPsychoAnalysis;
 import control.factory.clsARSDecisionUnitFactory;
 import control.interfaces.itfDecisionUnit;
 import du.enums.eDecisionType;
-import du.enums.eEntityType;
 import entities.clsWallAxisAlign;
 import entities.clsWallHorizontal;
 import entities.clsWallVertical;

@@ -9,12 +9,13 @@ package entities.abstractEntities;
 
 import java.awt.Color;
 
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+
 import control.interfaces.itfDecisionUnit;
 
 import properties.clsProperties;
 
 import tools.clsPose;
-import du.enums.eEntityType;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;

@@ -16,13 +16,13 @@ import memorymgmt.interfaces.itfModuleMemoryAccess;
 
 import org.slf4j.Logger;
 
+
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshGoal;
 import base.datatypes.helpstructures.clsPair;
-import du.enums.eShapeType;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -138,7 +138,7 @@ public class HackMethods {
                     //if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
                         //Change to cake
                         
-                        clsThingPresentationMesh oTPM = memoryAccess.searchExactEntityFromInternalAttributes("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
+                        clsThingPresentationMesh oTPM = memoryAccess.searchExactEntityFromInternalAttributes("CAKE", "CIRCLE", "FFAFAF");
                         //clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CARROT", eShapeType.CIRCLE.toString(), "FFC800");
                         
                         

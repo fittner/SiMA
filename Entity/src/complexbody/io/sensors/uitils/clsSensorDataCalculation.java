@@ -8,8 +8,8 @@
  */
 package complexbody.io.sensors.uitils;
 
+import physical2d.physicalObject.datatypes.eSide;
 import physics2D.physicalObject.clsCollidingObject;
-import bfg.utils.enums.eSide;
 import sim.physics2D.util.Double2D;
 
 /**

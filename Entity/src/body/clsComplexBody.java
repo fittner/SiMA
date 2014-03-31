@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import physical2d.physicalObject.datatypes.eFacialExpression;
+import physical2d.physicalObject.datatypes.eSpeechExpression;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
@@ -26,25 +28,23 @@ import complexbody.intraBodySystems.clsIntraBodySystem;
 import complexbody.io.clsExternalIO;
 import complexbody.io.clsInternalIO;
 import complexbody.io.actuators.clsInternalActionProcessor;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionShare;
+import complexbody.io.actuators.actionCommands.clsActionSpeechInvited;
+import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
+import complexbody.io.actuators.actionCommands.clsInternalActionSweat;
+import complexbody.io.actuators.actionCommands.clsInternalActionTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalSweat;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechInvite;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechShare;
+import complexbody.io.sensors.datatypes.enums.eBodyActionType;
 
 import utils.clsGetARSPath;
 import utils.exceptions.exFoodAlreadyNormalized;
 import utils.exceptions.exFoodWeightBelowZero;
 
 import datatypes.clsMutableDouble;
-import du.enums.eBodyActionType;
-import du.enums.eFacialExpression;
-import du.enums.eSpeechExpression;
-import du.itf.actions.clsActionCommand;
-import du.itf.actions.clsActionShare;
-import du.itf.actions.clsActionSpeechInvited;
-import du.itf.actions.clsInternalActionCommand;
-import du.itf.actions.clsInternalActionSweat;
-import du.itf.actions.clsInternalActionTurnVision;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyType;
 import entities.enums.eNutritions;

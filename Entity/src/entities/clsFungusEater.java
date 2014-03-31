@@ -9,6 +9,8 @@ package entities;
 
 import java.awt.Color;
 
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+
 import control.interfaces.itfDecisionUnit;
 
 import properties.clsProperties;
@@ -22,7 +24,6 @@ import utils.clsGetARSPath;
 //import sim.portrayal.LocationWrapper;
 //import sim.portrayal.inspector.TabbedInspector;
 
-import du.enums.eEntityType;
 import body.clsComplexBody;
 import body.itfGetExternalIO;
 import body.itfget.itfGetInternalEnergyConsumption;

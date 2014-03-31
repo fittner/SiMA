@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.clsExternalIO;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
+import complexbody.io.sensors.datatypes.enums.eActionKissIntensity;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 import control.interfaces.itfDecisionUnit;
 
 import sim.physics2D.shape.Shape;
@@ -21,10 +25,6 @@ import tools.eImagePositioning;
 import utils.clsGetARSPath;
 
 
-import du.enums.eActionKissIntensity;
-import du.enums.eEntityType;
-import du.itf.actions.clsActionCommand;
-import du.itf.actions.clsInternalActionCommand;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
 import entities.actionProxies.itfAPAttackableBite;
