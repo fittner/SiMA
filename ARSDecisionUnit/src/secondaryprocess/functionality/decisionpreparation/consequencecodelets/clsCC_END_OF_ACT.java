@@ -29,7 +29,7 @@ public class clsCC_END_OF_ACT extends clsConsequenceCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-    
+
 	public clsCC_END_OF_ACT(clsCodeletHandler poCodeletHandler) {
 		super(poCodeletHandler);
 	}
