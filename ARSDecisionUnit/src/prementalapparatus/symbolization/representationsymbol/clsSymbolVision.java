@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import communication.datatypes.clsDataPoint;
 
 import du.enums.eSensorExtType;
-import du.itf.sensors.clsSensorExtern;
-import du.itf.sensors.clsVisionEntry;
 
 public class clsSymbolVision implements itfGetDataAccessMethods, itfSymbolVision {
     protected eSensorExtType moSensorType;
@@ -51,14 +49,16 @@ public class clsSymbolVision implements itfGetDataAccessMethods, itfSymbolVision
 	 */
 	@Override
 	public ArrayList<itfSymbol> getSymbolObjects() {
-		ArrayList<clsSensorExtern> oSE = getDataObjects();
+		ArrayList<clsSymbolVisionEntry> oSE = getDataObjects();
 		ArrayList<itfSymbol> oResult =  new ArrayList<itfSymbol>();
 		
-		for (clsSensorExtern oEntry:oSE) {
-			oResult.add( new clsSymbolVisionEntry( (clsVisionEntry)oEntry) );
+		for (clsSymbolVisionEntry oEntry:oSE) {
+			oResult.add( oEntry );
 		}
 		
+		
 		return oResult;
+
 	}	
 	
 	/* (non-Javadoc)
@@ -70,11 +70,11 @@ public class clsSymbolVision implements itfGetDataAccessMethods, itfSymbolVision
 	 */
 	@Override
 	public ArrayList<itfSymbolVisionEntry> getEntries() {
-		ArrayList<clsSensorExtern> oSE = getDataObjects();
+		ArrayList<clsSymbolVisionEntry> oSE = getDataObjects();
 		ArrayList<itfSymbolVisionEntry> oResult =  new ArrayList<itfSymbolVisionEntry>();
 		
-		for (clsSensorExtern oEntry:oSE) {
-			oResult.add( new clsSymbolVisionEntry( (clsVisionEntry)oEntry) );
+		for (clsSymbolVisionEntry oEntry:oSE) {
+			oResult.add(oEntry );
 		}
 		
 		return oResult;

@@ -331,7 +331,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oVisionTypes.add(eSensorExtType.VISION_NEAR);
 		oVisionTypes.add(eSensorExtType.VISION_MEDIUM);
 		oVisionTypes.add(eSensorExtType.VISION_FAR);
-		oVisionTypes.add(eSensorExtType.VISION_CARRIED_ITEMS);
+		//oVisionTypes.add(eSensorExtType.VISION_CARRIED_ITEMS);
 
 
 		for(eSensorExtType oType : oVisionTypes){

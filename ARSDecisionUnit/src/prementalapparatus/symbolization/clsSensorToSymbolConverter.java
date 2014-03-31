@@ -7,30 +7,12 @@
 package prementalapparatus.symbolization;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 
-import prementalapparatus.symbolization.representationsymbol.clsSymbolAcoustic;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolBump;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolEatableArea;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolManipulateArea;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolOlfactoric;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolPositionChange;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolRadiation;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
-import du.enums.eSensorExtType;
-import du.itf.sensors.clsAcoustic;
-import du.itf.sensors.clsBump;
-import du.itf.sensors.clsEatableArea;
-import du.itf.sensors.clsManipulateArea;
-import du.itf.sensors.clsOlfactoric;
-import du.itf.sensors.clsPositionChange;
-import du.itf.sensors.clsRadiation;
-import du.itf.sensors.clsSensorExtern;
-import du.itf.sensors.clsVision;
 
 /**
  * Iterates through the list of clsSensorExtern values, and creates for every entry a clsSymbol[SensorType] entry.

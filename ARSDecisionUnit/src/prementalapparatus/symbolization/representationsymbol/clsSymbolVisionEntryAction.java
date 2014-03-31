@@ -18,9 +18,10 @@ import du.itf.sensors.clsVisionEntryAction;
  * 20.11.2013, 10:00:55
  * 
  */
-public class clsSymbolVisionEntryAction extends clsVisionEntryAction implements itfSymbolVisionEntryAction, itfGetDataAccessMethods, itfGetSymbolName, itfIsContainer {
+public class clsSymbolVisionEntryAction implements itfSymbolVisionEntryAction, itfGetDataAccessMethods, itfGetSymbolName, itfIsContainer {
 
-
+    protected String moName;
+    protected clsSymbolVisionEntry moObject;
     
     public clsSymbolVisionEntryAction(clsVisionEntryAction poAction){
         setActionName(poAction.getActionName());
@@ -59,7 +60,7 @@ public class clsSymbolVisionEntryAction extends clsVisionEntryAction implements 
     @Override
     public itfSymbolVisionEntry getObjectSymbolVisionEntry() {
         if(moObject!=null){
-            return  new clsSymbolVisionEntry (moObject);
+            return  moObject;
         }
         else{
             return null;
@@ -108,5 +109,48 @@ public class clsSymbolVisionEntryAction extends clsVisionEntryAction implements 
     @Override
     public Object getSymbolMeshContent() {
         return moName;
+    }
+    
+    /**
+     * @since 19.11.2013 13:36:08
+     * 
+     * @return the moName
+     */
+    public String getActionName() {
+        return moName;
+    }
+    /**
+     * @since 19.11.2013 13:36:08
+     * 
+     * @param moName the moName to set
+     */
+    public void setActionName(String moName) {
+        this.moName = moName;
+    }
+    /**
+     * @since 19.11.2013 13:36:08
+     * 
+     * @return the moObject
+     */
+    public clsSymbolVisionEntry getObjectVisionEntry() {
+        return moObject;
+    }
+    /**
+     * @since 19.11.2013 13:36:08
+     * 
+     * @param moObject the moObject to set
+     */
+    public void setObject(clsSymbolVisionEntry moObject) {
+        this.moObject = moObject;
+    }
+    
+    @Override
+    public String toString(){
+        String oRetVal="";
+        oRetVal += moName;
+        if(moObject != null){
+            oRetVal +=" (" + moObject.mnEntityType.toString() +")";
+        }
+        return oRetVal;
     }
 }

@@ -23,7 +23,6 @@ import du.enums.eEntityType;
 import du.enums.eSaliency;
 import du.enums.eSensorExtType;
 import du.enums.eShapeType;
-import du.itf.sensors.clsVisionEntryAction;
 
 
 /**
@@ -54,7 +53,7 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
     protected double moExactDebugAngle;
     protected double moDebugSensorArousal;
     protected double moObjectBodyIntegrity;
-    protected clsVisionEntryAction moAction;
+    protected clsSymbolVisionEntryAction moAction;
     protected eDistance moDistance;
 
     
@@ -163,7 +162,7 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
     @Override
     public itfSymbolVisionEntryAction getSymbolAction(){
         if(moAction!= null){
-            return (new clsSymbolVisionEntryAction(moAction));
+            return (moAction);
         }
         else{
             return null;
@@ -196,26 +195,9 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
 	@Override
 	public eDistance getDistance() {
 
-		eDistance oRetVal = eDistance.UNDEFINED;
-		
-		if(moSensorType == eSensorExtType.VISION_FAR) {
-			oRetVal = eDistance.FAR;
-		} 
-		else if(moSensorType == eSensorExtType.VISION_MEDIUM) {
-			oRetVal = eDistance.MEDIUM;
-		} 
-		else if(moSensorType == eSensorExtType.VISION_NEAR) {
-			oRetVal = eDistance.NEAR;
-		}
-		else if(moSensorType == eSensorExtType.VISION_SELF){
-		    oRetVal = eDistance.NODISTANCE;
-		}      
-		else if (moSensorType == eSensorExtType.VISION_CARRIED_ITEMS){
-		    oRetVal = eDistance.CARRYING;
-		}
-		return oRetVal;
+		return moDistance;
 	}
-	   public void setAction(clsVisionEntryAction poAction) {
+	   public void setAction(clsSymbolVisionEntryAction poAction) {
 	        this.moAction = poAction;
 	    }
 
