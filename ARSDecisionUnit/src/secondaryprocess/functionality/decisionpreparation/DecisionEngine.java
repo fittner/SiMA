@@ -18,6 +18,7 @@ import logger.clsLogger;
 import memorymgmt.enums.eCondition;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import secondaryprocess.functionality.decisionpreparation.GoalInitiationProcessor.GoalInitiatorInterface;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_EXECUTE_EXTERNAL_ACTION;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_FLEE;
@@ -25,6 +26,7 @@ import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_FOCUS_ON;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_PERFORM_BASIC_ACT_ANALYSIS;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_SEND_TO_PHANTASY;
+import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_END_OF_ACT;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_EXECUTE_MOVEMENT;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_EXECUTE_STATIC_ACTION;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_FOCUS_MOVEMENT;
@@ -61,10 +63,10 @@ public class DecisionEngine implements DecisionEngineInterface {
     private final GoalInitiatorInterface goalInitiator;
     private final clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm;
 
-    public DecisionEngine(clsEnvironmentalImageMemory poEnvironmentalImageStorage, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, GoalInitiatorInterface goalInitiator) {
+    public DecisionEngine(clsEnvironmentalImageMemory poEnvironmentalImageStorage, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, DT1_PsychicIntensityBuffer libidoBuffer, GoalInitiatorInterface goalInitiator) {
         //Init codelethandler
         stm = poShortTimeMemory;
-        moCodeletHandler = new clsCodeletHandler(poEnvironmentalImageStorage, poShortTimeMemory);
+        moCodeletHandler = new clsCodeletHandler(poEnvironmentalImageStorage, poShortTimeMemory, libidoBuffer);
         
         //Register codelets
         this.registerCodelets();
@@ -323,6 +325,7 @@ public class DecisionEngine implements DecisionEngineInterface {
         clsDC_InitAction oDCTrans_InitAction = new clsDC_InitAction(moCodeletHandler);
 
         clsDCComposed_Goto oDCComposed_Goto = new clsDCComposed_Goto(moCodeletHandler);
+        clsCC_END_OF_ACT oCC_END_OF_ACT = new clsCC_END_OF_ACT(moCodeletHandler);
         
         //Action codelets
         clsAC_EXECUTE_EXTERNAL_ACTION oACExecuteExternalAction = new clsAC_EXECUTE_EXTERNAL_ACTION(moCodeletHandler);

@@ -160,6 +160,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
 		
 		applyProperties(poPrefix, poProp);
+		
+	    // for use case 1: the Ego strength is equal to the neutralization rate
+        // (normalerweise wird sie über receive_I5_22 empfangen - siehe vorletzte Zeile in diesem File)
+        moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_INTENSITY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
  		
  		//Get Blocked content storage
 		moBlockedContentStorage = poBlockedContentStorage;
@@ -394,7 +398,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		 * In F19 ForbidenEmotions and ForbidenPerceptions should be defended 
 		 * 		 
 		 */ 
-		 selectAndActivateDefenseMechanisms();
+		 selectAndActivateDefenseMechanisms_UC1();
 
 		
 		  			 
@@ -467,6 +471,46 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     * @author gelbard
     * 12.02.2014, 10:56:00
     * 
+    * Version for use case 1 (is working correctly)
+    * 
+    * This function chooses a defense mechanism depending on the conflict tension and the ego strength
+    * and activates the defense mechanism.
+    * - Low ego strength means a primitive defense mechanism is selected
+    * - High ego strength means an elevated defense mechanism is selected
+    *
+    */
+    private void selectAndActivateDefenseMechanisms_UC1() {
+        
+           // Defense for perceptions
+           if (!moForbiddenPerceptions_Input.isEmpty()){ 
+                if (moEgoStrength <= 0.15) {
+                    defenseMechanism_Denial(moForbiddenPerceptions_Input);                      
+                }
+                else
+                {
+                    // For TimeChart    
+                    ResetTimeChartDefenseForbidenPerceptionData();
+                }       
+            }
+            
+            // Defense for emotions
+            if(!moForbiddenEmotions_Input.isEmpty()){
+                if (moEgoStrength <= 0.15) {
+                    defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output);  
+                }
+                else
+                {   
+                    ResetTimeChartDefenseForbidenEmotionData();                 
+                }
+            }
+    }
+	
+	
+	/* (non-Javadoc)
+    *
+    * @author gelbard
+    * 12.02.2014, 10:56:00
+    * 
     * This function chooses a defense mechanism depending on the conflict tension and the ego strength
     * and activates the defense mechanism.
     * - Low ego strength means a primitive defense mechanism is selected
@@ -475,10 +519,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     */
     private void selectAndActivateDefenseMechanisms() {
         
-        double conflictTension = 0.4;
+        double conflictTension = calculateConflictTension(moForbiddenPerceptions_Input);
         
-        // conflictTension <= 0.1
-        if (conflictTension <= 0.1) {
+        // conflictTension <= 0.01
+        if (conflictTension <= 0.01) {
             // For TimeChart
             ResetTimeChartDefenseForbidenPerceptionData();
         }
@@ -535,6 +579,26 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
                 ResetTimeChartDefenseForbidenEmotionData();                 
             }
         }
+    }
+    
+    
+    /* (non-Javadoc)
+    *
+    * @author gelbard
+    * 19.03.2014, 13:12:00
+    * 
+    * This function calculates the average conflict tension of the perceptions in the list of forbidden perceptions.
+    *
+    */
+    private double calculateConflictTension(ArrayList<clsSuperEgoConflictPerception> forbiddenPerceptions_Input) {
+        double conflictTension = 0.0;
+        int sizeOfForbiddenPerceptionsList = forbiddenPerceptions_Input.size();
+        
+        for(int i=0; i < sizeOfForbiddenPerceptionsList; i++) {
+            conflictTension += forbiddenPerceptions_Input.get(i).getConflictTension();
+        }
+        
+        return conflictTension / sizeOfForbiddenPerceptionsList;
     }
 	
 	
@@ -1480,6 +1544,6 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
      */
     @Override
     public void receive_I5_22(double poEgoStrength) {
-        moEgoStrength=poEgoStrength;
+        //moEgoStrength=poEgoStrength;
     }
 }

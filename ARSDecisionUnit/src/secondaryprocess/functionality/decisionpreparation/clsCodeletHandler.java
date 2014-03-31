@@ -13,12 +13,14 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsPair;
 import base.tools.ElementNotFoundException;
 import logger.clsLogger;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsActionCodelet;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsConsequenceCodelet;
 import secondaryprocess.functionality.decisionpreparation.decisioncodelets.clsDecisionCodelet;
@@ -35,29 +37,33 @@ public class clsCodeletHandler {
 	
     private static Logger log = clsLogger.getLog("DecisionPreparation");
 	
-	private clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
+	private final clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
 	
 
-	private clsEnvironmentalImageMemory moEnvironmentalImageMemory;
+	private final clsEnvironmentalImageMemory moEnvironmentalImageMemory;
 	
 
-	private clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
+	private final clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;	//Current STM, in order to get the previous actions
 
 	private ArrayList<clsWordPresentationMeshPossibleGoal> moGoalListFromF51; //= new ArrayList<clsWordPresentationMeshGoal>();
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemoriesFromF51 = new ArrayList<clsWordPresentationMesh>();
+	
+	private DT1_PsychicIntensityBuffer libidoBuffer;
 
-	private ArrayList<clsActionCodelet> moActionCodeletList = new ArrayList<clsActionCodelet>();
+    private ArrayList<clsActionCodelet> moActionCodeletList = new ArrayList<clsActionCodelet>();
 	private ArrayList<clsDecisionCodelet> moDecisionCodeletList = new ArrayList<clsDecisionCodelet>();
 	private ArrayList<clsInitCodelet> moInitCodeletList = new ArrayList<clsInitCodelet>();
 	private ArrayList<clsConsequenceCodelet> moConsequenceCodeletList = new ArrayList<clsConsequenceCodelet>();
 	
 	
-	public clsCodeletHandler(clsEnvironmentalImageMemory poEnvironmentalImageMemory, clsShortTermMemory poShortTermMemory) {
+	public clsCodeletHandler(clsEnvironmentalImageMemory poEnvironmentalImageMemory, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTermMemory, DT1_PsychicIntensityBuffer libidoBuffer) {
 		//Get the init references
 		moEnvironmentalImageMemory=poEnvironmentalImageMemory;
 		
 		this.moEnvironmentalImage=moEnvironmentalImageMemory.getEnvironmentalImage();
 		this.moShortTermMemory=poShortTermMemory;
+		
+		this.libidoBuffer = libidoBuffer;
 	}
 
 	
@@ -71,33 +77,33 @@ public class clsCodeletHandler {
 	}
 
 
-	/**
-	 * @since 01.10.2012 16:32:05
-	 * 
-	 * @param moEnvironmentalImage the moEnvironmentalImage to set
-	 */
-	public void setEnvironmentalImage(clsWordPresentationMesh moEnvironmentalImage) {
-		this.moEnvironmentalImage = moEnvironmentalImage;
-	}
+//	/**
+//	 * @since 01.10.2012 16:32:05
+//	 * 
+//	 * @param moEnvironmentalImage the moEnvironmentalImage to set
+//	 */
+//	public void setEnvironmentalImage(clsWordPresentationMesh moEnvironmentalImage) {
+//		this.moEnvironmentalImage = moEnvironmentalImage;
+//	}
 	
 	/**
 	 * @since 01.10.2012 16:32:33
 	 * 
 	 * @return the moShortTermMemory
 	 */
-	public clsShortTermMemory getShortTermMemory() {
+	public clsShortTermMemory<clsWordPresentationMeshMentalSituation> getShortTermMemory() {
 		return moShortTermMemory;
 	}
 
 
-	/**
-	 * @since 01.10.2012 16:32:33
-	 * 
-	 * @param moShortTermMemory the moShortTermMemory to set
-	 */
-	public void setShortTermMemory(clsShortTermMemory moShortTermMemory) {
-		this.moShortTermMemory = moShortTermMemory;
-	}
+//	/**
+//	 * @since 01.10.2012 16:32:33
+//	 * 
+//	 * @param moShortTermMemory the moShortTermMemory to set
+//	 */
+//	public void setShortTermMemory(clsShortTermMemory moShortTermMemory) {
+//		this.moShortTermMemory = moShortTermMemory;
+//	}
 	
 	
 	/**
@@ -194,16 +200,19 @@ public class clsCodeletHandler {
 		return moEnvironmentalImageMemory;
 	}
 
-
-	/**
-	 * @since 01.10.2012 20:31:58
-	 * 
-	 * @param moEnvironmentalImageMemory the moEnvironmentalImageMemory to set
-	 */
-	public void setMoEnvironmentalImageMemory(
-			clsEnvironmentalImageMemory moEnvironmentalImageMemory) {
-		this.moEnvironmentalImageMemory = moEnvironmentalImageMemory;
+	public DT1_PsychicIntensityBuffer getLibidoBuffer() {
+	    return libidoBuffer;
 	}
+
+//	/**
+//	 * @since 01.10.2012 20:31:58
+//	 * 
+//	 * @param moEnvironmentalImageMemory the moEnvironmentalImageMemory to set
+//	 */
+//	public void setMoEnvironmentalImageMemory(
+//			clsEnvironmentalImageMemory moEnvironmentalImageMemory) {
+//		this.moEnvironmentalImageMemory = moEnvironmentalImageMemory;
+//	}
 	
 	public void addToCodeletList(clsCodelet poCodelet) {
 		String oList = "";
