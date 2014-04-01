@@ -24,7 +24,10 @@ public class clsSymbolVisionEntryAction implements itfSymbolVisionEntryAction, i
     protected clsSymbolVisionEntry moObject;
     
     public clsSymbolVisionEntryAction(clsDataPoint poAction){
-       // setActionName(poAction.getActionName());
+       moName = poAction.getAssociation("ACTION_NAME").getValue();
+       if(poAction.hasAssociation("CORRESPONDING_ENTITY")) moObject = new clsSymbolVisionEntry(poAction.getAssociation("CORRESPONDING_ENTITY"));
+        
+        // setActionName(poAction.getActionName());
         //if(poAction.getObjectVisionEntry()!=null)this.setObject(new clsSymbolVisionEntry(poAction.getObjectVisionEntry()));
     }
 

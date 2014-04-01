@@ -24,6 +24,7 @@ import complexbody.io.actuators.actionCommands.clsActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 import complexbody.io.actuators.actionCommands.itfActionProcessor;
 import complexbody.io.actuators.actionCommands.itfInternalActionProcessor;
+import complexbody.io.actuators.actionExecutors.clsAction;
 import complexbody.io.sensors.datatypes.clsBump;
 import complexbody.io.sensors.datatypes.clsInspectorPerceptionItem;
 import complexbody.io.sensors.datatypes.clsOlfactoricEntry;
@@ -342,7 +343,6 @@ public class clsBrainSocket implements itfStepProcessing {
 				
 				for(clsCollidingObject oCollider : oDetectedObjectList){
 					clsDataPoint oEntry = convertVisionEntry(oCollider, convertDistance(oType));
-					//oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
 					oRetVal.addAssociation(oEntry);
 				}
 			}
@@ -368,14 +368,14 @@ public class clsBrainSocket implements itfStepProcessing {
 	 * @param poSensorType
 	 * @return
 	 */
+
 	private clsDataPoint convertVisionEntry(clsCollidingObject collidingObj, String poDistance) {
 		clsDataPoint oRetVal =null;
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
-		//clsVisionEntry oData = new clsVisionEntry();
 		
 		if(oEntity != null){ 
 		   oRetVal =  new clsDataPoint("ENTITY",getEntityType(collidingObj.moCollider).toString());
-		   oRetVal.addAssociation(new clsDataPoint("SHAPE",getShapeType(collidingObj.moCollider).toString()));
+		   oRetVal.addAssociation(new clsDataPoint("SHAPE",getShapeType(oEntity)));
 		   oRetVal.addAssociation(new clsDataPoint("COLOR",""+(((Color) oEntity.get2DShape().getPaint()).getRGB())));
 		   oRetVal.addAssociation(new clsDataPoint("ENTITYID",oEntity.getId().toString()));
 		   oRetVal.addAssociation(new clsDataPoint("BRIGHTNESS",getEntityBrightness(collidingObj.moCollider).toString()));
@@ -403,15 +403,46 @@ public class clsBrainSocket implements itfStepProcessing {
 
 		   oRetVal.addAssociation(oDebugPos);
 
-		
-		   //TODO: convert Actions with new Action strategy
-		  // oData.setActions(convertActions(oEntity.getExecutedActions()));
-
+		   if(oEntity.getExecutedActions().size()>0){
+			   clsDataPoint oActions =new clsDataPoint("ACTIONS","");
+			   for(clsAction oAction :oEntity.getExecutedActions()){
+				   oActions.addAssociation(convertVisionEntryAction(oAction));
+			   }
+			   oRetVal.addAssociation(oActions);
+		   }
 		}
 		
 		
 		return oRetVal;
 	}
+
+
+	
+	
+	
+	/**
+	 * DOCUMENT (herret) - insert description
+	 *
+	 * @since 31.03.2014 15:41:19
+	 *
+	 * @param executedActions
+	 * @return
+	 */
+	private clsDataPoint convertVisionEntryAction(clsAction poAction) {
+		clsDataPoint oRetVal = new clsDataPoint("ACTION","");
+		oRetVal.addAssociation(new clsDataPoint("ACTION_NAME",poAction.getActionName()));
+		if(poAction.getCorrespondingEntity()!=null)  oRetVal.addAssociation(convertVisionEntryActionEntity(poAction.getCorrespondingEntity()));
+		return oRetVal;
+	}
+	private clsDataPoint convertVisionEntryActionEntity(clsEntity poEntity) {
+		clsDataPoint oRetVal = new clsDataPoint("CORRESPONDING_ENTITY", poEntity.getEntityType().toString());
+		oRetVal.addAssociation(new clsDataPoint("COLOR", ""+ (((Color) poEntity.get2DShape().getPaint()).getRGB())));
+		oRetVal.addAssociation(new clsDataPoint("SHAPE", getShapeType(poEntity)));
+		oRetVal.addAssociation(new clsDataPoint("ALIVE", ""+ poEntity.isAlive()));
+
+		return oRetVal;
+	}
+
 	
 	
 	/* **************************************************** CONVERT SENSOR DATA *********************************************** */
@@ -455,7 +486,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		return oData;
 	}*/
-	
+
 	/**
 	 * DOCUMENT (herret) - insert description
 	 *
@@ -1103,14 +1134,15 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 		return oResult;
 	}
 	
-	private  complexbody.io.sensors.datatypes.enums.eShapeType getShapeType(PhysicalObject2D poObject) {
+
+	private  String getShapeType(clsEntity poObject) {
 		
-		if (poObject.getShape() instanceof  Circle) {
-			return complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE;
-		}else if(poObject.getShape() instanceof  Rectangle){
-			return complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE;
+		if (poObject.get2DShape() instanceof  Circle) {
+			return "CIRCLE";
+		}else if(poObject.get2DShape() instanceof  Rectangle){
+			return "SQUARE";
 		} else {
-			return complexbody.io.sensors.datatypes.enums.eShapeType.UNDEFINED;
+			return "UNDEFINED";
 		}
 	}
 	

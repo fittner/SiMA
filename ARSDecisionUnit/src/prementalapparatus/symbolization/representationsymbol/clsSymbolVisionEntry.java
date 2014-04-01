@@ -50,23 +50,27 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
         super();
         
         //moSensorType = eSensorExtType.valueOf(poEntry.getAssociation("SENSOR_TYPE").getValue());
-        moDistance = convertDistance(poEntry.getAssociation("DISTANCE").getValue());//convertDistance(poEntry.getAssociation("DISTANCE").getValue());
-        moPolarcoordinate = new clsPolarcoordinate(Double.parseDouble(poEntry.getAssociation("POLARCOORDINATE").getAssociation("LENGTH").getValue()),Double.parseDouble(poEntry.getAssociation("POLARCOORDINATE").getAssociation("RADIANS").getValue()));
+        if(poEntry.hasAssociation("DISTANCE")) moDistance = convertDistance(poEntry.getAssociation("DISTANCE").getValue());//convertDistance(poEntry.getAssociation("DISTANCE").getValue());
+        if(poEntry.hasAssociation("POLARCOORDINATE"))  moPolarcoordinate = new clsPolarcoordinate(Double.parseDouble(poEntry.getAssociation("POLARCOORDINATE").getAssociation("LENGTH").getValue()),Double.parseDouble(poEntry.getAssociation("POLARCOORDINATE").getAssociation("RADIANS").getValue()));
         mnEntityType = poEntry.getValue();//eEntityType.valueOf(poEntry.getValue());
 
-        mnShapeType = poEntry.getAssociation("SHAPE").getValue();// eShapeType.valueOf(poEntry.getAssociation("SHAPE").getValue());
+        if(poEntry.hasAssociation("SHAPE"))  mnShapeType = poEntry.getAssociation("SHAPE").getValue();// eShapeType.valueOf(poEntry.getAssociation("SHAPE").getValue());
 
-        moEntityId = poEntry.getAssociation("ENTITYID").getValue();
+        if(poEntry.hasAssociation("ENTITYID"))  moEntityId = poEntry.getAssociation("ENTITYID").getValue();
         
-        mnAlive = Boolean.parseBoolean(poEntry.getAssociation("ALIVE").getValue());
+        if(poEntry.hasAssociation("ALIVE"))  mnAlive = Boolean.parseBoolean(poEntry.getAssociation("ALIVE").getValue());
         
-        moColor = new Color(Integer.parseInt(poEntry.getAssociation("COLOR").getValue()));
-        moObjectPosition =poEntry.getAssociation("OBJECT_POSITION").getValue();//eSide.valueOf( poEntry.getAssociation("OBJECT_POSITION").getValue()); 
-        moExactDebugX = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("X").getValue());
-        moExactDebugY = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("Y").getValue());
-        moExactDebugAngle = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("ANGLE").getValue());
-        moBrightness = poEntry.getAssociation("BRIGHTNESS").getValue();//eSaliency.valueOf( poEntry.getAssociation("BRIGHTNESS").getValue()); 
+        if(poEntry.hasAssociation("COLOR"))  moColor = new Color(Integer.parseInt(poEntry.getAssociation("COLOR").getValue()));
+        if(poEntry.hasAssociation("OBJECT_POSITION"))  moObjectPosition =poEntry.getAssociation("OBJECT_POSITION").getValue();//eSide.valueOf( poEntry.getAssociation("OBJECT_POSITION").getValue()); 
+        if(poEntry.hasAssociation("DEBUG_POSITION"))  moExactDebugX = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("X").getValue());
+        if(poEntry.hasAssociation("DEBUG_POSITION"))   moExactDebugY = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("Y").getValue());
+        if(poEntry.hasAssociation("DEBUG_POSITION"))  moExactDebugAngle = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("ANGLE").getValue());
+        if(poEntry.hasAssociation("BRIGHTNESS"))  moBrightness = poEntry.getAssociation("BRIGHTNESS").getValue();//eSaliency.valueOf( poEntry.getAssociation("BRIGHTNESS").getValue()); 
         
+        
+        if(poEntry.hasAssociation("ACTIONS")) {
+            moAction = new clsSymbolVisionEntryAction(poEntry.getAssociation("ACTIONS").getAssociation("ACTION"));
+        }
         //TODO: Set new Action types
         //moActions = poSensor.getActions();
         
