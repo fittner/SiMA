@@ -335,6 +335,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		//oVisionTypes.add(eSensorExtType.VISION_CARRIED_ITEMS);
 
 
+		//add vision sensors
 		for(eSensorExtType oType : oVisionTypes){
 			clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(oType));
 			
@@ -346,6 +347,14 @@ public class clsBrainSocket implements itfStepProcessing {
 					oRetVal.addAssociation(oEntry);
 				}
 			}
+		}
+		
+		//add sensor carried items
+		HashMap<Double, ArrayList<clsCollidingObject>> oDetectedObjectList = moSensorsExt.get(eSensorExtType.VISION_CARRIED_ITEMS).moSensorData.getMeDetectedObject();
+		
+		for(clsCollidingObject oCollider : oDetectedObjectList.get(0.0)){
+			clsDataPoint oEntry = convertVisionEntry(oCollider, "CARRYING");
+			oRetVal.addAssociation(oEntry);
 		}
 		
 		return oRetVal;
