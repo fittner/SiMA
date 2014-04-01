@@ -39,6 +39,8 @@ import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
+import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntry;
+import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntryAction;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;import base.datatypes.clsAct;
 import base.datatypes.clsAssociation;
@@ -66,6 +68,9 @@ import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
+
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
 import complexbody.io.sensors.datatypes.clsBump;
 import complexbody.io.sensors.datatypes.clsPositionChange;
@@ -74,8 +79,6 @@ import complexbody.io.sensors.datatypes.clsSensorExtern;
 import complexbody.io.sensors.datatypes.clsSensorIntern;
 import complexbody.io.sensors.datatypes.clsSensorRingSegment;
 import complexbody.io.sensors.datatypes.clsSensorRingSegmentEntry;
-import complexbody.io.sensors.datatypes.clsVisionEntry;
-import complexbody.io.sensors.datatypes.clsVisionEntryAction;
 
 
 
@@ -556,7 +559,16 @@ public class clsGraph extends JGraph {
 			oRootCell = generateGraphCell(poParent, oNextMemoryObject);
 			
 			
-		} else if (oO instanceof clsPair) {
+		} else if (oO instanceof clsDataContainer) {
+			clsDataContainer oNextMemoryObject = (clsDataContainer)oO;
+			oRootCell = generateGraphCell(poParent, oNextMemoryObject);
+
+		} else if (oO instanceof clsDataPoint) {
+			clsDataPoint oNextMemoryObject = (clsDataPoint)oO;
+			oRootCell = generateGraphCell(poParent, oNextMemoryObject);
+
+		}
+		else if (oO instanceof clsPair) {
 			@SuppressWarnings("rawtypes")
 			clsPair oNextMemoryObject = (clsPair)oO;
 			oRootCell = generateGraphCell(poParent, oNextMemoryObject);
@@ -582,11 +594,11 @@ public class clsGraph extends JGraph {
 		} else if (oO instanceof clsSymbolVision) {
 			oRootCell = generateGraphCell(poParent, (clsSymbolVision) oO);
 			
-		} else if (oO instanceof clsVisionEntry) {
-			oRootCell = generateGraphCell(poParent, (clsVisionEntry)oO);
+		} else if (oO instanceof clsSymbolVisionEntry) {
+			oRootCell = generateGraphCell(poParent, (clsSymbolVisionEntry)oO);
 			
-		} else if (oO instanceof clsVisionEntryAction) {
-			oRootCell = generateGraphCell(poParent, (clsVisionEntryAction)oO);	
+		} else if (oO instanceof clsSymbolVisionEntryAction) {
+			oRootCell = generateGraphCell(poParent, (clsSymbolVisionEntryAction)oO);	
 				
 		} else if (oO instanceof clsSensorIntern) {
 			oRootCell = generateGraphCell(poParent, (clsSensorIntern) oO); 
@@ -1131,6 +1143,75 @@ public class clsGraph extends JGraph {
 		return oTPMrootCell;	
 	}
 	
+	
+	
+	/** [clsDataContainer]
+	 * Generating cells from clsThingPresantationMesh
+	 */
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsDataContainer poMemoryObject)
+	{
+		
+		String oDescription = 	"Container";
+
+
+		//generate root of the mesh
+		clsGraphCell oContainer = createDefaultGraphVertex(oDescription, moColorString);
+		this.moCellList.add(oContainer);
+
+
+		/* Add childs */
+		
+		for(clsDataPoint oDataPoint: poMemoryObject.getData()){
+		
+			clsGraphCell oTargetCell = generateGraphCell(oContainer, oDataPoint);
+			//add edge
+			DefaultEdge oEdge = new DefaultEdge(" ");
+						
+			oEdge.setSource(oContainer.getChildAt(0));
+			oEdge.setTarget(oTargetCell.getChildAt(0));
+			moCellList.add(oEdge);
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+			GraphConstants.setEndFill(oEdge.getAttributes(), true);
+		}
+		
+		return oContainer;
+
+	}
+	
+	/** [clsDataPoint]
+	 * Generating cells from clsThingPresantationMesh
+	 */
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsDataPoint poMemoryObject)
+	{
+		
+		String oDescription =poMemoryObject.getValue()+" : "+poMemoryObject.getType();
+
+
+		//generate root of the mesh
+		clsGraphCell oContainer = createDefaultGraphVertex(oDescription, moColorString);
+		this.moCellList.add(oContainer);
+
+
+		/* Add childs */
+		
+		for(clsDataPoint oDataPoint: poMemoryObject.getAssociatedDataPoints()){
+		
+			clsGraphCell oTargetCell = generateGraphCell(oContainer, oDataPoint);
+			//add edge
+			DefaultEdge oEdge = new DefaultEdge(" ");
+						
+			oEdge.setSource(oContainer.getChildAt(0));
+			oEdge.setTarget(oTargetCell.getChildAt(0));
+			moCellList.add(oEdge);
+			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+			GraphConstants.setEndFill(oEdge.getAttributes(), true);
+		}
+		
+		return oContainer;
+
+	}
+	
+	
 	/**
 	 * DOCUMENT (Jordakieva Ivy) - draws the stored rules which passed the Superego
 	 *
@@ -1672,7 +1753,7 @@ public class clsGraph extends JGraph {
 	/**
 	 * [clsVisionEntry]
 	 */
-	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsVisionEntry poMemoryObject)
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsSymbolVisionEntry poMemoryObject)
 	{
 		String oDescription = poMemoryObject.getEntityType().toString();
 		oDescription ="  ?  ";	
@@ -1705,9 +1786,9 @@ public class clsGraph extends JGraph {
 			GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 			GraphConstants.setEndFill(oEdge.getAttributes(), true);
 		}
-		if(poMemoryObject.getAction()!=null){
+		if(poMemoryObject.getSymbolAction()!=null){
 			
-			clsGraphCell oTargetCell = generateGraphCell(oCell, poMemoryObject.getAction());
+			clsGraphCell oTargetCell = generateGraphCell(oCell, poMemoryObject.getSymbolAction());
 			//add edge
 			DefaultEdge oEdge = new DefaultEdge();
 			oEdge.setSource(oCell.getChildAt(0));
@@ -1732,7 +1813,7 @@ public class clsGraph extends JGraph {
 	/**
 	 * [clsVisionEntryAction]
 	 */
-	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsVisionEntryAction poMemoryObject)
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsSymbolVisionEntryAction poMemoryObject)
 	{
 		String oDescription = "Action\n" + "  ?  ";//; poMemoryObject.getActionName();
 		clsGraphCell oCell = createDefaultGraphVertex(oDescription, moColorVisionEntry);
