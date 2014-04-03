@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class clsDataPoint {
 	private String moType;
 	private String moValue;
+	private String moBufferType="";
 	
 	private ArrayList<clsDataPoint> moAssociations;	
 	
@@ -43,6 +44,12 @@ public class clsDataPoint {
 	}
 	
 	
+	public String getBufferType() {
+		return moBufferType;
+	}
+	public void setBufferType(String moBufferType) {
+		this.moBufferType = moBufferType;
+	}
 	public void addAssociation(clsDataPoint poDataPoint){
 		moAssociations.add(poDataPoint);
 	}

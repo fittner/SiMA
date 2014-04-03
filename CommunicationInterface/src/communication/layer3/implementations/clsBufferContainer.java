@@ -1,4 +1,4 @@
-package communication.layer4.implementations;
+package communication.layer3.implementations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,35 +6,35 @@ import java.util.HashMap;
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 
+import communication.layer2.interfaces.itfLayer2;
 import communication.layer3.interfaces.itfLayer3;
 import communication.layer4.interfaces.itfLayer4;
-import communication.layer5.interfaces.itfLayer5;
 
-public class clsBufferContainer implements itfLayer4 {
+public class clsBufferContainer implements itfLayer3 {
 	
 	HashMap<String,clsBufferBase> moBuffers = new HashMap<String,clsBufferBase>();
-	private itfLayer3 moLayer3;
-	private itfLayer5 moLayer5;
+	private itfLayer2 moLayer3;
+	private itfLayer4 moLayer4;
 
-	public void setLayer3(itfLayer3 moLayer3) {
+	public void setLayer3(itfLayer2 moLayer3) {
 		this.moLayer3= moLayer3;
 	}
 
-	public void setLayer5(itfLayer5 moLayer5) {
-		this.moLayer5 = moLayer5;
+	public void setLayer4(itfLayer4 moLayer4) {
+		this.moLayer4 = moLayer4;
 	}
 	
 	
 	@Override
-	public clsDataContainer recvLayer3Data(clsDataContainer poData) {
+	public clsDataContainer recvLayer2Data(clsDataContainer poData) {
 		sendToBuffer(poData);
-		return moLayer5.recvLayer4Data();
+		return moLayer4.recvLayer3Data();
 	}
 
 
 	@Override
-	public void recvLayer5Data(clsDataContainer poData) {
-		clsDataContainer oRetData = moLayer3.recvLayer4Data(poData);
+	public void recvLayer4Data(clsDataContainer poData) {
+		clsDataContainer oRetData = moLayer3.recvLayer3Data(poData);
 		sendToBuffer(oRetData);
 		return;
 	}
@@ -82,7 +82,20 @@ public class clsBufferContainer implements itfLayer4 {
 					moBuffers.get(oData.getType()).put(oData);
 				}
 				//if no Buffer is found create default Buffer
-				clsBufferBase oBuffer = new clsEventBuffer();
+				//1) check if buffertype is attached
+				String bufferType = oData.getBufferType();
+				clsBufferBase oBuffer;
+				if(bufferType.equals("EVENT")){
+					oBuffer = new clsEventBuffer();
+
+				}else if (bufferType.equals("SIGNAL")){
+					oBuffer = new clsSignalBuffer();
+
+				}else{
+					//ADD Default Buffer
+					oBuffer = new clsEventBuffer();
+				}
+				
 				oBuffer.put(oData);
 				moBuffers.put(oData.getType(), oBuffer);
 			}

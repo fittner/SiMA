@@ -1,46 +1,43 @@
-package communication.layer5.implementations;
+package communication.layer4.implementations;
 
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 import communication.interfaces.itfCommunicationPartner;
-import communication.interfaces.itfCommunicationPartnerThread;
+import communication.layer3.interfaces.itfLayer3;
 import communication.layer4.interfaces.itfLayer4;
-import communication.layer5.interfaces.itfLayer5;
 
-public class clsLayer5NonBlockingThread implements itfLayer5{
+public class clsLayer4NonBlocking implements itfLayer4{
 
-	private itfLayer4 moLayer4;
-	private itfCommunicationPartnerThread moPartner;
+	private itfLayer3 moLayer3;
+	private itfCommunicationPartner moPartner;
 
 
-	public void setLayer4(itfLayer4 moLayer4) {
-		this.moLayer4= moLayer4;
+	public void setLayer3(itfLayer3 moLayer3) {
+		this.moLayer3= moLayer3;
 	}
 	
 	@Override
-	public clsDataContainer recvLayer4Data() {
+	public clsDataContainer recvLayer3Data() {
 		clsDataContainer oRetVal = new clsDataContainer();
 		clsDataPoint oDataPoint = new clsDataPoint("RESPONSE","OK");
 		oRetVal.addDataPoint(oDataPoint);
-		
-		moPartner.newDataAvailable();
 		return oRetVal;
 	}
 
 	@Override
 	public clsDataContainer sendData(clsDataContainer poData) {
-		moLayer4.recvLayer5Data(poData);
+		moLayer3.recvLayer4Data(poData);
 		return null;
 	}
 
 	@Override
 	public clsDataContainer recvData(clsDataContainer poData) {
-		return moLayer4.getData();
+		return moLayer3.getData();
 	}
 
 	@Override
 	public void setCommunicationPartner(itfCommunicationPartner poPartner) {
-		moPartner = (itfCommunicationPartnerThread) poPartner;
+		moPartner = poPartner;
 		
 	}
 	

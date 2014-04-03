@@ -1,9 +1,13 @@
 package communication.layer3.interfaces;
 
-import commication.exceptions.exNeigbourLayerNullPointerException;
 import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
 
 public interface itfLayer3 {
-	public String recvLayer1Data(String data);
-	public clsDataContainer recvLayer4Data(clsDataContainer data);
+
+	public clsDataContainer recvLayer2Data(clsDataContainer poData);
+	public void recvLayer4Data(clsDataContainer poData);
+	public clsDataContainer getData();
+	public clsDataContainer getInputBuffer(String poInputBufferName);
+	
 }

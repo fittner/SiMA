@@ -62,7 +62,6 @@ import complexbody.io.actuators.actionExecutors.clsExecutorTurn;
 import complexbody.io.actuators.actionExecutors.clsExecutorTurnVision;
 import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import complexbody.io.sensors.external.clsSensorAcceleration;
-import complexbody.io.sensors.external.clsSensorAcoustic;
 import complexbody.io.sensors.external.clsSensorBump;
 import complexbody.io.sensors.external.clsSensorCarriedItems;
 import complexbody.io.sensors.external.clsSensorEatableArea;
@@ -212,50 +211,7 @@ public class clsExternalIO extends clsBaseIO {
 			numsensors++;
 		}
 		
-		if (pnThreeRangeAcoustics) {
-			//add 3-range-Acoustics
-			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_NEAR.name());
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 20);
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 0 );
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-			numsensors++;
-	
-			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_MEDIUM.name());
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 40 );
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 20 );
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-			numsensors++;
-	
-			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_FAR.name());
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 60);
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 40 );
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-			numsensors++;
-			
-			//Vision Self
-			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_SELF.name());
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 0);
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 0 );
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-			numsensors++;
-			
-		} else {
-			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
-			oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
-			oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.ACOUSTIC.name());
-			oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
-			oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MAX_DISTANCE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
-			numsensors++;
-		}
-		
+
 		oProp.putAll( clsSensorRadiation.getDefaultProperties( pre+numsensors) );
 		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.RADIATION.name());
@@ -425,7 +381,6 @@ public class clsExternalIO extends clsBaseIO {
 					 * get rid of the Hashmap moSensorExternal
 					 * */
 					if(eType.name().equals(eSensorExtType.ACCELERATION.name())) sensorExt=new clsSensorAcceleration(tmp_pre, poProp, this); 
-				//	if(eType.name().equals(eSensorExtType.ACOUSTIC.name())) sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this); // MW 
 					if(eType.name().equals(eSensorExtType.BUMP.name()))sensorExt=new clsSensorBump(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION_NEAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION_MEDIUM.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
@@ -433,20 +388,8 @@ public class clsExternalIO extends clsBaseIO {
 					if(eType.name().equals(eSensorExtType.VISION.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this); 
 					
 					if(eType.name().equals(eSensorExtType.VISION_CARRIED_ITEMS.name()))sensorExt=new clsSensorCarriedItems(tmp_pre, poProp, this,moEntity); 
-					
-					if(eType.name().equals(eSensorExtType.ACOUSTIC_NEAR.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
-					if(eType.name().equals(eSensorExtType.ACOUSTIC_MEDIUM.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
-					if(eType.name().equals(eSensorExtType.ACOUSTIC_FAR.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
-					if(eType.name().equals(eSensorExtType.ACOUSTIC.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this); 
-			
-					if(eType.name().equals(eSensorExtType.RADIATION.name()))sensorExt=new clsSensorRadiation(tmp_pre, poProp, this); 
-					if(eType.name().equals(eSensorExtType.EATABLE_AREA.name()))sensorExt=new clsSensorEatableArea(tmp_pre, poProp, this); 
-					if(eType.name().equals(eSensorExtType.MANIPULATE_AREA.name()))sensorExt=new clsSensorManipulateArea(tmp_pre, poProp, this); 
-					
-					if(eType.name().equals(eSensorExtType.POSITIONCHANGE.name()))sensorExt=new clsSensorPositionChange(tmp_pre, poProp, this); 
-					
+										
 					if(eType.name().equals(eSensorExtType.VISION_SELF.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
-					if(eType.name().equals(eSensorExtType.OLFACTORIC.name()))sensorExt=new clsSensorOlfactoric(tmp_pre, poProp, this); 
 					
 					
 					moSensorEngine.registerSensor(eType, sensorExt);

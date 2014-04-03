@@ -395,6 +395,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
     
     private clsDataPoint createAction(String poName,ArrayList<clsDataPoint> poAttributes){
         clsDataPoint oRetVal = new clsDataPoint("ACTION_COMMAND", poName);
+        oRetVal.setBufferType("EVENT");
         if(poAttributes!= null){
             for(clsDataPoint oPoint: poAttributes) oRetVal.addAssociation(oPoint);
         }

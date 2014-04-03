@@ -1,16 +1,16 @@
 package communication.layer1.implementations;
 
 import communication.layer1.interfaces.itfLayer1;
-import communication.layer3.interfaces.itfLayer3;
+import communication.layer2.interfaces.itfLayer2;
 
 public class clsLayer1ProcedureCall implements itfLayer1 {
 
 	clsLayer1ProcedureCall moCommunicationPartner;
-	itfLayer3 moLayer3;
+	itfLayer2 moLayer3;
 	
 	
 	
-	public void setMoLayer3(itfLayer3 moLayer3) {
+	public void setLayer3(itfLayer2 moLayer3) {
 		this.moLayer3 = moLayer3;
 	}
 

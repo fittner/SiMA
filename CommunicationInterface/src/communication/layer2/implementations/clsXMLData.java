@@ -1,4 +1,4 @@
-package communication.layer3.implementations;
+package communication.layer2.implementations;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,7 +20,7 @@ import org.xml.sax.InputSource;
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 
-public class clsXMLData extends clsLayer3Base{
+public class clsXMLData extends clsLayer2Base{
 
 	@Override
 	protected String processSend(clsDataContainer poInputData) {

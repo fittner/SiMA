@@ -52,7 +52,9 @@ public class clsCommunicationPortDUControl implements itfCommunicationPartner{
     
     public boolean stepDU(){
     	clsDataContainer oData = new clsDataContainer();
-    	oData.addDataPoint(new clsDataPoint("COMMAND","PROCESS"));
+    	clsDataPoint oCommand = new clsDataPoint("COMMAND","PROCESS");
+    	oCommand.setBufferType("EVENT");
+    	oData.addDataPoint(oCommand);
     			
     	clsDataContainer oRetData = moControlInterface.sendData(oData);
     	return true;

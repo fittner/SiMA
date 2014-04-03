@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 import org.slf4j.Logger;
 
@@ -26,13 +25,6 @@ import complexbody.io.actuators.actionCommands.itfActionProcessor;
 import complexbody.io.actuators.actionCommands.itfInternalActionProcessor;
 import complexbody.io.actuators.actionExecutors.clsAction;
 import complexbody.io.sensors.datatypes.clsBump;
-import complexbody.io.sensors.datatypes.clsInspectorPerceptionItem;
-import complexbody.io.sensors.datatypes.clsOlfactoricEntry;
-import complexbody.io.sensors.datatypes.clsRadiation;
-import complexbody.io.sensors.datatypes.clsSensorData;
-import complexbody.io.sensors.datatypes.clsUnrealSensorValueVision;
-import complexbody.io.sensors.datatypes.clsVision;
-import complexbody.io.sensors.datatypes.clsVisionEntry;
 import complexbody.io.sensors.datatypes.enums.eFastMessengerSources;
 import complexbody.io.sensors.datatypes.enums.eSaliency;
 import complexbody.io.sensors.datatypes.enums.eSensorExtType;
@@ -40,8 +32,6 @@ import complexbody.io.sensors.datatypes.enums.eSensorIntType;
 import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
 import complexbody.io.sensors.external.clsSensorBump;
 import complexbody.io.sensors.external.clsSensorExt;
-import complexbody.io.sensors.external.clsSensorPositionChange;
-import complexbody.io.sensors.external.clsSensorRadiation;
 import complexbody.io.sensors.external.clsSensorVision;
 import complexbody.io.sensors.internal.clsEnergyConsumptionSensor;
 import complexbody.io.sensors.internal.clsEnergySensor;
@@ -53,30 +43,21 @@ import complexbody.io.sensors.internal.clsSlowMessengerSensor;
 import complexbody.io.sensors.internal.clsStaminaSensor;
 import complexbody.io.sensors.internal.clsStomachTensionSensor;
 import complexbody.io.sensors.internal.clsTemperatureSensor;
-import complexbody.io.sensors.uitils.clsSensorDataCalculation;
 import control.interfaces.itfDecisionUnit;
 import control.interfaces.itfProcessKeyPressed;
 
 import physical2d.physicalObject.datatypes.eCount;
-import physical2d.physicalObject.datatypes.eSide;
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
 import properties.clsProperties;
 
-import sim.field.grid.DoubleGrid2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.shape.Rectangle;
-import sim.physics2D.util.Angle;
-import sim.util.Double2D;
-import singeltons.clsSingletonMasonGetter;
-import tools.clsPolarcoordinate;
 import base.clsCommunicationInterface;
 import body.itfStepProcessing;
-import body.attributes.clsAttributeAlive;
 import entities.abstractEntities.clsEntity;
-import entities.enums.eBodyAttributes;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
@@ -89,14 +70,8 @@ import entities.enums.eBodyAttributes;
 public class clsBrainSocket implements itfStepProcessing {
 	
 
-	private  final double _UNREAL_NEAR_DISTANCE = 250;
-	private  final double _UNREAL_MEDIUM_DISTANCE = 500;
-	//private  final double _UNREAL_FAR_DISTANCE =  750;
-	public  final double _UNREAL_AREA_OF_VIEW_RADIANS = Math.PI/2;
 
 	private itfDecisionUnit moDecisionUnit; //reference
-	private itfActionProcessor moActionProcessor; //reference
-	private itfInternalActionProcessor moInternalActionProcessor; //reference
 	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt; //reference
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt; //reference
 //	private clsSensorDataCalculation moSensorCalculation;
@@ -104,13 +79,10 @@ public class clsBrainSocket implements itfStepProcessing {
 	private clsCommunicationPortDUData moCommunicationPortDUData;
 	private clsCommunicationPortDUControl moCommunicationPortControl;
 	
-	private Vector<clsUnrealSensorValueVision> moUnrealVisionValues;
 	protected final Logger log;
 	
 	public clsBrainSocket(String poPrefix, clsProperties poProp, HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor, itfInternalActionProcessor poInternalActionProcessor) {
 		log = logger.clsLogger.getLog("BrainSocket");
-		moActionProcessor=poActionProcessor;
-		moInternalActionProcessor=poInternalActionProcessor;
 		moSensorsExt = poSensorsExt;
 		moSensorsInt = poSensorsInt;
 		
@@ -152,32 +124,8 @@ public class clsBrainSocket implements itfStepProcessing {
 //	public void stepProcessing(clsAnimate poAnimate, clsBrainActionContainer poActionList) {
 	@Override
 	public void stepProcessing() {
-		//OLD
-		/*if (moDecisionUnit != null) {
-			clsSensorData oData = convertSensorData();
-			log.debug(oData.toString());
-			moDecisionUnit.update(oData);
-			moDecisionUnit.process();
-			
-			//receive Action Commands
-			//devide into Internal and External Actions
-			//for all external Action executr moActionProcesser.call()
-			//for all internal Action executr moInternalActionProcesser.call()
-			if (clsSingletonProperties.useLogger()) {
-				moDecisionUnit.updateActionLogger();
-			}
-			
-			if(clsSingletonProperties.showArousalGridPortrayal()){
-				ConvertSensorDataAndAddToArousalGrid(moDecisionUnit.getPerceptionInspectorData());
-			}
-			
-			if(clsSingletonProperties.showTPMNetworkGrid()){
-				ConvertTPMDataAndAddToTPMNetworkGrid(moDecisionUnit.getPerceptionInspectorData());
-			}
-			
-			
-		} 
-		*/
+
+		//Step the DU
 		boolean oDUResponse = moCommunicationPortControl.stepDU();
 		moCommunicationPortDUData.recvActionCommands();
 	}
@@ -205,10 +153,6 @@ public class clsBrainSocket implements itfStepProcessing {
 		oRetVal.addDataPoint(convertHealthSystem());
 		oRetVal.addDataPoint(convertTemperatureSystem());
 		oRetVal.addDataPoint(convertEnergySystem());
-		//oRetVal.addDataPoint(convertVisionSensor(eSensorExtType.VISION_NEAR));
-		//oRetVal.addDataPoint(convertVisionSensor(eSensorExtType.VISION_MEDIUM));
-		//oRetVal.addDataPoint(convertVisionSensor(eSensorExtType.VISION_FAR));
-		//oRetVal.addDataPoint(convertVisionSensor(eSensorExtType.VISION_SELF));
 		oRetVal.addDataPoint(convertVisionSensors());
 
 		return oRetVal;
@@ -397,13 +341,13 @@ public class clsBrainSocket implements itfStepProcessing {
 			   oRetVal.addAssociation(new clsDataPoint("BODY_INTEGRITY",""+oEntity.getBody().getBodyIntegrity()));
 		   }
 		   
-		   clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
-		   clsPolarcoordinate oRel = collidingObj.mrColPoint;
-			oRel.moAzimuth = new Angle(clsSensorDataCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
-		   clsDataPoint oPolar = new clsDataPoint("POLARCOORDINATE","");
-		   oPolar.addAssociation(new clsDataPoint("LENGTH",""+oRel.mrLength));
-		   oPolar.addAssociation(new clsDataPoint("RADIANS",""+oRel.moAzimuth.radians));
-		   oRetVal.addAssociation(oPolar);
+		   //clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
+		   //clsPolarcoordinate oRel = collidingObj.mrColPoint;
+			//oRel.moAzimuth = new Angle(clsSensorDataCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
+		   //clsDataPoint oPolar = new clsDataPoint("POLARCOORDINATE","");
+		   //oPolar.addAssociation(new clsDataPoint("LENGTH",""+oRel.mrLength));
+		   //oPolar.addAssociation(new clsDataPoint("RADIANS",""+oRel.moAzimuth.radians));
+		   //oRetVal.addAssociation(oPolar);
 		   
 		   clsDataPoint oDebugPos = new clsDataPoint("DEBUG_POSITION","");
 		   oDebugPos.addAssociation(new clsDataPoint("X",""+oEntity.getPosition().getX()));
@@ -523,564 +467,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 */
-	private void ConvertTPMDataAndAddToTPMNetworkGrid(HashMap<String, ArrayList<clsInspectorPerceptionItem>> poPerceptionInspectorData){
-		if(poPerceptionInspectorData != null && poPerceptionInspectorData.containsKey("F14")){
-			ArrayList<clsInspectorPerceptionItem> oF14Data = poPerceptionInspectorData.get("F14");
-			
-			clsInspectorPerceptionItem lastNode = null;
-			
-			for(clsInspectorPerceptionItem oItem: oF14Data){
-				
-					clsSingletonMasonGetter.getTPMNodeField().setObjectLocation(oItem, new Double2D(oItem.moExactX, oItem.moExactY ));
-					clsSingletonMasonGetter.getTPMNetworkField().addNode(oItem);
-					
-					if(lastNode != null){
-						clsSingletonMasonGetter.getTPMNetworkField().addEdge(oItem, lastNode, "test");
-					}
 	
-					lastNode = oItem;
-			}
-		}
-	}
-	
-	private void ConvertSensorDataAndAddToArousalGrid(HashMap<String, ArrayList<clsInspectorPerceptionItem>> poPerceptionInspectorData){
-		
-		//clsSingletonMasonGetter.setArousalGridEnvironment( clsSingletonMasonGetter.getArousalGridEnvironment().multiply(4) );
-		
-		clsSingletonMasonGetter.getArousalGridEnvironment().add(-0.05);
-		
-		if(poPerceptionInspectorData != null && poPerceptionInspectorData.containsKey("F14")){
-			ArrayList<clsInspectorPerceptionItem> oF14Data = poPerceptionInspectorData.get("F14");
-			
-			for(clsInspectorPerceptionItem oItem: oF14Data){
-				
-				int posX = (int)oItem.moExactX;
-				int posY = (int)oItem.moExactY;
-				
-				if(posX < 0)
-					posX = 0;
-				
-				if(posY < 0)
-					posY = 0;
-				
-				double sensorArousal = (double)oItem.moSensorArousal;
-				
-				if(sensorArousal < 0)
-					sensorArousal = 0;
-				
-				SetDifusedArousalGridDate(posX, posY, sensorArousal);
-			}
-		}
-	}
-	
-	private void SetDifusedArousalGridDate(int X, int Y, double value){
-
-			
-			int dotSize = 26;
-			
-			DoubleGrid2D arousalGrid = clsSingletonMasonGetter.getArousalGridEnvironment();
-						
-			for(int x=X-dotSize/2;x< X+dotSize/2;x++){
-                for(int y=Y-dotSize/2;y< Y+dotSize/2;y++){
-                	if(x<0 || y<0){
-                		//do nothing
-                	}
-                	else if(x>arousalGrid.getWidth()-1 || y>arousalGrid.getHeight()-1){
-                		//do nothing
-                	}
-                	else
-                	{
-                		//distance to dot center
-                		int dx = X - x;
-                		int dy = Y - y;
-                		double distancetospot = Math.sqrt(dx*dx + dy*dy);
-                		
-                		try{
-                			double actualvalue = arousalGrid.field[x][y];
-                        	//arousalGrid.field[x][y] = actualvalue+ value;
-                			arousalGrid.field[x][y] =  value - (distancetospot/14);
-                		}catch(java.lang.ArrayIndexOutOfBoundsException e){
-                			e.printStackTrace();
-                		}
-                		
-                	} //is not under 0
-                }//all y
-            }//all x
-	}
-	
-	private void processUnrealVision(Vector<clsUnrealSensorValueVision> poUnrealVisionValues, clsSensorData poData) {
-        
-        //create object lists for all vision ranges
-        clsVision oVisionDataNear = new clsVision();
-        clsVision oVisionDataMedium = new clsVision();
-        clsVision oVisionDataFar = new clsVision();
-       
-        //go through the vision ranges and convert from unreal to ars
-        for (clsUnrealSensorValueVision data:poUnrealVisionValues) {
-                       
-                        clsUnrealSensorValueVision oVisionEntry = (clsUnrealSensorValueVision)data;
-                       
-                        double oVisionDistance = oVisionEntry.getRadius();
-                       
-                        if(oVisionDistance  >= 0 && oVisionDistance <_UNREAL_NEAR_DISTANCE  )
-                                        oVisionDataNear.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
-                        if(oVisionDistance  >= _UNREAL_NEAR_DISTANCE && oVisionDistance <_UNREAL_MEDIUM_DISTANCE)
-                                        oVisionDataMedium.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
-                        if(oVisionDistance  >= _UNREAL_MEDIUM_DISTANCE)
-                                        oVisionDataFar.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
-        }             
-       
-        //now add the three vision ranges to the sensor data object
-        //near
-        oVisionDataNear.setSensorType(eSensorExtType.VISION_NEAR);
-        poData.addSensorExt(eSensorExtType.VISION_NEAR, oVisionDataNear);
-        //medium
-        oVisionDataMedium.setSensorType(eSensorExtType.VISION_MEDIUM);
-        poData.addSensorExt(eSensorExtType.VISION_MEDIUM, oVisionDataMedium);
-        //far
-        oVisionDataFar.setSensorType(eSensorExtType.VISION_FAR);
-        poData.addSensorExt(eSensorExtType.VISION_FAR, oVisionDataFar);
-
-}
-
-//creates one vision entry transformed to ARS vision types
-private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision poUNREALSensorVision, eSensorExtType poVisionType){
-       
-        //the real conversion
-        clsVisionEntry oEntry = convertUNREALVisionEntry(poUNREALSensorVision);
-        oEntry.setSensorType(poVisionType);
-
-        return oEntry;
-}
-	
-	//the real deep transformation to ARS vision data
-	private clsVisionEntry convertUNREALVisionEntry(clsUnrealSensorValueVision poUNREALSensorVisionData) {
-		clsVisionEntry oData = new clsVisionEntry();
-		
-		//set data, for all objects these are the same
-		oData.setObjectPosition( getObjectPositionFromUNREAL(poUNREALSensorVisionData) );
-		oData.setEntityId(poUNREALSensorVisionData.getID());
-		
-	
-		switch(poUNREALSensorVisionData.getType())
-		{
-			case HEALTH:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.HEALTH);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor( new Color(34,139,34) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			case ARSIN:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.ARSIN);
-				oData.setAlive(true);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor( new Color(204,0,0) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			case WALL:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.WALL);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE);
-				oData.setColor(Color.BLACK);
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}	
-			case MINI_HEALTH:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.MINI_HEALTH );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor( new Color(0,128,0) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-				
-			}case SMALL_ARMOR:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.SMALL_ARMOR);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor( new Color(255,0,0) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			
-			case SUPER_ARMOR:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.SUPER_ARMOR );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor(  new Color(255,69,0)  );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-				
-			}case UDAMAGE:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.UDAMAGE);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor( new Color(255,20,147) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			
-			case FLAKCANNON_WEAPON:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.FLAKCANNON_WEAPON );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor( new Color(133,216,230));
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}case FLAKCANNON_AMMO:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.FLAKCANNON_AMMO);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor( new Color(133,216,230));
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			
-			case BIORIFLE_WEAPON:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.BIORIFLE_WEAPON );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor( new Color(175,238,238) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}case BIORIFLE_AMMO:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.BIORIFLE_AMMO);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor( new Color(175,238,238) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			
-			case LINKGUN_WEAPON:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.LINKGUN_WEAPON );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor( new Color(95,158,160) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-				
-			}case LINKGUN_AMMO:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.LINKGUN_AMMO);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor( new Color(95,158,160) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			
-			case MINIGUN_WEAPON:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.MINIGUN_WEAPON );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor( new Color(176,196,222) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}case MINIGUN_AMMO:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.MINIGUN_AMMO);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor( new Color(176,196,222) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			
-			case ROCKET_WEAPON:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.ROCKET_WEAPON );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor( new Color(135,206,250));
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}case ROCKET_AMMO:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.ROCKET_AMMO);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor( new Color(135,206,250) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			
-			case SNIPER_WEAPON:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.SNIPER_WEAPON );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor(new Color(65,105,225));
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-				
-			}case SNIPER_AMMO:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.SNIPER_AMMO);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor(new Color(65,105,225));
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			
-			case SHOCKRIFLE_WEAPON:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.SHOCKRIFLE_WEAPON );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.SQUARE );
-				oData.setColor( new Color(72,209,204) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}case SHOCKRIFLE_AMMO:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.SHOCKRIFLE_AMMO);
-				oData.setAlive(false);
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor( new Color(72,209,204) );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-		
-			case CAKE:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.CAKE );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor( Color.PINK );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-				
-			case  CAN:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.CAN);
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-				
-			case  STONE:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.STONE );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setColor( Color.DARK_GRAY );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			
-			
-			case SPEECH:
-			{
-				oData.setAlive(false);
-				oData.setEntityType( complexbody.io.sensors.datatypes.enums.eEntityType.SPEECH );
-				oData.setShapeType( complexbody.io.sensors.datatypes.enums.eShapeType.CIRCLE );
-				oData.setEntityId(poUNREALSensorVisionData.getID());
-				break;
-			}
-			
-			case  UNDEFINED:
-			{
-				oData.setEntityType(complexbody.io.sensors.datatypes.enums.eEntityType.UNDEFINED);
-				break;
-			}
-				
-			default:throw new java.lang.NullPointerException("UNREAL vision type not implemented");	
-		}
-
-		return oData;
-	}
-	
-	//convert the objects from the unreal vision to symbols where the object is
-	private eSide getObjectPositionFromUNREAL(clsUnrealSensorValueVision poUNREALSensorVisionData){
-		eSide oSide = eSide.UNDEFINED;
-		
-		//where is the object
-		if (Math.abs(poUNREALSensorVisionData.getAngle()) <= _UNREAL_AREA_OF_VIEW_RADIANS/18)
-		{
-			oSide = eSide.CENTER;
-		}
-		else if(Math.abs(poUNREALSensorVisionData.getAngle()) <= _UNREAL_AREA_OF_VIEW_RADIANS/4)
-		{
-			if (poUNREALSensorVisionData.getAngle()<0)
-			{
-				oSide = eSide.MIDDLE_LEFT;
-			}
-			else 
-			{
-				oSide = eSide.MIDDLE_RIGHT;
-			}
-		}
-		else {
-				if(poUNREALSensorVisionData.getAngle()<0){
-					oSide = eSide.LEFT; 
-				}
-				else{
-					oSide = eSide.RIGHT; 
-				}
-		}
-		return oSide;
-	}
-	
-
-	
-
-
-	
-/*private clsOlfactoric convertOlfactoricSensor(eSensorExtType poSensorType) {
-	
-
-	 
-	clsOlfactoric oData = new clsOlfactoric();
-	oData.setSensorType(poSensorType); 
-	clsSensorOlfactoric oSensor = (clsSensorOlfactoric) moSensorsExt.get(poSensorType);
-	
-	ArrayList<clsCollidingObject> oDetectedObjectList = oSensor.getSensorData();
-	
-
-	
-	for (clsCollidingObject oCollider : oDetectedObjectList) {
-		clsVisionEntry oVisionEntry = convertVisionEntry(oCollider, poSensorType);
-		
-		if(oVisionEntry != null){
-			clsOlfactoricEntry oEntry = new clsOlfactoricEntry(oVisionEntry);
-		
-			if(oEntry != null && oCollider.moCollider != null){
-				convertOlfactoricEntry(oCollider, oEntry);
-				oData.add(oEntry);
-			}
-		}
-	}
-	
-	return oData;
-	}*/
-	
-private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, clsOlfactoricEntry oEntry) {
-	
-	clsEntity oEntity= getEntity(oCollider.moCollider); 
-	
-	if(oEntity != null){
-		
-		
-		
-		oEntry.setEntityType( getEntityType(oCollider.moCollider));
-		oEntry.setOdor(oEntity.getOdor());
-		 
-		clsAttributeAlive oAlive = (clsAttributeAlive)oEntity.getBody().getAttributes().getAttribute(eBodyAttributes.ALIVE);
-		
-		//oEntry.setIsAlive( oAlive.isAlive());
-		//oEntry.setIsConsumeable( oAlive.isConsumeable());
-	}
-	
-	return oEntry;
-}
-	
-	
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 03.09.2010, 11:21:25
-	 *
-	 * @return
-	 */
-	private clsRadiation convertRadiationSensor() {
-		clsRadiation oData = new clsRadiation();
-    	clsSensorRadiation oRadiationSensor = (clsSensorRadiation) moSensorsExt.get(eSensorExtType.RADIATION);
-		
-//		Iterator<Integer> i = oRadiationSensor.getViewObj().keySet().iterator();
-//		
-//		while (i.hasNext()) {
-//			Integer oKey = i.next();
-//			oData.mnNumEntitiesPresent = oRadiationSensor.getViewObj().size();
-//			oData.mnTypeOfFirstEntity = getEntityType( oRadiationSensor.getViewObj().get(oKey) );
-//			
-//			if (oData.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
-//				break;
-//			}
-//		}
-	
-		oRadiationSensor.updateSensorData();		
-		oData.setIntensity( oRadiationSensor.getMrRadiation() );		
-
-		return oData;
-	}
-	
-	/**
-	 * DOCUMENT (hinterleitner) - insert description
-	 *
-	 * @author hi
-	 * 03.09.2010, 11:21:29
-	 *
-	 * @param collidingObj
-	 * @param poSensorType
-	 * @return
-	 *//*
-	
-	//FIXME: Why accoustic entry has a shapetype color, brightness,... ?
-	private clsAcousticEntry convertAcousticEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
-		clsEntity oEntity = getEntity(collidingObj.moCollider);
-		clsAcousticEntry oData = new clsAcousticEntry();
-		
-		if(oEntity != null){ 
-		   oData.setEntityType( getEntityType(collidingObj.moCollider));		
-		 //  oData.setShapeType( getShapeType(oEntity));
-		 //  oData.setColor( (Color) oEntity.get2DShape().getPaint());
-		   oData.setEntityId(oEntity.getId());
-		 //  oData.setBrightness( getEntityBrightness(collidingObj.moCollider));
-
-		   oData.setAlive(oEntity.isAlive());
-		
-		   //set corresponding Actions
-		  // oData.setActions(convertActions(oEntity.getExecutedActions()));
-		   
-		   oData.setObjectPosition( collidingObj.meColPos);  
-		   oData.setSensorType(poSensorType);
-		    
-		   oData.setExactDebugPosition(oEntity.getPosition().getX(), oEntity.getPosition().getY(), oEntity.getPose().getAngle().radians);
-		   
-		   double sensorArousalValue = oEntity.getVisionBrightness();
-		   oData.setDebugSensorArousal(sensorArousalValue);
-					
-			// FIXME: (horvath) - temporary polar coordinates calculation
-			clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
-			clsPolarcoordinate oRel = collidingObj.mrColPoint;
-			oRel.moAzimuth = new Angle(clsSensorDataCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
-					
-			oData.setPolarcoordinate( new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians) );
-			
-			if(oEntity.getBody() != null){
-				//sets if the body is full/half etc, 0.5 = 50%
-				oData.setObjectBodyIntegrity(oEntity.getBody().getBodyIntegrity());
-			}
-			
-			if( oEntity instanceof clsAnimal ){ oData.setAlive( ((clsAnimal)oEntity).isAlive() ); }
-		
-		}
-		
-		return oData;
-	}*/
-
-
-
-	   
-	   
 		//translate the Brightness Info to enum values
 	private  eSaliency getEntityBrightness(PhysicalObject2D poObject) {
 		clsEntity oEntity = getEntity(poObject);
@@ -1175,30 +562,11 @@ private clsOlfactoricEntry convertOlfactoricEntry(clsCollidingObject oCollider, 
 
 	public void setDecisionUnit(itfDecisionUnit poDecisionUnit) {
 		moDecisionUnit = poDecisionUnit;
-		//moDecisionUnit.setInternalActionProcessor(moInternalActionProcessor);
-		//moDecisionUnit.setActionProcessor(moActionProcessor);
 	}
 	
 	
 
-	/**
-	 * @since 16.05.2012 15:49:46
-	 * 
-	 * @return the moUnrealVisionValues
-	 */
-	public Vector<clsUnrealSensorValueVision> getUnrealVisionValues() {
-		return moUnrealVisionValues;
-	}
-
-	/**
-	 * @since 16.05.2012 15:49:46
-	 * 
-	 * @param moUnrealVisionValues the moUnrealVisionValues to set
-	 */
-	public void setUnrealVisionValues(
-			Vector<clsUnrealSensorValueVision> moUnrealVisionValues) {
-		this.moUnrealVisionValues = moUnrealVisionValues;
-	}
+	
 
 	/**
 	 * DOCUMENT (langr) - insert description
