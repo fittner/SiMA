@@ -51,6 +51,7 @@ public class clsCC_END_OF_ACT extends clsConsequenceCodelet {
 	    
 	    // Access to moPsychicIntensityBuffer
 	        DT1_PsychicIntensityBuffer x = this.moCodeletHandler.getLibidoBuffer();
+	        x.getClass();
 	}
 
 	/* (non-Javadoc)

@@ -87,6 +87,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 			if(this.mnSystemPleasureValue>1.0)this.mnSystemPleasureValue=1.0;
 		}
 		
+		
 		//overwrite old ones with new ones for next step calculation
 		this.moAllDrivesLastStep = moAllDrivesActualStep;
 	}
