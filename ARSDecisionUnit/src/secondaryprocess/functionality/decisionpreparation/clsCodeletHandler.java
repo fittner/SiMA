@@ -359,25 +359,29 @@ public class clsCodeletHandler {
 	 */
 	public void executeMatchingCodelets(Object poTheExecutingObject, clsWordPresentationMeshPossibleGoal poGoal, eCodeletType poCodeletType, int pnNumberOfExecutions) {
 		
-		ArrayList<clsCodelet> oCList = new ArrayList<clsCodelet>();
-		String oTypeString = "";
+	    for (int i=0; i<2;i++) {
+	        ArrayList<clsCodelet> oCList = new ArrayList<clsCodelet>();
+	        String oTypeString = "";
+	        
+	        if (poCodeletType.equals(eCodeletType.ACTION)) {
+	            oCList = this.getMatchingActionCodelets(poTheExecutingObject, poGoal);
+	            oTypeString = "Execute action codelets: ";
+	        } else if (poCodeletType.equals(eCodeletType.DECISION)) {
+	            oCList = this.getMatchingDecisionCodelets(poTheExecutingObject, poGoal);
+	            oTypeString = "Execute decision codelets: ";
+	        } else if (poCodeletType.equals(eCodeletType.CONSEQUENCE)) {
+	            oCList = this.getMatchingConsequenceCodelets(poTheExecutingObject, poGoal);
+	            oTypeString = "Execute conseqeunce codelets: ";
+	        } else if (poCodeletType.equals(eCodeletType.INIT)) {
+	            oCList = this.getMatchingInitCodelets(poTheExecutingObject, poGoal);
+	            oTypeString = "Execute init codelets: ";
+	        }
+	        
+	        log.trace(oTypeString + oCList.toString());
+	        this.executeCodeletListOnGoal(oCList, poGoal, pnNumberOfExecutions);
+	    }
+	    
 		
-		if (poCodeletType.equals(eCodeletType.ACTION)) {
-			oCList = this.getMatchingActionCodelets(poTheExecutingObject, poGoal);
-			oTypeString = "Execute action codelets: ";
-		} else if (poCodeletType.equals(eCodeletType.DECISION)) {
-			oCList = this.getMatchingDecisionCodelets(poTheExecutingObject, poGoal);
-			oTypeString = "Execute decision codelets: ";
-		} else if (poCodeletType.equals(eCodeletType.CONSEQUENCE)) {
-			oCList = this.getMatchingConsequenceCodelets(poTheExecutingObject, poGoal);
-			oTypeString = "Execute conseqeunce codelets: ";
-		} else if (poCodeletType.equals(eCodeletType.INIT)) {
-		    oCList = this.getMatchingInitCodelets(poTheExecutingObject, poGoal);
-			oTypeString = "Execute init codelets: ";
-		}
-		
-		log.trace(oTypeString + oCList.toString());
-		this.executeCodeletListOnGoal(oCList, poGoal, pnNumberOfExecutions);
 	}
 	
 }
