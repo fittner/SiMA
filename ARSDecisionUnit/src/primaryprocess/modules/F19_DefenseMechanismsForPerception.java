@@ -62,7 +62,8 @@ import testfunctions.clsTester;
  * 
  * Implemented defense mechanisms for perception:
  * - denial (Verdrängung)
- * - idealization, depreciation (Idealisierung, Entwertung): only positive (negative) associations are perceived with an object
+ * - idealization (Idealisierung): only positive associations are perceived with an object
+ * - depreciation (Entwertung): only negative associations are perceived with an object
  * 
  * Implemented defense mechanisms for emotions
  * - Reversal of affect: changes for example the emotion anger into the emotion fear
@@ -674,6 +675,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 */
 	private void defenseMechanism_Denial (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions) {
 		ChartBarDenial ++;
+		denial = 1.0;
 		
     	// If nothing to deny return immediately (otherwise NullPointerException)
     	if (oForbiddenPerceptions == null) return;
