@@ -39,6 +39,44 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         //this.moAssociationMapping.put(eContentType.IMPORTANCE, new ArrayList<clsSecondaryDataStructure>());
     }
     
+    /**
+     * DOCUMENT - Constructor for creating clsWordPresentationMeshFeeling from clsEmotion (the clsEmotion will be stored via ASSOCIATIONWP)
+     *
+     * @author Kollmann
+     * @since 08.04.2014 18:13:21
+     *
+     * @param poEmotion
+     */
+    public clsWordPresentationMeshFeeling(clsEmotion poEmotion) {
+        super(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.ASSOCIATIONWP), new ArrayList<clsAssociation>(), poEmotion.getContent().toString());
+        
+        mapProperties(poEmotion);
+        
+        //store association to original clsEmotion object via ASSOCIATIONWP
+        clsAssociationWordPresentation oWPAssEmotion = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>
+        (-1, eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP), this, poEmotion);
+        this.addExternalAssociation(oWPAssEmotion);
+
+        //Kollmann: for some reason clsEmotion seems to be missing its externalAssociation array - for now we only anchor the associationWP in the WPMFeeling
+//        poEmotion.addExternalAssociation(oWPAssEmotion);
+    }
+    
+    /**
+     * DOCUMENT - Map the properties of the poEmotion object to the properties of the clsWordPresentationMeshFeeling object
+     *
+     * @author Kollmann
+     * @since 08.04.2014 18:13:35
+     *
+     * @param poEmotion
+     */
+    protected void mapProperties(clsEmotion poEmotion) {
+        setIntensity(poEmotion.getEmotionIntensity());
+        setLibido(poEmotion.getSourceLibid());
+        setAggression(poEmotion.getSourceAggr());
+        setPleasure(poEmotion.getSourcePleasure());
+        setUnpleasure(poEmotion.getSourceUnpleasure());
+    }
+    
     public double getIntensity(){
         
         double nResult = 0;
@@ -122,5 +160,17 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     
     public void setUnpleasure(double poUnpleasure){
         this.setUniqueProperty(String.valueOf(poUnpleasure), eContentType.FEELUNPLEASURE, ePredicate.HASUNPLEASURE, true);
+    }
+    
+    @Override
+    public String toString() {
+        String oText = "clsWordPresentationMeshFeeling " + getContent() + ":";
+        oText +=" Intensity=" + getIntensity();
+        oText +=" Libido=" + getLibido();
+        oText +=" Aggression=" + getAggression();
+        oText +=" Pleasure=" + getPleasure();
+        oText +=" Unpleasure=" + getUnpleasure();
+        
+        return oText;
     }
 }
