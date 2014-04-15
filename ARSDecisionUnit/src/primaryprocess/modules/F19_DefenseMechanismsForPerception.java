@@ -64,9 +64,13 @@ import testfunctions.clsTester;
  * - denial (Verdrängung)
  * - idealization (Idealisierung): only positive associations are perceived with an object
  * - depreciation (Entwertung): only negative associations are perceived with an object
+ * - not yet implemented: projektive Identifizierung: Adam bringt es Lust, wenn er Bodo beim Essen zuschaut (mit KD besprochen)
+ * - not yet implemeted (ist auch nicht im Funktionsmodell vorgesehen, wäre aber leicht zu implementieren): isolation (Isolierung) Isolierung trennt den Affektbetrag vom Wahrnehmungsinhalt
  * 
  * Implemented defense mechanisms for emotions
- * - Reversal of affect: changes for example the emotion anger into the emotion fear
+ * - Reversal of affect: changes for the forbidden emotion into the emotion fear
+ * - Reaction formation: changes emotions according to the implemented hash map
+ * - Not yet implemented: Turning against the self: anger -> guilt (mit KD besprochen)
  * 
  * @author gelbard AND Lotfi
  * 07.05.2012, 14:35:08
