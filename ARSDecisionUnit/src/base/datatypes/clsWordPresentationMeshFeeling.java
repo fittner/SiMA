@@ -162,14 +162,20 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         this.setUniqueProperty(String.valueOf(poUnpleasure), eContentType.FEELUNPLEASURE, ePredicate.HASUNPLEASURE, true);
     }
     
-    @Override
-    public String toString() {
+    public String debugString() {
         String oText = "clsWordPresentationMeshFeeling " + getContent() + ":";
         oText +=" Intensity=" + getIntensity();
         oText +=" Libido=" + getLibido();
         oText +=" Aggression=" + getAggression();
         oText +=" Pleasure=" + getPleasure();
         oText +=" Unpleasure=" + getUnpleasure();
+        
+        return oText;
+    }
+    
+    @Override
+    public String toString() {
+        String oText = getContent().toString() + "=" + getIntensity();
         
         return oText;
     }

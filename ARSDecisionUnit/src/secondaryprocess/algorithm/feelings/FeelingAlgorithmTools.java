@@ -8,6 +8,9 @@ package secondaryprocess.algorithm.feelings;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+
+import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eGoalType;
 import base.datatypes.clsWordPresentationMeshFeeling;
@@ -21,6 +24,7 @@ import base.datatypes.clsWordPresentationMeshPossibleGoal;
  * 
  */
 public class FeelingAlgorithmTools {
+    private static final Logger moLogger = clsLogger.getLog("Feelings");
     
     private static double temporaryAffectComputation(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
         double rResult = 0;
@@ -104,11 +108,13 @@ public class FeelingAlgorithmTools {
             
             for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
                 if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
+                    
                     rMatchingFactor =+ 1- (Math.abs(oCurrentFeeling.getIntensity()-oGoalFeeling.getIntensity()));
                 }
             }
-            
         }
+
+        moLogger.debug("Feelings cause evaluation change for {}({}) by {}", poGoal.getContent(), poGoal.getSupportiveDataStructure().getContent(), rMatchingFactor);
         
         rResult += rMatchingFactor;
         
