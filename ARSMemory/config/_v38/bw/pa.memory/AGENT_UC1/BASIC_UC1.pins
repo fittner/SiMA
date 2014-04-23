@@ -1,4 +1,4 @@
-; Tue Apr 22 17:08:52 CEST 2014
+; Wed Apr 23 14:29:23 CEST 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -831,34 +831,6 @@
 	(element
 		[DM%3AEXCREMENT%3ATOILET]
 		[TPM%3AENTITY%3ATOILET%3ATOILET01])
-	(weight 1.0 1.0))
-
-([AE%3AA06_BEAT_BODO_ANGER] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AIMAGE%3AA06_BEAT_BODO_L01]
-		[EMOTION%3AANGER%3ABEAT])
-	(weight 1.0 1.0))
-
-([AE%3AA10_DIVIDE_CAKE%3AANGER] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01]
-		[EMOTION%3AANGER%3ACARL_CAKE])
-	(weight 1.0 1.0))
-
-([AE%3AA12_EAT_CAKE%3AANGER] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AIMAGE%3AA12_EAT_CAKE_L01]
-		[EMOTION%3AANGER%3ACARL_CAKE])
-	(weight 1.0 1.0))
-
-([AE%3AA13_GIVE_CAKE_L01%3AANGER] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AIMAGE%3AA13_GIVE_CAKE_L01]
-		[EMOTION%3AANGER%3ACARL_CAKE])
 	(weight 1.0 1.0))
 
 ([AF%3AA06_BEAT_BODO_L01%3AANGER] of  ASSOCIATIONFEELING
@@ -2384,7 +2356,6 @@
 
 	(action [WPM%3AACTION%3AL1_SPEAK_EAT])
 	(consequence [WP%3AACTION%3AFLEE])
-	(emotion [EMOTION%3AJOY])
 	(value_type "EAT"))
 
 ([DM%3ABEAT%3ABODO%3AANAL] of  DM_anal
@@ -2695,73 +2666,353 @@
 	(value "DM:ORAL:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
-([EMOTION%3AANGER%3ABEAT] of  EMOTION
+([EMOTION%3ARE%3AANGER%3AHIGH] of  EMOTION
 
-	(emotionIntensity 0.0)
-	(sourceAggr 0.53)
+	(emotionIntensity 0.9)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AANGER%3ACARL_CAKE] of  EMOTION
+([EMOTION%3ARE%3AANGER%3ALOW] of  EMOTION
 
-	(emotionIntensity 0.0)
-	(sourceAggr 0.47)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AANXIETY] of  EMOTION
+([EMOTION%3ARE%3AANGER%3AMIDDLE] of  EMOTION
 
-	(emotionIntensity 0.8)
-	(sourceAggr 0.6)
+	(emotionIntensity 0.5)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.7)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ANGER")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AANGER%3AMIDDLE_HIGH] of  EMOTION
+
+	(emotionIntensity 0.7)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ANGER")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AANGER%3AMIDDLE_LOW] of  EMOTION
+
+	(emotionIntensity 0.3)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ANGER")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AANXIETY%3AHIGH] of  EMOTION
+
+	(emotionIntensity 0.9)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AELATION] of  EMOTION
+([EMOTION%3ARE%3AANXIETY%3ALOW] of  EMOTION
 
-	(emotionIntensity 0.8)
-	(sourceAggr 0.7)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.7)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ANXIETY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AANXIETY%3AMIDDLE] of  EMOTION
+
+	(emotionIntensity 0.5)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ANXIETY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AANXIETY%3AMIDDLE_HIGH] of  EMOTION
+
+	(emotionIntensity 0.7)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ANXIETY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AANXIETY%3AMIDDLE_LOW] of  EMOTION
+
+	(emotionIntensity 0.3)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ANXIETY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AELATION%3AHIGH] of  EMOTION
+
+	(emotionIntensity 0.9)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
 	(value "ELATION")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AJOY] of  EMOTION
+([EMOTION%3ARE%3AELATION%3ALOW] of  EMOTION
 
-	(emotionIntensity 0.8)
-	(sourceAggr 0.7)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.7)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ELATION")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AELATION%3AMIDDLE] of  EMOTION
+
+	(emotionIntensity 0.5)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ELATION")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AELATION%3AMIDDLE_HIGH] of  EMOTION
+
+	(emotionIntensity 0.7)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ELATION")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AELATION%3AMIDDLE_LOW] of  EMOTION
+
+	(emotionIntensity 0.3)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ELATION")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AGUILT%3AHIGH] of  EMOTION
+
+	(emotionIntensity 0.9)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "GUILT")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AGUILT%3ALOW] of  EMOTION
+
+	(emotionIntensity 0.1)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "GUILT")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AGUILT%3AMIDDLE] of  EMOTION
+
+	(emotionIntensity 0.5)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "GUILT")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AGUILT%3AMIDDLE_HIGH] of  EMOTION
+
+	(emotionIntensity 0.7)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "GUILT")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AGUILT%3AMIDDLE_LOW] of  EMOTION
+
+	(emotionIntensity 0.3)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "GUILT")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AJOY%3AHIGH] of  EMOTION
+
+	(emotionIntensity 0.9)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AMOURNING] of  EMOTION
+([EMOTION%3ARE%3AJOY%3ALOW] of  EMOTION
 
-	(emotionIntensity 0.8)
-	(sourceAggr 0.7)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.7)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AJOY%3AMIDDLE] of  EMOTION
+
+	(emotionIntensity 0.5)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AJOY%3AMIDDLE_HIGH] of  EMOTION
+
+	(emotionIntensity 0.7)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AJOY%3AMIDDLE_LOW] of  EMOTION
+
+	(emotionIntensity 0.3)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AMOURNING%3AHIGH] of  EMOTION
+
+	(emotionIntensity 0.9)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
 	(value "MOURNING")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3ASATURATION] of  EMOTION
+([EMOTION%3ARE%3AMOURNING%3ALOW] of  EMOTION
 
-	(emotionIntensity 0.8)
-	(sourceAggr 0.7)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.7)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "MOURNING")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AMOURNING%3AMIDDLE] of  EMOTION
+
+	(emotionIntensity 0.5)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "MOURNING")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AMOURNING%3AMIDDLE_HIGH] of  EMOTION
+
+	(emotionIntensity 0.7)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "MOURNING")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3AMOURNING%3AMIDDLE_LOW] of  EMOTION
+
+	(emotionIntensity 0.3)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "MOURNING")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3ASATURATION%3AHIGH] of  EMOTION
+
+	(emotionIntensity 0.9)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "SATURATION")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3ASATURATION%3ALOW] of  EMOTION
+
+	(emotionIntensity 0.1)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "SATURATION")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3ASATURATION%3AMIDDLE] of  EMOTION
+
+	(emotionIntensity 0.5)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "SATURATION")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3ASATURATION%3AMIDDLE_HIGH] of  EMOTION
+
+	(emotionIntensity 0.7)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "SATURATION")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ARE%3ASATURATION%3AMIDDLE_LOW] of  EMOTION
+
+	(emotionIntensity 0.3)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
 	(value "SATURATION")
 	(value_type "BASICEMOTION"))
 
