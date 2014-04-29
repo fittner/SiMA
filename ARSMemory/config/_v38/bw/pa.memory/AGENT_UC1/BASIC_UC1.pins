@@ -1,7 +1,7 @@
-; Wed Apr 23 14:38:56 CEST 2014
+; Tue Apr 29 15:57:34 CEST 2014
 ; 
 ;+ (version "3.4.4")
-;+ (build "Build 580")
+;+ (build "Build 579")
 
 ([AA%3AA06_BEAT_BODO_L01_I02%3ABODO%3ADISTANCE%3ANEAR] of  ASSOCIATIONATTRIBUTE
 
@@ -2526,7 +2526,7 @@
 	(drive_component "AGGRESSIVE")
 	(instance_association
 		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3ABITE]
-		[AD%3AAIM%3ACARROT%3AEAT_AGGR])
+		[AD%3AAIM%3ACARROT%3ABITE])
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.8)
 	(value "DM:STOMACH:AGGRESSIVE")
