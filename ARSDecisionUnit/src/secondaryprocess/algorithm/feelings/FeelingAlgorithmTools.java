@@ -114,7 +114,8 @@ public class FeelingAlgorithmTools {
             }
         }
 
-        moLogger.debug("Feelings cause evaluation change for {}({}) by {}", poGoal.getContent(), poGoal.getSupportiveDataStructure().getContent(), rMatchingFactor);
+//        if(poGoal.getSupportiveDataStructure().getContent().startsWith("A14")) 
+            moLogger.debug("Feelings cause evaluation change for {}({}) by {}", poGoal.getContent(), poGoal.getSupportiveDataStructure().getContent(), rMatchingFactor);
         
         rResult += rMatchingFactor;
         
