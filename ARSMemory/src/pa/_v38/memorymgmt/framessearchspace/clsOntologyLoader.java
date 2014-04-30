@@ -87,8 +87,8 @@ public class clsOntologyLoader {
 	}
 
 	/**
-     * Check the error collection for error objects. Print error messages to console and throw 
-     * a runtime exception if errors orruced
+	 * DOCUMENT (Kollmann) - Check the error collection for error objects. Print error messages to console and throw 
+     * a runtime exception if errors occurred
      * 
      * @since 29.04.2014 17:55:00
      *
