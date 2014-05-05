@@ -126,16 +126,22 @@ public class clsBrainSocket implements itfStepProcessing {
 	public void stepProcessing() {
 
 		//Step the DU
+		//log.trace("Send Control Command PROCESS");
 		boolean oDUResponse = moCommunicationPortControl.stepDU();
 		moCommunicationPortDUData.recvActionCommands();
 	}
 	
 	public void sendDataToDU(){
 		//1 send Sensor Data to DU
+		log.trace("Send Sensor Data to Decision Unit");
 		moCommunicationPortDUData.sendToDU(convertSensorInformation());
+		log.trace("Continue with Body execution");
+
 	}
 	
 	public ArrayList<clsActionCommand> getActions(){
+		log.trace("Action Commands receieved");
+
 		return moCommunicationPortDUData.getActions();
 	}
 	public ArrayList<clsInternalActionCommand> getInternalActions(){

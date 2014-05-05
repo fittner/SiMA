@@ -116,7 +116,7 @@ public class clsCommunicationPortDUData implements itfCommunicationPartner{
     			else if(oAction.getValue().equals("EAT")){
     				oRetVal.add(new clsActionEat());
     			}
-       			else if(oAction.getValue().equals("PICKUP")){
+       			else if(oAction.getValue().equals("PICK_UP")){
     				oRetVal.add(new clsActionPickUp());
     			}
        			else if(oAction.getValue().equals("DROP")){

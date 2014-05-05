@@ -5,6 +5,8 @@
  */
 package control;
 
+import org.slf4j.Logger;
+
 import control.interfaces.clsBaseDecisionUnit;
 import control.interfaces.itfProcessor;
 import properties.clsProperties;
@@ -33,6 +35,8 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	
 	private itfProcessor moProcessor;
 	
+	private Logger log;
+	
 	
 	/**
 	 * Creates an instance of the class with the provided properties and the uid.
@@ -46,7 +50,8 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	public clsPsychoAnalysis(String poPrefix, clsProperties poProp, int uid,
             itfModuleMemoryAccess poMemory) {
 		super(poPrefix, poProp, uid);
-		
+	      log = logger.clsLogger.getLog("DecisionUnit");
+
 		applyProperties(poPrefix, poProp, uid, poMemory);
 	}
 
@@ -134,10 +139,12 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	 */
 	@Override
 	public void process() {
+	    log.trace("Start Decision Unit Process");
 		moProcessor.applySensorData( getSensorData() );
 		moProcessor.step();
 		
 		//send Data to Body
+		log.trace("Send Action Commands");
 		moCommunicationPortBodyData.sendToBody(moProcessor.getActions(), moProcessor.getInternalActions());
 
 	}

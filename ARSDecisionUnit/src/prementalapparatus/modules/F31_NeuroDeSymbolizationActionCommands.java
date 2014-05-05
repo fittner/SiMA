@@ -301,7 +301,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
                     moActionCommandList_Output.addDataPoint(createAction("BEAT",oAttributes));
                 } else if (oAction.equals("DIVIDE")) {
                     ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("FACTOR","1.0"));
+                    oAttributes.add(new clsDataPoint("FACTOR","0.5"));
                     moActionCommandList_Output.addDataPoint(createAction("DIVIDE",oAttributes));
                 } else if (oAction.equals("SLEEP")) {
                     ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
