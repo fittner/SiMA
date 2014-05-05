@@ -40,6 +40,7 @@ import secondaryprocess.datamanipulation.clsGoalManipulationTools;
  */
 public class GoalHandlingFunctionality {
     private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
+    private static Logger moFeelingLog = clsLogger.getLog("Feelings");
     
     /**
      * Removes goals, which have been declared as non reachable in the STM
@@ -67,6 +68,9 @@ public class GoalHandlingFunctionality {
         //ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(selectableGoalList, poDriveDemandList, currentFeelingsList, affectThreashold);
     }
     
+    static int mnStep = 0;
+    
+    
     /**
      * Apply feelings on all incoming goals
      *
@@ -77,9 +81,14 @@ public class GoalHandlingFunctionality {
      * @param currentFeelingsList
      */
     public static void applyFeelingsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings, boolean activateEmotionalInfluence) {
-        
         //GoalGenerationTools.TEMP_METHOD_generatePanicGoal(reachableGoalList, currentFeelings, activateEmotionalInfluence);
         
+        moFeelingLog.debug("Step {}:", mnStep++);
+        moFeelingLog.debug("Current feelings: ");
+        
+        for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
+            moFeelingLog.debug(oFeeling.toString());
+        }
         
         for (clsWordPresentationMeshPossibleGoal goal : reachableGoalList) {
            

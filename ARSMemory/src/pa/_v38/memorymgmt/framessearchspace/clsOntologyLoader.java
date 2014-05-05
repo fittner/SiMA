@@ -48,11 +48,14 @@ import base.datatypes.enums.eDriveComponent;
 import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
+import edu.stanford.smi.protege.model.Cls;
 import edu.stanford.smi.protege.model.Instance;
 import edu.stanford.smi.protege.model.KnowledgeBase;
 import edu.stanford.smi.protege.model.Project;
 import edu.stanford.smi.protege.model.Slot;
 import edu.stanford.smi.protege.util.GetOwnSlotValuesBrowserTextJob;
+import edu.stanford.smi.protege.util.MessageError;
+import edu.stanford.smi.protege.util.MessageError.Severity;
 
 /**
  * DOCUMENT (zeilinger) - insert description
@@ -83,27 +86,62 @@ public class clsOntologyLoader {
 		}
 	}
 
+	/**
+	 * DOCUMENT (Kollmann) - Check the error collection for error objects. Print error messages to console and throw 
+     * a runtime exception if errors occurred
+     * 
+     * @since 29.04.2014 17:55:00
+     *
+     * @param poErrors collection of error objects created by protege API methods
+     */
+	private static void handleErrors(Collection<Object> poErrors) {
+        Iterator<Object> oItter = poErrors.iterator();
+        while (oItter.hasNext()) {
+        	Object oUncastError = oItter.next();
+        	
+        	if(oUncastError instanceof MessageError) {
+        		Severity oSeverity = ((MessageError)oUncastError).getSeverity();
+        		String oMessage = ((MessageError)oUncastError).getMessage();
+        		
+        		log.error("Protègè API " + oSeverity.name() + ": " + oMessage);
+        	} else {
+            	log.error("Protègè API Error (not a MessageError): " + oUncastError + "\n\t" + oUncastError.toString());
+        	}
+        }
+        if (!poErrors.isEmpty()) {
+            throw new RuntimeException("Error(s) in Protègè API. See console for infos");
+        }
+    }
+	
 	private static void initOntology(
 			HashMap<String, clsDataStructurePA> poDataStructureList,
 			String poSourceName) {
 		// FIXME HZ: Sorry for the "Object" parameter in ArrayList => however,
 		// this is a protege problem
-		Collection<?> oErrorList = new ArrayList<Object>();
+		Collection<Object> oErrorList = new ArrayList<Object>();
 		Project oOntologyPrj = Project.loadProjectFromFile(
 				"../" + poSourceName, oErrorList);
 		log.debug("Reading ontology: " + "../" + poSourceName);
+		
+		handleErrors(oErrorList);
 
 		KnowledgeBase oFrameKB = oOntologyPrj.getKnowledgeBase();
 
 		// FIXME HZ: Optimize the initialization process => Builder
 		for (eDataType oDataType : initValues()) {
-			for (Instance oDataElement : oFrameKB.getCls(oDataType.name())
-					.getInstances()) {
-				initDataStructure(
-						null,
-						oDataElement,
-						new clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>>(
-								oFrameKB, poDataStructureList));
+			Cls oCls = oFrameKB.getCls(oDataType.name());
+			
+			if(oCls != null) {
+				for (Instance oDataElement : oCls.getInstances()) {
+					initDataStructure(
+							null,
+							oDataElement,
+							new clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>>(
+									oFrameKB, poDataStructureList));
+				}
+			} else {
+				log.error("Could not initialize data structures for Cls of type {}", oDataType);
+				throw new RuntimeException("Could not initialize data structures for Cls type " + oDataType.toString());
 			}
 		}
 

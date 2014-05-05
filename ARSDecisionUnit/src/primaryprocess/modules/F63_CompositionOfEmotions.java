@@ -15,8 +15,11 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.SortedMap;
 
+import org.slf4j.Logger;
+
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -101,10 +104,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	
 	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
-	//private final Logger log = clsLogger.getLog(this.getClass().getName());
-	
-	
-	
+	private final Logger log = clsLogger.getLog("F" + P_MODULENUMBER);
 	
 	public F63_CompositionOfEmotions(String poPrefix,
 			clsProperties poProp,
@@ -350,7 +350,11 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	            
 	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	
-		
+	    log.debug("Current emotions: ");
+        
+        for(clsEmotion oEmotion: moEmotions_OUT) {
+            log.debug(oEmotion.toString());
+        }
 	}
 	
 	
@@ -465,6 +469,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
 		oPerceptionExtractedValues.put("rPerceptionPleasure", rPerceptionPleasure);
 		oPerceptionExtractedValues.put("rPerceptionUnpleasure", (rPerceptionLibid+rPerceptionAggr));
+//		oPerceptionExtractedValues.put("rPerceptionUnpleasure", rPerceptionUnpleasure);
 		oPerceptionExtractedValues.put("rPerceptionLibid", rPerceptionLibid);
 		oPerceptionExtractedValues.put("rPerceptionAggr", rPerceptionAggr);
 		
