@@ -1,4 +1,4 @@
-; Wed Mar 26 17:58:31 CET 2014
+; Wed Apr 30 12:58:31 CEST 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -154,6 +154,7 @@
 		(create-accessor read-write))
 	(single-slot sourceAggr
 		(type FLOAT)
+		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot quotaOfAffect
@@ -1268,6 +1269,7 @@
 	(role concrete)
 	(single-slot sourceAggr
 		(type FLOAT)
+		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot sourceUnpleasure
