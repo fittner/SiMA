@@ -67,7 +67,7 @@ public class clsActionRefinementHardcoded_GOTO implements itfActionRefinement {
     /**
      * DOCUMENT - Return the target object for the GOTO action
      *
-     * @author Heinrich Kemmler
+     * @author Kollmann
      * @since 10.02.2014 21:22:46
      *
      * @param poActionWPM: the WPM of the GOTO action
@@ -86,7 +86,7 @@ public class clsActionRefinementHardcoded_GOTO implements itfActionRefinement {
      *            Later versions could completely remove the action WPM from its neighbors an replace it with
      *            a completely new mesh.
      *
-     * @author Heinrich Kemmler
+     * @author Kollmann
      * @since 10.02.2014 21:23:31
      *
      * @param poOldActionWPM

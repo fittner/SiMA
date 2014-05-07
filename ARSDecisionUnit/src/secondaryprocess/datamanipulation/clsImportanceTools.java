@@ -229,7 +229,7 @@ public class clsImportanceTools {
 	/**
 	 * Convert the Quota of Affect together with the emobodiment activation to importance, which is used in the secondary process
 	 * 
-	 * (wendt)
+	 * (schaat)
 	 *
 	 * @since 18.05.2013 20:58:25
 	 *

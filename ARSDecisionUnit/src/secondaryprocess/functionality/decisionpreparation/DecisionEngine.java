@@ -18,6 +18,7 @@ import logger.clsLogger;
 import memorymgmt.enums.eCondition;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import secondaryprocess.functionality.decisionpreparation.GoalInitiationProcessor.GoalInitiatorInterface;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_EXECUTE_EXTERNAL_ACTION;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_FLEE;
@@ -25,6 +26,7 @@ import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_FOCUS_ON;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_PERFORM_BASIC_ACT_ANALYSIS;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_SEND_TO_PHANTASY;
+import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_END_OF_ACT;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_EXECUTE_MOVEMENT;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_EXECUTE_STATIC_ACTION;
 import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsCC_FOCUS_MOVEMENT;
@@ -61,10 +63,10 @@ public class DecisionEngine implements DecisionEngineInterface {
     private final GoalInitiatorInterface goalInitiator;
     private final clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm;
 
-    public DecisionEngine(clsEnvironmentalImageMemory poEnvironmentalImageStorage, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, GoalInitiatorInterface goalInitiator) {
+    public DecisionEngine(clsEnvironmentalImageMemory poEnvironmentalImageStorage, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, DT1_PsychicIntensityBuffer libidoBuffer, GoalInitiatorInterface goalInitiator) {
         //Init codelethandler
         stm = poShortTimeMemory;
-        moCodeletHandler = new clsCodeletHandler(poEnvironmentalImageStorage, poShortTimeMemory);
+        moCodeletHandler = new clsCodeletHandler(poEnvironmentalImageStorage, poShortTimeMemory, libidoBuffer);
         
         //Register codelets
         this.registerCodelets();
@@ -232,7 +234,7 @@ public class DecisionEngine implements DecisionEngineInterface {
     @Override
     public void setInitialSettings(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
         for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
-            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.INIT, -1);
+            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.INIT, -1, 1);
         }
         
     }
@@ -249,7 +251,8 @@ public class DecisionEngine implements DecisionEngineInterface {
     @Override
     public void applyConsequencesOfActionOnContinuedGoal(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
         for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
-            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.CONSEQUENCE, -1);
+            //FIXME: Here, the codelet is only execute 2 times. In all other cases, they are executed once. This shall be adapted so that codelets are always executed at matching and the trigger conditions are removed
+            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.CONSEQUENCE, -1, 2);
             log.debug("Append consequence, goal:" + goal.toString());
         }
     }
@@ -267,7 +270,7 @@ public class DecisionEngine implements DecisionEngineInterface {
     public void generateDecision(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
         //Execute codelets, which decide what the next action in F52 will be
         for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
-            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.DECISION, 1);       
+            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.DECISION, 1, 1);       
             log.debug("New decision, goal:" + goal.toString());
         }
     }
@@ -283,7 +286,7 @@ public class DecisionEngine implements DecisionEngineInterface {
     @Override
     public void generatePlanFromDecision(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
         for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
-            this.getCodeletHandler().executeMatchingCodelets(this, goal, eCodeletType.ACTION, 1);
+            this.getCodeletHandler().executeMatchingCodelets(this, goal, eCodeletType.ACTION, 1, 1);
             log.debug("New action, goal:" + goal.toString());
         }   
     }
@@ -323,6 +326,7 @@ public class DecisionEngine implements DecisionEngineInterface {
         clsDC_InitAction oDCTrans_InitAction = new clsDC_InitAction(moCodeletHandler);
 
         clsDCComposed_Goto oDCComposed_Goto = new clsDCComposed_Goto(moCodeletHandler);
+        clsCC_END_OF_ACT oCC_END_OF_ACT = new clsCC_END_OF_ACT(moCodeletHandler);
         
         //Action codelets
         clsAC_EXECUTE_EXTERNAL_ACTION oACExecuteExternalAction = new clsAC_EXECUTE_EXTERNAL_ACTION(moCodeletHandler);
