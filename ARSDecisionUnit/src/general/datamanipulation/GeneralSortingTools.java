@@ -20,6 +20,7 @@ import base.datatypes.helpstructures.clsPair;
 public class GeneralSortingTools {
 
     
+    
     /**
      * Sort and filter any list with rates in double format.
      * 

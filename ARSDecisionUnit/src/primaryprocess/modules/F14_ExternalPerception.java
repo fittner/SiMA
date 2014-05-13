@@ -657,14 +657,18 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 						//  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged
 						for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
 							for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalAssociatedContent() ) {
-
-								oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
-								oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
-								
-								// is it the same TPM?
-								if(oCandidateTPM_DM.getDS_ID() == oCandidateTPM.getDS_ID()){
-									oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
-								}
+							    try {
+							        oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
+	                                oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
+	                                
+	                                // is it the same TPM?
+	                                if(oCandidateTPM_DM.getDS_ID() == oCandidateTPM.getDS_ID()){
+	                                    oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
+	                                }
+							    } catch (Exception e) {
+							        log.error("Errors in the following drives: {} and  {}",  oMemorizedDriveMesh, oCandidateTPM_DM, e);
+							        System.exit(-1);
+							    }
 								
 							}
 						}

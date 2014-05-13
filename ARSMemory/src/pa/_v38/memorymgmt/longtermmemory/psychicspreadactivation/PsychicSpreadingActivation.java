@@ -212,7 +212,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 			//Get the average affect of the image
 			double oAffect = clsImportanceTools.calculateImageImportance(oImage, poDrivesForFilteringList);
 			if (oAffect==0) {
-				log.warn("WARN: An image has no importance: " + oImage.getContent() +  "QoA=" + oAffect);
+				log.debug("WARNING: An image has no importance: " + oImage.getContent() +  "QoA=" + oAffect);
 			}
 			
 			//Calculate the psychic potential 
