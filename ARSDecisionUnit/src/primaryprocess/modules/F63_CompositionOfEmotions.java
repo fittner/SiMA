@@ -313,7 +313,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		}
 		// generate both
 		else {
-			// pleasure-based emotions
+			// pleasure-based emotions		    
+		    mrGrade = (mrRelativeThreshold - rRelativeSystemPleasure) / mrThresholdRange; 
+            if(mrGrade > 1) mrGrade = 1;
+            		    
 			generateEmotion(eEmotionType.JOY, rSystemPleasure*mrGrade, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
@@ -326,7 +329,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			
-			//unpleasure-based emotions
+			//unpleasure-based emotions			
+			mrGrade = (mrRelativeThreshold - rRelativeSystemUnpleasure) / mrThresholdRange; 
+            if(mrGrade > 1) mrGrade = 1;
+            
 			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*mrGrade, 0, rSystemUnpleasure, 0, 0);
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
@@ -447,7 +453,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 								}
 							}
 							
-							//rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oDM.getQuotaOfAffect());
+						    //rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oDM.getQuotaOfAffect());
 							if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
 								rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrPerceptionUnpleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
 							} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
@@ -455,7 +461,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 							}
 							
 							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrPerceptionPleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
-							
 						}
 						
 					}
@@ -465,11 +470,13 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			
 	}
 		
+        rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, rPerceptionLibid+rPerceptionAggr);
+		
 		 
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
 		oPerceptionExtractedValues.put("rPerceptionPleasure", rPerceptionPleasure);
-		oPerceptionExtractedValues.put("rPerceptionUnpleasure", (rPerceptionLibid+rPerceptionAggr));
-//		oPerceptionExtractedValues.put("rPerceptionUnpleasure", rPerceptionUnpleasure);
+//		oPerceptionExtractedValues.put("rPerceptionUnpleasure", (rPerceptionLibid+rPerceptionAggr));
+		oPerceptionExtractedValues.put("rPerceptionUnpleasure", rPerceptionUnpleasure);
 		oPerceptionExtractedValues.put("rPerceptionLibid", rPerceptionLibid);
 		oPerceptionExtractedValues.put("rPerceptionAggr", rPerceptionAggr);
 		
