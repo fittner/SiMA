@@ -10,6 +10,7 @@ import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
@@ -25,6 +26,7 @@ import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadActivationNode;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 import secondaryprocess.datamanipulation.clsImportanceTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.HackMethods;
@@ -55,46 +57,66 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	/**
 	 * Start spreading activation, the first method for each node
 	 * 
-	 * @param poImage
+	 * @param sourceImage
 	 * @param prPsychicEnergyIn
 	 * @param pnMaximumDirectActivationValue
-	 * @param poDrivesForFilteringList
-	 * @param poAlreadyActivatedImages
+	 * @param drivesForFilteringList
+	 * @param alreadyActivatedImages
 	 */
 	@Override
-	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, boolean useDirectActivation, ArrayList<clsDriveMesh> poDrivesForFilteringList, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
+	public void startSpreadActivation(clsThingPresentationMesh primaryInput, ArrayList<clsThingPresentationMesh> secondaryInput, double recognizedImageMultiplyFactor, 
+			clsThingPresentationMesh sourceImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, boolean useDirectActivation, 
+			ArrayList<clsDriveMesh> drivesForFilteringList, HashMap<Integer, clsThingPresentationMesh> alreadyActivatedImages) {
 		//Activate this mesh, i. e. consume this energy
-		double rAvailablePsychicEnergy = prPsychicEnergyIn - getEnergyConsumptionValue(poImage);
-		log.info("Start spread activation from image {} with psychic energy {}, max activations/node={}, useDirectActivation={}, ", poImage.getContent(), prPsychicEnergyIn, pnMaximumDirectActivationValue, useDirectActivation);
-		log.info("Images to use from phantasy for enhancement. Factor={}, images: {}", recognizedImageMultiplyFactor, preferredImages);
-		log.debug("Inputs: Psychic Energy In=" + prPsychicEnergyIn + ", Available psychic energy=" + rAvailablePsychicEnergy + ", InputImage=" + poImage.getContent());
-		log.trace("Already activated images: " + clsMeshTools.toString(poAlreadyActivatedImages));
+		double rAvailablePsychicEnergy = prPsychicEnergyIn - getEnergyConsumptionValue(sourceImage);
+		log.info("Start spread activation from image {} with psychic energy {}, max activations/node={}, useDirectActivation={}, ", sourceImage.getContent(), prPsychicEnergyIn, pnMaximumDirectActivationValue, useDirectActivation);
+		log.info("Images to use from phantasy for enhancement. Factor={}, images: {}", recognizedImageMultiplyFactor, secondaryInput);
+		log.debug("Inputs: Psychic Energy In=" + prPsychicEnergyIn + ", Available psychic energy=" + rAvailablePsychicEnergy + ", InputImage=" + sourceImage.getContent());
+		log.trace("Already activated images: {}", PrintTools.printArrayListTPMContentWithLineBreaks(new ArrayList<clsThingPresentationMesh>(alreadyActivatedImages.values())));
 		
 		
 		//1. Get level 1 of the image associations
 		if (useDirectActivation==true) {
-			log.trace("Image {}, get DIRECT associations", poImage.getContent());
-			getAssociatedImagesPerception(poImage, mrActivationThreshold);
+			log.trace("Image {}, get DIRECT associations", sourceImage.getContent());
+			getAssociatedImagesPerception(sourceImage, mrActivationThreshold);
 		} else {
-			log.trace("Image {}, get INDIRECT associations", poImage.getContent());
-			getAssociatedImagesMemory(poImage);
+			log.trace("Image {}, get INDIRECT associations", sourceImage.getContent());
+			getAssociatedImagesMemory(sourceImage);
 		}
 		
-		//2. Consolidate mesh
+		//2. Consolidate mesh - Merge mesh
+		//TODO merge received mesh with new mesh
 		
 		//3. Calculate activation
-		ArrayList<clsPair<clsThingPresentationMesh, Double>> oPossibleActivationList = activateAssociatedImages(poImage, rAvailablePsychicEnergy, pnMaximumDirectActivationValue, poDrivesForFilteringList, recognizedImageMultiplyFactor, preferredImages, poAlreadyActivatedImages, useDirectActivation);
-		log.info("Possible images, which can be activated: {}", PrintTools.printArrayListWithLineBreaks(oPossibleActivationList));
+		ArrayList<clsPair<clsThingPresentationMesh, Double>> oPossibleActivationList = activateAssociatedImages(sourceImage, rAvailablePsychicEnergy, pnMaximumDirectActivationValue, drivesForFilteringList, primaryInput, recognizedImageMultiplyFactor, secondaryInput, alreadyActivatedImages, useDirectActivation);
+		log.info("Possible images, which can be activated: {}", PrintTools.printArrayListImageNamesWithLineBreaks(oPossibleActivationList));
 		
 		//4. Delete non activated images		
-		ArrayList<clsPair<clsThingPresentationMesh,Double>> oActivatedImageList = deleteInactivatedAssociations(poImage, oPossibleActivationList);
+		ArrayList<clsPair<clsThingPresentationMesh,Double>> oActivatedImageList = deleteInactivatedAssociations(sourceImage, oPossibleActivationList);
 		log.info("Activated images: {}", PrintTools.printArrayListImageNamesWithLineBreaks(oActivatedImageList));
 		
-		//5. Go through each of the previously activated images
+		//5. Add to list
+		for (clsPair<clsThingPresentationMesh,Double> image : oActivatedImageList) {
+			//Add the activated image to the already processed list, in order not to activate it twice
+			alreadyActivatedImages.put(image.a.getDS_ID(), image.a);
+		}
+
+		//6. Go through each of the previously activated images
 		for (clsPair<clsThingPresentationMesh,Double> oPair : oActivatedImageList) {
-			int mnTotalNumberOfAllowedActivations = poAlreadyActivatedImages.size() + pnMaximumDirectActivationValue;
+			int mnTotalNumberOfAllowedActivations = alreadyActivatedImages.size() + pnMaximumDirectActivationValue;
+			
+			//5. Create associations with the primary input image, which are the PIMatch
+			if (useDirectActivation==false) {
+				//Create associations between the indirectly associated images and the input image
+				//1. Calculate Image match
+				double primaryImageMatch = clsPrimarySpatialTools.getImageMatch(primaryInput, oPair.a);
+				//2. Create association weight and association
+				clsMeshTools.createAssociationPrimary(primaryInput, oPair.a, primaryImageMatch);
+				log.debug("Match of {} with {} is {}", oPair.a.getContent(), primaryInput.getContent(), primaryImageMatch);
+			}
+			
 			//useDirectActivation is set false here and for all following activation. This option is only applied for the first activation stage, the direct activations
-			startSpreadActivation(oPair.a, oPair.b, mnTotalNumberOfAllowedActivations, false, poDrivesForFilteringList, recognizedImageMultiplyFactor, preferredImages, poAlreadyActivatedImages);
+			this.startSpreadActivation(primaryInput, secondaryInput, recognizedImageMultiplyFactor, oPair.a, oPair.b, mnTotalNumberOfAllowedActivations, false, drivesForFilteringList, alreadyActivatedImages);
 		}
 	}
 	
@@ -188,59 +210,69 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	 *
 	 * @param poEnhancedOriginImage
 	 * @param prPsychicEnergyIn
-	 * @param poAlreadyActivatedImages
+	 * @param alreadyActivatedImages
 	 * @param pbDirectActivation 
 	 * @return
 	 */
-	private ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, boolean pbDirectActivation) {
-		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
+	private ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, 
+			ArrayList<clsDriveMesh> poDrivesForFilteringList, clsThingPresentationMesh primaryInput, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> secondaryInput, 
+			HashMap<Integer, clsThingPresentationMesh> alreadyActivatedImages, boolean pbDirectActivation) {
+		ArrayList<clsPair<clsThingPresentationMesh, Double>> retVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
 		log.trace("Calculate activation for " + poEnhancedOriginImage.getContent());
 		
 		//1. Get all unprocessed images. Only they will be used in the calculation
-		ArrayList<clsPair<clsThingPresentationMesh, Double>> oAssociatedUnprocessedImages = getUnprocessedImages(poEnhancedOriginImage, poAlreadyActivatedImages, pbDirectActivation);
-		log.trace("Get unprocessed images" + oAssociatedUnprocessedImages.toString());
+		ArrayList<clsPair<clsThingPresentationMesh, Double>> oAssociatedImagesToProcess = getImagesToProcess(poEnhancedOriginImage, alreadyActivatedImages, primaryInput, pbDirectActivation);
+		log.trace("Get unprocessed images" + oAssociatedImagesToProcess.toString());
 		
 		ArrayList<PsychicSpreadActivationNode> oNodeTable = new ArrayList<PsychicSpreadActivationNode>();
 		
 		log.trace("Start activation of nodes");
 		//2. go through each of them
-		for (clsPair<clsThingPresentationMesh, Double> oPair : oAssociatedUnprocessedImages) {
+		for (clsPair<clsThingPresentationMesh, Double> oPair : oAssociatedImagesToProcess) {
 			//Get weight
 			double oAssWeight = oPair.b;
 			//Get the Image itself
 			clsThingPresentationMesh oImage = oPair.a;
-			//Get the average affect of the image
-			double oAffect = clsImportanceTools.calculateImageImportance(oImage, poDrivesForFilteringList);
-			if (oAffect==0) {
-				log.debug("WARNING: An image has no importance: " + oImage.getContent() +  "QoA=" + oAffect);
+			
+			//If weight is 0, the image has already been activated and receives a "false" weight. Then, it shall be removed.
+			if (oAssWeight<=0.0) {
+				//Add to result to be deleted
+				retVal.add(new clsPair<clsThingPresentationMesh, Double>(oImage, oAssWeight));
+				
+			} else {	//Add to node table
+				//Get the average affect of the image
+				double oAffect = clsImportanceTools.calculateImageImportance(oImage, poDrivesForFilteringList);
+				if (oAffect==0) {
+					log.debug("WARNING: An image has no importance: " + oImage.getContent() +  "QoA=" + oAffect);
+				}
+				
+				//Calculate the psychic potential 
+				double rPsychicPotential = calculatePsychicPotential(oPair.a, oAssWeight, oAffect, recognizedImageMultiplyFactor, secondaryInput);
+				//Get consume value
+				double rConsumption = getEnergyConsumptionValue(oImage);
+				//Calculate P
+				double rP = calculateP(prPsychicEnergyIn, rConsumption, rPsychicPotential);
+				//Calculate P + PsychicPotential
+				double rDivider = rP + rPsychicPotential;
+				
+				//Add to the list, sort after psychic potential
+				PsychicSpreadActivationNode oNode = new PsychicSpreadActivationNode();
+				oNode.setBaseImage(oImage);
+				oNode.setPsychicPotential(rPsychicPotential);
+				oNode.setP(rP);
+				oNode.setDivider(rDivider);
+				oNode.setConsumptionValue(rConsumption);
+				
+				int i=0;
+				while((oNodeTable.isEmpty()==false) && 
+						(i<oNodeTable.size()) &&
+						(oNodeTable.get(i).getPsychicPotential() > rPsychicPotential)) {
+					i++;
+				}
+				oNodeTable.add(i, oNode);
+				
+				log.trace("Node: " + oPair.a.getContent() + "; Ass wght=" + oAssWeight + "; importance=" + oAffect + "; PsyPot=" + rPsychicPotential + "; consumption=" + rConsumption + "; tablepos=" + i);
 			}
-			
-			//Calculate the psychic potential 
-			double rPsychicPotential = calculatePsychicPotential(oPair.a, oAssWeight, oAffect, recognizedImageMultiplyFactor, preferredImages);
-			//Get consume value
-			double rConsumption = getEnergyConsumptionValue(oImage);
-			//Calculate P
-			double rP = calculateP(prPsychicEnergyIn, rConsumption, rPsychicPotential);
-			//Calculate P + PsychicPotential
-			double rDivider = rP + rPsychicPotential;
-			
-			//Add to the list, sort after psychic potential
-			PsychicSpreadActivationNode oNode = new PsychicSpreadActivationNode();
-			oNode.setBaseImage(oImage);
-			oNode.setPsychicPotential(rPsychicPotential);
-			oNode.setP(rP);
-			oNode.setDivider(rDivider);
-			oNode.setConsumptionValue(rConsumption);
-			
-			int i=0;
-			while((oNodeTable.isEmpty()==false) && 
-					(i<oNodeTable.size()) &&
-					(oNodeTable.get(i).getPsychicPotential() > rPsychicPotential)) {
-				i++;
-			}
-			oNodeTable.add(i, oNode);
-			
-			log.trace("Node: " + oPair.a.getContent() + "; Ass wght=" + oAssWeight + "; importance=" + oAffect + "; PsyPot=" + rPsychicPotential + "; consumption=" + rConsumption + "; tablepos=" + i);
 		}
 		
 		//Go through the list a second time and activate
@@ -268,26 +300,23 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 		
 		//calculate the energy distribution. Go through only the first ones, which will be activated
 		for (int i=0;i<oNodeTable.size();i++) {
-			PsychicSpreadActivationNode oNode = oNodeTable.get(i);
+			PsychicSpreadActivationNode node = oNodeTable.get(i);
 		
 			if (i<nBreakIndex) {
 				//Calculate how much energy the activated images shall get
-				double rEnergyQuote = oNode.getPsychicPotential()/rAccumulatedSum;
-				oNode.setMrEnergyQuote(rEnergyQuote);
+				double rEnergyQuote = node.getPsychicPotential()/rAccumulatedSum;
+				node.setMrEnergyQuote(rEnergyQuote);
 				double rReceivedEnergy = rEnergyQuote * prPsychicEnergyIn;
-				oNode.setMrAssignedPsychicEnergy(rReceivedEnergy);
-				
-				//Add the activated image to the already processed list
-				poAlreadyActivatedImages.add(oNode.getMoBaseImage());
+				node.setMrAssignedPsychicEnergy(rReceivedEnergy);
 				
 				//Put the activated images in the result
-				oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oNode.getMoBaseImage(), oNode.getMrAssignedPsychicEnergy()));
+				retVal.add(new clsPair<clsThingPresentationMesh, Double>(node.getbaseImage(), node.getMrAssignedPsychicEnergy()));
 			} else {
-				oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oNode.getMoBaseImage(), 0.0));
+				retVal.add(new clsPair<clsThingPresentationMesh, Double>(node.getbaseImage(), 0.0));
 			}	
 		}
 		
-		return oRetVal;
+		return retVal;
 	}
 	
 	/**
@@ -298,17 +327,17 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	 * @since 30.03.2012 22:52:11
 	 *
 	 * @param poOriginImage
-	 * @param poActivationsList
+	 * @param activationList
 	 * @return 
 	 */
-	private ArrayList<clsPair<clsThingPresentationMesh,Double>> deleteInactivatedAssociations(clsThingPresentationMesh poOriginImage, ArrayList<clsPair<clsThingPresentationMesh, Double>> poActivationsList) {
+	private ArrayList<clsPair<clsThingPresentationMesh,Double>> deleteInactivatedAssociations(clsThingPresentationMesh poOriginImage, ArrayList<clsPair<clsThingPresentationMesh, Double>> activationList) {
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
 		
-		for (clsPair<clsThingPresentationMesh, Double> oPair : poActivationsList) {
+		for (clsPair<clsThingPresentationMesh, Double> oPair : activationList) {
 			//Delete all associations where no psychic energy is assigned
-			if (oPair.b==0.0) {
+			if (oPair.b<=0.0) {
 				clsMeshTools.deleteAssociationInObject(poOriginImage, oPair.a);
-				log.trace("Delete association " + oPair.a);
+				log.trace("Delete association " + oPair.a.getContent());
 			} else {
 				oRetVal.add(oPair);
 			}
@@ -379,7 +408,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 		return prPsychicPotential * (prPsychicEnergyIn/prConsumptionEnergy - 1);
 	}
 	
-	private ArrayList<clsPair<clsThingPresentationMesh, Double>> getUnprocessedImages(clsThingPresentationMesh poEnhancedOriginImage, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, boolean pbDirectActivation) {
+	private ArrayList<clsPair<clsThingPresentationMesh, Double>> getImagesToProcess(clsThingPresentationMesh poEnhancedOriginImage, HashMap<Integer, clsThingPresentationMesh> alreadyActivatedImages, clsThingPresentationMesh primaryInput, boolean pbDirectActivation) {
         ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
         
         for (clsAssociation oAss : poEnhancedOriginImage.getExternalAssociatedContent()) {
@@ -387,19 +416,17 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
                 //Get the other image, i. e. the leaf image of all association primary
                 clsThingPresentationMesh oLeafImage = (clsThingPresentationMesh) oAss.getTheOtherElement(poEnhancedOriginImage);
                 
-                boolean bFound = false;
                 //Check if the association is not already activated, check only the IDs
-                for (clsThingPresentationMesh oAlreadyActivatedImages : poAlreadyActivatedImages) {
-                    if (oAlreadyActivatedImages.getDS_ID()==oLeafImage.getDS_ID()) {
-                        bFound=true;
-                        break;
-
-                    }
-                }
-                
-                if (bFound==false) {
-                    double rAssociationWeight = oAss.getMrWeight();
-                    oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oLeafImage, rAssociationWeight));
+                double rAssociationWeight = 0.0;
+                if (alreadyActivatedImages.containsKey(oLeafImage.getDS_ID())==false) {
+                	rAssociationWeight = oAss.getMrWeight();
+                	oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oLeafImage, rAssociationWeight));
+                } else {
+                	//Add the already existing image ONLY if it is not the primary input
+                	if (oLeafImage.getDS_ID() != primaryInput.getDS_ID()==true) {
+                		rAssociationWeight = -1;
+                		oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oLeafImage, rAssociationWeight));
+                	}	
                 }
             }
         }
