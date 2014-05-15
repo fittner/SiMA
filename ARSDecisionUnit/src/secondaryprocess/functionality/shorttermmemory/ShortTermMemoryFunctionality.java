@@ -217,7 +217,7 @@ public class ShortTermMemoryFunctionality {
                 
                 oMentalSituation.addExcludedSelectableGoal(oGoal);
                 
-                log.debug("Added non reachable goal to STM : " + oGoal.toString());
+                log.info("Added non reachable goal to STM : " + oGoal.toString());
             }
         }
     }
