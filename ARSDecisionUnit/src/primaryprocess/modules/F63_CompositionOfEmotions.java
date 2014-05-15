@@ -6,6 +6,7 @@
  */
 package primaryprocess.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorCombinedTimeChart;
 import inspector.interfaces.itfInspectorGenericTimeChart;
 
@@ -897,6 +898,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		return oResult;
 	}	
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
 
 	
 

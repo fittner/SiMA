@@ -7,6 +7,7 @@
 package secondaryprocess.modules;
 
 import general.datamanipulation.PrintTools;
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 
 import java.util.ArrayList;
@@ -1095,7 +1096,16 @@ private static String CalculatePossibleSpeechStatements(eSpeech moWordingToConte
 		return oCaptions;
 	}
 
-
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
 
 	/***********************************************************************************************
 	 * END inspector specific functions

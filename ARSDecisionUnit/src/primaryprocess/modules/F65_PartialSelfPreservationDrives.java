@@ -6,6 +6,7 @@
  */
 package primaryprocess.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
@@ -1114,5 +1115,15 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         
     }
 */
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
     
 }

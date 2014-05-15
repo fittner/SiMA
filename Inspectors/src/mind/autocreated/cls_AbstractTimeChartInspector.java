@@ -17,8 +17,10 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
@@ -212,13 +214,36 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
 
         NumberAxis domainAxis = (NumberAxis) plot.getRangeAxis();
         domainAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        domainAxis.setTickLabelsVisible(true);
 
         // change the auto tick unit selection to integer units only...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        //rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+       // rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         //rangeAxis.setRange(new Range(0.0,0.5));
-        rangeAxis.setAutoRange(true);
-        //rangeAxis.setTickLabelsVisible(true);
+
+
+        if(moTimeingContainer.getProperties().isDynamicScale()){
+        	
+           // TickUnits TUS = new TickUnits();
+           // TickUnit TU = new NumberTickUnit(0.05);
+           // TUS.add(TU);
+           
+            //rangeAxis.setStandardTickUnits(TUS);
+            rangeAxis.setStandardTickUnits(NumberAxis.createStandardTickUnits());
+        	rangeAxis.setRange(new Range(0.0,0.01));
+        	rangeAxis.setAutoRange(true);
+        	rangeAxis.setLowerBound(0.0);
+        	
+
+        }
+        else{
+            rangeAxis.setStandardTickUnits(NumberAxis.createStandardTickUnits());
+
+        	rangeAxis.setAutoRange(false);
+        	rangeAxis.setRange(0.0, 1.0);
+        }
+        rangeAxis.setTickLabelsVisible(true);
+        
        // rangeAxis.s
         ChartPanel poChartPanel = new ChartPanel(oChartPanel);
         poChartPanel.setFillZoomRectangle(true);

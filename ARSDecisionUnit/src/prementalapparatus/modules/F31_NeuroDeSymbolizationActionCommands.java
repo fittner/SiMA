@@ -6,6 +6,7 @@
  */
 package prementalapparatus.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 
 import java.util.ArrayList;
@@ -725,6 +726,16 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
     public void receive_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands, clsWordPresentationMesh moWordingToContext2) {
         moActionCommands_Input = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
         moWordingToContext = moWordingToContext2;
-    }		
+    }	
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(false);
+   }
     
 }

@@ -6,6 +6,7 @@
  */
 package primaryprocess.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericTimeChart;
 
 import java.util.ArrayList;
@@ -696,4 +697,14 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
     public double getTimeChartLowerLimit() {
         return -0.5;
     }
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
 }
