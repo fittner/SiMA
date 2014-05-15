@@ -56,17 +56,24 @@ public class clsActPreparationTools {
             //else set GOAL_CONDITION_BAD
             clsWordPresentationMesh oFirstImage = clsActTools.getFirstImageFromIntention(oIntention);
             rCurrentImageMatch = clsActTools.getPIMatch(oFirstImage);
-            
         } else {
             //Get best match from an intention
             clsWordPresentationMesh oBestMatchEvent = clsActTools.getHighestPIMatchFromSubImages(oIntention);
             rCurrentImageMatch = clsActTools.getPIMatch(oBestMatchEvent);
         }
         
-        if (rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
+        //If goal is obstable solving, put condition on goal
+        if (clsActTools.checkIfConditionExists(oIntention, eCondition.OBSTACLE_SOLVING)==true) {
+            result.add(eCondition.OBSTACLE_SOLVING);
+        }
+        
+        if (rCurrentImageMatch >= 0.0 && rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
+            //Set this option if there is an PImatch, but it is still too low
             result.add(eCondition.ACT_MATCH_TOO_LOW);
-            //moGoal.setCondition(eCondition.ACT_MATCH_TOO_LOW);
-        } 
+        } else if (rCurrentImageMatch < 0.0) {
+            //Set this option, if the image has been indirectly inactivated
+            result.add(eCondition.INSUFFICIENT_PIMATCH_INFO);
+        }
         
         return result;
 	}

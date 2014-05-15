@@ -7,7 +7,6 @@
 package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
 import memorymgmt.enums.eCondition;
-import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -50,8 +49,8 @@ public class clsCC_END_OF_ACT extends clsConsequenceCodelet {
 	    // 3. satisfy drives 
 	    
 	    // Access to moPsychicIntensityBuffer
-	        DT1_PsychicIntensityBuffer x = this.moCodeletHandler.getLibidoBuffer();
-	        x.getClass();
+	      //  DT1_PsychicIntensityBuffer x = this.moCodeletHandler.getLibidoBuffer();
+	      //  x.getClass();
 	}
 
 	/* (non-Javadoc)

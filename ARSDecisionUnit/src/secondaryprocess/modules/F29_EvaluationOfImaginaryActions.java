@@ -7,6 +7,7 @@
 package secondaryprocess.modules;
 
 import inspector.interfaces.clsTimeChartPropeties;
+import general.datamanipulation.PrintTools;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 
 import java.text.SimpleDateFormat;
@@ -244,7 +245,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         } catch (Exception e1) {
             log.error("Cannot declare goal as plan goal",e1 );
         }
-        
+        log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
         log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: " + planGoal.getSupportiveDataStructure().toString() + "\n==============================");
         this.moTEMPDecisionString = setDecisionString(planGoal);
         
