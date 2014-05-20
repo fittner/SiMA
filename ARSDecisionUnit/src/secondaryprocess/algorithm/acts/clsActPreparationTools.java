@@ -33,8 +33,14 @@ public class clsActPreparationTools {
 	private static final double mrMomentConfidenceThreshold = 0.25;
 	private static final double mrDefaultConfidenceIncreasement = 0.5;
 	private static final double mrActConfidenceThreshold = 0.5;
-	private static final int mnMovementTimeoutStartValue = 2;
-	private static final int mnMovementTimeoutEstalishValue = 1;
+	/** This is the default start timeout value for images in acts. Der Timeout 
+	 * rechnet herunter wenn das „Moment“ oder „Expectation“ kein 1.0-Match (oder andere Schwellenwert) 
+	 * haben und er ist da damit der Agent in keinem Deadlock verfällt. Wenn der Timeout nur=3 Bewegungen lang ist, 
+	 * bricht er den Akt ab, fügt ein Condition „GOAL_NOT_REACHABLE“ dazu und sortiert den Akt für ca 7 Runden 
+	 * (Länge des Working Memorys) aus.  @since 15.05.2014 09:50:38 */
+	private static final int mnMovementTimeoutStartValue = 20;
+	/** DOCUMENT (wendt) - insert description; @since 15.05.2014 09:52:12 */
+	private static final int mnMovementTimeoutEstalishValue = 10;
 	
 	private static final double P_ACTMATCHACTIVATIONTHRESHOLD = 1.0;
 	
@@ -374,6 +380,17 @@ public class clsActPreparationTools {
 	 * @param oCurrentMoment
 	 * @param oPreviousMoment
 	 * @param oPreviousExpectation
+	 * @return
+	 */
+	/**
+	 * DOCUMENT - insert description
+	 *
+	 * @author wendt
+	 * @since 15.05.2014 09:52:10
+	 *
+	 * @param poPossibleMoment
+	 * @param poPreviousMoment
+	 * @param poPreviousExpectation
 	 * @return
 	 */
 	private static double getAdditionalMomentConfidenceByPreviousAct(clsWordPresentationMesh poPossibleMoment, clsWordPresentationMesh poPreviousMoment, clsWordPresentationMesh poPreviousExpectation) {
