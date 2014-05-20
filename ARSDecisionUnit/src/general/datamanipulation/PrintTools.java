@@ -43,6 +43,27 @@ public class PrintTools {
         return result;
     }
     
+    /**
+     * Print content of an arraylist
+     *
+     * @author wendt
+     * @since 28.11.2013 11:22:59
+     *
+     * @param images
+     * @return
+     */
+    public static <E extends clsThingPresentationMesh> String printArrayListTPMContentWithLineBreaks(ArrayList<E> images) {
+        String result ="";
+        
+        for (E i: images) {
+            result += "\n   ";
+            result += i.getContent();
+            
+        }
+        
+        return result;
+    }
+    
     public static String printArrayListImageNamesWithLineBreaks(ArrayList<clsPair<clsThingPresentationMesh, Double>> images) {
         String result ="";
         
@@ -81,12 +102,12 @@ public class PrintTools {
         for (clsThingPresentationMesh tpm : oList) {
             oResult += tpm.getContent();
             double pimatch = clsActTools.getPrimaryMatchValueToPI(tpm);
-            if (pimatch>0) {
-                oResult += ", direct activation PI match: " + pimatch;
+            if (pimatch>-1) {
+                oResult += ", PI match: " + pimatch;
             } else if (tpm.getContent().equals(eContent.PI.toString())==true) {
                 oResult += ", source";
             } else {
-                oResult += ", -= indirect activation =-";
+                oResult += ", no PI association";
             }
             oResult += "\n";
         }

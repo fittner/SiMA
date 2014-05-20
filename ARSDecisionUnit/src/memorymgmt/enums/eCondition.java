@@ -87,6 +87,7 @@ public enum eCondition {
 	GOAL_COMPLETED,
 	RESET_GOAL,
 	ACT_MATCH_TOO_LOW,		//This is used to suppress the pleasure level for goals, which are not suitable in a certain situation
+	INSUFFICIENT_PIMATCH_INFO,
 	SET_DECISION_PHASE_COMPLETE,
 		
 	//--- Preconditions for action codelets set by decision codelets --- //

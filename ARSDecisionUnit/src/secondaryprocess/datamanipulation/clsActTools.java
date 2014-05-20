@@ -176,7 +176,7 @@ public class clsActTools {
 	 * @return 
 	 */
 	public static double getPrimaryMatchValueToPI(clsThingPresentationMesh poImage) {
-		double rRetVal = 0.0;
+		double rRetVal = -1;
 		
 		for (clsAssociation oAss : poImage.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationPrimary) {
@@ -221,7 +221,7 @@ public class clsActTools {
 	 * @return
 	 */
 	public static double getPIMatch(clsWordPresentationMesh poImage) {
-		double rResult = 0.0;
+		double rResult = -1;
 		
 		clsWordPresentation oPIMatch = clsMeshTools.getUniquePredicateWP(poImage, ePredicate.HASPIMATCH);
 		
@@ -517,7 +517,7 @@ public class clsActTools {
 	 * @return
 	 */
 	public static double getPIMatchFlag(clsWordPresentationMesh poImage) {
-		double rResult = 0.0;
+		double rResult = -1;
 		
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poImage, ePredicate.HASPIMATCH);
 		
@@ -548,7 +548,7 @@ public class clsActTools {
 			//Get PIMatch
 			double rCurrentPIMatch = clsActTools.getPIMatchFlag(oSubImage);
 			
-			if (rBestPIMatch<rCurrentPIMatch) {
+			if (rCurrentPIMatch >= 0.0 && rBestPIMatch<rCurrentPIMatch) {
 				rBestPIMatch = rCurrentPIMatch;
 				oResult = oSubImage;
 			}
@@ -593,7 +593,9 @@ public class clsActTools {
 		double rPIMatch = clsActTools.getPIMatchFlag(poSourceImage);
 		
 		//Set PI-Match
-		clsActTools.setPIMatch(poTargetImage, rPIMatch);
+		if (rPIMatch>=0.0) {
+		    clsActTools.setPIMatch(poTargetImage, rPIMatch);
+		}
 	}
 	
 	/**

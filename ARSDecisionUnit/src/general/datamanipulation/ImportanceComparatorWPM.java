@@ -29,6 +29,4 @@ public class ImportanceComparatorWPM implements Comparator<clsWordPresentationMe
     public int compare(clsWordPresentationMeshGoal o1, clsWordPresentationMeshGoal o2) {        
         return Double.compare(o1.getTotalImportance(), o2.getTotalImportance());
     }
-
-
 }

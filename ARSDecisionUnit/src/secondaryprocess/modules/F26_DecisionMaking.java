@@ -273,10 +273,12 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		//Apply social rules on goals
 		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);
 	    log.debug("Social rules: {}", moRuleList);
-	    log.info("Social rules on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
-		
+	    log.debug("Social rules on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
+	    
 		//Select the goals to be forwarded
 		moDecidedGoalList_OUT = GoalHandlingFunctionality.selectSuitableReachableGoals(moReachableGoalList_IN, mnNumberOfGoalsToPass);
+		
+		log.info("Selectable goals sorted: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		//GoalProcessingFunctionality.initStatusOfSelectedGoals(moDecisionEngine, moDecidedGoalList_OUT);
 		log.info("Selected goals: {}", PrintTools.printArrayListWithLineBreaks(moDecidedGoalList_OUT));
