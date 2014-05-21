@@ -100,6 +100,7 @@ public class FeelingAlgorithmTools {
         
         double rResult = 0;
         double rMatchingFactor = 0;
+        double rFeelingMatchImportance = 0.3;
         
         //Get Feeling affect
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
@@ -109,7 +110,7 @@ public class FeelingAlgorithmTools {
             for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
                 if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
                     
-                    rMatchingFactor =+ 1- (Math.abs(oCurrentFeeling.getIntensity()-oGoalFeeling.getIntensity()));
+                    rMatchingFactor += rFeelingMatchImportance * (1- (Math.abs(oCurrentFeeling.getIntensity()-oGoalFeeling.getIntensity())));
                 }
             }
         }

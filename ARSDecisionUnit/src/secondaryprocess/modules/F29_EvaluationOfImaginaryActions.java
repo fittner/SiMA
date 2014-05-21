@@ -8,6 +8,7 @@ package secondaryprocess.modules;
 
 import general.datamanipulation.PrintTools;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
+import inspector.interfaces.itfInspectorStackedBarChart;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,12 +55,12 @@ import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionali
  * 
  */
 public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements I6_2_receive, I6_10_receive, I6_11_send,
-        itfInspectorGenericActivityTimeChart {
+        itfInspectorGenericActivityTimeChart, itfInspectorStackedBarChart {
     public static final String P_MODULENUMBER = "29";
-    
-    private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
-    private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
-                
+
+    private static final String P_MODULE_STRENGTH = "MODULE_STRENGTH";
+    private static final String P_INITIAL_REQUEST_INTENSITY = "INITIAL_REQUEST_INTENSITY";
+
     private double mrModuleStrength;
     private double mrInitialRequestIntensity;
 
@@ -72,19 +73,18 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     private ArrayList<clsWordPresentationMeshFeeling> moAnxiety_Input;
 
     private clsWordPresentationMesh moPerceptionalMesh_IN;
-    
-	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;
-	
-	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
-	
-	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
-	
-	private final DecisionEngine moDecisionEngine;
-	
-	private String moTEMPDecisionString = "";
-	
-	private clsWordPresentationMesh moWordingToContext;
-	
+
+    private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;
+
+    private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
+
+    private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
+
+    private final DecisionEngine moDecisionEngine;
+
+    private String moTEMPDecisionString = "";
+
+    private clsWordPresentationMesh moWordingToContext;
 
     /**
      * DOCUMENT (perner) - insert description
@@ -97,23 +97,22 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @throws Exception
      */
     public F29_EvaluationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine decisionEngine,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory,
+            clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine decisionEngine, DT3_PsychicIntensityStorage poPsychicEnergyStorage,
+            clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
         super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
-        
+
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F29", P_MODULE_STRENGTH).getParameterDouble();
-        mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F29", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
+        mrInitialRequestIntensity = poPersonalityParameterContainer.getPersonalityParameter("F29", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
-        
+
         applyProperties(poPrefix, poProp);
-        
+
         this.moShortTermMemory = poShortTermMemory;
         this.moEnvironmentalImageStorage = poTempLocalizationStorage;
         this.moDecisionEngine = decisionEngine;
-        
-        
 
     }
 
@@ -198,13 +197,13 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @see pa.interfaces.I7_3#receive_I7_3(int)
      */
     // deepCopy can only perform an unchecked operation
-//    @Override
-//    public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
-//        //moActionCommands_Input = (ArrayList<clsWordPresentationMesh>) deepCopy(poActionCommands);
-//    	//INFORMATION: DEEPCOPY REMOVED 
-//        moActionCommands_Input = poActionCommands;
-//        //moPerceptionalMesh_IN = poEnvironmentalPerception;
-//    }
+    // @Override
+    // public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
+    // //moActionCommands_Input = (ArrayList<clsWordPresentationMesh>) deepCopy(poActionCommands);
+    // //INFORMATION: DEEPCOPY REMOVED
+    // moActionCommands_Input = poActionCommands;
+    // //moPerceptionalMesh_IN = poEnvironmentalPerception;
+    // }
 
     /*
      * (non-Javadoc)
@@ -230,126 +229,123 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     protected void process_basic() {
         log.debug("=== module {} start ===", this.getClass().getName());
 
-        //Select the best goal
-        //Delete previous plan goals
+        // Select the best goal
+        // Delete previous plan goals
         try {
             this.moDecisionEngine.removeGoalAsPlanGoal(moSelectableGoals);
         } catch (ElementNotFoundException e2) {
             log.error("Cannot remove conditions", e2);
         }
-        
+
         clsWordPresentationMeshPossibleGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
         try {
             this.moDecisionEngine.declareGoalAsPlanGoal(planGoal);
         } catch (Exception e1) {
-            log.error("Cannot declare goal as plan goal",e1 );
+            log.error("Cannot declare goal as plan goal", e1);
         }
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
-        log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: " + planGoal.getSupportiveDataStructure().toString() + "\n==============================");
+        log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: "
+                + planGoal.getSupportiveDataStructure().toString() + "\n==============================");
         this.moTEMPDecisionString = setDecisionString(planGoal);
-        
-        //Get action command from goal
+
+        // Get action command from goal
         try {
             moActionCommand = PlanningFunctionality.getActionCommandFromPlanGoal(planGoal);
             log.info("Selected Action: {}", moActionCommand);
-            
+
         } catch (Exception e) {
             log.error("", e);
-        }  
-        
-    	//Goal to STM
-        //The action is already saved within the goal
+        }
+
+        // Goal to STM
+        // The action is already saved within the goal
         ShortTermMemoryFunctionality.addContinuedGoalsToMentalSituation(moSelectableGoals, this.moShortTermMemory);
         ShortTermMemoryFunctionality.setPlanGoalInMentalSituation(planGoal, moShortTermMemory);
-        
-        //Add action
+
+        // Add action
         ShortTermMemoryFunctionality.setExecutedAction(this.moShortTermMemory, moActionCommand);
-        
-        //Add text to inspector
+
+        // Add text to inspector
         addTextToLastActionsTextSequence(moActionCommand, planGoal);
         eAction selectedAction = eAction.valueOf(clsActionTools.getAction(moActionCommand));
-        if (selectedAction.equals(eAction.NONE.toString())==true) {
+        if (selectedAction.equals(eAction.NONE.toString()) == true) {
             log.warn("Erroneous action taken. Action cannot be NONE. This must be an error in the codelets");
         }
-        
-        
-        Random randomGenerator = new Random();
-        
-        double rRequestedPsychicIntensity = randomGenerator.nextFloat();
-                
-        double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
-            
-        double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
-            
-        moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
-        
-        
-//        //=== TEST ONLY ONE ACTION === //
-//		if (clsTester.getTester().isActivated()) {
-//			try {
-//				eAction poReplaceAction = eAction.STRAFE_LEFT;
-//				clsTester.getTester().exeTestAction(moActionCommands_Output, poReplaceAction);
-//				log.warn("In test mode the action " + moActionCommands_Output + " was changed to " + poReplaceAction);
-//			} catch (Exception e) {
-//				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
-//			}
-//		}
-        
-        
-        //Get the last 10 goals and actions for the inspector
-//        clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
-//        clsWordPresentationMesh oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
-        
 
+        Random randomGenerator = new Random();
+
+        double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+
+        double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+
+        double rConsumedPsychicIntensity = rReceivedPsychicEnergy * (randomGenerator.nextFloat());
+
+        moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
+
+        // //=== TEST ONLY ONE ACTION === //
+        // if (clsTester.getTester().isActivated()) {
+        // try {
+        // eAction poReplaceAction = eAction.STRAFE_LEFT;
+        // clsTester.getTester().exeTestAction(moActionCommands_Output, poReplaceAction);
+        // log.warn("In test mode the action " + moActionCommands_Output + " was changed to " + poReplaceAction);
+        // } catch (Exception e) {
+        // log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+        // }
+        // }
+
+        // Get the last 10 goals and actions for the inspector
+        // clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
+        // clsWordPresentationMesh oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
 
     }
-    
+
     /**
      * Create an inspector entry with running text
-     *
+     * 
      * @author wendt
      * @since 03.10.2013 14:33:06
-     *
+     * 
      * @param actionMesh
      * @param planGoal
      */
     private void addTextToLastActionsTextSequence(clsWordPresentationMesh actionMesh, clsWordPresentationMeshPossibleGoal planGoal) {
         String oAction = "NONE";
-        
-        //if (moGoalList_OUT.isEmpty()==false) {
+
+        // if (moGoalList_OUT.isEmpty()==false) {
         oAction = actionMesh.getContent();
-        //}
-        
-        if (moTEMPWriteLastActions.size()==10) {
+        // }
+
+        if (moTEMPWriteLastActions.size() == 10) {
             moTEMPWriteLastActions.remove(0);
         }
-        
-        //Get System time
+
+        // Get System time
         Calendar oCal = Calendar.getInstance();
         SimpleDateFormat oDateFormat = new SimpleDateFormat("HH:mm:ss");
-        moTEMPWriteLastActions.add(oDateFormat.format(oCal.getTime()) + "> " + "Goal: " + planGoal.getContent().toString() + ":" + planGoal.getSupportiveDataStructure().getContent() + "; Action: " + oAction);
+        moTEMPWriteLastActions.add(oDateFormat.format(oCal.getTime()) + "> " + "Goal: " + planGoal.getContent().toString() + ":"
+                + planGoal.getSupportiveDataStructure().getContent() + "; Action: " + oAction);
     }
-    
+
     /**
      * Create a string to list the selected action
-     *
+     * 
      * @author wendt
      * @since 03.10.2013 14:28:22
-     *
+     * 
      * @param poDecidedGoal
      * @return
      */
     private String setDecisionString(clsWordPresentationMeshGoal poDecidedGoal) {
         String oResult = "";
-        
-        //Get the Goal String
+
+        // Get the Goal String
         String oGoalString = poDecidedGoal.getGoalName();
-        
-        //Get the goal object
+
+        // Get the goal object
         String oGoalObjectString = poDecidedGoal.getGoalObject().toString();
-        
-        //Get the Goal source
-        String oGoalSource = "NONE"; 
+
+        // Get the Goal source
+        String oGoalSource = "NONE";
         if (poDecidedGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
             oGoalSource = "DRIVES (Drive goal not found in perception or acts)";
         } else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
@@ -357,31 +353,31 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         } else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
             oGoalSource = "PERCEPTION";
         }
-        
-        //Get the AffectLevel
-        String oAffectLevel = String.valueOf(poDecidedGoal.getTotalImportance()); 
-        //eAffectLevel.convertQuotaOfAffectToAffectLevel(clsGoalTools.getAffectLevel(poDecidedGoal)).toString();
-        
-        //Get Conditions
+
+        // Get the AffectLevel
+        String oAffectLevel = String.valueOf(poDecidedGoal.getTotalImportance());
+        // eAffectLevel.convertQuotaOfAffectToAffectLevel(clsGoalTools.getAffectLevel(poDecidedGoal)).toString();
+
+        // Get Conditions
         String oGoalConditions = "";
         ArrayList<eCondition> oConditionList = poDecidedGoal.getCondition();
         for (eCondition oC : oConditionList) {
             oGoalConditions += oC.toString() + "; ";
-        }               
-        
-        //Get the Supportive DataStructure
+        }
+
+        // Get the Supportive DataStructure
         String oSupportiveDataStructureString = "";
         if (poDecidedGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
             oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();
         } else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
-            oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString(); 
+            oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();
         } else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
             oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();
         }
-        
+
         StringBuilder sb = new StringBuilder();
-        
-        //Set the current decision string
+
+        // Set the current decision string
         sb.append("============================================================================================\n");
         sb.append("[GOAL NAME]\n   " + oGoalString + "\n\n");
         sb.append("[GOAL OBJECT]\n   " + oGoalObjectString + "\n\n");
@@ -390,13 +386,11 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         sb.append("[GOAL CONDITIONS]\n   " + oGoalConditions + "\n\n");
         sb.append("[SUPPORTIVE DATASTRUCTURE]\n   " + oSupportiveDataStructureString + "\n");
         sb.append("============================================================================================\n");
-        
+
         oResult = sb.toString();
-        
+
         return oResult;
     }
-    
-
 
     /*
      * (non-Javadoc)
@@ -422,7 +416,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     public void send_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2) {
         ((I6_11_receive) moModuleList.get(30)).receive_I6_11(poActionCommands, moWordingToContext2);
         ((I6_11_receive) moModuleList.get(47)).receive_I6_11(poActionCommands, moWordingToContext2);
-        //((I6_11_receive) moModuleList.get(52)).receive_I6_11(poActionCommands);
+        // ((I6_11_receive) moModuleList.get(52)).receive_I6_11(poActionCommands);
 
         putInterfaceData(I6_11_send.class, poActionCommands);
     }
@@ -533,5 +527,100 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         return oCaptions;
     }
 
-   
+    /*
+     * (non-Javadoc)
+     * 
+     * @since 20.05.2014
+     * 
+     * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartTitle()
+     */
+    @Override
+    public String getStackedBarChartTitle() {
+        return "Goal evaluation";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @since 20.05.2014
+     * 
+     * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartData()
+     */
+    @Override
+    public ArrayList<ArrayList<Double>> getStackedBarChartData() {
+        ArrayList<ArrayList<Double>> oData = new ArrayList<>();
+        oData.add(new ArrayList<Double>()); // idx 0 = Drive Demand Importance
+        oData.add(new ArrayList<Double>()); // idx 1 = Drive Demand Correction Importance
+        oData.add(new ArrayList<Double>()); // idx 2 = Effort Impact Importance
+        oData.add(new ArrayList<Double>()); // idx 3 = Feelings Importance
+        oData.add(new ArrayList<Double>()); // idx 4 = Social Rules Importance
+        oData.add(new ArrayList<Double>()); // idx 5 = Unknown influence
+        
+        double rTotalImportance;
+
+        for (clsWordPresentationMeshPossibleGoal oGoal : moSelectableGoals) {
+            rTotalImportance = 0;
+            oData.get(0).add(oGoal.getDriveDemandImportance());
+            rTotalImportance += oGoal.getDriveDemandImportance();
+            oData.get(1).add(oGoal.getDriveDemandCorrectionImportance());
+            rTotalImportance += oGoal.getDriveDemandCorrectionImportance();
+            oData.get(2).add(oGoal.getEffortImpactImportance());
+            rTotalImportance += oGoal.getEffortImpactImportance();
+            oData.get(3).add(oGoal.getFeelingsImportance());
+            rTotalImportance += oGoal.getFeelingsImportance();
+            oData.get(4).add(oGoal.getSocialRulesImportance());
+            rTotalImportance += oGoal.getSocialRulesImportance();
+            oData.get(5).add(oGoal.getTotalImportance() - rTotalImportance);
+        }
+
+        return oData;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @since 20.05.2014
+     * 
+     * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartCategoryCaptions()
+     */
+    @Override
+    public ArrayList<String> getStackedBarChartCategoryCaptions() {
+        ArrayList<String> oResult = new ArrayList<String>();
+
+        oResult.add("Drive Demand Importance");
+        oResult.add("Drive Demand Correction Importance");
+        oResult.add("Effort Impact Importance");
+        oResult.add("Feelings Importance");
+        oResult.add("Social Rules Importance");
+        oResult.add("Unknown factors");
+        
+        return oResult;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @since 20.05.2014
+     * 
+     * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartColumnCaptions()
+     */
+    @Override
+    public ArrayList<String> getStackedBarChartColumnCaptions() {
+        String oIdentifier = new String();
+        String oPostfix = "";
+        int nCount = 2;
+        
+        ArrayList<String> oResult = new ArrayList<String>();
+        for (clsWordPresentationMeshPossibleGoal oGoal : moSelectableGoals) {
+            oIdentifier = oGoal.getSupportiveDataStructure().getContent() + ":" + oGoal.getGoalContentIdentifier();
+            while(oResult.contains(oIdentifier + oPostfix)) {
+                oPostfix = new String("_") + Integer.toString(nCount++);
+            }
+            
+            oResult.add(oIdentifier + oPostfix); 
+        }
+        
+        return oResult;
+    }
+
 }
