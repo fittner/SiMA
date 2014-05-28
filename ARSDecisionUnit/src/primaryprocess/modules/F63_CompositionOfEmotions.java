@@ -272,77 +272,64 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		*/
 		
 		
+		
 		// just generate Unpleasure--based Emotions
 		if(rRelativeSystemUnpleasure > mrRelativeThreshold){
-			
-			mrGrade = (rRelativeSystemUnpleasure-mrRelativeThreshold) / mrThresholdRange; 
-			if(mrGrade > 1) mrGrade = 1;
-					
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*mrGrade, 0, rSystemUnpleasure, 0, 0);
-			generateEmotion(eEmotionType.JOY, rSystemPleasure*(1-mrGrade), rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, 0, rSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, 0, 0, 0);
 			
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
 			}
 			else if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.MOURNING, rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.MOURNING, rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 			else {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
-				generateEmotion(eEmotionType.MOURNING,  rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 		}
 		// just generate Pleasure-based Emotions
 		else if (rRelativeSystemPleasure > mrRelativeThreshold) {
-			
-			mrGrade = (rRelativeSystemPleasure-mrRelativeThreshold) / mrThresholdRange; 
-			if(mrGrade > 1) mrGrade = 1;
-			
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*(1-mrGrade), 0, rSystemUnpleasure, 0, 0);
-			generateEmotion(eEmotionType.JOY, rSystemPleasure*mrGrade, rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, 0, rSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
 			}
 			else if (rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			else {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
-				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
 			} 
 		}
 		// generate both
 		else {
 			// pleasure-based emotions		    
-		    mrGrade = (mrRelativeThreshold - rRelativeSystemPleasure) / mrThresholdRange; 
-            if(mrGrade > 1) mrGrade = 1;
-            		    
-			generateEmotion(eEmotionType.JOY, rSystemPleasure*mrGrade, rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
 			}
 			else if (rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			else {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
-				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			
 			//unpleasure-based emotions			
-			mrGrade = (mrRelativeThreshold - rRelativeSystemUnpleasure) / mrThresholdRange; 
-            if(mrGrade > 1) mrGrade = 1;
-            
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*mrGrade, 0, rSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, 0, rSystemUnpleasure, 0, 0);
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
 			}
 			else if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.MOURNING, rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.MOURNING, rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 			else {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
-				generateEmotion(eEmotionType.MOURNING,  rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 		}
 		
@@ -371,7 +358,17 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 * 
 	 */
 	private double nonProportionalAggregation (double rBaseValue, double rAddValue) {
-		return rBaseValue + (1 - rBaseValue) * rAddValue;
+	    /*if(rBaseValue < 0 || rBaseValue > 1) {
+            throw new RuntimeException("Attempting aggregation a base value not between 0 and 1");
+        }*/
+	    
+	    rBaseValue = rBaseValue + (1 - rBaseValue) * rAddValue;
+	    
+	    /*if(rBaseValue < 0 || rBaseValue > 1) {
+	        throw new RuntimeException("Aggregation changed base value to value outside of 0 - 1");
+	    }*/
+	    
+	    return rBaseValue;
 	}
 	
 	
@@ -399,6 +396,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rInfluencePerception = 0;
 		double rAssociationWeight = 0;
 		
+		double rInfluencePerceivedObjects = 0.1;
+		double rInfluenceRememberedImages = 1.0;
+		
 		clsEmotion oEmotionFromPerception = null;
 		clsDriveMesh oDM = null;
 		clsThingPresentationMesh oRI = null;
@@ -415,10 +415,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 							oEmotionFromPerception = (clsEmotion) oRIAss.getAssociationElementA();
 							// the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
 							rAssociationWeight = oPIExtAss.getMrWeight();
-							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrPerceptionPleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourcePleasure()); 
-							rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourceUnpleasure());
-							rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourceLibid());
-							rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourceAggr());
+							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourcePleasure()); 
+							rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourceUnpleasure());
+							rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourceLibid());
+							rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourceAggr());
 				
 						}
 					}
@@ -439,8 +439,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						oDM = (clsDriveMesh)oEntityAss.getAssociationElementA();
 						
 						if(oDM.getContentType() == eContentType.LIBIDO) {
-							rPerceptionPleasure += mrPerceptionPleasureImpactFactor*oDM.getQuotaOfAffect();
-							
+							//rPerceptionPleasure += mrPerceptionPleasureImpactFactor*oDM.getQuotaOfAffect();
+							// Change by Kollmann - should be calculated as any other emotion value, by nonProportionalAggregation with PerceptionInfluence
+							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, rInfluencePerceivedObjects*oDM.getQuotaOfAffect());
 						}
 						else {
 							
@@ -448,27 +449,25 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 							// the perception influences emotion-generation more than in the case of an agent without hunger  
 							for (clsDriveMesh oActualDM: moDrives_IN) {
 								if (oDM.compareTo(oActualDM) >= 0.75) {
-									rInfluencePerception = oDM.getQuotaOfAffect()/oActualDM.getQuotaOfAffect();
+									rInfluencePerception = oDM.getQuotaOfAffect() * oActualDM.getQuotaOfAffect();
 									if(rInfluencePerception>1) rInfluencePerception = 1;
 								}
 							}
 							
 						    //rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oDM.getQuotaOfAffect());
 							if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
-								rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrPerceptionUnpleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
+								rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 							} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
-								rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrPerceptionUnpleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
+								rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 							}
 							
-							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrPerceptionPleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
+							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 						}
 						
 					}
 				}
-			}		
-			
-			
-	}
+			}
+        }
 		
         rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, rPerceptionLibid+rPerceptionAggr);
 		
