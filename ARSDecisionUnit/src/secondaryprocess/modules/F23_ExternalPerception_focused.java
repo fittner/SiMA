@@ -283,7 +283,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
         try {
             oFocusOnGoalList = FocusFunctionality.extractFilterEntitiesFromAction(moPerceptionalMesh_IN, oAction);
         } catch (Exception e) {
-            log.error("Cannot focus", e);
+            log.error("Cannot focus. Action {}. PI {}", oAction, this.moPerceptionalMesh_IN, e);
         }
 		
 		//=== Filter the perception === //
