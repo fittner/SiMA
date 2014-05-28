@@ -95,7 +95,7 @@ public class FeelingAlgorithmTools {
      *
      * @param poGoal 
      */
-    public static double getConsequencesOfFeelingsOnGoalAsImportance(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
+    public static double evaluateGoalByTriggeredFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         //return temporaryAffectComputation(poGoal,  poFeltFeelingList);
         
         double rResult = 0;
@@ -122,5 +122,33 @@ public class FeelingAlgorithmTools {
         
         return rResult;
         
+    }
+    
+    
+        /**
+     * 
+     * DOCUMENT (martinez) - this method just resembles the evaluateGoalByTriggeredFeelings() method. Right now it just return 0, so the goal handling functionality class can work.
+     *
+     * @since 27.05.2014 13:30:24
+     *
+     * @param poGoal 
+     */
+    public static double evaluateGoalByExpectedFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
+        double rResult = 0;
+        return rResult;
+    }
+    
+    
+        /**
+     * 
+     * DOCUMENT (martinez) this method just resembles the evaluateGoalByTriggeredFeelings() method. Right now it just return 0, so the goal handling functionality class can work.
+     *
+     * @since 27.05.2014 13:30:24
+     *
+     * @param poGoal 
+     */
+    public static double evaluateGoalByReservedFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
+        double rResult = 0;
+        return rResult;
     }
 }
