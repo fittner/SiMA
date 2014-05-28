@@ -555,7 +555,9 @@ public class clsImportanceTools {
 		} else if (poCondition.equals(eCondition.GOAL_COMPLETED)) {
 			nResult+=-2.00;
 		} else if (poCondition.equals(eCondition.OBSTACLE_SOLVING)) {
-			nResult+=0.20;
+			nResult+=1.0;
+		} else if (poCondition.equals(eCondition.INSUFFICIENT_PIMATCH_INFO)) {
+		    nResult+=-1.0;
 		}
 		
 		return nResult;

@@ -55,27 +55,6 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
         for (eCondition c: conditionList) {
             this.moGoal.setCondition(c);
         }
-        
-//        double rCurrentImageMatch = 0.0;
-//        
-//        //If the act has to start with the first image:
-//        if (clsActTools.checkIfConditionExists(oIntention, eCondition.START_WITH_FIRST_IMAGE)==true) {
-//            //Cases:
-//            //1. If the first image has match 1.0 and there is no first act ||
-//            //2. If the this act is the same as from the previous goal -> start this act as normal
-//            //else set GOAL_CONDITION_BAD
-//            clsWordPresentationMesh oFirstImage = clsActTools.getFirstImageFromIntention(oIntention);
-//            rCurrentImageMatch = clsActTools.getPIMatch(oFirstImage);
-//            
-//        } else {
-//            //Get best match from an intention
-//            clsWordPresentationMesh oBestMatchEvent = clsActTools.getHighestPIMatchFromSubImages(oIntention);
-//            rCurrentImageMatch = clsActTools.getPIMatch(oBestMatchEvent);
-//        }
-//        
-//        if (rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
-//            moGoal.setCondition(eCondition.ACT_MATCH_TOO_LOW);
-//        } 
     }
 
     /* (non-Javadoc)

@@ -38,7 +38,7 @@ public class PsychicSpreadActivationNode {
 	 * 
 	 * @return the moBaseImage
 	 */
-	public clsThingPresentationMesh getMoBaseImage() {
+	public clsThingPresentationMesh getbaseImage() {
 		return moBaseImage;
 	}
 	/**
