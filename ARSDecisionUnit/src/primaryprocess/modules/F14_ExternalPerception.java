@@ -428,10 +428,10 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
                  
         // 3. similarity criterion. perceptual activation. memory-search
         oRankedCandidateTPMs = stimulusActivatesEntities(poEnvironmentalTP);            
-        
+
         // 4.  decide category membership
         for(ArrayList<clsDataStructureContainer> oRankedCandidates :oRankedCandidateTPMs) {
-            
+
             // a. how many exemplars should be used for deciding drive categories
             long k = determineK(oRankedCandidates);
         
@@ -443,6 +443,12 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             
             // extend object
             clsThingPresentationMesh oInputTPM = (clsThingPresentationMesh) poEnvironmentalTP.get(oRankedCandidateTPMs.indexOf(oRankedCandidates)).getMoDataStructure(); 
+            
+            if(oRankedCandidates.size()==0){
+                log.error("unable to percept "+oInputTPM);
+                continue;
+            }
+            
             clsThingPresentationMesh oOutputTPM = (clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure();
             ArrayList<clsDataStructurePA> oAssociatedElementsTP = new ArrayList<clsDataStructurePA>();
              ArrayList<clsDataStructurePA> oAssociatedElementsTPM = new ArrayList<clsDataStructurePA>();
