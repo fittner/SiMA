@@ -182,6 +182,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		return text;
 	}
+	
+
 
 	/* (non-Javadoc)
 	 *

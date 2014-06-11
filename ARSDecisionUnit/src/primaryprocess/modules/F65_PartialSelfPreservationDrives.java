@@ -423,7 +423,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
             double rLibMid = ((1-rAgrFactorErogenousZones)*rErogenousZonesImpactFactor + (1-rPersonalitySplitFactor)*rPersonalitySplitImpactFactor )/(rPersonalitySplitImpactFactor  +rErogenousZonesImpactFactor);
             moLibidoBuffer.receive_D1_3(oDrive,new clsPair<Double,Double>(rTensionChange*rAgrMid, rTensionChange*rLibMid));
             // send the tension change to the pleasure buffer
-            moPleasureStorage.D4_2receive(rTensionChange);
+            //moPleasureStorage.D4_2receive(rTensionChange);
         }
         else if (rTensionChange <= 0){
             double rAgrMid = (rPersonalitySplitFactor * rPersonalitySplitImpactFactor)/(rPersonalitySplitImpactFactor);

@@ -77,12 +77,13 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 				
 			}
 			
-			//dynamiic protion of lust
-			if((nNewPleasureValue - this.mnSystemPleasureValue) > 0)
+			//dynamiic protion of pleasure
+			/*if((nNewPleasureValue - this.mnSystemPleasureValue) > 0)
 				nNewPleasureValue = nNewPleasureValue + (nNewPleasureValue - this.mnSystemPleasureValue);
 			
-			this.mnSystemPleasureValue =nNewPleasureValue;
 			
+			*/
+			this.mnSystemPleasureValue =nNewPleasureValue;
 			
 			if(this.mnSystemPleasureValue>1.0)this.mnSystemPleasureValue=1.0;
 		}
