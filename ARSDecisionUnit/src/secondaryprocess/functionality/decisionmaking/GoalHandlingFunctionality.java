@@ -40,6 +40,7 @@ import secondaryprocess.datamanipulation.clsGoalManipulationTools;
  */
 public class GoalHandlingFunctionality {
     private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
+    private static Logger moFeelingLog = clsLogger.getLog("Feelings");
     
     /**
      * Removes goals, which have been declared as non reachable in the STM
@@ -67,6 +68,9 @@ public class GoalHandlingFunctionality {
         //ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(selectableGoalList, poDriveDemandList, currentFeelingsList, affectThreashold);
     }
     
+    static int mnStep = 0;
+    
+    
     /**
      * Apply feelings on all incoming goals
      *
@@ -76,22 +80,49 @@ public class GoalHandlingFunctionality {
      * @param reachableGoalList
      * @param currentFeelingsList
      */
-    public static void applyFeelingsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings, boolean activateEmotionalInfluence) {
+    public static void applyFeelingsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings, boolean activateEmotionalInfluence,
+            double receivedPsychicIntensity) {
+        //HOW DO WE INCLUDE HERE THE receivedPsychicIntensity? How does it influence the choice of ordering the goals by a given priority?
+        //HOW DO WE REPORT THE QUANTITY OF PSYCHIC INTENSITY USED?
         
         //GoalGenerationTools.TEMP_METHOD_generatePanicGoal(reachableGoalList, currentFeelings, activateEmotionalInfluence);
         
+        moFeelingLog.debug("Step {}:", mnStep++);
+        moFeelingLog.debug("Current feelings: ");
+        /**
+         * Every goal has a threshold. The threshold are now hardcoded. It is so arranged that goalsByTriggeredFeeling needs less psychic intensity and
+         * goalsByReservedFeeling more than goalsByTriggeredFeeling and goalsByExpectedFeelingThreshold.
+         */
+        double goalsByTriggeredFeelingThreshold = 0.1;
+        double goalsByExpectedFeelingThreshold = 0.2;
+        double goalsByReservedFeelingThreshold = 0.3;
+        
+        for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
+            moFeelingLog.debug(oFeeling.toString());
+        }
         
         for (clsWordPresentationMeshPossibleGoal goal : reachableGoalList) {
            
-            // SSCH: Implement this function, which is outcommented here.
             if (goal.getFeelings().isEmpty()==false) {
                 
-               goal.setFeelingsImportance(FeelingAlgorithmTools.getConsequencesOfFeelingsOnGoalAsImportance(goal, currentFeelings));
+                /**
+                 * Priorities are compared here so the evaluation of the goal can be chosen accordingly. 
+                 */
+                
+                if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold && receivedPsychicIntensity < goalsByExpectedFeelingThreshold ){
+                    
+                    goal.setFeelingsImportance(FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));
+                    
+                } else if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold && receivedPsychicIntensity < goalsByReservedFeelingThreshold ){
+                    
+                    goal.setFeelingsImportance(FeelingAlgorithmTools.evaluateGoalByExpectedFeelings(goal, currentFeelings));
+                    
+                } else if (receivedPsychicIntensity>=goalsByReservedFeelingThreshold) {
+                    
+                    goal.setFeelingsImportance(FeelingAlgorithmTools.evaluateGoalByReservedFeelings(goal, currentFeelings));
+                }
            }
-            
         }
-        
-        
     }
     
     /**

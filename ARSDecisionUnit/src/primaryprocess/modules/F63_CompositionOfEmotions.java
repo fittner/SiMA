@@ -6,6 +6,7 @@
  */
 package primaryprocess.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorCombinedTimeChart;
 import inspector.interfaces.itfInspectorGenericTimeChart;
 
@@ -15,8 +16,11 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.SortedMap;
 
+import org.slf4j.Logger;
+
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -101,10 +105,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	
 	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
-	//private final Logger log = clsLogger.getLog(this.getClass().getName());
-	
-	
-	
+	private final Logger log = clsLogger.getLog("F" + P_MODULENUMBER);
 	
 	public F63_CompositionOfEmotions(String poPrefix,
 			clsProperties poProp,
@@ -177,6 +178,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		return text;
 	}
+	
+
 
 	/* (non-Javadoc)
 	 *
@@ -313,7 +316,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		}
 		// generate both
 		else {
-			// pleasure-based emotions
+			// pleasure-based emotions		    
+		    mrGrade = (mrRelativeThreshold - rRelativeSystemPleasure) / mrThresholdRange; 
+            if(mrGrade > 1) mrGrade = 1;
+            		    
 			generateEmotion(eEmotionType.JOY, rSystemPleasure*mrGrade, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
@@ -326,7 +332,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			
-			//unpleasure-based emotions
+			//unpleasure-based emotions			
+			mrGrade = (mrRelativeThreshold - rRelativeSystemUnpleasure) / mrThresholdRange; 
+            if(mrGrade > 1) mrGrade = 1;
+            
 			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*mrGrade, 0, rSystemUnpleasure, 0, 0);
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
@@ -350,7 +359,11 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	            
 	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	
-		
+	    log.debug("Current emotions: ");
+        
+        for(clsEmotion oEmotion: moEmotions_OUT) {
+            log.debug(oEmotion.toString());
+        }
 	}
 	
 	
@@ -443,7 +456,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 								}
 							}
 							
-							//rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oDM.getQuotaOfAffect());
+						    //rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oDM.getQuotaOfAffect());
 							if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
 								rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrPerceptionUnpleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
 							} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
@@ -451,7 +464,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 							}
 							
 							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrPerceptionPleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
-							
 						}
 						
 					}
@@ -461,10 +473,13 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			
 	}
 		
+        rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, rPerceptionLibid+rPerceptionAggr);
+		
 		 
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
 		oPerceptionExtractedValues.put("rPerceptionPleasure", rPerceptionPleasure);
-		oPerceptionExtractedValues.put("rPerceptionUnpleasure", (rPerceptionLibid+rPerceptionAggr));
+//		oPerceptionExtractedValues.put("rPerceptionUnpleasure", (rPerceptionLibid+rPerceptionAggr));
+		oPerceptionExtractedValues.put("rPerceptionUnpleasure", rPerceptionUnpleasure);
 		oPerceptionExtractedValues.put("rPerceptionLibid", rPerceptionLibid);
 		oPerceptionExtractedValues.put("rPerceptionAggr", rPerceptionAggr);
 		
@@ -892,6 +907,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		return oResult;
 	}	
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
 
 	
 

@@ -6,6 +6,7 @@
  */
 package primaryprocess.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
@@ -422,7 +423,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
             double rLibMid = ((1-rAgrFactorErogenousZones)*rErogenousZonesImpactFactor + (1-rPersonalitySplitFactor)*rPersonalitySplitImpactFactor )/(rPersonalitySplitImpactFactor  +rErogenousZonesImpactFactor);
             moLibidoBuffer.receive_D1_3(oDrive,new clsPair<Double,Double>(rTensionChange*rAgrMid, rTensionChange*rLibMid));
             // send the tension change to the pleasure buffer
-            moPleasureStorage.D4_2receive(rTensionChange);
+            //moPleasureStorage.D4_2receive(rTensionChange);
         }
         else if (rTensionChange <= 0){
             double rAgrMid = (rPersonalitySplitFactor * rPersonalitySplitImpactFactor)/(rPersonalitySplitImpactFactor);
@@ -1114,5 +1115,15 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         
     }
 */
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
     
 }

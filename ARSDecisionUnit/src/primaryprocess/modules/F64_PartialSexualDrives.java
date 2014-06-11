@@ -6,6 +6,7 @@
  */
 package primaryprocess.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
@@ -251,13 +252,13 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
             }
         }
 		//TODO: handle pleasure calculation
-	    double after=0.0;
+	/*    double after=0.0;
 	    for(clsPair<Double,Double> oDriveValues: receive_D1_5().values()){
-	       before += oDriveValues.a;
-	       before += oDriveValues.b;
+	       after += oDriveValues.a;
+	       after += oDriveValues.b;
 	    }
-		moPleasureStorage.D4_2receive(before - after);
-		
+		//moPleasureStorage.D4_2receive(before - after);
+	*/
 		
 		moOutput = new ArrayList<clsDriveMesh>();
 		
@@ -543,5 +544,15 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
     public clsPair<Double, Double> receive_D1_4(eDrive oDrive) {
         return moLibidoBuffer.send_D1_4(oDrive);
     }
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
 
 }

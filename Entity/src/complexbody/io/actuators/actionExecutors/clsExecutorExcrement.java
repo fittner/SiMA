@@ -130,7 +130,7 @@ public class clsExecutorExcrement extends clsActionExecutor{
 		
 		//Attach action to entity
         clsAction oAction = new clsAction(1);
-        oAction.setActionName("EXCREMENT");
+        oAction.setActionName("DEPOSIT");
         moEntity.addAction(oAction);
 		return true;
 	}	

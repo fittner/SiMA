@@ -15,7 +15,6 @@ import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
-import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructure;
@@ -24,17 +23,13 @@ import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.helpstructures.clsPair;
-import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
-import memorymgmt.enums.ePredicate;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -47,7 +42,6 @@ import modules.interfaces.I6_2_send;
 import modules.interfaces.I6_4_receive;
 import modules.interfaces.I6_5_receive;
 import modules.interfaces.eInterfaces;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * - Converts separated quota of affect into affects for the secondary process.
@@ -146,7 +140,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 		text += toText.listToTEXT("moSecondaryDataStructureContainer_Output", moSecondaryDataStructureContainer_Output);
 		//text += toText.listToTEXT("moFeelings", moFeelings);
 		text += toText.listToTEXT("Emotion", oEmotion);
-		text += toText.listToTEXT("moFeelingsAssociatedMemories_OUT", moFeelingsAssociatedMemories_OUT);
+		text += toText.listToTEXT("moFeelings", moFeelings);
 
 		return text;
 	}
@@ -282,16 +276,10 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 			//convert the quota of affect for drives from the primary process into the affect anxiety 
 			//in the secondary process by increasing the intensity of Anxiety
 			moSecondaryDataStructureContainer_Output = calculateAffect(poAverageQuotaOfAffect_Input, moEmotions_Output);
-			// This function is called to show on the Simulator the WPM's and their WP's with association parameters 
-			moFeelingsAssociatedMemories_OUT = WPMFeelingsAssociations(moFeelings);
-			
 		}else{
 			
 			// This function is called to convert the Emotions to WPM, each Emotion has own WPM 
 			moSecondaryDataStructureContainer_Output = CreateWPMForEmotions(moEmotions_Input);
-			
-			// This function is called to show on the Simulator the WPM's and their WP's with association parameters 
-			moFeelingsAssociatedMemories_OUT = WPMFeelingsAssociations(moFeelings);
 		}
 		
 		
@@ -341,66 +329,65 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 		
 		
 		clsWordPresentationMeshFeeling oFeeling = null;
-		clsWordPresentation oWPIntensity = null;
-		clsWordPresentation oWPSourcePleasure = null;
-		clsWordPresentation oWPSourceUnpleasure = null;
-		clsWordPresentation oWPSourceLibid = null;
-		clsWordPresentation oWPSourceAggr = null;
-		
-		ArrayList<clsAssociation> oWPAssEmotionList = new ArrayList<clsAssociation>();
 				
 		for (clsEmotion oEmotion:  poEmotions){
+			//create clsWordPresentationMeshFeeling from clsEmotion
+		    oFeeling = new clsWordPresentationMeshFeeling(oEmotion);
+		    
+		    //if successfully created, store the new feeling
+		    if(oFeeling != null && !oFeeling.isNullObject()) {
+		        moFeelings.add(oFeeling);
+		    }
 			
 			
-			
-				// Relate the Emotion to the Feeling which have Data Structure clsWordPresentationMesh, each Emotion has own Feeling
-			
-				oFeeling = new clsWordPresentationMeshFeeling(new clsTriple<Integer, eDataType, eContentType>
-						  (-1, eDataType.WPM, eContentType.ASSOCIATIONWP),new ArrayList<clsAssociation>(), oEmotion.getContent().toString());
-				
-				// Create Association WordPresentaion from clsEmotion
-				clsAssociationWordPresentation oWPAssEmotion = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-																(-1, eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP), oFeeling, oEmotion);
-				
-				
-				oWPAssEmotionList.add((clsAssociation) oWPAssEmotion);
-				
-				
-				// ALL the Parameters of Emotion (prSourcePleasure, Intensity, prSourceUnpleasure, prSourceLibid, prSourceAggr) are converted to WordPresentaion 
-				// and they are related with WPM over AssociationSecondary
-				
-				oWPIntensity = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-								(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "Intensity= "+String.valueOf(oEmotion.getEmotionIntensity()));
-				
-				
-				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPIntensity, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
-				
-				
-				oWPSourcePleasure = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourcePleasure= "+String.valueOf(oEmotion.getSourcePleasure())); 
-				
-				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourcePleasure, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
-				
-				
-				oWPSourceUnpleasure = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceUnpleasure= "+String.valueOf(oEmotion.getSourceUnpleasure())); 
-				
-				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourceUnpleasure, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
-								
-				oWPSourceLibid = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceLibid= "+String.valueOf(oEmotion.getSourceLibid()));
-				
-				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourceLibid, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
-								
-				oWPSourceAggr = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
-									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceAggr= "+String.valueOf(oEmotion.getSourceAggr()));
-				
-				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourceAggr, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
-				
-			
-				
-				
-				moFeelings.add(oFeeling);
+//				// Relate the Emotion to the Feeling which have Data Structure clsWordPresentationMesh, each Emotion has own Feeling
+//			
+//				oFeeling = new clsWordPresentationMeshFeeling(new clsTriple<Integer, eDataType, eContentType>
+//						  (-1, eDataType.WPM, eContentType.ASSOCIATIONWP),new ArrayList<clsAssociation>(), oEmotion.getContent().toString());
+//				
+//				// Create Association WordPresentaion from clsEmotion
+//				clsAssociationWordPresentation oWPAssEmotion = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>
+//																(-1, eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP), oFeeling, oEmotion);
+//				
+//				
+//				oWPAssEmotionList.add((clsAssociation) oWPAssEmotion);
+//				
+//				
+//				// ALL the Parameters of Emotion (prSourcePleasure, Intensity, prSourceUnpleasure, prSourceLibid, prSourceAggr) are converted to WordPresentaion 
+//				// and they are related with WPM over AssociationSecondary
+//				
+//				oWPIntensity = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
+//								(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "Intensity= "+String.valueOf(oEmotion.getEmotionIntensity()));
+//				
+//				
+//				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPIntensity, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
+//				
+//				
+//				oWPSourcePleasure = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
+//									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourcePleasure= "+String.valueOf(oEmotion.getSourcePleasure())); 
+//				
+//				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourcePleasure, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
+//				
+//				
+//				oWPSourceUnpleasure = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
+//									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceUnpleasure= "+String.valueOf(oEmotion.getSourceUnpleasure())); 
+//				
+//				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourceUnpleasure, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
+//								
+//				oWPSourceLibid = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
+//									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceLibid= "+String.valueOf(oEmotion.getSourceLibid()));
+//				
+//				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourceLibid, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
+//								
+//				oWPSourceAggr = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>
+//									(-1,eDataType.WP,eContentType.ASSOCIATIONEMOTION), "SourceAggr= "+String.valueOf(oEmotion.getSourceAggr()));
+//				
+//				clsMeshTools.createAssociationSecondary(oFeeling, 2,oWPSourceAggr, 0, 1.0,eContentType.ASSOCIATIONSECONDARY,ePredicate.HASPART, false);
+//				
+//			
+//				
+//				
+//				moFeelings.add(oFeeling);
 		}
 		
 		return moFeelings;

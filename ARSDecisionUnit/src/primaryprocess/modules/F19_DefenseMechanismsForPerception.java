@@ -62,10 +62,15 @@ import testfunctions.clsTester;
  * 
  * Implemented defense mechanisms for perception:
  * - denial (Verdrängung)
- * - idealization, depreciation (Idealisierung, Entwertung): only positive (negative) associations are perceived with an object
+ * - idealization (Idealisierung): only positive associations are perceived with an object
+ * - depreciation (Entwertung): only negative associations are perceived with an object
+ * - not yet implemented: projektive Identifizierung: Adam bringt es Lust, wenn er Bodo beim Essen zuschaut (mit KD besprochen)
+ * - not yet implemeted (ist auch nicht im Funktionsmodell vorgesehen, wäre aber leicht zu implementieren): isolation (Isolierung) Isolierung trennt den Affektbetrag vom Wahrnehmungsinhalt
  * 
  * Implemented defense mechanisms for emotions
- * - Reversal of affect: changes for example the emotion anger into the emotion fear
+ * - Reversal of affect: changes for the forbidden emotion into the emotion fear
+ * - Reaction formation: changes emotions according to the implemented hash map
+ * - Not yet implemented: Turning against the self: anger -> guilt (mit KD besprochen)
  * 
  * @author gelbard AND Lotfi
  * 07.05.2012, 14:35:08
@@ -674,6 +679,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 */
 	private void defenseMechanism_Denial (ArrayList<clsSuperEgoConflictPerception> oForbiddenPerceptions) {
 		ChartBarDenial ++;
+		denial = 1.0;
 		
     	// If nothing to deny return immediately (otherwise NullPointerException)
     	if (oForbiddenPerceptions == null) return;
@@ -1543,7 +1549,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
      * @see modules.interfaces.I5_22_receive#receive_I5_22(double)
      */
     @Override
-    public void receive_I5_22(double poEgoStrength) {
+    public void receive_I5_22(double neutralisationFactor, double neutralizedIntensity) {
         //moEgoStrength=poEgoStrength;
     }
 }

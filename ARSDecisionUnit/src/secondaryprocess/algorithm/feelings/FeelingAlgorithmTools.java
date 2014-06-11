@@ -8,6 +8,9 @@ package secondaryprocess.algorithm.feelings;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+
+import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eGoalType;
 import base.datatypes.clsWordPresentationMeshFeeling;
@@ -21,6 +24,7 @@ import base.datatypes.clsWordPresentationMeshPossibleGoal;
  * 
  */
 public class FeelingAlgorithmTools {
+    private static final Logger moLogger = clsLogger.getLog("Feelings");
     
     private static double temporaryAffectComputation(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
         double rResult = 0;
@@ -91,11 +95,12 @@ public class FeelingAlgorithmTools {
      *
      * @param poGoal 
      */
-    public static double getConsequencesOfFeelingsOnGoalAsImportance(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
+    public static double evaluateGoalByTriggeredFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         //return temporaryAffectComputation(poGoal,  poFeltFeelingList);
         
         double rResult = 0;
         double rMatchingFactor = 0;
+        double rFeelingMatchImportance = 0.3;
         
         //Get Feeling affect
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
@@ -104,15 +109,46 @@ public class FeelingAlgorithmTools {
             
             for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
                 if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
-                    rMatchingFactor =+ 1- (Math.abs(oCurrentFeeling.getIntensity()-oGoalFeeling.getIntensity()));
+                    
+                    rMatchingFactor += rFeelingMatchImportance * (1- (Math.abs(oCurrentFeeling.getIntensity()-oGoalFeeling.getIntensity())));
                 }
             }
-            
         }
+
+//        if(poGoal.getSupportiveDataStructure().getContent().startsWith("A14")) 
+            moLogger.debug("Feelings cause evaluation change for {}({}) by {}", poGoal.getContent(), poGoal.getSupportiveDataStructure().getContent(), rMatchingFactor);
         
         rResult += rMatchingFactor;
         
         return rResult;
         
+    }
+    
+    
+        /**
+     * 
+     * DOCUMENT (martinez) - this method just resembles the evaluateGoalByTriggeredFeelings() method. Right now it just return 0, so the goal handling functionality class can work.
+     *
+     * @since 27.05.2014 13:30:24
+     *
+     * @param poGoal 
+     */
+    public static double evaluateGoalByExpectedFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
+        double rResult = 0;
+        return rResult;
+    }
+    
+    
+        /**
+     * 
+     * DOCUMENT (martinez) this method just resembles the evaluateGoalByTriggeredFeelings() method. Right now it just return 0, so the goal handling functionality class can work.
+     *
+     * @since 27.05.2014 13:30:24
+     *
+     * @param poGoal 
+     */
+    public static double evaluateGoalByReservedFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
+        double rResult = 0;
+        return rResult;
     }
 }

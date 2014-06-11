@@ -6,6 +6,7 @@
  */
 package memorymgmt.storage;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericTimeChart;
 import inspector.interfaces.itfInspectorInternalState;
 import inspector.interfaces.itfInterfaceDescription;
@@ -588,6 +589,17 @@ public clsPair<Boolean,Boolean> send_D1_7(eDrive peType) {
         }
         
         
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 14.05.2014 10:33:20
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+     */
+    @Override
+    public clsTimeChartPropeties getProperties() {
+        return new clsTimeChartPropeties(true);
     }
 	
 }

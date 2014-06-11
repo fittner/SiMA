@@ -234,7 +234,7 @@ public class DecisionEngine implements DecisionEngineInterface {
     @Override
     public void setInitialSettings(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
         for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
-            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.INIT, -1);
+            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.INIT, -1, 1);
         }
         
     }
@@ -251,7 +251,8 @@ public class DecisionEngine implements DecisionEngineInterface {
     @Override
     public void applyConsequencesOfActionOnContinuedGoal(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
         for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
-            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.CONSEQUENCE, -1);
+            //FIXME: Here, the codelet is only execute 2 times. In all other cases, they are executed once. This shall be adapted so that codelets are always executed at matching and the trigger conditions are removed
+            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.CONSEQUENCE, -1, 2);
             log.debug("Append consequence, goal:" + goal.toString());
         }
     }
@@ -269,7 +270,7 @@ public class DecisionEngine implements DecisionEngineInterface {
     public void generateDecision(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
         //Execute codelets, which decide what the next action in F52 will be
         for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
-            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.DECISION, 1);       
+            this.moCodeletHandler.executeMatchingCodelets(this, goal, eCodeletType.DECISION, 1, 1);       
             log.debug("New decision, goal:" + goal.toString());
         }
     }
@@ -285,7 +286,7 @@ public class DecisionEngine implements DecisionEngineInterface {
     @Override
     public void generatePlanFromDecision(ArrayList<clsWordPresentationMeshPossibleGoal> poGoalList) {
         for (clsWordPresentationMeshPossibleGoal goal: poGoalList) {
-            this.getCodeletHandler().executeMatchingCodelets(this, goal, eCodeletType.ACTION, 1);
+            this.getCodeletHandler().executeMatchingCodelets(this, goal, eCodeletType.ACTION, 1, 1);
             log.debug("New action, goal:" + goal.toString());
         }   
     }

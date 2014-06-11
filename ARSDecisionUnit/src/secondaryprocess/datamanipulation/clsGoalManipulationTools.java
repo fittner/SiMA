@@ -6,10 +6,10 @@
  */
 package secondaryprocess.datamanipulation;
 
-import general.datamanipulation.GeneralSortingTools;
+import general.datamanipulation.ImportanceComparatorWPM;
 
 import java.util.ArrayList;
-
+import java.util.Collections;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eCondition;
@@ -643,9 +643,17 @@ public class clsGoalManipulationTools {
 	 * @return
 	 */
 	public static <E extends clsWordPresentationMeshGoal> ArrayList<E> sortAndFilterGoalsByTotalImportance(ArrayList<E> goalList, int numberOfElementsToKeep) {
-	    ArrayList<clsPair<Double, E>> sortList = convertGoalListToSortList(goalList);
+	    ArrayList<E> result = new ArrayList<E>();
 	    
-	    ArrayList<E> result = GeneralSortingTools.sortAndFilterRatedStructures(sortList, numberOfElementsToKeep);
+	    //Sort the list for importance
+	    Collections.sort(goalList, Collections.reverseOrder(new ImportanceComparatorWPM()));
+	    
+	    //Get the n highest elements
+	    if (numberOfElementsToKeep>-1 && numberOfElementsToKeep<goalList.size()) {
+	        result = new ArrayList<E>(goalList.subList(0, numberOfElementsToKeep));
+	    } else {
+	        result = goalList;
+	    }
 	    
 	    return result;
 	}

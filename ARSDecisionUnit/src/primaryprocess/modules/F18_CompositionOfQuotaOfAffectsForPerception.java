@@ -21,7 +21,8 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import primaryprocess.functionality.DataMergeFunctionality;
+//import primaryprocess.functionality.DataMergeFunctionality;
+//import primaryprocess.functionality.DataMergeFunctionality;
 import properties.clsProperties;
 
 /**
@@ -133,7 +134,8 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 		
 		//Merge Drive meshes for all associated content
 		
-		moPerceptionalMesh_OUT = DataMergeFunctionality.mergeDriveMeshesOfMesh(moPerceptionalMesh_IN);
+		//moPerceptionalMesh_OUT = DataMergeFunctionality.mergeDriveMeshesOfMesh(moPerceptionalMesh_IN);
+	    moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		//moAssociatedMemories_OUT = moAssociatedMemories_IN;
 	}
 	

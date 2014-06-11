@@ -6,6 +6,7 @@
  */
 package base.datatypes;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import memorymgmt.enums.eContentType;
@@ -136,8 +137,10 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 			}
 		}
 			
+		DecimalFormat df = new DecimalFormat();
+		df.setMaximumFractionDigits(2);
 		
-		oResult += " intensity: " + mrEmotionIntensity;
+		oResult += " intensity: " + df.format(mrEmotionIntensity);
 		}
 		catch(Exception e){
 			System.out.printf(e + "\n" + e.getStackTrace().toString());

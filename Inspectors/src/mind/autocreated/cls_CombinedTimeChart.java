@@ -6,6 +6,7 @@
  */
 package mind.autocreated;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorCombinedTimeChart;
 import inspector.interfaces.itfInspectorGenericTimeChart;
 
@@ -72,6 +73,16 @@ public class cls_CombinedTimeChart extends Inspector{
 		public double getTimeChartLowerLimit() {
 			return 0;
 		}	
+	    /* (non-Javadoc)
+	     *
+	     * @since 14.05.2014 10:33:20
+	     * 
+	     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+	     */
+	    @Override
+	    public clsTimeChartPropeties getProperties() {
+	        return new clsTimeChartPropeties(false);
+	    }
 	}
 		
 	public cls_CombinedTimeChart(itfInspectorCombinedTimeChart poContainer){
@@ -83,7 +94,7 @@ public class cls_CombinedTimeChart extends Inspector{
 		for(int i=0; i <  moContainer.getCombinedTimeChartData().size(); i++){
 			DataContainer iData = new DataContainer(moContainer.getChartTitles().get(i),moContainer.getCombinedTimeChartAxis(),moContainer.getCombinedTimeChartData().get(i),moContainer.getValueCaptions().get(i));
 			cls_GenericTimeChartInspector iContainer = new cls_GenericTimeChartInspector(iData,200,750/iColumns,550/iColumns);
-			iContainer.setShowRangeLabel(false);
+			iContainer.setShowRangeLabel(true);
 			moCharts.add(iContainer);
 			moData.add(iData);
 			add(iContainer);

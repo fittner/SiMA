@@ -8,6 +8,7 @@ package pa._v38.memorymgmt.longtermmemory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -183,13 +184,13 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#executePsychicSpreadActivation(pa._v38.memorymgmt.datatypes.clsThingPresentationMesh, double)
 	 */
 	@Override
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn, int maxNumberOfDirectActivations, boolean useDirectActivation, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> preferredImages) {
+	public void executePsychicSpreadActivation(clsThingPresentationMesh primaryInput, ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn, int maxNumberOfDirectActivations, boolean useDirectActivation, double recognizedImageMultiplyFactor, ArrayList<clsThingPresentationMesh> secondaryInput) {
 		//Add the activated image to the already processed list
-		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();
-		oAlreadyActivatedImages.add(poInput);
-		log.debug("Psychic Spread Activation input: " + poInput + "; Psychic Energy=" + prPsychicEnergyIn);
-		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, maxNumberOfDirectActivations, useDirectActivation, poDriveMeshFilterList, recognizedImageMultiplyFactor, preferredImages, oAlreadyActivatedImages);
-		log.debug("Psychic Spread Activation output: " + poInput);
+		HashMap<Integer, clsThingPresentationMesh> oAlreadyActivatedImages = new HashMap<Integer, clsThingPresentationMesh>();
+		oAlreadyActivatedImages.put(primaryInput.getDS_ID(), primaryInput);
+		log.debug("Psychic Spread Activation input: " + primaryInput + "; Psychic Energy=" + prPsychicEnergyIn);
+		moSpreadActivationHandler.startSpreadActivation(primaryInput, secondaryInput, recognizedImageMultiplyFactor, primaryInput, prPsychicEnergyIn, maxNumberOfDirectActivations, useDirectActivation, poDriveMeshFilterList, oAlreadyActivatedImages);
+		log.debug("Psychic Spread Activation output: " + primaryInput);
 	}
 
 	/* (non-Javadoc)

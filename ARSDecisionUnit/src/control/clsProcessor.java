@@ -209,6 +209,7 @@ public class clsProcessor implements itfProcessor  {
 	
 	@Override
 	public void step() {
+	    log.info("================== START CYCLE OF ARS ===========================================================================================================================");
 	    log.info("=================== SENSING ========================");
 	    long start = System.currentTimeMillis();
 		//BODY --------------------------------------------- 

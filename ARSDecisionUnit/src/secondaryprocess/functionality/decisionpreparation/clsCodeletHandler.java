@@ -203,16 +203,6 @@ public class clsCodeletHandler {
 	public DT1_PsychicIntensityBuffer getLibidoBuffer() {
 	    return libidoBuffer;
 	}
-
-//	/**
-//	 * @since 01.10.2012 20:31:58
-//	 * 
-//	 * @param moEnvironmentalImageMemory the moEnvironmentalImageMemory to set
-//	 */
-//	public void setMoEnvironmentalImageMemory(
-//			clsEnvironmentalImageMemory moEnvironmentalImageMemory) {
-//		this.moEnvironmentalImageMemory = moEnvironmentalImageMemory;
-//	}
 	
 	public void addToCodeletList(clsCodelet poCodelet) {
 		String oList = "";
@@ -316,13 +306,13 @@ public class clsCodeletHandler {
 	 *
 	 * @param oCodeletList
 	 * @param poGoal
-	 * @param pnNumberOfExecutions
+	 * @param numberOfCodeletsToExecute
 	 */
-	public void executeCodeletListOnGoal(ArrayList<clsCodelet> oCodeletList, clsWordPresentationMeshPossibleGoal poGoal, int pnNumberOfExecutions) {
+	public void executeCodeletListOnGoal(ArrayList<clsCodelet> oCodeletList, clsWordPresentationMeshPossibleGoal poGoal, int numberOfCodeletsToExecute) {
 		int nInit=0;
 		int nMax = oCodeletList.size();
-		if (pnNumberOfExecutions >= 0) {
-			nMax = pnNumberOfExecutions;
+		if (numberOfCodeletsToExecute >= 0) {
+			nMax = numberOfCodeletsToExecute;
 		}
 		
 		for (clsCodelet oCodelet : oCodeletList) {
@@ -355,29 +345,52 @@ public class clsCodeletHandler {
 	 * @param poTheExecutingObject: always this pointer
 	 * @param poGoal
 	 * @param poCodeletType
-	 * @param pnNumberOfExecutions
+	 * @param numberOfCodeletsToExecute: From the matching codeletlist, execute a defined number or all if set (-1)
+	 * @param numberOfLoops: Run the matchloop one or more times. If set (-1) then run as long as codelets match
 	 */
-	public void executeMatchingCodelets(Object poTheExecutingObject, clsWordPresentationMeshPossibleGoal poGoal, eCodeletType poCodeletType, int pnNumberOfExecutions) {
-		
-		ArrayList<clsCodelet> oCList = new ArrayList<clsCodelet>();
-		String oTypeString = "";
-		
-		if (poCodeletType.equals(eCodeletType.ACTION)) {
-			oCList = this.getMatchingActionCodelets(poTheExecutingObject, poGoal);
-			oTypeString = "Execute action codelets: ";
-		} else if (poCodeletType.equals(eCodeletType.DECISION)) {
-			oCList = this.getMatchingDecisionCodelets(poTheExecutingObject, poGoal);
-			oTypeString = "Execute decision codelets: ";
-		} else if (poCodeletType.equals(eCodeletType.CONSEQUENCE)) {
-			oCList = this.getMatchingConsequenceCodelets(poTheExecutingObject, poGoal);
-			oTypeString = "Execute conseqeunce codelets: ";
-		} else if (poCodeletType.equals(eCodeletType.INIT)) {
-		    oCList = this.getMatchingInitCodelets(poTheExecutingObject, poGoal);
-			oTypeString = "Execute init codelets: ";
-		}
-		
-		log.trace(oTypeString + oCList.toString());
-		this.executeCodeletListOnGoal(oCList, poGoal, pnNumberOfExecutions);
+	public void executeMatchingCodelets(Object poTheExecutingObject, clsWordPresentationMeshPossibleGoal poGoal, eCodeletType poCodeletType, int numberOfCodeletsToExecute, int numberOfLoops) {
+		boolean runLoop=false;
+		int loopCount = 0;
+	    //Execute at least once
+		do {
+	        ArrayList<clsCodelet> cList = new ArrayList<clsCodelet>();
+            String oTypeString = "";
+            
+            //Get list of matching codelets
+            if (poCodeletType.equals(eCodeletType.ACTION)) {
+                cList = this.getMatchingActionCodelets(poTheExecutingObject, poGoal);
+                oTypeString = "Execute action codelets: ";
+            } else if (poCodeletType.equals(eCodeletType.DECISION)) {
+                cList = this.getMatchingDecisionCodelets(poTheExecutingObject, poGoal);
+                oTypeString = "Execute decision codelets: ";
+            } else if (poCodeletType.equals(eCodeletType.CONSEQUENCE)) {
+                cList = this.getMatchingConsequenceCodelets(poTheExecutingObject, poGoal);
+                oTypeString = "Execute conseqeunce codelets: ";
+            } else if (poCodeletType.equals(eCodeletType.INIT)) {
+                cList = this.getMatchingInitCodelets(poTheExecutingObject, poGoal);
+                oTypeString = "Execute init codelets: ";
+            }
+            log.trace(oTypeString + cList.toString());
+            
+            //Execute the list
+            this.executeCodeletListOnGoal(cList, poGoal, numberOfCodeletsToExecute);
+            
+            //Check if loop shall be run again
+            loopCount++;
+            if (cList.isEmpty()==true) {
+                runLoop=false;
+            } else {
+                //Continue executing if
+                //1. maxnumber <0 or
+                //2. loopcount<max and max>1
+                if ((numberOfLoops>1 && loopCount<numberOfLoops) || (numberOfLoops<0)) {
+                    runLoop=true;
+                } else {
+                    runLoop = false;
+                }
+            }
+            
+	    } while (runLoop==true);
 	}
 	
 }

@@ -6,6 +6,7 @@
  */
 package primaryprocess.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfGraphCompareInterfaces;
 import inspector.interfaces.itfInspectorBarChart;
 import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
@@ -655,6 +656,16 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 		
 		return getInterfacesSend();
 	}
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
 
 
 }
