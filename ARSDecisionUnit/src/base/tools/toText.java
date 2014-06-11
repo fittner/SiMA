@@ -6,6 +6,7 @@
  */
 package base.tools;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -64,10 +65,21 @@ public class toText {
 		
 		if (poValue == null) {
 			text += p(i("null"));
-		} else {		
-			text += p(poValue.toString());
+		} else {	
+		    if(poValue instanceof Double){
+		        text += p(getValueToString((Double) poValue));
+		    }
+		    else{
+		        text += p(poValue.toString());
+		    }
 		}
 		
 		return text;
 	}
+	
+    private static String getValueToString(double value){
+        DecimalFormat threeDec = new DecimalFormat("0.000");
+        String shortString = (threeDec.format(value));
+        return shortString;
+    }
 }
