@@ -66,6 +66,10 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	private boolean mnAlive;
 	private boolean mnImmortal;
 	
+	private final int P_DECISION_CYCLUS = 10;
+	private int executionCylce =0;
+	private boolean executeDU=true;
+	
 
 	
 	public clsARSIN(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
@@ -176,11 +180,21 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 * 
 	 * @see bw.entities.clsEntity#execution()
 	 */
+	
+	private boolean execute(){
+		boolean exec = false;
+		if(executionCylce== 0){
+			exec = true;
+		}		
+		return exec;
+	}
 	@Override
 	public void execution() {
-		Thread.currentThread().setName("ARSIN #"+uid);
-		if (isAlive()) {
-			super.execution();
+		if(execute()){
+			Thread.currentThread().setName("ARSIN #"+uid);
+			if (isAlive()) {
+				super.execution();
+			}
 		}
 	}
 
@@ -195,8 +209,19 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	public void processing() {
 		Thread.currentThread().setName("ARSIN #"+uid);
 		if (isAlive()) {
-			super.processing();
+			if(executeDU){
+				super.processing();
+				//log.trace("executed");
+			}
 		}
+		
+		if(((clsComplexBody)moBody).getBrain().getActions().size()>0) executeDU=false;
+		if(executionCylce==P_DECISION_CYCLUS){
+			executionCylce=0;
+			executeDU =true;
+		}
+		else executionCylce ++;
+		
 
 		//this.getSensorEngineAreas()
 	}
@@ -210,9 +235,11 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void sensing() {
-		Thread.currentThread().setName("ARSIN #"+uid);
-		if (isAlive()) {
-			super.sensing();
+		if(execute()){
+			Thread.currentThread().setName("ARSIN #"+uid);
+			if (isAlive()) {
+				super.sensing();
+			}
 		}
 	}
 
@@ -226,12 +253,13 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void updateInternalState() {
-		Thread.currentThread().setName("ARSIN #"+uid);
-		if (isAlive()) {
-			super.updateInternalState();
+		if(execute()){
+			Thread.currentThread().setName("ARSIN #"+uid);
+			if (isAlive()) {
+				super.updateInternalState();
+			}
 		}
 	}
-	
 	/*
 	 * (non-Javadoc)
 	 *

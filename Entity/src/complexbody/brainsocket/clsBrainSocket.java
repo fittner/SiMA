@@ -102,6 +102,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		moCommunicationPortControl.setCommunicationInterface(poInterface);
 	}
 
+
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		// String pre = clsProperties.addDot(poPrefix);
 		
