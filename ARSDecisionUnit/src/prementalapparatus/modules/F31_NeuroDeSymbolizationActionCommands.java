@@ -494,7 +494,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	    }
 	    mnTestCounter++;*/
 	    //return;
-	    if(testSequence())  return;
+	    testSequenceEat();
+	    return;
+	   // if(testSequence())  return;
 	}
 
 	/* (non-Javadoc)
@@ -667,7 +669,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
     }
 	
 	private boolean testSequenceEat(){
-		moActionCommandList_Output.add(new clsActionEat(1.0));
+		moActionCommandList_Output.add(new clsActionExcrement(1.0));
 		return true;
 	}
 	/* (non-Javadoc)

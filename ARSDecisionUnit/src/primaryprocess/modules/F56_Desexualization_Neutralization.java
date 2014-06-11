@@ -73,7 +73,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 	private HashMap<String,Double> moChartInputData;
 	private HashMap<String,Double> moChartOutputData;
 
-    private double moEgoStrength=0.0;
+    private double mrReducedIntensity=0.0;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 
@@ -193,8 +193,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
         // 3. update estimations
         moPsychicIntensityStorage.updateEstimations();
 		
-	    // 4. calculate ego strength
-        moEgoStrength = calculateEgoStrength(rSumReducedIntensity);
+        mrReducedIntensity = rSumReducedIntensity;
 
 		// 5. create chart Data
 		for( clsDriveMesh oDriveMeshEntry:moDrives_OUT){
@@ -221,10 +220,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 		return oProp;
 	}	
 	
-	private double calculateEgoStrength(double poReducedIntensity) {
-	    //Ego Strength is the summation of a constant value (Drive reduction rate) and a dynamic value (reduced intensity)
-	    return (mrIntensityReductionRateSexual + mrIntensityReductionRateSelfPreserv )/2 + poReducedIntensity;
-	}
+
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//String pre = clsProperties.addDot(poPrefix);
@@ -269,7 +265,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 	@Override	
 	protected void send() {
 		send_I5_4(moDrives_OUT);
-		send_I5_22(moEgoStrength);
+		send_I5_22((mrIntensityReductionRateSexual+mrIntensityReductionRateSelfPreserv)/2,mrReducedIntensity);
 	}
 
 	/* (non-Javadoc)
@@ -347,11 +343,11 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
     * @see modules.interfaces.I5_22_send#send_I5_21(double)
     */
    @Override
-   public void send_I5_22(double poSuperEgoStrength) {
-       ((I5_22_receive)moModuleList.get(6)).receive_I5_22(poSuperEgoStrength);
-       ((I5_22_receive)moModuleList.get(19)).receive_I5_22(poSuperEgoStrength);
+   public void send_I5_22(double neutralisationFactor, double neutralizedIntensity) {
+       ((I5_22_receive)moModuleList.get(6)).receive_I5_22(neutralisationFactor,neutralizedIntensity);
+       ((I5_22_receive)moModuleList.get(19)).receive_I5_22(neutralisationFactor,neutralizedIntensity);
 
-       putInterfaceData(I5_22_send.class, poSuperEgoStrength);
+       putInterfaceData(I5_22_send.class, neutralisationFactor,neutralizedIntensity);
        
    }
 

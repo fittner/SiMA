@@ -1926,7 +1926,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
      * @see modules.interfaces.I5_22_receive#receive_I5_22(double)
      */
     @Override
-    public void receive_I5_22(double poEgoStrength) {
+    public void receive_I5_22(double neutralisationFactor, double neutralizedIntensity) {
         //moEgoStrength = poEgoStrength;
     }
 	
