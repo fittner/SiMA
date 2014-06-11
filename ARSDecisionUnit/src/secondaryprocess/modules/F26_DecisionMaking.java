@@ -10,7 +10,6 @@ import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.SortedMap;
 
 import memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -57,6 +56,7 @@ import base.tools.toText;
  * 
  */
 public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
+    
 	public static final String P_MODULENUMBER = "26";
 	
     private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
@@ -149,7 +149,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	 */
 	@Override
 	public String stateToTEXT() {
-		String text ="";
+		
+	    String text ="";
 		
 		text += toText.listToTEXT("moReachableGoalList_IN", moReachableGoalList_IN);
 		//text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
@@ -162,13 +163,12 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		text += toText.valueToTEXT("moSpeechList", moSpeechList_IN);
 		
-		
-		
 		return text;
 	}		
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
-		String pre = clsProperties.addDot(poPrefix);
+		
+	    String pre = clsProperties.addDot(poPrefix);
 		
 		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
@@ -235,10 +235,16 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
                 log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
             }
         }
-	    
-	    
+        
+        
+        //Requested Psychical Intensity is get to know here. It will be used in order to run some methods. 
+        //In this moment, just the method applyFeelingsOnReachableGoals() uses it. We assume that
+        //the requested PsychicIntensity equals to mrInitialRequestIntensity during the entire simulation.
+        //This may change in the future.
 
-	    
+        double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+
+        
 	    
 	    //FIXME SM: This is a temp variable, which shall be replaced with real feelings
 		boolean bActivatePanicInfluence = false;
@@ -247,7 +253,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		//Get all potential goals
 		//ArrayList<clsWordPresentationMesh> oPotentialGoals = extractReachableDriveGoals(moPerceptionalMesh_IN, moExtractedPrediction_IN);
-		//Add drivedemands from potential goals, which shall be avoided
+		//Add drivedemands from potential goals, which shall be avoidedT
 		//ArrayList<clsWordPresentationMesh> moExtendedDriveList = moGoalList_IN;
 		//moExtendedDriveList.addAll(getAvoidDrives(oPotentialGoals));		//THIS PART IS DONE BY THE EMOTIONS NOW
 		
@@ -266,17 +272,26 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		log.debug("Aim of drives on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		//Apply effect of feelings on goals
-		GoalHandlingFunctionality.applyFeelingsOnReachableGoals(moReachableGoalList_IN, moFeeling_IN, bActivatePanicInfluence);
+		
+		GoalHandlingFunctionality.applyFeelingsOnReachableGoals(moReachableGoalList_IN, moFeeling_IN, bActivatePanicInfluence, rReceivedPsychicEnergy);
 		log.debug("Current feelings: {}", moFeeling_IN);
 		log.debug("Current feelings on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
+		
+		//WE HAVE TO REPORT THE QUANTITY USED.
+        
+        double rRequestedPsychicIntensity = mrInitialRequestIntensity;
+        //moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
+        //double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
 		
 		//Apply social rules on goals
 		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);
 	    log.debug("Social rules: {}", moRuleList);
 	    log.debug("Social rules on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
-		
+	    
 		//Select the goals to be forwarded
 		moDecidedGoalList_OUT = GoalHandlingFunctionality.selectSuitableReachableGoals(moReachableGoalList_IN, mnNumberOfGoalsToPass);
+		
+		log.info("Selectable goals sorted: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		//GoalProcessingFunctionality.initStatusOfSelectedGoals(moDecisionEngine, moDecidedGoalList_OUT);
 		log.info("Selected goals: {}", PrintTools.printArrayListWithLineBreaks(moDecidedGoalList_OUT));
@@ -292,16 +307,6 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		} catch (Exception e) {
 		    log.error("Decided goal: No goal ", e);
 		}
-		
-	    Random randomGenerator = new Random();
-	        
-	    double rRequestedPsychicIntensity = randomGenerator.nextFloat();
-	            
-	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
-	        
-	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
-	        
-	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	}
 	
 

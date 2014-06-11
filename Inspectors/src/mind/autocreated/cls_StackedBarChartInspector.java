@@ -71,8 +71,8 @@ public class cls_StackedBarChartInspector extends cls_AbstractChartInspector {
         chart.setTitle(moChartName);
         CategoryPlot plot =chart.getCategoryPlot();
         NumberAxis iAxis = new NumberAxis();
-        iAxis.setAutoRange(false);
-        iAxis.setRange(0.0,1.0);
+        iAxis.setAutoRange(true);
+        //iAxis.setRange(0.0,1.0);
         plot.setRangeAxis(iAxis);
         
         plot.setBackgroundPaint(Color.white);
@@ -108,7 +108,7 @@ public class cls_StackedBarChartInspector extends cls_AbstractChartInspector {
     	ArrayList<ArrayList<Double>> iContainer = moContainer.getStackedBarChartData();
     	//column or row size of given data != column or row size of actual dataset
     	//->clear dataset and crate an new on out of given data
-    	if(moDataset.getColumnCount()!=iContainer.get(0).size() || moDataset.getRowCount()!=iContainer.size()){
+    	//if(moDataset.getColumnCount()!=iContainer.get(0).size() || moDataset.getRowCount()!=iContainer.size()){
     		moDataset.clear();
     		DefaultCategoryDataset iDataset = createDataset();
     		for (int i= 0; i<iDataset.getRowCount();i++){
@@ -116,7 +116,7 @@ public class cls_StackedBarChartInspector extends cls_AbstractChartInspector {
     				moDataset.addValue(iDataset.getValue(i, j), iDataset.getRowKey(i), iDataset.getColumnKey(j));
     			}
     		}
-    	}
+    	/*}
     	else{  
 		   for(int i =0 ;i< iContainer.size();i++){
 	    		for(int j=0;j<iContainer.get(0).size();j++){
@@ -126,7 +126,7 @@ public class cls_StackedBarChartInspector extends cls_AbstractChartInspector {
 	    		}
 	    		
 		   }
-    	}		
+    	}*/		
 	}
 
 }

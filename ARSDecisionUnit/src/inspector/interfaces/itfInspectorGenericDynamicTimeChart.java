@@ -32,4 +32,6 @@ public interface itfInspectorGenericDynamicTimeChart extends
 	 *
 	 */
 	public void chartColumnsUpdated();
+	
+	
 }

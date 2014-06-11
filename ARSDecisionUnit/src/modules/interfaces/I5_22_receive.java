@@ -8,13 +8,13 @@ package modules.interfaces;
 
 
 /**
- * Super Ego Strength form F56 to F6 and F18
+ * Parameters for Ego Strength calculation form F56 to F6 and F18
  * 
- * @author muchitsch
+ * @author herret
  * 07.05.2012, 16:21:20
  * 
  */
 public interface I5_22_receive {
-	public void receive_I5_22(double poSuperEgoStrength);
+	public void receive_I5_22(double neutralisationFactor, double neutralizedIntensity);
 }
 

@@ -6,6 +6,7 @@
  */
 package base.datatypes;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -350,15 +351,15 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					oResult += this.moContentType + ":" + this.moContent;
 					//List PI-Match
 					double rPIMatch = clsActTools.getPIMatchFlag(this);
-					oResult += "(PIMatch=" + rPIMatch + ")(ActConf=" + clsActTools.getActConfidenceLevel(this) + ");";
+					oResult += "(PIMatch=" + new DecimalFormat("0.00").format(rPIMatch) + ")(ActConf=" + new DecimalFormat("0.00").format(clsActTools.getActConfidenceLevel(this)) + ");";
 					
 					//Get all subimages
 					ArrayList<clsWordPresentationMesh> oSubImages = clsActTools.getAllSubImages(this);
 					oResult += "\nSUBIMAGES: ";
 					for (clsWordPresentationMesh oSubImage : oSubImages) {
 						oResult += oSubImage.getContent() + 
-								"(PIMatch=" + clsActTools.getPIMatchFlag(oSubImage) + 
-								")(MomConf=" + clsActTools.getMomentConfidenceLevel(oSubImage) + 
+								"(PIMatch=" + new DecimalFormat("0.00").format(clsActTools.getPIMatchFlag(oSubImage)) + 
+								")(MomConf=" + new DecimalFormat("0.00").format(clsActTools.getMomentConfidenceLevel(oSubImage)) + 
 								")(Timeout=" + clsActTools.getMovementTimeoutValue(oSubImage) + ");"; 
 					}
 				} else if (clsActTools.isEvent(this)==true) {
@@ -366,8 +367,8 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					oResult += this.moContentType + ":" + this.moContent;
 					//List PI-Match
 					double rPIMatch = clsActTools.getPIMatchFlag(this);
-					oResult += "(PIMatch=" + rPIMatch + 
-					")(MomConf=" + clsActTools.getMomentConfidenceLevel(this) + 
+					oResult += "(PIMatch=" + new DecimalFormat("0.00").format(rPIMatch) + 
+					")(MomConf=" + new DecimalFormat("0.00").format(clsActTools.getMomentConfidenceLevel(this)) + 
 					")(Timeout=" + clsActTools.getMovementTimeoutValue(this) + ");";
 					oResult += "\nACTION: " + clsActTools.getRecommendedAction(this);
 				} else {  

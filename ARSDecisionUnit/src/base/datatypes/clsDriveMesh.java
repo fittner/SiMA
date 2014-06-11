@@ -334,6 +334,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		oRetval += ":PartialD="+this.moPartialDrive.toString();
 		oRetval += ":Organ="+this.getActualDriveSourceAsENUM();
 		oRetval += ":Orifice="+this.getActualBodyOrificeAsENUM();
+		oRetval += ":Aim=" + (this.getActualDriveAim()!=null?this.getActualDriveAim().getContent():"no action");
 		//if(this.moInternalAssociatedContent!=null){
 			oRetval += ": :Internal="+this.moInternalAssociatedContent.toString();
 		//}
@@ -351,7 +352,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	}
 	
 	private String GetQuotaOfAffectAsMyString(double rQoA){
-		DecimalFormat threeDec = new DecimalFormat("0.00000");
+		DecimalFormat threeDec = new DecimalFormat("0.000");
 		String shortString = (threeDec.format(rQoA));
 		return shortString;
 	}
@@ -751,13 +752,14 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		eDriveComponent oDriveComponent = this.getDriveComponent();
 		
 		//Get partial drive
+		ePartialDrive partialDrive = this.getPartialDrive();
 		
 		//Get the bodily part
 		//eOrifice oOrifice = poDM.getActualBodyOrificeAsENUM();
 		eOrgan oOrgan = this.getActualDriveSourceAsENUM();
 		
 		//Create the drive string from Drive component, orifice and organ
-		return oDriveComponent.toString() + oOrgan.toString();
+		return oDriveComponent.toString() + oOrgan.toString() + partialDrive.toString();
 	}
 
 

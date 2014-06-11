@@ -10,6 +10,8 @@ package entities;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+
 import properties.clsProperties;
 
 import complexbody.io.clsExternalIO;
@@ -70,11 +72,16 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	private int executionCylce =0;
 	private boolean executeDU=true;
 	
+	protected final Logger log;
+	
 
 	
 	public clsARSIN(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
+		
+		 log = logger.clsLogger.getLog("ARSIN");
+
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -172,6 +179,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	protected void setEntityType() {
 		meEntityType = eEntityType.ARSIN;
 	}
+	
 
 	/* (non-Javadoc)
 	 *
@@ -193,6 +201,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		if(execute()){
 			Thread.currentThread().setName("ARSIN #"+uid);
 			if (isAlive()) {
+				log.trace("Execute");
 				super.execution();
 			}
 		}
@@ -212,6 +221,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 			if(executeDU){
 				super.processing();
 				//log.trace("executed");
+				log.trace("Generated Commands" + ((clsComplexBody) moBody).getExternalIO().getActionProcessor().getCommandStack().toString());
 			}
 		}
 		
@@ -238,6 +248,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		if(execute()){
 			Thread.currentThread().setName("ARSIN #"+uid);
 			if (isAlive()) {
+				log.trace("Sensing");
 				super.sensing();
 			}
 		}
@@ -256,10 +267,12 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		if(execute()){
 			Thread.currentThread().setName("ARSIN #"+uid);
 			if (isAlive()) {
+				log.trace("Update Internal State");
 				super.updateInternalState();
 			}
 		}
 	}
+	
 	/*
 	 * (non-Javadoc)
 	 *

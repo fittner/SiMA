@@ -276,10 +276,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                  
         // 3. similarity criterion. perceptual activation. memory-search
         oRankedCandidateTPMs = stimulusActivatesEntities(poEnvironmentalTP);            
-        
+
         // 4.  decide category membership
         for(ArrayList<clsDataStructureContainer> oRankedCandidates :oRankedCandidateTPMs) {
-            
+
             // a. how many exemplars should be used for deciding drive categories
             long k = determineK(oRankedCandidates);
         
@@ -291,6 +291,12 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
             
             // extend object
             clsThingPresentationMesh oInputTPM = (clsThingPresentationMesh) poEnvironmentalTP.get(oRankedCandidateTPMs.indexOf(oRankedCandidates)).getMoDataStructure(); 
+            
+            if(oRankedCandidates.size()==0){
+                log.error("unable to percept "+oInputTPM);
+                continue;
+            }
+            
             clsThingPresentationMesh oOutputTPM = (clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure();
             ArrayList<clsDataStructurePA> oAssociatedElementsTP = new ArrayList<clsDataStructurePA>();
              ArrayList<clsDataStructurePA> oAssociatedElementsTPM = new ArrayList<clsDataStructurePA>();
@@ -505,14 +511,18 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 						//  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged
 						for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
 							for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalAssociatedContent() ) {
-
-								oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
-								oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
-								
-								// is it the same TPM?
-								if(oCandidateTPM_DM.getDS_ID() == oCandidateTPM.getDS_ID()){
-									oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
-								}
+							    try {
+							        oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
+	                                oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
+	                                
+	                                // is it the same TPM?
+	                                if(oCandidateTPM_DM.getDS_ID() == oCandidateTPM.getDS_ID()){
+	                                    oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
+	                                }
+							    } catch (Exception e) {
+							        log.error("Errors in the following drives: {} and  {}",  oMemorizedDriveMesh, oCandidateTPM_DM, e);
+							        System.exit(-1);
+							    }
 								
 							}
 						}

@@ -3201,15 +3201,15 @@ public class clsMeshTools {
 		//Now the object is not connected with anything more and can be seen as deleted from the meshes, which it was connected. It does not matter in which mesh it belongs, everything is deleted
 	}
 	
-	public static String toString(ArrayList<clsThingPresentationMesh> poList) {
-		String oResult = "";
-		
-		for (clsThingPresentationMesh oMesh : poList) {
-			oResult += oMesh.getContent() + ", ";
-		}
-		
-		return oResult;
-	}
+//	public static String toString(ArrayList<clsThingPresentationMesh> poList) {
+//		String oResult = "";
+//		
+//		for (clsThingPresentationMesh oMesh : poList) {
+//			oResult += oMesh.getContent() + ", ";
+//		}
+//		
+//		return oResult;
+//	}
 	
 	
 	//=== PERCEIVED IMAGE AND REMEMBERED IMAGE TOOLS WPM --- END ===//

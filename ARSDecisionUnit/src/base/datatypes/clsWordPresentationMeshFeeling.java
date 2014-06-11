@@ -6,6 +6,7 @@
  */
 package base.datatypes;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import memorymgmt.enums.eContentType;
@@ -164,18 +165,18 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     
     public String debugString() {
         String oText = "clsWordPresentationMeshFeeling " + getContent() + ":";
-        oText +=" Intensity=" + getIntensity();
-        oText +=" Libido=" + getLibido();
-        oText +=" Aggression=" + getAggression();
-        oText +=" Pleasure=" + getPleasure();
-        oText +=" Unpleasure=" + getUnpleasure();
+        oText +=" Intensity=" + new DecimalFormat("0.00").format(getIntensity());
+        oText +=" Libido=" + new DecimalFormat("0.00").format(getLibido());
+        oText +=" Aggression=" + new DecimalFormat("0.00").format(getAggression());
+        oText +=" Pleasure=" + new DecimalFormat("0.00").format(getPleasure());
+        oText +=" Unpleasure=" + new DecimalFormat("0.00").format(getUnpleasure());
         
         return oText;
     }
     
     @Override
     public String toString() {
-        String oText = getContent().toString() + "=" + getIntensity();
+        String oText = getContent().toString() + "=" + new DecimalFormat("0.00").format(getIntensity());
         
         return oText;
     }

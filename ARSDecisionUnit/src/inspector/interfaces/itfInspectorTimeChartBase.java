@@ -52,4 +52,10 @@ public abstract interface itfInspectorTimeChartBase {
 	 * @return
 	 */
 	public ArrayList<String> getTimeChartCaptions();
+	
+	/**
+	 * Return the PropertyClass for the configuration of the Inspector
+	 */
+	
+	public clsTimeChartPropeties getProperties();
 }

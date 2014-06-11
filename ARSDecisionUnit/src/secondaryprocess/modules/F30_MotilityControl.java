@@ -6,6 +6,7 @@
  */
 package secondaryprocess.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 
 import java.util.ArrayList;
@@ -572,6 +573,15 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
        moEmotions_Input =  (ArrayList<clsEmotion>) deepCopy(poEmotions_Input);
    }
    
-
+   /* (non-Javadoc)
+   *
+   * @since 14.05.2014 10:33:20
+   * 
+   * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+   */
+  @Override
+  public clsTimeChartPropeties getProperties() {
+      return new clsTimeChartPropeties(true);
+  }
     }		
 
