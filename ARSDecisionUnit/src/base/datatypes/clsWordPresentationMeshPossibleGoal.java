@@ -355,6 +355,9 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         //double nTotalAffectLevel = getTotalImportance() + getEffortImpact() + rImportanceOfFeelings;
         
         oResult += ":" + new DecimalFormat("0.00").format(this.getTotalImportance());
+        if (this.getTotalImportance()==0.0) {
+            oResult += "(Pot.) " + this.getPotentialDriveFulfillmentImportance();
+        }
         oResult += ":" + this.getFeelings().toString();
         oResult += ":" + this.getGoalObject().getContent();
         

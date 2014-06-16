@@ -237,8 +237,8 @@ public class clsImportanceTools {
 	 * @param prEmbodimentActivation
 	 * @return
 	 */
-	public static double convertDMIntensityToImportance(double prQoA, double prEmbodimentActivation) {
-	    return prQoA + ( (1-prQoA) * prEmbodimentActivation);
+	public static double convertDMIntensityToImportance(double prQoA, double prEmbodimentActivation, double reinforcementFactor) {
+	    return prQoA + ( (1-prQoA)* reinforcementFactor * prQoA * prEmbodimentActivation);
 	}
 	
 	/**
