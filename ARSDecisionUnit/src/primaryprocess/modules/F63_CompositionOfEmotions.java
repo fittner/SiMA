@@ -90,6 +90,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	
 	// values from perception-track (triggered emotions). to get a better output in the inspectors and a capsulated function-call a hashmap is used instead of separate variables
 	HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
+	
+	// values from emotions assoziated to memorized scenes (only if the scenes have been activated in F46).
+	// to get a better output in the inspectors and a capsulated function-call a hashmap is used instead of separate variables
+    HashMap<String, Double> oMemoryExtractedValues = new HashMap<String, Double>();
 
 	// values from drive-track . to get a better output in the inspectors a hashmap is used instead of separate variables
 	HashMap<String, Double> oDrivesExtractedValues = new HashMap<String, Double>();
@@ -240,7 +244,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		 * 
 		 */
 		oPerceptionExtractedValues = getEmotionValuesFromPerception();
-				
 		
 		// aggregate values from drive- and perception track
 		// normalize grundkategorien
@@ -250,7 +253,23 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		rSystemLibid = nonProportionalAggregation(rDriveLibid, oPerceptionExtractedValues.get("rPerceptionLibid"));
 		rSystemAggr = nonProportionalAggregation(rDriveAggr, oPerceptionExtractedValues.get("rPerceptionAggr"));
 		
-		
+		/* emotions associated to images (from memory) have a direct influence on emotions, if the scenes have been activated (happens in F46)
+         * 
+         */
+        oMemoryExtractedValues = getEmotionValuesFromMemory();
+        
+        // aggregate values from drive- and perception track
+        // normalize grundkategorien
+        // (if agent sees many objects the perception has more influence, otherwise drives have more influence on emotions)
+        rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, oMemoryExtractedValues.get("rPerceptionUnpleasure"));
+        rSystemPleasure = nonProportionalAggregation(rSystemPleasure, oMemoryExtractedValues.get("rPerceptionPleasure"));
+        rSystemLibid = nonProportionalAggregation(rSystemLibid, oMemoryExtractedValues.get("rPerceptionLibid"));
+        rSystemAggr = nonProportionalAggregation(rSystemAggr, oMemoryExtractedValues.get("rPerceptionAggr"));
+        
+        if(oMemoryExtractedValues.get("rPerceptionUnpleasure") < 0.1) {
+            log.debug("Unpleasure missing");
+        }
+        
 		// Normalize to be able to decide which basic category prevails/dominates
 		double rSumValuesPlUnPl = rSystemUnpleasure + rSystemPleasure;
 		double rSumValuesLibidAggr =  rSystemAggr +rSystemLibid;		
@@ -275,77 +294,64 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		*/
 		
 		
+		
 		// just generate Unpleasure--based Emotions
 		if(rRelativeSystemUnpleasure > mrRelativeThreshold){
-			
-			mrGrade = (rRelativeSystemUnpleasure-mrRelativeThreshold) / mrThresholdRange; 
-			if(mrGrade > 1) mrGrade = 1;
-					
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*mrGrade, 0, rSystemUnpleasure, 0, 0);
-			generateEmotion(eEmotionType.JOY, rSystemPleasure*(1-mrGrade), rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, 0, rSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, 0, 0, 0);
 			
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
 			}
 			else if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.MOURNING, rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.MOURNING, rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 			else {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
-				generateEmotion(eEmotionType.MOURNING,  rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 		}
 		// just generate Pleasure-based Emotions
 		else if (rRelativeSystemPleasure > mrRelativeThreshold) {
-			
-			mrGrade = (rRelativeSystemPleasure-mrRelativeThreshold) / mrThresholdRange; 
-			if(mrGrade > 1) mrGrade = 1;
-			
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*(1-mrGrade), 0, rSystemUnpleasure, 0, 0);
-			generateEmotion(eEmotionType.JOY, rSystemPleasure*mrGrade, rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, 0, rSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
 			}
 			else if (rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			else {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
-				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
 			} 
 		}
 		// generate both
 		else {
 			// pleasure-based emotions		    
-		    mrGrade = (mrRelativeThreshold - rRelativeSystemPleasure) / mrThresholdRange; 
-            if(mrGrade > 1) mrGrade = 1;
-            		    
-			generateEmotion(eEmotionType.JOY, rSystemPleasure*mrGrade, rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
 			}
 			else if (rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			else {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
-				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			
 			//unpleasure-based emotions			
-			mrGrade = (mrRelativeThreshold - rRelativeSystemUnpleasure) / mrThresholdRange; 
-            if(mrGrade > 1) mrGrade = 1;
-            
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*mrGrade, 0, rSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, 0, rSystemUnpleasure, 0, 0);
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
 			}
 			else if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.MOURNING, rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.MOURNING, rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 			else {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
-				generateEmotion(eEmotionType.MOURNING,  rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 		}
 		
@@ -374,7 +380,17 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 * 
 	 */
 	private double nonProportionalAggregation (double rBaseValue, double rAddValue) {
-		return rBaseValue + (1 - rBaseValue) * rAddValue;
+	    /*if(rBaseValue < 0 || rBaseValue > 1) {
+            throw new RuntimeException("Attempting aggregation a base value not between 0 and 1");
+        }*/
+	    
+	    rBaseValue = rBaseValue + (1 - rBaseValue) * rAddValue;
+	    
+	    /*if(rBaseValue < 0 || rBaseValue > 1) {
+	        throw new RuntimeException("Aggregation changed base value to value outside of 0 - 1");
+	    }*/
+	    
+	    return rBaseValue;
 	}
 	
 	
@@ -395,41 +411,12 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rPerceptionLibid = 0.0;
 		double rPerceptionAggr = 0.0;
 				
-		double rMaxQoAPerception = 1;
-		double rMaxQoAPerceptionAggr = 1;
-		double rMaxQoAPerceptionLibid = 1;
 		
 		double rInfluencePerception = 0;
-		double rAssociationWeight = 0;
 		
-		clsEmotion oEmotionFromPerception = null;
+		double rInfluencePerceivedObjects = 0.3;
+		
 		clsDriveMesh oDM = null;
-		clsThingPresentationMesh oRI = null;
-		
-		// use  assoc. emotions from PI's RIs for emotion-generation		
-		for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalAssociatedContent()){
-			
-			if(oPIExtAss.getContentType() == eContentType.ASSOCIATIONPRI){
-				if(oPIExtAss.getAssociationElementB().getContentType() == eContentType.RI) {
-					oRI = (clsThingPresentationMesh)oPIExtAss.getAssociationElementB();
-					
-					for (clsAssociation oRIAss: oRI.getExternalAssociatedContent()) {
-						if (oRIAss.getContentType() == eContentType.ASSOCIATIONEMOTION) {
-							oEmotionFromPerception = (clsEmotion) oRIAss.getAssociationElementA();
-							// the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
-							rAssociationWeight = oPIExtAss.getMrWeight();
-							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrPerceptionPleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourcePleasure()); 
-							rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourceUnpleasure());
-							rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourceLibid());
-							rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getSourceAggr());
-				
-						}
-					}
-				}
-			}
-			
-		}
-		
 		
 		// use QoA of the PI's entities  for emotion-generation
 		for(clsAssociation oPIINtAss: moPerceptions_IN.getInternalAssociatedContent()) {
@@ -442,8 +429,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						oDM = (clsDriveMesh)oEntityAss.getAssociationElementA();
 						
 						if(oDM.getContentType() == eContentType.LIBIDO) {
-							rPerceptionPleasure += mrPerceptionPleasureImpactFactor*oDM.getQuotaOfAffect();
-							
+							//rPerceptionPleasure += mrPerceptionPleasureImpactFactor*oDM.getQuotaOfAffect();
+							// Change by Kollmann - should be calculated as any other emotion value, by nonProportionalAggregation with PerceptionInfluence
+							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, rInfluencePerceivedObjects*oDM.getQuotaOfAffect());
 						}
 						else {
 							
@@ -451,40 +439,90 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 							// the perception influences emotion-generation more than in the case of an agent without hunger  
 							for (clsDriveMesh oActualDM: moDrives_IN) {
 								if (oDM.compareTo(oActualDM) >= 0.75) {
-									rInfluencePerception = oDM.getQuotaOfAffect()/oActualDM.getQuotaOfAffect();
+									rInfluencePerception = oDM.getQuotaOfAffect() * oActualDM.getQuotaOfAffect();
 									if(rInfluencePerception>1) rInfluencePerception = 1;
 								}
 							}
 							
 						    //rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oDM.getQuotaOfAffect());
 							if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
-								rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrPerceptionUnpleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
+								rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 							} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
-								rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrPerceptionUnpleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
+								rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 							}
 							
-							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrPerceptionPleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
+							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 						}
 						
 					}
 				}
-			}		
-			
-			
-	}
+			}
+        }
 		
         rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, rPerceptionLibid+rPerceptionAggr);
-		
 		 
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
 		oPerceptionExtractedValues.put("rPerceptionPleasure", rPerceptionPleasure);
-//		oPerceptionExtractedValues.put("rPerceptionUnpleasure", (rPerceptionLibid+rPerceptionAggr));
 		oPerceptionExtractedValues.put("rPerceptionUnpleasure", rPerceptionUnpleasure);
 		oPerceptionExtractedValues.put("rPerceptionLibid", rPerceptionLibid);
 		oPerceptionExtractedValues.put("rPerceptionAggr", rPerceptionAggr);
 		
 		return oPerceptionExtractedValues;
 	}
+	
+	/* (non-Javadoc)
+    *
+    * @author schaat
+    * 05.07.2012, 15:48:45
+    * emotions triggered by perception (by - to PI- similar RIs from memory) influence emotion-generation
+    * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (unpleasure etc the emotion is based on) to influence the emotion generation in F63
+    * hence, the basic info of the triggered emotion is "mixed" with the categories form the drive track and the emotions are generated based on these mixed information
+    * ZK: use memorized drives (from entities) AND memorized emotions (from images) from perception track for emotion-generation
+    */
+   private HashMap<String, Double> getEmotionValuesFromMemory() {
+       double rMemoryPleasure = 0.0; 
+       double rMemoryUnpleasure = 0.0;
+       double rMemoryLibid = 0.0;
+       double rMemoryAggr = 0.0;
+               
+       double rAssociationWeight = 0;
+       
+       double rInfluenceRememberedImages = 0.5;
+       
+       clsEmotion oEmotionFromPerception = null;
+       clsThingPresentationMesh oRI = null;
+       
+       // use  assoc. emotions from PI's RIs for emotion-generation        
+       for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalAssociatedContent()){
+           if(oPIExtAss.getContentType() == eContentType.ASSOCIATIONPRI){
+               if(oPIExtAss.getAssociationElementB().getContentType() == eContentType.RI) {
+                   oRI = (clsThingPresentationMesh)oPIExtAss.getAssociationElementB();
+                   
+                   for (clsAssociation oRIAss: oRI.getExternalAssociatedContent()) {
+                       if (oRIAss.getContentType() == eContentType.ASSOCIATIONEMOTION) {
+                           oEmotionFromPerception = (clsEmotion) oRIAss.getAssociationElementA();
+                           // the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
+                           rAssociationWeight = oPIExtAss.getMrWeight();
+                           rMemoryPleasure = nonProportionalAggregation(rMemoryPleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourcePleasure()); 
+                           rMemoryUnpleasure = nonProportionalAggregation(rMemoryUnpleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourceUnpleasure());
+                           rMemoryLibid = nonProportionalAggregation(rMemoryLibid, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourceLibid());
+                           rMemoryAggr = nonProportionalAggregation(rMemoryAggr, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourceAggr());
+               
+                       }
+                   }
+               }
+           }
+           
+       }
+       
+       HashMap<String, Double> oMemoryExtractedValues = new HashMap<String, Double>();
+       oMemoryExtractedValues.put("rPerceptionPleasure", rMemoryPleasure);
+       oMemoryExtractedValues.put("rPerceptionUnpleasure", rMemoryUnpleasure);
+       oMemoryExtractedValues.put("rPerceptionLibid", rMemoryLibid);
+       oMemoryExtractedValues.put("rPerceptionAggr", rMemoryAggr);
+       
+       return oMemoryExtractedValues;
+   }
 	
 	/* (non-Javadoc)
 	 *
@@ -812,9 +850,15 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		oPerception.add(oPerceptionExtractedValues.get("rPerceptionLibid"));
 		oPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
 		oPerception.add(oPerceptionExtractedValues.get("rPerceptionPleasure"));
-	
 		oResult.add(oPerception);
-		
+
+        //Chart Memory
+        ArrayList<Double> oMemory =new ArrayList<Double>();
+        oMemory.add(oMemoryExtractedValues.get("rPerceptionAggr"));
+        oMemory.add(oMemoryExtractedValues.get("rPerceptionLibid"));
+        oMemory.add(oMemoryExtractedValues.get("rPerceptionUnpleasure"));
+        oMemory.add(oMemoryExtractedValues.get("rPerceptionPleasure"));
+        oResult.add(oMemory);
 		
 		return oResult;
 		}
@@ -840,7 +884,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		oResult.add("DRIVES");
 		oResult.add("PERCEPTION");
-
+		oResult.add("MEMORY");
+        
 		return oResult;
 	}
 
@@ -904,7 +949,14 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		chartPerception.add("Pleasure");
 		oResult.add(chartPerception);
 		
-		
+		//ChartPerception
+        ArrayList<String> chartMemory = new ArrayList<String>();
+        chartMemory.add("Aggr");
+        chartMemory.add("Libid");
+        chartMemory.add("Unpleasure");
+        chartMemory.add("Pleasure");
+        oResult.add(chartMemory);
+        
 		return oResult;
 	}	
     /* (non-Javadoc)

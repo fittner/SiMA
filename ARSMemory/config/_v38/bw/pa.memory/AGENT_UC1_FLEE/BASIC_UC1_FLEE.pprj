@@ -1,4 +1,4 @@
-; Wed Apr 30 16:29:11 CEST 2014
+; Wed Jun 11 16:01:12 CEST 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,56 +45,56 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BASIC_UC1_FLEE_ProjectKB_Class520] of  String
+([BASIC_UC1_FLEE_ProjectKB_Class223] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class521] of  String
+([BASIC_UC1_FLEE_ProjectKB_Class224] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class522] of  String
+([BASIC_UC1_FLEE_ProjectKB_Class225] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class523] of  String
+([BASIC_UC1_FLEE_ProjectKB_Class226] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class524] of  String
+([BASIC_UC1_FLEE_ProjectKB_Class227] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class525] of  Map_Entry
+([BASIC_UC1_FLEE_ProjectKB_Class228] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class526] of  Map_Entry
+([BASIC_UC1_FLEE_ProjectKB_Class229] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class527] of  Map
+([BASIC_UC1_FLEE_ProjectKB_Class230] of  Map
 )
 
-([BASIC_UC1_FLEE_ProjectKB_Class528] of  Map_Entry
+([BASIC_UC1_FLEE_ProjectKB_Class231] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BASIC_UC1_FLEE_ProjectKB_Class527")
+	(value "BASIC_UC1_FLEE_ProjectKB_Class230")
 	(value_class "java.util.Map"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class529] of  Map_Entry
+([BASIC_UC1_FLEE_ProjectKB_Class232] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BASIC_UC1_FLEE_ProjectKB_Class520]
-		[BASIC_UC1_FLEE_ProjectKB_Class521]
-		[BASIC_UC1_FLEE_ProjectKB_Class522]
-		[BASIC_UC1_FLEE_ProjectKB_Class523]
-		[BASIC_UC1_FLEE_ProjectKB_Class524]))
+		[BASIC_UC1_FLEE_ProjectKB_Class223]
+		[BASIC_UC1_FLEE_ProjectKB_Class224]
+		[BASIC_UC1_FLEE_ProjectKB_Class225]
+		[BASIC_UC1_FLEE_ProjectKB_Class226]
+		[BASIC_UC1_FLEE_ProjectKB_Class227]))
 
 ([CLSES_TAB] of  Widget
 
@@ -153,6 +153,9 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
+([KB_159177_Class5] of  Map
+)
+
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -161,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BASIC_UC1_FLEE_ProjectKB_Class525]
-		[BASIC_UC1_FLEE_ProjectKB_Class526]
-		[BASIC_UC1_FLEE_ProjectKB_Class528]
-		[BASIC_UC1_FLEE_ProjectKB_Class529])
-	(referenced_maps [BASIC_UC1_FLEE_ProjectKB_Class527]))
+		[BASIC_UC1_FLEE_ProjectKB_Class228]
+		[BASIC_UC1_FLEE_ProjectKB_Class229]
+		[BASIC_UC1_FLEE_ProjectKB_Class231]
+		[BASIC_UC1_FLEE_ProjectKB_Class232])
+	(referenced_maps [BASIC_UC1_FLEE_ProjectKB_Class230]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -619,9 +622,6 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_859621_Class5] of  Map
-)
-
 ([LAYOUT_PROPERTIES] of  Property_List
 
 	(name "layout properties")
@@ -711,8 +711,8 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[STANDARD_FACET_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
+		[STANDARD_FACET_FORM_WIDGET]
 		[PAL_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
