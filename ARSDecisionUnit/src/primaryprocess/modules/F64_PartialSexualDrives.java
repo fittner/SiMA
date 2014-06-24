@@ -16,12 +16,15 @@ import java.util.SortedMap;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eDrive;
 import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import memorymgmt.storage.DT4_PleasureStorage;
+import modules.interfaces.D1_2_send;
+import modules.interfaces.D1_3_send;
+import modules.interfaces.D1_4_receive;
+import modules.interfaces.D1_5_receive;
 import modules.interfaces.I2_1_receive;
 import modules.interfaces.I3_3_receive;
 import modules.interfaces.I3_3_send;
@@ -53,7 +56,7 @@ import base.tools.toText;
  * 
  */
 public class F64_PartialSexualDrives extends clsModuleBase implements
-		I2_1_receive, I3_3_send, itfInspectorGenericDynamicTimeChart {
+		D1_2_send, D1_3_send, D1_4_receive, D1_5_receive, I2_1_receive, I3_3_send, itfInspectorGenericDynamicTimeChart {
 
 
 	public static final String P_MODULENUMBER = "64";
@@ -511,13 +514,13 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
      * 
      * @see pa._v38.interfaces.modules.D1_2_send#send_D1_2(pa._v38.memorymgmt.enums.eDrive, pa._v38.tools.clsPair)
      */
-
+    @Override
     public void send_D1_2(eDrive peType, clsPair<Double, Double> oValues) {
         moLibidoBuffer.receive_D1_2(peType, oValues);
         
     }
     
-
+    @Override
     public void send_D1_3(eDrive peType, clsPair<Double, Double> oValues) {
         moLibidoBuffer.receive_D1_3(peType, oValues);
         
@@ -530,6 +533,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
      * @see pa._v38.interfaces.modules.D1_5_receive#receive_D1_5()
      */
 
+    @Override
     public HashMap<eDrive, clsPair<Double, Double>> receive_D1_5() {
         return moLibidoBuffer.send_D1_5();
     }
@@ -540,10 +544,11 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
      * 
      * @see pa._v38.interfaces.modules.D1_4_receive#receive_D1_4(pa._v38.memorymgmt.enums.eDrive)
      */
-
+    @Override
     public clsPair<Double, Double> receive_D1_4(eDrive oDrive) {
         return moLibidoBuffer.send_D1_4(oDrive);
     }
+
     /* (non-Javadoc)
     *
     * @since 14.05.2014 10:33:20
@@ -554,5 +559,4 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
    public clsTimeChartPropeties getProperties() {
        return new clsTimeChartPropeties(true);
    }
-
 }

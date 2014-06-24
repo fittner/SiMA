@@ -86,21 +86,9 @@ public class FeelingAlgorithmTools {
         return retVal;
     }
     
-    
-        /**
-     * 
-     * DOCUMENT (wendt, schaat) - insert description
-     *
-     * @since 23.05.2013 13:30:24
-     *
-     * @param poGoal 
-     */
-    public static double evaluateGoalByTriggeredFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
-        //return temporaryAffectComputation(poGoal,  poFeltFeelingList);
-        
+    private static double getFeelingMatch(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         double rResult = 0;
         double rMatchingFactor = 0;
-        double rFeelingMatchImportance = 0.3;
         
         //Get Feeling affect
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
@@ -110,7 +98,7 @@ public class FeelingAlgorithmTools {
             for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
                 if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
                     
-                    rMatchingFactor += rFeelingMatchImportance * (1- (Math.abs(oCurrentFeeling.getIntensity()-oGoalFeeling.getIntensity())));
+                    rMatchingFactor += 1 - oCurrentFeeling.getDiff(oGoalFeeling);
                 }
             }
         }
@@ -121,21 +109,40 @@ public class FeelingAlgorithmTools {
         rResult += rMatchingFactor;
         
         return rResult;
+    }
+    
+    /**
+     * 
+     * DOCUMENT (wendt, schaat) - Values goals which feelings matches with the agent's current feelings ("Impulshandeln")
+     *
+     * @since 23.05.2013 13:30:24
+     *
+     * @param poGoal 
+     */
+    public static double evaluateGoalByTriggeredFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
+        double rFeelingMatchImportance = 0.8;
         
+        double rFeelingMatch = getFeelingMatch(poGoal, poFeltFeelingList);
+        
+        return rFeelingMatchImportance * rFeelingMatch; 
     }
     
     
         /**
      * 
      * DOCUMENT (martinez) - this method just resembles the evaluateGoalByTriggeredFeelings() method. Right now it just return 0, so the goal handling functionality class can work.
-     *
+     * SSch: if enough neutralized intensity is available, the agent reflects about the goal's appropriateness. That is, the consideration if the act reduces unpleasure and increases pleasure. 
+     *  
      * @since 27.05.2014 13:30:24
      *
      * @param poGoal 
      */
     public static double evaluateGoalByExpectedFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
-        double rResult = 0;
-        return rResult;
+        double rFeelingMatchImportance = 0.4;
+        
+        double rFeelingMatch = getFeelingMatch(poGoal, poFeltFeelingList);
+        
+        return rFeelingMatchImportance * rFeelingMatch;
     }
     
     
@@ -148,7 +155,10 @@ public class FeelingAlgorithmTools {
      * @param poGoal 
      */
     public static double evaluateGoalByReservedFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
-        double rResult = 0;
-        return rResult;
+        double rFeelingMatchImportance = 0.1;
+        
+        double rFeelingMatch = getFeelingMatch(poGoal, poFeltFeelingList);
+        
+        return rFeelingMatchImportance * rFeelingMatch;
     }
 }

@@ -163,6 +163,16 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         this.setUniqueProperty(String.valueOf(poUnpleasure), eContentType.FEELUNPLEASURE, ePredicate.HASUNPLEASURE, true);
     }
     
+    public double getDiff(final clsWordPresentationMeshFeeling poOther) {
+        double rMatch = 1;
+        
+        if(this.getContent().contentEquals(poOther.getContent())) {
+            rMatch = Math.abs(this.getIntensity() - poOther.getIntensity());
+        }
+        
+        return rMatch;
+    }
+    
     public String debugString() {
         String oText = "clsWordPresentationMeshFeeling " + getContent() + ":";
         oText +=" Intensity=" + new DecimalFormat("0.00").format(getIntensity());

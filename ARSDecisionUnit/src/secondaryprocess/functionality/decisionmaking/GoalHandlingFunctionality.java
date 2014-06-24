@@ -94,8 +94,8 @@ public class GoalHandlingFunctionality {
          * goalsByReservedFeeling more than goalsByTriggeredFeeling and goalsByExpectedFeelingThreshold.
          */
         double goalsByTriggeredFeelingThreshold = 0.1;
-        double goalsByExpectedFeelingThreshold = 0.2;
-        double goalsByReservedFeelingThreshold = 0.3;
+        double goalsByExpectedFeelingThreshold = 0.3;
+        double goalsByReservedFeelingThreshold = 0.5;
         
         for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
             moFeelingLog.debug(oFeeling.toString());
