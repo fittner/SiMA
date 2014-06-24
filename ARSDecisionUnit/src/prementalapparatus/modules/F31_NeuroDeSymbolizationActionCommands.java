@@ -270,6 +270,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         } else if(oAction.equals("TURN_LEFT")){
             ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
             oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+            oAttributes.add(new clsDataPoint("ANGLE","5.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_LEFT10")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
             oAttributes.add(new clsDataPoint("ANGLE","10.0"));
             oRetVal.addDataPoint(createAction("TURN",oAttributes));
         } else if(oAction.equals("TURN_LEFT45")){
@@ -293,9 +298,13 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         } else if(oAction.equals("TURN_RIGHT")){
             ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
             oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","5.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_RIGHT10")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
             oAttributes.add(new clsDataPoint("ANGLE","10.0"));
             oRetVal.addDataPoint(createAction("TURN",oAttributes));
-
         } else if(oAction.equals("TURN_RIGHT45")){
             ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
             oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
@@ -391,13 +400,21 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	   //HACK: Will be unneccessary when sequences are implemented with acts
     private void addSearch1SequenceToQueue(){
 
-        for(int i=0;i<9;i++) moActionQueue.add("TURN_RIGHT");
-        for(int i=0;i<18;i++) moActionQueue.add("TURN_LEFT");
-        for(int i=0;i<9;i++) moActionQueue.add("TURN_RIGHT");
+  /*      for(int i=0;i<9;i++) moActionQueue.add("TURN_RIGHT10");
+        for(int i=0;i<18;i++) moActionQueue.add("TURN_LEFT10");
+        for(int i=0;i<9;i++) moActionQueue.add("TURN_RIGHT10");
         for(int i=0;i<18;i++) moActionQueue.add("MOVE_FORWARD");
-        for(int i=0;i<4;i++) moActionQueue.add("TURN_RIGHT");
+        for(int i=0;i<4;i++) moActionQueue.add("TURN_RIGHT10");
         for(int i=0;i<8;i++) moActionQueue.add("MOVE_FORWARD");
-        for(int i=0;i<5;i++) moActionQueue.add("TURN_LEFT");
+        for(int i=0;i<5;i++) moActionQueue.add("TURN_LEFT10");
+  */      
+        for(int i=0;i<2;i++) moActionQueue.add("TURN_RIGHT45");
+        for(int i=0;i<4;i++) moActionQueue.add("TURN_LEFT45");
+        for(int i=0;i<2;i++) moActionQueue.add("TURN_RIGHT45");
+        for(int i=0;i<18;i++) moActionQueue.add("MOVE_FORWARD");
+        for(int i=0;i<1;i++) moActionQueue.add("TURN_RIGHT45");
+        for(int i=0;i<8;i++) moActionQueue.add("MOVE_FORWARD");
+        for(int i=0;i<1;i++) moActionQueue.add("TURN_LEFT45");
           
     }
     
