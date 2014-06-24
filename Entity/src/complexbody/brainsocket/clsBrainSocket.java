@@ -127,31 +127,33 @@ public class clsBrainSocket implements itfStepProcessing {
 	public void stepProcessing() {
 
 		//Step the DU
-		//log.trace("Send Control Command PROCESS");
+		log.trace("Step Decision Unit");
 		boolean oDUResponse = moCommunicationPortControl.stepDU();
 		moCommunicationPortDUData.recvActionCommands();
 	}
 	
 	public void sendDataToDU(){
 		//1 send Sensor Data to DU
-		log.trace("Send Sensor Data to Decision Unit");
-		moCommunicationPortDUData.sendToDU(convertSensorInformation());
-		log.trace("Continue with Body execution");
+		clsDataContainer sonsorInformation = convertSensorInformation();
+		log.trace("Send Sensor Data to Decision Unit: " + sonsorInformation.toString());
+		moCommunicationPortDUData.sendToDU(sonsorInformation);
+
 
 	}
 	
 	public ArrayList<clsActionCommand> getActions(){
-		log.trace("Action Commands receieved");
-
+		//log.trace("Action Commands receieved: "+ moCommunicationPortDUData.getActions());
 		return moCommunicationPortDUData.getActions();
 	}
 	public ArrayList<clsInternalActionCommand> getInternalActions(){
+		//log.trace("Internal Action Commands receieved: "+ moCommunicationPortDUData.getActions());
 		return moCommunicationPortDUData.getInternalActions();
 	}
 	
 	private clsDataContainer convertSensorInformation() {
 		clsDataContainer oRetVal = new clsDataContainer();
 		oRetVal.addDataPoint(convertSlowMessengerSystem());
+		oRetVal.addDataPoint(generateLibido());
 		oRetVal.addDataPoint(convertFastMessengerSystem());
 		oRetVal.addDataPoint(convertStomachSystem_Energy());
 		oRetVal.addDataPoint(convertStomachSystem_Tension());
@@ -165,9 +167,17 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oRetVal;
 	}
 	
+	private clsDataPoint generateLibido() {
+
+		clsDataPoint oDataPoint = new clsDataPoint("LIBIDO","0.01");
+		oDataPoint.setBufferType("EVENT");		
+		return oDataPoint;
+	}
+	
 	private clsDataPoint convertSlowMessengerSystem() {
 
 		clsDataPoint oDataPoint = new clsDataPoint("SLOW_MESSENGER_SYSTEM","");
+		oDataPoint.setBufferType("SIGNAL");
 		clsSlowMessengerSensor oSensor = (clsSlowMessengerSensor)(moSensorsInt.get(eSensorIntType.SLOWMESSENGER));
 		
 		if (oSensor.getSlowMessages() != null) {
@@ -179,9 +189,12 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oDataPoint;
 	}
 	
+	
+	
 	private clsDataPoint convertFastMessengerSystem() {
 
 		clsDataPoint oDataPoint = new clsDataPoint("FAST_MESSENGER_SYSTEM","");
+		oDataPoint.setBufferType("EVENT");
 		clsFastMessengerSensor oSensor = (clsFastMessengerSensor)(moSensorsInt.get(eSensorIntType.FASTMESSENGER));
 
 		if (oSensor.getFastMessages() != null) {
@@ -228,33 +241,47 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	private clsDataPoint convertStomachSystem_Energy() {
 		clsEnergySensor oStomachSensor = (clsEnergySensor)(moSensorsInt.get(eSensorIntType.ENERGY));
-		return new clsDataPoint("STOMACH_ENERGY",""+oStomachSensor.getEnergy());
+		clsDataPoint oDataPoint = new clsDataPoint("STOMACH_ENERGY",""+oStomachSensor.getEnergy());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
 	}
 	
 	private clsDataPoint convertStomachSystem_Tension() {
-		clsStomachTensionSensor oStomachSensor = (clsStomachTensionSensor)(moSensorsInt.get(eSensorIntType.STOMACHTENSION));		
-		return new clsDataPoint("STOMACH_TENSION",""+oStomachSensor.getTension());
+		clsStomachTensionSensor oStomachSensor = (clsStomachTensionSensor)(moSensorsInt.get(eSensorIntType.STOMACHTENSION));
+		clsDataPoint oDataPoint = new clsDataPoint("STOMACH_TENSION",""+oStomachSensor.getTension());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
 	}
 	
 	private clsDataPoint convertStomachSystem_IntestineTension() {
-		clsIntestinePressureSensor oIntestineSensor = (clsIntestinePressureSensor)(moSensorsInt.get(eSensorIntType.INTESTINEPRESSURE));		
-		return new clsDataPoint("STOMACH_INTESTINE_TENSION",""+oIntestineSensor.getTension());
+		clsIntestinePressureSensor oIntestineSensor = (clsIntestinePressureSensor)(moSensorsInt.get(eSensorIntType.INTESTINEPRESSURE));	
+		clsDataPoint oDataPoint = new clsDataPoint("STOMACH_INTESTINE_TENSION",""+oIntestineSensor.getTension());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
 	}
 	private clsDataPoint convertStaminaSystem() {
-		clsStaminaSensor oStaminaSensor = (clsStaminaSensor)(moSensorsInt.get(eSensorIntType.STAMINA));		
-		return new clsDataPoint("STAMINA",""+oStaminaSensor.getStaminaValue());
+		clsStaminaSensor oStaminaSensor = (clsStaminaSensor)(moSensorsInt.get(eSensorIntType.STAMINA));
+		clsDataPoint oDataPoint = new clsDataPoint("STAMINA",""+oStaminaSensor.getStaminaValue());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
 	}
 	public clsDataPoint convertHealthSystem() {
-		clsHealthSensor oHealthSensor = (clsHealthSensor)(moSensorsInt.get(eSensorIntType.HEALTH));		
-		return new clsDataPoint("HEALTH",""+oHealthSensor.getHealthValue());
+		clsHealthSensor oHealthSensor = (clsHealthSensor)(moSensorsInt.get(eSensorIntType.HEALTH));	
+		clsDataPoint oDataPoint = new clsDataPoint("HEALTH",""+oHealthSensor.getHealthValue());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
 	}
 	private clsDataPoint convertTemperatureSystem() {
 		clsTemperatureSensor oTemperatureSensor = (clsTemperatureSensor)(moSensorsInt.get(eSensorIntType.TEMPERATURE));
-		return new clsDataPoint("TEMPERATURE",""+oTemperatureSensor.getTemperatureValue());
+		clsDataPoint oDataPoint = new clsDataPoint("TEMPERATURE",""+oTemperatureSensor.getTemperatureValue());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
 	}
 	private clsDataPoint convertEnergySystem() {
-		clsEnergyConsumptionSensor oEnergySensor = (clsEnergyConsumptionSensor)(moSensorsInt.get(eSensorIntType.ENERGY_CONSUMPTION));		
-		return new clsDataPoint("ENERGY_CONSUMPTION",""+oEnergySensor.getEnergy());
+		clsEnergyConsumptionSensor oEnergySensor = (clsEnergyConsumptionSensor)(moSensorsInt.get(eSensorIntType.ENERGY_CONSUMPTION));
+		clsDataPoint oDataPoint =  new clsDataPoint("ENERGY_CONSUMPTION",""+oEnergySensor.getEnergy());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
 		
 	}
 /*
@@ -276,6 +303,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	}*/
 	private clsDataPoint convertVisionSensors() {
 		clsDataPoint oRetVal = new clsDataPoint("VISION","");
+		oRetVal.setBufferType("SIGNAL");
 		//oData.setSensorType(poVisionType);
 		// Get VISION SELF
 		ArrayList<eSensorExtType> oVisionTypes = new ArrayList<eSensorExtType>();

@@ -69,6 +69,9 @@ public class clsXMLData extends clsLayer2Base{
 			if(!poDataPoint.getValue().equals("")){
 				oRetVal.setAttribute("value", poDataPoint.getValue());
 			}
+			if(!poDataPoint.getBufferType().equals("")){
+				oRetVal.setAttribute("buffer_type", poDataPoint.getBufferType());
+			}
 			for (clsDataPoint oChild: poDataPoint.getAssociatedDataPoints()){
 				Element x = createElement(oChild,poDoc);
 				if(x!= null) oRetVal.appendChild(x);
@@ -85,7 +88,7 @@ public class clsXMLData extends clsLayer2Base{
 		clsDataContainer oRetVal = new clsDataContainer();
 		try {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	    DocumentBuilder builder = factory.newDocumentBuilder();;
+	    DocumentBuilder builder = factory.newDocumentBuilder();
 	    InputSource is = new InputSource(new StringReader(poInputData));
 	    
 	    Document document = builder.parse(is);
@@ -111,14 +114,19 @@ public class clsXMLData extends clsLayer2Base{
 	private clsDataPoint createDataPoint(Node oNode){
 		String type = oNode.getNodeName().toString();
 		String value="";
+		String bufferType="";
 		if(oNode.getAttributes()!=null){
 			if(oNode.getAttributes().getLength()!=0){
 				if(oNode.getAttributes().getNamedItem("value")!=null){
 					value = oNode.getAttributes().getNamedItem("value").getTextContent();
 				}
+				if(oNode.getAttributes().getNamedItem("buffer_type")!=null){
+					bufferType = oNode.getAttributes().getNamedItem("buffer_type").getTextContent();
+				}
 			}
 		}
 		clsDataPoint oRetVal = new clsDataPoint(type,value);
+		oRetVal.setBufferType(bufferType);
 		NodeList oChildList = oNode.getChildNodes();
 		for (int i=0; i<oChildList.getLength();i++){
 			if(!oChildList.item(i).getNodeName().equals("#text")){

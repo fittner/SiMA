@@ -6,6 +6,7 @@
  */
 package prementalapparatus.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 
 import java.util.ArrayList;
@@ -164,233 +165,240 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
     protected void process_basic() {
         moActionCommandList_Output = new clsDataContainer();
+
+        boolean newActionAvailable=false;
         
-        if( moActionCommands_Input.size() > 0 ) {
+        if( moActionCommands_Input.size() > 0) {
             for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
+
+                String oAction;
+                if(oActionWPM!=null){
+                    oAction = oActionWPM.getContent();
+                    inputActionHistory.add(oAction.toString());
+                    newActionAvailable=true;
+                    processActionCommand(oAction,moActionCommandList_Output, true);
+                }                
                 
-                if (oActionWPM == null) 
-                    return;
-                
-                String oAction = oActionWPM.getContent();
-                inputActionHistory.add(oAction.toString());
-
-                
-                //HACK to implement sequences. Will be unneccessary when sequences are implemented with acts
-                if(oAction.equals(eAction.FOCUS_ON.toString()) ||
-                        oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString()) ||
-                      /*  oAction.equals(eAction.NONE.toString()) ||
-                        oAction.equals(eAction.SEND_TO_PHANTASY.toString()) ||
-                        oAction.equals(eAction.FOCUS_SEARCH1.toString()) ||
-                        oAction.equals(eAction.FOCUS_TURN_LEFT.toString()) ||
-                        oAction.equals(eAction.FOCUS_TURN_RIGHT.toString()) ||
-                        oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString()) || */
-                        oAction.equals(eAction.SEARCH1.toString())) {
-                        
-                        if(moActionQueue.size()>0){
-                            oAction = moActionQueue.get(0);
-                            moActionQueue.remove(0);
-                        }      
-                 }
-                else{
-                    //Clear Action Queue if real Action comes up
-                    moActionQueue.clear();
-                }
-
-                if(oAction.equals("TURN_VISION")){
-                    //just for Test
-                    java.util.Random random = new java.util.Random();
-                    int rnd = random.nextInt(61) - 30;
-                    if( rnd <= 0){
-                        ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                        oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
-                        oAttributes.add(new clsDataPoint("ANGLE",""+(rnd*-1)));
-                        moActionCommandList_Output.addDataPoint(createAction("TURN_VISION",oAttributes));
-                    }
-                    else{
-                          ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
-                            oAttributes.add(new clsDataPoint("ANGLE",""+(rnd)));
-                            moActionCommandList_Output.addDataPoint(createAction("TURN_VISION",oAttributes));
-                    }
-                        
-                }else if(oAction.equals("MOVE_FORWARD")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
-                    oAttributes.add(new clsDataPoint("DISTANCE","1.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("MOVE",oAttributes));
-                } else if(oAction.equals("MOVE_FORWARD_SLOW")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
-                    oAttributes.add(new clsDataPoint("DISTANCE","0.2"));
-                    moActionCommandList_Output.addDataPoint(createAction("MOVE",oAttributes));
-                } else if(oAction.equals("STOP")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
-                    oAttributes.add(new clsDataPoint("DISTANCE","0.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("MOVE",oAttributes));
-                } else if(oAction.equals("MOVE_BACKWARD")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","BACKWARD"));
-                    oAttributes.add(new clsDataPoint("DISTANCE","1.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("MOVE",oAttributes));
-                } else if(oAction.equals("TURN_LEFT")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
-                    oAttributes.add(new clsDataPoint("ANGLE","10.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("TURN",oAttributes));
-                } else if(oAction.equals("TURN_LEFT45")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
-                    oAttributes.add(new clsDataPoint("ANGLE","45.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("TURN",oAttributes));
-
-                } else if(oAction.equals("TURN_LEFT90")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
-                    oAttributes.add(new clsDataPoint("ANGLE","90.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("TURN",oAttributes));
-
-                } else if(oAction.equals("TURN_LEFT180")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
-                    oAttributes.add(new clsDataPoint("ANGLE","180.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("TURN",oAttributes));
-
-                } else if(oAction.equals("TURN_RIGHT")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
-                    oAttributes.add(new clsDataPoint("ANGLE","10.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("TURN",oAttributes));
-
-                } else if(oAction.equals("TURN_RIGHT45")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
-                    oAttributes.add(new clsDataPoint("ANGLE","45.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("TURN",oAttributes));
-                } else if(oAction.equals("TURN_RIGHT90")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
-                    oAttributes.add(new clsDataPoint("ANGLE","90.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("TURN",oAttributes));
-                } else if(oAction.equals("TURN_RIGHT180")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
-                    oAttributes.add(new clsDataPoint("ANGLE","180.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("TURN",oAttributes));
-                } else if(oAction.equals("LOOK_AROUND")){
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
-                    oAttributes.add(new clsDataPoint("ANGLE","360.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("TURN",oAttributes));
-                } else if(oAction.equals("STRAFE_LEFT")){
-                    /*if (mnCounter%35==0) {
-                        moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeLeftSequence(1) );
-                        mnCounter = 0;
-                    }           */      
-                } else if(oAction.equals("STRAFE_RIGHT")){
-                    /*if (mnCounter%35==0) {
-                        moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeRightSequence(1) );
-                        mnCounter = 0;
-                    } */                    
-                } else if(oAction.equals("EAT")) {
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    moActionCommandList_Output.addDataPoint(createAction("EAT",oAttributes));
-                } else if (oAction.equals("BEAT")) {
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("FORCE","1.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("BEAT",oAttributes));
-                } else if (oAction.equals("DIVIDE")) {
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("FACTOR","0.5"));
-                    moActionCommandList_Output.addDataPoint(createAction("DIVIDE",oAttributes));
-                } else if (oAction.equals("SLEEP")) {
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("INTENSITY","DEEP"));
-                    moActionCommandList_Output.addDataPoint(createAction("SLEEP",oAttributes));
-
-                } else if (oAction.equals("RELAX")) {
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("INTENSITY","DEEP"));
-                    moActionCommandList_Output.addDataPoint(createAction("SLEEP",oAttributes));
-
-                } else if (oAction.equals("DEPOSIT")) {
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("INTENSITY","1.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("EXCREMENT",oAttributes));
-
-                } else if (oAction.equals("REPRESS")) {
-                    throw new UnknownError("Action " + oAction + " should not occure in F31!");
-                }
-        
-                else if (oAction.equals("SEARCH1")) {
-                    //add first Action
-                    ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
-                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
-                    oAttributes.add(new clsDataPoint("ANGLE","20.0"));
-                    moActionCommandList_Output.addDataPoint(createAction("TURN",oAttributes));
-                    // add other actions to queue    
-                    addSearch1SequenceToQueue();
-                } else if (oAction.equals(eAction.FOCUS_ON.toString())) {
-                    //Do nothing
-                } else if (oAction.equals(eAction.NONE.toString())) {
-                    //Do nothing
-                } else if (oAction.equals(eAction.SEND_TO_PHANTASY.toString())) {
-                    //Do nothing
-                } else if (oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString())) {
-                    //Do nothing
-                } else if (oAction.equals(eAction.FOCUS_SEARCH1.toString())) {
-                    //Do nothing
-                } else if (oAction.equals(eAction.FOCUS_TURN_LEFT.toString())) {
-                    //Do nothing
-                } else if (oAction.equals(eAction.FOCUS_TURN_RIGHT.toString())) {
-                    //Do nothing
-                } else if (oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
-                    
-                } else if (oAction.equals(eAction.PICK_UP.toString())) {
-                    moActionCommandList_Output.addDataPoint(createAction("PICK_UP",null));
-
-                }
-                else if (oAction.equals(eAction.DROP.toString())) {
-                    moActionCommandList_Output.addDataPoint(createAction("DROP",null));
-                }
-                else {
-                    throw new UnknownError("Action " + oAction + " not known");
-                }
-                
-                lastRealAction=realAction;
-                lastAction=oActionWPM;//oWP.getMoContent();
             }
-        } else {
-            /*
-            if (true) {
-                if (mnCounter == 75) {
-                    moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
-                    mnCounter = 0;
-                } 
-                mnCounter++;
-            }
-            */
+        }
+        if (moActionQueue.size()>0 && !newActionAvailable) {
+            
+            String  oAction = moActionQueue.get(0);
+            moActionQueue.remove(0);
+            processActionCommand(oAction,moActionCommandList_Output, false);
+            
         }
         
         log.info("ActionCommandList: "+moActionCommandList_Output.toString());
     }
 	
+	private void processActionCommand(String oAction, clsDataContainer oRetVal, boolean nonQueueAction){
+
+	    //PROCESS NON REAL ACTIONS
+	    if(oAction.equals(eAction.FOCUS_ON.toString()) ||
+                oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString()) ||
+                oAction.equals(eAction.NONE.toString()) ||
+                oAction.equals(eAction.SEND_TO_PHANTASY.toString()) ||
+                oAction.equals(eAction.FOCUS_SEARCH1.toString()) ||
+                oAction.equals(eAction.FOCUS_TURN_LEFT.toString()) ||
+                oAction.equals(eAction.FOCUS_TURN_RIGHT.toString()) ||
+                oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
+                
+                if(moActionQueue.size()>0){
+                    oAction = moActionQueue.get(0);
+                    moActionQueue.remove(0);
+                }else{
+                    return;
+                }
+         }
+        else if(oAction.equals(eAction.SEARCH1.toString())){
+            
+            if(moActionQueue.size()<10){
+                addSearch1SequenceToQueue();
+            }
+
+            oAction = moActionQueue.get(0);
+            moActionQueue.remove(0);
+
+        }
+        else{
+            //Clear Action Queue if real Action comes up
+            if(nonQueueAction) moActionQueue.clear();
+        }
+        
+        //START PROCESS REAL ACTIONS
+
+        if(oAction.equals("TURN_VISION")){
+            //just for Test
+            java.util.Random random = new java.util.Random();
+            int rnd = random.nextInt(61) - 30;
+            if( rnd <= 0){
+                ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+                oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+                oAttributes.add(new clsDataPoint("ANGLE",""+(rnd*-1)));
+                oRetVal.addDataPoint(createAction("TURN_VISION",oAttributes));
+            }
+            else{
+                  ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+                    oAttributes.add(new clsDataPoint("ANGLE",""+(rnd)));
+                    oRetVal.addDataPoint(createAction("TURN_VISION",oAttributes));
+            }
+                
+        }else if(oAction.equals("MOVE_FORWARD")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
+            oAttributes.add(new clsDataPoint("DISTANCE","1.0"));
+            oRetVal.addDataPoint(createAction("MOVE",oAttributes));
+        }else if(oAction.equals(eAction.NULLOBJECT.toString())){
+            //do nothing
+        } else if(oAction.equals("MOVE_FORWARD_SLOW")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
+            oAttributes.add(new clsDataPoint("DISTANCE","0.2"));
+            oRetVal.addDataPoint(createAction("MOVE",oAttributes));
+        } else if(oAction.equals("STOP")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
+            oAttributes.add(new clsDataPoint("DISTANCE","0.0"));
+            oRetVal.addDataPoint(createAction("MOVE",oAttributes));
+        } else if(oAction.equals("MOVE_BACKWARD")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","BACKWARD"));
+            oAttributes.add(new clsDataPoint("DISTANCE","1.0"));
+            oRetVal.addDataPoint(createAction("MOVE",oAttributes));
+        } else if(oAction.equals("TURN_LEFT")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+            oAttributes.add(new clsDataPoint("ANGLE","10.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_LEFT45")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+            oAttributes.add(new clsDataPoint("ANGLE","45.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+
+        } else if(oAction.equals("TURN_LEFT90")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+            oAttributes.add(new clsDataPoint("ANGLE","90.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+
+        } else if(oAction.equals("TURN_LEFT180")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+            oAttributes.add(new clsDataPoint("ANGLE","180.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+
+        } else if(oAction.equals("TURN_RIGHT")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","10.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+
+        } else if(oAction.equals("TURN_RIGHT45")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","45.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_RIGHT90")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","90.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_RIGHT180")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","180.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("LOOK_AROUND")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","360.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("STRAFE_LEFT")){
+            /*if (mnCounter%35==0) {
+                moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeLeftSequence(1) );
+                mnCounter = 0;
+            }           */      
+        } else if(oAction.equals("STRAFE_RIGHT")){
+            /*if (mnCounter%35==0) {
+                moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeRightSequence(1) );
+                mnCounter = 0;
+            } */                    
+        } else if(oAction.equals("EAT")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oRetVal.addDataPoint(createAction("EAT",oAttributes));
+        } else if (oAction.equals("BEAT")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("FORCE","1.0"));
+            oRetVal.addDataPoint(createAction("BEAT",oAttributes));
+        } else if (oAction.equals("DIVIDE")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("FACTOR","0.5"));
+            oRetVal.addDataPoint(createAction("DIVIDE",oAttributes));
+        } else if (oAction.equals("SLEEP")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("INTENSITY","DEEP"));
+            oRetVal.addDataPoint(createAction("SLEEP",oAttributes));
+
+        } else if (oAction.equals("RELAX")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("INTENSITY","DEEP"));
+            oRetVal.addDataPoint(createAction("SLEEP",oAttributes));
+
+        } else if (oAction.equals("DEPOSIT")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("INTENSITY","1.0"));
+            oRetVal.addDataPoint(createAction("EXCREMENT",oAttributes));
+
+        } else if (oAction.equals("REPRESS")) {
+            throw new UnknownError("Action " + oAction + " should not occure in F31!");
+
+        } else if (oAction.equals(eAction.FOCUS_ON.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.NONE.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.SEND_TO_PHANTASY.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.FOCUS_SEARCH1.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.FOCUS_TURN_LEFT.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.FOCUS_TURN_RIGHT.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
+            
+        }else if(oAction.equals(eAction.NULLOBJECT.toString())){
+            //do nothing
+
+        } else if (oAction.equals(eAction.PICK_UP.toString())) {
+            oRetVal.addDataPoint(createAction("PICK_UP",null));
+
+        }
+        else if (oAction.equals(eAction.DROP.toString())) {
+            oRetVal.addDataPoint(createAction("DROP",null));
+        }
+        else {
+            throw new UnknownError("Action " + oAction + " not known");
+        }
+        
+        
+	}
+	
 	   //HACK: Will be unneccessary when sequences are implemented with acts
     private void addSearch1SequenceToQueue(){
 
-        moActionQueue.add("TURN_RIGHT");
-        moActionQueue.add("TURN_LEFT");
-        moActionQueue.add("TURN_LEFT");
-        moActionQueue.add("TURN_RIGHT");
-        moActionQueue.add("MOVE_FORWARD");
-        moActionQueue.add("MOVE_FORWARD");
-        moActionQueue.add("TURN_LEFT");
-        moActionQueue.add("MOVE_FORWARD");
-        moActionQueue.add("TURN_RIGHT");
-        moActionQueue.add("MOVE_FORWARD");
-        moActionQueue.add("MOVE_FORWARD");
-        moActionQueue.add("MOVE_FORWARD");
-        
+        for(int i=0;i<9;i++) moActionQueue.add("TURN_RIGHT");
+        for(int i=0;i<18;i++) moActionQueue.add("TURN_LEFT");
+        for(int i=0;i<9;i++) moActionQueue.add("TURN_RIGHT");
+        for(int i=0;i<18;i++) moActionQueue.add("MOVE_FORWARD");
+        for(int i=0;i<4;i++) moActionQueue.add("TURN_RIGHT");
+        for(int i=0;i<8;i++) moActionQueue.add("MOVE_FORWARD");
+        for(int i=0;i<5;i++) moActionQueue.add("TURN_LEFT");
+          
     }
     
     private clsDataPoint createAction(String poName,ArrayList<clsDataPoint> poAttributes){
@@ -682,6 +690,17 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
     public void receive_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands, clsWordPresentationMesh moWordingToContext2) {
         moActionCommands_Input = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
         moWordingToContext = moWordingToContext2;
-    }		
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 11.06.2014 09:43:09
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+     */
+    @Override
+    public clsTimeChartPropeties getProperties() {
+        return new clsTimeChartPropeties(true);
+    }	
     
 }

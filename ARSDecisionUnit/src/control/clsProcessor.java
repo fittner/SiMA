@@ -116,7 +116,7 @@ public class clsProcessor implements itfProcessor  {
 		
 	@Override
 	public void applySensorData(clsDataContainer poData) {
-		moPsyApp.moF39_SeekingSystem_LibidoSource.receive_I0_1( mrLibidostream );
+		moPsyApp.moF39_SeekingSystem_LibidoSource.receive_I0_1( separateLibido(poData) );
 		moPsyApp.moF39_SeekingSystem_LibidoSource.receive_I0_2( separateFASTMESSENGERData(poData) );
 		moPsyApp.moF01_SensorsMetabolism.receive_I0_3( separateHomeostaticData(poData) );
 		moPsyApp.moF12_SensorsBody.receive_I0_5( separateBodyData(poData) );
@@ -141,6 +141,24 @@ public class clsProcessor implements itfProcessor  {
         }
         return oResult;
 	}
+	
+	   /**
+     * seperate Libido
+     *
+     * @since 26.11.2012 14:53:36
+     *
+     * @param poData
+     * @return
+     */
+    private double separateLibido(clsDataContainer poData) {
+        double oRetVal=0.0;
+        for(clsDataPoint oDataPoint :poData.getData()){
+            if(oDataPoint.getType().equals("LIBIDO")){
+                oRetVal = Double.parseDouble(oDataPoint.getValue().toString());
+            }
+        }
+        return oRetVal;
+    }
 
 	/**
 	 * Extracts the homeostatic data from the whole set of sensor data. Necessary to create the input for F1.
