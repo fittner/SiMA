@@ -8,7 +8,7 @@
  */
 package memorymgmt.storage;
 
-import inspector.interfaces.clsTimeChartPropeties;
+
 import inspector.interfaces.itfInspectorGenericTimeChart;
 import inspector.interfaces.itfInspectorInternalState;
 import inspector.interfaces.itfInspectorStackedBarChart;
@@ -554,9 +554,9 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
     * 
     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
     */
-   @Override
-   public clsTimeChartPropeties getProperties() {
-       return new clsTimeChartPropeties(true);
-   }
+//   @Override
+//   public clsTimeChartPropeties getProperties() {
+//       return new clsTimeChartPropeties(true);
+//   }
 	
 }

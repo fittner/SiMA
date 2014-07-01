@@ -42,6 +42,8 @@ public class GoalHandlingFunctionality {
     private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
     private static Logger moFeelingLog = clsLogger.getLog("Feelings");
     
+    
+    
     /**
      * Removes goals, which have been declared as non reachable in the STM
      *
@@ -97,6 +99,9 @@ public class GoalHandlingFunctionality {
         double goalsByExpectedFeelingThreshold = 0.2;
         double goalsByReservedFeelingThreshold = 0.3;
         
+
+        
+        
         for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
             moFeelingLog.debug(oFeeling.toString());
         }
@@ -112,6 +117,8 @@ public class GoalHandlingFunctionality {
                 if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold && receivedPsychicIntensity < goalsByExpectedFeelingThreshold ){
                     
                     goal.setFeelingsImportance(FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));
+ 
+                    
                     
                 } else if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold && receivedPsychicIntensity < goalsByReservedFeelingThreshold ){
                     
@@ -123,7 +130,12 @@ public class GoalHandlingFunctionality {
                 }
            }
         }
+        
     }
+    
+    
+    
+
     
     /**
      * Apply social rules on reachable goals.
