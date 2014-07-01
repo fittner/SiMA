@@ -184,8 +184,10 @@ public class clsGoalManipulationTools {
         String oGoalName = poDM.getDriveIdentifier(); //oDriveComponent.toString() + oOrgan.toString();
       
         //     Consider influence of multiple drive-satisfaction on decision making (via affect-level)
-        double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
-      
+        
+        //FIXME SSCH: 
+        //double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION), 0.1);
+        double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), 0, 0.1);
         //getGoalObject
         
         
@@ -528,7 +530,7 @@ public class clsGoalManipulationTools {
         
         //Get the affect level
         //double rImportance = poDM.getQuotaOfAffect();
-        double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
+        double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION), 0);
         
         //eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(oAffect.getMoContent());
         

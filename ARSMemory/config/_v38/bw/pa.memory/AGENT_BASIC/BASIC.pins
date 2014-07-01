@@ -1,4 +1,4 @@
-; Thu May 15 10:24:27 CEST 2014
+; Tue Jun 10 11:38:55 CEST 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -512,6 +512,13 @@
 	(element
 		[TPM%3AACTION%3AL1_BEAT]
 		[TP%3ANAME%3ABEAT])
+	(weight 1.0 1.0))
+
+([AA%3AL1_DEPOSIT%3ADEPOSIT] of  ASSOCIATIONATTRIBUTE
+
+	(element
+		[TP%3ANAME%3ADEPOSIT]
+		[TPM%3AACTION%3AL1_DEPOSIT])
 	(weight 1.0 1.0))
 
 ([AA%3AL1_DIVIDE%3ADIVIDE] of  ASSOCIATIONATTRIBUTE
@@ -5054,6 +5061,11 @@
 	(value "BEAT")
 	(value_type "Name"))
 
+([TP%3ANAME%3ADEPOSIT] of  NAME
+
+	(value "DEPOSIT")
+	(value_type "Name"))
+
 ([TP%3ANAME%3ADIVIDE] of  NAME
 
 	(value "DIVIDE")
@@ -5292,6 +5304,7 @@
 
 ([TPM%3AACTION%3AL1_DEPOSIT] of  TPM%3AACTION%3AL1
 
+	(instance_association [AA%3AL1_DEPOSIT%3ADEPOSIT])
 	(value "DEPOSIT")
 	(value_type "ACTION"))
 

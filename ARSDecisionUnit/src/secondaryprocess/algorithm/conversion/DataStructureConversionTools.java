@@ -238,8 +238,7 @@ public class DataStructureConversionTools {
 
             // Check the inner associations, if they are associationtime, as it
             // means that is an image
-            for (clsAssociation oTPMInternalAss : poTPM
-                    .getInternalAssociatedContent()) {
+            for (clsAssociation oTPMInternalAss : poTPM.getInternalAssociatedContent()) {
                 // Internal TP-Associations are NOT checked, as they must not be
                 // converted to WP
                 // Only one internal level is converted, i. e. no images in

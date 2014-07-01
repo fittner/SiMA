@@ -20,15 +20,12 @@ public enum eInterfaces {
 	D1_2("Read access to libido storage (from F41)."),
 	D1_3("Write access to libido storage (from F39)."),
 	D1_4("Read access to libido storage (from F39)."),
+	D1_5("n/a"),
 	D2_1("Write access to blocked content (from F35)."),
 	D2_2("Read access to blocked content (from F35)."),
 	D2_3("Write access to blocked content (from F36)."),
 	D2_4("Read access to blocked content (from F36)."),
 	D3_1("n/a"),
-	D3_2("n/a"),
-	D3_3("n/a"),
-	D3_4("n/a"),
-	D3_5("n/a"),
 	D4_1("write actual pleasure to DT4"),
 	I0_1("The inner somatic stimulation source which produces a constant flow of libido is represented by this interface. The circular loop in the figure defines that this source has a not identifiable bodily source and that the amount of libido produced cannot be influenced and stays constant. I0.1 connects the physical and chemical body with F39. "),	
 	I0_2("The second incoming connection to F39 originates in the erogenous zones. "),	
@@ -50,8 +47,6 @@ public enum eInterfaces {
 //	I2_15("Self-preservation drives represented by thing presentations and their quota of affects are sent from F5 to F38."), //TD 2011/07/12 - deprecated and unused
 //	I2_18("Sexual drives in the form of thing presentations and their quota of affects is sent from F42 to F44."), //TD 2011/07/12 - deprecated and unused
 //	I2_19("Thing presentations and their quota of affects are transported from F44 to F6, F7, and F9."), //TD 2011/07/12 - deprecated and unused
-	I3_1("The total amount of libido tension as well as the pair of opposites are transmitted from F41 to F43."),
-	I3_2("Libidinous and aggressive drives represented by more or less complex associated thing presentations containing at least drive source, aim of drive, and drive object together with the tensions at the various drive sources are forwarded from F3 to F4."),
 	I3_3("The eight drives - the four partial sexual drives divided into libidinous and aggressive components - as well as the total amount of libido tension are transmitted from F43 to F42."),
 	I3_4("Pair of opposites in form of thing presentations and the tensions at the various drive source are transmitted from F4 to F48."),
 	I4_1("Drive Candidates - vector of quota of affects are forwarded from F48 to F57"),

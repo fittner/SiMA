@@ -351,7 +351,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	}
 	
 	private String GetQuotaOfAffectAsMyString(double rQoA){
-		DecimalFormat threeDec = new DecimalFormat("0.00000");
+		DecimalFormat threeDec = new DecimalFormat("0.000");
 		String shortString = (threeDec.format(rQoA));
 		return shortString;
 	}
