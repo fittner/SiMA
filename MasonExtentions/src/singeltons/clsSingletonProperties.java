@@ -28,6 +28,7 @@ public class clsSingletonProperties {
 	private boolean mnShowFacialExpressionOverlay;
 	private boolean mnShowSpeechQuestionOverlay;
 	private boolean mnShowSpeechAnswerOverlay;
+	private boolean mnAntiAliasing;
 
 	private boolean mnShowLifeIndicator;
 
@@ -43,6 +44,7 @@ public class clsSingletonProperties {
 		mnShowFacialExpressionOverlay = false;
 		mnShowSpeechQuestionOverlay = false;
 		mnShowLifeIndicator =false;
+		mnAntiAliasing=true;
 	}
 	
 	static private clsSingletonProperties _instance = null;
@@ -140,5 +142,15 @@ public class clsSingletonProperties {
 	static public void setShowFacialExpressionOverlay(boolean value) {
 		(clsSingletonProperties.instance()).mnShowFacialExpressionOverlay = value;
 	}
+	
+	static public void setAntiAliasing(boolean value) {
+		(clsSingletonProperties.instance()).mnAntiAliasing = value;
+	}
+	
+	static public boolean isAntiAliasing() {
+		return (clsSingletonProperties.instance()).mnAntiAliasing;
+	}
+	
+	
 	
 }

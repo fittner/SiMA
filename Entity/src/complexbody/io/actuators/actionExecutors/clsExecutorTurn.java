@@ -31,8 +31,8 @@ import entities.abstractEntities.clsMobile;
  */
 public class clsExecutorTurn extends clsActionExecutor{
 
-	static double srStaminaBase = 1.1f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
-	static double srStaminaScalingFactor = 0.001f;   
+	static double srStaminaBase = 1.0f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
+	static double srStaminaScalingFactor = 0.0001f;   
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 	private clsEntity moEntity;
