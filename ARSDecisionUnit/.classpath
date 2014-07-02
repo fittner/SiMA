@@ -13,6 +13,5 @@
 	<classpathentry kind="lib" path="/GeneralTools/lib/jansi-1.9.jar"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/protegeAPI.jar"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/mockito-all-1.9.5-rc1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Inspectors"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

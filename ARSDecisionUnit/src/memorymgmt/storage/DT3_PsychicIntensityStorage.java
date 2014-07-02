@@ -9,6 +9,7 @@
 package memorymgmt.storage;
 
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericTimeChart;
 import inspector.interfaces.itfInspectorInternalState;
 import inspector.interfaces.itfInspectorStackedBarChart;
@@ -547,16 +548,18 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 	        
 	    getPsychicIntensityPerModuleTable().get(rModuleNumber).setConsumedPsychicIntensity(rConsumedPsychicIntensity);
 	}
-	
+
+
+
     /* (non-Javadoc)
     *
     * @since 14.05.2014 10:33:20
     * 
     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
     */
-//   @Override
-//   public clsTimeChartPropeties getProperties() {
-//       return new clsTimeChartPropeties(true);
-//   }
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
 	
 }
