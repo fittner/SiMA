@@ -450,23 +450,29 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			e.printStackTrace();
 		}
 		
+		
+	
+		
+		//AMP We generate a random number between 0 and 0.1 so F07 requests Psychic Intensity > threshold_pyshicEnergy.
 		Random randomGenerator = new Random();
 		
+		double rRequestedPsychicIntensity = threshold_psychicEnergy + (randomGenerator.nextDouble()*0.1);
 		
-		double rRequestedPsychicIntensity = threshold_psychicEnergy + (randomGenerator.nextDouble()*(0.1 - -0.1) + -0.1);
-		
+		//AMP F07 receives the assigned psychic intensity.
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 		
-		// if there is enough psychic energy	
+		// if there is enough psychic energy, then the module check the internalied rules.
 
 		if (rReceivedPsychicEnergy > threshold_psychicEnergy
 				/* for test purposes only: */ || true)
 			checkInternalizedRules();	// check perceptions and drives, and apply internalized rules
 		
 		
-		double rConsumedPsychicIntensity = rReceivedPsychicEnergy*0.9;
+		// it is assumed that the consumed psyhic intensity equals to the recevied psychic intensity in each period.
+		double rConsumedPsychicIntensity = rReceivedPsychicEnergy;
 		
-	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
+	   // F07 informs its intensity values to the psychic intensity storage.
+		moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 				
 	}
 

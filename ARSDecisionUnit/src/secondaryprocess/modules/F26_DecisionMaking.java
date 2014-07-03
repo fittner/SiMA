@@ -258,7 +258,6 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		//moExtendedDriveList.addAll(getAvoidDrives(oPotentialGoals));		//THIS PART IS DONE BY THE EMOTIONS NOW
 		
 		
-		
 		//TEMP Add influence of feelings to goal
 		//clsDecisionPreparationTools.applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN, null);
 		//this.log.debug("Appended feelings to goal:" + moReachableGoalList_IN.toString());
@@ -277,11 +276,24 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		log.debug("Current feelings: {}", moFeeling_IN);
 		log.debug("Current feelings on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
-		//WE HAVE TO REPORT THE QUANTITY USED.
-        
+	
+
+	 
+		
+		//AMP: it is assumed that F26 request always the same amount of psychic intensity during all iterations. 
         double rRequestedPsychicIntensity = mrInitialRequestIntensity;
-        //moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
-        //double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+        
+        
+		
+        //AMP it is assumed that F26 uses all the psychic intensity that receives.
+        double rUsedPsychicIntensity = rReceivedPsychicEnergy;
+       
+        
+		//AMP F26 gives to know the intensity values to the psychic intensity storage
+		moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rUsedPsychicIntensity);
+        
+        
+       
 		
 		//Apply social rules on goals
 		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);
@@ -310,7 +322,6 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	}
 	
 
-	
 
 
 

@@ -10,7 +10,6 @@ import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.SortedMap;
 
 import memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -87,7 +86,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
 	
 	/** As soon as DT3 is implemented, replace this variable and value */
-	private double mrAvailableFocusEnergy = 5;
+	private double mrConversionRateIntensityObjectsNumber = 10;
+
 	
 	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	private static final double P_STRONGEST_GOAL_THRESHOLD = 0.8;
@@ -138,7 +138,6 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
-		text += toText.valueToTEXT("mrAvailableFocusEnergy", mrAvailableFocusEnergy);
 		
 		return text;
 	}	
@@ -284,10 +283,15 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
             oFocusOnGoalList = FocusFunctionality.extractFilterEntitiesFromAction(moPerceptionalMesh_IN, oAction);
         } catch (Exception e) {
             log.error("Cannot focus. Action {}. PI {}", oAction, this.moPerceptionalMesh_IN, e);
+            
+            
         }
+        
+        double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 		
-		//=== Filter the perception === //
-		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.
+		//=== Filter the perception === // 
+        // We assume that there is a conversion rate that allows to translate psychic intensity to a number of allowed objects to be perceived.
+		int nNumberOfAllowedObjects = (int) Math.round(mrConversionRateIntensityObjectsNumber*rReceivedPsychicEnergy);	
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		
 		//Remove all non focused objects
@@ -311,13 +315,13 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		
 		//=========================================================//
 		
-	 Random randomGenerator = new Random();
+
 	        
-	 double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	 double rRequestedPsychicIntensity = mrInitialRequestIntensity;
 	            
-	 double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+
 	        
-	 double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	 double rConsumedPsychicIntensity = rReceivedPsychicEnergy;
 	        
 	 moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	}
@@ -398,9 +402,4 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	public void setDescription() {
 		moDescription = " The task of this module is to focus the external perception on ``important'' things. Important things are decided by the plan goal, which is extracted from the Short-Term-Memory.";
 	}
-
-  
-
-
-	
 }
