@@ -273,16 +273,6 @@ public class clsImportanceTools {
 			clsWordPresentationMeshPossibleGoal copyOfSelectableGoal = clsGoalManipulationTools.createSelectableGoal(originalSelectableGoal.getGoalName(), originalSelectableGoal.getGoalSource(), originalSelectableGoal.getPotentialDriveFulfillmentImportance(), originalSelectableGoal.getGoalObject()); 
 			
 			
-			//Get the drive
-			//String oDriveContent = ((clsWordPresentationMeshGoal)oAssSec.getLeafElement()).getGoalContentIdentifier(); //.clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
-			
-			//Get the intensity
-			//double oImportance = ((clsWordPresentationMeshGoal)oAssSec.getLeafElement()).getTotalImportance();
-			//eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
-			
-			//Get the drive object
-			//clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
-			
 			if (poSupportiveDataStructure.isNullObject()==true) {
 			    if (poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
 			        copyOfSelectableGoal.setSupportiveDataStructure(clsMeshTools.createImageFromEntity(copyOfSelectableGoal.getGoalObject(), eContentType.PERCEPTIONSUPPORT));
@@ -298,8 +288,6 @@ public class clsImportanceTools {
 			
 			copyOfSelectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
 			
-			//clsWordPresentationMeshGoal oGoal = clsGoalTools.createSelectableGoal(oDriveContent, poGoalType, oImportance, eAction.NULLOBJECT, new ArrayList<clsWordPresentationMeshFeeling>(), oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
-
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;

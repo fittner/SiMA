@@ -757,8 +757,13 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		//eOrifice oOrifice = poDM.getActualBodyOrificeAsENUM();
 		eOrgan oOrgan = this.getActualDriveSourceAsENUM();
 		
+		String aim = "";
+		if (this.getActualDriveAim()!=null) {
+		    aim=this.getActualDriveAim().getContent();
+		}
+		
 		//Create the drive string from Drive component, orifice and organ
-		return oDriveComponent.toString() + oOrgan.toString() + partialDrive.toString();
+		return oDriveComponent.toString() + oOrgan.toString() + partialDrive.toString() + aim;
 	}
 
 
