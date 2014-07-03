@@ -227,7 +227,17 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         }
         
         //START PROCESS REAL ACTIONS
-
+/*
+        if(oAction.equals(eAction.FOCUS_ON.toString()) ||
+                oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString()) ||
+                oAction.equals(eAction.NONE.toString()) ||
+                oAction.equals(eAction.SEND_TO_PHANTASY.toString()) ||
+                oAction.equals(eAction.FOCUS_SEARCH1.toString()) ||
+                oAction.equals(eAction.FOCUS_TURN_LEFT.toString()) ||
+                oAction.equals(eAction.FOCUS_TURN_RIGHT.toString()) ||
+                oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())){
+            //do nothing
+        } */
         if(oAction.equals("TURN_VISION")){
             //just for Test
             java.util.Random random = new java.util.Random();

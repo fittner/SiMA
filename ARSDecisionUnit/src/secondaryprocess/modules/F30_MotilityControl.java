@@ -16,7 +16,6 @@ import java.util.SortedMap;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-import memorymgmt.enums.eActionType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -25,7 +24,6 @@ import modules.interfaces.I2_5_send;
 import modules.interfaces.I6_11_receive;
 import modules.interfaces.I6_14_receive;
 import modules.interfaces.eInterfaces;
-import secondaryprocess.functionality.PlanningFunctionality;
 import base.datatypes.clsConcept.clsEntity;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsWordPresentationMesh;
@@ -226,7 +224,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	    
 	    //Get the action if it is not an internal action
 	    moActionCommands_Output = new ArrayList<clsWordPresentationMesh>();
-	    clsWordPresentationMesh externalActionCommand = PlanningFunctionality.getActionOfType(moActionCommand_Input, eActionType.SINGLE_EXTERNAL);
+	    //clsWordPresentationMesh externalActionCommand = PlanningFunctionality.getActionOfType(moActionCommand_Input, eActionType.SINGLE_EXTERNAL);
 	   
 	    //SPEECH from F66
  
@@ -245,14 +243,14 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
               
             } */
 	    
-	    if (externalActionCommand.isNullObject()==false) {
-	        moActionCommands_Output.add(externalActionCommand);    
-	    }
+	  //  if (externalActionCommand.isNullObject()==false) {
+	  //      moActionCommands_Output.add(externalActionCommand);    
+	  //  }
 	   
 
 	
 	    
-	    //moActionCommands_Output.add(moActionCommand_Input);
+	    moActionCommands_Output.add(moActionCommand_Input);
 		
 //	 // AW HACK test, in order to be able to use both WP and plan fragements at the same time
 //        boolean bPlanFragement = true;

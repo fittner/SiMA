@@ -44,7 +44,7 @@ public class clsSingletonProperties {
 		mnShowFacialExpressionOverlay = false;
 		mnShowSpeechQuestionOverlay = false;
 		mnShowLifeIndicator =false;
-		mnAntiAliasing=true;
+		mnAntiAliasing=false;
 	}
 	
 	static private clsSingletonProperties _instance = null;
