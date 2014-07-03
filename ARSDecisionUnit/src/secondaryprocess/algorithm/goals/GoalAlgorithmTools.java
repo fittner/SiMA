@@ -255,7 +255,7 @@ public class GoalAlgorithmTools {
 		if (poGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			//Check how far away the goal is
 			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(poGoal.getGoalObject());
-			//nResult += clsImportanceTools.getEffortValueOfDistance(oPosition.b, oPosition.c);
+			nResult += clsImportanceTools.getEffortValueOfDistance(oPosition.b, oPosition.c);
 		} 
 //		if (poGoal.checkIfConditionExists(eCondition.IS_CONTEXT_SOURCE)) {
 //            

@@ -95,7 +95,7 @@ public class EntityAlgorithmTools {
                         clsDriveMesh oSecondDM = (clsDriveMesh)oSecondAss.getLeafElement();
                         //firstAssociation is compared with the secondAssociation
                         //If the content type of the DM are equal then
-                        if (oFirstDM.getDriveComponent() == oSecondDM.getDriveComponent() && oFirstDM.getActualDriveSourceAsENUM() == oSecondDM.getActualDriveSourceAsENUM()) {
+                        if (oFirstDM.getDriveIdentifier().equals(oSecondDM.getDriveIdentifier())==true) {
                             //1. Add mrPleasure from the second to the first DM
                             double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getQuotaOfAffect(), oSecondDM.getQuotaOfAffect());
                             
