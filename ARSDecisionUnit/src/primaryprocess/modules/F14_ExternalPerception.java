@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.SortedMap;
 
 import prementalapparatus.symbolization.eSymbolExtType;
@@ -35,8 +36,10 @@ import modules.interfaces.I5_1_receive;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsActivationComperator;
 import base.datahandlertools.clsDataStructureConverter;
+import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsAssociationDriveMesh;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
@@ -424,6 +427,9 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
         ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
         ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
+        clsAssociation oMatchAssociation = null;
+        clsAssociationDriveMesh oMatchAssDM = null;
+        clsDriveMesh oMatchDM = null;
                  
         // 3. similarity criterion. perceptual activation. memory-search
         oRankedCandidateTPMs = stimulusActivatesEntities(poEnvironmentalTP);            
@@ -461,12 +467,27 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             addStimulusAttributeAssociations(oSearchResult2, oOutputTPM); 
             addTPMExtern(oAssociatedTPMs, oOutputTPM); 
             
-            // d. associate category-DMs to TPM
+            // d. replace associated DMs with category-DMs
+            // d.1. remove all drive mesh associations
+            List<clsAssociationDriveMesh> oAssociationsDriveMesh = clsAssociationDriveMesh.getAllExternAssociationDriveMesh(oOutputTPM);
+            oOutputTPM.getExternalAssociatedContent().removeAll(oAssociationsDriveMesh);
             
-//            // Kollmann: this causes additional DM associations on the entity that mess up the QoA values
-//            for(clsDriveMesh oDM: oDMStimulusList){
-//                oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, oOutputTPM, oDM.getQuotaOfAffect()));
-//            }
+            // d.2. add all stimulus associations
+            for(clsDriveMesh oDM: oDMStimulusList) {
+                oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, oOutputTPM, oDM.getQuotaOfAffect()));
+            }
+            
+            // Kollmann: add a simple consistency check, if k == 1, we have to remove the same amount of assocations we add
+            if(k == 1) {
+                if(oAssociationsDriveMesh.size() != oDMStimulusList.size()) {
+                    log.error("F14 changed the number of DM association for an entity, even though there was only one candidate considered.\nEffects:" + oOutputTPM.toString());
+                }
+            } else {
+                // Kollmann: if k != 1 (which should always mean > 1) then the number of DM association should, at leas, not be reduced 
+                if(oAssociationsDriveMesh.size() > oDMStimulusList.size()) {
+                    log.error("An entity created in F14 has less DMs associated than where originally loaded from memory - this should not happen.\nEffected: " + oOutputTPM.toString());
+                }
+            }
             
             oOutputTPMs.add(oOutputTPM);
         }
@@ -707,22 +728,24 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	private HashMap<String, ArrayList<clsAssociation>> getKassDMs(long prK, ArrayList<clsDataStructureContainer> poSpecificCandidates){
 
 		ArrayList<clsAssociation> oAssDMList = new ArrayList<clsAssociation>();
-		HashMap<String, ArrayList<clsAssociation>> oAssDMforCategorization= new HashMap<String, ArrayList<clsAssociation>>();
+		HashMap<String, ArrayList<clsAssociation>> oAssDMforCategorization = new HashMap<String, ArrayList<clsAssociation>>();
 						
 		clsDriveMesh oExemplarDM = null;
 		String oDMID = null;
 	
 		for (int i=0; i<prK; i++) {
 			
-			// weight qoA with categopry appropriateness
+			// weight qoA with category appropriateness
 			for (clsAssociation oAssDM: poSpecificCandidates.get(i).getMoAssociatedDataStructures()){
-				//set categ appropriatenes as association weight (workaraound?)
+				//set category appropriateness as association weight (workaround?)
 				//oAssDM.setMrWeight();
 				oExemplarDM = (clsDriveMesh) oAssDM.getAssociationElementA();
 				oAssDM.setMrWeight(((clsThingPresentationMesh) poSpecificCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue());
 				
-				oDMID = oExemplarDM.getActualDriveSourceAsENUM().toString() + oExemplarDM.getDriveComponent();
+				//generate key value for entry (DMs will be summed up, depending on this key)
+				oDMID = oExemplarDM.getDriveIdentifier();
 				if(oAssDMforCategorization.containsKey(oDMID) == false) {
+					oAssDMList = new ArrayList<clsAssociation>();
 					oAssDMList.add(oAssDM);
 					oAssDMforCategorization.put(oDMID, oAssDMList);
 				}
@@ -750,7 +773,10 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		
 		// generate drive meshes (decide graded category membership)
 		for (String oDMID_End: oAssDMforCategorization.keySet()){
-			for(clsAssociation oAss : oAssDMforCategorization.get(oDMID_End)) {
+		    ArrayList<clsAssociation> oDMAssociations = oAssDMforCategorization.get(oDMID_End);
+		    rQoASum = 0;
+	        rMax = 0;
+		    for(clsAssociation oAss : oDMAssociations) {
 				// category appropriateness * QoA
 				rActivationValue =  oAss.getMrWeight();
 				oDMExemplar = (clsDriveMesh) oAss.getAssociationElementA();
