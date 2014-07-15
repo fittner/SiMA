@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.SortedMap;
 
 import prementalapparatus.symbolization.eSymbolExtType;
@@ -39,6 +40,7 @@ import base.datahandlertools.clsDataStructureConverter;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsAssociationDriveMesh;
 import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
@@ -490,7 +492,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             
             clsThingPresentationMesh oOutputTPM = (clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure();
             ArrayList<clsDataStructurePA> oAssociatedElementsTP = new ArrayList<clsDataStructurePA>();
-             ArrayList<clsDataStructurePA> oAssociatedElementsTPM = new ArrayList<clsDataStructurePA>();
+            ArrayList<clsDataStructurePA> oAssociatedElementsTPM = new ArrayList<clsDataStructurePA>();
 
             ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult2 = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
             extractStimulusUnknownFeaturesTP(oAssociatedElementsTP, oInputTPM, oOutputTPM);
@@ -501,10 +503,26 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             addStimulusAttributeAssociations(oSearchResult2, oOutputTPM); 
             addTPMExtern(oAssociatedTPMs, oOutputTPM); 
             
-            // d. associate category-DMs to TPM
-            for(clsDriveMesh oDM: oDMStimulusList){
+            // d. replace associated DMs with category-DMs
+            // d.1. remove all drive mesh associations
+            List<clsAssociationDriveMesh> oAssociationsDriveMesh = clsAssociationDriveMesh.getAllExternAssociationDriveMesh(oOutputTPM);
+            oOutputTPM.getExternalAssociatedContent().removeAll(oAssociationsDriveMesh);
+            
+            // d.2. add all stimulus associations
+            for(clsDriveMesh oDM: oDMStimulusList) {
                 oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, oOutputTPM, oDM.getQuotaOfAffect()));
-                
+            }
+            
+            // Kollmann: add a simple consistency check, if k == 1, we have to remove the same amount of assocations we add
+            if(k == 1) {
+                if(oAssociationsDriveMesh.size() != oDMStimulusList.size()) {
+                    log.error("F14 changed the number of DM association for an entity, even though there was only one candidate considered.\nEffects:" + oOutputTPM.toString());
+                }
+            } else {
+                // Kollmann: if k != 1 (which should always mean > 1) then the number of DM association should, at leas, not be reduced 
+                if(oAssociationsDriveMesh.size() > oDMStimulusList.size()) {
+                    log.error("An entity created in F14 has less DMs associated than where originally loaded from memory - this should not happen.\nEffected: " + oOutputTPM.toString());
+                }
             }
             
          // 5. emotion-Valuation of agents, based on memorized emotions (emotion asscociated with agent or similar agents) and current own emotions
@@ -581,13 +599,10 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             }
             
             oOutputTPMs.add(oOutputTPM);
-            
         }
         
         
         return oOutputTPMs;
-                
-
 	}
 	
 	public ArrayList<clsThingPresentationMesh> searchTPM(ArrayList<clsDataStructurePA> oAssociatedElementsTPM){
@@ -620,8 +635,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		}
 		return true;
 	}
-
-
 	public double getEmotionMatchActivation(double prPleasure, double prUnpleasure, double prLibid, double prAggr, ArrayList<Double> poCurrentEmotionValues) {
         double rDeviation = 0.0;
         rDeviation += Math.abs(prPleasure - poCurrentEmotionValues.get(0));
@@ -631,16 +644,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
         rDeviation *= 0.25;
         return (1.0 - rDeviation);
     }
-	
-	
-	
-
-	
-	
-	
-	
-
-	
 	
 	/* (non-Javadoc)
 	 *
@@ -653,10 +656,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	protected void setModuleNumber() {
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 	}
-	
-	
-
-	
 	
 	/**
 	 * Get the first element of the input arraylist
@@ -673,7 +672,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		
 		return oBestMatch; 
 	}
-	
 		
 	private  ArrayList<clsPrimaryDataStructureContainer> convertSymbolToTPM( HashMap<eSymbolExtType, itfSymbol> poData) {
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
@@ -850,24 +848,26 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	private HashMap<String, ArrayList<clsAssociation>> getKassDMs(long prK, ArrayList<clsDataStructureContainer> poSpecificCandidates){
 
 		ArrayList<clsAssociation> oAssDMList = new ArrayList<clsAssociation>();
-		HashMap<String, ArrayList<clsAssociation>> oAssDMforCategorization= new HashMap<String, ArrayList<clsAssociation>>();
+		HashMap<String, ArrayList<clsAssociation>> oAssDMforCategorization = new HashMap<String, ArrayList<clsAssociation>>();
 						
 		clsDriveMesh oExemplarDM = null;
 		String oDMID = null;
 	
 		for (int i=0; i<prK; i++) {
 			
-			// weight qoA with categopry appropriateness
+			// weight qoA with category appropriateness
 			for (clsAssociation oAssDM: poSpecificCandidates.get(i).getMoAssociatedDataStructures()){
-				//set categ appropriatenes as association weight (workaraound?)
+				//set category appropriateness as association weight (workaround?)
 				//oAssDM.setMrWeight();
 			    if(!(oAssDM.getAssociationElementA() instanceof clsDriveMesh))
                     continue;
 				oExemplarDM = (clsDriveMesh) oAssDM.getAssociationElementA();
 				oAssDM.setMrWeight(((clsThingPresentationMesh) poSpecificCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue());
 				
-				oDMID = oExemplarDM.getActualDriveSourceAsENUM().toString() + oExemplarDM.getDriveComponent();
+				//generate key value for entry (DMs will be summed up, depending on this key)
+				oDMID = oExemplarDM.getDriveIdentifier();
 				if(oAssDMforCategorization.containsKey(oDMID) == false) {
+					oAssDMList = new ArrayList<clsAssociation>();
 					oAssDMList.add(oAssDM);
 					oAssDMforCategorization.put(oDMID, oAssDMList);
 				}
@@ -895,7 +895,10 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		
 		// generate drive meshes (decide graded category membership)
 		for (String oDMID_End: oAssDMforCategorization.keySet()){
-			for(clsAssociation oAss : oAssDMforCategorization.get(oDMID_End)) {
+		    ArrayList<clsAssociation> oDMAssociations = oAssDMforCategorization.get(oDMID_End);
+		    rQoASum = 0;
+	        rMax = 0;
+		    for(clsAssociation oAss : oDMAssociations) {
 				// category appropriateness * QoA
 				rActivationValue =  oAss.getMrWeight();
 				oDMExemplar = (clsDriveMesh) oAss.getAssociationElementA();
