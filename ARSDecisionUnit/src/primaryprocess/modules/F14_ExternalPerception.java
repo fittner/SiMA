@@ -35,7 +35,6 @@ import modules.interfaces.I5_1_receive;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsActivationComperator;
 import base.datahandlertools.clsDataStructureConverter;
-import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsDataStructureContainer;
@@ -451,7 +450,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             
             clsThingPresentationMesh oOutputTPM = (clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure();
             ArrayList<clsDataStructurePA> oAssociatedElementsTP = new ArrayList<clsDataStructurePA>();
-             ArrayList<clsDataStructurePA> oAssociatedElementsTPM = new ArrayList<clsDataStructurePA>();
+            ArrayList<clsDataStructurePA> oAssociatedElementsTPM = new ArrayList<clsDataStructurePA>();
 
             ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult2 = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
             extractStimulusUnknownFeaturesTP(oAssociatedElementsTP, oInputTPM, oOutputTPM);
@@ -463,17 +462,15 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             addTPMExtern(oAssociatedTPMs, oOutputTPM); 
             
             // d. associate category-DMs to TPM
-            for(clsDriveMesh oDM: oDMStimulusList){
-                oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, oOutputTPM, oDM.getQuotaOfAffect()));
-                
-            }
+            
+//            // Kollmann: this causes additional DM associations on the entity that mess up the QoA values
+//            for(clsDriveMesh oDM: oDMStimulusList){
+//                oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, oOutputTPM, oDM.getQuotaOfAffect()));
+//            }
             
             oOutputTPMs.add(oOutputTPM);
-            
         }
         return oOutputTPMs;
-                
-
 	}
 	
 	public ArrayList<clsThingPresentationMesh> searchTPM(ArrayList<clsDataStructurePA> oAssociatedElementsTPM){
@@ -506,18 +503,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		}
 		return true;
 	}
-
-
-	
-	
-	
-
-	
-	
-	
-	
-
-	
 	
 	/* (non-Javadoc)
 	 *
@@ -530,10 +515,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	protected void setModuleNumber() {
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 	}
-	
-	
-
-	
 	
 	/**
 	 * Get the first element of the input arraylist
@@ -550,7 +531,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		
 		return oBestMatch; 
 	}
-	
 		
 	private  ArrayList<clsPrimaryDataStructureContainer> convertSymbolToTPM( HashMap<eSymbolExtType, itfSymbol> poData) {
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
