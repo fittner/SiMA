@@ -7,6 +7,9 @@
 package base.datatypes;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import base.datatypes.helpstructures.clsTriple;
@@ -40,6 +43,72 @@ public class clsAssociationDriveMesh extends clsAssociation{
 		//should be represented in case the affect is the same as the clsAssociation's weight 
 		//moContent = 1.0; 
 	}
+	
+	protected static List<clsAssociationDriveMesh> getAllAssociationDriveMesh(List<clsAssociation> poAssociations) {
+	    List<clsAssociationDriveMesh> oDriveMeshes = new ArrayList<>();
+	    
+	    for(clsAssociation oAssociation : poAssociations) {
+            if(oAssociation instanceof clsAssociationDriveMesh) {
+                oDriveMeshes.add((clsAssociationDriveMesh)oAssociation);
+            }
+        }
+	    
+	    return oDriveMeshes;
+	}
+	
+	/**
+	 * DOCUMENT - Return list of all external associations of type clsAssociationDriveMesh
+	 *
+	 * @author Kollmann
+	 * @since 15.07.2014 17:12:00
+	 *
+	 * @param poContainingDataStructure
+	 * @return List of all clsAssociationDriveMesh instances found in poContainingDataStructures extern associations
+	 */
+	public static List<clsAssociationDriveMesh> getAllExternAssociationDriveMesh(itfExternalAssociatedDataStructure poContainingDataStructure) {
+	    return getAllAssociationDriveMesh(poContainingDataStructure.getExternalAssociatedContent());
+	}
+	
+	/**
+     * DOCUMENT - Return list of all internal associations of type clsAssociationDriveMesh
+     *
+     * @author Kollmann
+     * @since 15.07.2014 17:12:00
+     *
+     * @param poContainingDataStructure
+     * @return List of all clsAssociationDriveMesh instances found in poContainingDataStructures internal associations
+     */
+    public static List<clsAssociationDriveMesh> getAllInternalAssociationDriveMesh(itfInternalAssociatedDataStructure poContainingDataStructure) {
+        return getAllAssociationDriveMesh(poContainingDataStructure.getInternalAssociatedContent());
+    }
+    
+    /**
+     * DOCUMENT - Remove all external associations of type clsAssociationDriveMesh from data structure
+     *
+     * @author Kollmann
+     * @since 15.07.2014 17:12:00
+     *
+     * @param poContainingDataStructure
+     * @return true if items where removed, false otherwise
+     */
+    public static boolean removeAllExternAssociationDriveMesh(itfExternalAssociatedDataStructure poContainingDataStructure) {
+        List<clsAssociationDriveMesh> oDriveMeshAssociations = getAllExternAssociationDriveMesh(poContainingDataStructure);
+        return poContainingDataStructure.getExternalAssociatedContent().removeAll(oDriveMeshAssociations);
+    }
+    
+    /**
+     * DOCUMENT - Remove all internal associations of type clsAssociationDriveMesh from data structure
+     *
+     * @author Kollmann
+     * @since 15.07.2014 17:12:00
+     *
+     * @param poContainingDataStructure
+     * @return true if items where removed, false otherwise
+     */
+    public static boolean removeAllInternalAssociationDriveMesh(itfInternalAssociatedDataStructure poContainingDataStructure) {
+        List<clsAssociationDriveMesh> oDriveMeshAssociations = getAllInternalAssociationDriveMesh(poContainingDataStructure);
+        return poContainingDataStructure.getInternalAssociatedContent().removeAll(oDriveMeshAssociations);
+    }
 	
 	/* (non-Javadoc)
 	 *

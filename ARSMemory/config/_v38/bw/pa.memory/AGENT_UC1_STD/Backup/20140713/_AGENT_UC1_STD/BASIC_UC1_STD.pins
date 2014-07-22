@@ -1,4 +1,4 @@
-; Tue Jul 15 11:43:33 GMT 2014
+; Wed Apr 30 12:58:31 CEST 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -164,13 +164,6 @@
 		[TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ARED])
 	(weight 1.0 1.0))
 
-([AA%3ABODO%3AGREEN] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3ABODO]
-		[TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3AGREEN])
-	(weight 1.0 1.0))
-
 ([AA%3ACAKE_BASIC%3APINK] of  ASSOCIATIONATTRIBUTE
 
 	(element
@@ -269,6 +262,13 @@
 		[TPM%3AENTITY%3ASELF%3ASELF_BASIC])
 	(weight 1.0 1.0))
 
+([AA%3ASELF_BASIC%3ACOLOR_GREEN] of  ASSOCIATIONATTRIBUTE
+
+	(element
+		[TPM%3AENTITY%3ASELF%3ASELF_BASIC]
+		[TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3AGREEN])
+	(weight 1.0 1.0))
+
 ([AA%3ASELF_BASIC%3ADISTANCE%3ANODISTANCE] of  ASSOCIATIONATTRIBUTE
 
 	(element
@@ -281,13 +281,6 @@
 	(element
 		[TPM%3AENTITY%3ASELF%3ASELF_BASIC]
 		[TP%3APOSITION%3ACENTER])
-	(weight 1.0 1.0))
-
-([AA%3ASELF_BASIC%3ARED] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[TPM%3AENTITY%3ASELF%3ASELF_BASIC]
-		[TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ARED])
 	(weight 1.0 1.0))
 
 ([AA%3AUNREAL%3AHEALTH%3ACOLOR%3AUNREAL_COLOR] of  ASSOCIATIONATTRIBUTE
@@ -1612,48 +1605,6 @@
 		[EMOTION%3ARE%3AJOY%3AMIDDLE_LOW])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3ABODO%3AANGER%3AMIDDLE] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3ABODO]
-		[EMOTION%3AANGER%3AMIDDLE])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONEMOTION%3ABODO%3AGUILT%3AMIDDLE] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3ABODO]
-		[EMOTION%3AGUILT%3AMIDDLE])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONEMOTION%3ACARL%3AANGER%3AMIDDLE] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3ACARL]
-		[EMOTION%3AANGER%3AMIDDLE])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONEMOTION%3ACARL%3AANXIETY%3AMIDDLE] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3ACARL]
-		[EMOTION%3AANXIETY%3AMIDDLE])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONEMOTION%3ASELF%3AJOY%3AMIDDLE] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AENTITY%3ASELF%3ASELF_BASIC]
-		[EMOTION%3AJOY%3AMIDDLE])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONEMOTION%3ASELF%3AMOURNING%3AMIDDLE] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AENTITY%3ASELF%3ASELF_BASIC]
-		[EMOTION%3AMOURNING%3AMIDDLE])
-	(weight 1.0 1.0))
-
 ([AT%3AA06_BEAT_BODO_L01%3ABODO] of  ASSOCIATIONTEMP
 
 	(element
@@ -2882,66 +2833,6 @@
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AANGER%3AMIDDLE] of  EMOTION
-
-	(emotionIntensity 0.6)
-	(sourceAggr 0.6)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.7)
-	(value "ANGER")
-	(value_type "BASICEMOTION"))
-
-([EMOTION%3AANXIETY%3AMIDDLE] of  EMOTION
-
-	(emotionIntensity 0.6)
-	(sourceAggr 0.3)
-	(sourceLibid 0.3)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.7)
-	(value "ANXIETY")
-	(value_type "BASICEMOTION"))
-
-([EMOTION%3AELATION%3ALOW] of  EMOTION
-
-	(emotionIntensity 0.3)
-	(sourceAggr 0.6)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.6)
-	(sourceUnpleasure 0.0)
-	(value "ELATION")
-	(value_type "BASICEMOTION"))
-
-([EMOTION%3AGUILT%3AMIDDLE] of  EMOTION
-
-	(emotionIntensity 0.4)
-	(sourceAggr 0.2)
-	(sourceLibid 0.6)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
-	(value_type "BASICEMOTION"))
-
-([EMOTION%3AJOY%3AMIDDLE] of  EMOTION
-
-	(emotionIntensity 0.6)
-	(sourceAggr 0.4)
-	(sourceLibid 0.5)
-	(sourcePleasure 0.6)
-	(sourceUnpleasure 0.0)
-	(value "JOY")
-	(value_type "BASICEMOTION"))
-
-([EMOTION%3AMOURNING%3AMIDDLE] of  EMOTION
-
-	(emotionIntensity 0.7)
-	(sourceAggr 0.2)
-	(sourceLibid 0.6)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.6)
-	(value "MOURNING")
-	(value_type "BASICEMOTION"))
-
 ([EMOTION%3ARE%3AANGER%3AHIGH] of  EMOTION
 
 	(emotionIntensity 0.9)
@@ -3999,7 +3890,7 @@
 
 	(instance_association
 		[AA%3ABODO%3AALIVE]
-		[AA%3ABODO%3AGREEN])
+		[AA%3ABODO%3ACOLOR_RED])
 	(value "BODO"))
 
 ([TPM%3AENTITY%3AARSIN%3ACARL] of  ARSIN
@@ -4056,7 +3947,7 @@
 	(class_association [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE])
 	(instance_association
 		[AA%3ASELF_BASIC%3AALIVE]
-		[AA%3ASELF_BASIC%3ARED]))
+		[AA%3ASELF_BASIC%3ACOLOR_GREEN]))
 
 ([TPM%3AENTITY%3ASMARTEXCREMENT%3ASMARTEXCREMENT01] of  SMARTEXCREMENT
 

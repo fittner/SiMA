@@ -11,6 +11,7 @@ import inspector.interfaces.itfGraphCompareInterfaces;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.SortedMap;
 
 import prementalapparatus.symbolization.eSymbolExtType;
@@ -22,6 +23,7 @@ import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEntityExternalAttributes;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.enums.eEmotionType;
 import modules.interfaces.I2_3_receive;
 import modules.interfaces.I2_4_receive;
 import modules.interfaces.I2_6_receive;
@@ -33,9 +35,12 @@ import base.datahandlertools.clsDataStructureConverter;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsAssociationDriveMesh;
+import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
@@ -48,6 +53,15 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+import bfg.utils.enums.eSide;
+import du.enums.eActionTurnDirection;
+import du.enums.eSaliency;
+import du.enums.pa.eDriveComponent;
+import du.itf.sensors.clsInspectorPerceptionItem;
+import du.itf.actions.clsInternalActionCommand;
+import du.itf.actions.clsInternalActionTurnVision;
+import du.itf.actions.itfInternalActionProcessor;
+
 /**
  * In this module neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and 
  * environment sensors can be processed by the mental functions. The generated thing presentations are associated among each others 
@@ -270,10 +284,45 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    
 	}
 	
+	public ArrayList<Double> getCurrentEmotions(ArrayList<clsDriveMesh> poDrives_IN) {
+	    ArrayList<Double> oCurrentEmotionValues = new ArrayList<Double>();
+        
+            double rCurrentP = 0.0;  // set own value
+            //     rCurrentU = rCurrentL + rCurrentA;
+            double rCurrentL = 0.0;
+            double rCurrentA = 0.0;
+            int rNumberOfLib = 0;
+            int rNumberOfAgg = 0;
+            double rQuotaOfAffect = 0.0;
+            for(clsDriveMesh DriveMesh : poDrives_IN) {
+                if((rQuotaOfAffect = DriveMesh.getQuotaOfAffect())==0.0)
+                    continue;
+                if(DriveMesh.getDriveComponent()==eDriveComponent.LIBIDINOUS) {
+                    rCurrentL += rQuotaOfAffect;
+                    rNumberOfLib++;
+                }
+                else {
+                    rCurrentA += rQuotaOfAffect;
+                    rNumberOfAgg++;
+                }
+            }
+            oCurrentEmotionValues.add(rCurrentP);
+            oCurrentEmotionValues.add((rCurrentL /= rNumberOfLib) + (rCurrentA /= rNumberOfAgg));
+            oCurrentEmotionValues.add(rCurrentL);
+            oCurrentEmotionValues.add(rCurrentA);
+        
+	    return oCurrentEmotionValues;
+    }
+
 	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
         ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
         ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
                  
+        double rImpactFactorOfCurrentEmotion = 0.5; // Personality Factor for the impact of current emotions on emotional valuation of perceived agents
+        ArrayList<Double> oCurrentEmotionValues = new ArrayList<Double>();
+        
+             
+        
         // 3. similarity criterion. perceptual activation. memory-search
         oRankedCandidateTPMs = stimulusActivatesEntities(poEnvironmentalTP);            
 
@@ -299,7 +348,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
             
             clsThingPresentationMesh oOutputTPM = (clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure();
             ArrayList<clsDataStructurePA> oAssociatedElementsTP = new ArrayList<clsDataStructurePA>();
-             ArrayList<clsDataStructurePA> oAssociatedElementsTPM = new ArrayList<clsDataStructurePA>();
+            ArrayList<clsDataStructurePA> oAssociatedElementsTPM = new ArrayList<clsDataStructurePA>();
 
             ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult2 = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
             extractStimulusUnknownFeaturesTP(oAssociatedElementsTP, oInputTPM, oOutputTPM);
@@ -310,18 +359,106 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
             addStimulusAttributeAssociations(oSearchResult2, oOutputTPM); 
             addTPMExtern(oAssociatedTPMs, oOutputTPM); 
             
-            // d. associate category-DMs to TPM
-            for(clsDriveMesh oDM: oDMStimulusList){
+            // d. replace associated DMs with category-DMs
+            // d.1. remove all drive mesh associations
+            List<clsAssociationDriveMesh> oAssociationsDriveMesh = clsAssociationDriveMesh.getAllExternAssociationDriveMesh(oOutputTPM);
+            oOutputTPM.getExternalAssociatedContent().removeAll(oAssociationsDriveMesh);
+            
+            // d.2. add all stimulus associations
+            for(clsDriveMesh oDM: oDMStimulusList) {
                 oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, oOutputTPM, oDM.getQuotaOfAffect()));
-                
+            }
+            
+            // Kollmann: add a simple consistency check, if k == 1, we have to remove the same amount of assocations we add
+            if(k == 1) {
+                if(oAssociationsDriveMesh.size() != oDMStimulusList.size()) {
+                    log.error("F14 changed the number of DM association for an entity, even though there was only one candidate considered.\nEffects:" + oOutputTPM.toString());
+                }
+            } else {
+                // Kollmann: if k != 1 (which should always mean > 1) then the number of DM association should, at leas, not be reduced 
+                if(oAssociationsDriveMesh.size() > oDMStimulusList.size()) {
+                    log.error("An entity created in F14 has less DMs associated than where originally loaded from memory - this should not happen.\nEffected: " + oOutputTPM.toString());
+                }
+            }
+            
+         // 5. emotion-Valuation of agents, based on memorized emotions (emotion asscociated with agent or similar agents) and current own emotions
+            
+            // TODO: replace this with an interface to get real current emotion state
+
+            oCurrentEmotionValues = getCurrentEmotions(moDrives_IN);
+            
+            
+            for(clsAssociation oInternalAssociation : ((clsThingPresentationMesh)poEnvironmentalTP.get(oRankedCandidateTPMs.indexOf(oRankedCandidates)).getMoDataStructure()).getInternalAssociatedContent()) {
+               
+                // is oOutputTPM an agent?
+
+                if(oInternalAssociation.getAssociationElementB().getContentType()==eContentType.Alive && ((boolean)((clsThingPresentation)oInternalAssociation.getAssociationElementB()).getContent())==true) {
+                    //################################################################
+                    double rResultP = 0.0;
+                    double rResultU = 0.0;
+                    double rResultL = 0.0;
+                    double rResultA = 0.0;
+                    double rResultActivationSum = 0.0;
+                    
+                    // only use k-exemplars
+                    for(int i=0; i<k; i++) {
+                        
+                        // initialize values: Pleasure, Unpleasure, Libid, Aggr
+                        double rPleasure = 0.0;
+                        double rUnpleasure = 0.0;
+                        double rLibid = 0.0;
+                        double rAggr = 0.0;
+                        
+                        // iterate over all associated emotions, sum & mean
+                        int rNumberOfEmotions = 0;
+                        // sum
+                        for(clsAssociation oAssociatedDataStructure : oRankedCandidates.get(i).getMoAssociatedDataStructures()) {
+                            // is an emotion?
+                            if(oAssociatedDataStructure.getContentType()==eContentType.ASSOCIATIONEMOTION) {
+                                rNumberOfEmotions++;
+                                clsEmotion oEmotionObject = ((clsAssociationEmotion)oAssociatedDataStructure).getDM();
+                                rPleasure += oEmotionObject.getSourcePleasure();
+                                rUnpleasure += oEmotionObject.getSourceUnpleasure();
+                                rLibid += oEmotionObject.getSourceLibid();
+                                rAggr += oEmotionObject.getSourceAggr();
+                            }
+                        }
+                        if(rNumberOfEmotions!=0) {
+                            // mean
+                            rPleasure /= rNumberOfEmotions;
+                            rUnpleasure /= rNumberOfEmotions;
+                            rLibid /= rNumberOfEmotions;
+                            rAggr /= rNumberOfEmotions;
+                            
+                            // EffectiveActivationValue = ActivationValue + PF * EmotionMatchActivation
+                            double rEffectiveActivationValue = ((clsThingPresentationMesh)oRankedCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue() + rImpactFactorOfCurrentEmotion * getEmotionMatchActivation(rPleasure, rUnpleasure, rLibid, rAggr, oCurrentEmotionValues);
+                            // accumulate to result
+                            rResultP += rPleasure * rEffectiveActivationValue;
+                            rResultU += rUnpleasure * rEffectiveActivationValue;
+                            rResultL += rLibid * rEffectiveActivationValue;
+                            rResultA += rAggr * rEffectiveActivationValue;
+                            rResultActivationSum += rEffectiveActivationValue;
+                        }
+                        else
+                            continue;
+                    }
+                    
+                    // there has to be at least one emotion for continuing
+                    if(rResultActivationSum!=0.0) {
+                        // mean & add result to oOutputTPM with help of clsEmotion
+                        clsEmotion oResultEmotionObject = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rResultP/rResultActivationSum, rResultU/rResultActivationSum, rResultL/rResultActivationSum, rResultA/rResultActivationSum);
+                        oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oResultEmotionObject, oOutputTPM, 1.0));
+                    }
+                    //################################################################
+                    break;
+                }
             }
             
             oOutputTPMs.add(oOutputTPM);
-            
         }
+        
+        
         return oOutputTPMs;
-                
-
 	}
 	
 	public ArrayList<clsThingPresentationMesh> searchTPM(ArrayList<clsDataStructurePA> oAssociatedElementsTPM){
@@ -354,18 +491,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}
 		return true;
 	}
-
-
-	
-	
-	
-
-	
-	
-	
-	
-
-	
+	public double getEmotionMatchActivation(double prPleasure, double prUnpleasure, double prLibid, double prAggr, ArrayList<Double> poCurrentEmotionValues) {
+        double rDeviation = 0.0;
+        rDeviation += Math.abs(prPleasure - poCurrentEmotionValues.get(0));
+        rDeviation += Math.abs(prUnpleasure - poCurrentEmotionValues.get(1));
+        rDeviation += Math.abs(prLibid - poCurrentEmotionValues.get(2));
+        rDeviation += Math.abs(prAggr - poCurrentEmotionValues.get(3));
+        rDeviation *= 0.25;
+        return (1.0 - rDeviation);
+    }
 	
 	/* (non-Javadoc)
 	 *
@@ -378,10 +512,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	protected void setModuleNumber() {
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 	}
-	
-	
-
-	
 	
 	/**
 	 * Get the first element of the input arraylist
@@ -398,7 +528,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		return oBestMatch; 
 	}
-	
 		
 	private  ArrayList<clsPrimaryDataStructureContainer> convertSymbolToTPM( HashMap<eSymbolExtType, itfSymbol> poData) {
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
@@ -575,22 +704,26 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	private HashMap<String, ArrayList<clsAssociation>> getKassDMs(long prK, ArrayList<clsDataStructureContainer> poSpecificCandidates){
 
 		ArrayList<clsAssociation> oAssDMList = new ArrayList<clsAssociation>();
-		HashMap<String, ArrayList<clsAssociation>> oAssDMforCategorization= new HashMap<String, ArrayList<clsAssociation>>();
+		HashMap<String, ArrayList<clsAssociation>> oAssDMforCategorization = new HashMap<String, ArrayList<clsAssociation>>();
 						
 		clsDriveMesh oExemplarDM = null;
 		String oDMID = null;
 	
 		for (int i=0; i<prK; i++) {
 			
-			// weight qoA with categopry appropriateness
+			// weight qoA with category appropriateness
 			for (clsAssociation oAssDM: poSpecificCandidates.get(i).getMoAssociatedDataStructures()){
-				//set categ appropriatenes as association weight (workaraound?)
+				//set category appropriateness as association weight (workaround?)
 				//oAssDM.setMrWeight();
+			    if(!(oAssDM.getAssociationElementA() instanceof clsDriveMesh))
+                    continue;
 				oExemplarDM = (clsDriveMesh) oAssDM.getAssociationElementA();
 				oAssDM.setMrWeight(((clsThingPresentationMesh) poSpecificCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue());
 				
-				oDMID = oExemplarDM.getActualDriveSourceAsENUM().toString() + oExemplarDM.getDriveComponent();
+				//generate key value for entry (DMs will be summed up, depending on this key)
+				oDMID = oExemplarDM.getDriveIdentifier();
 				if(oAssDMforCategorization.containsKey(oDMID) == false) {
+					oAssDMList = new ArrayList<clsAssociation>();
 					oAssDMList.add(oAssDM);
 					oAssDMforCategorization.put(oDMID, oAssDMList);
 				}
@@ -618,7 +751,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		// generate drive meshes (decide graded category membership)
 		for (String oDMID_End: oAssDMforCategorization.keySet()){
-			for(clsAssociation oAss : oAssDMforCategorization.get(oDMID_End)) {
+		    ArrayList<clsAssociation> oDMAssociations = oAssDMforCategorization.get(oDMID_End);
+		    rQoASum = 0;
+	        rMax = 0;
+		    for(clsAssociation oAss : oDMAssociations) {
 				// category appropriateness * QoA
 				rActivationValue =  oAss.getMrWeight();
 				oDMExemplar = (clsDriveMesh) oAss.getAssociationElementA();
