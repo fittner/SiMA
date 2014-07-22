@@ -8,6 +8,7 @@ package base.datatypes;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -258,11 +259,12 @@ public abstract class clsAssociation extends clsDataStructurePA{
 			    return null;
 			}
 	        if (this.getRootElement().equals(poOriginalObject)==false && this.getLeafElement().equals(poOriginalObject)==false) {
-	            try {
-	                throw new Exception("Orphan association");
-	            } catch (Exception e) {
-	                log.error("Association is orphan. The association has to be connected with one of its sources", e);
-	            }
+	            log.error("Association is orphan. The association has to be connected with one of its sources");
+	            log.error("Association: " + this.toString());
+	            log.error("\tRoot: " + getRootElement().toString());
+	            log.error("\tLeaf: " + getLeafElement().toString());
+	            log.error("OriginalObject: " + poOriginalObject.toString());
+	            log.error("ClonedObject: " + poClonedObject.toString());
 	        }
 		    
     		//Clone the association itself
@@ -460,4 +462,172 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		return oResult;
 	}
 	
+	static private clsAssociation findAssociationInList(clsAssociation poAssociation, List<clsAssociation> poAssList) {
+	    clsAssociation oFoundAssociation = null;
+	    
+	    if(poAssList.contains(poAssociation)) {
+	        oFoundAssociation = poAssociation;
+	    } else {
+	        for(clsAssociation oCandidate : poAssList) {
+	            if(oCandidate.isCloneOf(poAssociation)) {
+	                if(oFoundAssociation == null) {
+	                    oFoundAssociation = oCandidate;
+	                } else {
+	                    log.error("Two or more associations are so equal they might be clones.");
+	                    log.error("List: " + poAssList.toString());
+	                    log.error("Association: " + oCandidate.toString());
+	                }
+	            }
+	        }
+	    }
+	    
+	    return oFoundAssociation;
+	}
+	
+	/**
+     * DOCUMENT - Convenience function that only checks which association interfaces the data structure supports
+     *            and attempts to disconnect the association from the data structure (on a trial error basis).
+     *            
+     *            Disconnecting affects both directions, meaning that disconnecting will remove the association
+     *            from the collection of associations AND set the reference from the association to the data
+     *            structure to null
+     *
+     * @author Kollmann
+     * @since 16.07.2014 17:11:11
+     *
+     * @param poAssociation
+     * @param poDataStructure
+     * @return
+     */
+    protected static boolean disconnectAssociation(clsAssociation poAssociation, clsDataStructurePA poDataStructure) {
+        boolean bDisconnected = false;
+        
+        //Kollmann 22.07.2014: It happens that the associations are not properly connected (possibly due to cloning errors)
+        //                     Example:
+        //                      ASS1.A -> TMP1                 // OK
+        //                      TMP1.externalAss -> ASS1       // OK
+        //                      ASS1.B -> TMP2                 // OK
+        //                      TMP2.internalAss -> ASS2       // ERROR - TPM2 should also point to ASS 1
+        //
+        //                     Since I can not solve that problem quickly, I do not use poAssociation directly, but instead
+        //                     I first find the corresponding association (even if it is not EXACTLY the right object) and
+        //                     use that instead.
+        clsAssociation oAssociationObject = null;
+        
+        if(poDataStructure instanceof itfInternalAssociatedDataStructure) {
+            oAssociationObject = findAssociationInList(poAssociation, ((itfInternalAssociatedDataStructure)poDataStructure).getInternalAssociatedContent());
+            if(oAssociationObject != null) {
+                bDisconnected |= ((itfInternalAssociatedDataStructure)poDataStructure).getInternalAssociatedContent().remove(oAssociationObject);
+            }
+        }
+        
+        if(poDataStructure instanceof itfExternalAssociatedDataStructure) {
+            oAssociationObject = findAssociationInList(poAssociation, ((itfExternalAssociatedDataStructure)poDataStructure).getExternalAssociatedContent());
+            if(oAssociationObject != null) {
+                bDisconnected |= ((itfExternalAssociatedDataStructure)poDataStructure).getExternalAssociatedContent().remove(oAssociationObject);
+            }
+        }
+        
+        if(!bDisconnected) {
+            log.warn("While trying to disconnect a data structure from an association, neither the association, nor a clone of the association could be founde.");
+            log.warn("Datastructure: " + poDataStructure.toString());
+            log.warn("Association: " + poAssociation.toString());
+        }
+        
+        bDisconnected |= removeAssociationElement(poAssociation, poDataStructure);
+        
+        return bDisconnected;
+    }
+    
+    protected static boolean removeAssociationElement(clsAssociation poAssociation, clsDataStructurePA poDataStructure) {
+        boolean bRemoved = true;
+        
+        if(bRemoved) {
+            if(poAssociation.getAssociationElementA() == poDataStructure) {
+                poAssociation.setAssociationElementA(null);
+            } else if(poAssociation.getAssociationElementB() == poDataStructure) {
+                poAssociation.setAssociationElementB(null);
+            } else {
+                bRemoved = false;
+                log.error("Could not remove association from clsPhysicalStructureComposition since the "
+                        + "association does not point to the clsPhysicalStructureComposition."
+                        + "\nclsPhysicalStructureComposition: " + poDataStructure.toString() 
+                        + "\nAssociation: " + poAssociation.toString());
+            }
+        }
+        
+        return bRemoved;
+    }
+    
+    public static boolean removeAssociationCompletely(clsAssociation poAssociation) {
+        boolean bRemoved = true;
+    
+        bRemoved &= disconnectAssociation(poAssociation, poAssociation.getAssociationElementA());
+        bRemoved &= disconnectAssociation(poAssociation, poAssociation.getAssociationElementB());
+        
+        return bRemoved;
+    }
+    
+//    /* (non-Javadoc)
+//     *
+//     * @since 16.07.2014 17:11:31
+//     * 
+//     * @see base.datatypes.itfExternalAssociatedDataStructure#removeExternalAssociationCompletely(base.datatypes.clsAssociation)
+//     */
+//    @Override
+//    public boolean removeExternalAssociationCompletely(clsAssociation poAssociation) {
+//        boolean bRemoved = false;
+//    
+//        if(moExternalAssociatedContent.contains(poAssociation)) {
+//            //Disconnect from element A
+//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementA());
+//            
+//            //Disconnect from element B
+//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementB());
+//        }
+//        
+//        return bRemoved;
+//    }
+//    
+//    /* (non-Javadoc)
+//     *
+//     * @since 16.07.2014 17:11:33
+//     * 
+//     * @see base.datatypes.itfInternalAssociatedDataStructure#removeInternalAssociationFromThis(base.datatypes.clsAssociation)
+//     */
+//    @Override
+//    public boolean removeInternalAssociationFromThis(clsAssociation poAssociation) {
+//        boolean bRemoved = false;
+//        
+//        if(poAssociation.getAssociationElementA() == this) {
+//            //Disconnect from element A
+//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementA());
+//        } else {
+//            //Disconnect from element B
+//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementA());
+//        } 
+//        
+//        return bRemoved;
+//    }
+//    
+//    /* (non-Javadoc)
+//     *
+//     * @since 16.07.2014 17:11:36
+//     * 
+//     * @see base.datatypes.itfInternalAssociatedDataStructure#removeInternalAssociationCompletely(base.datatypes.clsAssociation)
+//     */
+//    @Override
+//    public boolean removeInternalAssociationCompletely(clsAssociation poAssociation) {
+//        boolean bRemoved = false;
+//        
+//        if(moExternalAssociatedContent.contains(poAssociation)) {
+//            //Disconnect from element A
+//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementA());
+//            
+//            //Disconnect from element B
+//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementB());
+//        }
+//        
+//        return bRemoved;
+//    }
 }
