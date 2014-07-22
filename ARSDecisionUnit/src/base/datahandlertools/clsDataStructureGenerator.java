@@ -19,6 +19,7 @@ import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
+import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsAssociationPrimaryDM;
 import base.datatypes.clsAssociationSecondary;
@@ -272,6 +273,17 @@ public abstract class clsDataStructureGenerator {
 		
 		return oRetVal;
 	}
+	
+	public static clsAssociation generateASSOCIATIONEMOTION(eContentType poContentType, 
+            clsEmotion poRoot, clsThingPresentationMesh poLeaf, double prWeight) {
+        clsAssociation oRetVal=null;
+        eContentType oContentType = poContentType;  
+        
+        oRetVal = new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONEMOTION, oContentType), poRoot, poLeaf);
+        oRetVal.setMrWeight(prWeight);
+        
+        return oRetVal;
+    }
 	
 	
 	

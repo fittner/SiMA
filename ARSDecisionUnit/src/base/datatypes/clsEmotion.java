@@ -127,7 +127,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		String oResult = "::"+this.moDataStructureType+"::";
 		oResult += this.moDS_ID + ":";
 		try{
-		oResult += this.moContentType + ":";
+		//oResult += this.moContentType + ":";
 		oResult += this.moContent + ":";
 		
 		if(moExternalAssociatedContent != null)
@@ -141,6 +141,11 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		df.setMaximumFractionDigits(2);
 		
 		oResult += " intensity: " + df.format(mrEmotionIntensity);
+		oResult += " U: " + df.format(mrSourceUnpleasure);
+		oResult += " A: "+ df.format(mrSourceAggr);
+		oResult += " L: "+ df.format(mrSourceLibid);
+		oResult += " P: "+ df.format(mrSourcePleasure);
+		
 		}
 		catch(Exception e){
 			System.out.printf(e + "\n" + e.getStackTrace().toString());

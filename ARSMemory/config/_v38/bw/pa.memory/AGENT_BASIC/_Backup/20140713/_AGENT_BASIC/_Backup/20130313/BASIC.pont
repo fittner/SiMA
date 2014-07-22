@@ -1,4 +1,4 @@
-; Tue Jul 15 11:43:33 GMT 2014
+; Wed Mar 06 12:17:44 CET 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -12,50 +12,29 @@
 ;+		(allowed-classes WP)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot sourceUnpleasure
+	(single-slot cathegory%3Aoral
+;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
 		(type FLOAT)
+		(range 0.0 1.0)
 		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot action
-		(type INSTANCE)
-;+		(allowed-classes WPM%3AACTION)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Value
+;+		(comment "EmotionType")
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot instance_type
+		(type INSTANCE)
+;+		(allowed-classes TPM TP)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot weight
+		(type FLOAT)
 		(create-accessor read-write))
 	(single-slot elementB
 		(type INSTANCE)
 ;+		(allowed-classes WP)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot drive_component
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot type
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot consequence
-		(type INSTANCE)
-;+		(allowed-classes WP _OBSOLETE_ACT)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(single-slot object
-		(type INSTANCE)
-;+		(allowed-classes WPM%3AENTITY)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot feeling
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot drive_source
-		(type INSTANCE)
-;+		(allowed-classes)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot cathegory%3Aanal
@@ -70,13 +49,19 @@
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot predicate
-		(type STRING)
-;+		(cardinality 1 1)
+	(single-slot sourcePleasure
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(multislot precondition
+	(single-slot drive_representation
+		(type STRING)
+;+		(value "DRIVEREPRESENTATION")
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot consequence
 		(type INSTANCE)
-;+		(allowed-classes WP WPM)
+;+		(allowed-classes WP _OBSOLETE_ACT)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot emotionIntensity
@@ -85,56 +70,7 @@
 		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot partial_drive
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot feelingIntensity
-		(type FLOAT)
-		(range 0.0 1.0)
-		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot ext_assdatastructure
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(single-slot quotaOfAffect
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot sourceAggr
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot Value
-;+		(comment "EmotionType")
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot sourceLibid
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot emotion
-		(type INSTANCE)
-;+		(allowed-classes EMOTION)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(single-slot psychic_satisfaction
-		(type FLOAT)
-		(range 0.0 1.0)
-		(default 1.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot element
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
@@ -145,31 +81,9 @@
 		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot weight
+	(single-slot value_max
 		(type FLOAT)
-		(create-accessor read-write))
-	(single-slot value
-;+		(type ANY)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(single-slot instance_type
-		(type INSTANCE)
-;+		(allowed-classes TPM TP)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot drive_representation
-		(type STRING)
-;+		(value "DRIVEREPRESENTATION")
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot FeelingIntensity
-		(type FLOAT)
-		(range 0.0 1.0)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot cathegory%3Agenital
 ;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
@@ -178,42 +92,80 @@
 		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot sourcePleasure
+	(single-slot sourceLibid
 		(type FLOAT)
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot value_max
+	(single-slot action
+		(type INSTANCE)
+;+		(allowed-classes WP)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(multislot precondition
+		(type INSTANCE)
+;+		(allowed-classes WP _OBSOLETE_ACT)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot partial_drive
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot sourceUnpleasure
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot predicate
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot type
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot drive_component
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot drive_source
+		(type INSTANCE)
+;+		(allowed-classes)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot sourceAggr
 		(type FLOAT)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot cathegory%3Aoral
-;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
+	(single-slot quotaOfAffect
 		(type FLOAT)
-		(range 0.0 1.0)
 		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot element
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(multislot instance_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+;+		(type ANY)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass TPM
 	(is-a USER)
 	(role abstract)
-	(single-slot value
-;+		(type ANY)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
 ;+		(value "TPM")
@@ -222,18 +174,34 @@
 	(single-slot value_type
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot instance_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot value
+;+		(type ANY)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass TPM%3AENTITY
 	(is-a TPM)
 	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
 ;+		(value "ENTITY")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -359,24 +327,16 @@
 	(is-a TPM%3AENTITY)
 	(role concrete))
 
-(defclass PLANT
-	(is-a TPM%3AENTITY)
-	(role concrete))
-
-(defclass WORDING
-	(is-a TPM%3AENTITY)
-	(role concrete))
-
 (defclass TPM%3ABODYPART
 	(is-a TPM)
 	(role abstract)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
 		(default "BODYPART")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -409,14 +369,6 @@
 (defclass TPM%3AIMAGE
 	(is-a TPM)
 	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes ASSOCIATIONTEMP)
-		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
 ;+		(value "TPM")
@@ -425,6 +377,14 @@
 	(single-slot value_type
 		(type STRING)
 		(default "RI")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot instance_association
+		(type INSTANCE)
+;+		(allowed-classes ASSOCIATIONTEMP)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -465,22 +425,6 @@
 (defclass WP
 	(is-a USER)
 	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
 ;+		(value "WP")
@@ -489,6 +433,22 @@
 	(single-slot value_type
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot instance_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass _OBSOLETE_WP%3ARELATION
@@ -579,28 +539,15 @@
 (defclass _OBSOLETE_ACT
 	(is-a USER)
 	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot precondition
-		(type INSTANCE)
-;+		(allowed-classes WP WPM)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
 	(multislot consequence
 		(type INSTANCE)
 ;+		(allowed-classes WP _OBSOLETE_ACT)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot action
+	(multislot precondition
 		(type INSTANCE)
-;+		(allowed-classes WPM%3AACTION)
-;+		(cardinality 1 1)
+;+		(allowed-classes WP _OBSOLETE_ACT)
+		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
@@ -609,6 +556,275 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot action
+		(type INSTANCE)
+;+		(allowed-classes WP)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass TP
+	(is-a USER)
+	(role abstract)
+	(single-slot type
+		(type STRING)
+;+		(value "TP")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot instance_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot value
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass _OBSOLETE_ACTION
+	(is-a TP)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "ACTION")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass SENSOR_INT
+	(is-a TP)
+	(role abstract))
+
+(defclass STAMINA
+	(is-a SENSOR_INT)
+	(role concrete))
+
+(defclass TEMPERATURE
+	(is-a SENSOR_INT)
+	(role concrete))
+
+(defclass FASTMESSENGER
+	(is-a SENSOR_INT)
+	(role concrete))
+
+(defclass STOMACHTENSION
+	(is-a SENSOR_INT)
+	(role concrete))
+
+(defclass HEARTBEAT
+	(is-a SENSOR_INT)
+	(role concrete))
+
+(defclass ENERGY_CONSUMPTION
+	(is-a SENSOR_INT)
+	(role concrete))
+
+(defclass INTENSITY
+	(is-a TP)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "INTENSITY")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass POSITIONCHANGE
+	(is-a TP)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "PositionChange")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass POSITION
+	(is-a TP)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "POSITION")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass DISTANCE
+	(is-a TP)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "DISTANCE")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass SENSOR_EXT
+	(is-a TP)
+	(role abstract))
+
+(defclass TASTE
+	(is-a SENSOR_EXT)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "TASTE")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass TACTILE
+	(is-a SENSOR_EXT)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "TACTILE")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass BUMP
+	(is-a SENSOR_EXT)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "BUMP")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass OLFACTORIC
+	(is-a SENSOR_EXT)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "OLFACTORIC")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass CONSUMEABLE
+	(is-a SENSOR_EXT)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "CONSUMEABLE")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass ACOUSTIC
+	(is-a SENSOR_EXT)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "ACOUSTIC")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass VISION
+	(is-a SENSOR_EXT)
+	(role abstract))
+
+(defclass SHAPE
+	(is-a VISION)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "ShapeType")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass COLOR
+	(is-a VISION)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "Color")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass ACCELERATION
+	(is-a SENSOR_EXT)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "ACCELERATION")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass RADIATION
+	(is-a SENSOR_EXT)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "RADIATION")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass ALIVE
+	(is-a SENSOR_EXT)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "Alive")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -626,10 +842,6 @@
 		(default 1.0 1.0)
 		(cardinality 1 2)
 		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
 ;+		(cardinality 1 1)
@@ -637,6 +849,10 @@
 	(single-slot value_type
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass ASSOCIATIONATTRIBUTE
@@ -706,7 +922,7 @@
 	(role concrete)
 	(multislot element
 		(type INSTANCE)
-;+		(allowed-classes TPM%3AIMAGE TPM%3AENTITY TPM%3AACTION PRIMARYINSTANCEOBJECT PRIMARYINSTANCEACTION)
+;+		(allowed-classes TPM%3AIMAGE TPM%3AENTITY TPM%3AACTION PRIMARYINSTANCE)
 		(cardinality 2 2)
 		(create-accessor read-write))
 	(single-slot type
@@ -723,14 +939,14 @@
 (defclass ASSOCIATIONSEC "IMPORTANT: This association has a direction. Therefore the first element in the elementlist has to be the domain and the second element has to be the range"
 	(is-a ASSOCIATION)
 	(role concrete)
-	(multislot element
-		(type INSTANCE)
-;+		(allowed-classes WP _OBSOLETE_ACT WPM FEELING)
-		(cardinality 2 2)
-		(create-accessor read-write))
 	(single-slot predicate
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot element
+		(type INSTANCE)
+;+		(allowed-classes WP _OBSOLETE_ACT WPM)
+		(cardinality 2 2)
 		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
@@ -757,38 +973,35 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass ASSOCIATIONFEELING
-	(is-a ASSOCIATION)
-	(role concrete)
-	(single-slot type
-		(type STRING)
-;+		(value "ASSOCIATIONFEELING")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "ASSOCIATIONFEELING")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
 (defclass DM
 	(is-a USER)
 	(role abstract)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot partial_drive
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot %3ANAME
+	(single-slot quotaOfAffect
+		(type FLOAT)
+		(range -1.0 1.0)
+		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot type
 		(type STRING)
-;+		(cardinality 0 1)
+;+		(value "DM")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot instance_association
 		(type INSTANCE)
 ;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot drive_component
 		(type STRING)
@@ -798,26 +1011,9 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
-	(single-slot psychic_satisfaction
-		(type FLOAT)
-		(range 0.0 1.0)
-		(default 1.0)
+	(single-slot %3ANAME
+		(type STRING)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot type
-		(type STRING)
-;+		(value "DM")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot quotaOfAffect
-		(type FLOAT)
-		(range -1.0 1.0)
-		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass DM_Stomach
@@ -876,21 +1072,15 @@
 	(is-a DM)
 	(role concrete))
 
+(defclass _TEMP_DM_PRIDM
+	(is-a DM)
+	(role concrete))
+
 (defclass AFFECT
 	(is-a USER)
 	(role concrete)
-	(single-slot value_min
+	(single-slot value_max
 		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot value
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot type
@@ -902,8 +1092,18 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot value_max
+	(single-slot value
 		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_min
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -911,329 +1111,27 @@
 	(is-a USER)
 	(role concrete))
 
-(defclass PRIMARYINSTANCEOBJECT "all instances of all types with intrinsic values"
+(defclass PRIMARYINSTANCE "all instances of all types with intrinsic values"
 	(is-a USER)
 	(role concrete)
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
-;+		(value "PRIINSTANCEOBJECT")
+;+		(value "PRIINSTANCE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot instance_type
 		(type INSTANCE)
 ;+		(allowed-classes TPM TP)
 ;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass PRIMARYINSTANCEACTION "all instances of all actions with intrinsic values"
-	(is-a USER)
-	(role concrete)
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot type
-		(type STRING)
-;+		(value "PRIINSTANCEACTION")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot instance_type
-		(type INSTANCE)
-;+		(allowed-classes TPM%3AACTION)
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass TP
-	(is-a USER)
-	(role abstract)
-	(single-slot value
-		(type FLOAT)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot %3ANAME
 		(type STRING)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(single-slot type
-		(type STRING)
-;+		(value "TP")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write)))
-
-(defclass _OBSOLETE_ACTION
-	(is-a TP)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "ACTION")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass SENSOR_INT
-	(is-a TP)
-	(role abstract))
-
-(defclass STAMINA
-	(is-a SENSOR_INT)
-	(role concrete))
-
-(defclass TEMPERATURE
-	(is-a SENSOR_INT)
-	(role concrete))
-
-(defclass FASTMESSENGER
-	(is-a SENSOR_INT)
-	(role concrete))
-
-(defclass STOMACHTENSION
-	(is-a SENSOR_INT)
-	(role concrete))
-
-(defclass HEARTBEAT
-	(is-a SENSOR_INT)
-	(role concrete))
-
-(defclass ENERGY_CONSUMPTION
-	(is-a SENSOR_INT)
-	(role concrete))
-
-(defclass INTENSITY
-	(is-a TP)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "INTENSITY")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass POSITIONCHANGE
-	(is-a TP)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "PositionChange")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass POSITION
-	(is-a TP)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "POSITION")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass DISTANCE
-	(is-a TP)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "DISTANCE")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass SENSOR_EXT
-	(is-a TP)
-	(role abstract))
-
-(defclass TASTE
-	(is-a SENSOR_EXT)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "TASTE")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass TACTILE
-	(is-a SENSOR_EXT)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "TACTILE")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass BUMP
-	(is-a SENSOR_EXT)
-	(role concrete)
-	(single-slot value
-		(type SYMBOL)
-		(allowed-values FALSE TRUE)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "BUMP")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass OLFACTORIC
-	(is-a SENSOR_EXT)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "OLFACTORIC")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass CONSUMEABLE
-	(is-a SENSOR_EXT)
-	(role concrete)
-	(single-slot value
-		(type SYMBOL)
-		(allowed-values FALSE TRUE)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "CONSUMEABLE")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass ACOUSTIC
-	(is-a SENSOR_EXT)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "ACOUSTIC")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass VISION
-	(is-a SENSOR_EXT)
-	(role abstract))
-
-(defclass SHAPE
-	(is-a VISION)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "ShapeType")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass COLOR
-	(is-a VISION)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "Color")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass ACCELERATION
-	(is-a SENSOR_EXT)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "ACCELERATION")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass RADIATION
-	(is-a SENSOR_EXT)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "RADIATION")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass ALIVE
-	(is-a SENSOR_EXT)
-	(role concrete)
-	(single-slot value
-		(type SYMBOL)
-		(allowed-values FALSE TRUE)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "Alive")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass ACTION_PROPERTIES
-	(is-a TP)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass NAME
-	(is-a ACTION_PROPERTIES)
-	(role concrete))
 
 (defclass WPM "Word presentation mesh"
 	(is-a USER)
 	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
 ;+		(value "WPM")
@@ -1242,6 +1140,22 @@
 	(single-slot value_type
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot instance_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass WPM%3AIMAGE
@@ -1267,15 +1181,9 @@
 (defclass EMOTION "Emotion"
 	(is-a USER)
 	(role concrete)
-	(single-slot emotionIntensity
+	(single-slot sourceAggr
 		(type FLOAT)
-		(range 0.0 1.0)
-		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot sourceUnpleasure
 		(type FLOAT)
@@ -1287,114 +1195,39 @@
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot %3ANAME
+	(single-slot type
 		(type STRING)
-;+		(cardinality 0 1)
+;+		(value "EMOTION")
+;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes)
+	(single-slot emotionIntensity
+		(type FLOAT)
+		(range 0.0 1.0)
+		(default 0.0)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot sourcePleasure
 		(type FLOAT)
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(single-slot type
-		(type STRING)
-;+		(value "EMOTION")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot sourceAggr
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write)))
-
-(defclass DOMAIN
-	(is-a USER)
-	(role concrete)
-	(single-slot value
-;+		(type ANY)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot precondition
-		(type INSTANCE)
-;+		(allowed-classes WP WPM)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(multislot consequence
-		(type INSTANCE)
-;+		(allowed-classes WP _OBSOLETE_ACT)
-		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot action
-		(type INSTANCE)
-;+		(allowed-classes WPM%3AACTION)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot emotion
-		(type INSTANCE)
-;+		(allowed-classes EMOTION)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot instance_association
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
-	(single-slot type
-		(type STRING)
-;+		(value "DOMAIN")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass FEELING "Feeling"
-	(is-a USER)
-	(role concrete)
 	(single-slot value
 		(type STRING)
 ;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot feelingIntensity
-		(type FLOAT)
-		(range 0.0 1.0)
-		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes)
 		(create-accessor read-write))
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
-	(single-slot type
+	(single-slot %3ANAME
 		(type STRING)
-;+		(value "FEELING")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(cardinality 1 1)
+;+		(cardinality 0 1)
 		(create-accessor read-write)))
