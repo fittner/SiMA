@@ -45,6 +45,7 @@ import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.enums.eDriveComponent;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -53,14 +54,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import bfg.utils.enums.eSide;
-import du.enums.eActionTurnDirection;
-import du.enums.eSaliency;
-import du.enums.pa.eDriveComponent;
-import du.itf.sensors.clsInspectorPerceptionItem;
-import du.itf.actions.clsInternalActionCommand;
-import du.itf.actions.clsInternalActionTurnVision;
-import du.itf.actions.itfInternalActionProcessor;
 
 /**
  * In this module neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and 

@@ -19,5 +19,6 @@
 	<classpathentry kind="lib" path="/GeneralTools/lib/mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/jmf.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Inspectors"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CommunicationInterface"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
