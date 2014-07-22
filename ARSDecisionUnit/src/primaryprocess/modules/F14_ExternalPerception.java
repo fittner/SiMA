@@ -506,7 +506,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
             // d. replace associated DMs with category-DMs
             // d.1. remove all drive mesh associations
             List<clsAssociationDriveMesh> oAssociationsDriveMesh = clsAssociationDriveMesh.getAllExternAssociationDriveMesh(oOutputTPM);
-            oOutputTPM.getExternalAssociatedContent().removeAll(oAssociationsDriveMesh);
+            clsAssociationDriveMesh.removeAllExternAssociationDriveMesh(oOutputTPM);
             
             // d.2. add all stimulus associations
             for(clsDriveMesh oDM: oDMStimulusList) {
@@ -759,7 +759,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 							}
 										
 							for(clsAssociation oAss: oRemoveAss){
-								oUnknownTPM.removeInternalAssociation(oAss);
+								oUnknownTPM.getInternalAssociatedContent().remove(oAss);
 								oUnknownTPM.addExternalAssociation(oAss);
 							}
 							
