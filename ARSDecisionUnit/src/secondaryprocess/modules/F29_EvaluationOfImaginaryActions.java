@@ -564,9 +564,10 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         oData.add(new ArrayList<Double>()); // idx 0 = Drive Demand Importance
         oData.add(new ArrayList<Double>()); // idx 1 = Drive Demand Correction Importance
         oData.add(new ArrayList<Double>()); // idx 2 = Effort Impact Importance
-        oData.add(new ArrayList<Double>()); // idx 3 = Feelings Importance
-        oData.add(new ArrayList<Double>()); // idx 4 = Social Rules Importance
-        oData.add(new ArrayList<Double>()); // idx 5 = Unknown influence
+        oData.add(new ArrayList<Double>()); // idx 3 = Drive Aim Importance
+        oData.add(new ArrayList<Double>()); // idx 4 = Feelings Importance
+        oData.add(new ArrayList<Double>()); // idx 5 = Social Rules Importance
+        oData.add(new ArrayList<Double>()); // idx 6 = Unknown influence
         
         double rTotalImportance;
 
@@ -578,11 +579,13 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             rTotalImportance += oGoal.getDriveDemandCorrectionImportance();
             oData.get(2).add(oGoal.getEffortImpactImportance());
             rTotalImportance += oGoal.getEffortImpactImportance();
-            oData.get(3).add(oGoal.getFeelingsImportance());
+            oData.get(3).add(oGoal.getDriveAimImportance());
+            rTotalImportance += oGoal.getDriveAimImportance();
+            oData.get(4).add(oGoal.getFeelingsImportance());
             rTotalImportance += oGoal.getFeelingsImportance();
-            oData.get(4).add(oGoal.getSocialRulesImportance());
+            oData.get(5).add(oGoal.getSocialRulesImportance());
             rTotalImportance += oGoal.getSocialRulesImportance();
-            oData.get(5).add(oGoal.getTotalImportance() - rTotalImportance);
+            oData.get(6).add(oGoal.getTotalImportance() - rTotalImportance);
         }
 
         return oData;
@@ -602,6 +605,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         oResult.add("Drive Demand Importance");
         oResult.add("Drive Demand Correction Importance");
         oResult.add("Effort Impact Importance");
+        oResult.add("Drive Aim Importance");
         oResult.add("Feelings Importance");
         oResult.add("Social Rules Importance");
         oResult.add("Unknown factors");

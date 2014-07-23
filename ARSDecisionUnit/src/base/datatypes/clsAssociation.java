@@ -265,6 +265,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	            log.error("\tLeaf: " + getLeafElement().toString());
 	            log.error("OriginalObject: " + poOriginalObject.toString());
 	            log.error("ClonedObject: " + poClonedObject.toString());
+	            log.error("Stack: ", new Exception());
 	        }
 		    
     		//Clone the association itself
