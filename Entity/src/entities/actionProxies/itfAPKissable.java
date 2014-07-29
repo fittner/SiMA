@@ -6,7 +6,7 @@
  */
 package entities.actionProxies;
 
-import du.enums.eActionKissIntensity;
+import complexbody.io.sensors.datatypes.enums.eActionKissIntensity;
 
 /**
  * Proxy-Interface for action Kiss

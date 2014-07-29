@@ -12,6 +12,8 @@ import java.awt.Color;
 
 import java.util.ArrayList;
 
+import datatypes.clsPoint;
+
 import properties.clsProperties;
 
 
@@ -21,7 +23,6 @@ import sim.physics2D.shape.Shape;
 import singeltons.clsSingletonProperties;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
-import bfg.tools.shapes.clsPoint;
 
 
 /**

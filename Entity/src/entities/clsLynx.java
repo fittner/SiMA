@@ -15,6 +15,8 @@ import properties.clsProperties;
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsFlesh;
 import complexbody.internalSystems.clsInternalSystem;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+import control.interfaces.itfDecisionUnit;
 
 
 import sim.physics2D.shape.Shape;
@@ -22,8 +24,6 @@ import tools.clsPose;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
 
-import du.enums.eEntityType;
-import du.itf.itfDecisionUnit;
 import entities.abstractEntities.clsAnimal;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;

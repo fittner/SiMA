@@ -12,6 +12,8 @@ package entities;
 import java.awt.Color;
 
 import complexbody.io.clsExternalIO;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import complexbody.io.sensors.external.clsSensorEatableArea;
 import complexbody.io.sensors.external.clsSensorEngine;
 import complexbody.io.sensors.external.clsSensorVision;
@@ -20,8 +22,6 @@ import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
 import properties.clsProperties;
 
-import du.enums.eEntityType;
-import du.enums.eSensorExtType;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsStationary;
 import entities.enums.eShapeType;

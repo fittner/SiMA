@@ -7,7 +7,7 @@
  */
 package utils.exceptions;
 
-import du.enums.eSlowMessenger;
+import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
 
 /**
  * DOCUMENT (deutsch) - insert description 

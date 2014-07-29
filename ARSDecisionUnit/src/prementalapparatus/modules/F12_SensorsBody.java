@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
 import properties.clsProperties;
 
 import modules.interfaces.I0_5_receive;
@@ -21,9 +23,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eSensorExtType;
-import du.itf.sensors.clsSensorExtern;
-
 /**
  * Although, modules {F39} and {F1} are collecting information on internal body values too, {F12} focuses 
  * on sensors comparable to the one from Module {F10} but which are directed inwardly. Thus, the sensors 
@@ -42,10 +41,10 @@ import du.itf.sensors.clsSensorExtern;
 public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4_send {
 	public static final String P_MODULENUMBER = "12";
 	
-	/** should be filled in the receive function by the clsProcessor with bodily perception symbols.(IN I0.5) @since 28.07.2011 13:14:22 */
-	private HashMap<eSensorExtType, clsSensorExtern> moBodyData_IN;
-	/** no further processing, in=out (OUT I1.4) @since 28.07.2011 13:14:27 */
-	private HashMap<eSensorExtType, clsSensorExtern> moBodyData_OUT;
+    /** should be filled in the receive function by the clsProcessor with bodily perception symbols.(IN I0.5) @since 28.07.2011 13:14:22 */
+    private clsDataContainer moBodyData_IN;
+    /** no further processing, in=out (OUT I1.4) @since 28.07.2011 13:14:27 */
+    private clsDataContainer moBodyData_OUT;
 
 	/**
 	 * basic constructor  
@@ -75,8 +74,9 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.mapToTEXT("moBodyData_IN", moBodyData_IN);
-		text += toText.mapToTEXT("moBodyData_OUT", moBodyData_OUT);
+        text += toText.valueToTEXT("moBodyData_IN", moBodyData_IN);
+        text += toText.valueToTEXT("moBodyData_OUT", moBodyData_OUT);
+
 
 		return text;
 	}
@@ -155,7 +155,7 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	 * @see pa.interfaces.send.I2_3_send#send_I2_3(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_4(HashMap<eSensorExtType, clsSensorExtern> poData) {
+	public void send_I1_4(clsDataContainer poData) {
 		((I1_4_receive)moModuleList.get(13)).receive_I1_4(poData);
 		putInterfaceData(I1_4_send.class, poData);
 		
@@ -209,10 +209,9 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I0_5(HashMap<eSensorExtType, clsSensorExtern> poData) {
+	public void receive_I0_5(clsDataContainer poData) {
 		
-		moBodyData_IN = (HashMap<eSensorExtType, clsSensorExtern>) deepCopy(poData); 
-		
+	    moBodyData_IN = poData; 		
 		//putInterfaceData(I0_5_receive.class, poData);		
 	}
 

@@ -13,11 +13,11 @@ import properties.clsProperties;
 
 import complexbody.internalSystems.clsSlowMessengerSystem;
 import complexbody.io.clsBaseIO;
+import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
 
 import body.clsBaseBody;
 import body.clsComplexBody;
 import body.utils.clsDecayColumn;
-import du.enums.eSlowMessenger;
 import entities.enums.eBodyParts;
 
 /**

@@ -16,7 +16,9 @@ import java.util.TreeMap;
 
 import complexbody.io.clsBaseIO;
 import complexbody.io.clsExternalIO;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 
+import physical2d.physicalObject.datatypes.eSide;
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
 import properties.clsProperties;
@@ -27,12 +29,10 @@ import sim.physics2D.shape.Circle;
 import sim.physics2D.util.Double2D;
 import tools.clsPolarcoordinate;
 import utils.exceptions.exInvalidSensorRange;
-import du.enums.eSensorExtType;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
 
 
-import bfg.utils.enums.eSide;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

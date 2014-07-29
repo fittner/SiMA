@@ -10,10 +10,12 @@ import interfaces.itfSetupFunctions;
 
 import java.awt.image.BufferedImage;
 
+
+
+import physical2d.physicalObject.datatypes.eFacialExpression;
+import physical2d.physicalObject.datatypes.eSpeechExpression;
 import physics2D.shape.clsAnimatedCircleImage;
 
-import du.enums.eFacialExpression;
-import du.enums.eSpeechExpression;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.shape.Shape;

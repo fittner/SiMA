@@ -29,6 +29,8 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 	protected String moChartName;
 	protected ChartPanel moChartPanel;
 	
+
+	
 	
 	public cls_AbstractChartInspector(String poChartName){
 		moChartName =poChartName;	

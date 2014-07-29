@@ -18,8 +18,8 @@ import utils.exceptions.exValueNotWithinRange;
 
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsSlowMessengerSystem;
+import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
 
-import du.enums.eSlowMessenger;
 import entities.enums.eNutritions;
 import body.itfStepUpdateInternalState;
 import body.utils.clsNutritionLevel;

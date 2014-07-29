@@ -8,17 +8,17 @@ package complexbody.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
+import physical2d.physicalObject.datatypes.eSpeechExpression;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.clsActionAttackBite;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionEat;
+import complexbody.io.actuators.actionCommands.clsActionKiss;
+import complexbody.io.actuators.actionCommands.clsActionSpeech;
+import complexbody.io.sensors.datatypes.enums.eInternalActionIntensity;
 
-import du.enums.eInternalActionIntensity;
-import du.enums.eSpeechExpression;
-import du.itf.actions.clsActionAttackBite;
-import du.itf.actions.clsActionCommand;
-import du.itf.actions.clsActionEat;
-import du.itf.actions.clsActionKiss;
-import du.itf.actions.clsActionSpeech;
 import entities.abstractEntities.clsEntity;
 
 

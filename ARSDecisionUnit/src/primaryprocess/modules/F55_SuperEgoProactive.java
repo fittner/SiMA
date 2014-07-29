@@ -28,12 +28,12 @@ import modules.interfaces.eInterfaces;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.enums.eDriveComponent;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.pa.eDriveComponent;
 
 /**
  * Super-Ego pro-active watches internalized rules like "Do a good deed every day" or "Be always friendly" 

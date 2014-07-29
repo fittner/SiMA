@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import properties.clsProperties;
 
+import complexbody.io.sensors.datatypes.enums.eSensorIntType;
 import complexbody.io.sensors.internal.clsEnergyConsumptionSensor;
 import complexbody.io.sensors.internal.clsEnergySensor;
 import complexbody.io.sensors.internal.clsFastMessengerSensor;
@@ -23,7 +24,6 @@ import complexbody.io.sensors.internal.clsStomachSensor;
 import complexbody.io.sensors.internal.clsStomachTensionSensor;
 import complexbody.io.sensors.internal.clsTemperatureSensor;
 
-import du.enums.eSensorIntType;
 import body.clsBaseBody;
 
 /**

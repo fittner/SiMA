@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionMove;
 
 import singeltons.eImages;
 
-import du.itf.actions.clsActionCommand;
-import du.itf.actions.clsActionMove;
 import entities.abstractEntities.clsEntity;
 
 /**

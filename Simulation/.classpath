@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
@@ -20,5 +19,6 @@
 	<classpathentry kind="lib" path="/GeneralTools/lib/mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/jmf.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Inspectors"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CommunicationInterface"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

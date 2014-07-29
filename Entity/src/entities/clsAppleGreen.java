@@ -13,13 +13,13 @@ import java.awt.Color;
 import properties.clsProperties;
 
 import complexbody.internalSystems.clsFlesh;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 
 import registration.clsRegisterEntity;
 import tools.clsPose;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
 
-import du.enums.eEntityType;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsInanimate;

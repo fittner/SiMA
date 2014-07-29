@@ -8,8 +8,6 @@ package primaryprocess.modules;
 
 import inspector.interfaces.itfGraphCompareInterfaces;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,9 +15,6 @@ import java.util.List;
 import java.util.SortedMap;
 
 import prementalapparatus.symbolization.eSymbolExtType;
-import prementalapparatus.symbolization.representationsymbol.itfGetDataAccessMethods;
-import prementalapparatus.symbolization.representationsymbol.itfGetSymbolName;
-import prementalapparatus.symbolization.representationsymbol.itfIsContainer;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
 import testfunctions.clsTester;
@@ -50,6 +45,7 @@ import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.enums.eDriveComponent;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -58,14 +54,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import bfg.utils.enums.eSide;
-import du.enums.eActionTurnDirection;
-import du.enums.eSaliency;
-import du.enums.pa.eDriveComponent;
-import du.itf.sensors.clsInspectorPerceptionItem;
-import du.itf.actions.clsInternalActionCommand;
-import du.itf.actions.clsInternalActionTurnVision;
-import du.itf.actions.itfInternalActionProcessor;
 
 /**
  * In this module neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and 
@@ -102,11 +90,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	
 	//ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP;
 	
-	ArrayList<clsInspectorPerceptionItem> moPerceptionSymbolsForInspectors;
 	ArrayList<String> Test = new ArrayList<String>();
 	ArrayList<String> Test1 = new ArrayList<String>();
-	//list of internal actions, fill it with what you want to be shown
-	private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private boolean useAttentionMechanism = false;
@@ -127,7 +112,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public F14_ExternalPerception(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
-		moPerceptionSymbolsForInspectors = new ArrayList<clsInspectorPerceptionItem>();
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -226,139 +210,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	protected void process_draft() {
 
 	}
-	
-	
-	public ArrayList<clsInspectorPerceptionItem> GetSensorDataForInspectors(){
-		return moPerceptionSymbolsForInspectors;
-	}
-	
-private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
-
-        
-        eSaliency moSaliencyObject = eSaliency.UNDEFINED;
-        eSide moPositionObject = eSide.UNDEFINED;
-        
-        for(itfSymbol oSymbol : moEnvironmentalData.values()){
-            if(oSymbol!=null){
-                for(itfSymbol poSymbolObject : oSymbol.getSymbolObjects()) {
-                    
-                    if(poSymbolObject instanceof itfIsContainer) {
-                    
-                    clsInspectorPerceptionItem oInspectorItem = new clsInspectorPerceptionItem();
-                    
-                    Method[] oMethods = ((itfGetDataAccessMethods)poSymbolObject).getDataAccessMethods();
-                    eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)poSymbolObject).getSymbolType());
-                    oInspectorItem.moContentType = oContentType.toString();
-                    oInspectorItem.moContent = ((itfIsContainer)poSymbolObject).getSymbolMeshContent().toString();
-                    
-                    if (oContentType.equals(eContentType.POSITIONCHANGE)) {
-                        //do nothing, we dont want this sensor info
-                    }
-                    else
-                    {
-                    
-                        for(Method oM : oMethods){
-                            if (oM.getName().equals("getSymbolObjects")) {
-                                continue;
-                            }
-                         
-                            eContentType oContentTypeTP = eContentType.DEFAULT; 
-                            Object oContentTP = "DEFAULT";
-                            
-                            oContentTypeTP = eContentType.valueOf(removePrefix(oM.getName())); 
-                                
-                            if (oContentTypeTP.equals(eContentType.Brightness)) {
-                                try {
-                                    moSaliencyObject = eSaliency.valueOf((oM.invoke(poSymbolObject,new Object[0]).toString()));
-                                    
-                                } catch (IllegalArgumentException e) {
-                                    e.printStackTrace();
-                                } catch (IllegalAccessException e) {
-                                    e.printStackTrace();
-                                } catch (InvocationTargetException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-        
-                            if(oContentTypeTP.equals(eContentType.ObjectPosition)) {
-                                oContentTypeTP = eContentType.POSITION; 
-                                try {
-                                    
-                                    moPositionObject = eSide.valueOf(oM.invoke(poSymbolObject,new Object[0]).toString());
-                                } catch (IllegalArgumentException e) {
-                                    e.printStackTrace();
-                                } catch (IllegalAccessException e) {
-                                    e.printStackTrace();
-                                } catch (InvocationTargetException e) {
-                                    e.printStackTrace();
-                                }
-                                
-                            }
-                            
-                            if (oContentTypeTP.equals(eContentType.Distance)) {
-                                oContentTypeTP = eContentType.DISTANCE;
-                                try {
-                                    oInspectorItem.moDistance = oM.invoke(poSymbolObject,new Object[0]).toString();
-                                } catch (IllegalArgumentException e) {
-                                    e.printStackTrace();
-                                } catch (IllegalAccessException e) {
-                                    e.printStackTrace();
-                                } catch (InvocationTargetException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                        }
-                        
-                        //calculate angle
-                        if((moSaliencyObject == eSaliency.HIGH)||
-                            (moSaliencyObject == eSaliency.VERYHIGH))
-                            {
-                             if(moPositionObject != eSide.UNDEFINED){
-                                 double focusAngle = 0.0;
-                                 eActionTurnDirection focusDirection = eActionTurnDirection.TURN_LEFT;
-                                 if(moPositionObject == eSide.MIDDLE_LEFT){
-                                     focusAngle = 50;
-                                     focusDirection = eActionTurnDirection.TURN_LEFT;
-                                 }
-                                 else if(moPositionObject == eSide.LEFT){
-                                     focusAngle = 134;
-                                     focusDirection = eActionTurnDirection.TURN_LEFT;
-                                 }
-                                 else if(moPositionObject == eSide.MIDDLE_RIGHT){
-                                     focusAngle = 50;
-                                     focusDirection = eActionTurnDirection.TURN_RIGHT;
-                                 }
-                                 else if(moPositionObject == eSide.RIGHT){
-                                     focusAngle = 134;
-                                     focusDirection = eActionTurnDirection.TURN_RIGHT;
-                                 }
-                             
-                                clsInternalActionTurnVision focus = new clsInternalActionTurnVision(focusDirection, focusAngle);
-                                moInternalActions.add( focus );
-                             }
-                             else{
-                                 //return to normal
-                                 clsInternalActionTurnVision focus = new clsInternalActionTurnVision(eActionTurnDirection.TURN_LEFT, 0.0);
-                                    moInternalActions.add( focus );
-                             }
-                            }
-                        
-                        
-                        //moPerceptionSymbolsForInspectors.add(oInspectorItem); 
-                    }
-                        
-                        }
-                    else {
-                        //
-                        }               
-                    }
-                
-                }   
-            }
-        }		
-	
-	
+		
 	private static String removePrefix(String poName) {
 		if (poName.startsWith("get")) {
 			poName = poName.substring(3);
@@ -407,9 +259,6 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
         // 1. Convert Neurosymbols to TPMs
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP= convertSymbolToTPM(moEnvironmentalData);
        
-        if(useAttentionMechanism)
-            PrepareSensorInformatinForAttention(moEnvironmentalData);
-
         // 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment. 
         // since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activaiton is done) 
         moCompleteThingPresentationMeshList = searchTPMList(oEnvironmentalTP);		
@@ -1026,12 +875,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	    }
 	}
 	
-	public void getBodilyReactions(    itfInternalActionProcessor poInternalActionContainer) {
-	       
-	       for( clsInternalActionCommand oCmd : moInternalActions ) {
-	           poInternalActionContainer.call(oCmd);
-	    }
-	  }	
+
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

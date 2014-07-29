@@ -9,6 +9,8 @@ package entities.abstractEntities;
 
 import java.awt.Color;
 
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+
 import properties.clsProperties;
 
 
@@ -17,7 +19,6 @@ import tools.eImagePositioning;
 import utils.clsGetARSPath;
 
 
-import du.enums.eEntityType;
 import entities.actionProxies.itfAPCarryable;
 import entities.enums.eBindingState;
 import entities.enums.eShapeType;

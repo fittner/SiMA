@@ -18,6 +18,11 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 
+
+import physical2d.physicalObject.datatypes.eFacialExpression;
+import physical2d.physicalObject.datatypes.eSpeechExpression;
+
+
 import sim.physics2D.util.Angle;
 import sim.portrayal.DrawInfo2D;
 import singeltons.clsSingletonImageFactory;
@@ -25,8 +30,6 @@ import singeltons.clsSingletonProperties;
 import singeltons.eImages;
 import singeltons.eStrings;
 
-import du.enums.eFacialExpression;
-import du.enums.eSpeechExpression;
 
 /**
  * DOCUMENT (herret) - insert description 
