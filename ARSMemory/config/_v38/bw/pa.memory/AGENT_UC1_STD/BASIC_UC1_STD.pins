@@ -1,4 +1,4 @@
-; Tue Jul 15 11:43:33 GMT 2014
+; Tue Jul 29 13:59:02 CEST 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -581,6 +581,13 @@
 		[TPM%3AACTION%3AL1_EAT])
 	(weight 1.0 1.0))
 
+([AD%3AAIM%3ACAKE%3AGIVE] of  ASSOCIATIONDM
+
+	(element
+		[DM%3AGIVE%3ACAKE]
+		[TPM%3AACTION%3AL1_GIVE])
+	(weight 1.0 1.0))
+
 ([AD%3AAIM%3ACAKE%3ALEECH] of  ASSOCIATIONDM
 
 	(element
@@ -718,6 +725,13 @@
 
 	(element
 		[DM%3ADIVIDE%3ACAKE]
+		[TPM%3AENTITY%3ACAKE%3ABASIC])
+	(weight 1.0 1.0))
+
+([AD%3ADRIVEOBJECT%3ACAKE%3AGIVE] of  ASSOCIATIONDM
+
+	(element
+		[DM%3AGIVE%3ACAKE]
 		[TPM%3AENTITY%3ACAKE%3ABASIC])
 	(weight 1.0 1.0))
 
@@ -2666,6 +2680,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ADIVIDE]
 		[AD%3AAIM%3ACAKE%3ADIVIDE])
 	(partial_drive "UNDEFINED")
+	(psychic_satisfaction 0.2)
 	(quotaOfAffect 0.2)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
@@ -2750,6 +2765,19 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.8)
 	(value "DM:RECTUM:AGGRESSIVE")
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
+
+([DM%3AGIVE%3ACAKE] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "LIBIDINOUS")
+	(instance_association
+		[AD%3ADRIVEOBJECT%3ACAKE%3AGIVE]
+		[AD%3AAIM%3ACAKE%3AGIVE])
+	(partial_drive "UNDEFINED")
+	(psychic_satisfaction 0.2)
+	(quotaOfAffect 0.2)
+	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ALEECH%3ACAKE] of  DM_oral
@@ -3894,6 +3922,7 @@
 
 ([TPM%3AACTION%3AL1_GIVE] of  TPM%3AACTION%3AL1
 
+	(instance_association [AA%3AL1_GIVE%3AGIVE])
 	(value "GIVE")
 	(value_type "ACTION"))
 
