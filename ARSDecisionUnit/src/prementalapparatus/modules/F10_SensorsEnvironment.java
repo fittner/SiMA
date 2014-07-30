@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
 import properties.clsProperties;
 
 import modules.interfaces.I0_4_receive;
@@ -21,11 +23,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eEntityType;
-import du.enums.eSensorExtType;
-import du.itf.sensors.clsSensorExtern;
-import du.itf.sensors.clsSensorRingSegment;
-import du.itf.sensors.clsSensorRingSegmentEntry;
 
 /**
  * These sensors collect data of the environment. Typical sensors are the five senses: sight, hearing, smell, touch, and taste. Also non-humanoid
@@ -46,7 +43,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
     public static final String P_MODULENUMBER = "10";
 
     /** holds the sensor symbols of the external perception (OUT I1.3) @since 27.07.2011 13:41:40 */
-    private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
+    private clsDataContainer moEnvironmentalData;
     private final int uid;
 
     /**
@@ -77,7 +74,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
     public String stateToTEXT() {
         String text = "";
 
-        text += toText.mapToTEXT("moEnvironmentalData", moEnvironmentalData);
+        text += toText.valueToTEXT("moEnvironmentalData", moEnvironmentalData);
 
         return text;
     }
@@ -130,7 +127,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
      */
     @Override
     protected void process_basic() {
-        removeSelfVision();
+        //removeSelfVision();
                 
     }
 
@@ -140,6 +137,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
      * 
      * @since 12.07.2011 10:33:44
      */
+/*
     private void removeSelfVision() {
         // FIXME TD 2011/05/01 - due to some reason, the ARSIN sees himself in vision near.
         // remove this entry manually. should be dealt with in vision sensor in project BW.
@@ -165,7 +163,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
         }
     }
 
-    
+ */  
     
 
     /*
@@ -189,7 +187,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
      * @see pa.interfaces.send.I2_1_send#send_I2_1(java.util.HashMap)
      */
     @Override
-    public void send_I1_3(HashMap<eSensorExtType, clsSensorExtern> poData) {
+    public void send_I1_3(clsDataContainer poData) {
         ((I1_3_receive) moModuleList.get(11)).receive_I1_3(poData);
         putInterfaceData(I1_3_send.class, poData);
     }
@@ -241,7 +239,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
      * @see pa.interfaces.receive._v38.I0_4_receive#receive_I0_4(java.util.List)
      */
     @Override
-    public void receive_I0_4(HashMap<eSensorExtType, clsSensorExtern> poData) {
+    public void receive_I0_4(clsDataContainer poData) {
         moEnvironmentalData = poData;
 
         putInterfaceData(I0_4_receive.class, poData);

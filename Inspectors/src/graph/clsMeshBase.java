@@ -35,10 +35,10 @@ import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
 import com.jgraph.components.labels.RichTextValue;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.sensors.datatypes.clsSensorExtern;
+import complexbody.io.sensors.datatypes.clsSensorIntern;
 
-import du.itf.actions.clsActionCommand;
-import du.itf.sensors.clsSensorExtern;
-import du.itf.sensors.clsSensorIntern;
 
 
 /**

@@ -17,10 +17,10 @@ import javax.swing.BoxLayout;
 
 import physics2D.physicalObject.clsCollidingObject;
 
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import complexbody.io.sensors.external.clsSensorVision;
 
 
-import du.enums.eSensorExtType;
 import entities.abstractEntities.clsEntity;
 
 import sim.display.GUIState;

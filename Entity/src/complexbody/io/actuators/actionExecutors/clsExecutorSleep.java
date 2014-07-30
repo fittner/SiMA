@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.*;
+import complexbody.io.sensors.datatypes.enums.eActionSleepIntensity;
 
 import singeltons.eImages;
 
-import du.enums.eActionSleepIntensity;
-import du.itf.actions.*;
 import entities.abstractEntities.clsEntity;
 import entities.actionProxies.*;
 

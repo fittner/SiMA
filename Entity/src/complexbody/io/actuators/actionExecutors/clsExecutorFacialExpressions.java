@@ -12,10 +12,10 @@ import properties.clsProperties;
 
 import complexbody.intraBodySystems.clsFacialExpression;
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.*;
 
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
-import du.itf.actions.*;
 import entities.abstractEntities.clsEntity;
 
 /**

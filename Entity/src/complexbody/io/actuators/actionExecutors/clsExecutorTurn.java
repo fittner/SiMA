@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.*;
+import complexbody.io.sensors.datatypes.enums.eActionTurnDirection;
 
 import sim.physics2D.util.Angle;
 import singeltons.eImages;
-import du.enums.eActionTurnDirection;
-import du.itf.actions.*;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
 /**
@@ -31,8 +31,8 @@ import entities.abstractEntities.clsMobile;
  */
 public class clsExecutorTurn extends clsActionExecutor{
 
-	static double srStaminaBase = 1.1f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
-	static double srStaminaScalingFactor = 0.001f;   
+	static double srStaminaBase = 1.0f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
+	static double srStaminaScalingFactor = 0.0001f;   
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 	private clsEntity moEntity;

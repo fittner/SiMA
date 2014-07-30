@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.*;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import complexbody.io.sensors.external.clsSensorExt;
 import complexbody.io.sensors.external.clsSensorRingSegment;
 
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
-import du.enums.eSensorExtType;
-import du.itf.actions.*;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
 import entities.actionProxies.*;

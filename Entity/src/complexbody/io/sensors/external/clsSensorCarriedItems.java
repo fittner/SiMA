@@ -8,7 +8,6 @@ package complexbody.io.sensors.external;
 
 import java.util.ArrayList;
 
-import bfg.utils.enums.eSide;
 
 import complexbody.io.clsBaseIO;
 import entities.abstractEntities.clsEntity;
@@ -16,6 +15,7 @@ import entities.abstractEntities.clsMobile;
 import entities.enums.eBodyParts;
 import entities.systems.clsInventory;
 
+import physical2d.physicalObject.datatypes.eSide;
 import physics2D.physicalObject.clsCollidingObject;
 import properties.clsProperties;
 import sim.physics2D.util.Double2D;

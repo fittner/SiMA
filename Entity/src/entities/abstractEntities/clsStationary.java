@@ -77,7 +77,10 @@ public abstract class clsStationary extends clsEntity implements itfStationary{
 		clsRegisterEntity.registerEntity(this);
 	}
 	
-	
+	@Override
+	public sim.physics2D.util.Double2D getPosition() {
+		return getStationaryObject2D().getPosition();
+	}	
 	@Override
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
 		moPhysicalObject2D = new clsStationaryObject2D(this);

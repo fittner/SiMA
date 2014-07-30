@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.*;
 
 
-import du.itf.actions.*;
 import entities.abstractEntities.clsMobile;
 
 

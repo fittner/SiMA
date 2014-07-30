@@ -9,8 +9,11 @@ package interfaces;
 
 import java.awt.image.BufferedImage;
 
-import du.enums.eFacialExpression;
-import du.enums.eSpeechExpression;
+
+import physical2d.physicalObject.datatypes.eFacialExpression;
+import physical2d.physicalObject.datatypes.eSpeechExpression;
+
+
 import sim.physics2D.shape.Shape;
 import singeltons.eImages;
 import tools.clsPose;

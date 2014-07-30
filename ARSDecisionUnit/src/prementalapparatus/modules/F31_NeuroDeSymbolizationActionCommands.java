@@ -14,10 +14,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
+
 import properties.clsProperties;
 
 import memorymgmt.enums.eAction;
-import memorymgmt.enums.eActionType;
 import modules.interfaces.I1_5_receive;
 import modules.interfaces.I1_5_send;
 import modules.interfaces.I2_5_receive;
@@ -28,26 +30,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eActionMoveDirection;
-import du.enums.eActionSleepIntensity;
-import du.enums.eActionTurnDirection;
-import du.enums.eInternalActionIntensity;
-import du.itf.actions.clsActionBeat;
-import du.itf.actions.clsActionCommand;
-import du.itf.actions.clsActionDivide;
-import du.itf.actions.clsActionDrop;
-import du.itf.actions.clsActionEat;
-import du.itf.actions.clsActionExcrement;
-import du.itf.actions.clsActionMove;
-import du.itf.actions.clsActionPickUp;
-import du.itf.actions.clsActionSequence;
-import du.itf.actions.clsActionSequenceFactory;
-import du.itf.actions.clsActionSpeech;
-import du.itf.actions.clsActionTurnVision;
-//import du.itf.actions.clsActionSequenceFactory;
-import du.itf.actions.clsActionSleep;
-import du.itf.actions.clsActionTurn;
-import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
@@ -61,7 +43,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 			implements I2_5_receive, I1_5_send, itfInspectorGenericActivityTimeChart  {
 	public static final String P_MODULENUMBER = "31";
 	
-	private ArrayList<clsActionCommand> moActionCommandList_Output;
+    private clsDataContainer moActionCommandList_Output;
+    private ArrayList<String> moActionQueue;
+
 	private ArrayList<clsWordPresentationMesh> moActionCommands_Input;
 	private int mnCounter, moActionBlockingTime;
 	private clsWordPresentationMesh lastAction; 
@@ -70,7 +54,6 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<String> inputActionHistory;
 	private ArrayList<String> realActionHistory;
 	private static final boolean bUSEUNREAL = false;
-	private eInternalActionIntensity moAbstractSpeech;
 	private clsWordPresentationMesh moWordingToContext;
 	private int mnTestCounter =0;
 	
@@ -100,8 +83,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		realAction = clsMeshTools.getNullObjectWPM();
 		inputActionHistory = new ArrayList<String>(); 
 		realActionHistory = new ArrayList<String>(); 
-		moActionCommandList_Output = new ArrayList<clsActionCommand>();
-		
+        moActionCommandList_Output = new clsDataContainer();
+        moActionQueue = new ArrayList<String>();
 	}
 	
 	/* (non-Javadoc)
@@ -127,7 +110,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		//text += toText.valueToTEXT("lastRealAction", lastRealAction);
 		//text += toText.valueToTEXT("mnCounter", mnCounter);
 		//text += toText.valueToTEXT("moActionBlockingTime", moActionBlockingTime);
-		text += toText.listToTEXT("moActionCommandList_Output", moActionCommandList_Output);
+        text += toText.valueToTEXT("moActionCommandList_Output", moActionCommandList_Output);
 		return text;
 	}
 
@@ -180,233 +163,280 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process_basic() {
-	    moActionCommandList_Output.clear();
-		
+    protected void process_basic() {
+        moActionCommandList_Output = new clsDataContainer();
 
+        boolean newActionAvailable=false;
+        
+        if( moActionCommands_Input.size() > 0) {
+            for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
 
-		
-        if( moActionCommands_Input.size() > 0 ) {
-			for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
-			    
-				if (oActionWPM == null) 
-					return;
-				
-				String oAction = oActionWPM.getContent();
-				inputActionHistory.add(oAction.toString());
-				
-				//--- AW: FIXME HACK IN ORDER TO BE ABLE TO USED COMPOSED ACTIONS ---//
-				
-				if (lastAction.isNullObject()==false &&
-						clsActionTools.getActionType(lastAction).equals(eActionType.COMPOSED_EXTERNAL)==true && 
-						clsActionTools.getActionType(oActionWPM).equals(eActionType.SINGLE_INTERNAL)==true &&
-						clsActionTools.getAction(oActionWPM).equals(eAction.FOCUS_ON)==false &&
-						clsActionTools.getAction(oActionWPM).equals(eAction.SEND_TO_PHANTASY)==false) {
-					oAction=lastAction.getContent();
-				}
-				
-				
-                if(oAction.equals(eAction.FOCUS_ON.toString()) ||
-                        oAction.equals(eAction.NONE.toString()) ||
-                        oAction.equals(eAction.SEND_TO_PHANTASY.toString()) ||
-                        oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString()) ||
-                        oAction.equals(eAction.FOCUS_SEARCH1.toString()) ||
-                        oAction.equals(eAction.FOCUS_TURN_LEFT.toString()) ||
-                        oAction.equals(eAction.FOCUS_TURN_RIGHT.toString()) ||
-                        oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
-                	realAction=lastRealAction;
-                 } else {
-     			    realAction=oActionWPM;//oWP.getMoContent();
-     			}
+                String oAction;
+                if(oActionWPM!=null){
+                    oAction = oActionWPM.getContent();
+                    inputActionHistory.add(oAction.toString());
+                    newActionAvailable=true;
+                    processActionCommand(oAction,moActionCommandList_Output, true);
+                }                
                 
-                realActionHistory.add(realAction.getContent().toString());
-                
-				// mnCounter contains information for how much turns the current action is active
-				if(realAction.getContent().equals(lastRealAction.getContent())) { 
-					if(realAction.getContent().equals(oActionWPM.getContent()))
-					  mnCounter++; 
-				}
-				else  {
-					mnCounter = 0;
-				}
-			    
-				log.debug(
-						 "LastAction: " + lastAction.getContent() + ", " + 
-						 "LastRealAction: " + lastRealAction.getContent() + ", " + 
-				         "ThisAction: " + oActionWPM.getContent() + ", " + 
-				         "UsedAction: " + oAction.toString() + ", " +
-				         "mnCounter: " + mnCounter);
-			
+            }
+        }
+        if (moActionQueue.size()>0 && !newActionAvailable) {
+            
+            String  oAction = moActionQueue.get(0);
+            moActionQueue.remove(0);
+            processActionCommand(oAction,moActionCommandList_Output, false);
+            
+        }
+        
+        log.info("ActionCommandList: "+moActionCommandList_Output.toString());
+    }
+	
+	private void processActionCommand(String oAction, clsDataContainer oRetVal, boolean nonQueueAction){
 
-				// moActionBlockingTime contains number of remaining turns all new actions will be blocked 
-				// currently only the action "FLEE" sets the moActionBlockingTime
-				if(moActionBlockingTime>0) {
-					moActionBlockingTime--;
-					if(moActionBlockingTime<=0) {
-						mnCounter = 0;
-					}
-				    return;
-				}
+	    //PROCESS NON REAL ACTIONS
+	    if(oAction.equals(eAction.FOCUS_ON.toString()) ||
+                oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString()) ||
+                oAction.equals(eAction.NONE.toString()) ||
+                oAction.equals(eAction.SEND_TO_PHANTASY.toString()) ||
+                oAction.equals(eAction.FOCUS_SEARCH1.toString()) ||
+                oAction.equals(eAction.FOCUS_TURN_LEFT.toString()) ||
+                oAction.equals(eAction.FOCUS_TURN_RIGHT.toString()) ||
+                oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
                 
-				// action "FLEE" has a special position, it is the most important action
-				if (oAction.equals("FLEE")) {
-					if (mnCounter%90==0) {
-						moActionCommandList_Output.add( clsActionSequenceFactory.getFleeSequence3(180.0f, 60) );
-						mnCounter = 0;
-						moActionBlockingTime=90;
-						// old, simple flee sequence CB 2011-11-14
-						//moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20.0));
-					}
-				}
-				else if(oAction.equals("TURN_VISION")){
-					//just for Test
-					java.util.Random random = new java.util.Random();
-					int rnd = random.nextInt(61) - 30;
-					if( rnd <= 0)
-						moActionCommandList_Output.add( new clsActionTurnVision(eActionTurnDirection.TURN_LEFT, rnd*-1) );
-					else
-						moActionCommandList_Output.add( new clsActionTurnVision(eActionTurnDirection.TURN_RIGHT, rnd) );
-						
-				}else if(oAction.equals("MOVE_FORWARD")){
-					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
-				} else if(oAction.equals("MOVE_FORWARD_SLOW")){
-					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0.2) );
-				} else if(oAction.equals("STOP")){
-					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0) );
-				} else if(oAction.equals("MOVE_BACKWARD")){
-					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0) );
-				} else if(oAction.equals("TURN_LEFT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 5));
-				} else if(oAction.equals("TURN_LEFT45")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 45.0));
-				} else if(oAction.equals("TURN_LEFT90")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 90.0));
-				} else if(oAction.equals("TURN_LEFT180")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 180.0));
-				} else if(oAction.equals("TURN_RIGHT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 5));
-				} else if(oAction.equals("TURN_RIGHT45")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 45.0));
-				} else if(oAction.equals("TURN_RIGHT90")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
-				} else if(oAction.equals("TURN_RIGHT180")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 180.0));
-				} else if(oAction.equals("LOOK_AROUND")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 360.0));
-				} else if(oAction.equals("STRAFE_LEFT")){
-					if (mnCounter%35==0) {
-						moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeLeftSequence(1) );
-						mnCounter = 0;
-					} 					
-				} else if(oAction.equals("STRAFE_RIGHT")){
-					if (mnCounter%35==0) {
-						moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeRightSequence(1) );
-						mnCounter = 0;
-					} 					
-				} else if(oAction.equals("EAT")) {
-					moActionCommandList_Output.add( new clsActionEat(1.0) );
-				//} else if(oAction.equals("BITE")) {
-				//		moActionCommandList_Output.add( new clsActionEat() );
-				} else if (oAction.equals("BEAT")) {
-				    moActionCommandList_Output.add(new clsActionBeat(1.0));
-				} else if (oAction.equals("DIVIDE")) {
-				    moActionCommandList_Output.add(new clsActionDivide(0.5));
-				} else if (oAction.equals("SLEEP")) {
-					moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );
-				} else if (oAction.equals("RELAX")) {
-					moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );	
-				} else if (oAction.equals("DEPOSIT")) {
-					moActionCommandList_Output.add( new clsActionExcrement(1) );
-				} else if (oAction.equals("REPRESS")) {
-					//moActionCommandList_Output.add( new clsActionExcrement(1) );
-					throw new UnknownError("Action " + oAction + " should not occure in F31!");
-				}
-//TD 2011/04/23: commented the actions PICKUP, DROP, and DANCE. currently, they can never happen - no rules are defined
-/*				else if(oAction.equals("PICK_UP")) {
-					moActionCommandList_Output.add( new clsActionPickUp() );
-				}
-				else if(oAction.equals("DROP")) {
-					moActionCommandList_Output.add( new clsActionDrop() );
-				}
-					else if(oAction.equals("DANCE_1")) {
-						moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(1, 2) );
-				}
-				
-*/				
-				else if (oAction.equals("SEARCH1")) {
-					//FIXME CB: This is a special hack, in order to extract the single actions from the search command, in order to control the avatar in unreal tournament
-					if (bUSEUNREAL==true) {
-						//if (mnCounter%75==0) {
-						if (mnCounter%20==0) {
-							clsActionSequence seq = clsActionSequenceFactory.getSeekingSequence(1.0f, 2);
-							int numRounds = 181; //Maximum number of rounds???
-							while(!seq.isComplete(numRounds)){
-								numRounds--;
-							}
-							for(int i=0; i<numRounds; i++){
-								ArrayList<clsActionCommand> commandList = seq.getCommands(i);
-								while(!commandList.isEmpty()){
-									moActionCommandList_Output.add(commandList.remove(0));
-								}
-							}
-							mnCounter = 0;
-						} 
-					} else {
-						if (mnCounter%35==0) {
-							moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
-							mnCounter = 0;
-						} 
-					}
-				} else if (oAction.equals(eAction.FOCUS_ON.toString())) {
-				    //Do nothing
-				} else if (oAction.equals(eAction.GOTO.toString())) {
-                    //Do nothing
-				} else if (oAction.equals(eAction.NONE.toString())) {
-					//Do nothing
-				} else if (oAction.equals(eAction.SEND_TO_PHANTASY.toString())) {
-					//Do nothing
-				} else if (oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString())) {
-					//Do nothing
-				} else if (oAction.equals(eAction.FOCUS_SEARCH1.toString())) {
-					//Do nothing
-				} else if (oAction.equals(eAction.FOCUS_TURN_LEFT.toString())) {
-					//Do nothing
-				} else if (oAction.equals(eAction.FOCUS_TURN_RIGHT.toString())) {
-					//Do nothing
-                } else if (oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
-                    //Do nothing
-                } else if (oAction.equals(eAction.NULLOBJECT.toString())) {
-                    //Do nothing				    
-				} else if (oAction.equals(eAction.PICK_UP.toString())) {
-					moActionCommandList_Output.add( new clsActionPickUp() );
-				} else if (oAction.equals(eAction.SPEAK_EAT.toString())) {
-                    moActionCommandList_Output.add( new clsActionSpeech<clsWordPresentationMesh>(moWordingToContext) );
-				} else if (oAction.equals(eAction.DROP.toString())) {
-				    moActionCommandList_Output.add(new clsActionDrop());
-				}
-				else {
-					throw new UnknownError("Action " + oAction + " not known");
-				}
-				
-				lastRealAction=realAction;
-				lastAction=oActionWPM;//oWP.getMoContent();
-			}
-		} else {
-			/*
-			if (true) {
-				if (mnCounter == 75) {
-					moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
-					mnCounter = 0;
-				} 
-				mnCounter++;
-			}
-			*/
-		}
-		log.info("ActionCommandList: "+moActionCommandList_Output.toString());
-		log.info("Action: {}", moWordingToContext);
-		
-		//log.debug("=== END OF SECONDARY PROCESS ===\n");
+                if(moActionQueue.size()>0){
+                    oAction = moActionQueue.get(0);
+                    moActionQueue.remove(0);
+                }else{
+                    return;
+                }
+         }
+        else if(oAction.equals(eAction.SEARCH1.toString())){
+            
+            if(moActionQueue.size()<10){
+                addSearch1SequenceToQueue();
+            }
+
+            oAction = moActionQueue.get(0);
+            moActionQueue.remove(0);
+
+        }
+        else{
+            //Clear Action Queue if real Action comes up
+            if(nonQueueAction) moActionQueue.clear();
+        }
+        
+        //START PROCESS REAL ACTIONS
+/*
+        if(oAction.equals(eAction.FOCUS_ON.toString()) ||
+                oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString()) ||
+                oAction.equals(eAction.NONE.toString()) ||
+                oAction.equals(eAction.SEND_TO_PHANTASY.toString()) ||
+                oAction.equals(eAction.FOCUS_SEARCH1.toString()) ||
+                oAction.equals(eAction.FOCUS_TURN_LEFT.toString()) ||
+                oAction.equals(eAction.FOCUS_TURN_RIGHT.toString()) ||
+                oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())){
+            //do nothing
+        } */
+        if(oAction.equals("TURN_VISION")){
+            //just for Test
+            java.util.Random random = new java.util.Random();
+            int rnd = random.nextInt(61) - 30;
+            if( rnd <= 0){
+                ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+                oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+                oAttributes.add(new clsDataPoint("ANGLE",""+(rnd*-1)));
+                oRetVal.addDataPoint(createAction("TURN_VISION",oAttributes));
+            }
+            else{
+                  ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+                    oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+                    oAttributes.add(new clsDataPoint("ANGLE",""+(rnd)));
+                    oRetVal.addDataPoint(createAction("TURN_VISION",oAttributes));
+            }
+                
+        }else if(oAction.equals("MOVE_FORWARD")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
+            oAttributes.add(new clsDataPoint("DISTANCE","1.0"));
+            oRetVal.addDataPoint(createAction("MOVE",oAttributes));
+        }else if(oAction.equals(eAction.NULLOBJECT.toString())){
+            //do nothing
+        } else if(oAction.equals("MOVE_FORWARD_SLOW")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
+            oAttributes.add(new clsDataPoint("DISTANCE","0.2"));
+            oRetVal.addDataPoint(createAction("MOVE",oAttributes));
+        } else if(oAction.equals("STOP")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
+            oAttributes.add(new clsDataPoint("DISTANCE","0.0"));
+            oRetVal.addDataPoint(createAction("MOVE",oAttributes));
+        } else if(oAction.equals("MOVE_BACKWARD")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","BACKWARD"));
+            oAttributes.add(new clsDataPoint("DISTANCE","1.0"));
+            oRetVal.addDataPoint(createAction("MOVE",oAttributes));
+        } else if(oAction.equals("TURN_LEFT")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+            oAttributes.add(new clsDataPoint("ANGLE","5.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_LEFT10")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+            oAttributes.add(new clsDataPoint("ANGLE","10.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_LEFT45")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+            oAttributes.add(new clsDataPoint("ANGLE","45.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+
+        } else if(oAction.equals("TURN_LEFT90")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+            oAttributes.add(new clsDataPoint("ANGLE","90.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+
+        } else if(oAction.equals("TURN_LEFT180")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
+            oAttributes.add(new clsDataPoint("ANGLE","180.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+
+        } else if(oAction.equals("TURN_RIGHT")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","5.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_RIGHT10")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","10.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_RIGHT45")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","45.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_RIGHT90")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","90.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("TURN_RIGHT180")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","180.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("LOOK_AROUND")){
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
+            oAttributes.add(new clsDataPoint("ANGLE","360.0"));
+            oRetVal.addDataPoint(createAction("TURN",oAttributes));
+        } else if(oAction.equals("STRAFE_LEFT")){
+            /*if (mnCounter%35==0) {
+                moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeLeftSequence(1) );
+                mnCounter = 0;
+            }           */      
+        } else if(oAction.equals("STRAFE_RIGHT")){
+            /*if (mnCounter%35==0) {
+                moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeRightSequence(1) );
+                mnCounter = 0;
+            } */                    
+        } else if(oAction.equals("EAT")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oRetVal.addDataPoint(createAction("EAT",oAttributes));
+        } else if (oAction.equals("BEAT")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("FORCE","1.0"));
+            oRetVal.addDataPoint(createAction("BEAT",oAttributes));
+        } else if (oAction.equals("DIVIDE")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("FACTOR","0.5"));
+            oRetVal.addDataPoint(createAction("DIVIDE",oAttributes));
+        } else if (oAction.equals("SLEEP")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("INTENSITY","DEEP"));
+            oRetVal.addDataPoint(createAction("SLEEP",oAttributes));
+
+        } else if (oAction.equals("RELAX")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("INTENSITY","DEEP"));
+            oRetVal.addDataPoint(createAction("SLEEP",oAttributes));
+
+        } else if (oAction.equals("DEPOSIT")) {
+            ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+            oAttributes.add(new clsDataPoint("INTENSITY","1.0"));
+            oRetVal.addDataPoint(createAction("EXCREMENT",oAttributes));
+
+        } else if (oAction.equals("REPRESS")) {
+            throw new UnknownError("Action " + oAction + " should not occure in F31!");
+
+        } else if (oAction.equals(eAction.FOCUS_ON.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.NONE.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.SEND_TO_PHANTASY.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.FOCUS_SEARCH1.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.FOCUS_TURN_LEFT.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.FOCUS_TURN_RIGHT.toString())) {
+            //Do nothing
+        } else if (oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
+            
+        }else if(oAction.equals(eAction.NULLOBJECT.toString())){
+            //do nothing
+
+        } else if (oAction.equals(eAction.PICK_UP.toString())) {
+            oRetVal.addDataPoint(createAction("PICK_UP",null));
+
+        }
+        else if (oAction.equals(eAction.DROP.toString())) {
+            oRetVal.addDataPoint(createAction("DROP",null));
+        }
+        else {
+            throw new UnknownError("Action " + oAction + " not known");
+        }
+        
+        
 	}
+	
+	   //HACK: Will be unneccessary when sequences are implemented with acts
+    private void addSearch1SequenceToQueue(){
+
+  /*      for(int i=0;i<9;i++) moActionQueue.add("TURN_RIGHT10");
+        for(int i=0;i<18;i++) moActionQueue.add("TURN_LEFT10");
+        for(int i=0;i<9;i++) moActionQueue.add("TURN_RIGHT10");
+        for(int i=0;i<18;i++) moActionQueue.add("MOVE_FORWARD");
+        for(int i=0;i<4;i++) moActionQueue.add("TURN_RIGHT10");
+        for(int i=0;i<8;i++) moActionQueue.add("MOVE_FORWARD");
+        for(int i=0;i<5;i++) moActionQueue.add("TURN_LEFT10");
+  */      
+        for(int i=0;i<2;i++) moActionQueue.add("TURN_RIGHT45");
+        for(int i=0;i<4;i++) moActionQueue.add("TURN_LEFT45");
+        for(int i=0;i<2;i++) moActionQueue.add("TURN_RIGHT45");
+        for(int i=0;i<18;i++) moActionQueue.add("MOVE_FORWARD");
+        for(int i=0;i<1;i++) moActionQueue.add("TURN_RIGHT45");
+        for(int i=0;i<8;i++) moActionQueue.add("MOVE_FORWARD");
+        for(int i=0;i<1;i++) moActionQueue.add("TURN_LEFT45");
+          
+    }
+    
+    private clsDataPoint createAction(String poName,ArrayList<clsDataPoint> poAttributes){
+        clsDataPoint oRetVal = new clsDataPoint("ACTION_COMMAND", poName);
+        oRetVal.setBufferType("EVENT");
+        if(poAttributes!= null){
+            for(clsDataPoint oPoint: poAttributes) oRetVal.addAssociation(oPoint);
+        }
+        return oRetVal;
+    }
+	
 
 	/* (non-Javadoc)
 	 *
@@ -455,7 +485,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I1_5(moActionCommandList_Output, moWordingToContext);
+		send_I1_5(moActionCommandList_Output);
 		
 	}
 
@@ -467,10 +497,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 * @see pa.interfaces.send.I8_2_send#send_I8_2(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I1_5(ArrayList<clsActionCommand> poActionCommandList, clsWordPresentationMesh moWordingToContext2) {
-		((I1_5_receive)moModuleList.get(32)).receive_I1_5(poActionCommandList, moWordingToContext2);
+	public void send_I1_5(clsDataContainer poActionCommandList) {
+		((I1_5_receive)moModuleList.get(32)).receive_I1_5(poActionCommandList);
 		
-		putInterfaceData(I1_5_send.class, poActionCommandList, moWordingToContext2);
+		putInterfaceData(I1_5_send.class, poActionCommandList);
 	}
 
 	/* (non-Javadoc)
@@ -482,7 +512,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-	    moActionCommandList_Output.clear();
+	    moActionCommandList_Output = new clsDataContainer();
 	    //moActionCommandList_Output.add(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
 	    
 
@@ -494,9 +524,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	    }
 	    mnTestCounter++;*/
 	    //return;
-	    testSequenceEat();
-	    return;
-	   // if(testSequence())  return;
+	    if(testSequence())  return;
 	}
 
 	/* (non-Javadoc)
@@ -619,59 +647,18 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	
 	
 	private boolean testSequence(){
-	       //TODO: Just for test. Delete this 2 lines
-	    if(mnTestCounter>50)moActionCommandList_Output.add( new clsActionBeat(1.0));
-	    mnTestCounter++;
-	    if (true) return true;
-	    
-       if(mnTestCounter==5) moActionCommandList_Output.add( new clsActionDivide(0.5));
-       else{
-           //moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
-       }
-        mnTestCounter++;
-	    
-	    // moActionCommandList_Output.add(new clsActionBeat(1.0));
-        //moActionCommandList_Output.add(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
-        
-        if (true) return true;
-        
-       if(mnTestCounter<=1) moActionCommandList_Output.add(new clsActionPickUp());
-       else if(mnTestCounter<=10) moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
-       else if (mnTestCounter<=20){
-            moActionCommandList_Output.add( new clsActionDrop() );
-            
-        }
-       else{
-           moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
-       }
-        mnTestCounter++;
-	    return true;
+        //TODO: Just for test. Delete this 2 lines
+     //moActionCommandList_Output.add(new clsActionPickUp());
+     //if (true) return;
+    if(mnTestCounter<=1){
+        moActionCommandList_Output.addDataPoint(createAction("PICK_UP",null));
+    }
+
+     mnTestCounter++;
+     return true;
     }
 	
 	
-	private boolean testSequence_drop(){
-           //TODO: Just for test. Delete this 2 lines
-        //moActionCommandList_Output.add(new clsActionPickUp());
-        //if (true) return;
-       if(mnTestCounter<=1) moActionCommandList_Output.add(new clsActionPickUp());
-       else if(mnTestCounter<=2) moActionCommandList_Output.add( new clsActionTurn(eActionTurnDirection.TURN_RIGHT,15));
-       else if (mnTestCounter <=5) moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
-       else if (mnTestCounter<=6){
-            moActionCommandList_Output.add( new clsActionDrop() );
-            mnTestCounter =-1;
-       }
- //       }
- //      else{
- //          moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
-  //     }
-        mnTestCounter++;
-        return true;
-    }
-	
-	private boolean testSequenceEat(){
-		moActionCommandList_Output.add(new clsActionExcrement(1.0));
-		return true;
-	}
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter
@@ -730,16 +717,17 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
     public void receive_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands, clsWordPresentationMesh moWordingToContext2) {
         moActionCommands_Input = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
         moWordingToContext = moWordingToContext2;
-    }	
+    }
+
     /* (non-Javadoc)
-    *
-    * @since 14.05.2014 10:33:20
-    * 
-    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
-    */
-   @Override
-   public clsTimeChartPropeties getProperties() {
-       return new clsTimeChartPropeties(false);
-   }
+     *
+     * @since 11.06.2014 09:43:09
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+     */
+    @Override
+    public clsTimeChartPropeties getProperties() {
+        return new clsTimeChartPropeties(true);
+    }	
     
 }

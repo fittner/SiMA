@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.*;
 
 import singeltons.eImages;
 
-import du.itf.actions.*;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
 

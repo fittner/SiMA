@@ -16,6 +16,7 @@ import complexbody.io.clsBaseIO;
 import complexbody.io.clsExternalIO;
 import complexbody.io.clsSensorActuatorBaseExt;
 import complexbody.io.sensors.itfSensorUpdate;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import complexbody.io.sensors.uitils.clsSensorDataCalculation;
 
 import physics2D.physicalObject.clsCollidingObject;
@@ -23,7 +24,6 @@ import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
 import properties.clsProperties;
 
-import du.enums.eSensorExtType;
 import entities.abstractEntities.clsEntity;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;

@@ -16,7 +16,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import complexbody.io.actuators.actionExecutors.clsAction;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+import complexbody.io.sensors.datatypes.enums.eOdor;
 
+import physical2d.physicalObject.datatypes.eFacialExpression;
+import physical2d.physicalObject.datatypes.eSpeechExpression;
 import physics2D.shape.itfImageShape;
 import properties.clsProperties;
 
@@ -27,10 +31,6 @@ import body.itfget.itfGetBody;
 
 
 
-import du.enums.eEntityType;
-import du.enums.eFacialExpression;
-import du.enums.eOdor;
-import du.enums.eSpeechExpression;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import singeltons.clsSimState;
@@ -243,6 +243,7 @@ public abstract class clsEntity implements itfGetBody, itfEntity {
 	 *
 	 */
 	protected abstract void setEntityType();
+	public abstract sim.physics2D.util.Double2D getPosition();
 
 
 	/**

@@ -6,8 +6,9 @@
  */
 package body.attributes;
 
+import complexbody.io.sensors.datatypes.enums.eTriState;
+
 import properties.clsProperties;
-import du.enums.eTriState;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyAttributes;
 import body.itfget.itfIsAlive;

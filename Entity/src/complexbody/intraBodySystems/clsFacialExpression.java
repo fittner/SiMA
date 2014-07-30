@@ -6,13 +6,14 @@
  */
 package complexbody.intraBodySystems;
 
+import complexbody.io.sensors.datatypes.enums.eAntennaPositions;
+import complexbody.io.sensors.datatypes.enums.eEyeSize;
+import complexbody.io.sensors.datatypes.enums.eLensShape;
+import complexbody.io.sensors.datatypes.enums.eLensSize;
+
 import properties.clsProperties;
 import body.attributes.clsAttributeAntenna;
 import body.attributes.clsAttributeEye;
-import du.enums.eAntennaPositions;
-import du.enums.eEyeSize;
-import du.enums.eLensShape;
-import du.enums.eLensSize;
 import entities.abstractEntities.clsEntity;
 
 /**

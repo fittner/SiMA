@@ -19,6 +19,8 @@ import java.util.Random;
 import java.util.SortedMap;
 import java.util.regex.PatternSyntaxException;
 
+import base.datatypes.enums.eOrgan;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -34,6 +36,7 @@ import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.enums.eDriveComponent;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
@@ -44,8 +47,6 @@ import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-import du.enums.eOrgan;
-import du.enums.pa.eDriveComponent;
 import utils.clsGetARSPath;
 
 /**

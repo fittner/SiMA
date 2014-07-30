@@ -6,9 +6,9 @@
  */
 package modules.interfaces;
 
-import java.util.HashMap;
-import du.enums.eSensorExtType;
-import du.itf.sensors.clsSensorExtern;
+
+import communication.datatypes.clsDataContainer;
+
 
 
 
@@ -20,5 +20,5 @@ import du.itf.sensors.clsSensorExtern;
  * 
  */
 public interface I0_5_receive  {
-	public void receive_I0_5(HashMap<eSensorExtType, clsSensorExtern> poData);
+	public void receive_I0_5(clsDataContainer poData);
 }

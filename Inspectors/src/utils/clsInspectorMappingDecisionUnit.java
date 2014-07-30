@@ -9,8 +9,8 @@
 package utils;
 
 import control.clsPsychoAnalysis;
-import decisionunit.clsBaseDecisionUnit;
-import du.itf.itfDecisionUnit;
+import control.interfaces.clsBaseDecisionUnit;
+import control.interfaces.itfDecisionUnit;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

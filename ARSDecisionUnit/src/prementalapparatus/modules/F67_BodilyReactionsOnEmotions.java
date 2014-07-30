@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
+
 import properties.clsProperties;
 
 import modules.interfaces.I6_14_receive;
@@ -20,12 +23,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eInternalActionIntensity;
-import du.itf.actions.clsActionShare;
-import du.itf.actions.clsInternalActionCommand;
-import du.itf.actions.clsInternalActionSweat;
-import du.itf.actions.itfInternalActionProcessor;
-
 
 /**
  * DOCUMENT (schaat) - insert description 
@@ -57,7 +54,7 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
     ArrayList <clsEmotion> oEmotion =new ArrayList <clsEmotion> ();
     
     //list of internal actions, fill it with what you want to be shown
-    private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
+    private clsDataContainer moInternalActions = new clsDataContainer();
     
     
     public static clsProperties getDefaultProperties(String poPrefix) {
@@ -87,7 +84,7 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
         
         String text ="";
         text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
-        text += toText.listToTEXT("moInternalActions", moInternalActions);
+        text += toText.valueToTEXT("moInternalActions", moInternalActions);
         return text;
            
     }
@@ -112,39 +109,25 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
      */
     @SuppressWarnings("unchecked")
     private void FillInternalActions(ArrayList<clsEmotion> poEmotions_Input) {
-        //todo fill moInternalActions with the approriate poEmotions_Inputm see PSY document per mail for what, when, where
         
-        //zB:
-        //Angst
-        //Magen Zusammenziehen, Zittern, Schwitzen, Herzrasen – passender Gesichtsausdruck
-        //Wut
-        //Blutdruckanstieg (Errötung), Muskelanspannung – passender Gesichtsausdruck
-        
-        //IH: for testing now:
-        clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
-       
-        
-        //IH: for testing now:
-        clsActionShare testnew1 = new clsActionShare(eInternalActionIntensity.HEAVY);
-        
-        //Speech Trigger
-        moInternalActions.add( test );
-       //Thought Trigger 
-        moInternalActions.add(testnew1 );
+        ArrayList<clsDataPoint> oAttributes = new ArrayList<clsDataPoint>();
+        oAttributes.add(new clsDataPoint("INTENSITY","HEAVY"));
+        moInternalActions.addDataPoint(createAction("SWEAT",oAttributes));
+
     }
     
-    /**
-     * DOCUMENT (muchitsch) - insert description
-     *
-     * @since 31.10.2012 12:54:43
-     *
-     * @param poInternalActionContainer
-     */
-    public void getBodilyReactions( itfInternalActionProcessor poInternalActionContainer) {
-        
-        for( clsInternalActionCommand oCmd : moInternalActions ) {
-            poInternalActionContainer.call(oCmd);
+    private clsDataPoint createAction(String poName,ArrayList<clsDataPoint> poAttributes){
+        clsDataPoint oRetVal = new clsDataPoint("INTERNAL_ACTION_COMMAND", poName);
+        if(poAttributes!= null){
+            for(clsDataPoint oPoint: poAttributes) oRetVal.addAssociation(oPoint);
         }
+        return oRetVal;
+    }
+    
+
+    
+    public clsDataContainer getBodilyReactions(){
+        return moInternalActions;
     }
 
     

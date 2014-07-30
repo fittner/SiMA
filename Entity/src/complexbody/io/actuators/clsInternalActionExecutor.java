@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.clsSensorActuatorBaseExt;
+import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 
-import du.itf.actions.clsInternalActionCommand;
 
 
 /**
