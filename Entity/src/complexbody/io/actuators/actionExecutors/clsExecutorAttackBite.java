@@ -14,13 +14,13 @@ import properties.clsProperties;
 
 import complexbody.internalSystems.clsFastMessengerSystem;
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.*;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 
 import singeltons.eImages;
 
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
-import du.enums.eSensorExtType;
-import du.itf.actions.*;
 import entities.abstractEntities.clsEntity;
 import entities.actionProxies.*;
 import entities.enums.eBodyParts;

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
 import properties.clsProperties;
 
 import modules.interfaces.I0_6_send;
@@ -21,8 +23,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.itf.actions.clsActionCommand;
-import du.itf.actions.itfActionProcessor;
 
 /**
  * How the body executes action commands is defined in this module. Various motor controls are operated from here. 
@@ -34,8 +34,8 @@ import du.itf.actions.itfActionProcessor;
 public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_send {
 	public static final String P_MODULENUMBER = "32";
 	
-	private ArrayList<clsActionCommand> moOutputActions;
-	private ArrayList<clsActionCommand> moActionCommandList_Input;
+    private clsDataContainer moOutputActions;
+    private clsDataContainer moActionCommandList_Input;
 	private clsWordPresentationMesh moWordingToContext;
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -54,7 +54,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 				
-		moActionCommandList_Input = new ArrayList<clsActionCommand>();
+        moActionCommandList_Input = new clsDataContainer();
 		
 		applyProperties(poPrefix, poProp);	
 	}
@@ -70,8 +70,8 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moOutputActions", moOutputActions);
-		text += toText.listToTEXT("moActionCommandList_Input", moActionCommandList_Input);
+        text += toText.valueToTEXT("moOutputActions", moOutputActions);
+        text += toText.valueToTEXT("moActionCommandList_Input", moActionCommandList_Input);
 		
 		return text;
 	}
@@ -124,9 +124,8 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	 */
 	@SuppressWarnings("unchecked") //deepCopy can only perform an unchecked operation
 	@Override
-	public void receive_I1_5(ArrayList<clsActionCommand> poActionCommandList, clsWordPresentationMesh moWordingToContext2) {
-		moActionCommandList_Input = (ArrayList<clsActionCommand>) deepCopy(poActionCommandList);
-		moWordingToContext = moWordingToContext2;
+	public void receive_I1_5(clsDataContainer poActionCommandList) {
+        moActionCommandList_Input = poActionCommandList;
 		
 	}
 
@@ -153,7 +152,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	 */
 	@Override
 	protected void send() {
-		send_I0_6(moActionCommandList_Input, moWordingToContext);
+		send_I0_6(moActionCommandList_Input);
 		
 	}
 
@@ -197,13 +196,9 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	}
 
 	
-	public void getOutput(itfActionProcessor poActionContainer) {
-		for( clsActionCommand oCmd : moOutputActions ) {
-			poActionContainer.call(oCmd);
-		}
-				
-		
-	}
+	public clsDataContainer getActions(){
+	        return moOutputActions;
+	    }
 
 	/* (non-Javadoc)
 	 *
@@ -212,13 +207,12 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	 * 
 	 * @see pa.interfaces.send._v38.I0_6_send#send_I0_6(java.util.ArrayList)
 	 */
-	@Override
-	public void send_I0_6(ArrayList<clsActionCommand> poActionList, clsWordPresentationMesh moWordingToContext2) {
-		moOutputActions = poActionList;
-		moWordingToContext = moWordingToContext2;
-
-		putInterfaceData(I0_6_send.class, poActionList);
-	}
+    @Override
+    public void send_I0_6(clsDataContainer poActionList) {
+        moOutputActions = poActionList;
+        
+        putInterfaceData(I0_6_send.class, poActionList);
+    }
 
 	/* (non-Javadoc)
 	 *

@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSDecisionUnit"/>
@@ -14,5 +13,6 @@
 	<classpathentry kind="lib" path="/GeneralTools/lib/l2fprod-common-all.jar"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/mason.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CommunicationInterface"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

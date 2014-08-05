@@ -11,18 +11,18 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.clsActionAttackLightning;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionCultivate;
+import complexbody.io.actuators.actionCommands.clsActionDivide;
+import complexbody.io.actuators.actionCommands.clsActionEat;
+import complexbody.io.actuators.actionCommands.clsActionKiss;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 
 import singeltons.eImages;
 
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
-import du.enums.eSensorExtType;
-import du.itf.actions.clsActionAttackLightning;
-import du.itf.actions.clsActionCommand;
-import du.itf.actions.clsActionCultivate;
-import du.itf.actions.clsActionDivide;
-import du.itf.actions.clsActionEat;
-import du.itf.actions.clsActionKiss;
 import entities.abstractEntities.clsEntity;
 import entities.actionProxies.itfAPDivideable;
 

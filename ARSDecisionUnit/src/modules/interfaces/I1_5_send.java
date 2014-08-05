@@ -6,11 +6,10 @@
  */
 package modules.interfaces;
 
-import java.util.ArrayList;
 
-import base.datatypes.clsWordPresentationMesh;
+import communication.datatypes.clsDataContainer;
 
-import du.itf.actions.clsActionCommand;
+
 
 /**
  * Connection of a neurosymbolization module with its body module. F31->F32
@@ -20,5 +19,5 @@ import du.itf.actions.clsActionCommand;
  * 
  */
 public interface I1_5_send {
-	public void send_I1_5(ArrayList<clsActionCommand> poActionCommandList, clsWordPresentationMesh moWordingToContext2);
+	public void send_I1_5(clsDataContainer poActionCommandList);
 }

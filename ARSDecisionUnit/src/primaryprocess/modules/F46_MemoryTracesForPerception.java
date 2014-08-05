@@ -593,8 +593,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	                else a+="null";
 	                System.out.println(a);
 					*/
-					System.out.println("Entity oExistPosPair: " + oExistPosPair.a.toString() + ", position: " + oExistPosPair.b.toString() + ", distance: " + oExistPosPair.c.toString());
-					System.out.println("Entity: oAllPosPair" + oAllPosPair.a.toString() + ", position: " + oAllPosPair.b.toString() + ", distance: " + oAllPosPair.c.toString());
+					//System.out.println("Entity oExistPosPair: " + oExistPosPair.a.toString() + ", position: " + oExistPosPair.b.toString() + ", distance: " + oExistPosPair.c.toString());
+					//System.out.println("Entity: oAllPosPair" + oAllPosPair.a.toString() + ", position: " + oAllPosPair.b.toString() + ", distance: " + oAllPosPair.c.toString());
 				}
 			}
 			if (bFound==false) {

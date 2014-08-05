@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
+import base.datatypes.enums.eDriveComponent;
+import base.datatypes.enums.eOrgan;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import du.enums.eOrgan;
-import du.enums.pa.eDriveComponent;
 
 /**
  * DOCUMENT (Jordakieva) - die Klasse speichert die Über-Ich-Regeln (Perceptions, Drives, Emotions), welche extern aus einer Datei ausgelesen werden

@@ -14,16 +14,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
 import prementalapparatus.symbolization.clsSensorToSymbolConverter;
 import prementalapparatus.symbolization.eSymbolExtType;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolAcousticEntry;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolBump;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolEatableArea;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolManipulateArea;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
-import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntry;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
-import prementalapparatus.symbolization.representationsymbol.itfSymbolVisionEntry;
 import properties.clsProperties;
 import modules.interfaces.I1_3_receive;
 import modules.interfaces.I2_3_receive;
@@ -34,9 +29,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eSensorExtType;
-import du.itf.sensors.clsSensorExtern;
-
 /**
  * Conversion of raw data into neuro-symbols.
  * 
@@ -61,7 +53,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	public static final String P_MODULENUMBER = "11";
 	
 	/** holds the sensor symbols of the external perception (IN I1.3) @since 27.07.2011 13:58:58 */
-	private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
+	private clsDataContainer moEnvironmentalData;
 	/** holds the sensortype and the sensor symbol (converted from the extSensor value) (OUT I2.3) @since 27.07.2011 14:00:18 */
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;
 
@@ -97,7 +89,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.mapToTEXT("moEnvironmentalData", moEnvironmentalData);
+        text += toText.valueToTEXT("moEnvironmentalData", moEnvironmentalData);
 		text += toText.mapToTEXT("moSymbolData", moSymbolData);
 
 		return text;
@@ -151,8 +143,8 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_3(HashMap<eSensorExtType, clsSensorExtern> poData) {
-		moEnvironmentalData = (HashMap<eSensorExtType, clsSensorExtern>) deepCopy(poData); 
+	public void receive_I1_3(clsDataContainer poData) {
+	    moEnvironmentalData = poData; 
 	}
 
 	/* (non-Javadoc)
@@ -289,19 +281,9 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 			itfSymbol oValue = moSymbolData.get(oKey);
 			
 			switch (oKey) {
-				case BUMP: if (((clsSymbolBump)oValue).getBumped()) {
-							oData.set(10, 1.0);
-						} break;
-				case EATABLE_AREA: if (((clsSymbolEatableArea)oValue).getEntries().size() > 1) {
-							oData.set(9, 0.5);
-						} else if (((clsSymbolEatableArea)oValue).getEntries().size() == 1) {
-							oData.set(9, 1.0);
-						} break;
-				case MANIPULATE_AREA: if (((clsSymbolManipulateArea)oValue).getEntries().size() > 1) {
-							oData.set(8, 0.5);
-						} else if (((clsSymbolManipulateArea)oValue).getEntries().size() == 1) {
-							oData.set(8, 1.0);
-						} break; 
+				case BUMP: break;
+				case EATABLE_AREA: break;
+				case MANIPULATE_AREA: break; 
 				case VISION_FAR:
 				case VISION_MEDIUM:
 				case VISION_NEAR:
@@ -313,53 +295,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
                 case ACOUSTIC_NEAR:
                 case ACOUSTIC_MEDIUM:      
                     
-						ArrayList<itfSymbolVisionEntry> oEntries = ((clsSymbolVision)oValue).getEntries();
-						for (int j=0; j<oEntries.size(); j++) {
-							clsSymbolVisionEntry oE = (clsSymbolVisionEntry) oEntries.get(j);
-							int x = -1;
-							switch (oE.getEntityType()) {
-								case ARSIN: x=0; break;
-								case CAKE:   x=1; break;
-								case CAN:    x=2; break;
-								case CARROT: x=3; break;
-								case EXCREMENT: x=4; break;
-								case PLANT: x=5; break;
-								case REMOTEBOT: x=6; break;
-								case STONE:  x=7; break;
-								case WALL:   x=8; break;
-								case RECTANGLE:   x=9; break;
-								
-							}
-							
-							if (x>=0) {
-								oData.set(x, max(rValue=1, oData.get(x)));
-							}
-							 
-						}
-					
-						for (int u=0; i<oEntries.size(); u++) {
-                            clsSymbolAcousticEntry oE = (clsSymbolAcousticEntry) oEntries.get(u);
-                            int x = -1;
-                            switch (oE.getEntityType()) {
-                                case ARSIN: x=0; break;
-                                case CAKE:   x=1; break;
-                                case CAN:    x=2; break;
-                                case CARROT: x=3; break;
-                                case EXCREMENT: x=4; break;
-                                case PLANT: x=5; break;
-                                case REMOTEBOT: x=6; break;
-                                case STONE:  x=7; break;
-                                case WALL:   x=8; break;
-                                case RECTANGLE:   x=9; break;
-                                
-                            }
-                            
-                            if (x>=0) {
-                                oData.set(x, max(rValue=1, oData.get(x)));
-                            }
-                             
-                        }
-            			
+   			
 						
 					break;
 			}

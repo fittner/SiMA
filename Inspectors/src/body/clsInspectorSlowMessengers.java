@@ -22,8 +22,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
 import complexbody.internalSystems.clsSlowMessengerSystem;
+import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
 
-import du.enums.eSlowMessenger;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;

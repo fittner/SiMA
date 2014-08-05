@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
 import properties.clsProperties;
 
 import modules.interfaces.I0_3_receive;
@@ -21,9 +23,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eSensorIntType;
-import du.itf.sensors.clsDataBase;
-
 
 /**
  * Sensor of Module {F1} are collecting information on bodily functions like metabolism, blood pressure, 
@@ -44,10 +43,10 @@ import du.itf.sensors.clsDataBase;
 public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive, I1_2_send {
 	public static final String P_MODULENUMBER = "01";
 	
-	/** holds a map of all homoestatic values sorted by eSensorIntType as key. (IN I0.3) @since 27.07.2011 13:09:03 */
-	private HashMap<eSensorIntType, clsDataBase> moHomeostasis_IN;
-	/** holds a map of all homoestatic values sorted by eSensorIntType as key. (OUT I1.2) @since 27.07.2011 13:09:03 */
-	private HashMap<eSensorIntType, clsDataBase> moHomeostasis_OUT;
+    /** holds a map of all homoestatic values sorted by eSensorIntType as key. (IN I0.3) @since 27.07.2011 13:09:03 */
+    private clsDataContainer moHomeostasis_IN;
+    /** holds a map of all homoestatic values sorted by eSensorIntType as key. (OUT I1.2) @since 27.07.2011 13:09:03 */
+    private clsDataContainer moHomeostasis_OUT;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -144,7 +143,7 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 * @see pa.interfaces.send.I1_1_send#send_I1_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_2(HashMap<eSensorIntType, clsDataBase> poData) {
+	public void send_I1_2(clsDataContainer poData) {
 		((I1_2_receive)moModuleList.get(2)).receive_I1_2(poData);
 		
 		putInterfaceData(I1_2_send.class, poData);
@@ -195,8 +194,8 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I0_3(HashMap<eSensorIntType, clsDataBase> poData) {
-		moHomeostasis_IN = (HashMap<eSensorIntType, clsDataBase>) deepCopy(poData); 
+	public void receive_I0_3(clsDataContainer poData) {
+		moHomeostasis_IN = poData; 
 	}
 
 	/* (non-Javadoc)
@@ -210,7 +209,7 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	public String stateToTEXT() {		
 		String html = "";
 		
-		html += toText.mapToTEXT("moHomeostasis_OUT", moHomeostasis_OUT);
+		html += toText.valueToTEXT("moHomeostasis_OUT", moHomeostasis_OUT);
 
 		return html;
 	}

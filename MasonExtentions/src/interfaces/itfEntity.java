@@ -12,4 +12,5 @@ public interface itfEntity {
 	public void setRegistered(boolean poRegStatus);
 	public clsPose getPose();
 
+
 }

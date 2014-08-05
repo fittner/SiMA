@@ -13,11 +13,13 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
+
+
+import physical2d.physicalObject.datatypes.eFacialExpression;
+import physical2d.physicalObject.datatypes.eSpeechExpression;
 import physics2D.physicalObject.motionplatform.clsMotionPlatform;
 import physics2D.shape.clsAnimatedCircleImage;
 
-import du.enums.eFacialExpression;
-import du.enums.eSpeechExpression;
 
 
 import sim.display.GUIState;

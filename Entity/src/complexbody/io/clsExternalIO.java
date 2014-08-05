@@ -12,6 +12,33 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionProcessor;
+import complexbody.io.actuators.actionCommands.clsActionAttackBite;
+import complexbody.io.actuators.actionCommands.clsActionAttackLightning;
+import complexbody.io.actuators.actionCommands.clsActionBeat;
+import complexbody.io.actuators.actionCommands.clsActionBodyColor;
+import complexbody.io.actuators.actionCommands.clsActionBodyColorBlue;
+import complexbody.io.actuators.actionCommands.clsActionBodyColorGreen;
+import complexbody.io.actuators.actionCommands.clsActionBodyColorRed;
+import complexbody.io.actuators.actionCommands.clsActionCultivate;
+import complexbody.io.actuators.actionCommands.clsActionDivide;
+import complexbody.io.actuators.actionCommands.clsActionDrop;
+import complexbody.io.actuators.actionCommands.clsActionEat;
+import complexbody.io.actuators.actionCommands.clsActionExcrement;
+import complexbody.io.actuators.actionCommands.clsActionFacialExEyeSize;
+import complexbody.io.actuators.actionCommands.clsActionFacialExLeftAntennaPosition;
+import complexbody.io.actuators.actionCommands.clsActionFacialExLensShape;
+import complexbody.io.actuators.actionCommands.clsActionFacialExLensSize;
+import complexbody.io.actuators.actionCommands.clsActionFacialExRightAntennaPosition;
+import complexbody.io.actuators.actionCommands.clsActionFromInventory;
+import complexbody.io.actuators.actionCommands.clsActionKiss;
+import complexbody.io.actuators.actionCommands.clsActionMove;
+import complexbody.io.actuators.actionCommands.clsActionMoveToEatableArea;
+import complexbody.io.actuators.actionCommands.clsActionPickUp;
+import complexbody.io.actuators.actionCommands.clsActionSleep;
+import complexbody.io.actuators.actionCommands.clsActionSpeech;
+import complexbody.io.actuators.actionCommands.clsActionToInventory;
+import complexbody.io.actuators.actionCommands.clsActionTurn;
+import complexbody.io.actuators.actionCommands.clsActionTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorAttackBite;
 import complexbody.io.actuators.actionExecutors.clsExecutorAttackLightning;
 import complexbody.io.actuators.actionExecutors.clsExecutorBeat;
@@ -33,8 +60,8 @@ import complexbody.io.actuators.actionExecutors.clsExecutorSpeechExpression;
 import complexbody.io.actuators.actionExecutors.clsExecutorToInventory;
 import complexbody.io.actuators.actionExecutors.clsExecutorTurn;
 import complexbody.io.actuators.actionExecutors.clsExecutorTurnVision;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import complexbody.io.sensors.external.clsSensorAcceleration;
-import complexbody.io.sensors.external.clsSensorAcoustic;
 import complexbody.io.sensors.external.clsSensorBump;
 import complexbody.io.sensors.external.clsSensorCarriedItems;
 import complexbody.io.sensors.external.clsSensorEatableArea;
@@ -47,34 +74,6 @@ import complexbody.io.sensors.external.clsSensorRadiation;
 import complexbody.io.sensors.external.clsSensorVision;
 
 import body.clsBaseBody;
-import du.enums.eSensorExtType;
-import du.itf.actions.clsActionAttackBite;
-import du.itf.actions.clsActionAttackLightning;
-import du.itf.actions.clsActionBeat;
-import du.itf.actions.clsActionBodyColor;
-import du.itf.actions.clsActionBodyColorBlue;
-import du.itf.actions.clsActionBodyColorGreen;
-import du.itf.actions.clsActionBodyColorRed;
-import du.itf.actions.clsActionCultivate;
-import du.itf.actions.clsActionDivide;
-import du.itf.actions.clsActionDrop;
-import du.itf.actions.clsActionEat;
-import du.itf.actions.clsActionExcrement;
-import du.itf.actions.clsActionFacialExEyeSize;
-import du.itf.actions.clsActionFacialExLeftAntennaPosition;
-import du.itf.actions.clsActionFacialExLensShape;
-import du.itf.actions.clsActionFacialExLensSize;
-import du.itf.actions.clsActionFacialExRightAntennaPosition;
-import du.itf.actions.clsActionFromInventory;
-import du.itf.actions.clsActionKiss;
-import du.itf.actions.clsActionMove;
-import du.itf.actions.clsActionMoveToEatableArea;
-import du.itf.actions.clsActionPickUp;
-import du.itf.actions.clsActionSleep;
-import du.itf.actions.clsActionSpeech;
-import du.itf.actions.clsActionToInventory;
-import du.itf.actions.clsActionTurn;
-import du.itf.actions.clsActionTurnVision;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
 import entities.actionProxies.itfAPSleep;
@@ -212,50 +211,7 @@ public class clsExternalIO extends clsBaseIO {
 			numsensors++;
 		}
 		
-		if (pnThreeRangeAcoustics) {
-			//add 3-range-Acoustics
-			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_NEAR.name());
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 20);
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 0 );
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-			numsensors++;
-	
-			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_MEDIUM.name());
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 40 );
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 20 );
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-			numsensors++;
-	
-			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_FAR.name());
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 60);
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 40 );
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-			numsensors++;
-			
-			//Vision Self
-			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.ACOUSTIC_SELF.name());
-			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 0);
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MIN_DISTANCE, 0 );
-			//oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-			numsensors++;
-			
-		} else {
-			oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
-			oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
-			oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.ACOUSTIC.name());
-			oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
-			oProp.setProperty(pre+numsensors+"."+clsSensorAcoustic.P_SENSOR_MAX_DISTANCE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
-			numsensors++;
-		}
-		
+
 		oProp.putAll( clsSensorRadiation.getDefaultProperties( pre+numsensors) );
 		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.RADIATION.name());
@@ -425,28 +381,17 @@ public class clsExternalIO extends clsBaseIO {
 					 * get rid of the Hashmap moSensorExternal
 					 * */
 					if(eType.name().equals(eSensorExtType.ACCELERATION.name())) sensorExt=new clsSensorAcceleration(tmp_pre, poProp, this); 
-				//	if(eType.name().equals(eSensorExtType.ACOUSTIC.name())) sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this); // MW 
 					if(eType.name().equals(eSensorExtType.BUMP.name()))sensorExt=new clsSensorBump(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION_NEAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION_MEDIUM.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION_FAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this); 
-					
-					if(eType.name().equals(eSensorExtType.VISION_CARRIED_ITEMS.name()))sensorExt=new clsSensorCarriedItems(tmp_pre, poProp, this,moEntity); 
-					
-					if(eType.name().equals(eSensorExtType.ACOUSTIC_NEAR.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
-					if(eType.name().equals(eSensorExtType.ACOUSTIC_MEDIUM.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
-					if(eType.name().equals(eSensorExtType.ACOUSTIC_FAR.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this);
-					if(eType.name().equals(eSensorExtType.ACOUSTIC.name()))sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this); 
-			
-					if(eType.name().equals(eSensorExtType.RADIATION.name()))sensorExt=new clsSensorRadiation(tmp_pre, poProp, this); 
 					if(eType.name().equals(eSensorExtType.EATABLE_AREA.name()))sensorExt=new clsSensorEatableArea(tmp_pre, poProp, this); 
 					if(eType.name().equals(eSensorExtType.MANIPULATE_AREA.name()))sensorExt=new clsSensorManipulateArea(tmp_pre, poProp, this); 
-					
-					if(eType.name().equals(eSensorExtType.POSITIONCHANGE.name()))sensorExt=new clsSensorPositionChange(tmp_pre, poProp, this); 
-					
+
+					if(eType.name().equals(eSensorExtType.VISION_CARRIED_ITEMS.name()))sensorExt=new clsSensorCarriedItems(tmp_pre, poProp, this,moEntity); 
+										
 					if(eType.name().equals(eSensorExtType.VISION_SELF.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
-					if(eType.name().equals(eSensorExtType.OLFACTORIC.name()))sensorExt=new clsSensorOlfactoric(tmp_pre, poProp, this); 
 					
 					
 					moSensorEngine.registerSensor(eType, sensorExt);

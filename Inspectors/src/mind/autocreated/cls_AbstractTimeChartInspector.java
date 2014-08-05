@@ -7,7 +7,7 @@
 package mind.autocreated;
 
 import inspector.interfaces.itfInspectorTimeChartBase;
-import inspector.interfaces.itfInterfaceTimeChartHistory;
+//import inspector.interfaces.itfInterfaceTimeChartHistory;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,8 +25,9 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import base.datatypes.helpstructures.clsPair;
+//import base.datatypes.helpstructures.clsPair;
 import singeltons.clsSimState;
+import singeltons.clsSingletonProperties;
 import utils.clsExceptionUtils;
 
 /**
@@ -57,6 +58,9 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
 	protected long mnCurrentTime;
 
 	private String moYAxisCaption;
+	
+	protected final int mnAntiAliasingValue=10;
+	protected int mnAntiAliasingCounter=0;
 
 
 	public cls_AbstractTimeChartInspector(
@@ -66,7 +70,12 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
             int pnOffset)
     {
 		super(poChartName);
-    	mnHistoryLength = 200;
+    	if(clsSingletonProperties.isAntiAliasing()){
+    		mnHistoryLength = 600;
+    	}
+    	else{
+    		mnHistoryLength=200;
+    	}
     	mnWidth = 600;
     	mnHeight = 400;
     	moTimeingContainer= poTimingContainer;
@@ -94,7 +103,7 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
     	mnWidth = pnWidth;
     	mnHeight = pnHeight;
     	moTimeingContainer= poTimingContainer;
-    	mnCurrentTime = clsSimState.getSteps();
+    	mnCurrentTime = getXAxisValue();
     	mnOffset = pnOffset;
     	
     	moYAxisCaption = poYAxisCaption;
@@ -116,9 +125,10 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
     private ChartPanel create()  {
     	ChartPanel poChartPanel =createPanel();
     	
-    	if (moTimeingContainer instanceof itfInterfaceTimeChartHistory) {
+ /*   	if (moTimeingContainer instanceof itfInterfaceTimeChartHistory) {
     		fetchDataFromHistory();
     	}
+    	*/
     	return poChartPanel;
     }
     
@@ -126,7 +136,7 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
     	removeAll();
     	create();
     }
-    
+/*    
     protected void fetchDataFromHistory() {
     	ArrayList<clsPair <Long, ArrayList<Double>> > oData = ((itfInterfaceTimeChartHistory)moTimeingContainer).getTimeChartHistory();
     	
@@ -140,7 +150,7 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
     		start = 0;
     	}
     	
-    	for (int pos=start; pos<oData.size(); pos++) {
+    	for (int pos=start; pos<oData.size(); pos=pos+10) {
 			clsPair <Long, ArrayList<Double>> oLine = oData.get(pos);
     		long x = oLine.a;
     		ArrayList<Double> ys = oLine.b;
@@ -155,7 +165,7 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
         	}
     	}
     }
-    
+ */   
     protected XYSeriesCollection createDataset() {
     	XYSeriesCollection poDataset = new XYSeriesCollection();
 		
@@ -168,7 +178,7 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
 		for (int i=0; i<oCaptions.size(); i++) {
 			XYSeries oTemp = new XYSeries( oCaptions.get(i) );
 			oTemp.setMaximumItemCount( mnHistoryLength );
-			oTemp.add(mnCurrentTime, oValues.get(i) + nOffset );
+			oTemp.add(getXAxisValue(), oValues.get(i) + nOffset );
 			moValueHistory.add(oTemp);
 			poDataset.addSeries(oTemp);			
 			nOffset += mnOffset;
@@ -262,29 +272,62 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
 	 */
 	@Override
 	public void updateInspector() {
-		mnCurrentTime = clsSimState.getSteps();
+		if(clsSingletonProperties.isAntiAliasing()){
+			mnCurrentTime = getXAxisValue();
+			if(clsSimState.getSteps()%mnAntiAliasingValue==9){
+				updateDataset();
+			}
+		}
+		else{
+			mnCurrentTime = clsSimState.getSteps();
+			updateDataset();
+		}
 		
-		updateDataset();
+		//updateDataset();
 		
 		this.repaint();
 	}    
+	
+	private long getXAxisValue(){
+		if(clsSingletonProperties.isAntiAliasing()){
+		
+			return clsSimState.getSteps()/mnAntiAliasingValue;
+		}
+		else{
+			return clsSimState.getSteps();
+		}
+	}
 	
 	@Override
 	protected void updateDataset() {
 		ArrayList<Double> oTimingData = moTimeingContainer.getTimeChartData();
 		
-		int nOffset=0;
+		boolean execute=true;
 		
-		try {
-			for (int i=0; i<oTimingData.size(); i++) {
-				((XYSeries)moValueHistory.get(i)).add(mnCurrentTime, oTimingData.get(i) + nOffset);
-				nOffset += mnOffset;
+/*		if(clsSingletonProperties.isAntiAliasing()){
+			execute = false;
+			if(mnCurrentTime%mnAntiAliasingValue==9){
+				execute =true;
 			}
-		} catch (java.lang.IndexOutOfBoundsException e) {
-			//FIXME (Deutsch): due to some unknown reason, sometimes oTimingData.size is different to moValueHistory.size. workaround for the time being: recreate chart.
-			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
-			System.out.println("cls_AbstractChartInspector.updateData: RESET CHART PANEL!");
-			recreate();
+		}
+*/		
+		
+		if(execute){
+			int nOffset=0;
+			
+			try {
+				for (int i=0; i<oTimingData.size(); i++) {
+					//long timeStemp = mnCurrentTime;
+					//if(clsSingletonProperties.isAntiAliasing()) timeStemp=mnCurrentTime/10;
+					((XYSeries)moValueHistory.get(i)).add(mnCurrentTime, oTimingData.get(i) + nOffset);
+					nOffset += mnOffset;
+				}
+			} catch (java.lang.IndexOutOfBoundsException e) {
+				//FIXME (Deutsch): due to some unknown reason, sometimes oTimingData.size is different to moValueHistory.size. workaround for the time being: recreate chart.
+				System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+				System.out.println("cls_AbstractChartInspector.updateData: RESET CHART PANEL!");
+				recreate();
+			}
 		}
 	}
     

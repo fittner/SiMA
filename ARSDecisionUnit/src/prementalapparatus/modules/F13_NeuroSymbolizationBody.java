@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
 import prementalapparatus.symbolization.clsSensorToSymbolConverter;
 import prementalapparatus.symbolization.eSymbolExtType;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
@@ -23,8 +25,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eSensorExtType;
-import du.itf.sensors.clsSensorExtern;
 
 /**
  * Conversion of raw data into neuro-symbols.
@@ -46,7 +46,7 @@ import du.itf.sensors.clsSensorExtern;
 public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_receive, I2_4_send  {
 	public static final String P_MODULENUMBER = "13";
 	
-	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
+	private clsDataContainer moBodyData;
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
 	/**
 	 * basic constructor
@@ -76,7 +76,7 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.mapToTEXT("moBodyData", moBodyData);
+        text += toText.valueToTEXT("moBodyData", moBodyData);
 		text += toText.mapToTEXT("moSymbolData", moSymbolData);
 
 		return text;
@@ -129,7 +129,7 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	 * @see pa.interfaces.I2_3#receive_I2_3(int)
 	 */
 	@Override
-	public void receive_I1_4(HashMap<eSensorExtType, clsSensorExtern> poData) {
+	public void receive_I1_4(clsDataContainer poData) {
 		moBodyData = poData;
 	}
 

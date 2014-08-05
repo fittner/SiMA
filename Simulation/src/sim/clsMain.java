@@ -189,4 +189,11 @@ public class clsMain extends SimState{
     public boolean getShowFacialExpressionOverlay(){
     	return clsSingletonProperties.showFacialExpressionOverlay();
     }
+    
+    public void setTimeChartAntiAliasing(boolean value){
+    	clsSingletonProperties.setAntiAliasing(value);
+    }
+    public boolean getTimeChartAntiAliasing(){
+    	return clsSingletonProperties.isAntiAliasing();
+    }
  }

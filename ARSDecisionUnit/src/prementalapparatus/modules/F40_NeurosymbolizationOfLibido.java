@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
+
 import properties.clsProperties;
 
 import modules.interfaces.I1_1_receive;
@@ -21,12 +24,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eFastMessengerSources;
-import du.enums.eSensorIntType;
-import du.itf.sensors.clsDataBase;
-import du.itf.sensors.clsFastMessenger;
-import du.itf.sensors.clsFastMessengerEntry;
-
 /**
  * Conversion of raw data into neuro-symbols
  * 
@@ -39,8 +36,8 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 		
 	private double mrLibido;
 	
-	private HashMap<eFastMessengerSources, Double> moErogenousZoneStimuliList_OUT;
-	private HashMap<eSensorIntType, clsDataBase> moErogenousZones_IN;
+	private HashMap<String, Double> moErogenousZoneStimuliList_OUT;
+	private clsDataContainer moErogenousZones_IN;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	/**
@@ -144,23 +141,11 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 */
 	private void CollectErogenousZones() {
 
-		moErogenousZoneStimuliList_OUT = new HashMap<eFastMessengerSources, Double>();
-		//FASTMESSENGER, the only sensor source we get to F39!
-		clsFastMessenger oFastMessengerSystem = (clsFastMessenger)moErogenousZones_IN.get(eSensorIntType.FASTMESSENGER);
-		if(oFastMessengerSystem!=null)
-		{
-			//loop through the fast messagers
-			for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.getEntries() ) {
-				
-				eFastMessengerSources oFMSource = oFastMessenger.getSource();
-				Double rIntensity = oFastMessenger.getIntensity();
-				
-				moErogenousZoneStimuliList_OUT.put(oFMSource, rIntensity);
-				
-			}
-			
-			
-		}
+        moErogenousZoneStimuliList_OUT = new HashMap<String, Double>();
+        //FASTMESSENGER, the only sensor source we get to F39!
+        for(clsDataPoint oDataPoint:moErogenousZones_IN.getData() ){
+            moErogenousZoneStimuliList_OUT.put(oDataPoint.getType(), Double.parseDouble(oDataPoint.getValue()));
+        }
 		
 	}
 
@@ -184,7 +169,7 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 * @see pa.interfaces.send._v38.I1_9_send#send_I1_9(java.util.HashMap)
 	 */
 	@Override
-	public void send_I2_1(Double poLibidoSymbol, HashMap<eFastMessengerSources,Double> poErogenousZones) {
+	public void send_I2_1(Double poLibidoSymbol, HashMap<String, Double> poErogenousZones) {
 		((I2_1_receive)moModuleList.get(64)).receive_I2_1(poLibidoSymbol, poErogenousZones);
 		putInterfaceData(I2_1_send.class, poLibidoSymbol);
 		
@@ -198,7 +183,7 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 * @see pa.interfaces.receive._v38.I1_8_receive#receive_I1_8(java.util.HashMap)
 	 */
 	@Override
-	public void receive_I1_1(double prData, HashMap<eSensorIntType, clsDataBase> poData) {
+	public void receive_I1_1(double prData, clsDataContainer poData) {
 		mrLibido = prData;
 		moErogenousZones_IN = poData;
 	}

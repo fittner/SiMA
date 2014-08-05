@@ -3,7 +3,7 @@
 
 /ARSDecisionUnit/bin
 /ARSMemory/bin
-/DecisionUnitInterface/bin
+/CommunicationInterface/bin
 /Entity/bin
 /GeneralTools/bin
 /Inspectors/bin
