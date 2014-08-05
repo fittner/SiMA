@@ -298,7 +298,7 @@ public class GoalAlgorithmTools {
                     //if the images action fits, increase the importance value
                     if(poAim == oAction) {
 //                        rResult += mrAimImpact * poGoal.getDriveDemandImportance();
-                        rResult += 0.5;
+                        rResult += 0.2;
                         log.info("(in " + poGoal.getContent() + ") Act " + oSuppDataStructure.getContent() + " has importance increase by " + rResult + " due to action match for " + oAction);
                     }
                 }
