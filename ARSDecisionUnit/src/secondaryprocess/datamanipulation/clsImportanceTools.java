@@ -529,7 +529,7 @@ public class clsImportanceTools {
 		} else if (poCondition.equals(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			nResult+= 0;
 		} else if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
-			nResult+= -0.10;
+			nResult+= 0.10;
 		} else if (poCondition.equals(eCondition.IS_CONTEXT_SOURCE)) {
             nResult+=0;
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
