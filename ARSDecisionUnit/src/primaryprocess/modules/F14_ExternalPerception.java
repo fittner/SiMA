@@ -362,17 +362,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, oOutputTPM, oDM.getQuotaOfAffect()));
             }
             
-            // Kollmann: add a simple consistency check, if k == 1, we have to remove the same amount of assocations we add
-            if(k == 1) {
-                if(oAssociationsDriveMesh.size() != oDMStimulusList.size()) {
-                    log.error("F14 changed the number of DM association for an entity, even though there was only one candidate considered.\nEffects:" + oOutputTPM.toString());
-                }
-            } else {
-                // Kollmann: if k != 1 (which should always mean > 1) then the number of DM association should, at leas, not be reduced 
-                if(oAssociationsDriveMesh.size() > oDMStimulusList.size()) {
-                    log.error("An entity created in F14 has less DMs associated than where originally loaded from memory - this should not happen.\nEffected: " + oOutputTPM.toString());
-                }
-            }
             
          // 5. emotion-Valuation of agents, based on memorized emotions (emotion asscociated with agent or similar agents) and current own emotions
             
@@ -685,8 +674,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     			// ident. drive obj.categ
     			k=1;
     		}
+		} else {
+		    if(poSpecificCandidates.size() == 1) {
+		        k=1;
+		    }
 		}
-		else k=0;
 		
 		
 		
