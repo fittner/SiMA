@@ -447,6 +447,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 }
             }
             
+            // Reminder: mit self assoziierte emotionen führen anscheinend zu "orphan associations" (wahrscheinlich beim klonen im search space) , d.h. eine assoziation, die in einem objekt (TPM) gespecihert ist, jedoch ist das objekt (TPM) nicht in der assoziation gespeichert. 
+            
             oOutputTPMs.add(oOutputTPM);
         }
         
