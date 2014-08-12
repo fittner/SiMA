@@ -1,4 +1,4 @@
-; Wed Aug 06 11:41:47 CEST 2014
+; Tue Aug 12 13:54:37 CEST 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -4019,7 +4019,9 @@
 
 ([TPM%3AENTITY%3AARSIN%3ABODO] of  ARSIN
 
-	(instance_association [AA%3ABODO%3AALIVE])
+	(instance_association
+		[AA%3ABODO%3AALIVE]
+		[AA%3ABODO%3ACOLOR_RED])
 	(value "BODO"))
 
 ([TPM%3AENTITY%3AARSIN%3ACARL] of  ARSIN
