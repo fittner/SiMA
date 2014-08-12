@@ -6,8 +6,6 @@
  */
 package secondaryprocess.functionality.decisionpreparation.actioncodeletes;
 
-import java.util.ArrayList;
-
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.ePredicate;
 import base.datatypes.clsWordPresentationMesh;
@@ -63,11 +61,7 @@ public abstract class clsActionCodelet extends clsCodelet {
 	 * @param poAction: the original action WPM
 	 */
 	protected void generateAction(clsWordPresentationMesh poAction) {
-	    //Kollmann: steps:
-	    // 1) if action has refinement, extract it
-	    // 2) if action has object, extract it
-	    // 3) create new action WPM
-
+	    //Kollmann: if the action has a refinement, use the refinement, instead of the action
 	    eAction oAction = eAction.valueOf(poAction.getContent());
 	    
 	    //use action refinement if possible
@@ -76,12 +70,7 @@ public abstract class clsActionCodelet extends clsCodelet {
 	        oAction = eAction.valueOf(oActionRefinement.getContent());
 	    }
 	    
-	    ArrayList<clsWordPresentationMesh> oActionObjects = clsMeshTools.getNonUniquePredicateWPM(poAction, ePredicate.HASACTIONOBJECT);
-	    if(oActionObjects.size() > 0) {
-	        moAction = clsActionTools.createAction(oAction, oActionObjects.get(0));
-	    } else {
-	        moAction = clsActionTools.createAction(oAction);
-	    }
+	    moAction = clsActionTools.createAction(oAction);
 	}
 	
 	protected void setActionAssociationInGoal() {
