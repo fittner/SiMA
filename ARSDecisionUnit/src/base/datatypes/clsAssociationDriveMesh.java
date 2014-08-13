@@ -92,8 +92,14 @@ public class clsAssociationDriveMesh extends clsAssociation{
      * @return true if items where removed, false otherwise
      */
     public static boolean removeAllExternAssociationDriveMesh(itfExternalAssociatedDataStructure poContainingDataStructure) {
+        boolean bRemoved = false;
+        
         List<clsAssociationDriveMesh> oDriveMeshAssociations = getAllExternAssociationDriveMesh(poContainingDataStructure);
-        return poContainingDataStructure.getExternalAssociatedContent().removeAll(oDriveMeshAssociations);
+        for(clsAssociationDriveMesh oAssociationDriveMesh : oDriveMeshAssociations) {
+            bRemoved |= clsAssociation.removeAssociationCompletely(oAssociationDriveMesh);
+        }
+        
+        return bRemoved;
     }
     
     /**
@@ -106,8 +112,14 @@ public class clsAssociationDriveMesh extends clsAssociation{
      * @return true if items where removed, false otherwise
      */
     public static boolean removeAllInternalAssociationDriveMesh(itfInternalAssociatedDataStructure poContainingDataStructure) {
+        boolean bRemoved = false;
+        
         List<clsAssociationDriveMesh> oDriveMeshAssociations = getAllInternalAssociationDriveMesh(poContainingDataStructure);
-        return poContainingDataStructure.getInternalAssociatedContent().removeAll(oDriveMeshAssociations);
+        for(clsAssociationDriveMesh oAssociationDriveMesh : oDriveMeshAssociations) {
+            bRemoved |= clsAssociation.removeAssociationCompletely(oAssociationDriveMesh);
+        }
+        
+        return bRemoved;
     }
 	
 	/* (non-Javadoc)
@@ -204,7 +216,9 @@ public class clsAssociationDriveMesh extends clsAssociation{
 		}
 		
 		//oResult += ":"; 
-		oResult += ":" + this.getDM().getDriveIdentifier() + ", " + this.getDM().getQuotaOfAffect();
+		if(getDM() != null) {
+		    oResult += ":" + this.getDM().getDriveIdentifier() + ", " + this.getDM().getQuotaOfAffect();
+		}
 		
 		return oResult;
 	}
