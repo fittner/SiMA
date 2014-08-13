@@ -294,6 +294,9 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rUsedPsychicIntensity);
 		
 		//Kollmann: apply importance value based on act-actions
+		//Kollmann HACK: This is not supposed to be here. According to the psychoanalytic concept, this should happen AFTER F26 - 
+		//               but for now we leave it here, because otherwise, some goals will not be considered that are essential for
+		//               the UC1.
 		GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(moReachableGoalList_IN, moDriveGoalList_IN);
 		
 		//Debug output - sort the list of goals by attractiveness and log it
