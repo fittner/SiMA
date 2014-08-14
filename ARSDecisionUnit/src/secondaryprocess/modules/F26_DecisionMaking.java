@@ -23,6 +23,7 @@ import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_7_receive;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
@@ -291,9 +292,16 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
         
 		//AMP F26 gives to know the intensity values to the psychic intensity storage
 		moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rUsedPsychicIntensity);
-        
-        
-       
+		
+		//Kollmann: apply importance value based on act-actions
+		//Kollmann HACK: This is not supposed to be here. According to the psychoanalytic concept, this should happen AFTER F26 - 
+		//               but for now we leave it here, because otherwise, some goals will not be considered that are essential for
+		//               the UC1.
+		GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(moReachableGoalList_IN, moDriveGoalList_IN);
+		
+		//Debug output - sort the list of goals by attractiveness and log it
+		ArrayList <clsWordPresentationMeshPossibleGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(moReachableGoalList_IN, moReachableGoalList_IN.size());
+		log.info("Sorted Goals:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
 		
 		//Apply social rules on goals
 		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);

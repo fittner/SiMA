@@ -41,7 +41,7 @@ public class GoalAlgorithmTools {
 
 	private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
 	
-    private static final double mrAimIncrease = 0.5; //TODO kollmann: this is just hack - make this adjustable via property file
+    private static final double mrAimImpact = 0.5; //TODO kollmann: this is just hack - make this adjustable via property file
     
 	   /**
      * Get the goal condition from the goal and set it
@@ -273,7 +273,7 @@ public class GoalAlgorithmTools {
 		return nResult;
 	}
 	
-    public static double calucateAimImportance(clsWordPresentationMeshGoal poGoal, eAction poAim) {
+    public static double calucateAimImportance(clsWordPresentationMeshPossibleGoal poGoal, eAction poAim) {
         double rResult = 0;
         //use different local logger for this function
         Logger log = clsLogger.getLog("DecisionPreparation");
@@ -297,7 +297,8 @@ public class GoalAlgorithmTools {
             
                     //if the images action fits, increase the importance value
                     if(poAim == oAction) {
-                        rResult += mrAimIncrease;
+//                        rResult += mrAimImpact * poGoal.getDriveDemandImportance();
+                        rResult += 0.2;
                         log.info("(in " + poGoal.getContent() + ") Act " + oSuppDataStructure.getContent() + " has importance increase by " + rResult + " due to action match for " + oAction);
                     }
                 }

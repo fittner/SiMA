@@ -75,19 +75,6 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	}
 	
 	/**
-	 * Set remove internal associated content
-	 * 
-	 * (schaat)
-	 *
-	 * @since 14.08.2012 11:16:52
-	 *
-	 * @param poInternalAssociation
-	 */
-	public void removeInternalAssociation(clsAssociation poInternalAssociation) {
-		this.moInternalAssociatedContent.remove(poInternalAssociation);
-	}
-	
-	/**
 	 * Set external associated content
 	 * 
 	 * (schaat)
