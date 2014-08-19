@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
+import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
@@ -45,6 +46,23 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		mrSourceAggr = prSourceAggr ;
 	} 
 
+	public static clsEmotion fromFeeling(clsWordPresentationMeshFeeling poFeeling) {
+	    eEmotionType oEmotionType = eEmotionType.valueOf(poFeeling.getContent());
+	    double rEmotionIntensity = poFeeling.getIntensity();
+	    double rEmotionPleasure = poFeeling.getPleasure();
+        double rEmotionUnpleasure = poFeeling.getUnpleasure();
+        double rEmotionLibid = poFeeling.getLibido();
+        double rEmotionAggr = poFeeling.getAggression();
+                
+        clsEmotion test1 = clsDataStructureGenerator.generateEMOTION(new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, oEmotionType, rEmotionIntensity),
+                rEmotionPleasure, rEmotionUnpleasure, rEmotionLibid, rEmotionAggr);
+        
+        clsEmotion test2 = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rEmotionIntensity, oEmotionType,
+                rEmotionPleasure,  rEmotionUnpleasure,  rEmotionLibid,  rEmotionAggr);
+        
+        return test1;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @since Jun 27, 2012 10:10:01 AM

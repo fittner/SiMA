@@ -23,6 +23,7 @@ import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationWordPresentation;
+import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
@@ -60,9 +61,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	/** The list of associated memories of the generated actions */
 	private clsWordPresentationMesh moWordingToContext;
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
-	/** The list of the current feelings of the agent */
-	private List<clsWordPresentationMeshFeeling> moCurrentFeelings;
-    
+	private List<clsEmotion> moCurrentEmotions;
+	
 	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
 	
 	
@@ -153,13 +153,16 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
             }
         }
         
-        //extract the current feelings from the current mental situation to send them to the next cycle
-        moCurrentFeelings = moShortTimeMemory.getNewestMemory().b.getFeelings();
+        //extract the current feelings from the current mental situation
+        moCurrentEmotions = new ArrayList<>();
+        for(clsWordPresentationMeshFeeling oFeeling : moShortTimeMemory.getNewestMemory().b.getFeelings()) {
+            moCurrentEmotions.add(clsEmotion.fromFeeling(oFeeling));
+        }
         
         //debug output
-        log.debug("Feelings to send back: ");
-        for(clsWordPresentationMeshFeeling oFeeling : moCurrentFeelings) {
-            log.debug("  Feeling: {}", oFeeling.debugString());
+        log.debug("Emotions to send back: ");
+        for(clsEmotion oEmotion : moCurrentEmotions) {
+            log.debug("  {}", oEmotion.toString());
         }
 	}
 
@@ -273,7 +276,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@Override
 	protected void send() {
-		send_I5_19(returnedTPMemory_OUT, this.psychicSpreadingActivationMode, moWordingToContext);
+		send_I5_19(returnedTPMemory_OUT, this.psychicSpreadingActivationMode, moWordingToContext, moCurrentEmotions);
 	}
 
 	/* (non-Javadoc)
@@ -322,9 +325,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * @see pa.interfaces.send._v38.I7_7_send#send_I7_7(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode, clsWordPresentationMesh moWordingToContext2) {
-		((I5_19_receive)moModuleList.get(46)).receive_I5_19(poReturnedMemory, psychicSpreadingActivationMode, moWordingToContext2, moCurrentFeelings);
-		putInterfaceData(I5_19_send.class, poReturnedMemory, moWordingToContext2);
+	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode, clsWordPresentationMesh moWordingToContext2, List<clsEmotion> poCurrentEmotions) {
+		((I5_19_receive)moModuleList.get(46)).receive_I5_19(poReturnedMemory, psychicSpreadingActivationMode, moWordingToContext2, poCurrentEmotions);
+		putInterfaceData(I5_19_send.class, poReturnedMemory, moWordingToContext2, poCurrentEmotions);
 	}
 
 	/* (non-Javadoc)

@@ -34,11 +34,11 @@ import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsConcept;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -77,7 +77,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	/** Here the associated memory from the planning is put on the input to this module */
 	private ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN; 
 	private PsychicSpreadingActivationMode psychicSpreadingActivationMode;
-	private List<clsWordPresentationMeshFeeling> moLastFeelings = new ArrayList<>();
+	private List<clsEmotion> moLastEmotions = new ArrayList<>();
 	/** Input from perception */
 	private ArrayList<clsThingPresentationMesh> moEnvironmentalPerception_IN;
 
@@ -193,13 +193,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		//FIXME AW: Remove this when CM has implemented it in his modules
 		//TEMPconvertLOCATIONtoPOSITIONandDISTANCE(oContainerWithTypes);
 
-	    //Extract the emotions from the feelings of the last step, to use them for activation
-	    log.debug("Transforming feelings back to emotions:");
-	    for(clsWordPresentationMeshFeeling oFeeling : moLastFeelings) {
-	        log.debug("  Feeling: {}", oFeeling.debugString());
-	    }
-			
-		clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(moEnvironmentalPerception_IN, eContentType.PI, eContent.PI.toString());
+	    clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(moEnvironmentalPerception_IN, eContentType.PI, eContent.PI.toString());
 		
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
@@ -228,6 +222,24 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 			}
 		}
 		
+		//Associate the emotions from the last cycle to the self (so they will be used for the matching)
+		// first get the self
+		clsThingPresentationMesh oSelf = clsMeshTools.getSELF(oPerceivedImage);
+		
+		if(!oSelf.isNullObject()) {
+    		log.debug("Received emotion:");
+    		//go through all received emotions and connect them to the self (internal connection == how the entity feels)
+            for(clsEmotion oEmotion : moLastEmotions) {
+                //first a little debug output
+                log.debug("  {}", oEmotion.toString());
+                //generate a new association
+                oSelf.getInternalAssociatedContent().add(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oEmotion, oSelf, 1.0));
+                log.debug("    added to self");
+            }
+		} else {
+		    log.error("The current perceived image has no SELF object to which the current emotions can be attached:\n{}", oPerceivedImage);
+		}
+
 		//--- Activation of associated memories ---//
 		
 		//Get the phantasy input
@@ -792,9 +804,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 */
 	@Override
 	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2,
-	        List<clsWordPresentationMeshFeeling> poLastFeelings) {
-		moLastFeelings = poLastFeelings;
-	    moWordingToContext = moWordingToContext2;
+	        List<clsEmotion> poLastEmotions) {
+	    moLastEmotions = poLastEmotions;
+		moWordingToContext = moWordingToContext2;
 	    moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
 		this.psychicSpreadingActivationMode = mode;
 	}
