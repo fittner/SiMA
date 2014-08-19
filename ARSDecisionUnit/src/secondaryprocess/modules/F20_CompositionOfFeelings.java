@@ -22,6 +22,7 @@ import base.datatypes.clsWordPresentation;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.datatypes.clsWordPresentationMeshFeeling;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.helpstructures.clsPair;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
@@ -92,7 +93,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	ArrayList<String> Test= new ArrayList<String>();
 	ArrayList<String> Test1= new ArrayList<String>();
 	private ArrayList<clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentation>>> moFeelingsAssociatedMemories_OUT = new ArrayList<clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentation>>>(); 
-	private clsShortTermMemory moShortTimeMemory;
+	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
 	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 
 	private boolean add;
@@ -112,7 +113,8 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	 */
 	public F20_CompositionOfFeelings(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer,
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
 		
 	    mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F20", P_MODULE_STRENGTH).getParameterDouble();
@@ -120,6 +122,8 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 
 		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
+        
+        moShortTimeMemory = poShortTimeMemory;
         
 		applyProperties(poPrefix, poProp);
 	}

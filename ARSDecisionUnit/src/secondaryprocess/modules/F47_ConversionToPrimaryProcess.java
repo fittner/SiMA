@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import properties.clsProperties;
-
 import memorymgmt.enums.PsychicSpreadingActivationMode;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
 import modules.interfaces.I5_19_receive;
 import modules.interfaces.I5_19_send;
 import modules.interfaces.I6_11_receive;
@@ -24,6 +24,7 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
@@ -58,6 +59,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	private clsWordPresentationMesh moWordingToContext;
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
 	
+	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
+	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
@@ -72,9 +75,13 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * @throws Exception
 	 */
 	public F47_ConversionToPrimaryProcess(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		
+		moShortTimeMemory = poShortTimeMemory;
+		
 		applyProperties(poPrefix, poProp);	
 	}
 	
