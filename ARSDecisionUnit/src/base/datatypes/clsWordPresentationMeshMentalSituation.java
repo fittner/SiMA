@@ -7,6 +7,7 @@
 package base.datatypes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -111,18 +112,7 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      *
      */
     public ArrayList<clsWordPresentationMeshPossibleGoal> getSelectableGoals() {
-        ArrayList<clsWordPresentationMesh> wordPresentationMeshList = this.getNonUniquePropertyWPM(ePredicate.HASSELECTABLEGOAL);
-        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
-        
-        for (clsWordPresentationMesh wpm : wordPresentationMeshList) {
-            if (wpm instanceof clsWordPresentationMeshPossibleGoal) {
-                result.add((clsWordPresentationMeshPossibleGoal) wpm);
-            } else {
-                throw new ClassCastException("This structure is no valid class for this association " + wpm);
-            }
-        }
-        
-        return result;    
+        return (ArrayList<clsWordPresentationMeshPossibleGoal>) getNonUniquePropertyWPM(ePredicate.HASSELECTABLEGOAL, clsWordPresentationMeshPossibleGoal.class);
     }
     
     /**
@@ -156,7 +146,7 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
             }
         }
         
-        return result;    
+        return result;
     }
     
     /**
@@ -179,18 +169,7 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      *
      */
     public ArrayList<clsWordPresentationMeshPossibleGoal> getExcludedSelectableGoals() {
-        ArrayList<clsWordPresentationMesh> wordPresentationMeshList = this.getNonUniquePropertyWPM(ePredicate.HASEXCLUDEDGOAL);
-        ArrayList<clsWordPresentationMeshPossibleGoal> result = new ArrayList<clsWordPresentationMeshPossibleGoal>();
-        
-        for (clsWordPresentationMesh wpm : wordPresentationMeshList) {
-            if (wpm instanceof clsWordPresentationMeshPossibleGoal) {
-                result.add((clsWordPresentationMeshPossibleGoal) wpm);
-            } else {
-                throw new ClassCastException("This structure is no valid class for this association " + wpm);
-            }
-        }
-        
-        return result;    
+        return (ArrayList<clsWordPresentationMeshPossibleGoal>) getNonUniquePropertyWPM(ePredicate.HASEXCLUDEDGOAL, clsWordPresentationMeshPossibleGoal.class);
     }
     
     /**
@@ -213,18 +192,7 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      *
      */
     public ArrayList<clsWordPresentationMeshAimOfDrive> getAimOfDrives() {
-        ArrayList<clsWordPresentationMesh> wordPresentationMeshList = this.getNonUniquePropertyWPM(ePredicate.HASAIMOFDRIVE); 
-        ArrayList<clsWordPresentationMeshAimOfDrive> result = new ArrayList<clsWordPresentationMeshAimOfDrive>();
-        
-        for (clsWordPresentationMesh wpm : wordPresentationMeshList) {
-            if (wpm instanceof clsWordPresentationMeshAimOfDrive) {
-                result.add((clsWordPresentationMeshAimOfDrive) wpm);
-            } else if (wpm.isNullObject()==false){
-                throw new ClassCastException("This structure is no valid class for this association " + wpm);
-            }
-        }
-        
-        return result;
+        return (ArrayList<clsWordPresentationMeshAimOfDrive>) getNonUniquePropertyWPM(ePredicate.HASAIMOFDRIVE, clsWordPresentationMeshAimOfDrive.class);
     }
     
     /**
@@ -251,12 +219,28 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
         return this.getUniquePropertyWPM(ePredicate.HASACTION);
     }
     
-    public void setFeeling (clsWordPresentationMeshFeeling poCurrentFeeling) {
-        setUniqueProperty(poCurrentFeeling, ePredicate.HASFEELING, true);
+    /**
+     * DOCUMENT - Adds a feeling (the current feeling for the mental situation)
+     *
+     * @author Kollmann
+     * @since 19.08.2014 13:49:57
+     *
+     * @param poFeeling: current feeling
+     */
+    public void addFeeling (clsWordPresentationMeshFeeling poFeeling) {
+        addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
     }
     
-    public clsWordPresentationMeshFeeling getFeeling() {
-        return (clsWordPresentationMeshFeeling) this.getUniquePropertyWPM(ePredicate.HASFEELING);
+    /**
+     * DOCUMENT - Gets a list of all feelings for that mental situation
+     *
+     * @author Kollmann
+     * @since 19.08.2014 13:50:03
+     *
+     * @return List of feelings (that where current at that mental situation) of the agent
+     */
+    public List<clsWordPresentationMeshFeeling> getFeelings() {
+        return getNonUniquePropertyWPM(ePredicate.HASFEELING, clsWordPresentationMeshFeeling.class);
     }
     
     @Override
@@ -266,8 +250,8 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
         oResult += "PLANGOAL: " + this.getPlanGoal() + ";\n";
         oResult += "CONTINUEDGOALS: " + this.getSelectableGoals() + ";\n ";
         oResult += "AIMOFDRIVES: " + this.getAimOfDrives() + ";\n ";
-        oResult += "CURRENT FEELING: " + this.getFeeling() + ";\n "; 
-        oResult += "EXCLUDED GOALS" + this.getExcludedSelectableGoals() + ";\n";
+        oResult += "EXCLUDED GOALS" + this.getExcludedSelectableGoals() + ";\n ";
+        oResult += "FEELINGS" + this.getFeelings() + ";\n";
         
         return oResult; 
     }
