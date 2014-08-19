@@ -251,6 +251,14 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
         return this.getUniquePropertyWPM(ePredicate.HASACTION);
     }
     
+    public void setFeeling (clsWordPresentationMeshFeeling poCurrentFeeling) {
+        setUniqueProperty(poCurrentFeeling, ePredicate.HASFEELING, true);
+    }
+    
+    public clsWordPresentationMeshFeeling getFeeling() {
+        return (clsWordPresentationMeshFeeling) this.getUniquePropertyWPM(ePredicate.HASFEELING);
+    }
+    
     @Override
     public String toString(){
         String oResult = "";
@@ -258,9 +266,9 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
         oResult += "PLANGOAL: " + this.getPlanGoal() + ";\n";
         oResult += "CONTINUEDGOALS: " + this.getSelectableGoals() + ";\n ";
         oResult += "AIMOFDRIVES: " + this.getAimOfDrives() + ";\n ";
+        oResult += "CURRENT FEELING: " + this.getFeeling() + ";\n "; 
         oResult += "EXCLUDED GOALS" + this.getExcludedSelectableGoals() + ";\n";
-          
-       
+        
         return oResult; 
     }
     
