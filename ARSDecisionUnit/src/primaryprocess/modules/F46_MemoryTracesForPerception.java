@@ -12,6 +12,7 @@ import inspector.interfaces.itfGraphInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.SortedMap;
 
 import memorymgmt.enums.PsychicSpreadingActivationMode;
@@ -37,6 +38,7 @@ import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -75,6 +77,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	/** Here the associated memory from the planning is put on the input to this module */
 	private ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN; 
 	private PsychicSpreadingActivationMode psychicSpreadingActivationMode;
+	private List<clsWordPresentationMeshFeeling> moLastFeelings = new ArrayList<>();
 	/** Input from perception */
 	private ArrayList<clsThingPresentationMesh> moEnvironmentalPerception_IN;
 
@@ -86,7 +89,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	private clsWordPresentationMesh moWordingToContext;
     private clsWordPresentationMesh moWordingToContextNew;
     private clsConcept moConcept;
-	
+    
 	///* Internal */
 	//private clsThingPresentationMesh moEnhancedPerception;
 	
@@ -189,7 +192,12 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		//Convert LOCATION to DISTANCE and POSITION
 		//FIXME AW: Remove this when CM has implemented it in his modules
 		//TEMPconvertLOCATIONtoPOSITIONandDISTANCE(oContainerWithTypes);
-		
+
+	    //Extract the emotions from the feelings of the last step, to use them for activation
+	    log.debug("Transforming feelings back to emotions:");
+	    for(clsWordPresentationMeshFeeling oFeeling : moLastFeelings) {
+	        log.debug("  Feeling: {}", oFeeling.debugString());
+	    }
 			
 		clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(moEnvironmentalPerception_IN, eContentType.PI, eContent.PI.toString());
 		
@@ -783,8 +791,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 * @see pa.interfaces.receive._v38.I7_7_receive#receive_I7_7(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2) {
-		
+	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2,
+	        List<clsWordPresentationMeshFeeling> poLastFeelings) {
+		moLastFeelings = poLastFeelings;
 	    moWordingToContext = moWordingToContext2;
 	    moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
 		this.psychicSpreadingActivationMode = mode;

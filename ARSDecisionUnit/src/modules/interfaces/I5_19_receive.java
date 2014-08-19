@@ -7,10 +7,12 @@
 package modules.interfaces;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshFeeling;
 
 /**
  * Word presentations originating in F27 are reduced to thing presentations in F47. These are forwarded together with their attached quota of affects to F46.
@@ -20,6 +22,7 @@ import base.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I5_19_receive {
-	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2);
+	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2,
+	        List<clsWordPresentationMeshFeeling> poCurrentFeelings);
 
     }
