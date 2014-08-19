@@ -9,6 +9,7 @@ package base.datatypes;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -1078,6 +1079,33 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         }
         
     
+        return oRetVal;
+    }
+    
+    /**
+     * DOCUMENT - Gets all non unique properties of a specified sub-class of WPM in a List (this is the more generic version of getNonUniquePropertyWPM)
+     *            Only properties with the specified predicate AND the specified type (provided via Class<T>) are returned
+     *
+     * @author Kollmann
+     * @since 19.08.2014 13:35:39
+     *
+     * @param poPredicate: the predicate the sought after properties have
+     * @param poPropertyType: the class of the sought after properties
+     * @return
+     */
+    protected <PROPERTY_TYPE extends clsWordPresentationMesh> List<PROPERTY_TYPE> getNonUniquePropertyWPM (ePredicate poPredicate, Class<PROPERTY_TYPE> poPropertyType) {
+        List<PROPERTY_TYPE> oRetVal = new ArrayList<PROPERTY_TYPE>();
+        
+        List<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(poPredicate);
+        
+        if (oDS!=null) {
+            for (clsSecondaryDataStructure oProperty : oDS) {
+                if(poPropertyType.isInstance(oProperty)) {
+                    oRetVal.add(poPropertyType.cast(oProperty));
+                }
+            }
+        }
+        
         return oRetVal;
     }
     
