@@ -174,7 +174,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     }
     
     public String debugString() {
-        String oText = "clsWordPresentationMeshFeeling " + getContent() + ":";
+        String oText = getContent() + ":";
         oText +=" Intensity=" + new DecimalFormat("0.00").format(getIntensity());
         oText +=" Libido=" + new DecimalFormat("0.00").format(getLibido());
         oText +=" Aggression=" + new DecimalFormat("0.00").format(getAggression());

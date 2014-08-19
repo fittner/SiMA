@@ -8,6 +8,7 @@ package secondaryprocess.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.SortedMap;
 
 import properties.clsProperties;
@@ -24,6 +25,7 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
@@ -58,8 +60,11 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	/** The list of associated memories of the generated actions */
 	private clsWordPresentationMesh moWordingToContext;
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
-	
+	/** The list of the current feelings of the agent */
+	private List<clsWordPresentationMeshFeeling> moCurrentFeelings;
+    
 	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
+	
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -146,6 +151,15 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
             } catch (Exception e) {
                 log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
             }
+        }
+        
+        //extract the current feelings from the current mental situation to send them to the next cycle
+        moCurrentFeelings = moShortTimeMemory.getNewestMemory().b.getFeelings();
+        
+        //debug output
+        log.debug("Feelings to send back: ");
+        for(clsWordPresentationMeshFeeling oFeeling : moCurrentFeelings) {
+            log.debug("  Feeling: {}", oFeeling.debugString());
         }
 	}
 

@@ -286,6 +286,10 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 			moSecondaryDataStructureContainer_Output = CreateWPMForEmotions(moEmotions_Input);
 		}
 		
+		//After all is sead and done, store copies of the newly created feelings in short term memory, so they can be accessed by F47 to send to the next cycle
+		for(clsWordPresentationMeshFeeling oFeeling : moSecondaryDataStructureContainer_Output) {
+		    moShortTimeMemory.getNewestMemory().b.addFeeling(oFeeling);
+		}
 		
 		Random randomGenerator = new Random();
         
