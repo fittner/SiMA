@@ -419,6 +419,7 @@ public class clsPrimarySpatialTools {
 				//Ssch 15.05.2012 Consider Entitycomparison when calculation Imagematch
 				
 				double rmatchingFactor = oRIPosition.a.compareTo(oPIPositionCopy.a);
+//				double rmatchingFactor = oPIPositionCopy.a.compareTo(oRIPosition.a);
 				if (rmatchingFactor >= rthreshold) {
 							
 				

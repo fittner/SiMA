@@ -275,7 +275,7 @@ public abstract class clsDataStructureGenerator {
 	}
 	
 	public static clsAssociation generateASSOCIATIONEMOTION(eContentType poContentType, 
-            clsEmotion poRoot, clsThingPresentationMesh poLeaf, double prWeight) {
+	        clsThingPresentationMesh poRoot, clsEmotion poLeaf, double prWeight) {
         clsAssociation oRetVal=null;
         eContentType oContentType = poContentType;  
         

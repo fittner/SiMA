@@ -398,7 +398,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                             // is an emotion?
                             if(oAssociatedDataStructure.getContentType()==eContentType.ASSOCIATIONEMOTION) {
                                 rNumberOfEmotions++;
-                                clsEmotion oEmotionObject = ((clsAssociationEmotion)oAssociatedDataStructure).getDM();
+                                clsEmotion oEmotionObject = ((clsAssociationEmotion)oAssociatedDataStructure).getEmotion();
                                 rPleasure += oEmotionObject.getSourcePleasure();
                                 rUnpleasure += oEmotionObject.getSourceUnpleasure();
                                 rLibid += oEmotionObject.getSourceLibid();
@@ -429,7 +429,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     if(rResultActivationSum!=0.0) {
                         // mean & add result to oOutputTPM with help of clsEmotion
                         clsEmotion oResultEmotionObject = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rResultP/rResultActivationSum, rResultU/rResultActivationSum, rResultL/rResultActivationSum, rResultA/rResultActivationSum);
-                        oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oResultEmotionObject, oOutputTPM, 1.0));
+                        oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oOutputTPM, oResultEmotionObject, 1.0));
                     }
                     //################################################################
                     break;

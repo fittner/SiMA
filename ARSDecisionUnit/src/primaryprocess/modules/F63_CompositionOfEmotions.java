@@ -32,6 +32,7 @@ import modules.interfaces.I5_3_receive;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
@@ -499,8 +500,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                    oRI = (clsThingPresentationMesh)oPIExtAss.getAssociationElementB();
                    
                    for (clsAssociation oRIAss: oRI.getExternalAssociatedContent()) {
-                       if (oRIAss.getContentType() == eContentType.ASSOCIATIONEMOTION) {
-                           oEmotionFromPerception = (clsEmotion) oRIAss.getAssociationElementA();
+                       if (oRIAss.getContentType() == eContentType.ASSOCIATIONEMOTION && oRIAss instanceof clsAssociationEmotion) {
+                           oEmotionFromPerception = ((clsAssociationEmotion)oRIAss).getEmotion();
                            // the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
                            rAssociationWeight = oPIExtAss.getMrWeight();
                            rMemoryPleasure = nonProportionalAggregation(rMemoryPleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourcePleasure()); 
