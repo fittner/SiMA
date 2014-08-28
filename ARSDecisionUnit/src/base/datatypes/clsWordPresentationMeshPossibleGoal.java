@@ -312,6 +312,14 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDPLANACTION, true);
     }
     
+    public void setPotentialDriveAim(clsWordPresentationMesh poPotentialDriveAim) {
+        this.setUniqueProperty(poPotentialDriveAim, ePredicate.HASPOTENTIALDRIVEAIM, true);
+    }
+    
+    public clsWordPresentationMesh getPotentialDriveAim() {
+        return this.getUniquePropertyWPM(ePredicate.HASPOTENTIALDRIVEAIM);
+    }
+    
     /**
      * Remove the associated action
      * 
