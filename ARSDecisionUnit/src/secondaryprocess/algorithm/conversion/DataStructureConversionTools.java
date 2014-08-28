@@ -173,12 +173,22 @@ public class DataStructureConversionTools {
                     // Get the affect templates
                     // Get the DriveMesh
                     clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement();
+                    
                     //Get goal type
                     eGoalType goalType = eGoalType.MEMORYDRIVE;  
                     if (contentType.equals(eContentType.PI)) {
                         goalType = eGoalType.PERCEPTIONALDRIVE;
                     }
+                    
                     clsWordPresentationMeshPossibleGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType); //clsGoalTools.convertDriveMeshToWP(oDM);
+                    
+                    if(goalType.equals(eGoalType.MEMORYDRIVE)) {
+                        clsThingPresentationMesh oTPMPotentialDriveAim = oDM.getActualDriveAim();
+                        //Kollmann : internal and external levels are set to -2 to keep the conversion method from going deeper into the TPM
+                        clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType);
+                        
+                        oDMWP.setPotentialDriveAim(oWPMPotentialDriveAim);
+                    }
 
                     // Create an association between the both structures and add
                     // the association to the external associationlist of the
