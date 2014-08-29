@@ -184,10 +184,15 @@ public class DataStructureConversionTools {
                     
                     if(goalType.equals(eGoalType.MEMORYDRIVE)) {
                         clsThingPresentationMesh oTPMPotentialDriveAim = oDM.getActualDriveAim();
-                        //Kollmann : internal and external levels are set to -2 to keep the conversion method from going deeper into the TPM
-                        clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType);
                         
-                        oDMWP.setPotentialDriveAim(oWPMPotentialDriveAim);
+                        if(oTPMPotentialDriveAim != null) {
+                            //Kollmann : internal and external levels are set to -2 to keep the conversion method from going deeper into the TPM
+                            clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType);
+                            
+                            oDMWP.setPotentialDriveAim(oWPMPotentialDriveAim);
+                        } else {
+                            log.warn("DM {} has no actual drive aim", oDM);
+                        }
                     }
 
                     // Create an association between the both structures and add
