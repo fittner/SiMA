@@ -268,7 +268,14 @@ public class clsGoalManipulationTools {
     public static ArrayList<clsWordPresentationMeshFeeling> getFeelingsFromImage(clsWordPresentationMesh poImage) {
         ArrayList<clsWordPresentationMeshFeeling> oRetVal = new ArrayList<clsWordPresentationMeshFeeling>();
     
+        //First check if feelings are associated directly to the image
         ArrayList<clsWordPresentationMesh> oFeelings = clsMeshTools.getNonUniquePredicateWPM(poImage, ePredicate.HASFEELING);
+        
+        //next check if feelings are associated to the SELF in the image, if it has one
+        clsWordPresentationMesh oSelf = clsMeshTools.getSELF(poImage);
+        if(!(oSelf == null || oSelf.isNullObject())) {
+            oFeelings.addAll(clsMeshTools.getNonUniquePredicateWPM(oSelf, ePredicate.HASFEELING));
+        }
         
         for (clsWordPresentationMesh oF : oFeelings) {
             oRetVal.add((clsWordPresentationMeshFeeling) oF);

@@ -249,7 +249,7 @@ public class DataStructureConversionTools {
             }
         }
 
-        if (((pnLevelInternal > 0) || (pnLevelInternal == -1)) && oRetVal != null) {
+        if (((pnLevelInternal >= 0) || (pnLevelInternal == -1)) && oRetVal != null) {
 
             // Check the inner associations, if they are associationtime, as it
             // means that is an image
@@ -266,6 +266,11 @@ public class DataStructureConversionTools {
 
                     // Add the subWPM to the WPM structure
                     clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
+                } else if(oTPMInternalAss instanceof clsAssociationEmotion && poProcessedList.contains(((clsAssociationEmotion) oTPMInternalAss).getLeafElement()) == false) {
+                    clsEmotion oEmotion = (clsEmotion) oTPMInternalAss.getLeafElement();
+                    clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
+                    
+                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
                 }
             }
         }
