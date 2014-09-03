@@ -27,7 +27,15 @@ import tools.clsPose;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
 
+import control.interfaces.itfDecisionUnit;
 
+import body.clsComplexBody;
+import body.itfGetExternalIO;
+import body.attributes.clsAttributeAntenna;
+import body.attributes.clsAttributeEye;
+import body.attributes.clsAttributes;
+import body.itfget.itfGetRadiation;
+import body.itfget.itfGetSensorEngine;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
 import entities.actionProxies.itfAPAttackableBite;
@@ -47,6 +55,9 @@ import body.itfget.itfGetInternalEnergyConsumption;
 import body.itfget.itfGetRadiation;
 import body.itfget.itfGetSensorEngine;
 
+import sim.physics2D.shape.Shape;
+import tools.eImagePositioning;
+import utils.clsGetARSPath;
 //import tstBw.*;
 
 /**

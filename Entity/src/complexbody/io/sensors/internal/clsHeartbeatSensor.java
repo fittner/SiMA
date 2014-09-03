@@ -10,6 +10,7 @@ import properties.clsProperties;
 import complexbody.io.clsBaseIO;
 
 import entities.enums.eBodyParts;
+
 import body.clsBaseBody;
 import body.clsComplexBody;
 //import bw.body.internalSystems.clsStomachSystem;
@@ -95,12 +96,15 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 		if ( moBody instanceof clsComplexBody) {
 //			clsStomachSystem oStomachSystem = ((clsComplexBody)moBody).getInternalSystem().getStomachSystem();
 
-			try {
-				mrHeartbeat = 1; //TODO
-			} catch (java.lang.ArithmeticException e) {
-				mrHeartbeat = 0; // per definition.
-			}
-		}
+//			try {
+//				mrHeartbeat = 1; //TODO
+//			} catch (java.lang.ArithmeticException e) {
+//				mrHeartbeat = 0; // per definition.
+//			}
+			
+			mrHeartbeat = ((clsComplexBody)moBody).getInternalSystem().getBOrganSystem().getBOHeart().getHeartRate();
+
+		} // updated by volkan
 	}
 	
 	/**

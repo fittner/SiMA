@@ -9,6 +9,8 @@ package complexbody.io;
 
 import java.util.ArrayList;
 
+import body.clsBaseBody;
+
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionProcessor;
@@ -34,7 +36,9 @@ import complexbody.io.actuators.actionCommands.clsActionKiss;
 import complexbody.io.actuators.actionCommands.clsActionMove;
 import complexbody.io.actuators.actionCommands.clsActionMoveToEatableArea;
 import complexbody.io.actuators.actionCommands.clsActionPickUp;
+import complexbody.io.actuators.actionCommands.clsActionShare;
 import complexbody.io.actuators.actionCommands.clsActionSleep;
+import complexbody.io.actuators.actionCommands.clsActionSpeechInvited;
 import complexbody.io.actuators.actionCommands.clsActionSpeech;
 import complexbody.io.actuators.actionCommands.clsActionToInventory;
 import complexbody.io.actuators.actionCommands.clsActionTurn;
@@ -77,6 +81,7 @@ import body.clsBaseBody;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
 import entities.actionProxies.itfAPSleep;
+import entities.enums.eBodyParts;
 
 /**
  * TODO (langr) - THIS CLASS NEEDS A REFACTORING - reason: not every

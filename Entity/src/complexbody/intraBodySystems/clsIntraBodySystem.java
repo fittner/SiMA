@@ -11,7 +11,9 @@ import properties.clsProperties;
 import complexbody.internalSystems.clsInternalSystem;
 
 import entities.abstractEntities.clsEntity;
+
 import body.itfStepUpdateInternalState;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -135,7 +137,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
      */
     @Override
 	public void stepUpdateInternalState() {
-    	//moFacialExpression.stepUpdateInternalState(); - nothing to do!!!
+    	moFacialExpression.stepUpdateInternalState(); // Facial Expressions added! -volkan
     	moColorSystem.stepUpdateInternalState();
     	moGrowthSystem.stepUpdateInternalState();
      	moStomachDamageNutrition.stepUpdateInternalState();

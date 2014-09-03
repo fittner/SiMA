@@ -8,6 +8,13 @@
 package body;
 
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,13 +22,19 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
+
 import physical2d.physicalObject.datatypes.eFacialExpression;
 import physical2d.physicalObject.datatypes.eSpeechExpression;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import utils.clsGetARSPath;
 
 import complexbody.brainsocket.clsBrainSocket;
 import complexbody.interBodyWorldSystems.clsInterBodyWorldSystem;
+import complexbody.io.sensors.datatypes.enums.eBodyActionType;
+
+import body.itfget.itfGetInternalEnergyConsumption;
 import complexbody.internalSystems.clsInternalEnergyConsumption;
 import complexbody.internalSystems.clsInternalSystem;
 import complexbody.intraBodySystems.clsIntraBodySystem;
@@ -97,6 +110,13 @@ public class clsComplexBody extends clsBaseBody implements
     private clsEntity moEntity;
        
 	private clsPersonalityParameterContainer moPersonalityParameterContainer;
+	
+	private int nCBID;
+	static int counter = 0;
+	static int roundCounter = 0;
+	static int bgRoundCounter = 0;
+	FileWriter fw = null;
+	static boolean isTimeStampPrinted;
 
 
 
@@ -107,6 +127,12 @@ public class clsComplexBody extends clsBaseBody implements
 		moInternalActionProcessor = new clsInternalActionProcessor(poPrefix,poProp,poEntity);
 		
 		applyProperties(poPrefix, poProp, poEntity);
+		
+		counter++;
+		
+		nCBID = counter;
+		
+		isTimeStampPrinted = false;
 	}
     
 	private void applyProperties(String poPrefix, clsProperties poProp, clsEntity poEntity) {
@@ -121,7 +147,7 @@ public class clsComplexBody extends clsBaseBody implements
 		moInterBodyWorldSystem 	= new clsInterBodyWorldSystem(pre+P_BODYWORLD, poProp, moInternalSystem, poEntity);
 		
 		moExternalIO	= new clsExternalIO(pre+P_EXTERNALIO, poProp, this, poEntity);
-		moInternalIO 	= new clsInternalIO(pre+P_INTERNALIO, poProp, this);
+		moInternalIO 	= new clsInternalIO(pre+P_INTERNALIO, poProp, this, poEntity);
 		moBrain 		= new clsBrainSocket(pre+P_BRAINSOCKET, poProp, moExternalIO.moSensorEngine.getMeRegisteredSensors(), moInternalIO.moSensorInternal, moExternalIO.getActionProcessor(), this.getInternalActionProcessor());
 		
 		moBodyActionList = new HashMap<eBodyActionType, Integer>();
@@ -138,8 +164,8 @@ public class clsComplexBody extends clsBaseBody implements
 		
 		//TODO AddInternalActions
 		
-		moInternalActionProcessor.addCommand(clsInternalActionSweat.class, 
-			new clsExecutorInternalSweat(poPrefix+"." + P_INTERNALACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
+		moInternalActionProcessor.addCommand(clsInternalActionEmotionalStressSweat.class, 
+			new clsExecutorInternalEmotionalStressSweat(poPrefix+"." + P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
 		
 		moInternalActionProcessor.addCommand(clsActionSpeechInvited.class, 
 				new clsExecutorSpeechInvite(poPrefix+"." + P_INTERNALACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
@@ -201,7 +227,7 @@ public class clsComplexBody extends clsBaseBody implements
 		oProp.putAll( clsInterBodyWorldSystem.getDefaultProperties(pre+P_BODYWORLD) );
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_ATTRIBUTES) );
 
-		oProp.putAll( clsExecutorInternalSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_INTERNAL) );
+		oProp.putAll( clsExecutorInternalEmotionalStressSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL) );
 		oProp.putAll( clsExecutorSpeechInvite.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_INTERNAL) );
 		
 		oProp.setProperty(pre+P_PERSONALITY_PARAMETER, P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
@@ -293,6 +319,7 @@ public class clsComplexBody extends clsBaseBody implements
 		moIntraBodySystem.stepUpdateInternalState();
 		moInterBodyWorldSystem.stepUpdateInternalState();
 		stepUpdateInternalBodyActions();
+		drawExpressions();
 	}
 	
 	/**
@@ -324,7 +351,7 @@ public class clsComplexBody extends clsBaseBody implements
 			    	  //update it
 			    	  moBodyActionList.put(oBodyAction, iDuration);
 			      }
-			    }
+			}
 		}
 	}
 
@@ -335,6 +362,7 @@ public class clsComplexBody extends clsBaseBody implements
 
 	@Override
 	public void stepExecution() {
+//		moInternalActionProcessor.dispatch();
 		//Execute Action Commands
 		processActionCommands(moBrain.getActions());
 		processInternalActionCommands(moBrain.getInternalActions());
@@ -425,6 +453,187 @@ public class clsComplexBody extends clsBaseBody implements
 
 	public void setSpeechExpression(eSpeechExpression moSpeechExpression) {
 		this.moSpeechExpression = moSpeechExpression;
+	}
+	
+	
+	public void drawExpressions(){
+		
+		clsAnimatedCircleImage aci = ((clsAnimatedCircleImage)this.moEntity.get2DShape());
+		
+		String imagePathBase = clsGetARSPath.getArsPath();
+		imagePathBase += "\\BaseEntity-Body-ARSIN\\src\\resources\\images\\expressions\\";
+		
+		File file = new File("C:\\Users\\volkan\\Desktop\\Organs Per Step.txt");
+		bgRoundCounter++;
+		if( bgRoundCounter % counter == 1 ){
+			roundCounter++;
+		}
+        
+        try {
+        fw = new FileWriter(file.getAbsoluteFile(), true);
+        
+        BufferedWriter out = new BufferedWriter(fw);
+        
+//        if( (roundCounter == 1) && (nCBID == 1) ){
+  //      if( (0 == clsStepCounter.getCounter()) && (1 == nCBID) ){
+        if( !isTimeStampPrinted ){
+        	String timeLog = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(Calendar.getInstance().getTime());
+        	
+            out.append("---------------------");
+            out.newLine();
+            out.append(timeLog);
+            out.newLine();
+            out.append("---------------------");
+            out.newLine();
+            out.newLine();
+            
+            isTimeStampPrinted = true;
+        }
+        
+		if( bgRoundCounter % counter == 1 ){
+//			out.append("Step " + roundCounter);
+			out.append("Step " + (clsStepCounter.getCounter() + 1) ); // add 1, because CB is called before F67
+	        out.newLine();
+		}
+        out.append("\n\tOrgan Informations of ComplexBody " + nCBID);
+        out.newLine();
+        
+        
+        
+		
+		
+		
+		for ( clsExpressionVariable ev : this.getInternalSystem().getBOrganSystem().getExpressionsList() ){
+			if( ev instanceof clsExpressionVariablePartialSweat ){
+				String infoText = "clsExpressionVariablePartialSweat.getEIntensity(): " + ev.getEIntensity() + ", N: " + this.getInternalSystem().getBOrganSystem().getBOSweatGlands().getNumberOfAffectingEmotionsForStressSweatIntensity();
+				System.out.println(infoText);
+				out.append(infoText);
+	            out.newLine();
+	            
+				if( (ev.getEIntensity() >= 0.25) && (ev.getEIntensity() < 0.5) ){
+					aci.setStressSweatLevel( getImageReference(imagePathBase + "arsin_stress_sweat_level1.png") );
+				}
+				else if( (ev.getEIntensity() >= 0.5) && (ev.getEIntensity() < 0.75) ){
+					aci.setStressSweatLevel( getImageReference(imagePathBase + "arsin_stress_sweat_level2.png") );
+				}
+				else if( (ev.getEIntensity() >= 0.75) && (ev.getEIntensity() < 1.0) ){
+					aci.setStressSweatLevel( getImageReference(imagePathBase + "arsin_stress_sweat_level3.png") );
+				}
+			} // similar if block above for every other expression variable...
+			if( ev instanceof clsExpressionVariableGeneralSweat ){
+				String infoText = "clsExpressionVariableGeneralSweat.getEIntensity(): " + ev.getEIntensity();
+				System.out.println(infoText);
+				out.append(infoText);
+				out.newLine();
+				
+				if( (ev.getEIntensity() >= 0.25) && (ev.getEIntensity() < 0.5) ){
+					aci.setSweatLevel( getImageReference(imagePathBase + "arsin_sweat_level1.png") );
+				}
+				else if( (ev.getEIntensity() >= 0.5) && (ev.getEIntensity() < 0.75) ){
+					aci.setSweatLevel( getImageReference(imagePathBase + "arsin_sweat_level2.png") );
+				}
+				else if( (ev.getEIntensity() >= 0.75) && (ev.getEIntensity() < 1.0) ){
+					aci.setSweatLevel( getImageReference(imagePathBase + "arsin_sweat_level3.png") );
+				}
+			}
+			if( ev instanceof clsExpressionVariableShake ){
+	            String infoText = "clsExpressionVariableShake.getEIntensity(): " + ev.getEIntensity() + ", N: " + this.getInternalSystem().getBOrganSystem().getBOArms().getNumberOfAffectingEmotionsForTensionIntensity();
+				System.out.println(infoText);
+				out.append(infoText);
+				out.newLine();
+				
+				if( (ev.getEIntensity() >= 0.25) && (ev.getEIntensity() < 0.5) ){
+					aci.setShakeLevel( getImageReference(imagePathBase + "arsin_shake_level1.png") );
+				}
+				else if( (ev.getEIntensity() >= 0.5) && (ev.getEIntensity() < 0.75) ){
+					aci.setShakeLevel( getImageReference(imagePathBase + "arsin_shake_level2.png") );
+				}
+				else if( (ev.getEIntensity() >= 0.75) && (ev.getEIntensity() < 1.0) ){
+					aci.setShakeLevel( getImageReference(imagePathBase + "arsin_shake_level3.png") );
+				}
+			}
+			if( ev instanceof clsExpressionVariableCheeksRedning ){
+	            String infoText = "clsExpressionVariableCheeksRedning.getEEffectiveIntensity(): " + ev.getEIntensity() + ", N: " + this.getInternalSystem().getBOrganSystem().getBOHeart().getNumberOfAffectingEmotionsForHeartIntensity();
+				System.out.println(infoText);
+				out.append(infoText);
+				out.newLine();
+				
+				aci.setRedCheeksImageAndIntensity( getImageReference(imagePathBase + "arsin_redcheeks.png"), ev.getEIntensity() );
+			}
+			if( ev instanceof clsExpressionVariableFacialMouth ){
+	            String infoText01 = "clsExpressionVariableFacialMouth.getMouthSidesUpOrDown(): " + ((clsExpressionVariableFacialMouth) ev).getMouthSidesUpOrDown() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialMouth().getNumberOfAffectingEmotionsForMouthSides();
+				System.out.println(infoText01);
+				out.append(infoText01);
+				out.newLine();
+	            String infoText02 = "clsExpressionVariableFacialMouth.getMouthStretchiness(): " + ((clsExpressionVariableFacialMouth) ev).getMouthStretchiness() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialMouth().getNumberOfAffectingEmotionsForMouthStretchiness();
+				System.out.println(infoText02);
+				out.append(infoText02);
+				out.newLine();
+	            String infoText03 = "clsExpressionVariableFacialMouth.getMouthOpen(): " + ((clsExpressionVariableFacialMouth) ev).getMouthOpen() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialMouth().getNumberOfAffectingEmotionsForMouthOpen();
+				System.out.println(infoText03);
+				out.append(infoText03);
+				out.newLine();
+				
+	            aci.setMouthPoints( ((clsExpressionVariableFacialMouth) ev).getMouthSidesUpOrDown(),((clsExpressionVariableFacialMouth) ev).getMouthStretchiness(), ((clsExpressionVariableFacialMouth) ev).getMouthOpen() );
+			}
+			if( ev instanceof clsExpressionVariableFacialEyeBrows ){
+	            String infoText01 = "clsExpressionVariableFacialEyeBrows.getEyeBrowsCenterUpOrDown(): " + ((clsExpressionVariableFacialEyeBrows) ev).getEyeBrowsCenterUpOrDown() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialEyeBrows().getNumberOfAffectingEmotionsForEyeBrowsCenterUpOrDown();
+				System.out.println(infoText01);
+				out.append(infoText01);
+				out.newLine();
+	            String infoText02 = "clsExpressionVariableFacialEyeBrows.getEyeBrowsCornersUpOrDown(): " + ((clsExpressionVariableFacialEyeBrows) ev).getEyeBrowsCornersUpOrDown() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialEyeBrows().getNumberOfAffectingEmotionsForEyeBrowsCornersUpOrDown();
+				System.out.println(infoText02);
+				out.append(infoText02);
+				out.newLine();
+				
+				aci.setEyeBrowsPoints( ((clsExpressionVariableFacialEyeBrows) ev).getEyeBrowsCenterUpOrDown(),((clsExpressionVariableFacialEyeBrows) ev).getEyeBrowsCornersUpOrDown() );
+			}
+			
+			if( ev instanceof clsExpressionVariableFacialEyes ){
+	            String infoText = "clsExpressionVariableFacialEyes.getCrying(): " + ((clsExpressionVariableFacialEyes) ev).getCrying() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialEyes().getNumberOfAffectingEmotionsForCryingIntensity();
+				System.out.println(infoText);
+				out.append(infoText);
+				out.newLine();
+				
+				if( (((clsExpressionVariableFacialEyes) ev).getCrying() >= 0.25) && (((clsExpressionVariableFacialEyes) ev).getCrying() < 0.5) ){
+					aci.setCryLevel( getImageReference(imagePathBase + "arsin_cry_level1.png") );
+				}
+				else if( (((clsExpressionVariableFacialEyes) ev).getCrying() >= 0.5) && (((clsExpressionVariableFacialEyes) ev).getCrying() < 0.75) ){
+					aci.setCryLevel( getImageReference(imagePathBase + "arsin_cry_level2.png") );
+				}
+				else if( (((clsExpressionVariableFacialEyes) ev).getCrying() >= 0.75) && (((clsExpressionVariableFacialEyes) ev).getCrying() < 1.0) ){
+					aci.setCryLevel( getImageReference(imagePathBase + "arsin_cry_level3.png") );
+				}
+			}
+			
+
+		} // end for - clsExpressionVariable
+		out.append("-- end of organs of CB " + nCBID + " for this step");
+		out.newLine();
+		out.newLine();
+		System.out.println();
+		System.out.println();
+		
+		out.close();
+        } catch (IOException e) {
+            // TODO (volkan) - Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        
+	} // end drawExpressions
+	
+	private BufferedImage getImageReference( String filePathPlusFileName ){
+		
+		BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File( filePathPlusFileName ));
+        } catch (IOException e) {
+			e.printStackTrace();
+			throw new NullPointerException("Image URL could not be loaded, file not found in directory");
+        }
+		
+		return img;
 	}
 	
 	

@@ -14,6 +14,12 @@ import java.util.ArrayList;
 
 import datatypes.clsPoint;
 
+import entities.enums.eShapeType;
+
+
+import physics2D.shape.clsAnimatedCircleImage;
+import physics2D.shape.clsCircleImage;
+import physics2D.shape.clsRectangleImage;
 import properties.clsProperties;
 
 

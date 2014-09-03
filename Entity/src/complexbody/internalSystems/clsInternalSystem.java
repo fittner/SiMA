@@ -42,6 +42,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     private clsDigestiveSystem moStomachSystem;
     private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
     private clsSpeechSystem moSpeechSystem; // MW 
+    
+    private clsBodyOrganSystem moBOrganSystem;
    
 	private clsPersonalityParameterContainer moPersonalityParameterContainer;
 
@@ -87,12 +89,15 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moStomachSystem 		= new clsDigestiveSystem(pre+P_STOMACH, poProp, moPersonalityParameterContainer);
    	    moInternalEnergyConsumption = new clsInternalEnergyConsumption(pre+P_INTENERGYCONSUMPTION, poProp);
    	 	moSpeechSystem 			= new clsSpeechSystem(pre+P_SPEECHSYSTEM, poProp); // MW 
+   	 	
+   	 	moBOrganSystem			= new clsBodyOrganSystem(pre, poProp, moPersonalityParameterContainer);
   	    
    	    mrBaseEnergyConsumption = poProp.getPropertyDouble(pre+P_BASEENERGYCONSUMPTION);
    	    
    	 	moInternalEnergyConsumption.setValue(eBodyParts.INTSYS, new clsMutableDouble(mrBaseEnergyConsumption));
    	 	
 		mrEnergyConsumptionFactor = moPersonalityParameterContainer.getPersonalityParameter("INTERNAL_SYSTEM", P_ENERGY_CONSUMPTION_FACTOR).getParameterDouble();
+
 	}	
 		
 	/**
@@ -149,6 +154,10 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	}
 
 	
+	public clsBodyOrganSystem getBOrganSystem() {
+		return moBOrganSystem;
+	}
+
 	/**
 	 * @return the moInternalEnergyConsumption
 	 */
@@ -177,7 +186,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moTemperatureSystem.stepUpdateInternalState();
 		moSlowMessengerSystem.stepUpdateInternalState();
 		moFastMessengerSystem.stepUpdateInternalState();
-		
+		moBOrganSystem.stepUpdateInternalState();
 		
 		moStomachSystem.withdrawEnergy( moInternalEnergyConsumption.getSum()*mrEnergyConsumptionFactor);
 		
@@ -186,5 +195,5 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 
 	public void stepExecution() {
 	}
-	
+
 }
