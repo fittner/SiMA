@@ -26,11 +26,14 @@ import javax.imageio.ImageIO;
 
 import physical2d.physicalObject.datatypes.eFacialExpression;
 import physical2d.physicalObject.datatypes.eSpeechExpression;
+import physics2D.shape.clsAnimatedCircleImage;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import utils.clsGetARSPath;
 
 import complexbody.brainsocket.clsBrainSocket;
+import complexbody.expressionVariables.clsExpressionVariable;
+import complexbody.expressionVariables.clsExpressionVariablePartialSweat;
 import complexbody.interBodyWorldSystems.clsInterBodyWorldSystem;
 import complexbody.io.sensors.datatypes.enums.eBodyActionType;
 
@@ -45,25 +48,24 @@ import complexbody.io.actuators.actionCommands.clsActionCommand;
 import complexbody.io.actuators.actionCommands.clsActionShare;
 import complexbody.io.actuators.actionCommands.clsActionSpeechInvited;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
+import complexbody.io.actuators.actionCommands.clsInternalActionEmotionalStressSweat;
 import complexbody.io.actuators.actionCommands.clsInternalActionSweat;
 import complexbody.io.actuators.actionCommands.clsInternalActionTurnVision;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalEmotionalStressSweat;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalSweat;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechInvite;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechShare;
-import complexbody.io.sensors.datatypes.enums.eBodyActionType;
-
-import utils.clsGetARSPath;
 import utils.exceptions.exFoodAlreadyNormalized;
 import utils.exceptions.exFoodWeightBelowZero;
 
 import datatypes.clsMutableDouble;
 import entities.abstractEntities.clsEntity;
+import entities.enums.eBodyParts;
 import entities.enums.eBodyType;
 import entities.enums.eNutritions;
 
 import body.attributes.clsAttributes;
-import body.itfget.itfGetInternalEnergyConsumption;
 import body.utils.clsFood;
 
 
@@ -165,16 +167,16 @@ public class clsComplexBody extends clsBaseBody implements
 		//TODO AddInternalActions
 		
 		moInternalActionProcessor.addCommand(clsInternalActionEmotionalStressSweat.class, 
-			new clsExecutorInternalEmotionalStressSweat(poPrefix+"." + P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
+			new clsExecutorInternalEmotionalStressSweat(poPrefix+"." + P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
 		
 		moInternalActionProcessor.addCommand(clsActionSpeechInvited.class, 
-				new clsExecutorSpeechInvite(poPrefix+"." + P_INTERNALACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
+				new clsExecutorSpeechInvite(poPrefix+"." + P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
 		
 		moInternalActionProcessor.addCommand(clsActionShare.class, 
-				new clsExecutorSpeechShare(poPrefix+"." + P_INTERNALACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
+				new clsExecutorSpeechShare(poPrefix+"." + P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
 
 		moInternalActionProcessor.addCommand(clsInternalActionTurnVision.class, 
-								new clsExecutorInternalTurnVision(poPrefix+"." + P_INTERNALACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
+								new clsExecutorInternalTurnVision(poPrefix+"." + P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
 				 
 		
 //		//Register actionexecutors
@@ -227,7 +229,7 @@ public class clsComplexBody extends clsBaseBody implements
 		oProp.putAll( clsInterBodyWorldSystem.getDefaultProperties(pre+P_BODYWORLD) );
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_ATTRIBUTES) );
 
-		oProp.putAll( clsExecutorInternalEmotionalStressSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL) );
+		oProp.putAll( clsExecutorInternalEmotionalStressSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONEX_INTERNAL) );
 		oProp.putAll( clsExecutorSpeechInvite.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_INTERNAL) );
 		
 		oProp.setProperty(pre+P_PERSONALITY_PARAMETER, P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);

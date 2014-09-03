@@ -11,6 +11,26 @@ import java.util.HashMap;
 
 import properties.clsProperties;
 
+import complexbody.io.actuators.clsActionProcessor;
+import complexbody.io.actuators.clsInternalActionProcessor;
+import complexbody.io.actuators.actionCommands.clsActionShare;
+import complexbody.io.actuators.actionCommands.clsActionSpeechInvited;
+import complexbody.io.actuators.actionCommands.clsInternalActionFacialChangeEyeBrows;
+import complexbody.io.actuators.actionCommands.clsInternalActionFacialChangeEyes;
+import complexbody.io.actuators.actionCommands.clsInternalActionFacialChangeMouth;
+import complexbody.io.actuators.actionCommands.clsInternalActionGeneralSweat;
+import complexbody.io.actuators.actionCommands.clsInternalActionTenseMuscles;
+import complexbody.io.actuators.actionCommands.clsInternalActionTurnVision;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalEmotionalStressSweat;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalFacialChangeEyeBrows;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalFacialChangeEyes;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalFacialChangeMouth;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalGeneralSweat;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalHeartPumpSpeed;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalTenseMuscles;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalTurnVision;
+import complexbody.io.actuators.actionExecutors.clsExecutorSpeechInvite;
+import complexbody.io.actuators.actionExecutors.clsExecutorSpeechShare;
 import complexbody.io.sensors.datatypes.enums.eSensorIntType;
 import complexbody.io.sensors.internal.clsEnergyConsumptionSensor;
 import complexbody.io.sensors.internal.clsEnergySensor;
@@ -23,6 +43,8 @@ import complexbody.io.sensors.internal.clsStaminaSensor;
 import complexbody.io.sensors.internal.clsStomachSensor;
 import complexbody.io.sensors.internal.clsStomachTensionSensor;
 import complexbody.io.sensors.internal.clsTemperatureSensor;
+import entities.abstractEntities.clsEntity;
+import entities.enums.eBodyParts;
 
 import body.clsBaseBody;
 
@@ -144,37 +166,37 @@ public class clsInternalIO extends clsBaseIO{
 		
 		oProp.putAll( clsActionProcessor.getDefaultProperties( pre+P_ACTIONPROCESSOR) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT,1);
-		oProp.putAll( clsExecutorInternalEmotionalStressSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT,1);
+		oProp.putAll( clsExecutorInternalEmotionalStressSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONINT_GENERAL_SWEAT,1);
-		oProp.putAll( clsExecutorInternalGeneralSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONINT_GENERAL_SWEAT) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_GENERAL_SWEAT,1);
+		oProp.putAll( clsExecutorInternalGeneralSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_GENERAL_SWEAT) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONINT_TENSE_MUSCLES,1);
-		oProp.putAll( clsExecutorInternalTenseMuscles.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONINT_TENSE_MUSCLES) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_TENSE_MUSCLES,1);
+		oProp.putAll( clsExecutorInternalTenseMuscles.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_TENSE_MUSCLES) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONINT_HEART_PUMP,1);
-		oProp.putAll( clsExecutorInternalHeartPumpSpeed.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONINT_HEART_PUMP) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_HEART_PUMP,1);
+		oProp.putAll( clsExecutorInternalHeartPumpSpeed.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_HEART_PUMP) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH,1);
-		oProp.putAll( clsExecutorInternalFacialChangeMouth.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH,1);
+		oProp.putAll( clsExecutorInternalFacialChangeMouth.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS,1);
-		oProp.putAll( clsExecutorInternalFacialChangeEyeBrows.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS,1);
+		oProp.putAll( clsExecutorInternalFacialChangeEyeBrows.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES,1);
-		oProp.putAll( clsExecutorInternalFacialChangeEyes.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES,1);
+		oProp.putAll( clsExecutorInternalFacialChangeEyes.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES) );
 		
 		
 		// setProperty's from the ComplexBody's code parts
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL,1);
-		oProp.putAll( clsExecutorSpeechInvite.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONEX_INTERNAL,1);
+		oProp.putAll( clsExecutorSpeechInvite.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONEX_INTERNAL) );
 		
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL,1);
-		oProp.putAll( clsExecutorInternalTurnVision.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONEX_INTERNAL,1);
+		oProp.putAll( clsExecutorInternalTurnVision.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONEX_INTERNAL) );
 		
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL,1);
-		oProp.putAll( clsExecutorSpeechShare.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONEX_INTERNAL,1);
+		oProp.putAll( clsExecutorSpeechShare.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONEX_INTERNAL) );
 		
 		return oProp;
 	}
@@ -232,55 +254,55 @@ public class clsInternalIO extends clsBaseIO{
 		} // end for
 		
 		// Register Internal Action Executors
-		//moInternalActionProcessor.addCommand(clsInternalActionEmotionalStressSweat.class, new clsExecutorInternalEmotionalStressSweat(poPrefix+"." + bw.utils.enums.eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT, poProp, moEntity));
+		//moInternalActionProcessor.addCommand(clsInternalActionEmotionalStressSweat.class, new clsExecutorInternalEmotionalStressSweat(poPrefix+"." + eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT, poProp, moEntity));
 		
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+bw.utils.enums.eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT) == 1) {
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT) == 1) {
 			moInternalActionProcessor.addCommand(clsInternalActionEmotionalStressSweat.class, new clsExecutorInternalEmotionalStressSweat(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + bw.utils.enums.eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT, poProp, moEntity));
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT, poProp, moEntity));
 		}
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+bw.utils.enums.eBodyParts.ACTIONINT_GENERAL_SWEAT) == 1) {
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_GENERAL_SWEAT) == 1) {
 			moInternalActionProcessor.addCommand(clsInternalActionGeneralSweat.class, new clsExecutorInternalGeneralSweat(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + bw.utils.enums.eBodyParts.ACTIONINT_GENERAL_SWEAT, poProp, moEntity));
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_GENERAL_SWEAT, poProp, moEntity));
 		}
 		
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+bw.utils.enums.eBodyParts.ACTIONINT_HEART_PUMP) == 1) {
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_HEART_PUMP) == 1) {
 			moInternalActionProcessor.addCommand(clsInternalActionFasterHeartPump.class, new clsExecutorInternalHeartPumpSpeed(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + bw.utils.enums.eBodyParts.ACTIONINT_HEART_PUMP, poProp, moEntity)); 
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_HEART_PUMP, poProp, moEntity)); 
 		}
 		
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+bw.utils.enums.eBodyParts.ACTIONINT_TENSE_MUSCLES) == 1) {
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_TENSE_MUSCLES) == 1) {
 			moInternalActionProcessor.addCommand(clsInternalActionTenseMuscles.class, new clsExecutorInternalTenseMuscles(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + bw.utils.enums.eBodyParts.ACTIONINT_TENSE_MUSCLES, poProp, moEntity));
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_TENSE_MUSCLES, poProp, moEntity));
 		}
 
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) == 1) {
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) == 1) {
 			moInternalActionProcessor.addCommand(clsInternalActionFacialChangeMouth.class, new clsExecutorInternalFacialChangeMouth(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH, poProp, moEntity));
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH, poProp, moEntity));
 		}
 
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS) == 1) {
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS) == 1) {
 			moInternalActionProcessor.addCommand(clsInternalActionFacialChangeEyeBrows.class, new clsExecutorInternalFacialChangeEyeBrows(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS, poProp, moEntity));
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS, poProp, moEntity));
 		}
 			
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES) == 1) {
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES) == 1) {
 			moInternalActionProcessor.addCommand(clsInternalActionFacialChangeEyes.class, new clsExecutorInternalFacialChangeEyes(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + bw.utils.enums.eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES, poProp, moEntity));
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES, poProp, moEntity));
 		}
 
 		
 		/* Last Properties are taken from the ComplexBody's code below */
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL)==1) {
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONEX_INTERNAL)==1) {
 			moInternalActionProcessor.addCommand(clsActionSpeechInvited.class, new clsExecutorSpeechInvite(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL, poProp, moEntity));
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONEX_INTERNAL, poProp, moEntity));
 		}
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL)==1) {
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONEX_INTERNAL)==1) {
 			moInternalActionProcessor.addCommand(clsInternalActionTurnVision.class, new clsExecutorInternalTurnVision(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL, poProp, moEntity));
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONEX_INTERNAL, poProp, moEntity));
 		}
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL)==1) {
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONEX_INTERNAL)==1) {
 			moInternalActionProcessor.addCommand(clsActionShare.class, new clsExecutorSpeechShare(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL, poProp, moEntity));
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONEX_INTERNAL, poProp, moEntity));
 		}
 		
 		

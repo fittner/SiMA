@@ -12,6 +12,7 @@ import properties.personality_parameter.clsPersonalityParameterContainer;
 import datatypes.clsMutableDouble;
 import entities.enums.eBodyParts;
 import body.itfStepUpdateInternalState;
+import complexbody.internalSystems.clsBodyOrganSystem;
 
 /**
  * DOCUMENT (deutsch) - insert description 
