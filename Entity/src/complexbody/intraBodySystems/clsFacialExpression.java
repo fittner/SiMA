@@ -6,6 +6,7 @@
  */
 package complexbody.intraBodySystems;
 
+import complexbody.expressionVariables.clsExpressionVariable;
 import complexbody.expressionVariables.clsExpressionVariableFacialEyeBrows;
 import complexbody.expressionVariables.clsExpressionVariableFacialEyes;
 import complexbody.expressionVariables.clsExpressionVariableFacialMouth;
@@ -23,6 +24,7 @@ import body.attributes.clsAttributeEye;
 import body.attributes.clsBodyOrganFacialEyeBrows;
 import body.attributes.clsBodyOrganFacialEyes;
 import body.attributes.clsBodyOrganFacialMouth;
+import body.itfget.itfGetBody;
 
 
 /**

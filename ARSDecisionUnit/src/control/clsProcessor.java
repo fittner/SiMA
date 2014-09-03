@@ -296,8 +296,7 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF06_DefenseMechanismsForDrives.step();
 		moPsyApp.moF19_DefenseMechanismsForPerception.step();
 
-	    // BODILY REACTIONS ON EMOTIONS
-        moPsyApp.moF67_BodilyReactionOnEmotions.step();
+
 
         logtiming.info("Duration Primary Process: {}", System.currentTimeMillis()-start);
 		//SECONDARY PROCESSES ----------------------------
@@ -336,6 +335,9 @@ public class clsProcessor implements itfProcessor  {
 		log.info("=================== ACTION EXECUTION ========================");
 		start = System.currentTimeMillis();
 		//execution
+	      // BODILY REACTIONS ON EMOTIONS
+        moPsyApp.moF67_BodilyReactionOnEmotions.step();
+		
 		moPsyApp.moF31_NeuroDeSymbolizationActionCommands.step();
 		moPsyApp.moF32_Actuators.step();
 		

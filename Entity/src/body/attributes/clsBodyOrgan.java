@@ -1,7 +1,6 @@
 
 package body.attributes;
 
-import du.itf.clsStepCounter;
 
 public abstract class clsBodyOrgan {
 	
@@ -125,7 +124,7 @@ public abstract class clsBodyOrgan {
 	}
 	
 	protected void registerStepNo(){
-		if( clsStepCounter.getCounter() == mnCurrentStep ){
+	/*	if( clsStepCounter.getCounter() == mnCurrentStep ){
 			// in the same step
 			
 		}
@@ -140,6 +139,8 @@ public abstract class clsBodyOrgan {
 		}
 		
 		/////// DELETE ME !!!!!
+		 
+		 */
 	}
 	
 	protected void resetforNextStep() { //// DELETE THIS FUNKTION TOO !!!

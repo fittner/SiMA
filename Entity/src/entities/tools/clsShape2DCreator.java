@@ -17,13 +17,7 @@ import datatypes.clsPoint;
 import entities.enums.eShapeType;
 
 
-import physics2D.shape.clsAnimatedCircleImage;
-import physics2D.shape.clsCircleImage;
-import physics2D.shape.clsRectangleImage;
 import properties.clsProperties;
-
-
-import entities.enums.eShapeType;
 
 import sim.physics2D.shape.Shape;
 import singeltons.clsSingletonProperties;

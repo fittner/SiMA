@@ -1,5 +1,5 @@
 
-package body.attributes;
+package complexbody.internalSystems;
 
 import java.util.ArrayList;
 

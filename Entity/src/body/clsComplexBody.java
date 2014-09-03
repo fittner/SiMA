@@ -33,7 +33,13 @@ import utils.clsGetARSPath;
 
 import complexbody.brainsocket.clsBrainSocket;
 import complexbody.expressionVariables.clsExpressionVariable;
+import complexbody.expressionVariables.clsExpressionVariableCheeksRedning;
+import complexbody.expressionVariables.clsExpressionVariableFacialEyeBrows;
+import complexbody.expressionVariables.clsExpressionVariableFacialEyes;
+import complexbody.expressionVariables.clsExpressionVariableFacialMouth;
+import complexbody.expressionVariables.clsExpressionVariableGeneralSweat;
 import complexbody.expressionVariables.clsExpressionVariablePartialSweat;
+import complexbody.expressionVariables.clsExpressionVariableShake;
 import complexbody.interBodyWorldSystems.clsInterBodyWorldSystem;
 import complexbody.io.sensors.datatypes.enums.eBodyActionType;
 
@@ -49,10 +55,8 @@ import complexbody.io.actuators.actionCommands.clsActionShare;
 import complexbody.io.actuators.actionCommands.clsActionSpeechInvited;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionEmotionalStressSweat;
-import complexbody.io.actuators.actionCommands.clsInternalActionSweat;
 import complexbody.io.actuators.actionCommands.clsInternalActionTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalEmotionalStressSweat;
-import complexbody.io.actuators.actionExecutors.clsExecutorInternalSweat;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechInvite;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechShare;
@@ -494,7 +498,7 @@ public class clsComplexBody extends clsBaseBody implements
         
 		if( bgRoundCounter % counter == 1 ){
 //			out.append("Step " + roundCounter);
-			out.append("Step " + (clsStepCounter.getCounter() + 1) ); // add 1, because CB is called before F67
+//			out.append("Step " + (clsStepCounter.getCounter() + 1) ); // add 1, because CB is called before F67
 	        out.newLine();
 		}
         out.append("\n\tOrgan Informations of ComplexBody " + nCBID);
