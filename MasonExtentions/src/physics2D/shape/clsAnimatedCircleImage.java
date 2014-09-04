@@ -275,27 +275,27 @@ public class clsAnimatedCircleImage extends clsCircleImage {
     	if(moShakeLevel != null){ // SHAKE
     		moShakeLevel.getGraphics();
 			graphics.drawImage(moShakeLevel, nxArc, nyArc, 60, 60, null );
-			moShakeLevel = null;
+			//moShakeLevel = null;
     	}
     	if(moCryingLevel != null){ // CRY
     		moCryingLevel.getGraphics();
 			graphics.drawImage(moCryingLevel, nxArc, nyArc, 60, 60, null );
-			moCryingLevel = null;
+			//moCryingLevel = null;
     	}
     	if(moSweatLevel != null){ // SWEAT
     		moSweatLevel.getGraphics();
 			graphics.drawImage(moSweatLevel, nxArc, nyArc, 60, 60, null );
-			moSweatLevel = null;
+			//moSweatLevel = null;
     	}
     	if(moStressSweatLevel != null){ // STRESS SWEAT
     		moStressSweatLevel.getGraphics();
 			graphics.drawImage(moStressSweatLevel, nxArc, nyArc, 60, 60, null );
-			moStressSweatLevel = null;
+			//moStressSweatLevel = null;
     	}
     	if( (moRedCheeks != null) && (mrRedCheeksIntensity >= 0) ){ // RED CHEEKS
     		moRedCheeks.getGraphics();
 			graphics.drawImage(moRedCheeks, nxArc, nyArc, 60, 60, null );
-			moRedCheeks = null;
+			//moRedCheeks = null;
     	}
 
     	// draw mouth

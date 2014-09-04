@@ -61,15 +61,15 @@ public class clsBodyOrganHeart extends clsBodyOrgan {
 			this.setNumberOfAffectingEmotionsForHeartIntensity( poStorageOfEmotionIntensities.size() + 1 );
 		}
 		
-		System.out.println("Heart affecting emotions: " + poStorageOfEmotionIntensities.size());
+	//	System.out.println("Heart affecting emotions: " + poStorageOfEmotionIntensities.size());
 		for(int a = 0; a < poStorageOfEmotionIntensities.size(); a++){
 			if ( poStorageOfEmotionNames.get(a).equalsIgnoreCase( "ANGER" ) ){
-				System.out.println( poStorageOfEmotionNames.get(a) + ": " + poStorageOfEmotionIntensities.get(a) + ", factor: " + this.getAngerFactor());
+				//System.out.println( poStorageOfEmotionNames.get(a) + ": " + poStorageOfEmotionIntensities.get(a) + ", factor: " + this.getAngerFactor());
 
 				addIntensity( poStorageOfEmotionIntensities.get(a) * this.getAngerFactor() );
 			}
 			else if ( poStorageOfEmotionNames.get(a).equalsIgnoreCase( "ANXIETY" ) ){
-				System.out.println( poStorageOfEmotionNames.get(a) + ": " + poStorageOfEmotionIntensities.get(a) + ", factor: " + this.getAnxietyFactor());
+				//System.out.println( poStorageOfEmotionNames.get(a) + ": " + poStorageOfEmotionIntensities.get(a) + ", factor: " + this.getAnxietyFactor());
 
 				addIntensity( poStorageOfEmotionIntensities.get(a) * this.getAnxietyFactor() );
 			} // no heart rate affection caused by other emotions at the moment..

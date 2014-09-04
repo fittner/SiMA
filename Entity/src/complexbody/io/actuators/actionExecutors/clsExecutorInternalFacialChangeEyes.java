@@ -83,11 +83,11 @@ public class clsExecutorInternalFacialChangeEyes extends clsInternalActionExecut
 		clsInternalActionFacialChangeEyes oCommand =(clsInternalActionFacialChangeEyes) poCommand; 
 		
 		// delete these 6 lines later. for testing..
-		System.out.println( this.getClass().toString() + " receives the following emotions:" );
+	//	System.out.println( this.getClass().toString() + " receives the following emotions:" );
 		
-		for(int a = 0; a < oCommand.getStorageOfEmotionNames().size(); a++){
-			System.out.println("Incoming emotion name: " + oCommand.getStorageOfEmotionNames().get(a) + ", intensity: " + oCommand.getStorageOfEmotionIntensities().get(a));
-		}
+	//	for(int a = 0; a < oCommand.getStorageOfEmotionNames().size(); a++){
+	//		System.out.println("Incoming emotion name: " + oCommand.getStorageOfEmotionNames().get(a) + ", intensity: " + oCommand.getStorageOfEmotionIntensities().get(a));
+	//	}
 		
 		// 1. Affect the body
 		oBody.getIntraBodySystem().getFacialExpression().getBOFacialEyes().affectEyes( oCommand.getStorageOfEmotionIntensities(), oCommand.getStorageOfEmotionNames() );

@@ -125,6 +125,7 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
     @SuppressWarnings("unchecked")
     private void FillInternalActions(ArrayList<clsEmotion> poEmotions_Input) {
 
+        
        
         ArrayList<String> moEmotionNames_Mouth = new ArrayList <String> ();
         ArrayList<String> moEmotionNames_Eyes = new ArrayList <String> ();
@@ -140,6 +141,8 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
         ArrayList<Double> moEmotionIntensities_ArmsNLegs = new ArrayList <Double> ();
         ArrayList<Double> moEmotionIntensities_StressSweat = new ArrayList <Double> ();
 
+        
+        
         // Catching emotions one after another and adding the gathered emotion informations to the InternalActionCommands' list
         for( clsEmotion eee: poEmotions_Input ){
             if( eee.getContent().equals( eEmotionType.JOY ) && (eee.getEmotionIntensity() >= 0.0) ) // 'Greater than 0.0' can be changed later

@@ -9,12 +9,8 @@ package body;
 
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -51,21 +47,12 @@ import complexbody.io.clsExternalIO;
 import complexbody.io.clsInternalIO;
 import complexbody.io.actuators.clsInternalActionProcessor;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
-import complexbody.io.actuators.actionCommands.clsActionShare;
-import complexbody.io.actuators.actionCommands.clsActionSpeechInvited;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
-import complexbody.io.actuators.actionCommands.clsInternalActionEmotionalStressSweat;
-import complexbody.io.actuators.actionCommands.clsInternalActionTurnVision;
-import complexbody.io.actuators.actionExecutors.clsExecutorInternalEmotionalStressSweat;
-import complexbody.io.actuators.actionExecutors.clsExecutorInternalTurnVision;
-import complexbody.io.actuators.actionExecutors.clsExecutorSpeechInvite;
-import complexbody.io.actuators.actionExecutors.clsExecutorSpeechShare;
 import utils.exceptions.exFoodAlreadyNormalized;
 import utils.exceptions.exFoodWeightBelowZero;
 
 import datatypes.clsMutableDouble;
 import entities.abstractEntities.clsEntity;
-import entities.enums.eBodyParts;
 import entities.enums.eBodyType;
 import entities.enums.eNutritions;
 
@@ -112,33 +99,20 @@ public class clsComplexBody extends clsBaseBody implements
     private HashMap<eBodyActionType, Integer> moBodyActionList;
     private eFacialExpression moFacialExpression = eFacialExpression.NONE;;
     private eSpeechExpression moSpeechExpression = eSpeechExpression.NONE;;
-    private clsInternalActionProcessor moInternalActionProcessor; 
     private clsEntity moEntity;
        
 	private clsPersonalityParameterContainer moPersonalityParameterContainer;
 	
-	private int nCBID;
-	static int counter = 0;
-	static int roundCounter = 0;
-	static int bgRoundCounter = 0;
-	FileWriter fw = null;
-	static boolean isTimeStampPrinted;
-
 
 
 
 	public clsComplexBody(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp, poEntity);
 		moEntity=poEntity;
-		moInternalActionProcessor = new clsInternalActionProcessor(poPrefix,poProp,poEntity);
+		//moInternalActionProcessor = new clsInternalActionProcessor(poPrefix,poProp,poEntity);
 		
 		applyProperties(poPrefix, poProp, poEntity);
 		
-		counter++;
-		
-		nCBID = counter;
-		
-		isTimeStampPrinted = false;
 	}
     
 	private void applyProperties(String poPrefix, clsProperties poProp, clsEntity poEntity) {
@@ -154,18 +128,21 @@ public class clsComplexBody extends clsBaseBody implements
 		
 		moExternalIO	= new clsExternalIO(pre+P_EXTERNALIO, poProp, this, poEntity);
 		moInternalIO 	= new clsInternalIO(pre+P_INTERNALIO, poProp, this, poEntity);
+
+
 		moBrain 		= new clsBrainSocket(pre+P_BRAINSOCKET, poProp, moExternalIO.moSensorEngine.getMeRegisteredSensors(), moInternalIO.moSensorInternal, moExternalIO.getActionProcessor(), this.getInternalActionProcessor());
 		
 		moBodyActionList = new HashMap<eBodyActionType, Integer>();
 		moFacialExpression = eFacialExpression.NONE;
 		moSpeechExpression = eSpeechExpression.NONE;
 		
-		applyInternalActionProperties(poPrefix, poProp);
+				
+	//	applyInternalActionProperties(poPrefix, poProp);
 		
 
 	}
 	
-	private void applyInternalActionProperties(String poPrefix, clsProperties poProp) {
+/*	private void applyInternalActionProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		
 		//TODO AddInternalActions
@@ -219,7 +196,7 @@ public class clsComplexBody extends clsBaseBody implements
 //			moProcessor.addCommand(clsActionSleep.class, new clsExecutorSleep(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT,poProp,(clsMobile) moEntity,oNotifyListLight,oNotifyListDeep));
 //		}		
 	}
-
+*/
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		
@@ -233,8 +210,8 @@ public class clsComplexBody extends clsBaseBody implements
 		oProp.putAll( clsInterBodyWorldSystem.getDefaultProperties(pre+P_BODYWORLD) );
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_ATTRIBUTES) );
 
-		oProp.putAll( clsExecutorInternalEmotionalStressSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONEX_INTERNAL) );
-		oProp.putAll( clsExecutorSpeechInvite.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_INTERNAL) );
+		//oProp.putAll( clsExecutorInternalEmotionalStressSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONEX_INTERNAL) );
+		//oProp.putAll( clsExecutorSpeechInvite.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_INTERNAL) );
 		
 		oProp.setProperty(pre+P_PERSONALITY_PARAMETER, P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 
@@ -273,7 +250,7 @@ public class clsComplexBody extends clsBaseBody implements
 	}
 	
 	public clsInternalActionProcessor getInternalActionProcessor() {
-		return moInternalActionProcessor;
+		return moInternalIO.getInternalActionProcessor();
 	}
 
 
@@ -374,7 +351,7 @@ public class clsComplexBody extends clsBaseBody implements
 		processActionCommands(moBrain.getActions());
 		processInternalActionCommands(moBrain.getInternalActions());
 	
-		moInternalActionProcessor.dispatch();
+	//	moInternalActionProcessor.dispatch();
 		moExternalIO.stepExecution();
 		moInternalIO.stepExecution();
 	}
@@ -387,7 +364,7 @@ public class clsComplexBody extends clsBaseBody implements
 	
 	private void processInternalActionCommands(ArrayList<clsInternalActionCommand> moCommands){
 		for( clsInternalActionCommand oCmd : moCommands ) {
-			moInternalActionProcessor.call(oCmd);
+			getInternalActionProcessor().call(oCmd);
 		}
 	}
 	
@@ -467,9 +444,8 @@ public class clsComplexBody extends clsBaseBody implements
 		
 		clsAnimatedCircleImage aci = ((clsAnimatedCircleImage)this.moEntity.get2DShape());
 		
-		String imagePathBase = clsGetARSPath.getArsPath();
-		imagePathBase += "\\BaseEntity-Body-ARSIN\\src\\resources\\images\\expressions\\";
-		
+		String imagePathBase = clsGetARSPath.getExpressionPath();
+/*		
 		File file = new File("C:\\Users\\volkan\\Desktop\\Organs Per Step.txt");
 		bgRoundCounter++;
 		if( bgRoundCounter % counter == 1 ){
@@ -504,7 +480,7 @@ public class clsComplexBody extends clsBaseBody implements
 		}
         out.append("\n\tOrgan Informations of ComplexBody " + nCBID);
         out.newLine();
-        
+  */      
         
         
 		
@@ -512,10 +488,8 @@ public class clsComplexBody extends clsBaseBody implements
 		
 		for ( clsExpressionVariable ev : this.getInternalSystem().getBOrganSystem().getExpressionsList() ){
 			if( ev instanceof clsExpressionVariablePartialSweat ){
-				String infoText = "clsExpressionVariablePartialSweat.getEIntensity(): " + ev.getEIntensity() + ", N: " + this.getInternalSystem().getBOrganSystem().getBOSweatGlands().getNumberOfAffectingEmotionsForStressSweatIntensity();
-				System.out.println(infoText);
-				out.append(infoText);
-	            out.newLine();
+			//	String infoText = "clsExpressionVariablePartialSweat.getEIntensity(): " + ev.getEIntensity() + ", N: " + this.getInternalSystem().getBOrganSystem().getBOSweatGlands().getNumberOfAffectingEmotionsForStressSweatIntensity();
+			//	System.out.println(infoText);
 	            
 				if( (ev.getEIntensity() >= 0.25) && (ev.getEIntensity() < 0.5) ){
 					aci.setStressSweatLevel( getImageReference(imagePathBase + "arsin_stress_sweat_level1.png") );
@@ -528,10 +502,8 @@ public class clsComplexBody extends clsBaseBody implements
 				}
 			} // similar if block above for every other expression variable...
 			if( ev instanceof clsExpressionVariableGeneralSweat ){
-				String infoText = "clsExpressionVariableGeneralSweat.getEIntensity(): " + ev.getEIntensity();
-				System.out.println(infoText);
-				out.append(infoText);
-				out.newLine();
+			//	String infoText = "clsExpressionVariableGeneralSweat.getEIntensity(): " + ev.getEIntensity();
+			//	System.out.println(infoText);
 				
 				if( (ev.getEIntensity() >= 0.25) && (ev.getEIntensity() < 0.5) ){
 					aci.setSweatLevel( getImageReference(imagePathBase + "arsin_sweat_level1.png") );
@@ -544,10 +516,8 @@ public class clsComplexBody extends clsBaseBody implements
 				}
 			}
 			if( ev instanceof clsExpressionVariableShake ){
-	            String infoText = "clsExpressionVariableShake.getEIntensity(): " + ev.getEIntensity() + ", N: " + this.getInternalSystem().getBOrganSystem().getBOArms().getNumberOfAffectingEmotionsForTensionIntensity();
-				System.out.println(infoText);
-				out.append(infoText);
-				out.newLine();
+	        //    String infoText = "clsExpressionVariableShake.getEIntensity(): " + ev.getEIntensity() + ", N: " + this.getInternalSystem().getBOrganSystem().getBOArms().getNumberOfAffectingEmotionsForTensionIntensity();
+			//	System.out.println(infoText);
 				
 				if( (ev.getEIntensity() >= 0.25) && (ev.getEIntensity() < 0.5) ){
 					aci.setShakeLevel( getImageReference(imagePathBase + "arsin_shake_level1.png") );
@@ -560,47 +530,33 @@ public class clsComplexBody extends clsBaseBody implements
 				}
 			}
 			if( ev instanceof clsExpressionVariableCheeksRedning ){
-	            String infoText = "clsExpressionVariableCheeksRedning.getEEffectiveIntensity(): " + ev.getEIntensity() + ", N: " + this.getInternalSystem().getBOrganSystem().getBOHeart().getNumberOfAffectingEmotionsForHeartIntensity();
-				System.out.println(infoText);
-				out.append(infoText);
-				out.newLine();
+	        //    String infoText = "clsExpressionVariableCheeksRedning.getEEffectiveIntensity(): " + ev.getEIntensity() + ", N: " + this.getInternalSystem().getBOrganSystem().getBOHeart().getNumberOfAffectingEmotionsForHeartIntensity();
+			//	System.out.println(infoText);
 				
 				aci.setRedCheeksImageAndIntensity( getImageReference(imagePathBase + "arsin_redcheeks.png"), ev.getEIntensity() );
 			}
 			if( ev instanceof clsExpressionVariableFacialMouth ){
-	            String infoText01 = "clsExpressionVariableFacialMouth.getMouthSidesUpOrDown(): " + ((clsExpressionVariableFacialMouth) ev).getMouthSidesUpOrDown() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialMouth().getNumberOfAffectingEmotionsForMouthSides();
-				System.out.println(infoText01);
-				out.append(infoText01);
-				out.newLine();
-	            String infoText02 = "clsExpressionVariableFacialMouth.getMouthStretchiness(): " + ((clsExpressionVariableFacialMouth) ev).getMouthStretchiness() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialMouth().getNumberOfAffectingEmotionsForMouthStretchiness();
-				System.out.println(infoText02);
-				out.append(infoText02);
-				out.newLine();
-	            String infoText03 = "clsExpressionVariableFacialMouth.getMouthOpen(): " + ((clsExpressionVariableFacialMouth) ev).getMouthOpen() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialMouth().getNumberOfAffectingEmotionsForMouthOpen();
-				System.out.println(infoText03);
-				out.append(infoText03);
-				out.newLine();
+	        //    String infoText01 = "clsExpressionVariableFacialMouth.getMouthSidesUpOrDown(): " + ((clsExpressionVariableFacialMouth) ev).getMouthSidesUpOrDown() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialMouth().getNumberOfAffectingEmotionsForMouthSides();
+			//	System.out.println(infoText01);
+//	            String infoText02 = "clsExpressionVariableFacialMouth.getMouthStretchiness(): " + ((clsExpressionVariableFacialMouth) ev).getMouthStretchiness() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialMouth().getNumberOfAffectingEmotionsForMouthStretchiness();
+	//			System.out.println(infoText02);
+	 //           String infoText03 = "clsExpressionVariableFacialMouth.getMouthOpen(): " + ((clsExpressionVariableFacialMouth) ev).getMouthOpen() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialMouth().getNumberOfAffectingEmotionsForMouthOpen();
+//				System.out.println(infoText03);
 				
 	            aci.setMouthPoints( ((clsExpressionVariableFacialMouth) ev).getMouthSidesUpOrDown(),((clsExpressionVariableFacialMouth) ev).getMouthStretchiness(), ((clsExpressionVariableFacialMouth) ev).getMouthOpen() );
 			}
 			if( ev instanceof clsExpressionVariableFacialEyeBrows ){
-	            String infoText01 = "clsExpressionVariableFacialEyeBrows.getEyeBrowsCenterUpOrDown(): " + ((clsExpressionVariableFacialEyeBrows) ev).getEyeBrowsCenterUpOrDown() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialEyeBrows().getNumberOfAffectingEmotionsForEyeBrowsCenterUpOrDown();
-				System.out.println(infoText01);
-				out.append(infoText01);
-				out.newLine();
-	            String infoText02 = "clsExpressionVariableFacialEyeBrows.getEyeBrowsCornersUpOrDown(): " + ((clsExpressionVariableFacialEyeBrows) ev).getEyeBrowsCornersUpOrDown() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialEyeBrows().getNumberOfAffectingEmotionsForEyeBrowsCornersUpOrDown();
-				System.out.println(infoText02);
-				out.append(infoText02);
-				out.newLine();
+//	            String infoText01 = "clsExpressionVariableFacialEyeBrows.getEyeBrowsCenterUpOrDown(): " + ((clsExpressionVariableFacialEyeBrows) ev).getEyeBrowsCenterUpOrDown() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialEyeBrows().getNumberOfAffectingEmotionsForEyeBrowsCenterUpOrDown();
+//				System.out.println(infoText01);
+//	            String infoText02 = "clsExpressionVariableFacialEyeBrows.getEyeBrowsCornersUpOrDown(): " + ((clsExpressionVariableFacialEyeBrows) ev).getEyeBrowsCornersUpOrDown() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialEyeBrows().getNumberOfAffectingEmotionsForEyeBrowsCornersUpOrDown();
+//				System.out.println(infoText02);
 				
 				aci.setEyeBrowsPoints( ((clsExpressionVariableFacialEyeBrows) ev).getEyeBrowsCenterUpOrDown(),((clsExpressionVariableFacialEyeBrows) ev).getEyeBrowsCornersUpOrDown() );
 			}
 			
 			if( ev instanceof clsExpressionVariableFacialEyes ){
-	            String infoText = "clsExpressionVariableFacialEyes.getCrying(): " + ((clsExpressionVariableFacialEyes) ev).getCrying() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialEyes().getNumberOfAffectingEmotionsForCryingIntensity();
-				System.out.println(infoText);
-				out.append(infoText);
-				out.newLine();
+//	            String infoText = "clsExpressionVariableFacialEyes.getCrying(): " + ((clsExpressionVariableFacialEyes) ev).getCrying() + ", N: " + this.getIntraBodySystem().getFacialExpression().getBOFacialEyes().getNumberOfAffectingEmotionsForCryingIntensity();
+//				System.out.println(infoText);
 				
 				if( (((clsExpressionVariableFacialEyes) ev).getCrying() >= 0.25) && (((clsExpressionVariableFacialEyes) ev).getCrying() < 0.5) ){
 					aci.setCryLevel( getImageReference(imagePathBase + "arsin_cry_level1.png") );
@@ -615,17 +571,7 @@ public class clsComplexBody extends clsBaseBody implements
 			
 
 		} // end for - clsExpressionVariable
-		out.append("-- end of organs of CB " + nCBID + " for this step");
-		out.newLine();
-		out.newLine();
-		System.out.println();
-		System.out.println();
-		
-		out.close();
-        } catch (IOException e) {
-            // TODO (volkan) - Auto-generated catch block
-            e.printStackTrace();
-        }
+
         
         
 	} // end drawExpressions
