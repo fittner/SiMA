@@ -258,7 +258,7 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
     }
     
     public clsDataPoint createActionCommand(String commandName,ArrayList<String> labels, ArrayList<Double> values){
-        clsDataPoint oRetVal = new clsDataPoint(commandName,"ACTION_COMMAND");
+        clsDataPoint oRetVal = new clsDataPoint("ACTION_COMMAND",commandName);
         
         for(int i =0; i< labels.size();i++){
             clsDataPoint child = new clsDataPoint(labels.get(i),""+values.get(i));

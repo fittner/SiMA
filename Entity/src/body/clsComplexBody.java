@@ -370,6 +370,7 @@ public class clsComplexBody extends clsBaseBody implements
 	public void stepExecution() {
 //		moInternalActionProcessor.dispatch();
 		//Execute Action Commands
+
 		processActionCommands(moBrain.getActions());
 		processInternalActionCommands(moBrain.getInternalActions());
 	
