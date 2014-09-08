@@ -36,7 +36,6 @@ import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBaseKB;
 import secondaryprocess.algorithm.goals.GoalArrangementTools;
-import secondaryprocess.algorithm.goals.GoalGenerationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -358,7 +357,7 @@ public class clsGoalManipulationTools {
 		
 		//Get all possible feelinggoals from the act
 		//FIXME: Activate goal generation from feelings again
-		oRetVal.addAll(GoalGenerationTools.generateSelectableGoalsFromFeelingsWPM(oIntention, poAct));  //Only in one image
+		//oRetVal.addAll(GoalGenerationTools.generateSelectableGoalsFromFeelingsWPM(oIntention, poAct));  //Only in one image
 		
 		
 		//Get from all subimages too

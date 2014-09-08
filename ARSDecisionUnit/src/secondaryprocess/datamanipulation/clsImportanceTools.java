@@ -414,7 +414,7 @@ public class clsImportanceTools {
         ArrayList<clsWordPresentationMeshPossibleGoal> oPrelResult = new ArrayList<clsWordPresentationMeshPossibleGoal>();
         clsDataStructurePA oPossGoal = null;
         
-        //Get a list of associationsecondary, where the root element is the drive object and the leafelement the affect
+        //Get a list of associationsecondary, where the root element is the drive object and the leaf element the affect
         ArrayList<clsPair<eContentType, String>> oContentTypeAndContent = new ArrayList<clsPair<eContentType, String>>();
         oContentTypeAndContent.add(new clsPair<eContentType, String>(eContentType.AFFECT, ""));
         
@@ -422,59 +422,73 @@ public class clsImportanceTools {
         ArrayList<clsWordPresentationMesh> oAllWPM = clsMeshTools.getAllWPMObjects(poImage, pnLevel);
         
         for (clsWordPresentationMesh oWPM : oAllWPM) {
-            oAffects = clsMeshTools.searchDataStructureOverAssociation(oWPM, ePredicate.HASAFFECT, 0, true, false);
-            if(!oAffects.isEmpty()) {
-                for(clsDataStructurePA oEntry : oAffects) {
-                    if(oEntry instanceof clsAssociationSecondary) {
-                        oPossGoal = ((clsAssociationSecondary)oEntry).getLeafElement();
-                        if(oPossGoal instanceof clsWordPresentationMeshPossibleGoal) {
-                            clsWordPresentationMesh oImageAction = clsActTools.getRecommendedActionMesh(poImage);
-                            clsWordPresentationMesh oGoalAction = ((clsWordPresentationMeshPossibleGoal)oPossGoal).getPotentialDriveAim();
-                            
-                            if(oImageAction.isEquivalentDataStructure(oGoalAction)) {
+            if(oWPM.getDS_ID() != poImage.getDS_ID()) { //the image itself is always returned by getAllWPMObjects
+                oAffects = clsMeshTools.searchDataStructureOverAssociation(oWPM, ePredicate.HASAFFECT, 0, true, false);
+                if(!oAffects.isEmpty()) {
+                    for(clsDataStructurePA oEntry : oAffects) {
+                        if(oEntry instanceof clsAssociationSecondary) {
+                            oPossGoal = ((clsAssociationSecondary)oEntry).getLeafElement();
+                            if(oPossGoal instanceof clsWordPresentationMeshPossibleGoal) {
+//                                clsWordPresentationMesh oImageAction = clsActTools.getRecommendedActionMesh(poImage);
+//                                clsWordPresentationMesh oGoalAction = ((clsWordPresentationMeshPossibleGoal)oPossGoal).getPotentialDriveAim();
+//                                
+//                                if(oImageAction.isEquivalentDataStructure(oGoalAction)) {
+//                                    oPrelResult.add((clsWordPresentationMeshPossibleGoal) oPossGoal);
+//                                }
                                 oPrelResult.add((clsWordPresentationMeshPossibleGoal) oPossGoal);
                             }
+                        } else {
+                            log.warn("Image {} had an affect predicate in an association that is not of type clsAssociationSecondary", poImage);
                         }
-                    } else {
-                        log.warn("Image {} had an affect predicate in an association that is not of type clsAssociationSecondary", poImage);
                     }
+                } else {
+                    // No affects associated, the act (possibly) has no object associated (for e.g. the generic FLEE act)
+                    
+                    
+                    //oResult.setQuotaOfAffectAsImportance(rImportance);
+                    
+    //                // Get the affect templates
+    //                // Get the DriveMesh
+    //                clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement();
+    //                
+    //                //Get goal type
+    //                eGoalType goalType = eGoalType.MEMORYDRIVE;  
+    //                if (contentType.equals(eContentType.PI)) {
+    //                    goalType = eGoalType.PERCEPTIONALDRIVE;
+    //                }
+    //                
+    //                clsWordPresentationMeshPossibleGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType); //clsGoalTools.convertDriveMeshToWP(oDM);
+    //                
+    //                if(goalType.equals(eGoalType.MEMORYDRIVE)) {
+    //                    clsThingPresentationMesh oTPMPotentialDriveAim = oDM.getActualDriveAim();
+    //                    
+    //                    if(oTPMPotentialDriveAim != null) {
+    //                        //Kollmann : internal and external levels are set to -2 to keep the conversion method from going deeper into the TPM
+    //                        clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType);
+    //                        
+    //                        oDMWP.setPotentialDriveAim(oWPMPotentialDriveAim);
+    //                    } else {
+    //                        log.warn("DM {} has no actual drive aim", oDM);
+    //                    }
+    //                }
+    //
+    //                // Create an association between the both structures and add
+    //                // the association to the external associationlist of the
+    //                // RetVal-Structure (WPM)
+    //                clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
                 }
-            } else {
-                // No affects associated, the act (possibly) has no object associated (for e.g. the generic FLEE act)
-                
-//                // Get the affect templates
-//                // Get the DriveMesh
-//                clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement();
-//                
-//                //Get goal type
-//                eGoalType goalType = eGoalType.MEMORYDRIVE;  
-//                if (contentType.equals(eContentType.PI)) {
-//                    goalType = eGoalType.PERCEPTIONALDRIVE;
-//                }
-//                
-//                clsWordPresentationMeshPossibleGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType); //clsGoalTools.convertDriveMeshToWP(oDM);
-//                
-//                if(goalType.equals(eGoalType.MEMORYDRIVE)) {
-//                    clsThingPresentationMesh oTPMPotentialDriveAim = oDM.getActualDriveAim();
-//                    
-//                    if(oTPMPotentialDriveAim != null) {
-//                        //Kollmann : internal and external levels are set to -2 to keep the conversion method from going deeper into the TPM
-//                        clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType);
-//                        
-//                        oDMWP.setPotentialDriveAim(oWPMPotentialDriveAim);
-//                    } else {
-//                        log.warn("DM {} has no actual drive aim", oDM);
-//                    }
-//                }
-//
-//                // Create an association between the both structures and add
-//                // the association to the external associationlist of the
-//                // RetVal-Structure (WPM)
-//                clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
             }
         }
         
         //oPrelResult = clsMeshTools.getDataStructureInWPM(poImage, eDataType.WPM, oContentTypeAndContent, false, 3);
+        
+        if(oPrelResult.isEmpty()) {
+            String oGoalName = "NO_DRIVE";
+            double rImportance = 0;
+            
+            clsWordPresentationMeshPossibleGoal oGoal = clsGoalManipulationTools.createSelectableGoal(oGoalName, eGoalType.MEMORYDRIVE, rImportance, clsWordPresentationMesh.getNullObject()); //new clsWordPresentationMeshAimOfDrive(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.AFFECT), new ArrayList<clsAssociation>(), oGoalName);
+            oPrelResult.add(oGoal);
+        }
         
         return oPrelResult;
     }
