@@ -49,6 +49,25 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     }
     
     /**
+     * DOCUMENT - Alternate constructor for goals that have no potential drive fullfillment importance (could get their importance from other sources, like feelings)
+     *
+     * @author Kollmann
+     * @since 10.09.2014 15:00:36
+     *
+     * @param poDataStructureIdentifier
+     * @param poAssociatedStructures
+     * @param poContent
+     * @param poGoalObject
+     * @param poName
+     * @param oGoalType
+     */
+    public clsWordPresentationMeshPossibleGoal(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
+            ArrayList<clsAssociation> poAssociatedStructures, Object poContent, clsWordPresentationMesh poGoalObject, String poName,
+            eGoalType oGoalType) {
+        super(poDataStructureIdentifier, poAssociatedStructures, poContent, poGoalObject, poName, oGoalType);
+    }
+    
+    /**
      * @since 05.07.2012 22:04:13
      * 
      * @return the moNullObjectWPM

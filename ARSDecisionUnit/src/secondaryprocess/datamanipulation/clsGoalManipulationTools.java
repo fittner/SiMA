@@ -94,6 +94,32 @@ public class clsGoalManipulationTools {
 		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT - Alternative goal creation method that does not set a drive fullfillment importance
+	 *
+	 * @author Kollmann
+	 * @since 10.09.2014 15:02:21
+	 *
+	 * @param poGoalName
+	 * @param poGoalType
+	 * @param poGoalObject
+	 * @return
+	 */
+	public static clsWordPresentationMeshPossibleGoal createSelectableGoal(String poGoalName, eGoalType poGoalType, clsWordPresentationMesh poGoalObject) {
+        
+        //Generate goalidentifier
+        String oGoalID = clsGoalManipulationTools.generateGoalContentIdentifier(poGoalName, poGoalObject, poGoalType);
+        
+        //--- Create goal ---//
+        //Create identifiyer. All goals must have the content type "GOAL"
+        clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.GOAL);
+    
+        //Create the basic goal structure
+        clsWordPresentationMeshPossibleGoal oRetVal = new clsWordPresentationMeshPossibleGoal(oDataStructureIdentifier, new ArrayList<clsAssociation>(), oGoalID, poGoalObject, poGoalName, poGoalType);
+        
+        return oRetVal;
+    }
+	
 	   /**
      * Create a new goal
      * 

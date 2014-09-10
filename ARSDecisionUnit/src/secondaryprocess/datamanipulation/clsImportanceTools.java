@@ -261,9 +261,9 @@ public class clsImportanceTools {
 		ArrayList<clsWordPresentationMeshPossibleGoal> oPrelResult = new ArrayList<clsWordPresentationMeshPossibleGoal> ();
 		
 		if (poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
-		    oPrelResult = getAllDriveWishAssociationsInImage(poImage, 1);
+		    oPrelResult = getAllPossibleGoalsFromImage(poImage, 1);
 		} else if (poGoalType.equals(eGoalType.MEMORYDRIVE)) {
-		    oPrelResult = getAllMatchingDriveWishAssociationsInImage(poImage, 1);
+		    oPrelResult = getAllPossibleGoalsFromImage(poImage, 1);
 		} else {
 		    log.warn("Unknonwn goal type {}.\nCan not get selectable goals from WPM {}", poGoalType, poImage);
 		}
@@ -284,8 +284,6 @@ public class clsImportanceTools {
 			    //Spezialfall f. Memorygoald abgleich mit Intention->action
 			    copyOfSelectableGoal.setSupportiveDataStructure(poSupportiveDataStructure);
 			}
-						
-			
 			
 			copyOfSelectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
 			
@@ -411,6 +409,7 @@ public class clsImportanceTools {
 	
 	private static ArrayList<clsWordPresentationMeshPossibleGoal> getAllMatchingDriveWishAssociationsInImage(clsWordPresentationMesh poImage, int pnLevel) {
 	    ArrayList<clsDataStructurePA> oAffects = new ArrayList<clsDataStructurePA>();
+	    ArrayList<clsDataStructurePA> oFeelings = new ArrayList<clsDataStructurePA>();
         ArrayList<clsWordPresentationMeshPossibleGoal> oPrelResult = new ArrayList<clsWordPresentationMeshPossibleGoal>();
         clsDataStructurePA oPossGoal = null;
         
@@ -429,64 +428,20 @@ public class clsImportanceTools {
                         if(oEntry instanceof clsAssociationSecondary) {
                             oPossGoal = ((clsAssociationSecondary)oEntry).getLeafElement();
                             if(oPossGoal instanceof clsWordPresentationMeshPossibleGoal) {
-//                                clsWordPresentationMesh oImageAction = clsActTools.getRecommendedActionMesh(poImage);
-//                                clsWordPresentationMesh oGoalAction = ((clsWordPresentationMeshPossibleGoal)oPossGoal).getPotentialDriveAim();
-//                                
-//                                if(oImageAction.isEquivalentDataStructure(oGoalAction)) {
-//                                    oPrelResult.add((clsWordPresentationMeshPossibleGoal) oPossGoal);
-//                                }
                                 oPrelResult.add((clsWordPresentationMeshPossibleGoal) oPossGoal);
                             }
                         } else {
                             log.warn("Image {} had an affect predicate in an association that is not of type clsAssociationSecondary", poImage);
                         }
                     }
-                } else {
-                    // No affects associated, the act (possibly) has no object associated (for e.g. the generic FLEE act)
-                    
-                    
-                    //oResult.setQuotaOfAffectAsImportance(rImportance);
-                    
-    //                // Get the affect templates
-    //                // Get the DriveMesh
-    //                clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement();
-    //                
-    //                //Get goal type
-    //                eGoalType goalType = eGoalType.MEMORYDRIVE;  
-    //                if (contentType.equals(eContentType.PI)) {
-    //                    goalType = eGoalType.PERCEPTIONALDRIVE;
-    //                }
-    //                
-    //                clsWordPresentationMeshPossibleGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType); //clsGoalTools.convertDriveMeshToWP(oDM);
-    //                
-    //                if(goalType.equals(eGoalType.MEMORYDRIVE)) {
-    //                    clsThingPresentationMesh oTPMPotentialDriveAim = oDM.getActualDriveAim();
-    //                    
-    //                    if(oTPMPotentialDriveAim != null) {
-    //                        //Kollmann : internal and external levels are set to -2 to keep the conversion method from going deeper into the TPM
-    //                        clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType);
-    //                        
-    //                        oDMWP.setPotentialDriveAim(oWPMPotentialDriveAim);
-    //                    } else {
-    //                        log.warn("DM {} has no actual drive aim", oDM);
-    //                    }
-    //                }
-    //
-    //                // Create an association between the both structures and add
-    //                // the association to the external associationlist of the
-    //                // RetVal-Structure (WPM)
-    //                clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
                 }
             }
         }
         
-        //oPrelResult = clsMeshTools.getDataStructureInWPM(poImage, eDataType.WPM, oContentTypeAndContent, false, 3);
-        
         if(oPrelResult.isEmpty()) {
+            //The image had no WPM Objects that where associated with drive meshes - this could still be a feasable goal, for example a feeling motivated goal like FLEE
             String oGoalName = "NO_DRIVE";
-            double rImportance = 0;
-            
-            clsWordPresentationMeshPossibleGoal oGoal = clsGoalManipulationTools.createSelectableGoal(oGoalName, eGoalType.MEMORYDRIVE, rImportance, clsWordPresentationMesh.getNullObject()); //new clsWordPresentationMeshAimOfDrive(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.AFFECT), new ArrayList<clsAssociation>(), oGoalName);
+            clsWordPresentationMeshPossibleGoal oGoal = clsGoalManipulationTools.createSelectableGoal(oGoalName, eGoalType.MEMORYDRIVE, clsWordPresentationMesh.getNullObject());
             oPrelResult.add(oGoal);
         }
         
