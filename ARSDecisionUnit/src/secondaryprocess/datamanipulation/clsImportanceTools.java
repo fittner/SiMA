@@ -407,7 +407,7 @@ public class clsImportanceTools {
 		return oPrelResult;
 	}
 	
-	private static ArrayList<clsWordPresentationMeshPossibleGoal> getAllMatchingDriveWishAssociationsInImage(clsWordPresentationMesh poImage, int pnLevel) {
+	private static ArrayList<clsWordPresentationMeshPossibleGoal> getAllPossibleGoalsFromImage(clsWordPresentationMesh poImage, int pnLevel) {
 	    ArrayList<clsDataStructurePA> oAffects = new ArrayList<clsDataStructurePA>();
 	    ArrayList<clsDataStructurePA> oFeelings = new ArrayList<clsDataStructurePA>();
         ArrayList<clsWordPresentationMeshPossibleGoal> oPrelResult = new ArrayList<clsWordPresentationMeshPossibleGoal>();
