@@ -18,6 +18,12 @@ import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 import communicationPorts.clsCommunicationPortDUControl;
 import communicationPorts.clsCommunicationPortDUData;
+import complexbody.expressionVariables.clsExpressionVariable;
+import complexbody.expressionVariables.clsExpressionVariableCheeksRedning;
+import complexbody.expressionVariables.clsExpressionVariableFacialEyeBrows;
+import complexbody.expressionVariables.clsExpressionVariableFacialEyes;
+import complexbody.expressionVariables.clsExpressionVariableFacialMouth;
+import complexbody.expressionVariables.clsExpressionVariableShake;
 import complexbody.internalSystems.clsFastMessengerEntry;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
@@ -56,6 +62,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.shape.Rectangle;
 import base.clsCommunicationInterface;
+import body.clsComplexBody;
 import body.itfStepProcessing;
 import entities.abstractEntities.clsEntity;
 
@@ -371,6 +378,8 @@ public class clsBrainSocket implements itfStepProcessing {
 		   oRetVal.addAssociation(new clsDataPoint("OBJECT_POSITION",collidingObj.meColPos.toString()));
 		   oRetVal.addAssociation(new clsDataPoint("DEBUG_AROUSAL_VALUE",""+oEntity.getVisionBrightness()));
 		   oRetVal.addAssociation(new clsDataPoint("DISTANCE",""+poDistance));
+		   oRetVal.addAll(convertExpressionVariables(oEntity));
+		   
 
 		   if(oEntity.getBody() != null){
 			   oRetVal.addAssociation(new clsDataPoint("BODY_INTEGRITY",""+oEntity.getBody().getBodyIntegrity()));
@@ -405,7 +414,54 @@ public class clsBrainSocket implements itfStepProcessing {
 	}
 
 
+	private ArrayList<clsDataPoint> convertExpressionVariables(clsEntity poEntity){
+		ArrayList<clsDataPoint> oRetVal = new ArrayList<clsDataPoint>();
+
+		if(poEntity.getBody() instanceof clsComplexBody){
+			clsComplexBody body = (clsComplexBody) poEntity.getBody();
+			ArrayList<clsExpressionVariable> expVariables = body.getInternalSystem().getBOrganSystem().getExpressionsList();
+			for(clsExpressionVariable expVar : expVariables){
+				
+				
+				if(expVar instanceof clsExpressionVariableCheeksRedning){
+					oRetVal.add(new clsDataPoint(expVar.getName(),""+expVar.getEIntensity()));
+				} 
+				else if(expVar instanceof clsExpressionVariableFacialEyeBrows){
+					clsDataPoint oData = new clsDataPoint(expVar.getName(),"");	
+					oData.addAssociation(new clsDataPoint("EYE_BROW_CENTER",""+((clsExpressionVariableFacialEyeBrows) expVar).getEyeBrowsCenterUpOrDown()));
+					oData.addAssociation(new clsDataPoint("EYE_BROW_CORNERS",""+((clsExpressionVariableFacialEyeBrows) expVar).getEyeBrowsCornersUpOrDown()));
+					oRetVal.add(oData);
+				}
+				else if(expVar instanceof clsExpressionVariableFacialEyes){
+					oRetVal.add(new clsDataPoint(expVar.getName(),""+expVar.getEIntensity()));
+
+				}
+				else if(expVar instanceof clsExpressionVariableFacialMouth){
+					clsDataPoint oData = new clsDataPoint(expVar.getName(),"");	
+					oData.addAssociation(new clsDataPoint("MOUTH_OPEN",""+((clsExpressionVariableFacialMouth) expVar).getMouthOpen()));
+					oData.addAssociation(new clsDataPoint("MOUTH_SIDES",""+((clsExpressionVariableFacialMouth) expVar).getMouthSidesUpOrDown()));
+					oData.addAssociation(new clsDataPoint("MOUTH_STRECHINESS",""+((clsExpressionVariableFacialMouth) expVar).getMouthStretchiness()));
+					oRetVal.add(oData);
+				}
+				else if(expVar instanceof clsExpressionVariableShake){
+					oRetVal.add(new clsDataPoint(expVar.getName(),""+expVar.getEIntensity()));
+				}
+				else{
+					oRetVal.add(new clsDataPoint(expVar.getName(),""+expVar.getEIntensity()));
+				}
+			}
+				
+			
+			
+		}
+				
 	
+		
+		return oRetVal;
+	
+	}
+	
+
 	
 	
 	/**

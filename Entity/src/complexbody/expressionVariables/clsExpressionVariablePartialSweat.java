@@ -13,4 +13,9 @@ public class clsExpressionVariablePartialSweat extends clsExpressionVariable{
 		System.out.println("FindMeVst - " + this.getClass().getName() + " counter: " + counter);
 	}
 	
+	@Override
+	public String getName(){
+		return "PARTIAL_SWEAT";
+	}
+	
 }

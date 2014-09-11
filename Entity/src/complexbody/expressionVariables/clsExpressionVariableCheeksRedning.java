@@ -13,4 +13,9 @@ public class clsExpressionVariableCheeksRedning extends clsExpressionVariable{
 		System.out.println("FindMeVst - " + this.getClass().getName() + " counter: " + counter);
 	}
 	
+	@Override
+	public String getName(){
+		return "CHEEKS_REDNING";
+	}
+	
 }

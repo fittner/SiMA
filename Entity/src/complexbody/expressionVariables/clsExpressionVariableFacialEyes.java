@@ -30,6 +30,9 @@ public class clsExpressionVariableFacialEyes extends clsExpressionVariable{
 		this.mrCrying = prCrying;
 	}
 	
-	
+	@Override
+	public String getName(){
+		return "EYES";
+	}
 
 }

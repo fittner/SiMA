@@ -49,5 +49,9 @@ public class clsExpressionVariableFacialMouth extends clsExpressionVariable{
 		this.mrMouthStretchiness = prMouthStretchiness;
 	}
 
+	@Override
+	public String getName(){
+		return "MOUTH";
+	}
 
 }

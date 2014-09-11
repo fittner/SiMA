@@ -4,6 +4,7 @@ public abstract class clsExpressionVariable {
 	
 	private double mrEIntensity;
 	private int mnDuration;
+	private String name;
 	
 	public clsExpressionVariable(){
 		mrEIntensity = 0.0; // starting value
@@ -27,7 +28,7 @@ public abstract class clsExpressionVariable {
 		}
 		
 		// delete these 2 lines. for testing only...
-		System.out.println( this.getClass().toString() + " -> triggering intensity: " + prIncomingIntensity);
+		//System.out.println( this.getClass().toString() + " -> triggering intensity: " + prIncomingIntensity);
 
 		
 		updateDuration();
@@ -46,5 +47,7 @@ public abstract class clsExpressionVariable {
 			this.mnDuration = 0;
 		}
 	}
+	
+	public abstract String getName();
 	
 } // end class clsExpressionVariable

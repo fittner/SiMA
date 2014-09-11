@@ -49,6 +49,9 @@ public class clsExpressionVariableFacialEyeBrows extends clsExpressionVariable{
 			this.mrEyeBrowsCornersUpOrDown = prEyeBrowsCornersUpOrDown;
 		}
 	}
-
+	@Override
+	public String getName(){
+		return "EYE_BROWS";
+	}
 
 }

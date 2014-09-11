@@ -54,6 +54,10 @@ public class clsDataPoint {
 		moAssociations.add(poDataPoint);
 	}
 	
+	public void addAll(ArrayList<clsDataPoint> poList){
+		moAssociations.addAll(poList);
+	}
+	
 	public ArrayList<clsDataPoint> getAssociatedDataPoints(){
 		return moAssociations;
 	}
