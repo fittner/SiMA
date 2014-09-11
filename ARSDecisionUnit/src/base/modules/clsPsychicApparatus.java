@@ -260,7 +260,7 @@ public class clsPsychicApparatus {
 		
 		//=== time monitoring end === //
 		applyProperties(poPrefix, poProp);
-	
+		moDecisionEngine.getCodeletHandler().setLibidoBuffer(moLibidoBuffer);
 		fillInterfaceMesh();
 		fillInterfaces_Recv_Send();
 	}
