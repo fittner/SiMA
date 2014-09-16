@@ -35,6 +35,11 @@ import body.itfget.itfGetBody;
  * 
  */
 public class clsFacialExpression implements itfStepUpdateInternalState{
+	
+	public static final String P_FACIALMOUTH = "facialmouth";
+	public static final String P_FACIALEYEBROWS = "facialeyebrows";
+	public static final String P_FACIALEYES = "facialeyes";
+
 	private clsAttributeEye moEye;
 	private clsAttributeAntenna moAntennaLeft;
 	private clsAttributeAntenna moAntennaRight;
@@ -47,9 +52,6 @@ public class clsFacialExpression implements itfStepUpdateInternalState{
 	
 	public clsFacialExpression(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		
-	    moBOFacialEyes = new clsBodyOrganFacialEyes();
-	    moBOFacialEyeBrows = new clsBodyOrganFacialEyeBrows();
-	    moBOFacialMouth = new clsBodyOrganFacialMouth();
 
 	    moEntity = poEntity;
 		
@@ -57,19 +59,26 @@ public class clsFacialExpression implements itfStepUpdateInternalState{
 	}
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsProperties.addDot(poPrefix);
-		
+		String pre = clsProperties.addDot(poPrefix);
+
 		clsProperties oProp = new clsProperties();
-		
-	// nothing to do
-		
+
+		oProp.putAll( clsBodyOrganFacialEyes.getDefaultProperties(pre+P_FACIALEYES) );
+		oProp.putAll( clsBodyOrganFacialEyeBrows.getDefaultProperties(pre+P_FACIALEYEBROWS) );
+		oProp.putAll( clsBodyOrganFacialMouth.getDefaultProperties(pre+P_FACIALMOUTH) );
+
 		return oProp;
-	}	
+	}
 
 	private void applyProperties(String poPrefix, clsProperties poProp) {
-		//String pre = clsProperties.addDot(poPrefix);
-		// nothing to do
+		String pre = clsProperties.addDot(poPrefix);
+
+		moBOFacialEyes = new clsBodyOrganFacialEyes(pre+P_FACIALEYES, poProp);
+	    moBOFacialEyeBrows = new clsBodyOrganFacialEyeBrows(pre+P_FACIALEYEBROWS, poProp);
+	    moBOFacialMouth = new clsBodyOrganFacialMouth(pre+P_FACIALMOUTH, poProp);
+
 	}
+
 	
 	public void setEye(eEyeSize peEyeSize, eLensSize peLensSize, eLensShape peLensShape) {
 		moEye.setEye(peLensShape, peLensSize, peEyeSize);

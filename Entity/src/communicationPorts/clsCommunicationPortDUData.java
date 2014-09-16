@@ -23,19 +23,23 @@ import complexbody.io.actuators.actionCommands.clsActionMove;
 import complexbody.io.actuators.actionCommands.clsActionPickUp;
 import complexbody.io.actuators.actionCommands.clsActionSleep;
 import complexbody.io.actuators.actionCommands.clsActionTurn;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectEyesForCrying;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectHeartBloodPressureDiastolic;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectHeartBloodPressureSystolic;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectHeartRate;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectMouthOpen;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectMouthSidesUpOrDown;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectMouthStretchiness;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionEmotionalStressSweat;
-import complexbody.io.actuators.actionCommands.clsInternalActionFacialChangeEyeBrows;
-import complexbody.io.actuators.actionCommands.clsInternalActionFacialChangeEyes;
-import complexbody.io.actuators.actionCommands.clsInternalActionFacialChangeMouth;
-import complexbody.io.actuators.actionCommands.clsInternalActionFasterHeartPump;
+import complexbody.io.actuators.actionCommands.clsInternalActionRaiseEyeBrowsCenter;
+import complexbody.io.actuators.actionCommands.clsInternalActionRaiseEyeBrowsCorners;
 import complexbody.io.actuators.actionCommands.clsInternalActionTenseMuscles;
 import complexbody.io.sensors.datatypes.enums.eActionMoveDirection;
 import complexbody.io.sensors.datatypes.enums.eActionSleepIntensity;
 import complexbody.io.sensors.datatypes.enums.eActionTurnDirection;
 
 import base.clsCommunicationInterface;
-import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (herret) - Defines hold teh data and the control interfaces to the vody
@@ -164,41 +168,45 @@ public class clsCommunicationPortDUData implements itfCommunicationPartner{
     }
     
     
-    /*        moInternalActions.addDataPoint(createActionCommand("HEART_INTENSITY", moEmotionNames_Heart,moEmotionIntensities_Heart ));
-        moInternalActions.addDataPoint(createActionCommand("EYES_INTENSITY", moEmotionNames_Eyes,moEmotionIntensities_Eyes ));
-        moInternalActions.addDataPoint(createActionCommand("EYE_BROWNS_INTENSITY", moEmotionNames_EyeBrows,moEmotionIntensities_EyeBrows ));
-        moInternalActions.addDataPoint(createActionCommand("MOUTH_INTENSITY", moEmotionNames_Mouth,moEmotionIntensities_Mouth ));
-        moInternalActions.addDataPoint(createActionCommand("SWEAT_INTENSITY", moEmotionNames_StressSweat,moEmotionIntensities_StressSweat ));
-        moInternalActions.addDataPoint(createActionCommand("ARM_INTENSITY", moEmotionNames_ArmsNLegs,moEmotionIntensities_ArmsNLegs ));
-*/
+
     private ArrayList<clsInternalActionCommand> convertInternalActions(clsDataPoint oInternalActions){
     	ArrayList<clsInternalActionCommand> oRetVal = new ArrayList<clsInternalActionCommand>();
     	for(clsDataPoint oAction: oInternalActions.getAssociatedDataPoints()){
     		if(oAction.getType().equals("ACTION_COMMAND")){
-    			if(oAction.getValue().equals("HEART_INTENSITY")){
-    				clsPair<ArrayList<String>,ArrayList<Double>> emotionValues = getEmotionValues(oAction);
-    				oRetVal.add(new clsInternalActionFasterHeartPump(emotionValues.b, emotionValues.a));
+    			if(oAction.getValue().equals("RAISE_EYE_BROWS_CORNERS")){
+    				oRetVal.add(new clsInternalActionRaiseEyeBrowsCorners(getActionIntensity(oAction)));
     			}
-    			else if(oAction.getValue().equals("EYES_INTENSITY")){
-    				clsPair<ArrayList<String>,ArrayList<Double>> emotionValues = getEmotionValues(oAction);
-    				oRetVal.add(new clsInternalActionFacialChangeEyes(emotionValues.b, emotionValues.a));
+    			else if(oAction.getValue().equals("RAISE_EYE_BROWS_CENTER")){
+    				oRetVal.add(new clsInternalActionRaiseEyeBrowsCenter(getActionIntensity(oAction)));
     			}
-    			else if(oAction.getValue().equals("EYE_BROWNS_INTENSITY")){
-    				clsPair<ArrayList<String>,ArrayList<Double>> emotionValues = getEmotionValues(oAction);
-    				oRetVal.add(new clsInternalActionFacialChangeEyeBrows(emotionValues.b, emotionValues.a));
+    			else if(oAction.getValue().equals("AFFECT_MOUTH_SIDES_UP")){
+    				oRetVal.add(new clsInternalActionAffectMouthSidesUpOrDown(getActionIntensity(oAction)));
     			}
-    			else if(oAction.getValue().equals("MOUTH_INTENSITY")){
-    				clsPair<ArrayList<String>,ArrayList<Double>> emotionValues = getEmotionValues(oAction);
-    				oRetVal.add(new clsInternalActionFacialChangeMouth(emotionValues.b, emotionValues.a));
+    			else if(oAction.getValue().equals("AFFECT_MOUTH_OPEN")){
+    				oRetVal.add(new clsInternalActionAffectMouthOpen(getActionIntensity(oAction)));
     			}
-    			else if(oAction.getValue().equals("SWEAT_INTENSITY")){
-    				clsPair<ArrayList<String>,ArrayList<Double>> emotionValues = getEmotionValues(oAction);
-    				oRetVal.add(new clsInternalActionEmotionalStressSweat(emotionValues.b, emotionValues.a));
+    			else if(oAction.getValue().equals("AFFECT_MOUTH_STRETCHINESS")){
+    				oRetVal.add(new clsInternalActionAffectMouthStretchiness(getActionIntensity(oAction)));
     			}
-    			else if(oAction.getValue().equals("ARM_INTENSITY")){
-    				clsPair<ArrayList<String>,ArrayList<Double>> emotionValues = getEmotionValues(oAction);
-    				oRetVal.add(new clsInternalActionTenseMuscles(emotionValues.b, emotionValues.a));
+    			else if(oAction.getValue().equals("TENSE_MUSCLES")){
+    				oRetVal.add(new clsInternalActionTenseMuscles(getActionIntensity(oAction)));
     			}
+    			else if(oAction.getValue().equals("STRESS_SWEAT")){
+    				oRetVal.add(new clsInternalActionEmotionalStressSweat(getActionIntensity(oAction)));
+    			}
+    			else if(oAction.getValue().equals("AFFECT_HEART_RATE")){
+    				oRetVal.add(new clsInternalActionAffectHeartRate(getActionIntensity(oAction)));
+    			}
+    			else if(oAction.getValue().equals("AFFECT_BLOOD_PRESSURE_SYSTOLIC")){
+    				oRetVal.add(new clsInternalActionAffectHeartBloodPressureSystolic(getActionIntensity(oAction)));
+    			}
+    			else if(oAction.getValue().equals("AFFECT_BLOOD_PRESSURE_DIASTOLIC")){
+    				oRetVal.add(new clsInternalActionAffectHeartBloodPressureDiastolic(getActionIntensity(oAction)));
+    			}
+    			else if(oAction.getValue().equals("EFFECT_EYEY_CRYING")){
+    				oRetVal.add(new clsInternalActionAffectEyesForCrying(getActionIntensity(oAction)));
+    			}
+
     		}
     	}
     	
@@ -206,15 +214,16 @@ public class clsCommunicationPortDUData implements itfCommunicationPartner{
     	return oRetVal;
     }
     
-    public clsPair<ArrayList<String>,ArrayList<Double>> getEmotionValues(clsDataPoint action){
-		ArrayList<String> emotionNames = new ArrayList<String>();
-		ArrayList<Double> emotionValues = new ArrayList<Double>();
-		for (clsDataPoint emotion: action.getAssociatedDataPoints()){
-			emotionNames.add(emotion.getType());
-			emotionValues.add(Double.parseDouble(emotion.getValue()));
+    public double getActionIntensity(clsDataPoint action){
+		double oRetVal=0.0;
+		
+		for(clsDataPoint oAssoc: action.getAssociatedDataPoints()){
+			if(oAssoc.getType().equals("INTENSITY")){
+				oRetVal = Double.parseDouble(oAssoc.getValue());
+				break;
+			}
 		}
-		return new clsPair<ArrayList<String>,ArrayList<Double>>(emotionNames,emotionValues);
-
+    	return oRetVal;
     }
     public ArrayList<clsActionCommand> getActions(){
   

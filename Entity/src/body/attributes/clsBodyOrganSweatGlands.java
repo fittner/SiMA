@@ -1,7 +1,7 @@
 
 package body.attributes;
 
-import java.util.ArrayList;
+import properties.clsProperties;
 
 
 public class clsBodyOrganSweatGlands extends clsBodyOrgan{
@@ -12,61 +12,48 @@ public class clsBodyOrganSweatGlands extends clsBodyOrgan{
 	 * (induced by anxiety, stress, fear, sexual stimulation, and pain)
 	 * */
 	
-	private int mnNumberOfAffectingEmotionsForStressSweatIntensity;
+	public static final String P_DEFAULTSWEATINTENSITY = "defaultsweatintensity";
+	public static final String P_DEFAULTSTRESSSWEATINTENSITY = "defaultstresssweatintensity";
 	
-	private final double mrDefaultSweatIntensity = 0.0; // no sweat
-	private final double mrDefaultStressSweatIntensity = 0.0; // no stress sweat
+	private final double mrMinStressSweatIntensity = 0.0;
+	private final double mrMaxStressSweatIntensity = 1.0;
+	private final double mrMinSweatIntensity = 0.0;
+	private final double mrMaxSweatIntensity = 1.0;
 	
-	public clsBodyOrganSweatGlands() {
-		// set Emotion factors
-		setAngerFactor(0.75);
-		setAnxietyFactor(1.0);
+	public clsBodyOrganSweatGlands(String poPrefix, clsProperties poProp) {
 		
-		// reset the emotion counters
-		this.setNumberOfAffectingEmotionsForStressSweatIntensity( 0 );
+		applyProperties(poPrefix, poProp);
 		
-		// setting starting values
-		mrSweatIntensity = mrDefaultSweatIntensity; // starting value for sweat intensity
-		mrStressSweatIntensity = mrDefaultStressSweatIntensity; // starting value for emotional stress sweat intensity
 	}
 	
-	public void affectStressSweat(ArrayList<Double> poStorageOfEmotionIntensities, ArrayList<String> poStorageOfEmotionNames)	{
-		if( getNumberOfAffectingEmotionsForStressSweatIntensity() == 0 ){
-			// if 0, it means we are affecting for the very first time and default starting value should not be counted.
-			this.setNumberOfAffectingEmotionsForStressSweatIntensity( poStorageOfEmotionIntensities.size() );
-		}
-		else{
-			// its not 0. it means the value from previous step counts like an emotion with factor 1.0
-			this.setNumberOfAffectingEmotionsForStressSweatIntensity( poStorageOfEmotionIntensities.size() + 1 );
-		}
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		System.out.println("Emotional Stress sweat causing emotions: " + poStorageOfEmotionIntensities.size());
-		for(int a = 0; a < poStorageOfEmotionIntensities.size(); a++){
-			if ( poStorageOfEmotionNames.get(a).equalsIgnoreCase( "ANGER" ) ){
-				System.out.println( poStorageOfEmotionNames.get(a) + ": " + poStorageOfEmotionIntensities.get(a) + ", factor: " + this.getAngerFactor());
-
-				addStressSweatIntensity( poStorageOfEmotionIntensities.get(a) * ( this.getAngerFactor() ) );
-			}
-			else if ( poStorageOfEmotionNames.get(a).equalsIgnoreCase( "ANXIETY" ) ){
-				System.out.println( poStorageOfEmotionNames.get(a) + ": " + poStorageOfEmotionIntensities.get(a) + ", factor: " + this.getAnxietyFactor());
-
-				addStressSweatIntensity( poStorageOfEmotionIntensities.get(a) * ( this.getAnxietyFactor() ) );
-			} // no emotional stress sweat caused by other emotions at the moment..
-	/*		else
-			{ // for other emotions..
-				addStressSweatIntensity( poStorageOfEmotionIntensities.get(a) );
-			}	*/
-		}
+		clsProperties oProp = new clsProperties();
 		
-		if(this.getNumberOfAffectingEmotionsForStressSweatIntensity() != 0){
-			this.setStressSweatIntensity( this.mrStressSweatIntensity / this.getNumberOfAffectingEmotionsForStressSweatIntensity() );
-		}
-		else{
-			this.setStressSweatIntensity( this.mrStressSweatIntensity ); // to avoid division by 0
-		}
-	} // end affectStressSweat
+		oProp.setProperty(pre+P_DEFAULTSWEATINTENSITY, "0.0"); // no sweat
+		oProp.setProperty(pre+P_DEFAULTSTRESSSWEATINTENSITY, "0.0"); // no stress sweat
+		
+		return oProp;
+
+	}	
+
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+	    String pre = clsProperties.addDot(poPrefix);
+	    
+	    mrSweatIntensity = poProp.getPropertyDouble(pre+P_DEFAULTSWEATINTENSITY);
+	    mrStressSweatIntensity = poProp.getPropertyDouble(pre+P_DEFAULTSTRESSSWEATINTENSITY);
+		
+	}
 
 	public double getSweatIntensity() {
+		if(mrSweatIntensity < mrMinSweatIntensity){
+			setSweatIntensity( mrMinSweatIntensity );
+		}
+		else if( mrSweatIntensity >= mrMaxSweatIntensity){
+			setSweatIntensity( mrMaxSweatIntensity );
+		}
+		
 		return mrSweatIntensity;
 	}
 	
@@ -77,66 +64,20 @@ public class clsBodyOrganSweatGlands extends clsBodyOrgan{
 	private void setStressSweatIntensity(double prIntensity) {
 		this.mrStressSweatIntensity = prIntensity;
 	}
-
-	public void affectStressSweat( double prIntensity, String poEmotionType )
-	{
-		registerStepNo();
-		
-		if(prIntensity > 1.0){
-			prIntensity = 1.0;
-		}
-		if(prIntensity < 0.0){
-			prIntensity = 0.0;
-		}
-		
-		if ( poEmotionType.equalsIgnoreCase( "ANGER" ) ){
-			System.out.println( this.getClass().toString() + " -> incoming emotion name: " + poEmotionType + "factor: " + this.getAngerFactor() + ", incoming intensity: " + prIntensity);
-
-			addStressSweatIntensity( prIntensity * ( this.getAngerFactor()) );
-		}
-		else if ( poEmotionType.equalsIgnoreCase( "ANXIETY" ) ){
-			System.out.println( this.getClass().toString() + " -> incoming emotion name: " + poEmotionType + "factor: " + this.getAnxietyFactor() + ", incoming intensity: " + prIntensity);
-
-			addStressSweatIntensity( prIntensity * ( this.getAnxietyFactor()) );
-		}/* no emotional stress sweating caused by the emotions below..
-		else if ( poEmotionType.equalsIgnoreCase( "MOURNING" ) ){
-			addStressSweatIntensity( poIntensity * (this.getMourningFactor()) );
-		}
-		else if ( poEmotionType.equalsIgnoreCase( "JOY" ) ){
-			addStressSweatIntensity( poIntensity * (this.getJoyFactor()) );
-		}
-		else if ( poEmotionType.equalsIgnoreCase( "SATURATION" ) ){
-			addStressSweatIntensity( poIntensity * (this.getSaturationFactor()) );
-		}
-		else if ( poEmotionType.equalsIgnoreCase( "ELATION" ) ){
-			addStressSweatIntensity( poIntensity * (this.getElationFactor()) );
-		}*/
-		else
-		{ // for other emotions..
-			addStressSweatIntensity( prIntensity );
-		}
-	}
 	
 	public double getStressSweatIntensity() {
-		if(mrStressSweatIntensity < 0.0){
-			setStressSweatIntensity( 0.0 );
+		if(mrStressSweatIntensity < mrMinStressSweatIntensity){
+			setStressSweatIntensity( mrMinStressSweatIntensity );
 		}
-		else if( mrStressSweatIntensity >= 1.0){
-			setStressSweatIntensity( 1.0 );
+		else if( mrStressSweatIntensity >= mrMaxStressSweatIntensity){
+			setStressSweatIntensity( mrMaxStressSweatIntensity );
 		}
 		
 		return mrStressSweatIntensity;
 	}
 	
-	private void addStressSweatIntensity( double prIntensity) {
+	public void affectStressSweat( double prIntensity) {
 		this.mrStressSweatIntensity += prIntensity;
-	}
-	
-	public int getNumberOfAffectingEmotionsForStressSweatIntensity() {
-		return this.mnNumberOfAffectingEmotionsForStressSweatIntensity;
-	}
-	private void setNumberOfAffectingEmotionsForStressSweatIntensity(int pnIntensity) {
-		this.mnNumberOfAffectingEmotionsForStressSweatIntensity = pnIntensity;
 	}
 
 }

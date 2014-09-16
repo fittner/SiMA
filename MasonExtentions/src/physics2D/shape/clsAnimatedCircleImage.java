@@ -61,7 +61,7 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 	
 	double moLifeValue =1.0;
 	boolean mbShowOrientation = false; //show orientation marker if you want
-
+	
 	BufferedImage moShakeLevel = null;
 	BufferedImage moCryingLevel = null;
 	BufferedImage moSweatLevel = null;
@@ -76,6 +76,10 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 	Point moLeftCornerOfEyeBrowsPosition = null;
 	Point moRightCornerOfEyeBrowsPosition = null;
 	
+	private double mrRadiusProportionFactor;
+	private int mnImageFilePixelWidth = 195;
+	private int mnImageFilePixelHeight = 227;
+	
 	
 	
 	public clsAnimatedCircleImage(double prRadius, Paint poPaint,
@@ -83,6 +87,8 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 		
 		
 		super(prRadius, poPaint, psImageFilePath);
+		mrRadiusProportionFactor = mrRadius / 10; // divide by 10, because I calculated my pixels when the mrRadius was 10.0 . now it can be adjusted accordingly -volkan
+
 		this.mbShowOrientation = pbShowOrientation;	
 		
 		
@@ -272,69 +278,70 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 	        }
         // volkan
         // DRAW BODILY EXPRESSIONS
-    	if(moShakeLevel != null){ // SHAKE
-    		moShakeLevel.getGraphics();
-			graphics.drawImage(moShakeLevel, nxArc, nyArc, 60, 60, null );
-			//moShakeLevel = null;
-    	}
-    	if(moCryingLevel != null){ // CRY
-    		moCryingLevel.getGraphics();
-			graphics.drawImage(moCryingLevel, nxArc, nyArc, 60, 60, null );
-			//moCryingLevel = null;
-    	}
-    	if(moSweatLevel != null){ // SWEAT
-    		moSweatLevel.getGraphics();
-			graphics.drawImage(moSweatLevel, nxArc, nyArc, 60, 60, null );
-			//moSweatLevel = null;
-    	}
-    	if(moStressSweatLevel != null){ // STRESS SWEAT
-    		moStressSweatLevel.getGraphics();
-			graphics.drawImage(moStressSweatLevel, nxArc, nyArc, 60, 60, null );
-			//moStressSweatLevel = null;
-    	}
-    	if( (moRedCheeks != null) && (mrRedCheeksIntensity >= 0) ){ // RED CHEEKS
-    		moRedCheeks.getGraphics();
-			graphics.drawImage(moRedCheeks, nxArc, nyArc, 60, 60, null );
-			//moRedCheeks = null;
-    	}
-
-    	// draw mouth
-    	BufferedImage mouthImage = null;
-    	// draw mouth part 1: upper lip
-    	if((moLipsCornerLeftEnd == null) || (moLipsCornerRightEnd == null) || (moUpperLipCenterPosition == null) || (moLowerLipCenterPosition == null)){
-    		// ERROR: Not all points are set
-    	}
-    	else{
-    		mouthImage = drawCurveWithThreePoints(mouthImage, moLipsCornerLeftEnd, moUpperLipCenterPosition, moLipsCornerRightEnd);
-    	}
-
-    	// draw mouth part 2: lower lip
-    	if((moLipsCornerLeftEnd == null) || (moLipsCornerRightEnd == null) || (moUpperLipCenterPosition == null) || (moLowerLipCenterPosition == null)){
-    		// ERROR: Not all points are set
-    	}
-    	else{
-    		mouthImage = drawCurveWithThreePoints(mouthImage, moLipsCornerLeftEnd, moLowerLipCenterPosition, moLipsCornerRightEnd);
-    	}
-
-    	// draw mouth part 3: fill mouth?
-
-    	// drawImage for mouth
-    	if(mouthImage!=null) mouthImage.getGraphics();
-		graphics.drawImage(mouthImage, nxArc, nyArc, 60, 60, null );
-
-
-		// draw Eye Brow
-    	BufferedImage eyeBrowImage = null;
-    	// draw eye brow:
-    	if((moCenterOfEyeBrowsPosition == null) || (moLeftCornerOfEyeBrowsPosition == null) || (moRightCornerOfEyeBrowsPosition == null)){
-    		// ERROR: Not all points are set
-    	}
-    	else{
-    		eyeBrowImage = drawCurveWithThreePoints(eyeBrowImage, moLeftCornerOfEyeBrowsPosition, moCenterOfEyeBrowsPosition, moRightCornerOfEyeBrowsPosition);
-    	}
-    	// drawImage for eye brows
-    	if(eyeBrowImage!=null) eyeBrowImage.getGraphics();
-		graphics.drawImage(eyeBrowImage, nxArc, nyArc, 60, 60, null );
+        if(clsSingletonProperties.showBodilyExpressions() == true){
+        	int size_width = (int)(60 * mrRadiusProportionFactor);
+        	int size_height = (int)(60 * mrRadiusProportionFactor);
+        	
+        	if(moShakeLevel != null){ // SHAKE
+        		moShakeLevel.getGraphics();
+    			graphics.drawImage(moShakeLevel, nxArc, nyArc, size_width, size_height, null );
+        	}
+        	if(moCryingLevel != null){ // CRY
+        		moCryingLevel.getGraphics();
+    			graphics.drawImage(moCryingLevel, nxArc, nyArc, size_width, size_height, null );
+        	}
+        	if(moSweatLevel != null){ // SWEAT
+        		moSweatLevel.getGraphics();
+    			graphics.drawImage(moSweatLevel, nxArc, nyArc, size_width, size_height, null ); 
+        	}
+        	if(moStressSweatLevel != null){ // STRESS SWEAT
+        		moStressSweatLevel.getGraphics();
+    			graphics.drawImage(moStressSweatLevel, nxArc, nyArc, size_width, size_height, null );
+        	}
+        	if( (moRedCheeks != null) && (mrRedCheeksIntensity >= 0) ){ // RED CHEEKS
+        		moRedCheeks.getGraphics();
+    			graphics.drawImage(moRedCheeks, nxArc, nyArc, size_width, size_height, null );
+        	}
+        	
+        	// draw mouth
+        	BufferedImage mouthImage = null;
+        	// draw mouth part 1: upper lip
+        	if((moLipsCornerLeftEnd == null) || (moLipsCornerRightEnd == null) || (moUpperLipCenterPosition == null) || (moLowerLipCenterPosition == null)){
+        		// ERROR: Not all points are set
+        	}
+        	else{
+        		mouthImage = drawCurveWithThreePoints(mouthImage, moLipsCornerLeftEnd, moUpperLipCenterPosition, moLipsCornerRightEnd);
+        	}
+            
+        	// draw mouth part 2: lower lip
+        	if((moLipsCornerLeftEnd == null) || (moLipsCornerRightEnd == null) || (moUpperLipCenterPosition == null) || (moLowerLipCenterPosition == null)){
+        		// ERROR: Not all points are set
+        	}
+        	else{
+        		mouthImage = drawCurveWithThreePoints(mouthImage, moLipsCornerLeftEnd, moLowerLipCenterPosition, moLipsCornerRightEnd);
+        	}
+        	
+        	// draw mouth part 3: fill mouth?
+        	
+        	// drawImage for mouth
+        	mouthImage.getGraphics();
+    		graphics.drawImage(mouthImage, nxArc, nyArc, size_width, size_height, null ); 
+    		
+    		
+    		// draw Eye Brow
+        	BufferedImage eyeBrowImage = null;
+        	// draw eye brow:
+        	if((moCenterOfEyeBrowsPosition == null) || (moLeftCornerOfEyeBrowsPosition == null) || (moRightCornerOfEyeBrowsPosition == null)){
+        		// ERROR: Not all points are set
+        	}
+        	else{
+        		eyeBrowImage = drawCurveWithThreePoints(eyeBrowImage, moLeftCornerOfEyeBrowsPosition, moCenterOfEyeBrowsPosition, moRightCornerOfEyeBrowsPosition);
+        	}
+        	// drawImage for eye brows
+        	eyeBrowImage.getGraphics();
+    		graphics.drawImage(eyeBrowImage, nxArc, nyArc, size_width, size_height, null ); 
+    		
+        } // end draw Bodily Expressions
         }
 	
 	/**

@@ -3,19 +3,19 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import body.clsComplexBody;
-import body.itfget.itfGetBody;
-
 import properties.clsProperties;
-
 import complexbody.io.actuators.clsInternalActionExecutor;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectEyesForCrying;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
-import complexbody.io.actuators.actionCommands.clsInternalActionFasterHeartPump;
+
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
+import body.itfget.itfGetBody;
 
 
 
-public class clsExecutorInternalHeartPumpSpeed extends clsInternalActionExecutor{
+
+public class clsExecutorInternalAffectEyesForCrying extends clsInternalActionExecutor{
 
 	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 	?		
 	
@@ -23,7 +23,7 @@ public class clsExecutorInternalHeartPumpSpeed extends clsInternalActionExecutor
 
 	private clsEntity moEntity;
 
-	public clsExecutorInternalHeartPumpSpeed(String poPrefix, clsProperties poProp, clsEntity poEntity) {
+	public clsExecutorInternalAffectEyesForCrying(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp);
 		
 		moEntity = poEntity;
@@ -47,11 +47,11 @@ public class clsExecutorInternalHeartPumpSpeed extends clsInternalActionExecutor
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = eBodyParts.ACTIONINT_HEART_PUMP;
+		mePartId = eBodyParts.ACTIONINT_FACIAL_AFFECT_EYES_FOR_CRYING;
 	}
 	@Override
 	protected void setName() {
-		moName="Heart Pump Speed executor";	
+		moName="Affect Eyes For Crying executor";	
 	}
 
 	/*
@@ -80,18 +80,10 @@ public class clsExecutorInternalHeartPumpSpeed extends clsInternalActionExecutor
 	@Override
 	public boolean execute(clsInternalActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		clsInternalActionFasterHeartPump oCommand =(clsInternalActionFasterHeartPump) poCommand;
-		
-		
-		// delete these 6 lines later. for testing..
-		System.out.println( this.getClass().toString() + " receives the following emotions:" );
-		
-		for(int a = 0; a < oCommand.getStorageOfEmotionNames().size(); a++){
-			System.out.println("Incoming emotion name: " + oCommand.getStorageOfEmotionNames().get(a) + ", intensity: " + oCommand.getStorageOfEmotionIntensities().get(a));
-		}
+		clsInternalActionAffectEyesForCrying oCommand =(clsInternalActionAffectEyesForCrying) poCommand; 
 		
 		// 1. Affect the body
-		oBody.getInternalSystem().getBOrganSystem().getBOHeart().affectHeart( oCommand.getStorageOfEmotionIntensities() , oCommand.getStorageOfEmotionNames() );
+		oBody.getIntraBodySystem().getFacialExpression().getBOFacialEyes().addMourningIntensity( oCommand.getIntensity() );
 		
 
 		return true;

@@ -1,14 +1,15 @@
+
 package complexbody.io.actuators.actionCommands;
 
 import complexbody.io.sensors.datatypes.enums.eInternalActionIntensity;
 
-public class clsInternalActionTenseMuscles extends clsInternalActionCommand{
+public class clsInternalActionRaiseEyeBrowsCorners extends clsInternalActionCommand{
 
 	private double mrTenseMuscles = -1;
 
 	private eInternalActionIntensity meInternalActionIntensity;
 
-	public clsInternalActionTenseMuscles( double prIntensity ) {
+	public clsInternalActionRaiseEyeBrowsCorners( double prIntensity ) {
 		this.mrTenseMuscles = prIntensity;
 	}
 
@@ -19,6 +20,9 @@ public class clsInternalActionTenseMuscles extends clsInternalActionCommand{
 
 	public eInternalActionIntensity getInternalActionIntensity() {
 		return meInternalActionIntensity;
+	}
+	public double getEyeBrowsCornersRaise(){
+		return 0.0;
 	}
 
 	public void setEmotionalStressSweat(double prTenseMuscles) {

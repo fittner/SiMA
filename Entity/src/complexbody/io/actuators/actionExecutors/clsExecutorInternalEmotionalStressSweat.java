@@ -11,16 +11,14 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import body.clsComplexBody;
-import body.itfget.itfGetBody;
-
 import properties.clsProperties;
-
 import complexbody.io.actuators.clsInternalActionExecutor;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionEmotionalStressSweat;
+
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
-
+import body.itfget.itfGetBody;
 /**
  * Action Executor for eating
  * Proxy itfAPEatable
@@ -34,8 +32,7 @@ import entities.enums.eBodyParts;
  */
 public class clsExecutorInternalEmotionalStressSweat extends clsInternalActionExecutor{
 
-	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 	?		
-	private double mrPersonalityAffectionFactor = 0.5; // [0.0, 1.0], 0.5 -> normal person (default)
+	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 	?
 	
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
@@ -101,18 +98,7 @@ public class clsExecutorInternalEmotionalStressSweat extends clsInternalActionEx
 		clsInternalActionEmotionalStressSweat oCommand =(clsInternalActionEmotionalStressSweat) poCommand; 
 		
 	   // Affect the body
-	   // FastMessenger is not needed.
-	   // oBody.AddBodyAction() is not needed.
-
-		// delete these 6 lines later. for testing..
-		System.out.println( this.getClass().toString() + " receives the following emotions:" );
-		
-		for(int a = 0; a < oCommand.getStorageOfEmotionNames().size(); a++){
-			System.out.println("Incoming emotion name: " + oCommand.getStorageOfEmotionNames().get(a) + ", intensity: " + oCommand.getStorageOfEmotionIntensities().get(a));
-		}
-
-		// Affect the body
-		oBody.getInternalSystem().getBOrganSystem().getBOSweatGlands().affectStressSweat( oCommand.getStorageOfEmotionIntensities() , oCommand.getStorageOfEmotionNames() );
+		oBody.getInternalSystem().getBOrganSystem().getBOSweatGlands().affectStressSweat( oCommand.getEmotionalStressSweat() );
 
 		return true;
 	} // end execute

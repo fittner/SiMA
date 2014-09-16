@@ -4,7 +4,6 @@ package complexbody.internalSystems;
 import java.util.ArrayList;
 
 import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 
 import complexbody.expressionVariables.clsExpressionVariable;
 import complexbody.expressionVariables.clsExpressionVariableCheeksRedning;
@@ -22,6 +21,11 @@ import body.attributes.clsBodyOrganSweatGlands;
 
 public class clsBodyOrganSystem implements itfStepUpdateInternalState {
 
+	public static final String P_BODYORGANARMS = "bodyorganarms";
+	public static final String P_BODYORGANHEART = "bodyorganheart";
+	public static final String P_BODYORGANLEGS = "bodyorganlegs";
+	public static final String P_BODYORGANSWEATGLANDS = "bodyorgansweatglands";
+	
     // body parts
 	private ArrayList<clsExpressionVariable> moExpressionsList = null;
     private clsBodyOrganArms moBOArms;
@@ -32,15 +36,10 @@ public class clsBodyOrganSystem implements itfStepUpdateInternalState {
 	
 //	private clsPersonalityParameterContainer moPersonalityParameterContainer;
 	
-	public clsBodyOrganSystem(String poPrefix, clsProperties poProp, clsPersonalityParameterContainer poPersonalityParameterContainer) {
+    public clsBodyOrganSystem(String poPrefix, clsProperties poProp) {
 
 		moExpressionsList = new ArrayList<clsExpressionVariable>();
 		
-	    moBOArms = new clsBodyOrganArms();
-	    moBOHeart = new clsBodyOrganHeart();
-	    moBOLegs = new clsBodyOrganLegs();
-	    moBOSweatGlands = new clsBodyOrganSweatGlands();
-	    moBOStomach = new clsBodyOrganStomach();
 		
 //		moPersonalityParameterContainer = poPersonalityParameterContainer;
 		
@@ -51,17 +50,28 @@ public class clsBodyOrganSystem implements itfStepUpdateInternalState {
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
-		
+
 		clsProperties oProp = new clsProperties();
-		
+
+		oProp.putAll( clsBodyOrganArms.getDefaultProperties(pre+P_BODYORGANARMS) );
+		oProp.putAll( clsBodyOrganHeart.getDefaultProperties(pre+P_BODYORGANHEART) );
+		oProp.putAll( clsBodyOrganLegs.getDefaultProperties(pre+P_BODYORGANLEGS) );
+		oProp.putAll( clsBodyOrganSweatGlands.getDefaultProperties(pre+P_BODYORGANSWEATGLANDS) );
+
 		return oProp;
 
-	}	
+	}
 
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 	    String pre = clsProperties.addDot(poPrefix);
-		
+
+	    moBOArms = new clsBodyOrganArms(pre+P_BODYORGANARMS, poProp);
+	    moBOHeart = new clsBodyOrganHeart(pre+P_BODYORGANHEART, poProp);
+	    moBOLegs = new clsBodyOrganLegs(pre+P_BODYORGANLEGS, poProp);
+	    moBOSweatGlands = new clsBodyOrganSweatGlands(pre+P_BODYORGANSWEATGLANDS, poProp);
+
 	}
+
 
 	/**
 	 * DOCUMENT (deutsch) - insert description
@@ -110,10 +120,10 @@ public class clsBodyOrganSystem implements itfStepUpdateInternalState {
 				moExpressionsList.get( (moExpressionsList.size() - 1) ).triggerExpression( this.getBOArms().getTensionIntensity() ); // ( intensityOfOrganVariable / 2.25) = (intensityOfExpression / 1.0)
 			}
 		}
-		if ( this.getBOHeart().getIntensity() >= 0.0 )
+		if ( this.getBOHeart().getBloodPressureIntensity() >= 0.0 )
 		{
 			int positionOfEVCheeksRedning = -1;
-			double nCheekRedningIntensity = this.getBOHeart().getIntensity();
+			double nCheekRedningIntensity = this.getBOHeart().getBloodPressureIntensity();
 			
 			for(clsExpressionVariable ev : moExpressionsList){
 				if( ev instanceof clsExpressionVariableCheeksRedning ){

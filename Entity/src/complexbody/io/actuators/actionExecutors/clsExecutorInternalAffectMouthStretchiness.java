@@ -1,16 +1,28 @@
-
+/**
+ * CHANGELOG
+ *
+ * Sep 11, 2014 volkan - File created
+ *
+ */
 package complexbody.io.actuators.actionExecutors;
 
 import body.clsComplexBody;
 import properties.clsProperties;
 import complexbody.io.actuators.clsInternalActionExecutor;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectMouthStretchiness;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
-import complexbody.io.actuators.actionCommands.clsInternalActionTenseMuscles;
 
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
 import body.itfget.itfGetBody;
-public class clsExecutorInternalTenseMuscles extends clsInternalActionExecutor {
+/**
+ * DOCUMENT (volkan) - insert description 
+ * 
+ * @author volkan
+ * Sep 11, 2014, 4:05:24 AM
+ * 
+ */
+public class clsExecutorInternalAffectMouthStretchiness extends clsInternalActionExecutor {
 	
 	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 	?
 	
@@ -19,10 +31,12 @@ public class clsExecutorInternalTenseMuscles extends clsInternalActionExecutor {
 	/**
 	 * DOCUMENT (volkan) - insert description 
 	 *
+	 * @since Sep 11, 2014 4:07:15 AM
+	 *
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsExecutorInternalTenseMuscles(String poPrefix, clsProperties poProp, clsEntity poEntity) {
+	public clsExecutorInternalAffectMouthStretchiness(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp);
 
 		moEntity = poEntity;
@@ -43,53 +57,54 @@ public class clsExecutorInternalTenseMuscles extends clsInternalActionExecutor {
 
 	/* (non-Javadoc)
 	 *
+	 * @since Sep 11, 2014 4:06:34 AM
 	 * 
 	 * @see bw.body.io.actuators.clsInternalActionExecutor#setBodyPartId()
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = eBodyParts.ACTIONINT_TENSE_MUSCLES;
+		// TODO (volkan) - Auto-generated method stub
+		mePartId = eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH;
 	}
 
 	/* (non-Javadoc)
 	 *
+	 * @since Sep 11, 2014 4:06:34 AM
 	 * 
 	 * @see bw.body.io.actuators.clsInternalActionExecutor#setName()
 	 */
 	@Override
 	protected void setName() {
-		moName="Internal action tense muscles executor";
+		// TODO (volkan) - Auto-generated method stub
+		moName="Internal action mouth Stretchiness executor";
 	}
 
 	/* (non-Javadoc)
 	 *
+	 * @since Sep 11, 2014 4:06:34 AM
 	 * 
 	 * @see bw.body.io.actuators.clsInternalActionExecutor#getStaminaDemand(du.itf.actions.clsInternalActionCommand)
 	 */
 	@Override
 	public double getStaminaDemand(clsInternalActionCommand poCommand) {
+		// TODO (volkan) - Auto-generated method stub
 		return srStaminaDemand;
-	}
-	@Override
-	public double getEnergyDemand(clsInternalActionCommand poCommand) {
-		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
 
 	/* (non-Javadoc)
 	 *
+	 * @since Sep 11, 2014 4:06:34 AM
 	 * 
 	 * @see bw.body.io.actuators.clsInternalActionExecutor#execute(du.itf.actions.clsInternalActionCommand)
 	 */
 	@Override
 	public boolean execute(clsInternalActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		clsInternalActionTenseMuscles oCommand =(clsInternalActionTenseMuscles) poCommand;
+		clsInternalActionAffectMouthStretchiness oCommand =(clsInternalActionAffectMouthStretchiness) poCommand;
 		
 		// Affect the body
-		oBody.getInternalSystem().getBOrganSystem().getBOArms().affectMuscleTension( oCommand.getTenseMuscles() );
-		oBody.getInternalSystem().getBOrganSystem().getBOLegs().affectMuscleTension( oCommand.getTenseMuscles() );
-
+		oBody.getIntraBodySystem().getFacialExpression().getBOFacialMouth().changeMouthStretchiness( oCommand.getMouthStretchiness() );
 		return true;
 	}
-} // end class
 
+}

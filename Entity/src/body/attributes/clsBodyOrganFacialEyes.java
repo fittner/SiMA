@@ -1,10 +1,14 @@
 
 package body.attributes;
 
-import java.util.ArrayList;
+import properties.clsProperties;
 
 
 public class clsBodyOrganFacialEyes extends clsBodyOrgan{
+	
+	public static final String P_DEFAULTCRYINGINTENSITYTRESHOLH = "defaultcryingintensitytreshold";
+	public static final String P_DEFAULTMOURNINGINTENSITY = "defaultmourningintensity";
+	public static final String P_DEFAULTCRYINGINTENSITY = "defaultcryingintensity";
 	
 	//private double mrEyeSize;
 	//private double mrEyePupilSize;
@@ -12,57 +16,36 @@ public class clsBodyOrganFacialEyes extends clsBodyOrgan{
 	private double mrMourningIntensity;
 	private double mrCryingIntensityTreshhold;
 	
-	private int mnNumberOfAffectingEmotionsForCryingIntensity;
+	private double mrMinMourningIntensity = 0.0;
+	private double mrMaxMourningIntensity = 1.0;
 	
-	private final double mrDefaultCryingIntensity = 0; // no cry
-	private final double mrDefaultMourningIntensity = 0;
-	private final double mrDefaultCryingIntensityTreshold = 0.6;
-	
-	public clsBodyOrganFacialEyes() {
-		// set Emotion factors
-		this.setMourningFactor( 1.0 );
-
-		// reset the emotion counters
-		this.setNumberOfAffectingEmotionsForCryingIntensity( 0 );
+	public clsBodyOrganFacialEyes(String poPrefix, clsProperties poProp) {
 		
-		// setting starting values
-		mrCryingIntensityTreshhold = mrDefaultCryingIntensityTreshold;
-		mrMourningIntensity = mrDefaultMourningIntensity;
-		mrCryingIntensity = mrDefaultCryingIntensity;
+		applyProperties(poPrefix, poProp);
+		
 	}
-
-	public void affectEyes(ArrayList<Double> poStorageOfEmotionIntensities, ArrayList<String> poStorageOfEmotionNames)
-	{
-		System.out.println("Heart affecting emotions: " + poStorageOfEmotionIntensities.size());
-		for(int a = 0; a < poStorageOfEmotionIntensities.size(); a++){
-			if ( poStorageOfEmotionNames.get(a).equalsIgnoreCase( "MOURNING" ) ){
-				// if too much sadness, then cry
-				System.out.println( poStorageOfEmotionNames.get(a) + ": " + poStorageOfEmotionIntensities.get(a) + ", factor: " + this.getMourningFactor());
-
-				addMourningIntensity( poStorageOfEmotionIntensities.get(a) * ( this.getMourningFactor()) );
-			} // no crying affection caused by other emotions at the moment..
-	/*		else
-			{ // for other emotions..
-				addMourningIntensity( poStorageOfEmotionIntensities.get(a) );
-			}	*/
-		}
+	
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		if( getNumberOfAffectingEmotionsForCryingIntensity() == 0 ){
-			// if 0, it means we are affecting for the very first time and default starting value should not be counted.
-			this.setNumberOfAffectingEmotionsForCryingIntensity( poStorageOfEmotionIntensities.size() );
-		}
-		else{
-			// its not 0. it means the value from previous step counts like an emotion with factor 1.0
-			this.setNumberOfAffectingEmotionsForCryingIntensity( poStorageOfEmotionIntensities.size() + 1 );
-		}
+		clsProperties oProp = new clsProperties();
 		
-		if(this.getNumberOfAffectingEmotionsForCryingIntensity() != 0){
-			this.setMourningIntensity( this.mrMourningIntensity / this.getNumberOfAffectingEmotionsForCryingIntensity() );
-		}
-		else{
-			this.setMourningIntensity( this.mrMourningIntensity ); // to avoid division by 0
-		}
-	} // end affectEyes
+		oProp.setProperty(pre+P_DEFAULTCRYINGINTENSITYTRESHOLH, "0.6");
+		oProp.setProperty(pre+P_DEFAULTMOURNINGINTENSITY, "0.0");
+		oProp.setProperty(pre+P_DEFAULTCRYINGINTENSITY, "0.0");
+		
+		return oProp;
+
+	}	
+
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+	    String pre = clsProperties.addDot(poPrefix);
+	    
+	    this.mrCryingIntensityTreshhold = poProp.getPropertyDouble(pre+P_DEFAULTCRYINGINTENSITYTRESHOLH);
+		this.mrMourningIntensity = poProp.getPropertyDouble(pre+P_DEFAULTMOURNINGINTENSITY);
+		this.mrCryingIntensity = poProp.getPropertyDouble(pre+P_DEFAULTCRYINGINTENSITY);
+		
+	}
 	
 	/*
 	public double getEyeSize() {
@@ -84,17 +67,17 @@ public class clsBodyOrganFacialEyes extends clsBodyOrgan{
 	 */
 
 	public double getMourningIntensity() {
-		if(mrMourningIntensity < 0.0){
-			setMourningIntensity( 0.0 );
+		if(mrMourningIntensity < mrMinMourningIntensity){
+			setMourningIntensity( mrMinMourningIntensity );
 		}
-		else if( mrMourningIntensity >= 1.0){
-			setMourningIntensity( 1.0 );
+		else if( mrMourningIntensity >= mrMaxMourningIntensity){
+			setMourningIntensity( mrMaxMourningIntensity );
 		}
 		
 		return mrMourningIntensity;
 	}
 
-	private void addMourningIntensity(double prMourningIntensity) {
+	public void addMourningIntensity(double prMourningIntensity) {
 			this.mrMourningIntensity += prMourningIntensity;
 	}
 	
@@ -121,12 +104,5 @@ public class clsBodyOrganFacialEyes extends clsBodyOrgan{
 	}
 	public void setCryingIntensityTreshhold(double prCryingIntensityTreshhold) {
 		this.mrCryingIntensityTreshhold = prCryingIntensityTreshhold;
-	}
-	
-	public int getNumberOfAffectingEmotionsForCryingIntensity() {
-		return this.mnNumberOfAffectingEmotionsForCryingIntensity;
-	}
-	private void setNumberOfAffectingEmotionsForCryingIntensity(int pnIntensity) {
-		this.mnNumberOfAffectingEmotionsForCryingIntensity = pnIntensity;
 	}
 }

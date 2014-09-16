@@ -15,20 +15,28 @@ import complexbody.io.actuators.clsActionProcessor;
 import complexbody.io.actuators.clsInternalActionProcessor;
 import complexbody.io.actuators.actionCommands.clsActionShare;
 import complexbody.io.actuators.actionCommands.clsActionSpeechInvited;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectEyesForCrying;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectHeartBloodPressureDiastolic;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectHeartBloodPressureSystolic;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectHeartRate;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectMouthOpen;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectMouthSidesUpOrDown;
+import complexbody.io.actuators.actionCommands.clsInternalActionAffectMouthStretchiness;
 import complexbody.io.actuators.actionCommands.clsInternalActionEmotionalStressSweat;
-import complexbody.io.actuators.actionCommands.clsInternalActionFacialChangeEyeBrows;
-import complexbody.io.actuators.actionCommands.clsInternalActionFacialChangeEyes;
-import complexbody.io.actuators.actionCommands.clsInternalActionFacialChangeMouth;
-import complexbody.io.actuators.actionCommands.clsInternalActionFasterHeartPump;
-import complexbody.io.actuators.actionCommands.clsInternalActionGeneralSweat;
+import complexbody.io.actuators.actionCommands.clsInternalActionRaiseEyeBrowsCenter;
+import complexbody.io.actuators.actionCommands.clsInternalActionRaiseEyeBrowsCorners;
 import complexbody.io.actuators.actionCommands.clsInternalActionTenseMuscles;
 import complexbody.io.actuators.actionCommands.clsInternalActionTurnVision;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalAffectEyesForCrying;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalAffectHeartBloodPressureDiastolic;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalAffectHeartBloodPressureSystolic;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalAffectHeartRate;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalAffectMouthOpen;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalAffectMouthSidesUpOrDown;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalAffectMouthStretchiness;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalEmotionalStressSweat;
-import complexbody.io.actuators.actionExecutors.clsExecutorInternalFacialChangeEyeBrows;
-import complexbody.io.actuators.actionExecutors.clsExecutorInternalFacialChangeEyes;
-import complexbody.io.actuators.actionExecutors.clsExecutorInternalFacialChangeMouth;
-import complexbody.io.actuators.actionExecutors.clsExecutorInternalGeneralSweat;
-import complexbody.io.actuators.actionExecutors.clsExecutorInternalHeartPumpSpeed;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalRaiseEyeBrowsCenter;
+import complexbody.io.actuators.actionExecutors.clsExecutorInternalRaiseEyeBrowsCorners;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalTenseMuscles;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechInvite;
@@ -168,26 +176,40 @@ public class clsInternalIO extends clsBaseIO{
 		
 		oProp.putAll( clsActionProcessor.getDefaultProperties( pre+P_ACTIONPROCESSOR) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT,1);
-		oProp.putAll( clsExecutorInternalEmotionalStressSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT) );
+		// set properties of internal actions
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS,1);
+		oProp.putAll( clsExecutorInternalRaiseEyeBrowsCorners.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_GENERAL_SWEAT,1);
-		oProp.putAll( clsExecutorInternalGeneralSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_GENERAL_SWEAT) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS,1);
+		oProp.putAll( clsExecutorInternalRaiseEyeBrowsCenter.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS) );
+
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH,1);
+		oProp.putAll( clsExecutorInternalAffectMouthOpen.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) );
+
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH,1);
+		oProp.putAll( clsExecutorInternalAffectMouthSidesUpOrDown.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) );
+
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH,1);
+		oProp.putAll( clsExecutorInternalAffectMouthStretchiness.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) );
 
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_TENSE_MUSCLES,1);
 		oProp.putAll( clsExecutorInternalTenseMuscles.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_TENSE_MUSCLES) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_HEART_PUMP,1);
-		oProp.putAll( clsExecutorInternalHeartPumpSpeed.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_HEART_PUMP) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT,1);
+		oProp.putAll( clsExecutorInternalEmotionalStressSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH,1);
-		oProp.putAll( clsExecutorInternalFacialChangeMouth.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_HEART_RATE,1);
+		oProp.putAll( clsExecutorInternalAffectHeartRate.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_HEART_RATE) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS,1);
-		oProp.putAll( clsExecutorInternalFacialChangeEyeBrows.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_HEART_BLOOD_PRESSURE,1);
+		oProp.putAll( clsExecutorInternalAffectHeartBloodPressureSystolic.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_HEART_BLOOD_PRESSURE) );
 
-		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES,1);
-		oProp.putAll( clsExecutorInternalFacialChangeEyes.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES) );
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_HEART_BLOOD_PRESSURE,1);
+		oProp.putAll( clsExecutorInternalAffectHeartBloodPressureDiastolic.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_HEART_BLOOD_PRESSURE) );
+
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+eBodyParts.ACTIONINT_FACIAL_AFFECT_EYES_FOR_CRYING,1);
+		oProp.putAll( clsExecutorInternalAffectEyesForCrying.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+eBodyParts.ACTIONINT_FACIAL_AFFECT_EYES_FOR_CRYING) );
+
 		
 		
 		// setProperty's from the ComplexBody's code parts
@@ -256,40 +278,61 @@ public class clsInternalIO extends clsBaseIO{
 		} // end for
 		
 		// Register Internal Action Executors
-		//moInternalActionProcessor.addCommand(clsInternalActionEmotionalStressSweat.class, new clsExecutorInternalEmotionalStressSweat(poPrefix+"." + eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT, poProp, moEntity));
-		
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT) == 1) {
-			moInternalActionProcessor.addCommand(clsInternalActionEmotionalStressSweat.class, new clsExecutorInternalEmotionalStressSweat(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT, poProp, moEntity));
-		}
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_GENERAL_SWEAT) == 1) {
-			moInternalActionProcessor.addCommand(clsInternalActionGeneralSweat.class, new clsExecutorInternalGeneralSweat(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_GENERAL_SWEAT, poProp, moEntity));
-		}
-		
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_HEART_PUMP) == 1) {
-			moInternalActionProcessor.addCommand(clsInternalActionFasterHeartPump.class, new clsExecutorInternalHeartPumpSpeed(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_HEART_PUMP, poProp, moEntity)); 
-		}
-		
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_TENSE_MUSCLES) == 1) {
-			moInternalActionProcessor.addCommand(clsInternalActionTenseMuscles.class, new clsExecutorInternalTenseMuscles(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_TENSE_MUSCLES, poProp, moEntity));
-		}
 
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) == 1) {
-			moInternalActionProcessor.addCommand(clsInternalActionFacialChangeMouth.class, new clsExecutorInternalFacialChangeMouth(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH, poProp, moEntity));
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS) == 1) {
+			moInternalActionProcessor.addCommand(clsInternalActionRaiseEyeBrowsCorners.class, new clsExecutorInternalRaiseEyeBrowsCorners(poPrefix+"." +
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS, poProp, moEntity));
 		}
 
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS) == 1) {
-			moInternalActionProcessor.addCommand(clsInternalActionFacialChangeEyeBrows.class, new clsExecutorInternalFacialChangeEyeBrows(poPrefix+"." + 
+			moInternalActionProcessor.addCommand(clsInternalActionRaiseEyeBrowsCenter.class, new clsExecutorInternalRaiseEyeBrowsCenter(poPrefix+"." +
 					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_CHANGE_EYEBROWS, poProp, moEntity));
 		}
-			
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES) == 1) {
-			moInternalActionProcessor.addCommand(clsInternalActionFacialChangeEyes.class, new clsExecutorInternalFacialChangeEyes(poPrefix+"." + 
-					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_CHANGE_EYES, poProp, moEntity));
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) == 1) {
+			moInternalActionProcessor.addCommand(clsInternalActionAffectMouthOpen.class, new clsExecutorInternalAffectMouthOpen(poPrefix+"." +
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH, poProp, moEntity));
+		}
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) == 1) {
+			moInternalActionProcessor.addCommand(clsInternalActionAffectMouthSidesUpOrDown.class, new clsExecutorInternalAffectMouthSidesUpOrDown(poPrefix+"." +
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH, poProp, moEntity));
+		}
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH) == 1) {
+			moInternalActionProcessor.addCommand(clsInternalActionAffectMouthStretchiness.class, new clsExecutorInternalAffectMouthStretchiness(poPrefix+"." +
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_CHANGE_MOUTH, poProp, moEntity));
+		}
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_TENSE_MUSCLES) == 1) {
+			moInternalActionProcessor.addCommand(clsInternalActionTenseMuscles.class, new clsExecutorInternalTenseMuscles(poPrefix+"." +
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_TENSE_MUSCLES, poProp, moEntity));
+		}
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT) == 1) {
+			moInternalActionProcessor.addCommand(clsInternalActionEmotionalStressSweat.class, new clsExecutorInternalEmotionalStressSweat(poPrefix+"." +
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_EMOTIONAL_STRESS_SWEAT, poProp, moEntity));
+		}
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_HEART_RATE) == 1) {
+			moInternalActionProcessor.addCommand(clsInternalActionAffectHeartRate.class, new clsExecutorInternalAffectHeartRate(poPrefix+"." +
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_HEART_RATE, poProp, moEntity));
+		}
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_HEART_BLOOD_PRESSURE) == 1) {
+			moInternalActionProcessor.addCommand(clsInternalActionAffectHeartBloodPressureSystolic.class, new clsExecutorInternalAffectHeartBloodPressureSystolic(poPrefix+"." +
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_HEART_BLOOD_PRESSURE, poProp, moEntity));
+		}
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_HEART_BLOOD_PRESSURE) == 1) {
+			moInternalActionProcessor.addCommand(clsInternalActionAffectHeartBloodPressureDiastolic.class, new clsExecutorInternalAffectHeartBloodPressureDiastolic(poPrefix+"." +
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_HEART_BLOOD_PRESSURE, poProp, moEntity));
+		}
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE +"."+eBodyParts.ACTIONINT_FACIAL_AFFECT_EYES_FOR_CRYING) == 1) {
+			moInternalActionProcessor.addCommand(clsInternalActionAffectEyesForCrying.class, new clsExecutorInternalAffectEyesForCrying(poPrefix+"." +
+					P_INTERNALACTIONEX	+ "." + eBodyParts.ACTIONINT_FACIAL_AFFECT_EYES_FOR_CRYING, poProp, moEntity));
 		}
 
 		

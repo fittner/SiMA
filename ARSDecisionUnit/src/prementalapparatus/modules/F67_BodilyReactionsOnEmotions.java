@@ -6,7 +6,6 @@
  */
 package prementalapparatus.modules;
 
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -38,11 +37,40 @@ import base.tools.toText;
  * 
  */
 public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_14_receive{
-    
-    
-    static int roundCounter = 0;
-    FileWriter fw = null;
-    boolean isTimeStampPrinted;
+
+    // Intensity variables for basic emotions
+    private double mrAngerIntensity;
+    private double mrAnxietyIntensity;
+    private double mrElationIntensity;
+    private double mrJoyIntensity;
+    private double mrMourningIntensity;
+    private double mrSaturationIntensity;
+
+    // emotion body factors
+    private double FullAffectionFactor = 1.0;
+
+    // EB
+    private double JoyEyeBrowsFactor;
+    private double ElationEyeBrowsFactor;
+    private double MourningEyeBrowsFactor;
+    private double AngerEyeBrowsFactor;
+    private double AnxietyEyeBrowsFactor;
+
+    // H
+    private double AnxietyHeartFactor;
+
+    // M
+    private double ElationMouthFactor;
+
+    // MT
+    private double AngerTenseMusclesFactor;
+
+    // SG
+    private double AngerSweatGlandsFactor;
+
+    // direction multipliers
+    private int MinusDirection = -1;
+    private int PlusDirection = +1;
     
     /**
      * DOCUMENT (schaat) - insert description 
@@ -59,8 +87,6 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
         super(poPrefix, poProp, poModuleList, poInterfaceData);
         
-  //      clsStepCounter.setCounter(0);
-        isTimeStampPrinted = false;
         
         // TODO (schaat) - Auto-generated constructor stub
     }
@@ -125,152 +151,213 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
     @SuppressWarnings("unchecked")
     private void FillInternalActions(ArrayList<clsEmotion> poEmotions_Input) {
 
+        // create Values for Internal Action variables
+        double raiseEyeBrowsCorners = 0.0;
+        double raiseEyeBrowsCenter = 0.0;
+        double affectMouthOpen = 0.0;
+        double affectMouthStretchiness = 0.0;
+        double affectMouthSidesUpOrDown = 0.0;
+        double tenseMuscles = 0.0;
+        double sweatEmotionalStress = 0.0;
+        double affectHeartRate = 0.0;
+        double affectHeartBloodPressureSystolic = 0.0;
+        double affectHeartBloodPressureDiastolic = 0.0;
+        double affectEyesForCrying = 0.0;
         
-       
-        ArrayList<String> moEmotionNames_Mouth = new ArrayList <String> ();
-        ArrayList<String> moEmotionNames_Eyes = new ArrayList <String> ();
-        ArrayList<String> moEmotionNames_EyeBrows = new ArrayList <String> ();
-        ArrayList<String> moEmotionNames_Heart = new ArrayList <String> ();
-        ArrayList<String> moEmotionNames_ArmsNLegs = new ArrayList <String> (); // maybe separated into Arms and Legs later if needed
-        ArrayList<String> moEmotionNames_StressSweat = new ArrayList <String> ();
-
-        ArrayList<Double> moEmotionIntensities_Mouth = new ArrayList <Double> ();
-        ArrayList<Double> moEmotionIntensities_Eyes = new ArrayList <Double> ();
-        ArrayList<Double> moEmotionIntensities_EyeBrows = new ArrayList <Double> ();
-        ArrayList<Double> moEmotionIntensities_Heart = new ArrayList <Double> ();
-        ArrayList<Double> moEmotionIntensities_ArmsNLegs = new ArrayList <Double> ();
-        ArrayList<Double> moEmotionIntensities_StressSweat = new ArrayList <Double> ();
-
-        
-        
-        // Catching emotions one after another and adding the gathered emotion informations to the InternalActionCommands' list
+        // catch emotions
         for( clsEmotion eee: poEmotions_Input ){
-            if( eee.getContent().equals( eEmotionType.JOY ) && (eee.getEmotionIntensity() >= 0.0) ) // 'Greater than 0.0' can be changed later
-            { // emotion detected: Joy
-                if( (eee.getEmotionIntensity() > 0.001) && (eee.getEmotionIntensity() <= 1.0) ){ // this is important. it prevents emotions with 0.0 intensity to reduce affection.
-                    /**/
-                    moEmotionNames_Mouth.add( eee.getContent().toString() );
-                    moEmotionIntensities_Mouth.add( new Double( eee.getEmotionIntensity() ) );
-
-                    moEmotionNames_EyeBrows.add( eee.getContent().toString() );
-                    moEmotionIntensities_EyeBrows.add( new Double( eee.getEmotionIntensity() ) );
+            if( eee.getContent().equals( eEmotionType.JOY ) )
+            {   // emotion detected: Joy
+                if(eee.getEmotionIntensity() == this.mrJoyIntensity){
+                    // no change of the emotion intensity. do nothing.
                 }
+                else{
+                    // change of emotion intensity!
+                    // Effects of joy on body:
+
+                    // + Facial Expression: Mouth
+                    // no effect on the mouth opening
+                    // no effect on mouth stretchiness
+                    affectMouthSidesUpOrDown += ( eee.getEmotionIntensity() - this.mrJoyIntensity ) * FullAffectionFactor * PlusDirection; // plus (+) direction curves the lip corners upwards
+
+                    // + Facial Expression: Eye Brows
+                    raiseEyeBrowsCorners += (eee.getEmotionIntensity() - this.mrJoyIntensity) * JoyEyeBrowsFactor;
+                    raiseEyeBrowsCenter += (eee.getEmotionIntensity() - this.mrJoyIntensity) * FullAffectionFactor;
+                }
+                this.mrJoyIntensity = eee.getEmotionIntensity();
             } // end JOY
-            else if( eee.getContent().equals( eEmotionType.ANGER ) && (eee.getEmotionIntensity() >= 0.0) )
+            else if( eee.getContent().equals( eEmotionType.ANGER ) )
             { // emotion detected: Anger
-                // Effects of anger on body:
-                // - Triggers Fight or Flight
-                // - Adrenal glands flood the blood with stress hormones: adrenaline & cortisol
-                // - blood goes from guts to muscles
-                // + skin sweats
-                // - temperature rises
-                // + heart rate increase
-                // + teeth grinding (close mouth)
-                // - fist clenching
-                // + muscle tension
-                // + flushing / paling
+                if(eee.getEmotionIntensity() == this.mrAngerIntensity){
+                    // no change of this emotion intensity. do nothing.
+                }
+                else{
+                    // change of emotion intensity!
+                    // Effects of anger on body:
+                    // - Triggers Fight or Flight
+                    // - Adrenal glands flood the blood with stress hormones: adrenaline & cortisol
+                    // - blood goes from guts to muscles
+                    // - temperature rises
+                    // - fist clenching
 
-                /**/
-                moEmotionNames_ArmsNLegs.add( eee.getContent().toString() );
-                moEmotionIntensities_ArmsNLegs.add( new Double( eee.getEmotionIntensity() ) );
+                    // + muscle tension
+                    tenseMuscles += (eee.getEmotionIntensity() - this.mrAngerIntensity) * AngerTenseMusclesFactor * PlusDirection; // (+) plus, adds tension
 
-                moEmotionNames_EyeBrows.add( eee.getContent().toString() );
-                moEmotionIntensities_EyeBrows.add( new Double( eee.getEmotionIntensity() ) );
+                    // + Facial Expression: Eye Brows
+                    raiseEyeBrowsCorners += (eee.getEmotionIntensity() - this.mrAngerIntensity) * AngerEyeBrowsFactor * PlusDirection; // (+) plus, up
+                    raiseEyeBrowsCenter += (eee.getEmotionIntensity() - this.mrAngerIntensity) * FullAffectionFactor * MinusDirection; // (-) minus, down
 
-                moEmotionNames_Mouth.add( eee.getContent().toString() );
-                moEmotionIntensities_Mouth.add( new Double( eee.getEmotionIntensity() ) );
+                    // + teeth grinding (close mouth)
+                    // + Facial Expression: Mouth
+                    affectMouthOpen += ( eee.getEmotionIntensity() - this.mrAngerIntensity ) * FullAffectionFactor * MinusDirection; // minus (-) direction means closing the mouth
+                    // no effect on mouth stretchiness
+                    // no effect on the curves of the lip corners
 
-                moEmotionNames_Heart.add( eee.getContent().toString() );
-                moEmotionIntensities_Heart.add( new Double( eee.getEmotionIntensity() ) );
+                    // + skin sweats
+                    sweatEmotionalStress += (eee.getEmotionIntensity() - this.mrAngerIntensity) * AngerSweatGlandsFactor * PlusDirection; // adds up
 
-                moEmotionNames_StressSweat.add( eee.getContent().toString() );
-                moEmotionIntensities_StressSweat.add( new Double( eee.getEmotionIntensity() ) );
+                    // + heart rate increase
+                    affectHeartRate += (eee.getEmotionIntensity() - this.mrAngerIntensity) * FullAffectionFactor * PlusDirection; // adds up
+                    // + flushing / paling
+                    affectHeartBloodPressureSystolic += (eee.getEmotionIntensity() - this.mrAngerIntensity) * FullAffectionFactor * PlusDirection; // adds up
+                    affectHeartBloodPressureDiastolic += (eee.getEmotionIntensity() - this.mrAngerIntensity) * FullAffectionFactor * PlusDirection; // adds up
+                }
+                this.mrAngerIntensity = eee.getEmotionIntensity();
             } // end ANGER
-            else if( eee.getContent().equals( eEmotionType.MOURNING ) && (eee.getEmotionIntensity() >= 0.0) )
-            { // emotion detected: MOURNING
-                /**/
-                moEmotionNames_Eyes.add( eee.getContent().toString() );
-                moEmotionIntensities_Eyes.add( new Double( eee.getEmotionIntensity() ) );
+            else if( eee.getContent().equals( eEmotionType.MOURNING ) )
+            {   // emotion detected: Mourning
+                if(eee.getEmotionIntensity() == this.mrMourningIntensity){
+                    // no change of the emotion intensity. do nothing.
+                }
+                else{
+                    // change of emotion intensity!
+                    // Effects of mourning on body:
 
-                moEmotionNames_Mouth.add( eee.getContent().toString() );
-                moEmotionIntensities_Mouth.add( new Double( eee.getEmotionIntensity() ) );
+                    // + cry if intensity is greater than a treshhold
+                    affectEyesForCrying += ( eee.getEmotionIntensity() - this.mrMourningIntensity ) * FullAffectionFactor * PlusDirection;
 
-                moEmotionNames_EyeBrows.add( eee.getContent().toString() );
-                moEmotionIntensities_EyeBrows.add( new Double( eee.getEmotionIntensity() ) );
+                    // + Facial Expression: Mouth
+                    // no effect on the mouth opening
+                    // no effect on stretchiness
+                    affectMouthSidesUpOrDown += ( eee.getEmotionIntensity() - this.mrMourningIntensity ) * FullAffectionFactor * MinusDirection; // minus (-) direction curves the lip corners downwards
+
+                    // + Facial Expression: Eye Brows
+                    raiseEyeBrowsCorners += (eee.getEmotionIntensity() - this.mrMourningIntensity) * MourningEyeBrowsFactor * MinusDirection;
+                    raiseEyeBrowsCenter += (eee.getEmotionIntensity() - this.mrMourningIntensity) * FullAffectionFactor * PlusDirection;
+                }
+                this.mrMourningIntensity = eee.getEmotionIntensity();
             } // end MOURNING
-            else if( eee.getContent().equals( eEmotionType.ANXIETY ) && (eee.getEmotionIntensity() >= 0.0) )
-            { // emotion detected: ANXIETY ( = FEAR)
-                // Effects of anxiety on body:
-                // - contract stomach
-                // - heart beat faster
-                // - breathing faster
-                // + sweat more
-                // - hard to concentrate
-                // - cant eat
-                // + tense muscles
+            else if( eee.getContent().equals( eEmotionType.ANXIETY ) )
+            {   // emotion detected: Anxiety ( = FEAR)
+                if(eee.getEmotionIntensity() == this.mrAnxietyIntensity){
+                    // no change of the emotion intensity. do nothing.
+                }
+                else{
+                    // change of emotion intensity!
+                    // Effects of anxiety on body:
+                    // - breathing faster
+                    // - hard to concentrate
+                    // - cant eat
 
-                /**/
-                moEmotionNames_ArmsNLegs.add( eee.getContent().toString() );
-                moEmotionIntensities_ArmsNLegs.add( new Double( eee.getEmotionIntensity() ) );
+                    // + sweat more
+                    sweatEmotionalStress += (eee.getEmotionIntensity() - this.mrAnxietyIntensity) * FullAffectionFactor * PlusDirection; // adds up
 
-                moEmotionNames_Heart.add( eee.getContent().toString() );
-                moEmotionIntensities_Heart.add( new Double( eee.getEmotionIntensity() ) );
+                    // + heart beat faster
+                    affectHeartRate += (eee.getEmotionIntensity() - this.mrAnxietyIntensity) * AnxietyHeartFactor * PlusDirection; // adds up
 
-                moEmotionNames_StressSweat.add( eee.getContent().toString() );
-                moEmotionIntensities_StressSweat.add( new Double( eee.getEmotionIntensity() ) );
+                    // + tense muscles
+                    tenseMuscles += (eee.getEmotionIntensity() - this.mrAnxietyIntensity) * FullAffectionFactor * PlusDirection; // (+) plus, adds tension
 
-                moEmotionNames_Mouth.add( eee.getContent().toString() );
-                moEmotionIntensities_Mouth.add( new Double( eee.getEmotionIntensity() ) );
+                    // + Facial Expression: Eye Brows
+                    raiseEyeBrowsCorners += (eee.getEmotionIntensity() - this.mrAnxietyIntensity) * AnxietyEyeBrowsFactor * MinusDirection;
+                    raiseEyeBrowsCenter += (eee.getEmotionIntensity() - this.mrAnxietyIntensity) * FullAffectionFactor * PlusDirection;
 
-                moEmotionNames_EyeBrows.add( eee.getContent().toString() );
-                moEmotionIntensities_EyeBrows.add( new Double( eee.getEmotionIntensity() ) );
+                    // + Facial Expression: Mouth
+                    affectMouthOpen += ( eee.getEmotionIntensity() - this.mrAngerIntensity ) * FullAffectionFactor * PlusDirection; // plus (+) direction means opening the mouth
+                    affectMouthStretchiness += ( eee.getEmotionIntensity() - this.mrAnxietyIntensity ) * FullAffectionFactor * PlusDirection;
+                    affectMouthSidesUpOrDown += ( eee.getEmotionIntensity() - this.mrAnxietyIntensity ) * FullAffectionFactor * MinusDirection; // minus (-) direction curves the lip corners downwards
+
+                }
+                this.mrAnxietyIntensity = eee.getEmotionIntensity();
             } // end ANXIETY
-            else if( eee.getContent().equals( eEmotionType.SATURATION ) && (eee.getEmotionIntensity() >= 0.0) )
-            { // emotion detected: SATURATION
-                /**/
+            else if( eee.getContent().equals( eEmotionType.SATURATION ) )
+            {   // emotion detected: Saturation
+                if(eee.getEmotionIntensity() == this.mrSaturationIntensity){
+                    // no change of the emotion intensity. do nothing.
+                }
+                else{
+                    // change of emotion intensity!
+                    // Effects of anxiety on body:
 
+                }
+                this.mrSaturationIntensity = eee.getEmotionIntensity();
             } // end SATURATION
-            else if( eee.getContent().equals( eEmotionType.ELATION ) && (eee.getEmotionIntensity() >= 0.0) )
-            { // emotion detected: ELATION
-                // Effects of elation on body:
-                // + lightly smile
-                // + pull up the eye brows lightly
-                // + muscle relaxation
+            else if( eee.getContent().equals( eEmotionType.ELATION ) )
+            {   // emotion detected: Elation
+                if(eee.getEmotionIntensity() == this.mrElationIntensity){
+                    // no change of the emotion intensity. do nothing.
+                }
+                else{
+                    // change of emotion intensity!
+                    // Effects of anxiety on body:
 
-                /**/
-                moEmotionNames_Mouth.add( eee.getContent().toString() );
-                moEmotionIntensities_Mouth.add( new Double( eee.getEmotionIntensity() ) );
+                    // + muscle relaxation
+                    tenseMuscles += (eee.getEmotionIntensity() - this.mrElationIntensity) * FullAffectionFactor * MinusDirection; // (-) minus, relieves tension
 
-                moEmotionNames_EyeBrows.add( eee.getContent().toString() );
-                moEmotionIntensities_EyeBrows.add( new Double( eee.getEmotionIntensity() ) );
+                    // + lightly smile
+                    affectMouthSidesUpOrDown += ( eee.getEmotionIntensity() - this.mrElationIntensity ) * ElationMouthFactor * PlusDirection; // plus (+) direction curves the lip corners upwards
 
-                moEmotionNames_ArmsNLegs.add( eee.getContent().toString() );
-                moEmotionIntensities_ArmsNLegs.add( new Double( eee.getEmotionIntensity() ) );
+                    // + pull up the eye brows lightly
+                    raiseEyeBrowsCorners += (eee.getEmotionIntensity() - this.mrElationIntensity) * ElationEyeBrowsFactor * PlusDirection;
+                    raiseEyeBrowsCenter += (eee.getEmotionIntensity() - this.mrElationIntensity) * ElationEyeBrowsFactor * PlusDirection;
+                }
+                this.mrElationIntensity = eee.getEmotionIntensity();
             } // end ELATION
-        } // end for
 
-        // adding internal Actions
-        moInternalActions.addDataPoint(createActionCommand("HEART_INTENSITY", moEmotionNames_Heart,moEmotionIntensities_Heart ));
-        moInternalActions.addDataPoint(createActionCommand("EYES_INTENSITY", moEmotionNames_Eyes,moEmotionIntensities_Eyes ));
-        moInternalActions.addDataPoint(createActionCommand("EYE_BROWNS_INTENSITY", moEmotionNames_EyeBrows,moEmotionIntensities_EyeBrows ));
-        moInternalActions.addDataPoint(createActionCommand("MOUTH_INTENSITY", moEmotionNames_Mouth,moEmotionIntensities_Mouth ));
-        moInternalActions.addDataPoint(createActionCommand("SWEAT_INTENSITY", moEmotionNames_StressSweat,moEmotionIntensities_StressSweat ));
-        moInternalActions.addDataPoint(createActionCommand("ARM_INTENSITY", moEmotionNames_ArmsNLegs,moEmotionIntensities_ArmsNLegs ));
+        } // end for // catching emotions per step
+        
+        // set values for Internal Action Commands
+        if(  0 != raiseEyeBrowsCorners ){
+            moInternalActions.addDataPoint(createActionCommand("RAISE_EYE_BROWS_CORNERS", raiseEyeBrowsCorners ));
+        }
+        if(  0 != raiseEyeBrowsCenter ){
+            moInternalActions.addDataPoint(createActionCommand("RAISE_EYE_BROWS_CENTER", raiseEyeBrowsCenter ));
+        }
+        if(  0 != affectMouthSidesUpOrDown ){
+            moInternalActions.addDataPoint(createActionCommand("AFFECT_MOUTH_SIDES_UP", affectMouthSidesUpOrDown ));
+        }
+        if(  0 != affectMouthOpen ){
+            moInternalActions.addDataPoint(createActionCommand("AFFECT_MOUTH_OPEN", affectMouthOpen ));
+        }
+        if(  0 != affectMouthStretchiness ){
+            moInternalActions.addDataPoint(createActionCommand("AFFECT_MOUTH_STRETCHINESS", affectMouthStretchiness ));
+        }
+        if(  0 != tenseMuscles ){
+            moInternalActions.addDataPoint(createActionCommand("TENSE_MUSCLES", tenseMuscles ));
+        }
+        if(  0 != sweatEmotionalStress ){
+            moInternalActions.addDataPoint(createActionCommand("STRESS_SWEAT", sweatEmotionalStress ));
+        }
+        if(  0 != affectHeartRate ){
+            moInternalActions.addDataPoint(createActionCommand("AFFECT_HEART_RATE", affectHeartRate ));
+        }
+        if(  0 != affectHeartBloodPressureSystolic ){
+            moInternalActions.addDataPoint(createActionCommand("AFFECT_BLOOD_PRESSURE_SYSTOLIC", affectHeartBloodPressureSystolic ));
+        }
+        if(  0 != affectHeartBloodPressureDiastolic ){
+            moInternalActions.addDataPoint(createActionCommand("AFFECT_BLOOD_PRESSURE_DIASTOLIC", affectHeartBloodPressureDiastolic ));
+        }
+        if(  0 != affectEyesForCrying ){
+            moInternalActions.addDataPoint(createActionCommand("EFFECT_EYEY_CRYING", affectEyesForCrying ));
+
+        }
 
         
     }
     
-    public clsDataPoint createActionCommand(String commandName,ArrayList<String> labels, ArrayList<Double> values){
+    public clsDataPoint createActionCommand(String commandName,Double value){
         clsDataPoint oRetVal = new clsDataPoint("ACTION_COMMAND",commandName);
-        
-        for(int i =0; i< labels.size();i++){
-            clsDataPoint child = new clsDataPoint(labels.get(i),""+values.get(i));
-            oRetVal.addAssociation(child);
-        }
-        
-        
-        
-        
+        oRetVal.addAssociation(new clsDataPoint("INTENSITY",""+value));
         return oRetVal;
     }
         
