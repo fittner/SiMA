@@ -1,10 +1,11 @@
 
 package body.attributes;
 
+import body.itfget.itfGetMuscleTension;
 import properties.clsProperties;
 
 
-public class clsBodyOrganLegs extends clsBodyOrgan{
+public class clsBodyOrganLegs extends clsBodyOrgan implements itfGetMuscleTension{
 	
 	public static final String P_DEFAULTTENSIONINTENSITY = "defaulttensionintensity";
 
@@ -74,6 +75,18 @@ public class clsBodyOrganLegs extends clsBodyOrgan{
 	
 	private void setTensionIntensity(double pIntensity){
 		this.mrTensionIntensity = pIntensity;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 17.09.2014 08:36:06
+	 * 
+	 * @see body.itfget.itfGetMuscleTension#getMuscleTensionIntensity()
+	 */
+	@Override
+	public double getMuscleTensionIntensity() {
+		// TODO (herret) - Auto-generated method stub
+		return mrTensionIntensity;
 	}
 
 } // end clsBodyOrganLegs

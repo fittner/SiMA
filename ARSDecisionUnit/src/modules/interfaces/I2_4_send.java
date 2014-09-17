@@ -8,8 +8,6 @@ package modules.interfaces;
 
 import java.util.HashMap;
 
-import prementalapparatus.symbolization.eSymbolExtType;
-import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 
 /**
  * Similar to I2.2, I2.4 transports neurosymbols to F14. This time, they originate from F12.
@@ -19,5 +17,5 @@ import prementalapparatus.symbolization.representationsymbol.itfSymbol;
  * 
  */
 public interface I2_4_send {
-	public void send_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData);
+	public void send_I2_4(HashMap<String, Double> poBodyData);
 }

@@ -83,6 +83,9 @@ public class clsFacialExpression implements itfStepUpdateInternalState{
 	public void setEye(eEyeSize peEyeSize, eLensSize peLensSize, eLensShape peLensShape) {
 		moEye.setEye(peLensShape, peLensSize, peEyeSize);
 	}
+	public clsBodyOrganFacialEyes getEyesSystem(){
+		return moBOFacialEyes;
+	}
 	
 	public void setEyeSize(eEyeSize peEyeSize) {
 		moEye.setEyeSize(peEyeSize);

@@ -104,6 +104,7 @@ public enum eContentType {
 	ORIFICE,
 	ORGAN,
 	
+	
 	//--- Emotions
 	BASICEMOTION,
 	COMPLEXEMOTION,
@@ -189,6 +190,11 @@ public enum eContentType {
 	ORIFICE_ORAL_AGGRESSIV_MUCOSA,
 	Odor,
 	Name,
+	HeartBeat,
+	SweatIntensity,
+	CryingIntensity,
+	MuscleTensionArmsIntensity,
+	MuscleTensionLegsIntensity,
 	
 	//DM
 	BITE,

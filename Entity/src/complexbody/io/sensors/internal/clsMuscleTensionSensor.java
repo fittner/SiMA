@@ -13,7 +13,7 @@ import entities.enums.eBodyParts;
 
 import body.clsBaseBody;
 import body.clsComplexBody;
-//import bw.body.internalSystems.clsStomachSystem;
+import body.itfget.itfGetMuscleTension;
 
 /**
  * DOCUMENT (herret) - insert description 
@@ -21,17 +21,18 @@ import body.clsComplexBody;
  * @author herret
  * 
  */
-public class clsHeartbeatSensor  extends clsSensorInt {
+public class clsMuscleTensionSensor  extends clsSensorInt {
 
 	private clsBaseBody moBody; // reference
+	private itfGetMuscleTension moOrgan;
 	
-	private double mrHeartbeat;
+	private double mrMuscleTension;
 	
 
-	public clsHeartbeatSensor(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
+	public clsMuscleTensionSensor(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody, itfGetMuscleTension poOrgan) {
 		super(poPrefix, poProp, poBaseIO);
-		
-		mrHeartbeat = 0;
+		moOrgan=poOrgan;
+		mrMuscleTension = 0;
 		setEntity(poBody);
 		applyProperties(poPrefix, poProp);
 	}
@@ -65,7 +66,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = eBodyParts.SENSOR_INT_STOMACHTENSION;
+		mePartId = eBodyParts.SENSOR_INT_MUSCLETENSION;
 
 	}
 
@@ -78,7 +79,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 	 */
 	@Override
 	protected void setName() {
-		moName = "int. Heartbeat Sensor";
+		moName = "int. Muscle Tension Sensor";
 	}	
 	
 
@@ -100,8 +101,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 //			} catch (java.lang.ArithmeticException e) {
 //				mrHeartbeat = 0; // per definition.
 //			}
-			
-			mrHeartbeat = ((clsComplexBody)moBody).getInternalSystem().getBOrganSystem().getBOHeart().getHeartRate();
+			mrMuscleTension = moOrgan.getMuscleTensionIntensity();
 
 		} // updated by volkan
 	}
@@ -109,7 +109,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 	/**
 	 * @return the mrEnergy
 	 */
-	public double getHeartbeat() {
-		return mrHeartbeat;
+	public double getMuscleTension() {
+		return mrMuscleTension;
 	}		
 }

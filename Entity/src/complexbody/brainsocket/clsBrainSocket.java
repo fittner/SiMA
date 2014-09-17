@@ -43,6 +43,13 @@ import complexbody.io.sensors.internal.clsEnergyConsumptionSensor;
 import complexbody.io.sensors.internal.clsEnergySensor;
 import complexbody.io.sensors.internal.clsFastMessengerSensor;
 import complexbody.io.sensors.internal.clsHealthSensor;
+import complexbody.io.sensors.internal.clsHeartbeatSensor;
+
+import complexbody.io.sensors.internal.clsCryingSensor;
+
+import complexbody.io.sensors.internal.clsSweatSensor;
+
+import complexbody.io.sensors.internal.clsMuscleTensionSensor;
 import complexbody.io.sensors.internal.clsIntestinePressureSensor;
 import complexbody.io.sensors.internal.clsSensorInt;
 import complexbody.io.sensors.internal.clsSlowMessengerSensor;
@@ -170,6 +177,11 @@ public class clsBrainSocket implements itfStepProcessing {
 		oRetVal.addDataPoint(convertTemperatureSystem());
 		oRetVal.addDataPoint(convertEnergySystem());
 		oRetVal.addDataPoint(convertVisionSensors());
+		oRetVal.addDataPoint(convertHeartBeatSensor());
+		oRetVal.addDataPoint(convertSweatSensor());
+		oRetVal.addDataPoint(convertMuscleTensionLegsSensor());
+		oRetVal.addDataPoint(convertMuscleTensionArmsSensor());
+		oRetVal.addDataPoint(convertCryingSensor());
 
 		return oRetVal;
 	}
@@ -278,6 +290,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oDataPoint.setBufferType("SIGNAL");
 		return oDataPoint;
 	}
+
 	private clsDataPoint convertTemperatureSystem() {
 		clsTemperatureSensor oTemperatureSensor = (clsTemperatureSensor)(moSensorsInt.get(eSensorIntType.TEMPERATURE));
 		clsDataPoint oDataPoint = new clsDataPoint("TEMPERATURE",""+oTemperatureSensor.getTemperatureValue());
@@ -290,6 +303,36 @@ public class clsBrainSocket implements itfStepProcessing {
 		oDataPoint.setBufferType("SIGNAL");
 		return oDataPoint;
 		
+	}
+	public clsDataPoint convertHeartBeatSensor() {
+		clsHeartbeatSensor oSensor = (clsHeartbeatSensor)(moSensorsInt.get(eSensorIntType.HEARTBEAT));	
+		clsDataPoint oDataPoint = new clsDataPoint("HEART_BEAT",""+oSensor.getHeartbeat());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
+	}
+	public clsDataPoint convertSweatSensor() {
+		clsSweatSensor oSensor = (clsSweatSensor)(moSensorsInt.get(eSensorIntType.SWEAT));	
+		clsDataPoint oDataPoint = new clsDataPoint("SWEAT_INTENSITY",""+oSensor.getSweatRate());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
+	}
+	public clsDataPoint convertCryingSensor() {
+		clsCryingSensor oSensor = (clsCryingSensor)(moSensorsInt.get(eSensorIntType.CRYING));	
+		clsDataPoint oDataPoint = new clsDataPoint("CRYING_INTENSITY",""+oSensor.getCryingIntensity());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
+	}
+	public clsDataPoint convertMuscleTensionArmsSensor() {
+		clsMuscleTensionSensor oSensor = (clsMuscleTensionSensor)(moSensorsInt.get(eSensorIntType.MUSCLE_TENSION_ARMS));	
+		clsDataPoint oDataPoint = new clsDataPoint("MUSCLE_TENSION_ARMS_INTENSITY",""+oSensor.getMuscleTension());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
+	}
+	public clsDataPoint convertMuscleTensionLegsSensor() {
+		clsMuscleTensionSensor oSensor = (clsMuscleTensionSensor)(moSensorsInt.get(eSensorIntType.MUSCLE_TENSION_LEGS));	
+		clsDataPoint oDataPoint = new clsDataPoint("MUSCLE_TENSION_Legs_INTENSITY",""+oSensor.getMuscleTension());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
 	}
 /*
 	private clsDataPoint convertVisionSensor(eSensorExtType poVisionType) {

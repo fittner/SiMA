@@ -21,17 +21,17 @@ import body.clsComplexBody;
  * @author herret
  * 
  */
-public class clsHeartbeatSensor  extends clsSensorInt {
+public class clsCryingSensor  extends clsSensorInt {
 
 	private clsBaseBody moBody; // reference
 	
-	private double mrHeartbeat;
+	private double mrCryingIntensity;
 	
 
-	public clsHeartbeatSensor(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
+	public clsCryingSensor(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
 		super(poPrefix, poProp, poBaseIO);
 		
-		mrHeartbeat = 0;
+		mrCryingIntensity = 0;
 		setEntity(poBody);
 		applyProperties(poPrefix, poProp);
 	}
@@ -65,7 +65,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = eBodyParts.SENSOR_INT_STOMACHTENSION;
+		mePartId = eBodyParts.SENSOR_INT_CRYING;
 
 	}
 
@@ -78,7 +78,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 	 */
 	@Override
 	protected void setName() {
-		moName = "int. Heartbeat Sensor";
+		moName = "int. Crying Sensor";
 	}	
 	
 
@@ -101,7 +101,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 //				mrHeartbeat = 0; // per definition.
 //			}
 			
-			mrHeartbeat = ((clsComplexBody)moBody).getInternalSystem().getBOrganSystem().getBOHeart().getHeartRate();
+			mrCryingIntensity = ((clsComplexBody)moBody).getIntraBodySystem().getFacialExpression().getEyesSystem().getCryingIntensity();
 
 		} // updated by volkan
 	}
@@ -109,7 +109,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 	/**
 	 * @return the mrEnergy
 	 */
-	public double getHeartbeat() {
-		return mrHeartbeat;
+	public double getCryingIntensity() {
+		return mrCryingIntensity;
 	}		
 }

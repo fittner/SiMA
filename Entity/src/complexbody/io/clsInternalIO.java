@@ -42,19 +42,25 @@ import complexbody.io.actuators.actionExecutors.clsExecutorInternalTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechInvite;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechShare;
 import complexbody.io.sensors.datatypes.enums.eSensorIntType;
+import complexbody.io.sensors.internal.clsCryingSensor;
 import complexbody.io.sensors.internal.clsEnergyConsumptionSensor;
 import complexbody.io.sensors.internal.clsEnergySensor;
 import complexbody.io.sensors.internal.clsFastMessengerSensor;
 import complexbody.io.sensors.internal.clsHealthSensor;
+import complexbody.io.sensors.internal.clsHeartbeatSensor;
 import complexbody.io.sensors.internal.clsIntestinePressureSensor;
+import complexbody.io.sensors.internal.clsMuscleTensionSensor;
 import complexbody.io.sensors.internal.clsSensorInt;
 import complexbody.io.sensors.internal.clsSlowMessengerSensor;
 import complexbody.io.sensors.internal.clsStaminaSensor;
 import complexbody.io.sensors.internal.clsStomachSensor;
 import complexbody.io.sensors.internal.clsStomachTensionSensor;
+import complexbody.io.sensors.internal.clsSweatSensor;
 import complexbody.io.sensors.internal.clsTemperatureSensor;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
+
+import body.clsComplexBody;
 
 import body.clsBaseBody;
 
@@ -161,7 +167,28 @@ public class clsInternalIO extends clsBaseIO{
 		oProp.putAll( clsIntestinePressureSensor.getDefaultProperties( pre+i) );
 		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.INTESTINEPRESSURE.name());
-		i++;		
+		i++;	
+		//new sonsor intern
+		oProp.putAll( clsHeartbeatSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.HEARTBEAT.name());
+		i++;	
+		oProp.putAll( clsSweatSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.SWEAT.name());
+		i++;
+		oProp.putAll( clsCryingSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.CRYING.name());
+		i++;
+		oProp.putAll( clsMuscleTensionSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.MUSCLE_TENSION_ARMS.name());
+		i++;
+		oProp.putAll( clsMuscleTensionSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.MUSCLE_TENSION_LEGS.name());
+		i++;
 		
 		oProp.setProperty(pre+P_NUMSENSORS, i);
 		
@@ -270,6 +297,22 @@ public class clsInternalIO extends clsBaseIO{
 					case SLOWMESSENGER:
 						moSensorInternal.put(eType, new clsSlowMessengerSensor(tmp_pre, poProp, this, poBody));
 						break;
+					case HEARTBEAT:
+						moSensorInternal.put(eType, new clsHeartbeatSensor(tmp_pre, poProp, this, poBody));
+						break;
+					case SWEAT:
+						moSensorInternal.put(eType, new clsSweatSensor(tmp_pre, poProp, this, poBody));
+						break;
+					case MUSCLE_TENSION_ARMS:
+						moSensorInternal.put(eType, new clsMuscleTensionSensor(tmp_pre, poProp, this, poBody,((clsComplexBody)moBody).getInternalSystem().getBOrganSystem().getBOArms()));
+						break;
+					case MUSCLE_TENSION_LEGS:
+						moSensorInternal.put(eType, new clsMuscleTensionSensor(tmp_pre, poProp, this, poBody,((clsComplexBody)moBody).getInternalSystem().getBOrganSystem().getBOLegs()));
+						break;
+					case CRYING:
+						moSensorInternal.put(eType, new clsCryingSensor(tmp_pre, poProp, this, poBody));
+						break;
+						
 						
 					default:
 						throw new java.lang.NoSuchMethodError(eType.toString());

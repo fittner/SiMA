@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 
 import prementalapparatus.symbolization.eSymbolExtType;
@@ -84,7 +85,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	/** this holds the symbols from the environmental perception (IN I2.3) @since 21.07.2011 11:37:01 */
 	private HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
 	/** this holds the symbols from the bodily perception (IN I2.4)  @since 21.07.2011 11:37:06 */
-	private HashMap<eSymbolExtType, itfSymbol> moBodyData;
+	private HashMap<String, Double> moBodyData;
 	/** OUT member of F14, this holds the converted symbols of the two perception paths and the recognized TPMs (OUT I2.6) @since 20.07.2011 10:26:23 */
 	private ArrayList<clsThingPresentationMesh> moCompleteThingPresentationMeshList;
 	
@@ -195,8 +196,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
-		moBodyData = (HashMap<eSymbolExtType, itfSymbol>) deepCopy(poBodyData); 
+	public void receive_I2_4(HashMap<String, Double> poBodyData) {
+		moBodyData = poBodyData; 
 	}
 
 	/* (non-Javadoc)
@@ -275,6 +276,23 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         }
         clsTester.getTester().setActivated(status);
 	    
+        
+        //attack Body Perception Parameter to Self
+        for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList){
+            if(oEntity.getContent().equals("SELF")){
+                attachBodyPerceptionValuesToSelf(oEntity);
+            }
+            else continue;
+        }
+	}
+	
+	private void attachBodyPerceptionValuesToSelf(clsThingPresentationMesh oSelf){
+	    for( Entry<String,Double > oBodyValue : moBodyData.entrySet()){
+	        clsThingPresentation oValue = convertBodyValueSymbolToTPM(oBodyValue);
+	       oSelf.addExternalAssociation(new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
+	               oSelf, 
+	               oValue)); 
+	    }
 	}
 	
 	public ArrayList<Double> getCurrentEmotions(ArrayList<clsDriveMesh> poDrives_IN) {
@@ -535,6 +553,27 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		    oEnvironmentalTP.remove(oDS);			
 		}
 		return oEnvironmentalTP;
+	}
+	
+	private clsThingPresentation convertBodyValueSymbolToTPM(Entry<String, Double> oBodySymbol){
+	    clsThingPresentation oRetVal=null;
+	    
+	    if( oBodySymbol.getKey().equals("HEART_BEAT")){
+	        oRetVal= clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.HeartBeat,""+oBodySymbol.getValue()));
+	    }
+	    else if( oBodySymbol.getKey().equals("SWEAT_INTENSITY")){
+	            oRetVal= clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.SweatIntensity,""+oBodySymbol.getValue()));
+	        }
+	       else if( oBodySymbol.getKey().equals("CRYING_INTENSITY")){
+               oRetVal= clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.CryingIntensity,""+oBodySymbol.getValue()));
+           }
+	       else if( oBodySymbol.getKey().equals("MUSCLE_TENSION_ARMS_INTENSITY")){
+               oRetVal= clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.MuscleTensionArmsIntensity,""+oBodySymbol.getValue()));
+           }
+	       else if( oBodySymbol.getKey().equals("MUSCLE_TENSION_Legs_INTENSITY")){
+               oRetVal= clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.MuscleTensionLegsIntensity,""+oBodySymbol.getValue()));
+           }
+	   return oRetVal;
 	}
 	
 	private void drivesActivateEntities(){

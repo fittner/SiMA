@@ -21,17 +21,17 @@ import body.clsComplexBody;
  * @author herret
  * 
  */
-public class clsHeartbeatSensor  extends clsSensorInt {
+public class clsSweatSensor  extends clsSensorInt {
 
 	private clsBaseBody moBody; // reference
 	
-	private double mrHeartbeat;
+	private double mrSweatRate;
 	
 
-	public clsHeartbeatSensor(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
+	public clsSweatSensor(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
 		super(poPrefix, poProp, poBaseIO);
 		
-		mrHeartbeat = 0;
+		mrSweatRate = 0;
 		setEntity(poBody);
 		applyProperties(poPrefix, poProp);
 	}
@@ -65,7 +65,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = eBodyParts.SENSOR_INT_STOMACHTENSION;
+		mePartId = eBodyParts.SENSOR_INT_SWEATRATE;
 
 	}
 
@@ -78,7 +78,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 	 */
 	@Override
 	protected void setName() {
-		moName = "int. Heartbeat Sensor";
+		moName = "int. Sweat Sensor";
 	}	
 	
 
@@ -101,7 +101,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 //				mrHeartbeat = 0; // per definition.
 //			}
 			
-			mrHeartbeat = ((clsComplexBody)moBody).getInternalSystem().getBOrganSystem().getBOHeart().getHeartRate();
+			mrSweatRate = ((clsComplexBody)moBody).getInternalSystem().getBOrganSystem().getBOSweatGlands().getSweatIntensity();
 
 		} // updated by volkan
 	}
@@ -109,7 +109,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 	/**
 	 * @return the mrEnergy
 	 */
-	public double getHeartbeat() {
-		return mrHeartbeat;
+	public double getSweatRate() {
+		return mrSweatRate;
 	}		
 }

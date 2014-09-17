@@ -220,8 +220,21 @@ public class clsProcessor implements itfProcessor  {
      * @param poData The sensor data collected by the various sources of the body.
      * @return
      */
-    private clsDataContainer separateBodyData(clsDataContainer poData) {  
-        return new clsDataContainer();
+    private clsDataContainer separateBodyData(clsDataContainer poData) { 
+        clsDataContainer oResult = new clsDataContainer();
+        HashMap<String,String> oF12Data = new HashMap<String,String>();
+        oF12Data.put("HEART_BEAT", "");
+        oF12Data.put("SWEAT_INTENSITY", "");
+        oF12Data.put("CRYING_INTENSITY", "");
+        oF12Data.put("MUSCLE_TENSION_ARMS_INTENSITY", "");
+        oF12Data.put("MUSCLE_TENSION_Legs_INTENSITY", "");
+
+        for(clsDataPoint oDataPoint :poData.getData()){
+            if(oF12Data.containsKey(oDataPoint.getType())){
+                oResult.addDataPoint(oDataPoint);
+            }
+        }        
+       return oResult;
     }
     
 	
