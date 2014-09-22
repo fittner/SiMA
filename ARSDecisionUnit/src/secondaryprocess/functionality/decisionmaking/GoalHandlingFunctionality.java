@@ -99,8 +99,7 @@ public class GoalHandlingFunctionality {
         double goalsByExpectedFeelingThreshold = 0.3;
         double goalsByReservedFeelingThreshold = 0.5;
         
-
-        
+        receivedPsychicIntensity = 0.35;
         
         for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
             moFeelingLog.debug(oFeeling.toString());

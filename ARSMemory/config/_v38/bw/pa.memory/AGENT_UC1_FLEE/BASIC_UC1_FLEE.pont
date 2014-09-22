@@ -1,4 +1,4 @@
-; Fri Aug 29 17:25:49 CEST 2014
+; Mon Sep 22 14:35:10 CEST 2014
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -89,11 +89,6 @@
 	(multislot ext_assdatastructure
 		(type INSTANCE)
 ;+		(allowed-classes)
-		(create-accessor read-write))
-	(single-slot emotion_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot value_max
 		(type FLOAT)

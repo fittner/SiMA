@@ -488,7 +488,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                
        double rAssociationWeight = 0;
        
-       double rInfluenceRememberedImages = 0.5;
+       double rInfluenceRememberedImages = 0.75;
        
        clsEmotion oEmotionFromPerception = null;
        clsThingPresentationMesh oRI = null;

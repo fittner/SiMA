@@ -285,7 +285,9 @@ public class clsImportanceTools {
 			    copyOfSelectableGoal.setSupportiveDataStructure(poSupportiveDataStructure);
 			}
 			
-			copyOfSelectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
+			if (!poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
+			    copyOfSelectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
+			}
 			
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
