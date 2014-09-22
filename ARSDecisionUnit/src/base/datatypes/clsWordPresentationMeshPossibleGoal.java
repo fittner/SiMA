@@ -273,7 +273,28 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
      */
     @Override
     public double getTotalImportance() {
-        double totalImportance = this.getDriveDemandImportance() + this.getDriveDemandCorrectionImportance() + getEffortImpactImportance() + getFeelingsImportance() + this.getSocialRulesImportance() + getDriveAimImportance();
+        int nFactors = 0;
+        double rTempImportance = 0;
+        
+        double totalImportance = this.getDriveDemandCorrectionImportance()
+                + getEffortImpactImportance()
+                + this.getSocialRulesImportance()
+                + getDriveAimImportance();
+        
+        if(this.moAssociationMapping.containsKey(ePredicate.HASDRIVEDEMANDIMPORTANCE)) {
+            nFactors++;
+            rTempImportance += getDriveDemandImportance();
+        }
+        
+        if(this.moAssociationMapping.containsKey(ePredicate.HASFEELINGSIMPORTANCE)) {
+            nFactors++;
+            rTempImportance += getFeelingsImportance();
+        }
+        
+        if(nFactors > 0) {
+            totalImportance += rTempImportance / nFactors;
+        }
+        
         return totalImportance;
         
         //double oRetVal = 0;
