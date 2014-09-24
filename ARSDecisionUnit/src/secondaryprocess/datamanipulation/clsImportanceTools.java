@@ -273,16 +273,6 @@ public class clsImportanceTools {
 			clsWordPresentationMeshPossibleGoal copyOfSelectableGoal = clsGoalManipulationTools.createSelectableGoal(originalSelectableGoal.getGoalName(), originalSelectableGoal.getGoalSource(), originalSelectableGoal.getPotentialDriveFulfillmentImportance(), originalSelectableGoal.getGoalObject()); 
 			
 			
-			//Get the drive
-			//String oDriveContent = ((clsWordPresentationMeshGoal)oAssSec.getLeafElement()).getGoalContentIdentifier(); //.clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
-			
-			//Get the intensity
-			//double oImportance = ((clsWordPresentationMeshGoal)oAssSec.getLeafElement()).getTotalImportance();
-			//eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
-			
-			//Get the drive object
-			//clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
-			
 			if (poSupportiveDataStructure.isNullObject()==true) {
 			    if (poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
 			        copyOfSelectableGoal.setSupportiveDataStructure(clsMeshTools.createImageFromEntity(copyOfSelectableGoal.getGoalObject(), eContentType.PERCEPTIONSUPPORT));
@@ -298,8 +288,6 @@ public class clsImportanceTools {
 			
 			copyOfSelectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
 			
-			//clsWordPresentationMeshGoal oGoal = clsGoalTools.createSelectableGoal(oDriveContent, poGoalType, oImportance, eAction.NULLOBJECT, new ArrayList<clsWordPresentationMeshFeeling>(), oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
-
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;
@@ -539,25 +527,25 @@ public class clsImportanceTools {
 		if (poCondition.equals(eCondition.IS_DRIVE_SOURCE)) {
 			nResult+=-0.71;
 		} else if (poCondition.equals(eCondition.IS_PERCEPTIONAL_SOURCE)) {
-			nResult+= 0;
+			nResult+= 0.0; 
 		} else if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
-			nResult+= -0.10;
+			nResult-= 0.0;
 		} else if (poCondition.equals(eCondition.IS_CONTEXT_SOURCE)) {
-            nResult+=0;
+            nResult+= 0.0;
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_GOAL)) {
-			nResult+=0.5;
+			nResult+= 0.1;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_PLANGOAL)) {
-            nResult+=0.2;
+            nResult+= 0.01;
 		} else if (poCondition.equals(eCondition.ACT_MATCH_TOO_LOW)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.GOAL_COMPLETED)) {
 			nResult+=-2.00;
 		} else if (poCondition.equals(eCondition.OBSTACLE_SOLVING)) {
-			nResult+=1.0;
+			nResult+= 1.0;
 		} else if (poCondition.equals(eCondition.INSUFFICIENT_PIMATCH_INFO)) {
-		    nResult+=-1.0;
+		    nResult+= 0.0;
 		}
 		
 		return nResult;

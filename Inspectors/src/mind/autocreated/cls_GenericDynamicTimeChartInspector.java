@@ -128,7 +128,7 @@ public class cls_GenericDynamicTimeChartInspector extends cls_GenericTimeChartIn
     	if (moTimeingContainer instanceof itfInterfaceTimeChartHistory) {
     		removeAll();
 	    	createPanel();
-	    	fetchDataFromHistory();
+	    	//fetchDataFromHistory();
     	} else {
 	    	HashMap<String, HashMap<Long, Double>> oBackup = backupHistory();
 	    	removeAll();

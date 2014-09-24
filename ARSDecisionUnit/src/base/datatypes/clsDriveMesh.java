@@ -10,15 +10,16 @@ package base.datatypes;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import base.datahandlertools.clsDataStructureGenerator;
+import base.datatypes.enums.eDriveComponent;
+import base.datatypes.enums.eOrgan;
+import base.datatypes.enums.eOrifice;
+import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import du.enums.eOrgan;
-import du.enums.eOrifice;
-import du.enums.pa.eDriveComponent;
-import du.enums.pa.ePartialDrive;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -757,8 +758,13 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		//eOrifice oOrifice = poDM.getActualBodyOrificeAsENUM();
 		eOrgan oOrgan = this.getActualDriveSourceAsENUM();
 		
+		String aim = "";
+		if (this.getActualDriveAim()!=null) {
+		    aim=this.getActualDriveAim().getContent();
+		}
+		
 		//Create the drive string from Drive component, orifice and organ
-		return oDriveComponent.toString() + oOrgan.toString() + partialDrive.toString();
+		return oDriveComponent.toString() + oOrgan.toString() + partialDrive.toString() + aim;
 	}
 
 

@@ -7,10 +7,11 @@
  */
 package primaryprocess.functionality.superegofunctionality;
 
+
 import base.datatypes.clsDriveMesh;
+import base.datatypes.enums.eDriveComponent;
+import base.datatypes.enums.eOrgan;
 import base.datatypes.helpstructures.clsPair;
-import du.enums.eOrgan;
-import du.enums.pa.eDriveComponent;
 
 /**
  * DOCUMENT (Kollmann) - This class represents a single conflict between super ego and self.

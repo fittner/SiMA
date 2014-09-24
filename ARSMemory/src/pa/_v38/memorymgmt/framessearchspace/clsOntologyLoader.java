@@ -44,10 +44,10 @@ import base.datatypes.clsWordPresentation;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.itfExternalAssociatedDataStructure;
+import base.datatypes.enums.eDriveComponent;
+import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import du.enums.pa.eDriveComponent;
-import du.enums.pa.ePartialDrive;
 import edu.stanford.smi.protege.model.Cls;
 import edu.stanford.smi.protege.model.Instance;
 import edu.stanford.smi.protege.model.KnowledgeBase;
@@ -796,13 +796,41 @@ public class clsOntologyLoader {
 				int nInstanceID = oNewInstanceTPMDS.hashCode();
 				oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
 				// Make this clsDataStructurePA to a TPM
-				oNewInstanceDS = oNewInstanceTPMDS;
-
-				poDataContainer.b.put(poElement.getName(), oNewInstanceDS); // Use
+				
+				poDataContainer.b.put(poElement.getName(), oNewInstanceTPMDS); // Use
 																			// the
 																			// containername
 																			// as
 																			// identifier
+				
+				
+				if(poElement.hasOwnSlot(poDataContainer.a.getSlot("instance_association"))) {
+					//load instance associations
+					ArrayList<clsAssociation> oAssociationList = loadInstanceAssociations(
+							poElement, poDataContainer);
+					
+					for (clsAssociation element : oAssociationList) {
+						// Go through all associations of that structure. If the association
+						// is an association attribute, then add it to the internal
+						// associations
+						// Added by AW: If the association is of type associationTemp, then
+						// also add it to the internal associations. If associationTemp are
+						// used, then
+						// it means that it is an image.
+						//oNewInstanceTPMDS.assignDataStructure(element);
+						
+						//avoid double add
+						boolean found = false;
+						for(clsAssociation oAssociation : oNewInstanceTPMDS.getInternalAssociatedContent()) {
+							if(oAssociation.getDS_ID() == element.getDS_ID()) {
+								found = true;
+							}
+						}
+						if(!found) {
+							oNewInstanceTPMDS.getInternalAssociatedContent().add(element);
+						}
+					}
+				}
 
 				// TODO: IMPORTANT NOTE TO DOCUMENTv: In associationAttribute,
 				// the rootelement must be the first element
@@ -836,7 +864,7 @@ public class clsOntologyLoader {
 								// In this case, the Root element is B.
 								// Therefore, set be
 								oNewAssDM
-										.setAssociationElementB(oNewInstanceDS);
+										.setAssociationElementB(oNewInstanceTPMDS);
 								oDMAssList.add(oNewAssDM);
 							} catch (CloneNotSupportedException e) {
 								log.error("Error in clsOntologyLoader.java in createPRIINSTANCE: oNewAssDM could not be cloned", e);
@@ -1035,7 +1063,7 @@ public class clsOntologyLoader {
 				}
 			}
 		}
-
+		
 		// TODO HZ: Define other attributes!!
 		poDataContainer.b.put(oAssName, oDataStructure);
 	}
@@ -1183,8 +1211,8 @@ public class clsOntologyLoader {
 			return new clsAssociationEmotion(
 					new clsTriple<Integer, eDataType, eContentType>(oID,
 							peElementType, peContentType),
-					(clsEmotion) oAssociationElements.a,
-					(clsThingPresentationMesh) oAssociationElements.b);
+							(clsEmotion) oAssociationElements.a,
+							(clsThingPresentationMesh) oAssociationElements.b);
 		case ASSOCIATIONFEELING:
             oAssociationElements = evaluateElementOrder(poElementA, poElementB,
                     eDataType.FEELING);

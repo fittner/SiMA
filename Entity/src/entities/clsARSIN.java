@@ -15,18 +15,19 @@ import org.slf4j.Logger;
 import properties.clsProperties;
 
 import complexbody.io.clsExternalIO;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
+import complexbody.io.sensors.datatypes.enums.eActionKissIntensity;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+import control.interfaces.itfDecisionUnit;
 
 import sim.physics2D.shape.Shape;
+import singeltons.clsSimState;
 import tools.clsPose;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
 
 
-import du.enums.eActionKissIntensity;
-import du.enums.eEntityType;
-import du.itf.itfDecisionUnit;
-import du.itf.actions.clsActionCommand;
-import du.itf.actions.clsInternalActionCommand;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
 import entities.actionProxies.itfAPAttackableBite;
@@ -67,6 +68,10 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	
 	private boolean mnAlive;
 	private boolean mnImmortal;
+	
+	private final int P_DECISION_CYCLUS = 9;
+	private int executionCylce =0;
+	private boolean executeDU=true;
 	
 	protected final Logger log;
 	
@@ -184,15 +189,36 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 * 
 	 * @see bw.entities.clsEntity#execution()
 	 */
+	
+	private boolean sens(){
+		boolean exec = false;
+		if(executionCylce== 0){
+			exec = true;
+		}		
+		return exec;
+	}
+	
+	private boolean execute(){
+		boolean exec = false;
+		if(executionCylce == P_DECISION_CYCLUS){
+			exec = true;
+		}		
+		return exec;
+	}
 	@Override
 	public void execution() {
-
+		if(execute()){
 			Thread.currentThread().setName("ARSIN #"+uid);
 			if (isAlive()) {
-				log.trace("Execute");
+				log.trace("Step "+clsSimState.getSteps()+": Execute");
 				super.execution();
 			}
-
+		}
+		if(executionCylce == P_DECISION_CYCLUS){
+			executionCylce=0;
+			executeDU =true;
+		}
+		else executionCylce ++;
 	}
 
 	/* (non-Javadoc)
@@ -206,18 +232,23 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	public void processing() {
 		Thread.currentThread().setName("ARSIN #"+uid);
 		if (isAlive()) {
-			log.trace("Process");
-
-					super.processing();
-					log.trace("executed");
-
-			
-			log.trace("Generated Commands" + ((clsComplexBody) moBody).getExternalIO().getActionProcessor().getCommandStack().toString());
-
-			
-			
-
+			if(executeDU){
+				log.trace("Step "+clsSimState.getSteps()+": Processing");
+				super.processing();
+				//log.trace("executed");
+				//log.trace("Generated Commands" + ((clsComplexBody) moBody).getExternalIO().getActionProcessor().getCommandStack().toString());
+			}
+			else{
+				log.trace("Step "+clsSimState.getSteps()+": Processing empty");
+			}
 		}
+		
+		if(((clsComplexBody)moBody).getBrain().getActions().size()>0) {
+			executeDU=false;
+			//executionCylce=0;
+		}
+
+		
 
 		//this.getSensorEngineAreas()
 	}
@@ -232,12 +263,13 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	@Override
 	public void sensing() {
 
+		if(sens()){
 			Thread.currentThread().setName("ARSIN #"+uid);
 			if (isAlive()) {
-				log.trace("Sensing");
+				log.trace("Step "+clsSimState.getSteps()+": Sensing");
 				super.sensing();
 			}
-		
+		}
 	}
 
 	
@@ -250,14 +282,14 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void updateInternalState() {
-		
+		if(sens()){
 			Thread.currentThread().setName("ARSIN #"+uid);
 			if (isAlive()) {
-				log.trace("Update Internal State");
+				log.trace("Step "+clsSimState.getSteps()+": Update Internal State");
 				super.updateInternalState();
 			}
+		}
 	}
-	
 	
 	/*
 	 * (non-Javadoc)

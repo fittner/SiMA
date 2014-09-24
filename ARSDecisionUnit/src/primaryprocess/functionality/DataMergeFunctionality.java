@@ -36,11 +36,6 @@ public class DataMergeFunctionality {
      */
     public static clsThingPresentationMesh mergeDriveMeshesOfMesh(clsThingPresentationMesh poInput) {
         clsThingPresentationMesh oRetVal = poInput;
-//        try {
-//            oRetVal = (clsThingPresentationMesh) poInput.clone();
-//        } catch (CloneNotSupportedException e) {
-//            log.error("Clone error", e);
-//        }
         
         //RetVal is changed and returned. The images of oImages are for oRetVal
         ArrayList<clsThingPresentationMesh> oEntityList = clsMeshTools.getAllTPMEntities(oRetVal, 4);

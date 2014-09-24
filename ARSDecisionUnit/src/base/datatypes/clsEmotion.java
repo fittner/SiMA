@@ -107,17 +107,34 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		return mrSourcePleasure;
 	}
 	
-	public double getSourceUnpleasure() {
-		return mrSourceUnpleasure;
-	}
+	public void setSourcePleasure(double mrSourcePleasure) {//koller
+        this.mrSourcePleasure = mrSourcePleasure;
+    }
+    
+    public double getSourceUnpleasure() {
+        return mrSourceUnpleasure;
+    }
+    
+    public void setSourceUnpleasure(double mrSourceUnpleasure) {//koller
+        this.mrSourceUnpleasure = mrSourceUnpleasure;
+    }
+    
+    public double getSourceLibid() {
+        return mrSourceLibid;
+    }
+    
+    public void setSourceLibid(double mrSourceLibid) {//koller
+        this.mrSourceLibid = mrSourceLibid;
+    }
+    
+    public double getSourceAggr() {
+        return mrSourceAggr;
+    }
+    
+    public void setSourceAggr(double mrSourceAggr) {//koller
+        this.mrSourceAggr = mrSourceAggr;
+    }  
 	
-	public double getSourceLibid() {
-		return mrSourceLibid;
-	}
-	
-	public double getSourceAggr() {
-		return mrSourceAggr;
-	}
 	
 	
 
@@ -127,7 +144,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		String oResult = "::"+this.moDataStructureType+"::";
 		oResult += this.moDS_ID + ":";
 		try{
-		oResult += this.moContentType + ":";
+		//oResult += this.moContentType + ":";
 		oResult += this.moContent + ":";
 		
 		if(moExternalAssociatedContent != null)
@@ -141,6 +158,11 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		df.setMaximumFractionDigits(2);
 		
 		oResult += " intensity: " + df.format(mrEmotionIntensity);
+		oResult += " U: " + df.format(mrSourceUnpleasure);
+		oResult += " A: "+ df.format(mrSourceAggr);
+		oResult += " L: "+ df.format(mrSourceLibid);
+		oResult += " P: "+ df.format(mrSourcePleasure);
+		
 		}
 		catch(Exception e){
 			System.out.printf(e + "\n" + e.getStackTrace().toString());

@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/mason.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CommunicationInterface"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

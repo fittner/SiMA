@@ -15,6 +15,8 @@ package memorymgmt.enums;
  */
 public enum eEmotionType {
 	
+    UNDEFINED,
+
 	// Basic Emotions	
 	ANGER,
 	MOURNING,

@@ -8,12 +8,15 @@
 package body;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import physical2d.physicalObject.datatypes.eFacialExpression;
+import physical2d.physicalObject.datatypes.eSpeechExpression;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
@@ -25,23 +28,23 @@ import complexbody.intraBodySystems.clsIntraBodySystem;
 import complexbody.io.clsExternalIO;
 import complexbody.io.clsInternalIO;
 import complexbody.io.actuators.clsInternalActionProcessor;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionShare;
+import complexbody.io.actuators.actionCommands.clsActionSpeechInvited;
+import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
+import complexbody.io.actuators.actionCommands.clsInternalActionSweat;
+import complexbody.io.actuators.actionCommands.clsInternalActionTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalSweat;
 import complexbody.io.actuators.actionExecutors.clsExecutorInternalTurnVision;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechInvite;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechShare;
+import complexbody.io.sensors.datatypes.enums.eBodyActionType;
 
 import utils.clsGetARSPath;
 import utils.exceptions.exFoodAlreadyNormalized;
 import utils.exceptions.exFoodWeightBelowZero;
 
 import datatypes.clsMutableDouble;
-import du.enums.eBodyActionType;
-import du.enums.eFacialExpression;
-import du.enums.eSpeechExpression;
-import du.itf.actions.clsActionShare;
-import du.itf.actions.clsActionSpeechInvited;
-import du.itf.actions.clsInternalActionSweat;
-import du.itf.actions.clsInternalActionTurnVision;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyType;
 import entities.enums.eNutritions;
@@ -281,6 +284,7 @@ public class clsComplexBody extends clsBaseBody implements
 	public void stepSensing() {
 		moExternalIO.stepSensing();
 		moInternalIO.stepSensing();
+		moBrain.sendDataToDU();
 	}
 	
 	@Override
@@ -331,11 +335,27 @@ public class clsComplexBody extends clsBaseBody implements
 
 	@Override
 	public void stepExecution() {
+		//Execute Action Commands
+		processActionCommands(moBrain.getActions());
+		processInternalActionCommands(moBrain.getInternalActions());
+	
 		moInternalActionProcessor.dispatch();
 		moExternalIO.stepExecution();
 		moInternalIO.stepExecution();
 	}
 
+	private void processActionCommands(ArrayList<clsActionCommand> moCommands){
+		for( clsActionCommand oCmd : moCommands ) {
+			moExternalIO.getActionProcessor().call(oCmd);
+		}
+	}
+	
+	private void processInternalActionCommands(ArrayList<clsInternalActionCommand> moCommands){
+		for( clsInternalActionCommand oCmd : moCommands ) {
+			moInternalActionProcessor.call(oCmd);
+		}
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

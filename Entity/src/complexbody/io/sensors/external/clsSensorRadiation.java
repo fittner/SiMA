@@ -14,13 +14,13 @@ import java.util.Map;
 
 import complexbody.io.clsBaseIO;
 import complexbody.io.clsExternalIO;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
 import properties.clsProperties;
 
-import du.enums.eEntityType;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
 

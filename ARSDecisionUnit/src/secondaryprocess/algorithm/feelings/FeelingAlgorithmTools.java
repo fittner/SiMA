@@ -104,7 +104,7 @@ public class FeelingAlgorithmTools {
         }
 
 //        if(poGoal.getSupportiveDataStructure().getContent().startsWith("A14")) 
-            moLogger.debug("Feelings cause evaluation change for {}({}) by {}", poGoal.getContent(), poGoal.getSupportiveDataStructure().getContent(), rMatchingFactor);
+//            moLogger.debug("Feelings cause evaluation change for {}({}) by {}", poGoal.getContent(), poGoal.getSupportiveDataStructure().getContent(), rMatchingFactor);
         
         rResult += rMatchingFactor;
         
@@ -120,7 +120,7 @@ public class FeelingAlgorithmTools {
      * @param poGoal 
      */
     public static double evaluateGoalByTriggeredFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
-        double rFeelingMatchImportance = 0.8;
+        double rFeelingMatchImportance = 0.0;
         
         double rFeelingMatch = getFeelingMatch(poGoal, poFeltFeelingList);
         

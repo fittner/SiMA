@@ -1,12 +1,9 @@
 package base.datatypes;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentationMesh;
-import du.enums.eSensorExtType;
-import du.itf.sensors.clsSensorExtern;
 
 
 
@@ -34,7 +31,7 @@ public class clsWording {
 	 * @since 28.10.2012 22:25:48
 	 *
 	 */
-	public clsWording(HashMap<eSensorExtType,clsSensorExtern> poContent1) {
+	public clsWording() {
 			
 	} 
 	

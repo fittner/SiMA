@@ -8,6 +8,7 @@ package secondaryprocess.functionality.conversion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import logger.clsLogger;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -21,6 +22,7 @@ import base.datatypes.helpstructures.clsPair;
 import secondaryprocess.algorithm.conversion.DataStructureConversionTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import general.datamanipulation.IDComparator;
 import testfunctions.clsTester;
 
 /**
@@ -93,6 +95,12 @@ public class DataStructureConversion {
         ArrayList<clsWordPresentationMesh> result = new ArrayList<clsWordPresentationMesh>(oEnhancedRIWPMList);
         
         ArrayList<clsWordPresentationMesh> newWPMList = new ArrayList<clsWordPresentationMesh>();
+        IDComparator oIDCompare = new IDComparator();
+        
+        //for easier searching, create a cloned, ordered array list
+        @SuppressWarnings("unchecked")
+        ArrayList<clsWordPresentationMesh> oOrderedWPMList = (ArrayList<clsWordPresentationMesh>) oEnhancedRIWPMList.clone(); //this only clones the LIST, not the elements in the list
+        Collections.sort(oOrderedWPMList, oIDCompare);
         
         for (clsWordPresentationMesh riwpm : oEnhancedRIWPMList) {
             boolean isIntention = clsActTools.isIntention(riwpm);
@@ -101,10 +109,21 @@ public class DataStructureConversion {
                 //Get all subimages
                 ArrayList<clsWordPresentationMesh> events = clsActTools.getAllSubImages(riwpm);
                 for (clsWordPresentationMesh event : events) {
-                    clsThingPresentationMesh tpm = clsMeshTools.getPrimaryDataStructureOfWPM(event);
+                    //Quickfix Kollmann: the associations between the intention and the sub images are pointing to the wrong instances of the sub-images
+                    //                   so, not all (or possibly none) of the sub-images have primary data structures associated and would therefore be
+                    //                   added to the newWPMList - even though the images are allready contained in original WPM list.
+                    //                   As a quick fix, I base the dicission not upon the existance of a primary data structure, but actually check for
+                    //                   every image if it is already contained in the original list via a LOOSE check (DS_ID und DSInstance_ID)
+                    
+                    //former code of the check:
+                    //clsThingPresentationMesh tpm = clsMeshTools.getPrimaryDataStructureOfWPM(event);
                     //If the structure has a TPM, then it has been treated already and do not need to be used to find additional associations
                     
-                    if (tpm.isNullObject()==true) {
+                    //if (tpm.isNullObject()==true) {
+                    
+                    //new code of the check:
+                    //if the original list contains a corresponding element (a.DS_ID == b.DS_ID)
+                    if(Collections.binarySearch(oOrderedWPMList, event, oIDCompare) < 0) { // binarySearch returns the index of the found element
                         //ArrayList<clsPair<Double, clsDataStructurePA>> extraWPM = ltm.searchMesh(event, event.getMoContentType(), 1.0, 1);
                         clsWordPresentationMesh enhancedMesh = (clsWordPresentationMesh) ltm.searchCompleteMesh(event, 1);
                         

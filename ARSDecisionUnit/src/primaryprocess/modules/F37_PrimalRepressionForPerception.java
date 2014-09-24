@@ -29,6 +29,8 @@ import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.enums.eDriveComponent;
+import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
@@ -36,8 +38,6 @@ import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
 import testfunctions.clsTester;
-import du.enums.pa.eDriveComponent;
-import du.enums.pa.ePartialDrive;
 
 /**
  * 

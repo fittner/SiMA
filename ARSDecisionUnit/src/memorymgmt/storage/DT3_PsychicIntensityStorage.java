@@ -59,32 +59,8 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
     
     private double mrPsychicIntensityContainerLimit;
     
-    private double mrProportionUsedIntensity;
-    
 	
-	/**
-     * @since 20.08.2014 12:59:13
-     * 
-     * @return the mrProportionUsedIntensity
-     */
-    public double getMrProportionUsedIntensity() {
-        return mrProportionUsedIntensity;
-    }
-
-
-
-    /**
-     * @since 20.08.2014 12:59:13
-     * 
-     * @param mrProportionUsedIntensity the mrProportionUsedIntensity to set
-     */
-    public void setMrProportionUsedIntensity(double mrProportionUsedIntensity) {
-        this.mrProportionUsedIntensity = mrProportionUsedIntensity;
-    }
-
-
-
-    public DT3_PsychicIntensityStorage(clsPersonalityParameterContainer poPersonalityParameterContainer) {
+	public DT3_PsychicIntensityStorage(clsPersonalityParameterContainer poPersonalityParameterContainer) {
 	    
 	    this.mrPsychicIntensityContainerLimit =poPersonalityParameterContainer.getPersonalityParameter("DT3", P_PSYCHIC_INTENSITY_CONTAINER_LIMIT).getParameterDouble();
 	    this.moPsychicIntensityPerModuleTable = new Hashtable<Integer, clsPsychicIntensityPerModule>();
@@ -93,7 +69,6 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 	    this.mrSentPsychicIntensity = 0.0d;
 	    this.mrTotalEstimatedPsychicIntensityDemand = 0.0d;
 	    this.mrEstimatedSumModulesPriorities = 0.0d;
-	    this.mrProportionUsedIntensity = 0.0d;
 	}
 
 
@@ -220,19 +195,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 	     return mrTotalEstimatedPsychicIntensityDemand;
 	 }
 	    
-	 /**
-     * @since 19.08.2014 14:49:02
-     * 
-     * @return the mrTotalEstimatedPsychicIntensityDemand
-     */
-    public double getMrTotalEstimatedPsychicIntensityDemand() {
-        return mrTotalEstimatedPsychicIntensityDemand;
-    }
-
-
-
-
-    public double calculateSumPriorities(){
+	 public double calculateSumPriorities(){
 	   	        
 	     double rSumModulePriorities = 0.0;
 	        
@@ -320,19 +283,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 	        }   
 	    }
 	 
-	 
-	 public double calculatePleasureProduction(){
-	     
-	     double pleasureProduction = 0.0d;
-	     
-	     mrProportionUsedIntensity = getEstimatedConsumedPsychicIntensity()/getMrTotalEstimatedPsychicIntensityDemand();
-	     
-	     pleasureProduction = mrProportionUsedIntensity;
-	     
-	     return pleasureProduction;
-	     
-	 }
-	 
+	  
 	    public void updateEstimations(){
 
 	        //update estimations
@@ -354,8 +305,6 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 	            getPsychicIntensityPerModuleTable().get(j).setAvailablePsychicIntensity(0.0d);
 	            getPsychicIntensityPerModuleTable().get(j).setConsumedPsychicIntensity(0);  
 	        }
-	        
-	        mrTotalEstimatedPsychicIntensityDemand = 0.0d;
 	    }
 	    
 	    
@@ -602,16 +551,15 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 
 
 
-
-    @Override
-    public clsTimeChartPropeties getProperties(){
-        return new clsTimeChartPropeties(false);
-    }
-
-
-
-
-	
-
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
 	
 }

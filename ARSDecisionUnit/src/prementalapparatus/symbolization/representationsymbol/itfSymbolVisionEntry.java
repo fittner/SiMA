@@ -8,14 +8,6 @@ package prementalapparatus.symbolization.representationsymbol;
 
 import java.awt.Color;
 
-import du.enums.eAntennaPositions;
-import du.enums.eDistance;
-import du.enums.eShapeType;
-
-import bfg.utils.enums.eCount;
-import bfg.utils.enums.eSide;
-import du.enums.eSaliency;
-
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -24,16 +16,16 @@ import du.enums.eSaliency;
  * 
  */
 public interface itfSymbolVisionEntry extends itfSymbol {
-	public eShapeType getShapeType();
-	public eCount getNumEntitiesPresent();
+	public String getShapeType();
+	public String getNumEntitiesPresent();
 	
 	public boolean getAlive();
 	public Color getColor();
-	public eSaliency getBrightness();
-	public eSide getObjectPosition(); 
-	public eAntennaPositions getAntennaPositionLeft();
-	public eAntennaPositions getAntennaPositionRight();
-	public eDistance getDistance();
+	public String getBrightness();
+	public String getObjectPosition(); 
+	public String getAntennaPositionLeft();
+	public String getAntennaPositionRight();
+	public String getDistance();
 	public double getExactDebugX();
 	public double getExactDebugY();
 	public double getDebugSensorArousal();

@@ -11,8 +11,10 @@ import java.awt.Color;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.interfaces.itfSearchSpaceAccess;
 
+import communication.layer1.implementations.clsLayer1ProcedureCall;
 import complexbody.internalSystems.clsFlesh;
 import complexbody.internalSystems.clsInternalSystem;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
@@ -20,9 +22,8 @@ import properties.clsProperties;
 import control.clsProcessor;
 import control.clsPsychoAnalysis;
 import control.factory.clsARSDecisionUnitFactory;
+import control.interfaces.itfDecisionUnit;
 import du.enums.eDecisionType;
-import du.enums.eEntityType;
-import du.itf.itfDecisionUnit;
 import entities.clsWallAxisAlign;
 import entities.clsWallHorizontal;
 import entities.clsWallVertical;
@@ -34,6 +35,9 @@ import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
 import entity.clsInspectorEntity;
+import base.clsCommunicationFactory;
+import base.clsCommunicationInterface;
+import body.clsBaseBody;
 import body.clsComplexBody;
 import body.clsMeatBody;
 import registration.clsRegisterEntity;
@@ -425,12 +429,37 @@ public class clsSimplePropertyLoader extends clsLoader {
 
     	temp = clsEntityFactory.createEntity(poPropEntity, pnEntityType, oDU, uid);
 
-//    	if (moMasonInspector == null) {
-//			moMasonInspector = new TabbedInspector();
-//			Inspector oInspector = new clsInspectorEntity(super.getInspector(
-//					wrapper, state), wrapper, state, moEntity);
-//			moMasonInspector.addInspector(oInspector, "ARS Entity Inspector");
-//		}
+    	//link Body and DU
+		clsBaseBody oBodyTemp = temp.getBody();
+		if((pnDecisionType == eDecisionType.PA || pnDecisionType == eDecisionType.ActionlessTestPA) && oBodyTemp instanceof clsComplexBody) {
+			//create the body side
+			clsComplexBody oBody = (clsComplexBody) oBodyTemp;
+			clsCommunicationInterface oBodyDUData = clsCommunicationFactory.createNonBlockingInterface();
+			clsCommunicationInterface oBodyDUControl = clsCommunicationFactory.createBlockingInterface();
+			
+			//set Interfaces at Body
+			oBody.getBrain().setDUControlInterface(oBodyDUControl);
+			oBody.getBrain().setDUDataInterface(oBodyDUData);
+			
+			clsCommunicationInterface oDUBodyData = clsCommunicationFactory.createNonBlockingInterface();
+			clsCommunicationInterface oDUBodyControl = clsCommunicationFactory.createBlockingInterface();
+
+			//set Communication Interfaces at DU
+			oDU.setControlInterface(oDUBodyControl);
+			oDU.setBodyDataInterface(oDUBodyData);
+			
+			//link the Interfaces
+			((clsLayer1ProcedureCall) oDUBodyData.getLayer1()).setCommunicationPartner((clsLayer1ProcedureCall) oBodyDUData.getLayer1());
+			((clsLayer1ProcedureCall) oBodyDUData.getLayer1()).setCommunicationPartner((clsLayer1ProcedureCall) oDUBodyData.getLayer1());
+			
+			((clsLayer1ProcedureCall) oDUBodyControl.getLayer1()).setCommunicationPartner((clsLayer1ProcedureCall) oBodyDUControl.getLayer1());
+			((clsLayer1ProcedureCall) oBodyDUControl.getLayer1()).setCommunicationPartner((clsLayer1ProcedureCall) oDUBodyControl.getLayer1());
+
+		}
+    	
+    	
+    	
+
     	temp.setMasonInspectorFactory(new clsInspectorEntity(null,null,null,temp));
     	
     }

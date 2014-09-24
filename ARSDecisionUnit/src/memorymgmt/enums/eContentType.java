@@ -75,6 +75,7 @@ public enum eContentType {
 	EFFORTIMPACTIMPORTANCE,
 	TOTALIMPORTANCE,
 	POTENTIALDRIVEFULFILLMENTIMPORTANCE,
+	DRIVEAIMIMPORTANCE,
 	
 	
 	
@@ -297,6 +298,9 @@ public enum eContentType {
     
     
     //Control
-    HASPHANTASYFLAG;
+    HASPHANTASYFLAG,
+	
+	//Expression
+    Expression; //koller
 	
 }

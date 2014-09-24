@@ -24,12 +24,12 @@ import modules.interfaces.I5_4_receive;
 import modules.interfaces.I5_4_send;
 import modules.interfaces.eInterfaces;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.enums.ePartialDrive;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.pa.ePartialDrive;
 
 /**
  * This function reduces the affect values of drives by splitting them according to the attached modules. 

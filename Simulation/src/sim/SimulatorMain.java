@@ -24,6 +24,8 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import complexbody.io.sensors.datatypes.clsInspectorPerceptionItem;
+
 import properties.clsProperties;
 
 
@@ -33,7 +35,6 @@ import sim.portrayal.DrawInfo2D;
 import singeltons.clsSingletonMasonGetter;
 import singeltons.clsSingletonProperties;
 import utils.clsGetARSPath;
-import du.itf.sensors.clsInspectorPerceptionItem;
 
 
 

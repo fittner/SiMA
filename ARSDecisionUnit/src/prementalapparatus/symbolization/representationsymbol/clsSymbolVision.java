@@ -3,22 +3,37 @@ package prementalapparatus.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import du.itf.sensors.clsSensorExtern;
-import du.itf.sensors.clsVisionEntry;
+import communication.datatypes.clsDataPoint;
 
-public class clsSymbolVision extends du.itf.sensors.clsVision implements itfGetDataAccessMethods, itfSymbolVision {
-	
-	public clsSymbolVision(du.itf.sensors.clsVision poSensor) {
-		super();
-		
-		moSensorType = poSensor.getSensorType();
-		
-		for (du.itf.sensors.clsSensorExtern oEntry:poSensor.getDataObjects()) {
-			clsSymbolVisionEntry oE = new clsSymbolVisionEntry( (du.itf.sensors.clsVisionEntry)oEntry);
-			moEntries.add(oE);
-		}		
-	}
 
+public class clsSymbolVision implements itfGetDataAccessMethods, itfSymbolVision {
+    protected String moSensorType;
+    protected ArrayList<clsSymbolVisionEntry> moEntries = new ArrayList<clsSymbolVisionEntry>();
+
+
+    public clsSymbolVision(clsDataPoint poSensor) {
+        super();
+        
+        moSensorType = poSensor.getType();
+        for(clsDataPoint oEntry: poSensor.getAssociatedDataPoints()){
+            if(oEntry.getType().equals("ENTITY")){
+                clsSymbolVisionEntry oE = new clsSymbolVisionEntry(oEntry);
+                moEntries.add(oE);
+            }
+        }
+ 
+    }
+    public String getSensorType() {
+        return moSensorType;
+    }
+    public void setSensorType(String poSensorType) {
+        moSensorType = poSensorType;
+    }
+    
+    public ArrayList<clsSymbolVisionEntry> getDataObjects() {
+        return moEntries;
+        }
+    
 	@Override
 	public Method[] getDataAccessMethods() {
 		return itfSymbolVision.class.getMethods();
@@ -33,14 +48,16 @@ public class clsSymbolVision extends du.itf.sensors.clsVision implements itfGetD
 	 */
 	@Override
 	public ArrayList<itfSymbol> getSymbolObjects() {
-		ArrayList<clsSensorExtern> oSE = getDataObjects();
+		ArrayList<clsSymbolVisionEntry> oSE = getDataObjects();
 		ArrayList<itfSymbol> oResult =  new ArrayList<itfSymbol>();
 		
-		for (clsSensorExtern oEntry:oSE) {
-			oResult.add( new clsSymbolVisionEntry( (clsVisionEntry)oEntry) );
+		for (clsSymbolVisionEntry oEntry:oSE) {
+			oResult.add( oEntry );
 		}
 		
+		
 		return oResult;
+
 	}	
 	
 	/* (non-Javadoc)
@@ -52,11 +69,11 @@ public class clsSymbolVision extends du.itf.sensors.clsVision implements itfGetD
 	 */
 	@Override
 	public ArrayList<itfSymbolVisionEntry> getEntries() {
-		ArrayList<clsSensorExtern> oSE = getDataObjects();
+		ArrayList<clsSymbolVisionEntry> oSE = getDataObjects();
 		ArrayList<itfSymbolVisionEntry> oResult =  new ArrayList<itfSymbolVisionEntry>();
 		
-		for (clsSensorExtern oEntry:oSE) {
-			oResult.add( new clsSymbolVisionEntry( (clsVisionEntry)oEntry) );
+		for (clsSymbolVisionEntry oEntry:oSE) {
+			oResult.add(oEntry );
 		}
 		
 		return oResult;

@@ -13,8 +13,8 @@ import utils.exceptions.exValueNotWithinRange;
 import complexbody.internalSystems.clsFastMessengerSystem;
 import complexbody.internalSystems.clsHealthSystem;
 import complexbody.internalSystems.clsSlowMessengerSystem;
+import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
 
-import du.enums.eSlowMessenger;
 import entities.enums.eBodyParts;
 import body.itfStep;
 

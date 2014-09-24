@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.SortedMap;
 
+import base.datatypes.enums.eOrgan;
+
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
@@ -25,6 +27,7 @@ import modules.interfaces.I5_2_receive;
 import modules.interfaces.I5_2_send;
 import modules.interfaces.eInterfaces;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.enums.eDriveComponent;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -32,8 +35,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import du.enums.eOrgan;
-import du.enums.pa.eDriveComponent;
 
 /**
  * Primal repressed content is associated to the remembered drive contents. If a assoc.
