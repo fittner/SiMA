@@ -62,7 +62,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 	/** Personality parameter, determines how much drive energy is reduced.; @since 12.10.2011 19:18:39 */
 	private double mrIntensityReductionRateSexual;
 	private double mrIntensityReductionRateSelfPreserv;
-
+	private double mrProportionUsedIntensity = 0.0;
 	/**
 	 * property key where the selected implementation stage is stored.
 	 * @since 12.07.2011 14:54:42
@@ -175,9 +175,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 				
 				// update the drive energy 
 				oEntry.setQuotaOfAffect(oEntry.getQuotaOfAffect() * (1 - mrIntensityReductionRateSelfPreserv));
-			}
-
-			
+			}	
 		}
 		
 		
@@ -192,7 +190,8 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
         
         // 3. update estimations
         moPsychicIntensityStorage.updateEstimations();
-		
+	        
+       
         mrReducedIntensity = rSumReducedIntensity;
 
 		// 5. create chart Data

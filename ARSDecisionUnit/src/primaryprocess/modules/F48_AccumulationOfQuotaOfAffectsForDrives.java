@@ -17,11 +17,11 @@ import java.util.SortedMap;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eDrive;
 import memorymgmt.storage.DT1_PsychicIntensityBuffer;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import memorymgmt.storage.DT4_PleasureStorage;
 import modules.interfaces.I3_3_receive;
 import modules.interfaces.I3_4_receive;
@@ -60,6 +60,14 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	private DT4_PleasureStorage moPleasureStorage;
 	private DT1_PsychicIntensityBuffer moLibidoBuffer;
 	private double mnCurrentPleasure = 0.0;
+	
+	
+	//We make use of DT3 in order to measure the ratio of actually used psychic intensity to
+	//demanded psychic intensity (actuallyUsedIntensity/demandedIntensity). This ratio (now) represents
+	//the extra pleasure gained and will be added to the mnCurrentPleasure of F48.
+	//Aldo Martinez
+	private DT3_PsychicIntensityStorage moPsychicIntensityStorage; //Aldo Martinez
+	private double mnPsychicIntensityPleasure = 0.0; //Aldo Martinez
 	
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData;
@@ -207,6 +215,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	    }
 		
 		//calculate the pleasure gain from reduced tensions for DT4
+	    //+ the pleasure gain from the efficient use of psychic intensity in F56 (Aldo Martinez)
 		ProcessPleasureCalculation();
 		
 		//add some meaningfull information to the debug info, comment this out for performance
@@ -241,6 +250,38 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	}
 	
 	/**
+     * @since 21.08.2014 15:51:31
+     * 
+     * @return the moPsychicIntensityStorage
+     */
+    public DT3_PsychicIntensityStorage getMoPsychicIntensityStorage() {
+        return moPsychicIntensityStorage;
+    }
+    /**
+     * @since 21.08.2014 15:51:31
+     * 
+     * @param moPsychicIntensityStorage the moPsychicIntensityStorage to set
+     */
+    public void setMoPsychicIntensityStorage(DT3_PsychicIntensityStorage moPsychicIntensityStorage) {
+        this.moPsychicIntensityStorage = moPsychicIntensityStorage;
+    }
+    /**
+     * @since 21.08.2014 15:51:31
+     * 
+     * @return the mnPsychicIntensityPleasure
+     */
+    public double getMnPsychicIntensityPleasure() {
+        return mnPsychicIntensityPleasure;
+    }
+    /**
+     * @since 21.08.2014 15:51:31
+     * 
+     * @param mnPsychicIntensityPleasure the mnPsychicIntensityPleasure to set
+     */
+    public void setMnPsychicIntensityPleasure(double mnPsychicIntensityPleasure) {
+        this.mnPsychicIntensityPleasure = mnPsychicIntensityPleasure;
+    }
+    /**
      * DOCUMENT (herret) - insert description
      *
      * @since 23.05.2013 15:46:49
@@ -338,7 +379,12 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		//set the actual drive list to DT4, this automatically calculates the pleasure and this value can the be used everywhere
 		moPleasureStorage.receive_D4_1(moAllDriveComponents_OUT);
-		mnCurrentPleasure = moPleasureStorage.send_D4_1();
+		
+		
+		//We get the pleasure from the efficient intensity use in F56 and added to the pleasure measured in the DT4 pleasure Storage
+		mnPsychicIntensityPleasure = getMoPsychicIntensityStorage().calculatePleasureProduction();
+		
+		mnCurrentPleasure = moPleasureStorage.send_D4_1() + mnPsychicIntensityPleasure;
 	}
 
 	
