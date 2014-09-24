@@ -383,7 +383,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		
 		//We get the pleasure from the efficient intensity use in F56 and added to the pleasure measured in the DT4 pleasure Storage
-		mnPsychicIntensityPleasure = getMoPsychicIntensityStorage().calculatePleasureProduction();
+		//mnPsychicIntensityPleasure = getMoPsychicIntensityStorage().calculatePleasureProduction();
 		
 		mnCurrentPleasure = moPleasureStorage.send_D4_1() + mnPsychicIntensityPleasure;
 	}
