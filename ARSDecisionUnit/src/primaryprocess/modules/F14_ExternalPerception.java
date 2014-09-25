@@ -393,34 +393,35 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    
 	}
 	
-	public ArrayList<Double> getCurrentEmotions(ArrayList<clsDriveMesh> poDrives_IN) {
-	    ArrayList<Double> oCurrentEmotionValues = new ArrayList<Double>();
+	public ArrayList<clsEmotion> getCurrentEmotions(ArrayList<clsDriveMesh> poDrives_IN) {
+        ArrayList<clsEmotion> oCurrentEmotions = new ArrayList<clsEmotion>();
         
-            double rCurrentP = 0.0;  // set own value
-            //     rCurrentU = rCurrentL + rCurrentA;
-            double rCurrentL = 0.0;
-            double rCurrentA = 0.0;
-            int rNumberOfLib = 0;
-            int rNumberOfAgg = 0;
-            double rQuotaOfAffect = 0.0;
-            for(clsDriveMesh DriveMesh : poDrives_IN) {
-                if((rQuotaOfAffect = DriveMesh.getQuotaOfAffect())==0.0)
-                    continue;
-                if(DriveMesh.getDriveComponent()==eDriveComponent.LIBIDINOUS) {
-                    rCurrentL += rQuotaOfAffect;
-                    rNumberOfLib++;
-                }
-                else {
-                    rCurrentA += rQuotaOfAffect;
-                    rNumberOfAgg++;
-                }
+        double rCurrentP = 0.0;  // set own value
+        //     rCurrentU = rCurrentL + rCurrentA;
+        double rCurrentL = 0.0;
+        double rCurrentA = 0.0;
+        int rNumberOfLib = 0;
+        int rNumberOfAgg = 0;
+        double rQuotaOfAffect = 0.0;
+        for(clsDriveMesh DriveMesh : moDrives_IN) {
+            if((rQuotaOfAffect = DriveMesh.getQuotaOfAffect())==0.0)
+                continue;
+            if(DriveMesh.getDriveComponent()==eDriveComponent.LIBIDINOUS) {
+                rCurrentL += rQuotaOfAffect;
+                rNumberOfLib++;
             }
-            oCurrentEmotionValues.add(rCurrentP);
-            oCurrentEmotionValues.add((rCurrentL /= rNumberOfLib) + (rCurrentA /= rNumberOfAgg));
-            oCurrentEmotionValues.add(rCurrentL);
-            oCurrentEmotionValues.add(rCurrentA);
+            else {
+                rCurrentA += rQuotaOfAffect;
+                rNumberOfAgg++;
+            }
+        }
+        rCurrentL /= rNumberOfLib;
+        rCurrentA /= rNumberOfAgg;
+        clsEmotion oCurrentEmotion = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rCurrentP, rCurrentL + rCurrentA, rCurrentL, rCurrentA);
+        oCurrentEmotions.add(oCurrentEmotion);
+      //oCurrentEmotions.add(oCurrentEmotion); // just for test
         
-	    return oCurrentEmotionValues;
+        return oCurrentEmotions;
     }
 
 	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
@@ -428,10 +429,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
                  
         double rImpactFactorOfCurrentEmotion = 0.5; // Personality Factor for the impact of current emotions on emotional valuation of perceived agents
-        ArrayList<Double> oCurrentEmotionValues = new ArrayList<Double>();
-        
-             
-        
+        ArrayList<clsEmotion> oCurrentEmotions = getCurrentEmotions(moDrives_IN);
+        clsEmotion oCurrentEmotionValues = getEmotionValues(oCurrentEmotions);
+
+                
         // 3. similarity criterion. perceptual activation. memory-search
         oRankedCandidateTPMs = stimulusActivatesEntities(poEnvironmentalTP);            
 
@@ -487,7 +488,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 
                 // TODO: replace this with an interface to get real current emotion state
     
-                oCurrentEmotionValues = getCurrentEmotions(moDrives_IN);
                 
                 
                 for(clsAssociation oInternalAssociation : ((clsThingPresentationMesh)poEnvironmentalTP.get(oRankedCandidateTPMs.indexOf(oRankedCandidates)).getMoDataStructure()).getInternalAssociatedContent()) {
@@ -500,7 +500,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         double rResultU = 0.0;
                         double rResultL = 0.0;
                         double rResultA = 0.0;
-                        double rResultActivationSum = 0.0;
+                        int rNumberOfExemplarsWithEmotion = 0;
                         
                         // only use k-exemplars
                         for(int i=0; i<k; i++) {
@@ -532,23 +532,23 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                                 rLibid /= rNumberOfEmotions;
                                 rAggr /= rNumberOfEmotions;
                                 
-                                // EffectiveActivationValue = ActivationValue + PF * EmotionMatchActivation
+                                // EffectiveActivationValue = ActivationValue + PersonalityFactor * EmotionMatchActivation
                                 double rEffectiveActivationValue = ((clsThingPresentationMesh)oRankedCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue() + rImpactFactorOfCurrentEmotion * getEmotionMatchActivation(rPleasure, rUnpleasure, rLibid, rAggr, oCurrentEmotionValues);
                                 // accumulate to result
-                                rResultP += rPleasure * rEffectiveActivationValue;
-                                rResultU += rUnpleasure * rEffectiveActivationValue;
-                                rResultL += rLibid * rEffectiveActivationValue;
-                                rResultA += rAggr * rEffectiveActivationValue;
-                                rResultActivationSum += rEffectiveActivationValue;
+                                rResultP += rPleasure * rEffectiveActivationValue / (1 + rImpactFactorOfCurrentEmotion);
+                                rResultU += rUnpleasure * rEffectiveActivationValue / (1 + rImpactFactorOfCurrentEmotion);
+                                rResultL += rLibid * rEffectiveActivationValue / (1 + rImpactFactorOfCurrentEmotion);
+                                rResultA += rAggr * rEffectiveActivationValue / (1 + rImpactFactorOfCurrentEmotion);
+                                rNumberOfExemplarsWithEmotion++;
                             }
                             else
                                 continue;
                         }
                         
                         // there has to be at least one emotion for continuing
-                        if(rResultActivationSum!=0.0) {
+                        if(rNumberOfExemplarsWithEmotion!=0) {
                             // mean & add result to oOutputTPM with help of clsEmotion
-                            clsEmotion oResultEmotionObject = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rResultP/rResultActivationSum, rResultU/rResultActivationSum, rResultL/rResultActivationSum, rResultA/rResultActivationSum);
+                            clsEmotion oResultEmotionObject = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rResultP/rNumberOfExemplarsWithEmotion, rResultU/rNumberOfExemplarsWithEmotion, rResultL/rNumberOfExemplarsWithEmotion, rResultA/rNumberOfExemplarsWithEmotion);
                             oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oResultEmotionObject, oOutputTPM, 1.0));
                         }
                         //################################################################
@@ -643,14 +643,43 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}
 		return true;
 	}
-	public double getEmotionMatchActivation(double prPleasure, double prUnpleasure, double prLibid, double prAggr, ArrayList<Double> poCurrentEmotionValues) {
+	
+	public clsEmotion getEmotionValues(ArrayList<clsEmotion> poEmotions) {
+        // sum & mean current emotions
+        double rCurrentPleasure = 0.0;
+        double rCurrentUnpleasure = 0.0;
+        double rCurrentLibid = 0.0;
+        double rCurrentAggr = 0.0;
+        for(clsEmotion oCurrentEmotion : poEmotions) {
+            rCurrentPleasure += oCurrentEmotion.getSourcePleasure();
+            rCurrentUnpleasure += oCurrentEmotion.getSourceUnpleasure();
+            rCurrentLibid += oCurrentEmotion.getSourceLibid();
+            rCurrentAggr += oCurrentEmotion.getSourceAggr();
+        }
+        rCurrentPleasure /= poEmotions.size();
+        rCurrentUnpleasure /= poEmotions.size();
+        rCurrentLibid /= poEmotions.size();
+        rCurrentAggr /= poEmotions.size();
+        
+        if(poEmotions.isEmpty())
+            return null;
+        else
+            return clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rCurrentPleasure, rCurrentUnpleasure, rCurrentLibid, rCurrentAggr);
+    }
+	
+	public double getEmotionMatchActivation(double prPleasure, double prUnpleasure, double prLibid, double prAggr, clsEmotion poCurrentEmotionValues) {
+        if(poCurrentEmotionValues==null)
+            return 0.0; // no emotions
+        
+        // calculate deviation
         double rDeviation = 0.0;
-        rDeviation += Math.abs(prPleasure - poCurrentEmotionValues.get(0));
-        rDeviation += Math.abs(prUnpleasure - poCurrentEmotionValues.get(1));
-        rDeviation += Math.abs(prLibid - poCurrentEmotionValues.get(2));
-        rDeviation += Math.abs(prAggr - poCurrentEmotionValues.get(3));
+        rDeviation += Math.abs(prPleasure - poCurrentEmotionValues.getSourcePleasure());
+        rDeviation += Math.abs(prUnpleasure - poCurrentEmotionValues.getSourceUnpleasure());
+        rDeviation += Math.abs(prLibid - poCurrentEmotionValues.getSourceLibid());
+        rDeviation += Math.abs(prAggr - poCurrentEmotionValues.getSourceAggr());
         rDeviation *= 0.25;
-        return (1.0 - rDeviation);
+        
+        return (1.0 - rDeviation); // return match as activation
     }
 	
 	/* (non-Javadoc)
@@ -820,7 +849,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     for(clsPair<Double, clsDataStructureContainer> oSearchItem : oSearchResult){
                         oAssToRemove = new ArrayList<clsAssociation>();
                         for(clsAssociation oAssociation : oSearchItem.b.getMoAssociatedDataStructures()){
-                            if(oAssociation.getContentType() != eContentType.ASSOCIATIONDM){
+                            if(oAssociation.getContentType() != eContentType.ASSOCIATIONDM  &&  oAssociation.getContentType() != eContentType.ASSOCIATIONEMOTION){
                                 clsThingPresentationMesh t = (clsThingPresentationMesh) oSearchItem.b.getMoDataStructure();
                                 if(t.getContent().equals("Bodystate")){
                                     break;
