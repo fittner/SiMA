@@ -32,7 +32,7 @@ public class clsExpressionVariableFacialEyes extends clsExpressionVariable{
 	
 	@Override
 	public String getName(){
-		return "EYES";
+		return "EYES_CRYING_INTENSITY";
 	}
 
 }

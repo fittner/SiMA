@@ -16,6 +16,6 @@ public class clsExpressionVariableShake extends clsExpressionVariable{
 	}
 	@Override
 	public String getName(){
-		return "SHAKE";
+		return "SHAKE_INTENSITY";
 	}
 }

@@ -44,7 +44,8 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
     protected double moObjectBodyIntegrity;
     protected clsSymbolVisionEntryAction moAction;
     protected String moDistance;
-
+    
+    protected ArrayList<clsSymbolVisionEntryExpression> moExpressions;
     
     public clsSymbolVisionEntry(clsDataPoint poEntry) {
         super();
@@ -66,6 +67,17 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
         if(poEntry.hasAssociation("DEBUG_POSITION"))   moExactDebugY = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("Y").getValue());
         if(poEntry.hasAssociation("DEBUG_POSITION"))  moExactDebugAngle = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("ANGLE").getValue());
         if(poEntry.hasAssociation("BRIGHTNESS"))  moBrightness = poEntry.getAssociation("BRIGHTNESS").getValue();//eSaliency.valueOf( poEntry.getAssociation("BRIGHTNESS").getValue()); 
+        
+        moExpressions = new ArrayList<clsSymbolVisionEntryExpression>();
+        
+        if(poEntry.hasAssociation("EXPRESSIONS")){
+            clsDataPoint oExpressions = poEntry.getAssociation("EXPRESSIONS");
+            for(clsDataPoint oExpr: oExpressions.getAssociatedDataPoints()){
+                moExpressions.add(new clsSymbolVisionEntryExpression(oExpr));
+            }
+            
+        }
+        
         
         
         if(poEntry.hasAssociation("ACTIONS")) {
@@ -302,5 +314,17 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
 	    public void setSensorType(String poSensorType) {
 	        moSensorType = poSensorType;
 	    }
+
+
+        /* (non-Javadoc)
+         *
+         * @since 25.09.2014 09:09:00
+         * 
+         * @see prementalapparatus.symbolization.representationsymbol.itfSymbolVisionEntry#getExpressions()
+         */
+        @Override
+        public ArrayList<clsSymbolVisionEntryExpression> getExpressions() {
+            return moExpressions;
+        }
 	    
 }

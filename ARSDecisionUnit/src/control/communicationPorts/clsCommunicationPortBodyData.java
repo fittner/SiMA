@@ -14,7 +14,7 @@ import control.interfaces.clsBaseDecisionUnit;
 import base.clsCommunicationInterface;
 
 /**
- * DOCUMENT (herret) - Defines hold teh data and the control interfaces to the vody
+ * DOCUMENT (herret) - Defines hold the data and the control interfaces to the body
  * 
  * @author LuHe
  * 15.11.2013, 09:20:01
