@@ -470,7 +470,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	        oFoundAssociation = poAssociation;
 	    } else {
 	        for(clsAssociation oCandidate : poAssList) {
-	            if(oCandidate.isCloneOf(poAssociation)) {
+	            if(oCandidate.isEquivalentOrClone(poAssociation)) {
 	                if(oFoundAssociation == null) {
 	                    oFoundAssociation = oCandidate;
 	                } else {
@@ -563,10 +563,24 @@ public abstract class clsAssociation extends clsDataStructurePA{
     public static boolean removeAssociationCompletely(clsAssociation poAssociation) {
         boolean bRemoved = true;
     
-        bRemoved &= disconnectAssociation(poAssociation, poAssociation.getAssociationElementA());
-        bRemoved &= disconnectAssociation(poAssociation, poAssociation.getAssociationElementB());
+        bRemoved = disconnectAssociation(poAssociation, poAssociation.getAssociationElementA()) && 
+                disconnectAssociation(poAssociation, poAssociation.getAssociationElementB());
         
         return bRemoved;
+    }
+    
+    @Override
+    public boolean isEquivalentOrClone(clsDataStructurePA poOther) {
+        boolean bIsClone = false; 
+        
+        if(poOther instanceof clsAssociation && this.getClass().equals(poOther.getClass())) {
+            clsAssociation oOther = (clsAssociation)poOther;
+            
+            bIsClone = getAssociationElementA().isEquivalentOrClone(oOther.getAssociationElementA()) && 
+                    getAssociationElementB().isEquivalentOrClone(oOther.getAssociationElementB());
+        }
+        
+        return bIsClone;
     }
     
 //    /* (non-Javadoc)

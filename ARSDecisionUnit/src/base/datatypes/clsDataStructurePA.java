@@ -82,7 +82,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 		moDSInstance_ID = 0;
 	}
 	
-	public boolean isCloneOf(clsDataStructurePA poOther) {
+	public boolean isEquivalentOrClone(clsDataStructurePA poOther) {
 	    return isEquivalentDataStructure(poOther) && getDSInstance_ID() == poOther.getDSInstance_ID();
 	}
 	

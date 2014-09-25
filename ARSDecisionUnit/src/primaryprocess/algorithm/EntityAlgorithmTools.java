@@ -99,9 +99,11 @@ public class EntityAlgorithmTools {
                             //Kollmann 16.07.2014: Report error when two DMs are added up, since this should currently not happen.
                             //                     But the code should still be used, since without it, the deccission making process will not work properly if
                             //                     repressed content emerges (F35) - which is not implemented yet.
-                            log.error("TPM has two equivalent drive meshes associated that will be merged. This should only happen if repressed content emerges.\nTPM:\n" + poInput.toString() + "\nDM: " + oFirstDM.toString());
-                            log.error("Stack: ", new Exception());
+                            log.error("TPM has two or more equivalent drive meshes associated that will be merged. This should only happen if repressed content emerges.\nTPM:\n" + poInput.toString() + "\nDM: " + oFirstDM.toString());
                             
+                            //poInput.getExternalAssociatedContent().remove(oSecondAss);
+                            //oSecondAss.setAssociationElementA(null);
+                                                        
                             //1. Add mrPleasure from the second to the first DM
                             double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getQuotaOfAffect(), oSecondDM.getQuotaOfAffect());
                             
