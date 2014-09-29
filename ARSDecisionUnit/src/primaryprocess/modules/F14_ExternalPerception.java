@@ -393,7 +393,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         clsTester.getTester().setActivated(status);
 	    
         
-        //attack Body Perception Parameter to Self
+        //attach Body Perception Parameter to Self
         for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList){
             if(oEntity.getContent().equals("SELF")){
                 attachBodyPerceptionValuesToSelf(oEntity);
