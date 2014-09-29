@@ -1,5 +1,5 @@
 /**
- * @author langr
+< * @author langr
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -467,30 +467,32 @@ public class clsBrainSocket implements itfStepProcessing {
 				
 				
 				if(expVar instanceof clsExpressionVariableCheeksRedning){
-					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),""+expVar.getEIntensity()));
+					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),converstIntensity(expVar.getEIntensity())));
 				} 
 				else if(expVar instanceof clsExpressionVariableFacialEyeBrows){
 					//clsDataPoint oData = new clsDataPoint(expVar.getName(),"");	
-					oRetVal.addAssociation(new clsDataPoint("EYE_BROW_CENTER",""+((clsExpressionVariableFacialEyeBrows) expVar).getEyeBrowsCenterUpOrDown()));
-					oRetVal.addAssociation(new clsDataPoint("EYE_BROW_CORNERS",""+((clsExpressionVariableFacialEyeBrows) expVar).getEyeBrowsCornersUpOrDown()));
+					
+					
+					oRetVal.addAssociation(new clsDataPoint("EYE_BROW_CENTER",convertEyeBrowValue(((clsExpressionVariableFacialEyeBrows) expVar).getEyeBrowsCenterUpOrDown())));
+					oRetVal.addAssociation(new clsDataPoint("EYE_BROW_CORNERS",convertEyeBrowValue(((clsExpressionVariableFacialEyeBrows) expVar).getEyeBrowsCornersUpOrDown())));
 					//oRetVal.add(oData);
 				}
 				else if(expVar instanceof clsExpressionVariableFacialEyes){
-					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),""+expVar.getEIntensity()));
+					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),converstIntensity(expVar.getEIntensity())));
 
 				}
 				else if(expVar instanceof clsExpressionVariableFacialMouth){
 					//clsDataPoint oData = new clsDataPoint(expVar.getName(),"");	
-					oRetVal.addAssociation(new clsDataPoint("MOUTH_OPEN",""+((clsExpressionVariableFacialMouth) expVar).getMouthOpen()));
-					oRetVal.addAssociation(new clsDataPoint("MOUTH_SIDES",""+((clsExpressionVariableFacialMouth) expVar).getMouthSidesUpOrDown()));
-					oRetVal.addAssociation(new clsDataPoint("MOUTH_STRECHINESS",""+((clsExpressionVariableFacialMouth) expVar).getMouthStretchiness()));
+					oRetVal.addAssociation(new clsDataPoint("MOUTH_OPEN",converstMouthOpen(((clsExpressionVariableFacialMouth) expVar).getMouthOpen())));
+					oRetVal.addAssociation(new clsDataPoint("MOUTH_SIDES",convertMouthSides(((clsExpressionVariableFacialMouth) expVar).getMouthSidesUpOrDown())));
+					oRetVal.addAssociation(new clsDataPoint("MOUTH_STRECHINESS",converstMouthStretch(((clsExpressionVariableFacialMouth) expVar).getMouthStretchiness())));
 					//oRetVal.add(oData);
 				}
 				else if(expVar instanceof clsExpressionVariableShake){
-					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),""+expVar.getEIntensity()));
+					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),converstIntensity(expVar.getEIntensity())));
 				}
 				else{
-					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),""+expVar.getEIntensity()));
+					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),converstIntensity(expVar.getEIntensity())));
 				}
 			}
 				
@@ -502,6 +504,36 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		return oRetVal;
 	
+	}
+	
+	public String convertEyeBrowValue(double value){
+		if(value> 0.66) return "UP";
+		else if (value>0.33) return "MIDDLE";
+		else return "DOWN";
+	}
+	
+	public String convertMouthSides(double value){
+		if(value> 0.33) return "UP";
+		else if (value>-0.33) return "NORMAL";
+		else return "DOWN";
+	}
+	
+	public String converstIntensity(double value){
+		if(value> 0.66) return "HIGH";
+		else if (value>0.33) return "MEDIUM";
+		else return "LOW";
+	}
+	
+	public String converstMouthOpen(double value){
+		if(value> 0.66) return "OPEN";
+		else if (value>0.33) return "HALF_OPEN";
+		else return "CLOSED";
+	}
+	
+	public String converstMouthStretch(double value){
+		if(value> 0.66) return "STRETCHED";
+		else if (value>0.33) return "HALF_STRETCHED";
+		else return "NORMAL";
 	}
 	
 

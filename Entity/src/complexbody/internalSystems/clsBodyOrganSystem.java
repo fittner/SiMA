@@ -7,6 +7,10 @@ import properties.clsProperties;
 
 import complexbody.expressionVariables.clsExpressionVariable;
 import complexbody.expressionVariables.clsExpressionVariableCheeksRedning;
+import complexbody.expressionVariables.clsExpressionVariableFacialEyeBrows;
+import complexbody.expressionVariables.clsExpressionVariableFacialEyes;
+import complexbody.expressionVariables.clsExpressionVariableFacialMouth;
+import complexbody.expressionVariables.clsExpressionVariableGeneralSweat;
 import complexbody.expressionVariables.clsExpressionVariablePartialSweat;
 import complexbody.expressionVariables.clsExpressionVariableShake;
 
@@ -39,6 +43,7 @@ public class clsBodyOrganSystem implements itfStepUpdateInternalState {
     public clsBodyOrganSystem(String poPrefix, clsProperties poProp) {
 
 		moExpressionsList = new ArrayList<clsExpressionVariable>();
+		initializeExpressionList();
 		
 		
 //		moPersonalityParameterContainer = poPersonalityParameterContainer;
@@ -46,6 +51,26 @@ public class clsBodyOrganSystem implements itfStepUpdateInternalState {
 		applyProperties(poPrefix, poProp);
 
 	}
+
+
+	/**
+ * DOCUMENT (herret) - insert description
+ *
+ * @since 25.09.2014 14:07:46
+ *
+ */
+private void initializeExpressionList() {
+	moExpressionsList.add( new clsExpressionVariableShake() );
+	moExpressionsList.add( new clsExpressionVariableCheeksRedning() );
+	moExpressionsList.add( new clsExpressionVariableFacialEyeBrows() );
+	moExpressionsList.add( new clsExpressionVariableFacialEyes() );
+	moExpressionsList.add( new clsExpressionVariableFacialMouth() );
+	moExpressionsList.add( new clsExpressionVariableGeneralSweat() );
+	moExpressionsList.add( new clsExpressionVariablePartialSweat() );
+	moExpressionsList.add( new clsExpressionVariableShake() );
+	
+	
+}
 
 
 	public static clsProperties getDefaultProperties(String poPrefix) {

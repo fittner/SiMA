@@ -21,11 +21,11 @@ import communication.datatypes.clsDataPoint;
 public class clsSymbolVisionEntryExpression implements itfGetDataAccessMethods, itfGetSymbolName, itfIsContainer, itfSymbolExpression {
 
     protected String moName;
-    protected double moValue;
+    protected String moValue;
     
     public clsSymbolVisionEntryExpression(clsDataPoint poExpression){
        moName = poExpression.getType();
-       moValue = Double.parseDouble(poExpression.getValue());
+       moValue =poExpression.getValue();
     }
 
 
@@ -97,7 +97,7 @@ public class clsSymbolVisionEntryExpression implements itfGetDataAccessMethods, 
      * @see prementalapparatus.symbolization.representationsymbol.itfSymbolExpression#getExpressionValue()
      */
     @Override
-    public double getExpressionValue() {
+    public String getExpressionValue() {
         return moValue;
     }
 

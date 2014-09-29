@@ -14,6 +14,6 @@ package prementalapparatus.symbolization.representationsymbol;
  * 
  */
 public interface itfSymbolExpression extends itfSymbol {
-    public double getExpressionValue();
+    public String getExpressionValue();
 
 }
