@@ -15,7 +15,6 @@ import java.lang.Object;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.SortedMap;
 import java.util.regex.PatternSyntaxException;
 
@@ -451,12 +450,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		}
 		
 		
-	
-		
-		//AMP We generate a random number between 0 and 0.1 so F07 requests Psychic Intensity > threshold_pyshicEnergy.
-		Random randomGenerator = new Random();
-		
-		double rRequestedPsychicIntensity = threshold_psychicEnergy + (randomGenerator.nextDouble()*0.1);
+		double rRequestedPsychicIntensity = threshold_psychicEnergy;
 		
 		//AMP F07 receives the assigned psychic intensity.
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);

@@ -8,7 +8,6 @@ package secondaryprocess.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.SortedMap;
 
 import logger.clsLogger;
@@ -154,13 +153,12 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 //	    ArrayList <clsWordPresentationMeshPossibleGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(this.selectableGoals, this.selectableGoals.size());
 //	    log.info("Sorted Goals:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
 	    
-	    Random randomGenerator = new Random();
            
-	    double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	    double rRequestedPsychicIntensity =0.0;
 	                
 	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 	            
-	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy;
 	            
 	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	}

@@ -41,7 +41,8 @@ public enum eDataType {
 	PRIINSTANCEOBJECT       (0x000000), 	//This datatype is necessary in order to store actual experiences
 	PRIINSTANCEACTION       (0x000000),     //This datatype is necessary in order to store actual experiences
 	EMOTION					(0x000010),
-	FEELING                 (0x000010);
+	FEELING                 (0x000010),
+	DMTPM                   (0x010010); //koller
 	
 	
 	public int nBinaryValue; 

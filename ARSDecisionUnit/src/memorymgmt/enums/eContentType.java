@@ -317,6 +317,9 @@ public enum eContentType {
     
     
     //Control
-    HASPHANTASYFLAG;
+    HASPHANTASYFLAG,
+	
+	//Expression
+    Expression; //koller
 	
 }

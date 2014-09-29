@@ -13,7 +13,6 @@ import inspector.interfaces.itfInspectorGenericTimeChart;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.SortedMap;
 
 import org.slf4j.Logger;
@@ -75,6 +74,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	public static final String P_THRESHOLD_RANGE = "THRESHOLD_RANGE";
 	public static final String P_PERCEPTION_PLEASURE_IMPACT_FACTOR = "PERCEPTION_PLEASURE_IMPACT_FACTOR";
 	public static final String P_PERCEPTION_UNPLEASURE_IMPACT_FACTOR = "PERCEPTION_UNPLEASURE_IMPACT_FACTOR";
+    public static final String P_EMOTIONRECOGNITION_IMPACT_FACTOR = "EMOTIONRECOGNITION_IMPACT_FACTOR"; //koller
+
 	
 	//Private members for send and recieve
 	private ArrayList<clsEmotion> moEmotions_OUT; 
@@ -101,6 +102,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	// personality parameter, perceiving a drive object sould trigger less emotions than the bodily needs
 	private double mrPerceptionPleasureImpactFactor;
 	private double mrPerceptionUnpleasureImpactFactor;
+	
+	// koller 
+    private double mrEmotionrecognitionImpactFactor;
 	
 	private clsWordPresentationMesh moWordingToContext;
     
@@ -134,7 +138,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		mrPerceptionUnpleasureImpactFactor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERCEPTION_UNPLEASURE_IMPACT_FACTOR).getParameterDouble();
 		moPleasureStorage = poPleasureStorage;
 		
-	
+		//koller
+        mrEmotionrecognitionImpactFactor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_IMPACT_FACTOR).getParameterDouble();
+        
 		
 	}
 	
@@ -354,14 +360,13 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 		}
-		
-	    Random randomGenerator = new Random();
+
           
-	    double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	    double rRequestedPsychicIntensity = 0.0;
 	                
 	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 	            
-	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy;
 	            
 	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	
@@ -455,6 +460,34 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						}
 						
 					}
+					
+					//koller Emotionsübertragung
+                    if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONATTRIBUTE && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
+                        if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){
+                            
+                            clsThingPresentationMesh oTPMA = (clsThingPresentationMesh)oEntityAss.getAssociationElementA();
+                            if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
+                                if(oEntityAss.getAssociationElementB().getContentType() == eContentType.ENTITY){
+                            
+                                    clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oEntityAss.getAssociationElementB();
+                                    
+                                    if(oTPM.getContent().equals("Bodystate")){
+                                        for(clsAssociation oAssoc : oTPM.getInternalAssociatedContent()){
+                                            if(oAssoc.getAssociationElementB().getContentType() == eContentType.BASICEMOTION){
+                                                clsEmotion oEmotionFromBodystate = (clsEmotion)oAssoc.getAssociationElementB();
+                                                //koller EmotionRecognitionFactor * PerceptionPleasureImpactFactor * SourcePleasure/Unpleasure/Aggr/Libid * EmotionIntensity     
+                                                rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrEmotionrecognitionImpactFactor*mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure()*oEmotionFromBodystate.getEmotionIntensity()); 
+                                                rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceUnpleasure()*oEmotionFromBodystate.getEmotionIntensity());
+                                                rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceLibid()*oEmotionFromBodystate.getEmotionIntensity());
+                                                rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceAggr()*oEmotionFromBodystate.getEmotionIntensity()); 
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }  
+                    }//end koller  
+                    
 				}
 			}
         }

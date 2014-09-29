@@ -12,7 +12,6 @@ import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.SortedMap;
 
 import properties.clsProperties;
@@ -323,14 +322,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 //		SimpleDateFormat oDateFormat = new SimpleDateFormat("HH:mm:ss");
 //		moTEMPWriteLastActions.add(oDateFormat.format(oCal.getTime()) + "> " + "Goal: " + oGoal.getMoContent().toString() + "; Action: " + oAction);
 		
-		
-	    Random randomGenerator = new Random();
 	            
-		double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+		double rRequestedPsychicIntensity = 0.0d;
 		                
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 		            
-		double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+		double rConsumedPsychicIntensity = rReceivedPsychicEnergy;
 		            
 		moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 

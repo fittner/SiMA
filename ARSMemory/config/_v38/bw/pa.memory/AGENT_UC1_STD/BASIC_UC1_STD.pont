@@ -1,7 +1,7 @@
-; Thu Sep 11 11:23:33 CEST 2014
+; Tue Sep 23 10:05:56 CEST 2014
 ; 
-;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (version "3.5")
+;+ (build "Build 663")
 
 
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
@@ -10,6 +10,11 @@
 	(single-slot elementA
 		(type INSTANCE)
 ;+		(allowed-classes WP)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot valueEmotionOfBodystate
+		(type STRING)
+		(default "BASICEMOTION")
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot cathegory%3Aoral
@@ -142,6 +147,10 @@
 		(range 0.0 1.0)
 		(default 0.0)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_typeEmotionOfBodystate
+		(type STRING)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot drive_component
 		(type STRING)
@@ -366,6 +375,24 @@
 (defclass WORDING
 	(is-a TPM%3AENTITY)
 	(role concrete))
+
+(defclass BODYSTATE
+	(is-a TPM%3AENTITY)
+	(role concrete)
+	(single-slot valueEmotionOfBodystate
+		(type STRING)
+		(default "BASICEMOTION")
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot value_typeEmotionOfBodystate
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+		(default "Bodystate")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
 
 (defclass TPM%3ABODYPART
 	(is-a TPM)
@@ -1164,6 +1191,19 @@
 	(single-slot value_type
 		(type STRING)
 ;+		(value "Color")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass EXPRESSION
+	(is-a VISION)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "Expression")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot value
