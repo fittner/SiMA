@@ -7,7 +7,7 @@ public class clsExpressionVariableFacialEyes extends clsExpressionVariable{
 	static int counter = 0;
 	
 	void speakCounter(){
-		System.out.println("FindMeVst - " + this.getClass().getName() + " counter: " + counter);
+		//System.out.println("FindMeVst - " + this.getClass().getName() + " counter: " + counter);
 	}
 	
 	
