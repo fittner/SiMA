@@ -14,10 +14,10 @@ import java.util.ArrayList;
 
 import datatypes.clsPoint;
 
-import properties.clsProperties;
-
-
 import entities.enums.eShapeType;
+
+
+import properties.clsProperties;
 
 import sim.physics2D.shape.Shape;
 import singeltons.clsSingletonProperties;

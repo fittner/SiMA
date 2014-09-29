@@ -9,6 +9,8 @@ package complexbody.io;
 
 import java.util.ArrayList;
 
+import body.clsBaseBody;
+
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionProcessor;
@@ -73,7 +75,6 @@ import complexbody.io.sensors.external.clsSensorPositionChange;
 import complexbody.io.sensors.external.clsSensorRadiation;
 import complexbody.io.sensors.external.clsSensorVision;
 
-import body.clsBaseBody;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
 import entities.actionProxies.itfAPSleep;

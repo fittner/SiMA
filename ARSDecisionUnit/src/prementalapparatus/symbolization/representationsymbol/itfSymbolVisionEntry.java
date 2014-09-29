@@ -7,6 +7,7 @@
 package prementalapparatus.symbolization.representationsymbol;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -30,4 +31,5 @@ public interface itfSymbolVisionEntry extends itfSymbol {
 	public double getExactDebugY();
 	public double getDebugSensorArousal();
 	public itfSymbolVisionEntryAction getSymbolAction();
+	public ArrayList<clsSymbolVisionEntryExpression> getExpressions();
 }
