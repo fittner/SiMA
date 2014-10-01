@@ -1193,7 +1193,62 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         clsMeshTools.removeAssociationInObject(this, oPredicate);
         this.moAssociationMapping.remove(oPredicate);
     }
+
+    /**
+     * Get the Feelings from an Image.
+     * 
+     * (wendt) (moved and modified by kollmann)
+     *
+     * @since 26.03.2012 21:25:11
+     *
+     * @param poGoal
+     * @return
+     */
+    public ArrayList<clsWordPresentationMeshFeeling> getFeelings() {
+        return (ArrayList<clsWordPresentationMeshFeeling>) getNonUniquePropertyWPM(ePredicate.HASFEELING, clsWordPresentationMeshFeeling.class);
+        
+        //if the image had no feelings, try to get the 
+ 
+//        ArrayList<clsWordPresentationMesh> oRetVal = this.getNonUniquePropertyWPM(ePredicate.HASFEELING);;
+//    
+//        ArrayList<clsWordPresentationMeshFeeling> result = new ArrayList<clsWordPresentationMeshFeeling>();
+//        
+//        for (clsWordPresentationMesh wpm : oRetVal) {
+//            if (wpm instanceof clsWordPresentationMeshFeeling) {
+//                result.add((clsWordPresentationMeshFeeling) wpm);
+//            } else {
+//                throw new ClassCastException("This structure is no valid class for this association " + wpm);
+//            }
+//        }
+//    
+//        return result;
+    }
     
-
-
+    /**
+     * Add a Feeling to the goal, which is not already present. If present, then replace
+     * 
+     * (wendt) (moved by kollmann)
+     *
+     * @since 17.05.2013 10:37:48
+     *
+     * @param poFeeling
+     */
+    public void addFeeling(clsWordPresentationMeshFeeling poFeeling) {
+        this.addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
+    }
+    
+    /**
+     * Add a list of feelings
+     * 
+     * (wendt) (moved by kollmann)
+     *
+     * @since 17.05.2013 11:33:11
+     *
+     * @param poFeeling
+     */
+    public void addFeelings(ArrayList<clsWordPresentationMeshFeeling> poFeeling) {
+        for (clsWordPresentationMeshFeeling oF : poFeeling) {
+            addFeeling(oF);
+        }
+    }
 }

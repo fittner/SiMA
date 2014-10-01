@@ -203,7 +203,9 @@ public class DataStructureConversionTools {
                     clsEmotion oEmotion = (clsEmotion) oTPMExternalAss.getLeafElement();
                     clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
                     
-                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
+                    oRetVal.addFeeling(oFeeling);
+                    
+//                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
                 } else if(oTPMExternalAss instanceof clsAssociationPrimary) {
                 	clsDataStructurePA oSubDataStructure = ((clsAssociationPrimary) oTPMExternalAss).getLeafElement();
                 	
@@ -270,7 +272,8 @@ public class DataStructureConversionTools {
                     clsEmotion oEmotion = (clsEmotion) oTPMInternalAss.getLeafElement();
                     clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
                     
-                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
+                    oRetVal.addFeeling(oFeeling);
+//                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
                 }
             }
         }

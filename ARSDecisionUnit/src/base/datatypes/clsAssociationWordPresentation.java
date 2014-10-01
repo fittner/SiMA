@@ -6,6 +6,8 @@
  */
 package base.datatypes;
 
+import java.util.List;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import base.datatypes.helpstructures.clsTriple;
@@ -91,4 +93,30 @@ public class clsAssociationWordPresentation extends clsAssociation{
 		// TODO (wendt) - Auto-generated method stub
 		
 	}
+	
+	/**
+     * DOCUMENT - Return list of all external associations of type clsAssociationWordPresentation
+     *
+     * @author Kollmann
+     * @since 15.07.2014 17:12:00
+     *
+     * @param poContainingDataStructure
+     * @return List of all clsAssociationWordPresentation instances found in poContainingDataStructures extern associations
+     */
+    public static List<clsAssociationWordPresentation> getAllExternAssociationWordPresentation(itfExternalAssociatedDataStructure poContainingDataStructure) {
+        return filterListByType(poContainingDataStructure.getExternalAssociatedContent(), clsAssociationWordPresentation.class);
+    }
+    
+    /**
+     * DOCUMENT - Return list of all internal associations of type clsAssociationWordPresentation
+     *
+     * @author Kollmann
+     * @since 15.07.2014 17:12:00
+     *
+     * @param poContainingDataStructure
+     * @return List of all clsAssociationWordPresentation instances found in poContainingDataStructures internal associations
+     */
+    public static List<clsAssociationWordPresentation> getAllInternalAssociationWordPresentation(itfInternalAssociatedDataStructure poContainingDataStructure) {
+        return filterListByType(poContainingDataStructure.getInternalAssociatedContent(), clsAssociationWordPresentation.class);
+    }
 }

@@ -7,7 +7,6 @@
 package base.datatypes;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -219,29 +218,29 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
         return this.getUniquePropertyWPM(ePredicate.HASACTION);
     }
     
-    /**
-     * DOCUMENT - Adds a feeling (the current feeling for the mental situation)
-     *
-     * @author Kollmann
-     * @since 19.08.2014 13:49:57
-     *
-     * @param poFeeling: current feeling
-     */
-    public void addFeeling (clsWordPresentationMeshFeeling poFeeling) {
-        addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
-    }
-    
-    /**
-     * DOCUMENT - Gets a list of all feelings for that mental situation
-     *
-     * @author Kollmann
-     * @since 19.08.2014 13:50:03
-     *
-     * @return List of feelings (that where current at that mental situation) of the agent
-     */
-    public List<clsWordPresentationMeshFeeling> getFeelings() {
-        return getNonUniquePropertyWPM(ePredicate.HASFEELING, clsWordPresentationMeshFeeling.class);
-    }
+//    /**
+//     * DOCUMENT - Adds a feeling (the current feeling for the mental situation)
+//     *
+//     * @author Kollmann
+//     * @since 19.08.2014 13:49:57
+//     *
+//     * @param poFeeling: current feeling
+//     */
+//    public void addFeeling (clsWordPresentationMeshFeeling poFeeling) {
+//        addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
+//    }
+//    
+//    /**
+//     * DOCUMENT - Gets a list of all feelings for that mental situation
+//     *
+//     * @author Kollmann
+//     * @since 19.08.2014 13:50:03
+//     *
+//     * @return List of feelings (that where current at that mental situation) of the agent
+//     */
+//    public List<clsWordPresentationMeshFeeling> getFeelings() {
+//        return getNonUniquePropertyWPM(ePredicate.HASFEELING, clsWordPresentationMeshFeeling.class);
+//    }
     
     @Override
     public String toString(){

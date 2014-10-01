@@ -76,60 +76,6 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         return moNullObject;
     }
 
-    /**
-     * Get the Feelings from a goal
-     * 
-     * (wendt)
-     *
-     * @since 26.03.2012 21:25:11
-     *
-     * @param poGoal
-     * @return
-     */
-    public ArrayList<clsWordPresentationMeshFeeling> getFeelings() {
-        ArrayList<clsWordPresentationMesh> oRetVal = this.getNonUniquePropertyWPM(ePredicate.HASFEELING);;
-    
-        ArrayList<clsWordPresentationMeshFeeling> result = new ArrayList<clsWordPresentationMeshFeeling>();
-        
-        for (clsWordPresentationMesh wpm : oRetVal) {
-            if (wpm instanceof clsWordPresentationMeshFeeling) {
-                result.add((clsWordPresentationMeshFeeling) wpm);
-            } else {
-                throw new ClassCastException("This structure is no valid class for this association " + wpm);
-            }
-        }
-    
-        return result;
-    }
-    
-    /**
-     * Add a Feeling to the goal, which is not already present. If present, then replace
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 10:37:48
-     *
-     * @param poFeeling
-     */
-    public void addFeeling(clsWordPresentationMeshFeeling poFeeling) {
-        this.addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
-    }
-    
-    /**
-     * Add a list of feelings
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 11:33:11
-     *
-     * @param poFeeling
-     */
-    public void addFeelings(ArrayList<clsWordPresentationMeshFeeling> poFeeling) {
-        for (clsWordPresentationMeshFeeling oF : poFeeling) {
-            addFeeling(oF);
-        }
-    }
-    
     //==== Importance ====//
     
     /**

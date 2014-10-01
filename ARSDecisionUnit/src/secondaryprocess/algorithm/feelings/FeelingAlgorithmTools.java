@@ -10,9 +10,13 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eGoalType;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 
@@ -111,6 +115,37 @@ public class FeelingAlgorithmTools {
         return rResult;
     }
     
+    private static double getFeelingMatch(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
+        double rMatchingFactor = 0;
+        
+        if(poImage != null && !poImage.isNullObject()) {
+            //Get Feelings fromt he image
+            ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poImage.getFeelings();
+            
+            if(oFeelingList.isEmpty()) {
+                //Try to get a SELF from the image and take the feelings from there
+                clsWordPresentationMesh oSelf = clsMeshTools.getSELF(poImage);
+                
+                if(oSelf != null && !oSelf.isNullObject()) {
+                    oFeelingList = oSelf.getFeelings();
+                }
+            }
+            
+            //Compare the feelings
+            for (clsWordPresentationMeshFeeling oGoalFeeling : oFeelingList) {
+                
+                for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
+                    if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
+                        
+                        rMatchingFactor += 1 - oCurrentFeeling.getDiff(oGoalFeeling);
+                    }
+                }
+            }
+        }
+        
+        return rMatchingFactor;
+    }
+    
     /**
      * 
      * DOCUMENT (wendt, schaat) - Values goals which feelings matches with the agent's current feelings ("Impulshandeln")
@@ -120,10 +155,40 @@ public class FeelingAlgorithmTools {
      * @param poGoal 
      */
     public static double evaluateGoalByTriggeredFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
-        double rFeelingMatchImportance = 0.0;
+        double rFeelingMatchImportance = 0.5;
+        double rFeelingMatch = 0;
+        clsThingPresentationMesh oTPMImage = null;
+        clsWordPresentationMesh oWPMImage = null;
         
-        double rFeelingMatch = getFeelingMatch(poGoal, poFeltFeelingList);
+        //get act for that goal (what should happen if the goal has no act [yet], like perception or drive goals?)
+        clsWordPresentationMesh oSupp = poGoal.getSupportiveDataStructure();
         
+        //how to find out if this is an act
+        if(oSupp.getContentType().equals(eContentType.ACT)) {
+            //get the intention
+            oWPMImage = clsActDataStructureTools.getIntention(oSupp);
+            
+//            //get the association between WPM and TPM
+//            clsAssociationWordPresentation oAssWP = oWPMIntention.getAssociationWPOfWPM();
+//            
+//            //get the TPM of the intention (that's where the emotions are associated)
+//            if(oAssWP != null) {
+//                if(oAssWP.getTheOtherElement(oWPMIntention) instanceof clsThingPresentationMesh) {
+//                    oTPMImage = (clsThingPresentationMesh) oAssWP.getTheOtherElement(oWPMIntention);
+//                } else {
+//                    //TODO (Kollmann): log error that the associationWordPresentation did not reveal a TPM (the oWPMIntention could be a shadow node - that
+//                    //                 is a node that is, for example, an old clone or incorectly removed old node, that is getting mixed up with it's newer
+//                    //                 version
+//                }
+//            } else {
+//                //TODO (Kollmann): log error that the WPM Intention has no associationWordPresentation
+//            }
+            
+          //compare the intention(image) to the current feelings
+            rFeelingMatch = getFeelingMatch(oWPMImage, poFeltFeelingList);
+        }
+        
+        //adjust match value by match importance
         return rFeelingMatchImportance * rFeelingMatch; 
     }
     
@@ -138,7 +203,7 @@ public class FeelingAlgorithmTools {
      * @param poGoal 
      */
     public static double evaluateGoalByExpectedFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
-        double rFeelingMatchImportance = 0.4;
+        double rFeelingMatchImportance = 0.3;
         
         double rFeelingMatch = getFeelingMatch(poGoal, poFeltFeelingList);
         
