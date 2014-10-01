@@ -14,11 +14,9 @@ import java.util.SortedMap;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_22_send;
 import modules.interfaces.I5_22_receive;
-
 import modules.interfaces.I5_3_receive;
 import modules.interfaces.I5_4_receive;
 import modules.interfaces.I5_4_send;
@@ -180,6 +178,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 		
 		
 		// send free drive energy to DT3 for distribution to other modules
+		logger.clsLogger.getLog("NeutralizedIntensity").debug("Additional intensity from F56: " + Double.toString(rSumReducedIntensity));
         moPsychicIntensityStorage.receive_D3_1(rSumReducedIntensity);
 		
 		
@@ -188,12 +187,19 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
         moPsychicIntensityStorage.divideFreePsychicIntensity(moPsychicIntensityStorage.calculatePsychicIntensityDemand(),moPsychicIntensityStorage.calculateSumPriorities());
         
         
-        // 3. update estimations
+        // 3. Estimate Total Consumed Psychic Intensity
+        
+        moPsychicIntensityStorage.setEstimatedConsumedPsychicIntensity();
+        
+        
+        // 4. update estimations 
         moPsychicIntensityStorage.updateEstimations();
 	        
        
         mrReducedIntensity = rSumReducedIntensity;
 
+        logger.clsLogger.getLog("NeutralizedIntensity").debug("Intensity storage after F56: " + Double.toString(moPsychicIntensityStorage.getFreePsychicIntensityInStorage()));
+        
 		// 5. create chart Data
 		for( clsDriveMesh oDriveMeshEntry:moDrives_OUT){
 			String oaKey = oDriveMeshEntry.getChartShortString();

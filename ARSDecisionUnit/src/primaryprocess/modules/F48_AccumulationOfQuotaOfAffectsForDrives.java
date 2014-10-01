@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.SortedMap;
 
 import base.datatypes.enums.eOrgan;
-
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.enums.eContentType;
@@ -102,12 +101,14 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT4_PleasureStorage poPleasureStorage, DT1_PsychicIntensityBuffer poLibidoBuffer, clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT4_PleasureStorage poPleasureStorage, DT1_PsychicIntensityBuffer poLibidoBuffer, 
+			clsPersonalityParameterContainer poPersonalityParameterContainer, DT3_PsychicIntensityStorage poDT3_IntensityStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		moPleasureStorage = poPleasureStorage;
 		moLibidoBuffer = poLibidoBuffer;
+		moPsychicIntensityStorage = poDT3_IntensityStorage;
 		moDriveChartData =  new HashMap<String, Double>(); //initialize charts
 		
 		fillOrificeMapping();
@@ -381,11 +382,14 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		//set the actual drive list to DT4, this automatically calculates the pleasure and this value can the be used everywhere
 		moPleasureStorage.receive_D4_1(moAllDriveComponents_OUT);
 		
+
+	    
+		mnPsychicIntensityPleasure = getMoPsychicIntensityStorage().calculatePleasureProduction();
 		
-		//We get the pleasure from the efficient intensity use in F56 and added to the pleasure measured in the DT4 pleasure Storage
-		//mnPsychicIntensityPleasure = getMoPsychicIntensityStorage().calculatePleasureProduction();
-		
-		mnCurrentPleasure = moPleasureStorage.send_D4_1() + mnPsychicIntensityPleasure;
+	    
+	    mnCurrentPleasure = moPleasureStorage.send_D4_1() + mnPsychicIntensityPleasure;
+	    logger.clsLogger.getLog("NeutralizedIntensity").debug("ProcessPleasureCalculation::mnPsychicIntensityPleasure = " + Double.toString(mnPsychicIntensityPleasure));
+
 	}
 
 	

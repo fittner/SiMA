@@ -90,6 +90,8 @@ public class clsPsychicIntensityPerModule implements itfInspectorGenericTimeChar
                 moRequestedPsychicIntensityFollower[i] = moRequestedPsychicIntensityFollower[i-1];
             }
         }
+        
+        setEstimationRequestedPsychicIntensity();
     }
     
     public void updateEstimationModuleStrength(double prNewModuleStrength){   
@@ -101,6 +103,7 @@ public class clsPsychicIntensityPerModule implements itfInspectorGenericTimeChar
                 moModuleStrengthFollower[i] = moModuleStrengthFollower[i-1];
             }
         }
+        setEstimatedModuleStrength();
     }
     
     public void updateEstimationConsumedPsychicIntensity(double prNewConsumedIntensity){
@@ -112,7 +115,9 @@ public class clsPsychicIntensityPerModule implements itfInspectorGenericTimeChar
             }else{
                 moConsumedPsychicIntensityFollower[i] = moConsumedPsychicIntensityFollower[i-1];
             }
-        } 
+        }
+        
+        setEstimatedConsumedPsychicIntensity();
     }
     
     /**
@@ -189,7 +194,7 @@ public class clsPsychicIntensityPerModule implements itfInspectorGenericTimeChar
         double rEstimation = 0.0;
         
         for(int i=0; i < moRequestedPsychicIntensityFollower.length; i++){
-            rEstimation = moRequestedPsychicIntensityFollower[i];
+            rEstimation += moRequestedPsychicIntensityFollower[i];
         }       
         this.mrEstimationRequestedPsychicIntensity = rEstimation/moRequestedPsychicIntensityFollower.length;
     }
@@ -232,7 +237,7 @@ public class clsPsychicIntensityPerModule implements itfInspectorGenericTimeChar
     public void setEstimatedModuleStrength() {    
         double rEstimation = 0.0;
         for(int i=0; i < moModuleStrengthFollower.length; i++){
-            rEstimation = moModuleStrengthFollower[i];
+            rEstimation += moModuleStrengthFollower[i];
         }       
         this.mrEstimatedModuleStrength = rEstimation/moModuleStrengthFollower.length;
     }
@@ -252,7 +257,7 @@ public class clsPsychicIntensityPerModule implements itfInspectorGenericTimeChar
         double rEstimation = 0.0;
         
         for(int i=0; i < moConsumedPsychicIntensityFollower.length; i++){
-            rEstimation = moConsumedPsychicIntensityFollower[i];
+            rEstimation += moConsumedPsychicIntensityFollower[i];
         }
         
         this.mrEstimatedConsumedPsychicIntensity = rEstimation/moConsumedPsychicIntensityFollower.length;

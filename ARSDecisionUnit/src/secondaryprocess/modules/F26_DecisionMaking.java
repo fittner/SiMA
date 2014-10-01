@@ -245,8 +245,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 
         double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 
+        logger.clsLogger.getLog("NeutralizedIntensity").debug("neutralized intensity F26: " + Double.toString(rReceivedPsychicEnergy));
         
-	    
 	    //FIXME SM: This is a temp variable, which shall be replaced with real feelings
 		boolean bActivatePanicInfluence = false;
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
@@ -287,7 +287,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
         
 		
         //AMP it is assumed that F26 uses all the psychic intensity that receives.
-        double rUsedPsychicIntensity = rReceivedPsychicEnergy;
+        double rUsedPsychicIntensity = rReceivedPsychicEnergy / 4;
        
         
 		//AMP F26 gives to know the intensity values to the psychic intensity storage
@@ -318,7 +318,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		//Add the aim of drives goal to the mental situation
 		ShortTermMemoryFunctionality.addUsableAimOfDrivesToMentalSituation(moDriveGoalList_IN, moDecidedGoalList_OUT, this.moShortTermMemory);
-		
+	
 	
 		try {
 		    if (moDecidedGoalList_OUT.isEmpty()==true) {

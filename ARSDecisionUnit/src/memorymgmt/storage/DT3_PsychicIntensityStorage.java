@@ -178,6 +178,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 	@Override
 	public void receive_D3_1(double prFreePsychicIntensity) {
         mrFreePsychicIntensityInStorage += prFreePsychicIntensity;
+        logger.clsLogger.getLog("NeutralizedIntensity").debug("Buffer fill level DT3: " + Double.toString(mrFreePsychicIntensityInStorage));
 	}
 	
 	
@@ -216,7 +217,8 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 	 * 
 	 */
 	 public void divideFreePsychicIntensity(double prTotalPsychicIntensityDemand, double prSumModulesPriority){
-	               
+	     mrSentPsychicIntensity = 0;   
+	     
 	        if(moPsychicIntensityPerModuleTable.size() == 0)
 	            //no active modules
 	            return; 
@@ -257,7 +259,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 	                
 	                double rRestFreePsychicIntensity = mrFreePsychicIntensityInStorage - prTotalPsychicIntensityDemand;
 	                
-	                mrFreePsychicIntensityInStorage = rRestFreePsychicIntensity;
+//	                mrFreePsychicIntensityInStorage = rRestFreePsychicIntensity;
 	                
 	                for(clsPsychicIntensityPerModule oPsychicIntensityPerModule:moPsychicIntensityPerModuleTable.values()){
 	                    oPsychicIntensityPerModule.setAvailablePsychicIntensity(oPsychicIntensityPerModule.getRequestedPsychicIntensity());
@@ -561,5 +563,28 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
    public clsTimeChartPropeties getProperties() {
        return new clsTimeChartPropeties(true);
    }
+
+
+
+/**
+ * DOCUMENT - insert description
+ *
+ * @author kollmann
+ * @since 30.09.2014 16:42:04
+ *
+ * @return
+ */
+public double calculatePleasureProduction() {
+    
+    double extraPleasureIntensityUseEfficiency = 0;
+    
+    if(mrTotalEstimatedPsychicIntensityDemand==0){
+        extraPleasureIntensityUseEfficiency = 0;
+    }else{
+        extraPleasureIntensityUseEfficiency  = mrEstimatedConsumedPsychicIntensity/mrTotalEstimatedPsychicIntensityDemand;
+    }
+    
+    return extraPleasureIntensityUseEfficiency;
+}
 	
 }
