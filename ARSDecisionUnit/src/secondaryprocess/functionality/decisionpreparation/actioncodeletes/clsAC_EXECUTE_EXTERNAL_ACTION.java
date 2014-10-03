@@ -66,6 +66,11 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
+	    //Dump Environmental Image to Memory
+	    
+	    
+	   //TODO Verena: 
+	    
 		ArrayList<clsWordPresentationMesh> oExternalPlans = new ArrayList<clsWordPresentationMesh>();
 		
 		if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true || this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
