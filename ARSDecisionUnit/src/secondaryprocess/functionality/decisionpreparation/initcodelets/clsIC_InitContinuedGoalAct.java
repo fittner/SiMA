@@ -30,6 +30,8 @@ import testfunctions.clsTester;
  * 
  */
 public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
+    
+    private static final double P_ACTMATCHACTIVATIONTHRESHOLD = 1.0;
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -139,11 +141,18 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
             //FIXME: Find a better solution. In order to break a deadlock, check if the moment is the last image of the act
             //If yes, set goal completed, in order to lower the pleasure value of the goal.
             clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oContinuedSupportiveDataStructure);
+            ArrayList<eCondition> conditionList = new ArrayList<eCondition>();
             if (oMoment.isNullObject()==false && clsActTools.isLastImage(oMoment)==true) {
-                this.moGoal.setCondition(eCondition.GOAL_COMPLETED);
+                conditionList.add(eCondition.GOAL_COMPLETED);
+                //this.moGoal.setCondition(eCondition.GOAL_COMPLETED);
             } else if (oMoment.isNullObject()==false && clsActTools.getMovementTimeoutValue(oMoment)<=0) {
-                this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
-            }
+                conditionList.add(eCondition.GOAL_NOT_REACHABLE);
+                //this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
+            } 
+            
+            //conditionList.addAll(clsActPreparationTools.checkProcessFirstImageStartCondition(oIntention, oMoment));
+            
+            this.moGoal.setCondition(conditionList);
         }
 		
 	}

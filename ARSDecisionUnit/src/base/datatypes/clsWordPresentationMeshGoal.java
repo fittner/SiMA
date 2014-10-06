@@ -108,6 +108,13 @@ public abstract class clsWordPresentationMeshGoal extends clsWordPresentationMes
         this.addReplaceNonUniqueProperty(poTask.toString(), eContentType.CONDITION, ePredicate.HASCONDITION, true);        
     }
     
+    public void setCondition(ArrayList<eCondition> poTaskList) {
+       
+        for (eCondition poTask : poTaskList) {
+            this.addReplaceNonUniqueProperty(poTask.toString(), eContentType.CONDITION, ePredicate.HASCONDITION, true);
+        }
+    }
+    
     
     /**
      * Get the current decision task
