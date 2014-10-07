@@ -1211,8 +1211,8 @@ public class clsOntologyLoader {
 			return new clsAssociationEmotion(
 					new clsTriple<Integer, eDataType, eContentType>(oID,
 							peElementType, peContentType),
-							(clsThingPresentationMesh) oAssociationElements.b,
-							(clsEmotion) oAssociationElements.a);
+							(clsEmotion) oAssociationElements.a,
+							(clsThingPresentationMesh) oAssociationElements.b);
 		case ASSOCIATIONFEELING:
             oAssociationElements = evaluateElementOrder(poElementA, poElementB,
                     eDataType.FEELING);
