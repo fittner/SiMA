@@ -20,6 +20,7 @@ import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
 import secondaryprocess.algorithm.planning.helpers.eDistance;
 import testfunctions.clsTester;
+import memorymgmt.enums.PsychicSpreadingActivationMode;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -31,6 +32,7 @@ import modules.interfaces.I2_3_receive;
 import modules.interfaces.I2_4_receive;
 import modules.interfaces.I2_6_receive;
 import modules.interfaces.I2_6_send;
+import modules.interfaces.I5_19_receive;
 import modules.interfaces.I5_1_receive;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsActivationComperator;
@@ -48,6 +50,7 @@ import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
@@ -80,6 +83,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					I2_4_receive,
 					I2_6_send,
 					I5_1_receive,
+					I5_19_receive,
 					itfGraphCompareInterfaces
 					{
 	public static final String P_MODULENUMBER = "14";
@@ -98,7 +102,13 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private boolean useAttentionMechanism = false;
-
+	
+	ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();
+	
+	//These two are pass-through parameters that will be sent to F46 without being used
+	clsWordPresentationMesh moWordingToContext_IN = null;
+    PsychicSpreadingActivationMode moPsychicSpreadingActivationMode_IN = PsychicSpreadingActivationMode.NONE;
+    
 	//private Logger log = Logger.getLogger(this.getClass());
 	
 	public static final String P_EMOTIONRECOGNITION_PRIMING_PLEASURE = "EMOTIONRECOGNITION_PRIMING_PLEASURE";//koller
@@ -267,7 +277,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void send_I2_6(ArrayList<clsThingPresentationMesh> poCompleteThingPresentationMeshList, ArrayList<clsDriveMesh> poDrives_IN) {
-		((I2_6_receive)moModuleList.get(46)).receive_I2_6(poCompleteThingPresentationMeshList, poDrives_IN);
+		((I2_6_receive)moModuleList.get(46)).receive_I2_6(poCompleteThingPresentationMeshList, poDrives_IN, moReturnedPhantasy_IN, moPsychicSpreadingActivationMode_IN, moWordingToContext_IN);
 		putInterfaceData(I2_6_send.class, poCompleteThingPresentationMeshList, poDrives_IN);
 	}
 	
@@ -1385,5 +1395,18 @@ ArrayList<clsThingPresentationMesh> PrimingBodystates(ArrayList<clsThingPresenta
 	@Override
 	public ArrayList<eInterfaces> getCompareInterfacesSend() {
 		return getInterfacesSend();
+	}
+
+    /* (non-Javadoc)
+     *
+     * @since 07.10.2014 15:20:36
+     * 
+     * @see modules.interfaces.I5_19_receive#receive_I5_19(java.util.ArrayList, memorymgmt.enums.PsychicSpreadingActivationMode, base.datatypes.clsWordPresentationMesh)
+     */
+	@Override
+	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2) {
+        moWordingToContext_IN = moWordingToContext2;
+        moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
+        moPsychicSpreadingActivationMode_IN = mode;
 	}	
 }

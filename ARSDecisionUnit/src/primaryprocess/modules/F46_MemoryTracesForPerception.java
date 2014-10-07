@@ -23,7 +23,6 @@ import memorymgmt.enums.eRadius;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import modules.interfaces.I2_6_receive;
-import modules.interfaces.I5_19_receive;
 import modules.interfaces.I5_6_receive;
 import modules.interfaces.I5_6_send;
 import modules.interfaces.eInterfaces;
@@ -61,7 +60,7 @@ import testfunctions.clsTester;
  * 07.05.2012, 16:16:45
  * 
  */ 
-public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2_6_receive, I5_19_receive, I5_6_send, itfGraphInterface {
+public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2_6_receive, I5_6_send, itfGraphInterface {
 	public static final String P_MODULENUMBER = "46";
 	public static final String P_MATCH_THRESHOLD = "MATCH_THRESHOLD";
 	
@@ -772,24 +771,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		putInterfaceData(I5_6_send.class, poPerceptionalMesh, moWordingToContext2);
 	}
 	
-	
-	
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 03.03.2011, 16:20:28
-	 * 
-	 * @see pa.interfaces.receive._v38.I7_7_receive#receive_I7_7(java.util.ArrayList)
-	 */
-	@Override
-	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2) {
-		
-	    moWordingToContext = moWordingToContext2;
-	    moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
-		this.psychicSpreadingActivationMode = mode;
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -799,8 +780,13 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_6(ArrayList<clsThingPresentationMesh> poEnvironmentalPerception, ArrayList<clsDriveMesh> poDrives_IN) {
+	public void receive_I2_6(ArrayList<clsThingPresentationMesh> poEnvironmentalPerception, ArrayList<clsDriveMesh> poDrives_IN,
+            ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode poMode, clsWordPresentationMesh moWordingToContext2) {
 		
+	    moWordingToContext = moWordingToContext2;
+        moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
+        psychicSpreadingActivationMode = poMode;
+	    
 		moEnvironmentalPerception_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poEnvironmentalPerception); 
 		
 	      //=== Perform system tests ===//
@@ -830,8 +816,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	public void setDescription() {
 		moDescription = "Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from the TPMs to the thing presentations";
 	}
-
-
 
 	/* (non-Javadoc)
 	 *
