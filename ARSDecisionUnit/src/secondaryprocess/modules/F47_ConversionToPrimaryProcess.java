@@ -261,12 +261,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 		
 		return bResult;
 	}
-	
-
-	
-
-	
-	
+		
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -326,29 +321,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@Override
 	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode, clsWordPresentationMesh moWordingToContext2, List<clsEmotion> poCurrentEmotions) {
-		((I5_19_receive)moModuleList.get(46)).receive_I5_19(poReturnedMemory, psychicSpreadingActivationMode, moWordingToContext2, poCurrentEmotions);
-		putInterfaceData(I5_19_send.class, poReturnedMemory, moWordingToContext2, poCurrentEmotions);
+		((I5_19_receive)moModuleList.get(14)).receive_I5_19(poReturnedMemory, psychicSpreadingActivationMode, moWordingToContext2, poCurrentEmotions);
+		putInterfaceData(I5_19_send.class, poReturnedMemory, moWordingToContext2);
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 03.03.2011, 18:03:53
-	 * 
-	 * @see pa.interfaces.receive._v38.I7_3_receive#receive_I7_3(java.util.ArrayList)
-	 */
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
-//		//TODO AW: Replace secondarydatastructurecontainer with only datastructurecontainer
-//		//moActionCommands_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
-//		//Disable deepcopy here, as the exact instance is asked for
-//		moActionCommands_IN = poActionCommands;
-//
-//		
-//	}
-	
-	
     /* (non-Javadoc)
     *
     * @since 02.10.2013 13:04:49
@@ -372,9 +348,5 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	@Override
 	public void setDescription() {
 		moDescription = "Contents of various action plans can be used to reduce libido tension in E45. Before they can be processed by primary process functions, they have to be converted back again. The preconscious parts of the contents - the word presentations - are removed by this module.";
-	}
-
-   
-
-  
+	}  
 }

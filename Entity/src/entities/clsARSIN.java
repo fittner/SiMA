@@ -19,6 +19,7 @@ import complexbody.io.actuators.actionCommands.clsActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 import complexbody.io.sensors.datatypes.enums.eActionKissIntensity;
 import complexbody.io.sensors.datatypes.enums.eEntityType;
+import body.itfget.itfGetInternalEnergyConsumption;
 import control.interfaces.itfDecisionUnit;
 
 import sim.physics2D.shape.Shape;
@@ -28,6 +29,13 @@ import tools.eImagePositioning;
 import utils.clsGetARSPath;
 
 
+import body.clsComplexBody;
+import body.itfGetExternalIO;
+import body.attributes.clsAttributeAntenna;
+import body.attributes.clsAttributeEye;
+import body.attributes.clsAttributes;
+import body.itfget.itfGetRadiation;
+import body.itfget.itfGetSensorEngine;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
 import entities.actionProxies.itfAPAttackableBite;
@@ -38,15 +46,6 @@ import entities.enums.eBodyType;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
-import body.clsComplexBody;
-import body.itfGetExternalIO;
-import body.attributes.clsAttributeAntenna;
-import body.attributes.clsAttributeEye;
-import body.attributes.clsAttributes;
-import body.itfget.itfGetInternalEnergyConsumption;
-import body.itfget.itfGetRadiation;
-import body.itfget.itfGetSensorEngine;
-
 //import tstBw.*;
 
 /**

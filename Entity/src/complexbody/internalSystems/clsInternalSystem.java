@@ -12,6 +12,7 @@ import properties.personality_parameter.clsPersonalityParameterContainer;
 import datatypes.clsMutableDouble;
 import entities.enums.eBodyParts;
 import body.itfStepUpdateInternalState;
+import complexbody.internalSystems.clsBodyOrganSystem;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -32,6 +33,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	public static final String P_BASEENERGYCONSUMPTION = "baseenergyconsumption";
 	public static final String P_ENERGY_CONSUMPTION_FACTOR ="ENERGY_CONSUMPTION_FACTOR";
 	public static final String P_SPEECHSYSTEM = "speechsystem"; // MW 
+	public static final String P_BODYORGANSYSTEM = "bodyorgansystem";
+
 	
     private clsFlesh moFlesh;
     private clsSlowMessengerSystem moSlowMessengerSystem;
@@ -42,6 +45,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     private clsDigestiveSystem moStomachSystem;
     private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
     private clsSpeechSystem moSpeechSystem; // MW 
+    
+    private clsBodyOrganSystem moBOrganSystem;
    
 	private clsPersonalityParameterContainer moPersonalityParameterContainer;
 
@@ -56,7 +61,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
-		
+
 		clsProperties oProp = new clsProperties();
 
 		oProp.putAll( clsFlesh.getDefaultProperties(pre+P_FLESH) );
@@ -67,10 +72,11 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		oProp.putAll( clsStaminaSystem.getDefaultProperties(pre+P_STAMINA) );
 		oProp.putAll( clsDigestiveSystem.getDefaultProperties(pre+P_STOMACH) );
 		oProp.putAll( clsInternalEnergyConsumption.getDefaultProperties(pre+P_INTENERGYCONSUMPTION) );
-		oProp.putAll( clsSpeechSystem.getDefaultProperties(pre+P_SPEECHSYSTEM) ); // MW 
-		
+		oProp.putAll( clsSpeechSystem.getDefaultProperties(pre+P_SPEECHSYSTEM) ); // MW
+		oProp.putAll( clsBodyOrganSystem.getDefaultProperties(pre+P_BODYORGANSYSTEM) );
+
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.02);
-				
+
 
 		return oProp;
 	}	
@@ -86,14 +92,17 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moStaminaSystem			= new clsStaminaSystem(pre+P_STAMINA, poProp);
 		moStomachSystem 		= new clsDigestiveSystem(pre+P_STOMACH, poProp, moPersonalityParameterContainer);
    	    moInternalEnergyConsumption = new clsInternalEnergyConsumption(pre+P_INTENERGYCONSUMPTION, poProp);
-   	 	moSpeechSystem 			= new clsSpeechSystem(pre+P_SPEECHSYSTEM, poProp); // MW 
-  	    
+   	 	moSpeechSystem 			= new clsSpeechSystem(pre+P_SPEECHSYSTEM, poProp); // MW
+
+   	 	moBOrganSystem			= new clsBodyOrganSystem(pre+P_BODYORGANSYSTEM, poProp);
+
    	    mrBaseEnergyConsumption = poProp.getPropertyDouble(pre+P_BASEENERGYCONSUMPTION);
-   	    
+
    	 	moInternalEnergyConsumption.setValue(eBodyParts.INTSYS, new clsMutableDouble(mrBaseEnergyConsumption));
-   	 	
+
 		mrEnergyConsumptionFactor = moPersonalityParameterContainer.getPersonalityParameter("INTERNAL_SYSTEM", P_ENERGY_CONSUMPTION_FACTOR).getParameterDouble();
-	}	
+
+	}
 		
 	/**
 	 * @return the moFlesh
@@ -149,6 +158,10 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	}
 
 	
+	public clsBodyOrganSystem getBOrganSystem() {
+		return moBOrganSystem;
+	}
+
 	/**
 	 * @return the moInternalEnergyConsumption
 	 */
@@ -177,7 +190,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moTemperatureSystem.stepUpdateInternalState();
 		moSlowMessengerSystem.stepUpdateInternalState();
 		moFastMessengerSystem.stepUpdateInternalState();
-		
+		moBOrganSystem.stepUpdateInternalState();
 		
 		moStomachSystem.withdrawEnergy( moInternalEnergyConsumption.getSum()*mrEnergyConsumptionFactor);
 		
@@ -186,5 +199,5 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 
 	public void stepExecution() {
 	}
-	
+
 }

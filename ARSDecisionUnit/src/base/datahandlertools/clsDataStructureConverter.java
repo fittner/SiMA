@@ -10,12 +10,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntryExpression;
 import prementalapparatus.symbolization.representationsymbol.itfGetDataAccessMethods;
 import prementalapparatus.symbolization.representationsymbol.itfGetSymbolName;
 import prementalapparatus.symbolization.representationsymbol.itfIsContainer;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
+import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsPhysicalRepresentation;
 import base.datatypes.clsSecondaryDataStructure;
@@ -91,7 +93,8 @@ public class clsDataStructureConverter {
 		eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)poSymbolObject).getSymbolType());
 		String oContent = ((itfIsContainer)poSymbolObject).getSymbolMeshContent().toString();
 		ArrayList<clsPhysicalRepresentation> oAssociatedContent = new ArrayList<clsPhysicalRepresentation>();
-		ArrayList<clsPhysicalRepresentation> oExternalAssociatedContent = new ArrayList<clsPhysicalRepresentation>();
+		ArrayList<clsPhysicalRepresentation> oExternalAssociatedTPM = new ArrayList<clsPhysicalRepresentation>();
+		ArrayList<clsThingPresentation> oExternalAssociatedTP = new ArrayList<clsThingPresentation>();
 		
 		for(Method oM : oMethods){
 			if (oM.getName().equals("getSymbolObjects")) {
@@ -114,7 +117,7 @@ public class clsDataStructureConverter {
 			    if(oAction!=null){
 			  
 			        clsThingPresentationMesh oTPMAction = (clsThingPresentationMesh) convertSymbolsToTPM((itfSymbol)oAction);
-			        oExternalAssociatedContent.add(oTPMAction);
+			        oExternalAssociatedTPM.add(oTPMAction);
 			    }
 			    
 			    continue;
@@ -138,7 +141,7 @@ public class clsDataStructureConverter {
 	                }
 	                if(oAction!=null){
 	                    clsThingPresentationMesh oTPMObject = (clsThingPresentationMesh) convertSymbolsToTPM((itfSymbol)oAction);
-	                    oExternalAssociatedContent.add(oTPMObject);
+	                    oExternalAssociatedTPM.add(oTPMObject);
 	                }
 	                
 	                continue;
@@ -152,7 +155,31 @@ public class clsDataStructureConverter {
 			//received in the form of TPMs), removePrefix is taken from the ARSi09 implementation - however it is a dirty hack
 			//and has to be removed when the symbolization is restructured.
 			oContentTypeTP = eContentType.valueOf(removePrefix(oM.getName())); 
-					
+			
+			
+	         if (oM.getName().equals("getExpressions")){
+	             ArrayList<clsSymbolVisionEntryExpression> oExprList = new ArrayList<clsSymbolVisionEntryExpression>();
+	             try {
+                    oExprList =  (ArrayList<clsSymbolVisionEntryExpression>) oM.invoke(poSymbolObject,new Object[0]);
+                } catch (IllegalAccessException e) {
+                    // TODO (herret) - Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    // TODO (herret) - Auto-generated catch block
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    // TODO (herret) - Auto-generated catch block
+                    e.printStackTrace();
+                }
+	             for(clsSymbolVisionEntryExpression expr: oExprList){
+	                 oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(eContentType.valueOf(expr.getSymbolType()), expr.getExpressionValue())); 
+	                 oExternalAssociatedTP.add(oTP); 
+	             }
+
+	              
+	              continue;
+	            }
+			
 			//FIXME HZ! For this part a new solution has to be found 
 			//Certain types of content types are mapped together
 			
@@ -186,6 +213,7 @@ public class clsDataStructureConverter {
 //              oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oContentTP)); 
 //              oAssociatedContent.add(oTP); 
 			}
+			
 	
 			if ((oM.getName().equals("getExactDebugX")) || 
 				(oM.getName().equals("getExactDebugY")) || 
@@ -235,14 +263,32 @@ public class clsDataStructureConverter {
 				}
 		}
 		oTPM = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM,	new clsTriple<eContentType, Object, Object>(oContentType, oAssociatedContent, oContent)); 
-		for(clsPhysicalRepresentation oVal: oExternalAssociatedContent){
+		for(clsPhysicalRepresentation oVal: oExternalAssociatedTPM){
 		    oTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.TPM, oTPM, (clsThingPresentationMesh) oVal, 1.0));
 		    
+		}
+		for(clsThingPresentation tp : oExternalAssociatedTP){
+		    oTPM.addExternalAssociation(new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
+		            oTPM, 
+		            tp)); 
 		}
 		return oTPM; 	
 	}
 	
-	private static String removePrefix(String poName) {
+	/**
+     * DOCUMENT - insert description
+     *
+     * @author herret
+     * @since 25.09.2014 09:34:15
+     *
+     * @return
+     */
+    private static Integer setID() {
+        // TODO (herret) - Auto-generated method stub
+        return null;
+    }
+
+    private static String removePrefix(String poName) {
 		if (poName.startsWith("get")) {
 			poName = poName.substring(3);
 		}

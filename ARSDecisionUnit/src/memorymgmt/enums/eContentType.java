@@ -77,6 +77,8 @@ public enum eContentType {
 	POTENTIALDRIVEFULFILLMENTIMPORTANCE,
 	DRIVEAIMIMPORTANCE,
 	
+	Expressions,
+	
 	
 	
 	// --- Feelings --- //
@@ -103,6 +105,7 @@ public enum eContentType {
 	BODYPART,
 	ORIFICE,
 	ORGAN,
+	
 	
 	//--- Emotions
 	BASICEMOTION,
@@ -189,6 +192,22 @@ public enum eContentType {
 	ORIFICE_ORAL_AGGRESSIV_MUCOSA,
 	Odor,
 	Name,
+	HeartBeat,
+	SweatIntensity,
+	CryingIntensity,
+	MuscleTensionArmsIntensity,
+	MuscleTensionLegsIntensity,
+	CHEEKS_REDNING,
+	EYE_BROW_CENTER,
+	EYE_BROW_CORNERS,
+	MOUTH_OPEN,
+	MOUTH_SIDES,
+	MOUTH_STRECHINESS,
+	SHAKE_INTENSITY,
+	EYES_CRYING_INTENSITY,
+	GENERAL_SWEAT,
+	PARTIAL_SWEAT,
+	
 	
 	//DM
 	BITE,
@@ -298,6 +317,9 @@ public enum eContentType {
     
     
     //Control
-    HASPHANTASYFLAG;
+    HASPHANTASYFLAG,
+	
+	//Expression
+    Expression; //koller
 	
 }

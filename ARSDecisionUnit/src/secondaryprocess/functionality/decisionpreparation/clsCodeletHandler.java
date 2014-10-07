@@ -204,6 +204,9 @@ public class clsCodeletHandler {
 	    return libidoBuffer;
 	}
 	
+	public void setLibidoBuffer(DT1_PsychicIntensityBuffer buffer){
+	    libidoBuffer=buffer;
+	}
 	public void addToCodeletList(clsCodelet poCodelet) {
 		String oList = "";
 		if (poCodelet instanceof clsActionCodelet) {

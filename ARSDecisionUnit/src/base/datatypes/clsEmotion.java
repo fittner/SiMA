@@ -165,17 +165,34 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		return mrSourcePleasure;
 	}
 	
-	public double getSourceUnpleasure() {
-		return mrSourceUnpleasure;
-	}
+	public void setSourcePleasure(double mrSourcePleasure) {//koller
+        this.mrSourcePleasure = mrSourcePleasure;
+    }
+    
+    public double getSourceUnpleasure() {
+        return mrSourceUnpleasure;
+    }
+    
+    public void setSourceUnpleasure(double mrSourceUnpleasure) {//koller
+        this.mrSourceUnpleasure = mrSourceUnpleasure;
+    }
+    
+    public double getSourceLibid() {
+        return mrSourceLibid;
+    }
+    
+    public void setSourceLibid(double mrSourceLibid) {//koller
+        this.mrSourceLibid = mrSourceLibid;
+    }
+    
+    public double getSourceAggr() {
+        return mrSourceAggr;
+    }
+    
+    public void setSourceAggr(double mrSourceAggr) {//koller
+        this.mrSourceAggr = mrSourceAggr;
+    }  
 	
-	public double getSourceLibid() {
-		return mrSourceLibid;
-	}
-	
-	public double getSourceAggr() {
-		return mrSourceAggr;
-	}
 	
 	
 

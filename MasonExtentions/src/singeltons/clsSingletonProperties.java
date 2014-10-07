@@ -29,6 +29,7 @@ public class clsSingletonProperties {
 	private boolean mnShowSpeechQuestionOverlay;
 	private boolean mnShowSpeechAnswerOverlay;
 	private boolean mnAntiAliasing;
+	private boolean mnShowBodilyExpressions;
 
 	private boolean mnShowLifeIndicator;
 
@@ -45,6 +46,7 @@ public class clsSingletonProperties {
 		mnShowSpeechQuestionOverlay = false;
 		mnShowLifeIndicator =false;
 		mnAntiAliasing=false;
+		mnShowBodilyExpressions = false;
 	}
 	
 	static private clsSingletonProperties _instance = null;
@@ -123,12 +125,24 @@ public class clsSingletonProperties {
 		(clsSingletonProperties.instance()).mnShowSpeechQuestionOverlay = value;
 	}
 	
+	static public void setShowBodilyExpressions(boolean value){
+		(clsSingletonProperties.instance()).mnShowBodilyExpressions = value;
+	}
 	
+	
+	
+
 	
 
 	
 	static public void setShowLifeIndicator(boolean value) {
 		(clsSingletonProperties.instance()).mnShowLifeIndicator = value;
+	}
+	
+	
+	static public boolean showBodilyExpressions(){
+		return (clsSingletonProperties.instance()).mnShowBodilyExpressions;
+
 	}
 	
 	static public boolean showLifeIndicator() {

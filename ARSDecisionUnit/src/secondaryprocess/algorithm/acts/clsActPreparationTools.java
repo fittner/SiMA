@@ -84,6 +84,28 @@ public class clsActPreparationTools {
         return result;
 	}
 	
+	public static ArrayList<eCondition> checkProcessFirstImageStartCondition(clsWordPresentationMesh oIntention, clsWordPresentationMesh moment) {
+	    ArrayList<eCondition> result = new ArrayList<eCondition>();
+	    
+	    double rCurrentImageMatch = 0.0;
+	    
+	    if (clsActTools.checkIfConditionExists(oIntention, eCondition.START_WITH_FIRST_IMAGE)==true && moment.isNullObject()==true) {
+            //Cases:
+            //1. If the first image has match 1.0 and there is no first act ||
+            //2. If the this act is the same as from the previous goal -> start this act as normal
+            //else set GOAL_CONDITION_BAD
+            clsWordPresentationMesh oFirstImage = clsActTools.getFirstImageFromIntention(oIntention);
+            rCurrentImageMatch = clsActTools.getPIMatch(oFirstImage);
+            
+            if (rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
+                //Set this option if there is an PImatch, but it is still too low
+                result.add(eCondition.ACT_MATCH_TOO_LOW);
+            }
+        }
+	    
+	    return result;
+	}
+	
 	/**
 	 * Perform basic act analysis, i. e. extract moment and expectation from an intention
 	 * 
