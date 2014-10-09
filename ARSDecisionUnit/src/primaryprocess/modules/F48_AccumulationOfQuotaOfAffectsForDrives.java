@@ -382,10 +382,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		//set the actual drive list to DT4, this automatically calculates the pleasure and this value can the be used everywhere
 		moPleasureStorage.receive_D4_1(moAllDriveComponents_OUT);
 		
-
-	    
 		mnPsychicIntensityPleasure = getMoPsychicIntensityStorage().calculatePleasureProduction();
-		
 	    
 	    mnCurrentPleasure = moPleasureStorage.send_D4_1() + mnPsychicIntensityPleasure;
 	    logger.clsLogger.getLog("NeutralizedIntensity").debug("ProcessPleasureCalculation::mnPsychicIntensityPleasure = " + Double.toString(mnPsychicIntensityPleasure));

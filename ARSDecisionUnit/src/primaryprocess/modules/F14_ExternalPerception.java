@@ -988,20 +988,20 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					oAssDMforCategorization.put(oDMID, oAssDMList);
 				}
 				
-				if (oAssDM.getMoDataStructureType() == eDataType.ASSOCIATIONDM){ //koller
-                    oExemplarDM = (clsDriveMesh) oAssDM.getAssociationElementA();
-                    oAssDM.setMrWeight(((clsThingPresentationMesh) poSpecificCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue());
-                
-                    oDMID = oExemplarDM.getActualDriveSourceAsENUM().toString() + oExemplarDM.getDriveComponent();
-                    if (oAssDMforCategorization.containsKey(oDMID) == false) {
-                        oAssDMList.add(oAssDM);
-                        oAssDMforCategorization.put(oDMID, oAssDMList);
-                    } else {
-                        oAssDMList = oAssDMforCategorization.get(oDMID);
-                        oAssDMList.add(oAssDM);
-                        oAssDMforCategorization.put(oDMID, oAssDMList);
-                    }
-                }//koller
+//				if (oAssDM.getMoDataStructureType() == eDataType.ASSOCIATIONDM){ //koller
+//                    oExemplarDM = (clsDriveMesh) oAssDM.getAssociationElementA();
+//                    oAssDM.setMrWeight(((clsThingPresentationMesh) poSpecificCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue());
+//                
+//                    oDMID = oExemplarDM.getActualDriveSourceAsENUM().toString() + oExemplarDM.getDriveComponent();
+//                    if (oAssDMforCategorization.containsKey(oDMID) == false) {
+//                        oAssDMList.add(oAssDM);
+//                        oAssDMforCategorization.put(oDMID, oAssDMList);
+//                    } else {
+//                        oAssDMList = oAssDMforCategorization.get(oDMID);
+//                        oAssDMList.add(oAssDM);
+//                        oAssDMforCategorization.put(oDMID, oAssDMList);
+//                    }
+//                }//koller
 				
 			}
 			
