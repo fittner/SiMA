@@ -7,13 +7,10 @@
 package modules.interfaces;
 
 import java.util.ArrayList;
-
-
- 
-
-
+import memorymgmt.enums.PsychicSpreadingActivationMode;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * Memory traces representing perceived environment and body information are forwarded to F46.
@@ -23,5 +20,6 @@ import base.datatypes.clsThingPresentationMesh;
  * 
  */
 public interface I2_6_receive {
-	public void receive_I2_6(ArrayList<clsThingPresentationMesh> poEnvironmentalTP, ArrayList<clsDriveMesh> poDrives);
+	public void receive_I2_6(ArrayList<clsThingPresentationMesh> poEnvironmentalTP, ArrayList<clsDriveMesh> poDrives,
+	        ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode poMode, clsWordPresentationMesh moWordingToContext2);
 }

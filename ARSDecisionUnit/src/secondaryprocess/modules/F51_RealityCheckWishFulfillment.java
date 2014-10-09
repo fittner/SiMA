@@ -153,7 +153,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		String text ="";
 		
 		text += toText.valueToTEXT("moReachableGoalList_IN", moReachableGoalList_IN);
-		text += toText.valueToTEXT("Environmental Image", moEnvironmentalImageStorage);
+		text += toText.valueToTEXT("Environmental Image", moEnvironmentalImageStorage.getEnvironmentalImage());
+		text += toText.valueToTEXT("Enhanced Environmental Image", moEnvironmentalImageStorage.getEnhancedEnvironmentalImage());
 //		text += toText.listToTEXT("moAssociatedMemoriesSecondary_IN", moAssociatedMemoriesSecondary_IN);
 //		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_OUT);
 //		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);

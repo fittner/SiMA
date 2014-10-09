@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 
 import prementalapparatus.symbolization.eSymbolExtType;
@@ -19,6 +20,7 @@ import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
 import secondaryprocess.algorithm.planning.helpers.eDistance;
 import testfunctions.clsTester;
+import memorymgmt.enums.PsychicSpreadingActivationMode;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -30,6 +32,7 @@ import modules.interfaces.I2_3_receive;
 import modules.interfaces.I2_4_receive;
 import modules.interfaces.I2_6_receive;
 import modules.interfaces.I2_6_send;
+import modules.interfaces.I5_19_receive;
 import modules.interfaces.I5_1_receive;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsActivationComperator;
@@ -47,6 +50,7 @@ import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
@@ -79,6 +83,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					I2_4_receive,
 					I2_6_send,
 					I5_1_receive,
+					I5_19_receive,
 					itfGraphCompareInterfaces
 					{
 	public static final String P_MODULENUMBER = "14";
@@ -86,7 +91,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	/** this holds the symbols from the environmental perception (IN I2.3) @since 21.07.2011 11:37:01 */
 	private HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
 	/** this holds the symbols from the bodily perception (IN I2.4)  @since 21.07.2011 11:37:06 */
-	private HashMap<eSymbolExtType, itfSymbol> moBodyData;
+	private HashMap<String, Double> moBodyData;
 	/** OUT member of F14, this holds the converted symbols of the two perception paths and the recognized TPMs (OUT I2.6) @since 20.07.2011 10:26:23 */
 	private ArrayList<clsThingPresentationMesh> moCompleteThingPresentationMeshList;
 	
@@ -97,7 +102,13 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private boolean useAttentionMechanism = false;
-
+	
+	ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();
+	
+	//These two are pass-through parameters that will be sent to F46 without being used
+	clsWordPresentationMesh moWordingToContext_IN = null;
+    PsychicSpreadingActivationMode moPsychicSpreadingActivationMode_IN = PsychicSpreadingActivationMode.NONE;
+    
 	//private Logger log = Logger.getLogger(this.getClass());
 	
 	public static final String P_EMOTIONRECOGNITION_PRIMING_PLEASURE = "EMOTIONRECOGNITION_PRIMING_PLEASURE";//koller
@@ -218,8 +229,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
-		moBodyData = (HashMap<eSymbolExtType, itfSymbol>) deepCopy(poBodyData); 
+	public void receive_I2_4(HashMap<String, Double> poBodyData) {
+		moBodyData = poBodyData; 
 	}
 
 	/* (non-Javadoc)
@@ -266,7 +277,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void send_I2_6(ArrayList<clsThingPresentationMesh> poCompleteThingPresentationMeshList, ArrayList<clsDriveMesh> poDrives_IN) {
-		((I2_6_receive)moModuleList.get(46)).receive_I2_6(poCompleteThingPresentationMeshList, poDrives_IN);
+		((I2_6_receive)moModuleList.get(46)).receive_I2_6(poCompleteThingPresentationMeshList, poDrives_IN, moReturnedPhantasy_IN, moPsychicSpreadingActivationMode_IN, moWordingToContext_IN);
 		putInterfaceData(I2_6_send.class, poCompleteThingPresentationMeshList, poDrives_IN);
 	}
 	
@@ -391,36 +402,54 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         }
         clsTester.getTester().setActivated(status);
 	    
+        
+        //attach Body Perception Parameter to Self
+        for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList){
+            if(oEntity.getContent().equals("SELF")){
+                attachBodyPerceptionValuesToSelf(oEntity);
+            }
+            else continue;
+        }
 	}
 	
-	public ArrayList<Double> getCurrentEmotions(ArrayList<clsDriveMesh> poDrives_IN) {
-	    ArrayList<Double> oCurrentEmotionValues = new ArrayList<Double>();
+	private void attachBodyPerceptionValuesToSelf(clsThingPresentationMesh oSelf){
+	    for( Entry<String,Double > oBodyValue : moBodyData.entrySet()){
+	        clsThingPresentation oValue = convertBodyValueSymbolToTPM(oBodyValue);
+	       oSelf.addExternalAssociation(new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
+	               oSelf, 
+	               oValue)); 
+	    }
+	}
+	
+	public ArrayList<clsEmotion> getCurrentEmotions(ArrayList<clsDriveMesh> poDrives_IN) {
+        ArrayList<clsEmotion> oCurrentEmotions = new ArrayList<clsEmotion>();
         
-            double rCurrentP = 0.0;  // set own value
-            //     rCurrentU = rCurrentL + rCurrentA;
-            double rCurrentL = 0.0;
-            double rCurrentA = 0.0;
-            int rNumberOfLib = 0;
-            int rNumberOfAgg = 0;
-            double rQuotaOfAffect = 0.0;
-            for(clsDriveMesh DriveMesh : poDrives_IN) {
-                if((rQuotaOfAffect = DriveMesh.getQuotaOfAffect())==0.0)
-                    continue;
-                if(DriveMesh.getDriveComponent()==eDriveComponent.LIBIDINOUS) {
-                    rCurrentL += rQuotaOfAffect;
-                    rNumberOfLib++;
-                }
-                else {
-                    rCurrentA += rQuotaOfAffect;
-                    rNumberOfAgg++;
-                }
+        double rCurrentP = 0.0;  // set own value
+        //     rCurrentU = rCurrentL + rCurrentA;
+        double rCurrentL = 0.0;
+        double rCurrentA = 0.0;
+        int rNumberOfLib = 0;
+        int rNumberOfAgg = 0;
+        double rQuotaOfAffect = 0.0;
+        for(clsDriveMesh DriveMesh : moDrives_IN) {
+            if((rQuotaOfAffect = DriveMesh.getQuotaOfAffect())==0.0)
+                continue;
+            if(DriveMesh.getDriveComponent()==eDriveComponent.LIBIDINOUS) {
+                rCurrentL += rQuotaOfAffect;
+                rNumberOfLib++;
             }
-            oCurrentEmotionValues.add(rCurrentP);
-            oCurrentEmotionValues.add((rCurrentL /= rNumberOfLib) + (rCurrentA /= rNumberOfAgg));
-            oCurrentEmotionValues.add(rCurrentL);
-            oCurrentEmotionValues.add(rCurrentA);
+            else {
+                rCurrentA += rQuotaOfAffect;
+                rNumberOfAgg++;
+            }
+        }
+        rCurrentL /= rNumberOfLib;
+        rCurrentA /= rNumberOfAgg;
+        clsEmotion oCurrentEmotion = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rCurrentP, rCurrentL + rCurrentA, rCurrentL, rCurrentA);
+        oCurrentEmotions.add(oCurrentEmotion);
+      //oCurrentEmotions.add(oCurrentEmotion); // just for test
         
-	    return oCurrentEmotionValues;
+        return oCurrentEmotions;
     }
 
 	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
@@ -428,10 +457,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
                  
         double rImpactFactorOfCurrentEmotion = 0.5; // Personality Factor for the impact of current emotions on emotional valuation of perceived agents
-        ArrayList<Double> oCurrentEmotionValues = new ArrayList<Double>();
-        
-             
-        
+        ArrayList<clsEmotion> oCurrentEmotions = getCurrentEmotions(moDrives_IN);
+        clsEmotion oCurrentEmotionValues = getEmotionValues(oCurrentEmotions);
+
+                
         // 3. similarity criterion. perceptual activation. memory-search
         oRankedCandidateTPMs = stimulusActivatesEntities(poEnvironmentalTP);            
 
@@ -487,7 +516,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 
                 // TODO: replace this with an interface to get real current emotion state
     
-                oCurrentEmotionValues = getCurrentEmotions(moDrives_IN);
                 
                 
                 for(clsAssociation oInternalAssociation : ((clsThingPresentationMesh)poEnvironmentalTP.get(oRankedCandidateTPMs.indexOf(oRankedCandidates)).getMoDataStructure()).getInternalAssociatedContent()) {
@@ -500,7 +528,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         double rResultU = 0.0;
                         double rResultL = 0.0;
                         double rResultA = 0.0;
-                        double rResultActivationSum = 0.0;
+                        int rNumberOfExemplarsWithEmotion = 0;
                         
                         // only use k-exemplars
                         for(int i=0; i<k; i++) {
@@ -532,23 +560,23 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                                 rLibid /= rNumberOfEmotions;
                                 rAggr /= rNumberOfEmotions;
                                 
-                                // EffectiveActivationValue = ActivationValue + PF * EmotionMatchActivation
+                                // EffectiveActivationValue = ActivationValue + PersonalityFactor * EmotionMatchActivation
                                 double rEffectiveActivationValue = ((clsThingPresentationMesh)oRankedCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue() + rImpactFactorOfCurrentEmotion * getEmotionMatchActivation(rPleasure, rUnpleasure, rLibid, rAggr, oCurrentEmotionValues);
                                 // accumulate to result
-                                rResultP += rPleasure * rEffectiveActivationValue;
-                                rResultU += rUnpleasure * rEffectiveActivationValue;
-                                rResultL += rLibid * rEffectiveActivationValue;
-                                rResultA += rAggr * rEffectiveActivationValue;
-                                rResultActivationSum += rEffectiveActivationValue;
+                                rResultP += rPleasure * rEffectiveActivationValue / (1 + rImpactFactorOfCurrentEmotion);
+                                rResultU += rUnpleasure * rEffectiveActivationValue / (1 + rImpactFactorOfCurrentEmotion);
+                                rResultL += rLibid * rEffectiveActivationValue / (1 + rImpactFactorOfCurrentEmotion);
+                                rResultA += rAggr * rEffectiveActivationValue / (1 + rImpactFactorOfCurrentEmotion);
+                                rNumberOfExemplarsWithEmotion++;
                             }
                             else
                                 continue;
                         }
                         
                         // there has to be at least one emotion for continuing
-                        if(rResultActivationSum!=0.0) {
+                        if(rNumberOfExemplarsWithEmotion!=0) {
                             // mean & add result to oOutputTPM with help of clsEmotion
-                            clsEmotion oResultEmotionObject = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rResultP/rResultActivationSum, rResultU/rResultActivationSum, rResultL/rResultActivationSum, rResultA/rResultActivationSum);
+                            clsEmotion oResultEmotionObject = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rResultP/rNumberOfExemplarsWithEmotion, rResultU/rNumberOfExemplarsWithEmotion, rResultL/rNumberOfExemplarsWithEmotion, rResultA/rNumberOfExemplarsWithEmotion);
                             oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oResultEmotionObject, oOutputTPM, 1.0));
                         }
                         //################################################################
@@ -643,14 +671,43 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}
 		return true;
 	}
-	public double getEmotionMatchActivation(double prPleasure, double prUnpleasure, double prLibid, double prAggr, ArrayList<Double> poCurrentEmotionValues) {
+	
+	public clsEmotion getEmotionValues(ArrayList<clsEmotion> poEmotions) {
+        // sum & mean current emotions
+        double rCurrentPleasure = 0.0;
+        double rCurrentUnpleasure = 0.0;
+        double rCurrentLibid = 0.0;
+        double rCurrentAggr = 0.0;
+        for(clsEmotion oCurrentEmotion : poEmotions) {
+            rCurrentPleasure += oCurrentEmotion.getSourcePleasure();
+            rCurrentUnpleasure += oCurrentEmotion.getSourceUnpleasure();
+            rCurrentLibid += oCurrentEmotion.getSourceLibid();
+            rCurrentAggr += oCurrentEmotion.getSourceAggr();
+        }
+        rCurrentPleasure /= poEmotions.size();
+        rCurrentUnpleasure /= poEmotions.size();
+        rCurrentLibid /= poEmotions.size();
+        rCurrentAggr /= poEmotions.size();
+        
+        if(poEmotions.isEmpty())
+            return null;
+        else
+            return clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rCurrentPleasure, rCurrentUnpleasure, rCurrentLibid, rCurrentAggr);
+    }
+	
+	public double getEmotionMatchActivation(double prPleasure, double prUnpleasure, double prLibid, double prAggr, clsEmotion poCurrentEmotionValues) {
+        if(poCurrentEmotionValues==null)
+            return 0.0; // no emotions
+        
+        // calculate deviation
         double rDeviation = 0.0;
-        rDeviation += Math.abs(prPleasure - poCurrentEmotionValues.get(0));
-        rDeviation += Math.abs(prUnpleasure - poCurrentEmotionValues.get(1));
-        rDeviation += Math.abs(prLibid - poCurrentEmotionValues.get(2));
-        rDeviation += Math.abs(prAggr - poCurrentEmotionValues.get(3));
+        rDeviation += Math.abs(prPleasure - poCurrentEmotionValues.getSourcePleasure());
+        rDeviation += Math.abs(prUnpleasure - poCurrentEmotionValues.getSourceUnpleasure());
+        rDeviation += Math.abs(prLibid - poCurrentEmotionValues.getSourceLibid());
+        rDeviation += Math.abs(prAggr - poCurrentEmotionValues.getSourceAggr());
         rDeviation *= 0.25;
-        return (1.0 - rDeviation);
+        
+        return (1.0 - rDeviation); // return match as activation
     }
 	
 	/* (non-Javadoc)
@@ -710,6 +767,27 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         }
 		
 		return oEnvironmentalTP;
+	}
+	
+	private clsThingPresentation convertBodyValueSymbolToTPM(Entry<String, Double> oBodySymbol){
+	    clsThingPresentation oRetVal=null;
+	    
+	    if( oBodySymbol.getKey().equals("HEART_BEAT")){
+	        oRetVal= clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.HeartBeat,""+oBodySymbol.getValue()));
+	    }
+	    else if( oBodySymbol.getKey().equals("SWEAT_INTENSITY")){
+	            oRetVal= clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.SweatIntensity,""+oBodySymbol.getValue()));
+	        }
+	       else if( oBodySymbol.getKey().equals("CRYING_INTENSITY")){
+               oRetVal= clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.CryingIntensity,""+oBodySymbol.getValue()));
+           }
+	       else if( oBodySymbol.getKey().equals("MUSCLE_TENSION_ARMS_INTENSITY")){
+               oRetVal= clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.MuscleTensionArmsIntensity,""+oBodySymbol.getValue()));
+           }
+	       else if( oBodySymbol.getKey().equals("MUSCLE_TENSION_Legs_INTENSITY")){
+               oRetVal= clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.MuscleTensionLegsIntensity,""+oBodySymbol.getValue()));
+           }
+	   return oRetVal;
 	}
 	
 	private void drivesActivateEntities(){
@@ -820,7 +898,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     for(clsPair<Double, clsDataStructureContainer> oSearchItem : oSearchResult){
                         oAssToRemove = new ArrayList<clsAssociation>();
                         for(clsAssociation oAssociation : oSearchItem.b.getMoAssociatedDataStructures()){
-                            if(oAssociation.getContentType() != eContentType.ASSOCIATIONDM){
+                            if(oAssociation.getContentType() != eContentType.ASSOCIATIONDM  &&  oAssociation.getContentType() != eContentType.ASSOCIATIONEMOTION){
                                 clsThingPresentationMesh t = (clsThingPresentationMesh) oSearchItem.b.getMoDataStructure();
                                 if(t.getContent().equals("Bodystate")){
                                     break;
@@ -1317,5 +1395,18 @@ ArrayList<clsThingPresentationMesh> PrimingBodystates(ArrayList<clsThingPresenta
 	@Override
 	public ArrayList<eInterfaces> getCompareInterfacesSend() {
 		return getInterfacesSend();
+	}
+
+    /* (non-Javadoc)
+     *
+     * @since 07.10.2014 15:20:36
+     * 
+     * @see modules.interfaces.I5_19_receive#receive_I5_19(java.util.ArrayList, memorymgmt.enums.PsychicSpreadingActivationMode, base.datatypes.clsWordPresentationMesh)
+     */
+	@Override
+	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2) {
+        moWordingToContext_IN = moWordingToContext2;
+        moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
+        moPsychicSpreadingActivationMode_IN = mode;
 	}	
 }

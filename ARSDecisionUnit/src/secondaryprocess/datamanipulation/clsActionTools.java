@@ -83,6 +83,16 @@ public class clsActionTools {
         return oActionObject;
     }
     
+    public static clsWordPresentationMesh getActionFromInention(clsWordPresentationMesh poAction) {
+        clsWordPresentationMesh oActionObject = null;
+        
+        if(poAction != null && !poAction.isNullObject()) {
+            oActionObject = clsMeshTools.getUniquePredicateWPM(poAction, ePredicate.HASACTION);
+        }
+        
+        return oActionObject;
+    }
+    
 	public static void setActionType(clsWordPresentationMesh oResult) {
 		
 		if (clsActionTools.getAction(oResult).equals(eAction.FOCUS_ON.toString()) || 

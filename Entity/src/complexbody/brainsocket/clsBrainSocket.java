@@ -1,5 +1,5 @@
 /**
- * @author langr
+< * @author langr
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -18,6 +18,12 @@ import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 import communicationPorts.clsCommunicationPortDUControl;
 import communicationPorts.clsCommunicationPortDUData;
+import complexbody.expressionVariables.clsExpressionVariable;
+import complexbody.expressionVariables.clsExpressionVariableCheeksRedning;
+import complexbody.expressionVariables.clsExpressionVariableFacialEyeBrows;
+import complexbody.expressionVariables.clsExpressionVariableFacialEyes;
+import complexbody.expressionVariables.clsExpressionVariableFacialMouth;
+import complexbody.expressionVariables.clsExpressionVariableShake;
 import complexbody.internalSystems.clsFastMessengerEntry;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
@@ -37,6 +43,13 @@ import complexbody.io.sensors.internal.clsEnergyConsumptionSensor;
 import complexbody.io.sensors.internal.clsEnergySensor;
 import complexbody.io.sensors.internal.clsFastMessengerSensor;
 import complexbody.io.sensors.internal.clsHealthSensor;
+import complexbody.io.sensors.internal.clsHeartbeatSensor;
+
+import complexbody.io.sensors.internal.clsCryingSensor;
+
+import complexbody.io.sensors.internal.clsSweatSensor;
+
+import complexbody.io.sensors.internal.clsMuscleTensionSensor;
 import complexbody.io.sensors.internal.clsIntestinePressureSensor;
 import complexbody.io.sensors.internal.clsSensorInt;
 import complexbody.io.sensors.internal.clsSlowMessengerSensor;
@@ -56,6 +69,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.shape.Rectangle;
 import base.clsCommunicationInterface;
+import body.clsComplexBody;
 import body.itfStepProcessing;
 import entities.abstractEntities.clsEntity;
 
@@ -163,6 +177,11 @@ public class clsBrainSocket implements itfStepProcessing {
 		oRetVal.addDataPoint(convertTemperatureSystem());
 		oRetVal.addDataPoint(convertEnergySystem());
 		oRetVal.addDataPoint(convertVisionSensors());
+		oRetVal.addDataPoint(convertHeartBeatSensor());
+		oRetVal.addDataPoint(convertSweatSensor());
+		oRetVal.addDataPoint(convertMuscleTensionLegsSensor());
+		oRetVal.addDataPoint(convertMuscleTensionArmsSensor());
+		oRetVal.addDataPoint(convertCryingSensor());
 
 		return oRetVal;
 	}
@@ -271,6 +290,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oDataPoint.setBufferType("SIGNAL");
 		return oDataPoint;
 	}
+
 	private clsDataPoint convertTemperatureSystem() {
 		clsTemperatureSensor oTemperatureSensor = (clsTemperatureSensor)(moSensorsInt.get(eSensorIntType.TEMPERATURE));
 		clsDataPoint oDataPoint = new clsDataPoint("TEMPERATURE",""+oTemperatureSensor.getTemperatureValue());
@@ -283,6 +303,36 @@ public class clsBrainSocket implements itfStepProcessing {
 		oDataPoint.setBufferType("SIGNAL");
 		return oDataPoint;
 		
+	}
+	public clsDataPoint convertHeartBeatSensor() {
+		clsHeartbeatSensor oSensor = (clsHeartbeatSensor)(moSensorsInt.get(eSensorIntType.HEARTBEAT));	
+		clsDataPoint oDataPoint = new clsDataPoint("HEART_BEAT",""+oSensor.getHeartbeat());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
+	}
+	public clsDataPoint convertSweatSensor() {
+		clsSweatSensor oSensor = (clsSweatSensor)(moSensorsInt.get(eSensorIntType.SWEAT));	
+		clsDataPoint oDataPoint = new clsDataPoint("SWEAT_INTENSITY",""+oSensor.getSweatRate());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
+	}
+	public clsDataPoint convertCryingSensor() {
+		clsCryingSensor oSensor = (clsCryingSensor)(moSensorsInt.get(eSensorIntType.CRYING));	
+		clsDataPoint oDataPoint = new clsDataPoint("CRYING_INTENSITY",""+oSensor.getCryingIntensity());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
+	}
+	public clsDataPoint convertMuscleTensionArmsSensor() {
+		clsMuscleTensionSensor oSensor = (clsMuscleTensionSensor)(moSensorsInt.get(eSensorIntType.MUSCLE_TENSION_ARMS));	
+		clsDataPoint oDataPoint = new clsDataPoint("MUSCLE_TENSION_ARMS_INTENSITY",""+oSensor.getMuscleTension());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
+	}
+	public clsDataPoint convertMuscleTensionLegsSensor() {
+		clsMuscleTensionSensor oSensor = (clsMuscleTensionSensor)(moSensorsInt.get(eSensorIntType.MUSCLE_TENSION_LEGS));	
+		clsDataPoint oDataPoint = new clsDataPoint("MUSCLE_TENSION_Legs_INTENSITY",""+oSensor.getMuscleTension());
+		oDataPoint.setBufferType("SIGNAL");
+		return oDataPoint;
 	}
 /*
 	private clsDataPoint convertVisionSensor(eSensorExtType poVisionType) {
@@ -371,6 +421,8 @@ public class clsBrainSocket implements itfStepProcessing {
 		   oRetVal.addAssociation(new clsDataPoint("OBJECT_POSITION",collidingObj.meColPos.toString()));
 		   oRetVal.addAssociation(new clsDataPoint("DEBUG_AROUSAL_VALUE",""+oEntity.getVisionBrightness()));
 		   oRetVal.addAssociation(new clsDataPoint("DISTANCE",""+poDistance));
+		   oRetVal.addAssociation(convertExpressionVariables(oEntity));
+		   
 
 		   if(oEntity.getBody() != null){
 			   oRetVal.addAssociation(new clsDataPoint("BODY_INTEGRITY",""+oEntity.getBody().getBodyIntegrity()));
@@ -405,7 +457,86 @@ public class clsBrainSocket implements itfStepProcessing {
 	}
 
 
+	private clsDataPoint convertExpressionVariables(clsEntity poEntity){
+		clsDataPoint oRetVal = new clsDataPoint("EXPRESSIONS","");
+
+		if(poEntity.getBody() instanceof clsComplexBody){
+			clsComplexBody body = (clsComplexBody) poEntity.getBody();
+			ArrayList<clsExpressionVariable> expVariables = body.getInternalSystem().getBOrganSystem().getExpressionsList();
+			for(clsExpressionVariable expVar : expVariables){
+				
+				
+				if(expVar instanceof clsExpressionVariableCheeksRedning){
+					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),converstIntensity(expVar.getEIntensity())));
+				} 
+				else if(expVar instanceof clsExpressionVariableFacialEyeBrows){
+					//clsDataPoint oData = new clsDataPoint(expVar.getName(),"");	
+					
+					
+					oRetVal.addAssociation(new clsDataPoint("EYE_BROW_CENTER",convertEyeBrowValue(((clsExpressionVariableFacialEyeBrows) expVar).getEyeBrowsCenterUpOrDown())));
+					oRetVal.addAssociation(new clsDataPoint("EYE_BROW_CORNERS",convertEyeBrowValue(((clsExpressionVariableFacialEyeBrows) expVar).getEyeBrowsCornersUpOrDown())));
+					//oRetVal.add(oData);
+				}
+				else if(expVar instanceof clsExpressionVariableFacialEyes){
+					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),converstIntensity(expVar.getEIntensity())));
+
+				}
+				else if(expVar instanceof clsExpressionVariableFacialMouth){
+					//clsDataPoint oData = new clsDataPoint(expVar.getName(),"");	
+					oRetVal.addAssociation(new clsDataPoint("MOUTH_OPEN",converstMouthOpen(((clsExpressionVariableFacialMouth) expVar).getMouthOpen())));
+					oRetVal.addAssociation(new clsDataPoint("MOUTH_SIDES",convertMouthSides(((clsExpressionVariableFacialMouth) expVar).getMouthSidesUpOrDown())));
+					oRetVal.addAssociation(new clsDataPoint("MOUTH_STRECHINESS",converstMouthStretch(((clsExpressionVariableFacialMouth) expVar).getMouthStretchiness())));
+					//oRetVal.add(oData);
+				}
+				else if(expVar instanceof clsExpressionVariableShake){
+					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),converstIntensity(expVar.getEIntensity())));
+				}
+				else{
+					oRetVal.addAssociation(new clsDataPoint(expVar.getName(),converstIntensity(expVar.getEIntensity())));
+				}
+			}
+				
+			
+			
+		}
+				
 	
+		
+		return oRetVal;
+	
+	}
+	
+	public String convertEyeBrowValue(double value){
+		if(value> 0.66) return "UP";
+		else if (value>0.33) return "MIDDLE";
+		else return "DOWN";
+	}
+	
+	public String convertMouthSides(double value){
+		if(value> 0.33) return "UP";
+		else if (value>-0.33) return "NORMAL";
+		else return "DOWN";
+	}
+	
+	public String converstIntensity(double value){
+		if(value> 0.66) return "HIGH";
+		else if (value>0.33) return "MEDIUM";
+		else return "LOW";
+	}
+	
+	public String converstMouthOpen(double value){
+		if(value> 0.66) return "OPEN";
+		else if (value>0.33) return "HALF_OPEN";
+		else return "CLOSED";
+	}
+	
+	public String converstMouthStretch(double value){
+		if(value> 0.66) return "STRETCHED";
+		else if (value>0.33) return "HALF_STRETCHED";
+		else return "NORMAL";
+	}
+	
+
 	
 	
 	/**

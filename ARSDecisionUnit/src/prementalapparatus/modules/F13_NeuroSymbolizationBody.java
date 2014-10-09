@@ -11,10 +11,8 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
 
-import prementalapparatus.symbolization.clsSensorToSymbolConverter;
-import prementalapparatus.symbolization.eSymbolExtType;
-import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
 import modules.interfaces.I1_4_receive;
 import modules.interfaces.I2_4_receive;
@@ -47,7 +45,7 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	public static final String P_MODULENUMBER = "13";
 	
 	private clsDataContainer moBodyData;
-	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
+	private HashMap<String, Double> moSymbolData;	
 	/**
 	 * basic constructor
 	 * 
@@ -142,7 +140,11 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	 */
 	@Override
 	protected void process_basic() {
-		moSymbolData = clsSensorToSymbolConverter.convertExtSensorToSymbol(moBodyData);
+		
+	    moSymbolData = new HashMap<String, Double>();
+	    for (clsDataPoint oDataPoint : moBodyData.getData()) {
+	        moSymbolData.put(oDataPoint.getType(), Double.parseDouble(oDataPoint.getValue()));
+        }
 	}
 
 	/* (non-Javadoc)
@@ -166,7 +168,7 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	 * @see pa.interfaces.send.I2_4_send#send_I2_4(java.util.HashMap)
 	 */
 	@Override
-	public void send_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
+	public void send_I2_4(HashMap<String , Double> poBodyData) {
 		((I2_4_receive)moModuleList.get(14)).receive_I2_4(poBodyData);
 		putInterfaceData(I2_4_send.class, poBodyData);
 	}
