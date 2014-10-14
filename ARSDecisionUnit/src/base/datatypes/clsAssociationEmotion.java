@@ -30,8 +30,8 @@ public class clsAssociationEmotion  extends clsAssociation{
 	 */
 	public clsAssociationEmotion(
 			clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
-			clsThingPresentationMesh poAssociationElementA,
-			clsEmotion poAssociationElementB) {
+			clsEmotion poAssociationElementA,
+			clsThingPresentationMesh poAssociationElementB) {
 		
 		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
 		// TODO (schaat) - Auto-generated constructor stub
@@ -58,12 +58,12 @@ public class clsAssociationEmotion  extends clsAssociation{
 	 */
 	@Override
 	public clsDataStructurePA getLeafElement() {
-		return moAssociationElementB; 
+		return moAssociationElementA; 
 	}
 	
 	@Override
 	public clsDataStructurePA getRootElement() {
-		return moAssociationElementA; 
+		return moAssociationElementB; 
 	}
 	
 	/* (non-Javadoc)
@@ -74,7 +74,7 @@ public class clsAssociationEmotion  extends clsAssociation{
 	 */
 	@Override
 	public void setLeafElement(clsDataStructurePA poDS) {
-		moAssociationElementB = poDS;
+		moAssociationElementA = poDS;
 
 		
 	}
@@ -87,13 +87,13 @@ public class clsAssociationEmotion  extends clsAssociation{
 	 */
 	@Override
 	public void setRootElement(clsDataStructurePA poDS) {
-		moAssociationElementA = poDS;
+		moAssociationElementB = poDS;
 		
 	}
 	
 	public clsEmotion getEmotion(){
-		//Element A is always the Drive Mesh 
-		return (clsEmotion)getLeafElement(); 
+		//Element A is the emotion 
+		return (clsEmotion)moAssociationElementA; 
 	}
 }
 

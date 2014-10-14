@@ -12,7 +12,6 @@ import inspector.interfaces.itfGraphInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.SortedMap;
 
 import memorymgmt.enums.PsychicSpreadingActivationMode;
@@ -33,7 +32,6 @@ import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsConcept;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
-import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
@@ -76,7 +74,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	/** Here the associated memory from the planning is put on the input to this module */
 	private ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN; 
 	private PsychicSpreadingActivationMode psychicSpreadingActivationMode;
-	private List<clsEmotion> moLastEmotions = new ArrayList<>();
 	/** Input from perception */
 	private ArrayList<clsThingPresentationMesh> moEnvironmentalPerception_IN;
 
@@ -221,27 +218,27 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 			}
 		}
 		
-		//Associate the emotions from the last cycle to the self (so they will be used for the matching)
-		// first get the self
-		clsThingPresentationMesh oSelf = clsMeshTools.getSELF(oPerceivedImage);
-		
-		if(!oSelf.isNullObject()) {
-    		log.debug("Received emotion:");
-    		//go through all received emotions and connect them to the self (internal connection == how the entity feels)
-            for(clsEmotion oEmotion : moLastEmotions) {
-                //first a little debug output
-                log.debug("  {}", oEmotion.toString());
-                //generate a new association
-                oSelf.getInternalAssociatedContent().add(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oSelf, oEmotion, 1.0));
-                log.debug("    added to self");
-            }
-		} else {
-		    log.error("The current perceived image has no SELF object to which the current emotions can be attached:\n{}", oPerceivedImage);
-		}
-
-		//Set the DS_ID to -1 to show that the SLEFs basic properties have changed by adding emotions to the internal associations
-		int nOldSelfID = oSelf.getDS_ID();
-		oSelf.setMoDS_ID(-1);
+//		//Associate the emotions from the last cycle to the self (so they will be used for the matching)
+//		// first get the self
+//		clsThingPresentationMesh oSelf = clsMeshTools.getSELF(oPerceivedImage);
+//		
+//		if(!oSelf.isNullObject()) {
+//    		log.debug("Received emotion:");
+//    		//go through all received emotions and connect them to the self (internal connection == how the entity feels)
+//            for(clsEmotion oEmotion : moLastEmotions) {
+//                //first a little debug output
+//                log.debug("  {}", oEmotion.toString());
+//                //generate a new association
+//                oSelf.getInternalAssociatedContent().add(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oEmotion, oSelf, 1.0));
+//                log.debug("    added to self");
+//            }
+//		} else {
+//		    log.error("The current perceived image has no SELF object to which the current emotions can be attached:\n{}", oPerceivedImage);
+//		}
+//
+//		//Set the DS_ID to -1 to show that the SLEFs basic properties have changed by adding emotions to the internal associations
+//		int nOldSelfID = oSelf.getDS_ID();
+//		oSelf.setMoDS_ID(-1);
 		
 		//--- Activation of associated memories ---//
 		
@@ -267,8 +264,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
             log.error("", e1);
         }
 		
-		//Reset SELFs DS ID to it's former value
-		oSelf.setMoDS_ID(nOldSelfID);
+//		//Reset SELFs DS ID to it's former value
+//		oSelf.setMoDS_ID(nOldSelfID);
 		
 		log.debug("PI: " + oPerceivedImage);
 		log.info("Activated images: {}", PrintTools.printActivatedMeshWithPIMatch(oPerceivedImage));
