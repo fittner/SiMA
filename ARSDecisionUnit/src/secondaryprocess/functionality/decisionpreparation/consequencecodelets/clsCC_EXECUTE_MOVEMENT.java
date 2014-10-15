@@ -45,7 +45,7 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		//Clear the environmental image
+	    //Clear the environmental image
 		try {
             this.moEnvironmentalImageMemory.clearEnvironmentalImage();
         } catch (Exception e1) {

@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * 
  */
 public abstract class clsInternalActionCommand {
-	
 
 	/*
 	 * returns true if the command was completed and false if it is to continue to the next round  
@@ -29,6 +28,5 @@ public abstract class clsInternalActionCommand {
 		oReturnList.add(this);
 		return oReturnList;
 	}
-	
 
 }

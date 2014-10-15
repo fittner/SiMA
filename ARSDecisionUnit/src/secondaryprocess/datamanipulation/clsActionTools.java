@@ -66,7 +66,7 @@ public class clsActionTools {
         boolean bOutcome = false;
         
         if(oAction != null && poActionObject != null) {
-            clsAssociationSecondary oObjectAssociation = clsMeshTools.createAssociationSecondary(oAction, 1, poActionObject, 1, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTIONOBJECT, false);
+            clsAssociationSecondary oObjectAssociation = clsMeshTools.createAssociationSecondary(oAction, 1, poActionObject, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTIONOBJECT, false);
             bOutcome = true;
         }
         
@@ -78,6 +78,16 @@ public class clsActionTools {
         
         if(poAction != null && !poAction.isNullObject()) {
             oActionObject = clsMeshTools.getUniquePredicateWPM(poAction, ePredicate.HASACTIONOBJECT);
+        }
+        
+        return oActionObject;
+    }
+    
+    public static clsWordPresentationMesh getActionFromInention(clsWordPresentationMesh poAction) {
+        clsWordPresentationMesh oActionObject = null;
+        
+        if(poAction != null && !poAction.isNullObject()) {
+            oActionObject = clsMeshTools.getUniquePredicateWPM(poAction, ePredicate.HASACTION);
         }
         
         return oActionObject;

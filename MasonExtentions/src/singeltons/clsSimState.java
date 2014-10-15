@@ -24,6 +24,7 @@ public class clsSimState {
     private SimState moSimState = null;
     private String moSimStartTimestamp;
     
+    
     private clsSimState() {
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         Date date = new Date();

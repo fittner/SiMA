@@ -213,6 +213,16 @@ public class clsActDataStructureTools {
 		return oRetVal;
 	}
 	
+	
+    public static clsWordPresentationMesh getGoalObject(clsWordPresentationMesh poGoal) {
+        clsWordPresentationMesh oGoalnObject = null;
+        
+        if(poGoal != null && !poGoal.isNullObject()) {
+            oGoalnObject = clsMeshTools.getUniquePredicateWPM(poGoal, ePredicate.HASGOALOBJECT);
+        }
+        
+        return oGoalnObject;
+    }
 	/**
 	 * Get the association of the moment from a prediction
 	 * 

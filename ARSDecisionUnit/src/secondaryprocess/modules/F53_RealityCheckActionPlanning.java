@@ -6,11 +6,8 @@
  */
 package secondaryprocess.modules;
 
-import general.datamanipulation.PrintTools;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.SortedMap;
 
 import logger.clsLogger;
@@ -26,11 +23,7 @@ import org.slf4j.Logger;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-import secondaryprocess.datamanipulation.clsGoalManipulationTools;
-import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
-import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.modules.clsModuleBase;
@@ -152,21 +145,20 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
         // kollmann:
 	    // Get the list of relevant AimOfDrives from short term memory (relevant means: AimOfDrives that are related to one of the reachable goals)
 	    // (AimOfDrive is the secondary process representation of drive meshes)
-	    ArrayList<clsWordPresentationMeshAimOfDrive> oAimOfDrives = ShortTermMemoryFunctionality.getCurrentAimOfDrivesFromMentalSituation(moShortTimeMemory);
-
-	    GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(this.selectableGoals, oAimOfDrives);
+//	    ArrayList<clsWordPresentationMeshAimOfDrive> oAimOfDrives = ShortTermMemoryFunctionality.getCurrentAimOfDrivesFromMentalSituation(moShortTimeMemory);
+//
+//	    GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(this.selectableGoals, oAimOfDrives);
+//	    
+//	    //Debug output - sort the list of goals by attractiveness and log it
+//	    ArrayList <clsWordPresentationMeshPossibleGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(this.selectableGoals, this.selectableGoals.size());
+//	    log.info("Sorted Goals:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
 	    
-	    //Debug output - sort the list of goals by attractiveness and log it
-	    ArrayList <clsWordPresentationMeshPossibleGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(this.selectableGoals, this.selectableGoals.size());
-	    log.info("Sorted Goals:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
-	    
-	    Random randomGenerator = new Random();
            
-	    double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	    double rRequestedPsychicIntensity =0.0;
 	                
 	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 	            
-	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy;
 	            
 	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 	}

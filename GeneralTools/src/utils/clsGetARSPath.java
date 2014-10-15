@@ -40,6 +40,10 @@ public class clsGetARSPath {
 	{
 		return getArsPath()+System.getProperty("file.separator")+"Simulation"+System.getProperty("file.separator")+"config";
 	}
+	
+	public static String getExpressionPath(){
+		return getImagePath() + "expressions"+System.getProperty("file.separator");
+	}
 	public static String getScenarioPath()
 	{
 		return getConfigPath()+System.getProperty("file.separator")+"scenarios";

@@ -43,7 +43,7 @@ Cake
 #entitygroups.2.positions.positiontype=LIST
 
 
-entitygroups.numentitygroups=2
+entitygroups.numentitygroups=1
 
 field_height=200.0
 field_width=200.0

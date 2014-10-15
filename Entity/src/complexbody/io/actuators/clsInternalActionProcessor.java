@@ -344,7 +344,7 @@ public class clsInternalActionProcessor implements itfInternalActionProcessor {
 				//both commands are active 
 				if (oOuter != oInner && oOuter.getActive() && oInner.getActive()) {
 					//inner command is excluded by the outer command or inner and outer command are the same
-					if (oInner.getCommand().getClass() == oOuter.getCommand().getClass() || oOuter.getExecutor().getMutualExclusions(oOuter.getCommand()).contains(oInner.getCommand().getClass())) {
+					if (oOuter.getExecutor().getMutualExclusions(oOuter.getCommand()).contains(oInner.getCommand().getClass())) {
 						//different priorities=>Disable lower, equal priorities=>Disable both (Never disable State-Updates!)
 						if (oOuter.getCall().getCallPriority()==oInner.getCall().getCallPriority()) {
 							if (oOuter.getCall().getCallPriority()!=eCallPriority.CALLPRIORITY_STATEUPDATE) oOuter.setResult(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION);
@@ -498,7 +498,7 @@ public class clsInternalActionProcessor implements itfInternalActionProcessor {
 		 }
 
 		 public eExecutionResult getResult() {
-			 return meResult;
+			return meResult;
 		 }
 		 
 		 public clsInternalActionCommand getCommand() {
@@ -521,8 +521,8 @@ public class clsInternalActionProcessor implements itfInternalActionProcessor {
 		 
 		 @Override
 		public String toString() {
-			return null;
-			//return "Command: " + this.getCommand() + " | Executor: " + this.moExecutor + " | Result: " + this.getResult(); 
+			
+			return "Command: " + this.getCommand() + " | Executor: " + this.moExecutor + " | Result: " + this.getResult(); 
 		}
 	 }
 

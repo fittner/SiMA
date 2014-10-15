@@ -8,6 +8,7 @@
 package entities.abstractEntities;
 
 
+
 import physics2D.physicalObject.clsMobileObject2D;
 import properties.clsProperties;
 import interfaces.itfEntityInspectorFactory;

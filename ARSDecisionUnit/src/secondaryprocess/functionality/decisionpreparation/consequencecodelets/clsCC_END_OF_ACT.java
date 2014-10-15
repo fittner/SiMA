@@ -6,7 +6,22 @@
  */
 package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
+import java.util.ArrayList;
+
+import base.datatypes.clsAssociation;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.enums.eOrgan;
+import base.datatypes.enums.ePartialDrive;
+import base.datatypes.helpstructures.clsPair;
 import memorymgmt.enums.eCondition;
+import memorymgmt.enums.eDrive;
+import memorymgmt.enums.eDriveComponent;
+import memorymgmt.storage.DT1_PsychicIntensityBuffer;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.datamanipulation.clsDataStructureTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -42,16 +57,46 @@ public class clsCC_END_OF_ACT extends clsConsequenceCodelet {
 	@Override
 	protected void processGoal() {
 	    
-	    // 1. Read out drives form Intentional Image
-	    
-	    // 2. Determine drives for satisfaction
-	    
-	    // 3. satisfy drives 
-	    
-	    // Access to moPsychicIntensityBuffer
-	      //  DT1_PsychicIntensityBuffer x = this.moCodeletHandler.getLibidoBuffer();
-	      //  x.getClass();
-	}
+	    clsWordPresentationMesh dataStructure = moGoal.getSupportiveDataStructure();
+        clsWordPresentationMesh intention = clsActDataStructureTools.getIntention(dataStructure);
+        clsWordPresentationMesh goalAction = clsActionTools.getActionFromInention(intention);
+        clsWordPresentationMesh goalObject = clsActDataStructureTools.getGoalObject(moGoal);
+        
+        ArrayList<clsDriveMesh> oDrives = new ArrayList<clsDriveMesh>();
+        
+        clsThingPresentationMesh oTPM = clsDataStructureTools.getTPMfromWPM(goalObject);
+        for (clsAssociation oAssoc :oTPM.getExternalAssociatedContent()){
+            if(oAssoc.getAssociationElementA() instanceof clsDriveMesh ){
+               clsThingPresentationMesh oDriveAim =  ((clsDriveMesh) oAssoc.getAssociationElementA()).getActualDriveAim();
+               if(oDriveAim.getContent().equals(goalAction.getContent()))oDrives.add((clsDriveMesh) oAssoc.getAssociationElementA());
+            }
+        }
+        
+        DT1_PsychicIntensityBuffer buffer = moCodeletHandler.getLibidoBuffer();
+        
+        for(clsDriveMesh oDriveMesh: oDrives){
+            eDrive oDrive;
+            if (!oDriveMesh.getPartialDrive().equals(ePartialDrive.UNDEFINED)) {
+                // if DM is sexual drive
+                oDrive = eDrive.valueOf(oDriveMesh.getPartialDrive().toString());
+            } else {
+                // if DM is self preservation drive
+                if (oDriveMesh.getActualDriveSourceAsENUM()==eOrgan.UNDEFINED)
+                    continue;
+                oDrive = eDrive.valueOf(oDriveMesh.getActualDriveSourceAsENUM().toString());
+            }
+                    if (oDriveMesh.getDriveComponent().equals(eDriveComponent.AGGRESSIV)) {
+                        buffer.receive_D1_3(oDrive,
+                                new clsPair<Double, Double>(oDriveMesh.getPsychicSatisfactionValue(), 0.0));
+                    } else {
+                        buffer.receive_D1_3(oDrive,
+                                new clsPair<Double, Double>(0.0, oDriveMesh.getPsychicSatisfactionValue()));
+                    }
+        }
+        
+        
+        
+  	}
 
 	/* (non-Javadoc)
 	 *

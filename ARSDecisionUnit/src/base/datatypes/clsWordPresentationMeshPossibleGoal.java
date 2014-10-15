@@ -214,12 +214,28 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         this.setUniqueProperty(String.valueOf(driveDemandCorrectionImportance), eContentType.DRIVEDEMANDCORRECTIONIMPORTANCE, ePredicate.HASDRIVEDEMANDCORRECTIONIMPORTANCE, true);
     }
     
+    public void setDriveAimImportance(double prDriveAimImportance) {
+        this.setUniqueProperty(String.valueOf(prDriveAimImportance), eContentType.DRIVEAIMIMPORTANCE, ePredicate.HASDRIVEAIMIMPORTANCE, true);
+    }
+    
     public double getDriveDemandCorrectionImportance() {
         double oRetVal = 0;
         
         String oAffectLevel = this.getUniqueProperty(ePredicate.HASDRIVEDEMANDCORRECTIONIMPORTANCE);
         if (oAffectLevel.isEmpty()==false) {
             oRetVal = Double.valueOf(oAffectLevel);
+        }
+        
+    
+        return oRetVal;
+    }
+    
+    public double getDriveAimImportance() {
+        double oRetVal = 0;
+        
+        String oAimImportance = this.getUniqueProperty(ePredicate.HASDRIVEAIMIMPORTANCE);
+        if (oAimImportance.isEmpty()==false) {
+            oRetVal = Double.valueOf(oAimImportance);
         }
         
     
@@ -238,7 +254,7 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
      */
     @Override
     public double getTotalImportance() {
-        double totalImportance = this.getDriveDemandImportance() + this.getDriveDemandCorrectionImportance() + getEffortImpactImportance() + getFeelingsImportance() + this.getSocialRulesImportance();
+        double totalImportance = this.getDriveDemandImportance() + this.getDriveDemandCorrectionImportance() + getEffortImpactImportance() + getFeelingsImportance() + this.getSocialRulesImportance() + getDriveAimImportance();
         return totalImportance;
         
         //double oRetVal = 0;
@@ -320,6 +336,7 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         this.removeAllProperties(ePredicate.HASDRIVEDEMANDIMPORTANCE);
         this.removeAllProperties(ePredicate.HASEFFORTIMPACTIMPORTANCE);
         this.removeAllProperties(ePredicate.HASSOCIALRULESIMPORTANCE);
+        this.removeAllProperties(ePredicate.HASDRIVEAIMIMPORTANCE);
     }
     
     /**

@@ -84,6 +84,7 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 		return moEffectKiss;
 	}
 	
+	
 	// **  MW 
 	public clsCreateSpeech getCreateSpeech() {
 		return moCreateSpeech;

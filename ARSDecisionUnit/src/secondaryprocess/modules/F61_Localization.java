@@ -8,7 +8,6 @@ package secondaryprocess.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.SortedMap;
 
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -180,14 +179,12 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 		
-		
-	   Random randomGenerator = new Random();
           
-	   double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	   double rRequestedPsychicIntensity = 0.0;
 	                
 	   double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 	            
-	   double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	   double rConsumedPsychicIntensity = rReceivedPsychicEnergy;
 	            
 	   moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 		

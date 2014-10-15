@@ -11,7 +11,6 @@ import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.SortedMap;
 
 import properties.clsProperties;
@@ -175,13 +174,12 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		
 		// check drives and apply pro-active internalizes rules
 		//checkInternalizedRules();
-	      Random randomGenerator = new Random();
           
-	      double rRequestedPsychicIntensity = randomGenerator.nextFloat();
+	      double rRequestedPsychicIntensity = 0.0;
 	                
 	      double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 	            
-	      double rConsumedPsychicIntensity = rReceivedPsychicEnergy*(randomGenerator.nextFloat());
+	      double rConsumedPsychicIntensity = rReceivedPsychicEnergy;
 	            
 	      moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 		

@@ -10,6 +10,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
@@ -60,8 +61,24 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 	
 	double moLifeValue =1.0;
 	boolean mbShowOrientation = false; //show orientation marker if you want
-
 	
+	BufferedImage moShakeLevel = null;
+	BufferedImage moCryingLevel = null;
+	BufferedImage moSweatLevel = null;
+	BufferedImage moStressSweatLevel = null;
+	BufferedImage moRedCheeks = null;
+	private double mrRedCheeksIntensity = -1;
+	Point moLipsCornerLeftEnd = null;
+	Point moLipsCornerRightEnd = null;
+	Point moUpperLipCenterPosition = null;
+	Point moLowerLipCenterPosition = null;
+	Point moCenterOfEyeBrowsPosition = null;
+	Point moLeftCornerOfEyeBrowsPosition = null;
+	Point moRightCornerOfEyeBrowsPosition = null;
+	
+	private double mrRadiusProportionFactor;
+	private int mnImageFilePixelWidth = 195;
+	private int mnImageFilePixelHeight = 227;
 	
 	
 	
@@ -70,6 +87,8 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 		
 		
 		super(prRadius, poPaint, psImageFilePath);
+		mrRadiusProportionFactor = mrRadius / 10; // divide by 10, because I calculated my pixels when the mrRadius was 10.0 . now it can be adjusted accordingly -volkan
+
 		this.mbShowOrientation = pbShowOrientation;	
 		
 		
@@ -257,6 +276,72 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 			      		       
 	        	}
 	        }
+        // volkan
+        // DRAW BODILY EXPRESSIONS
+        if(clsSingletonProperties.showBodilyExpressions() == true){
+        	int size_width = (int)(60 * mrRadiusProportionFactor);
+        	int size_height = (int)(60 * mrRadiusProportionFactor);
+        	
+        	if(moShakeLevel != null){ // SHAKE
+        		moShakeLevel.getGraphics();
+    			graphics.drawImage(moShakeLevel, nxArc, nyArc, size_width, size_height, null );
+        	}
+        	if(moCryingLevel != null){ // CRY
+        		moCryingLevel.getGraphics();
+    			graphics.drawImage(moCryingLevel, nxArc, nyArc, size_width, size_height, null );
+        	}
+        	if(moSweatLevel != null){ // SWEAT
+        		moSweatLevel.getGraphics();
+    			graphics.drawImage(moSweatLevel, nxArc, nyArc, size_width, size_height, null ); 
+        	}
+        	if(moStressSweatLevel != null){ // STRESS SWEAT
+        		moStressSweatLevel.getGraphics();
+    			graphics.drawImage(moStressSweatLevel, nxArc, nyArc, size_width, size_height, null );
+        	}
+        	if( (moRedCheeks != null) && (mrRedCheeksIntensity >= 0) ){ // RED CHEEKS
+        		moRedCheeks.getGraphics();
+    			graphics.drawImage(moRedCheeks, nxArc, nyArc, size_width, size_height, null );
+        	}
+        	
+        	// draw mouth
+        	BufferedImage mouthImage = null;
+        	// draw mouth part 1: upper lip
+        	if((moLipsCornerLeftEnd == null) || (moLipsCornerRightEnd == null) || (moUpperLipCenterPosition == null) || (moLowerLipCenterPosition == null)){
+        		// ERROR: Not all points are set
+        	}
+        	else{
+        		mouthImage = drawCurveWithThreePoints(mouthImage, moLipsCornerLeftEnd, moUpperLipCenterPosition, moLipsCornerRightEnd);
+        	}
+            
+        	// draw mouth part 2: lower lip
+        	if((moLipsCornerLeftEnd == null) || (moLipsCornerRightEnd == null) || (moUpperLipCenterPosition == null) || (moLowerLipCenterPosition == null)){
+        		// ERROR: Not all points are set
+        	}
+        	else{
+        		mouthImage = drawCurveWithThreePoints(mouthImage, moLipsCornerLeftEnd, moLowerLipCenterPosition, moLipsCornerRightEnd);
+        	}
+        	
+        	// draw mouth part 3: fill mouth?
+        	
+        	// drawImage for mouth
+        	mouthImage.getGraphics();
+    		graphics.drawImage(mouthImage, nxArc, nyArc, size_width, size_height, null ); 
+    		
+    		
+    		// draw Eye Brow
+        	BufferedImage eyeBrowImage = null;
+        	// draw eye brow:
+        	if((moCenterOfEyeBrowsPosition == null) || (moLeftCornerOfEyeBrowsPosition == null) || (moRightCornerOfEyeBrowsPosition == null)){
+        		// ERROR: Not all points are set
+        	}
+        	else{
+        		eyeBrowImage = drawCurveWithThreePoints(eyeBrowImage, moLeftCornerOfEyeBrowsPosition, moCenterOfEyeBrowsPosition, moRightCornerOfEyeBrowsPosition);
+        	}
+        	// drawImage for eye brows
+        	eyeBrowImage.getGraphics();
+    		graphics.drawImage(eyeBrowImage, nxArc, nyArc, size_width, size_height, null ); 
+    		
+        } // end draw Bodily Expressions
         }
 	
 	/**
@@ -346,6 +431,169 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 		moLifeValue = value;
 	}
 
+	/**
+	 * @since May 23, 2014 9:15:05 PM
+	 *
+	 * @param poShakeLevel the moShakeLevel to set
+	 */
+	public void setShakeLevel(BufferedImage poShakeLevel) {
+		this.moShakeLevel = poShakeLevel;
+	}
 
+	public void setCryLevel(BufferedImage poCryingLevel){
+		this.moCryingLevel = poCryingLevel;
+	}
+
+	/**
+	 * @since May 23, 2014 9:15:46 PM
+	 *
+	 * @param poSweatLevel the moSweatLevel to set
+	 */
+	public void setSweatLevel(BufferedImage poSweatLevel) {
+		this.moSweatLevel = poSweatLevel;
+	}
+
+	/**
+	 * @since May 23, 2014 9:15:46 PM
+	 *
+	 * @param poStressSweatLevel the moStressSweatLevel to set
+	 */
+	public void setStressSweatLevel(BufferedImage poStressSweatLevel) {
+		this.moStressSweatLevel = poStressSweatLevel;
+	}
+
+	/**
+	 * @since May 24, 2014 11:03:34 PM
+	 *
+	 * @return the mrRedCheeksIntensity
+	 */
+	public double getRedCheeksIntensity() {
+		return mrRedCheeksIntensity;
+	}
+
+	/**
+	 * @since May 24, 2014 11:03:34 PM
+	 *
+	 * @param prRedCheeksIntensity the mrRedCheeksIntensity to set
+	 */
+	public void setRedCheeksImageAndIntensity(BufferedImage poRedCheeksImage, double prRedCheeksIntensity) {
+		this.mrRedCheeksIntensity = prRedCheeksIntensity;
+		this.moRedCheeks = changeOpacityOfAnyBufferedImageWithoutChangingTheOriginal(poRedCheeksImage, prRedCheeksIntensity);
+	}
+
+	public void setEyeBrowsPoints( double prEyeBrowsCenterVerticalFactor, double prEyeBrowsCornersVerticalFactor ){
+		// setting default values for the current image's pixel positioning
+		int lowestPositionOfCenterOfEyeBrowX = 93;
+		int lowestPositionOfCenterOfEyeBrowY = 80;
+		int distanceBetweenCenterAndACorner = 22;
+		int maxIncreaseOfEyeBrows = 13;
+		int heightDecreaseOfCornersRelativeToCenter = 8;
+
+		moCenterOfEyeBrowsPosition = new Point( lowestPositionOfCenterOfEyeBrowX, (int)(lowestPositionOfCenterOfEyeBrowY - maxIncreaseOfEyeBrows * prEyeBrowsCenterVerticalFactor) );
+		moLeftCornerOfEyeBrowsPosition = new Point( lowestPositionOfCenterOfEyeBrowX - distanceBetweenCenterAndACorner, (int)((lowestPositionOfCenterOfEyeBrowY + heightDecreaseOfCornersRelativeToCenter) - maxIncreaseOfEyeBrows * prEyeBrowsCornersVerticalFactor) );
+		moRightCornerOfEyeBrowsPosition = new Point( lowestPositionOfCenterOfEyeBrowX + distanceBetweenCenterAndACorner, (int)((lowestPositionOfCenterOfEyeBrowY + heightDecreaseOfCornersRelativeToCenter) - maxIncreaseOfEyeBrows * prEyeBrowsCornersVerticalFactor) );
+	}
+
+	public void setMouthPoints(double prLipCornersVerticalFactor, double prLipCornersHorizontalFactor, double prOpenMouthFactor ){
+
+		// setting default values for the current image's pixel positioning
+		int defaultLipCenterX = 96;
+		int defaultLipCenterY = 170;
+		int minDistanceBetweenLipCenterAndLipCorner = 34;
+		int maxDistanceFromCenterOfLipCornersUpOrDownState = 20;
+		int maxLengthOfStretchiness = 10;
+		int maxDistanceOfTheControlPointForAnOpenMouth = 34;
+
+		moUpperLipCenterPosition = new Point( defaultLipCenterX, defaultLipCenterY );
+
+		moLipsCornerLeftEnd = new Point( (int)(moUpperLipCenterPosition.x - (minDistanceBetweenLipCenterAndLipCorner + maxLengthOfStretchiness * prLipCornersHorizontalFactor)), (int)(moUpperLipCenterPosition.y - maxDistanceFromCenterOfLipCornersUpOrDownState * prLipCornersVerticalFactor)  );
+		moLipsCornerRightEnd = new Point( (int)(moUpperLipCenterPosition.x + (minDistanceBetweenLipCenterAndLipCorner + maxLengthOfStretchiness * prLipCornersHorizontalFactor)), (int)(moUpperLipCenterPosition.y - maxDistanceFromCenterOfLipCornersUpOrDownState * prLipCornersVerticalFactor)  );
+		moLowerLipCenterPosition = new Point( moUpperLipCenterPosition.x, (int)(moUpperLipCenterPosition.y + maxDistanceOfTheControlPointForAnOpenMouth * prOpenMouthFactor) );
+	}
+
+	private void placeAThickDot( BufferedImage poImage, Point poDot, int pnDotSize ){
+
+		int r = 0;// red component 0...255
+		int g = 0;// green component 0...255
+		int b = 0;// blue component 0...255
+		int a = 255;// alpha (transparency) component 0...255
+		int colorWithARGB = (a << 24) | (r << 16) | (g << 8) | b; // color set to BLACK
+
+		if( (poDot.x < 0) || (poDot.y < 0) || (poDot.x > poImage.getWidth()) || (poDot.y > poImage.getHeight()) ){
+			// ERROR: Dot cant be outside of the image!
+		}
+		else{
+			for(int currentX = poDot.x; currentX <= (poDot.x + pnDotSize); currentX++){
+				for(int currentY = poDot.y; currentY <= (poDot.y + pnDotSize); currentY++){
+					poImage.setRGB(currentX, currentY, colorWithARGB);
+				}
+			}
+		}
+	} // end placeAThickDot
+
+	private BufferedImage drawCurveWithThreePoints( BufferedImage poImage, Point poStartPoint, Point poMiddlePoint, Point poEndPoint ) {
+		// algorithm taken from web: http://stackoverflow.com/questions/785097/how-do-i-implement-a-bezier-curve-in-c
+		if(poImage == null){
+			poImage = new BufferedImage(195, 227, BufferedImage.TRANSLUCENT);
+		}
+
+		int GreenLineStartX = 0;
+		int GreenLineStartY = 0;
+		int GreenLineEndX = 0;
+		int GreenLineEndY = 0;
+		int BlackDotX = 0;
+		int BlackDotY = 0;
+
+		for( float i = 0 ; i < 1 ; i += 0.01 )
+		{
+		    // The Green Line
+			GreenLineStartX = getPt( poStartPoint.x , poMiddlePoint.x , i );
+			GreenLineStartY = getPt( poStartPoint.y , poMiddlePoint.y , i );
+			GreenLineEndX = getPt( poMiddlePoint.x , poEndPoint.x , i );
+			GreenLineEndY = getPt( poMiddlePoint.y , poEndPoint.y , i );
+
+		    // The Black Dot
+			BlackDotX = getPt( GreenLineStartX , GreenLineEndX , i );
+			BlackDotY = getPt( GreenLineStartY , GreenLineEndY , i );
+
+			placeAThickDot(poImage, new Point(BlackDotX, BlackDotY), 3);
+		}
+
+		return poImage;
+	} // end drawCurveWithThreePoints
+
+	private int getPt( int n1 , int n2 , float perc )
+	{
+		int diff = n2 - n1;
+
+		return (int)( n1 + ( diff * perc ) );
+	} // end getPt
+
+	private BufferedImage changeOpacityOfAnyBufferedImageWithoutChangingTheOriginal( BufferedImage poIncomingImage, double prOpacity ){
+		int newWidth = poIncomingImage.getWidth();
+		int newHeight = poIncomingImage.getHeight();
+
+		int r, g, b;
+		int nTransparencyComponentA = ((int)(255 * prOpacity));
+
+		BufferedImage oTempImage = new BufferedImage( newWidth, newHeight, BufferedImage.TRANSLUCENT );
+
+		for(int x = 0; x < newWidth; x++){
+			for(int y = 0; y < newHeight; y++){
+				if( (poIncomingImage.getRGB(x, y) & 0xFF000000) == 0 ){ // if its already a pure transparent pixel
+					oTempImage.setRGB(x, y, poIncomingImage.getRGB(x, y));
+					continue;
+				}
+
+				b = poIncomingImage.getRGB(x, y) & 0x000000FF;
+				g = poIncomingImage.getRGB(x, y) & 0x0000FF00;
+				r = poIncomingImage.getRGB(x, y) & 0x00FF0000;
+
+				oTempImage.setRGB( x, y, ((nTransparencyComponentA << 24) | r | g | b) );
+			}
+		}
+
+		return oTempImage;
+	} // end changeOpacityOfAnyBufferedImageWithoutChangingTheOriginal
 
 }

@@ -317,10 +317,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		
 
 	        
-	 double rRequestedPsychicIntensity = mrInitialRequestIntensity;
+	 double rRequestedPsychicIntensity = 0.0;
 	            
-
-	        
 	 double rConsumedPsychicIntensity = rReceivedPsychicEnergy;
 	        
 	 moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);

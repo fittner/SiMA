@@ -196,4 +196,11 @@ public class clsMain extends SimState{
     public boolean getTimeChartAntiAliasing(){
     	return clsSingletonProperties.isAntiAliasing();
     }
+    
+    public void setShowBodilyExpressions(boolean value){
+    	clsSingletonProperties.setShowBodilyExpressions(value);
+    }
+    public boolean getShowBodilyExpressions(){
+    	return clsSingletonProperties.showBodilyExpressions();
+    }
  }

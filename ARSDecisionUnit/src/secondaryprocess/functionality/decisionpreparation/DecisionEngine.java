@@ -74,6 +74,8 @@ public class DecisionEngine implements DecisionEngineInterface {
         this.goalInitiator = goalInitiator;
     }
     
+    
+    
     @Override
     public ArrayList<clsWordPresentationMeshPossibleGoal> initialzeGoals(ArrayList<clsWordPresentationMeshPossibleGoal> incomingGoals) {
         
@@ -343,7 +345,7 @@ public class DecisionEngine implements DecisionEngineInterface {
      * 
      * @return the moCodeletHandler
      */
-    private clsCodeletHandler getCodeletHandler() {
+    public clsCodeletHandler getCodeletHandler() {
         return moCodeletHandler;
     }
 

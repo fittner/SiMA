@@ -181,7 +181,7 @@ public class GoalHandlingFunctionality {
             oGoalName = oGoal.getGoalName();
             oAction = clsAimOfDrivesTools.getAimOfDriveActionByName(poAimOfDrives, oGoalName);
             nImportance = GoalAlgorithmTools.calucateAimImportance(oGoal, oAction);
-            oGoal.setDriveDemandCorrectionImportance(oGoal.getDriveDemandCorrectionImportance() + nImportance);
+            oGoal.setDriveAimImportance(nImportance);
         }
     }
     

@@ -51,6 +51,8 @@ public abstract class clsCodelet {
 		moEnvironmentalImage=moCodeletHandler.getEnvironmentalImage();
 		moShortTermMemory=moCodeletHandler.getShortTermMemory();
 		
+		moPsychicIntensityBuffer = poCodeletHandler.getLibidoBuffer();
+		
 		moGoal=clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
 		
 		this.setPreconditions();
