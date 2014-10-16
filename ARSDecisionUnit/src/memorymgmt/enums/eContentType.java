@@ -322,4 +322,10 @@ public enum eContentType {
 	//Expression
     Expression; //koller
 	
+	public static eContentType getContentType(String poContentType) {
+        
+        return eContentType.valueOf(poContentType);
+        
+    }
+	
 }
