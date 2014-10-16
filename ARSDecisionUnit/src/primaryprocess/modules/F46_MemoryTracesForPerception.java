@@ -218,30 +218,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 			}
 		}
 		
-//		//Associate the emotions from the last cycle to the self (so they will be used for the matching)
-//		// first get the self
-//		clsThingPresentationMesh oSelf = clsMeshTools.getSELF(oPerceivedImage);
-//		
-//		if(!oSelf.isNullObject()) {
-//    		log.debug("Received emotion:");
-//    		//go through all received emotions and connect them to the self (internal connection == how the entity feels)
-//            for(clsEmotion oEmotion : moLastEmotions) {
-//                //first a little debug output
-//                log.debug("  {}", oEmotion.toString());
-//                //generate a new association
-//                oSelf.getInternalAssociatedContent().add(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oEmotion, oSelf, 1.0));
-//                log.debug("    added to self");
-//            }
-//		} else {
-//		    log.error("The current perceived image has no SELF object to which the current emotions can be attached:\n{}", oPerceivedImage);
-//		}
-//
-//		//Set the DS_ID to -1 to show that the SLEFs basic properties have changed by adding emotions to the internal associations
-//		int nOldSelfID = oSelf.getDS_ID();
-//		oSelf.setMoDS_ID(-1);
-		
 		//--- Activation of associated memories ---//
-		
 		//Get the phantasy input
 		//clsThingPresentationMesh oBestPhantasyInput = this.processPhantasyInput(moReturnedPhantasy_IN);
 		

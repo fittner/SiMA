@@ -261,7 +261,7 @@ public class clsImportanceTools {
 		ArrayList<clsWordPresentationMeshPossibleGoal> oPrelResult = new ArrayList<clsWordPresentationMeshPossibleGoal> ();
 		
 		if (poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
-		    oPrelResult = getAllPossibleGoalsFromImage(poImage, 1);
+		    oPrelResult = getAllDriveWishAssociationsInImage(poImage, 1);
 		} else if (poGoalType.equals(eGoalType.MEMORYDRIVE)) {
 		    oPrelResult = getAllPossibleGoalsFromImage(poImage, 1);
 		} else {
