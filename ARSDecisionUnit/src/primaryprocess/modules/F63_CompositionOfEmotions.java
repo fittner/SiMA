@@ -461,7 +461,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						
 					}
 					
-					//koller Emotionsübertragung
+					//koller Emotionsübertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
+
                     if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONATTRIBUTE && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
                         if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){
                             

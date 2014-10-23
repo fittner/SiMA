@@ -18,14 +18,14 @@ import java.util.SortedMap;
 import prementalapparatus.symbolization.eSymbolExtType;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
-import secondaryprocess.algorithm.planning.helpers.eDistance;
 import testfunctions.clsTester;
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
+import memorymgmt.enums.eEmotionExpression;
 import memorymgmt.enums.eEntityExternalAttributes;
-import properties.personality_parameter.clsPersonalityParameterContainer; //koller
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.enums.eEmotionType;
 import modules.interfaces.I2_3_receive;
@@ -122,8 +122,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     private double mrEmotionrecognitionPrimingLibido;
     private double mrEmotionrecognitionPrimingIntensity;
     
-    boolean boUseCase = true; //koller UseCases
-    boolean boSelfHasExpressionVar = true; //end koller
+    boolean boUseCase = true; //aktivates the bodystate use case function
+    boolean boSelfHasExpressionVar = true; //true, if the self should have body expressions for bodystates
 	
 	/**
 	 * Constructor of F14, nothing unusual
@@ -282,97 +282,105 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	}
 	
 	
-    void AddBodyExpressionTP(clsThingPresentationMesh poEntity, String poString){ //koller
-            
-            clsThingPresentation poExpressionTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.Expression, poString));
-            clsAssociation poAss = clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, poEntity, poExpressionTP, 1.0f);
-            poEntity.getInternalAssociatedContent().add(poAss);
-    }
+	 void AddBodyExpressionTP(clsThingPresentationMesh poEntity, String poContentType, String poContent){ //attach a body expression to poEntity.
+         eContentType poeContentType = eContentType.getContentType(poContentType);  
+         clsThingPresentation poExpressionTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(poeContentType, poContent));
+         clsAssociation poAss = clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, poEntity, poExpressionTP, 1.0f);
+         poEntity.getInternalAssociatedContent().add(poAss);     
+ }
 
-    private ArrayList<clsPrimaryDataStructureContainer> UseCaseFunctionKoller(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){ //koller
-        clsThingPresentationMesh oEntity = null;
-        int chooseUseCase = 1; //koller choose use case
-        boolean bIsSelf = false;
-        for(clsPrimaryDataStructureContainer oPdsc : poEnvironmentalTP){
-            
-            if(oPdsc.getMoDataStructure().getContentType().equals(eContentType.ENTITY)){
-                oEntity = (clsThingPresentationMesh)oPdsc.getMoDataStructure();
-                
-                if(oEntity.getContent().equals("ARSIN")){
-                    bIsSelf = false;
-                    
-                    for(clsAssociation oAss : oEntity.getInternalAssociatedContent()){
-                        if(oAss.getAssociationElementB().getContentType().equals(eContentType.DISTANCE)){
-                            if(((clsThingPresentation) oAss.getAssociationElementB()).getContent().equals(eDistance.NODISTANCE)){
-                                bIsSelf = true;
-                            }
-                        }
-                                
-                    }
-                    if(!bIsSelf){    
-                            switch(chooseUseCase){
-                            case 0:        
-                                //AddBodyExpressionTP(oEntity, "SadSmile"); //Angry Sad --> Eindeutiger Bodystate ohne Assoc zu Self --> wird nicht geladen. 
-                                //AddBodyExpressionTP(oEntity, "Shake");    //und hier soll eine Gewichtung der Bodystates passieren
-                                //AddBodyExpressionTP(oEntity, "HappySmile");
-                                break;
-                                
-                            case 1:
-                                //Szenario 4
-                                //AddBodyExpressionTP(oEntity, "HappySmile"); //Bodystate Happy vom Self soll angehängt sein, aber es gibt auch einen Bodospecific BS mit HappySmile und Emotion Anxiety, der nicht angehängt werden soll, weil das "nicht von sich ausgeht"
-                                //Szenario 5
-                                AddBodyExpressionTP(oEntity, "Shake");
-                                break;
-        
-                            case 2:
-                                //keine Expressionsvariablen, aber es wird nicht der zur Demonstration leere Bodystate Trial angehängt
-                                break;
-        
-                            case 3:
-                                //AddBodyExpressionTP(oEntity, "Sweat"); // es soll hier BS Anxiety angehängt werden
-                                break;
-        
-                            case 4:
-                                AddBodyExpressionTP(oEntity, "EyeSize"); // es soll hier BS Elation angehängt werden
-                                break;
-        
-                            case 5:
-                                AddBodyExpressionTP(oEntity, "CheeksRedning"); // hier soll eine Gewichtung der Bodystates passieren
-                                AddBodyExpressionTP(oEntity, "Sweat");
-                                break;
-        
-                            case 6:
-                                AddBodyExpressionTP(oEntity, "Shake"); // BS Anger, gleicher BS wie bei Self
-                                break;
-                            default:
-                                break;
-                            }
-                            //i++;
-                        }
-                    
-                    else{ // is self
-                        if(boSelfHasExpressionVar){
-                            //AddBodyExpressionTP(oEntity, "Shake");
-                            //Szenario 4 
-                            //AddBodyExpressionTP(oEntity, "Sweat");
-                            //AddBodyExpressionTP(oEntity, "EyeSize");
-                            //AddBodyExpressionTP(oEntity, "SadSmile"); //Angry Sad --> Eindeutiger Bodystate ohne Assoc zu Self --> wird nicht geladen. 
-                            
-                            //Szenario 1 cheeksred und happysmile sind saturation, happysmile alleine ist joy. wenn es soll saturation genommen werden, weil eindeutiger match
-                            //AddBodyExpressionTP(oEntity, "CheeksRedning");
-                            //AddBodyExpressionTP(oEntity, "HappySmile");
-                            //Szenario 7 uneindeutige ExpreTPs
-                            AddBodyExpressionTP(oEntity, "Sweat");
-                            AddBodyExpressionTP(oEntity, "EyeSize");
-                            AddBodyExpressionTP(oEntity, "HappySmile");
-                            
-                        }
-                    }
-                    }
-                }
-            }
-        return poEnvironmentalTP;
-    }//end koller
+	 private ArrayList<clsPrimaryDataStructureContainer> UseCaseFunctionBodystate(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){ 
+	        //attach body expressions to the self and another agent
+	        clsThingPresentationMesh oEntity = null;
+	        int chooseUseCase = 2; // choose which combination of body expressions the other agent shows
+	        boolean bIsSelf = false;
+	        for(clsPrimaryDataStructureContainer oPdsc : poEnvironmentalTP){
+	            
+	            if(oPdsc.getMoDataStructure().getContentType().equals(eContentType.ENTITY)){
+	                oEntity = (clsThingPresentationMesh)oPdsc.getMoDataStructure();
+	                
+	                if(oEntity.getContent().equals("ARSIN")){
+	                    //remove previous "neutral" body expression variables.
+	                    ArrayList<clsAssociation> oAssToRemove = new ArrayList<clsAssociation>();
+	                    for(clsAssociation oAss : oEntity.getExternalAssociatedContent()){
+	                        oAssToRemove.add(oAss);
+	                    }
+	                    for(clsAssociation oAssRemove : oAssToRemove){
+	                        oEntity.getExternalAssociatedContent().remove(oAssRemove); 
+	                    }
+	                    
+	                    bIsSelf = false;
+	                    for(clsAssociation oAss : oEntity.getInternalAssociatedContent()){
+	                        if(oAss.getAssociationElementB().getContentType().equals(eContentType.DISTANCE)){
+	                            if(((clsThingPresentation) oAss.getAssociationElementB()).getContent().toString() == "NODISTANCE"){
+	                                bIsSelf = true;
+	                            }
+	                        }       
+	                    }
+	                    
+	                    if(bIsSelf == false){    
+	                            switch(chooseUseCase){
+	                            case 0: //JOY   
+	                                AddBodyExpressionTP(oEntity,"EYE_BROW_CENTER" ,"UP");
+	                                AddBodyExpressionTP(oEntity,"EYE_BROW_CORNERS" , "UP");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_SIDES" ,"UP");
+	                                break;
+	                                
+	                            case 1: //ANXIETY
+	                                AddBodyExpressionTP(oEntity,"EYE_BROW_CENTER" ,"UP");
+	                                AddBodyExpressionTP(oEntity,"EYE_BROW_CORNERS" ,"DOWN");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_OPEN" ,"OPEN");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_SIDES" ,"UP");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_STRECHINESS" ,"STRETCHED");
+	                                AddBodyExpressionTP(oEntity,"GENERAL_SWEAT" ,"HIGH");
+	                                break;
+	        
+	                            case 2: //JOY + ANXIETY (some content types double)
+	                                AddBodyExpressionTP(oEntity,"EYE_BROW_CENTER" ,"UP");
+	                                AddBodyExpressionTP(oEntity,"EYE_BROW_CORNERS" , "UP");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_SIDES" ,"UP");
+	                                
+	                                AddBodyExpressionTP(oEntity,"EYE_BROW_CENTER" ,"UP");
+	                                AddBodyExpressionTP(oEntity,"EYE_BROW_CORNERS" ,"DOWN");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_OPEN" ,"OPEN");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_SIDES" ,"UP");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_STRECHINESS" ,"STRETCHED");
+	                                AddBodyExpressionTP(oEntity,"GENERAL_SWEAT" ,"HIGH");    
+	                                break;
+	        
+	                            case 3:
+	                                //JOY + ANXIETY (no content types double)
+	                                AddBodyExpressionTP(oEntity,"EYE_BROW_CENTER" ,"UP");
+	                                //AddBodyExpressionTP(oEntity,"EYE_BROW_CORNERS" , "UP");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_SIDES" ,"UP");
+	                                
+	                                //AddBodyExpressionTP(oEntity,"EYE_BROW_CENTER" ,"UP");
+	                                AddBodyExpressionTP(oEntity,"EYE_BROW_CORNERS" ,"DOWN");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_OPEN" ,"OPEN");
+	                                //AddBodyExpressionTP(oEntity,"MOUTH_SIDES" ,"UP");
+	                                AddBodyExpressionTP(oEntity,"MOUTH_STRECHINESS" ,"STRETCHED");
+	                                AddBodyExpressionTP(oEntity,"GENERAL_SWEAT" ,"HIGH");    
+	                                break;
+	        
+	                            default:
+	                                break;
+	                            }
+	                        }
+	                    
+	                    else{ // is self
+	                        if(boSelfHasExpressionVar){
+	                        //MOURNING
+	                        AddBodyExpressionTP(oEntity,"EYE_BROW_CENTER" ,"UP");
+	                        AddBodyExpressionTP(oEntity,"EYE_BROW_CORNERS" ,"DOWN");
+	                        AddBodyExpressionTP(oEntity,"MOUTH_SIDES" ,"DOWN");
+	                        AddBodyExpressionTP(oEntity,"EYES_CRYING_INTENSITY" ,"HIGH"); 
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	        return poEnvironmentalTP;
+	    }
     
 	/* (non-Javadoc)
 	 *
@@ -615,9 +623,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     boolean boBodystateFound = false;
                     
                     for(clsAssociation oAss : oTPM.getExternalAssociatedContent()){
-                        if(oAss.getAssociationElementB().getContentType().equals(eContentType.Expression)){
-                            boExpressionFound = true;
-                        }
+                        for(eEmotionExpression e :eEmotionExpression.values()){
+                            if(oAss.getAssociationElementB().getContentType().toString() == e.toString()){
+                                boExpressionFound = true;                         
+                            }
+                        }                      
                     }
                     for(clsAssociation oAss : oTPM.getExternalAssociatedContent()){
                          if(oAss.getAssociationElementB() instanceof clsThingPresentationMesh){   
@@ -763,7 +773,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}
 		
 		if(boUseCase){
-            oEnvironmentalTP = UseCaseFunctionKoller(oEnvironmentalTP); //koller 
+            oEnvironmentalTP = UseCaseFunctionBodystate(oEnvironmentalTP); //koller 
         }
 		
 		return oEnvironmentalTP;
@@ -874,11 +884,12 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         oArrayListExpressionVarTPForSearch = new ArrayList<clsThingPresentation>();
                             
                         for (clsAssociation iterAssoc : tpm.getExternalAssociatedContent()) { 
-                            
-                            if(iterAssoc.getAssociationElementB().getContentType().toString().equals("Expression")){
-                                clsThingPresentation y = (clsThingPresentation)iterAssoc.getAssociationElementB();
-                                boCheckForBodystate = true;
-                                oArrayListExpressionVarTPForSearch.add(y);                           
+                            for(eEmotionExpression e :eEmotionExpression.values()){
+                                if(iterAssoc.getAssociationElementB().getContentType().toString() == e.toString()){
+                                    clsThingPresentation y = (clsThingPresentation)iterAssoc.getAssociationElementB();
+                                    boCheckForBodystate = true;
+                                    oArrayListExpressionVarTPForSearch.add(y);                           
+                                }
                             }
                         }
                         
@@ -914,7 +925,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     }
                 }
                 
-                //koller "Von sich ausgehen".
+                // "Von sich ausgehen" für die Erinnerungen an Bodystates
                 ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchItemsToRemove = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
                 boolean bAddToRemoveList;
                 for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult : oSearchResults){
@@ -1038,7 +1049,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 						
 		clsDriveMesh oExemplarDM = null;
 		String oDMID = null;
-        String oBSID = null; //koller BodystateID
+        String oBSID = "BodystateKey"; //BodystateID. When bodystates are processed, the function only needs to return one array filled with relevant associations. A hashmap with one key is only used to get the correct return type. 
 
 	
 		for (int i=0; i<prK; i++) {
@@ -1088,7 +1099,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     oAssTPM.setMrWeight(((clsThingPresentationMesh) poSpecificCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue());
                     //koller oAssTPM sind Associations zwischen einem Bodystate und einer Emotion. 
                     //oBSID hat den Namen der Emotion
-                    oBSID = ((clsEmotion) oAssTPM.getAssociationElementB()).getContent().toString();
                     
                     if (oAssDMforCategorization.containsKey(oBSID) == false) { 
                         oAssDMList.add(oAssTPM);
@@ -1243,6 +1253,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         }
     }
     
+ 
+  //If the agent has a bodystate, that bodystates influences the perception of other agents' bodystates   
 ArrayList<clsThingPresentationMesh> PrimingBodystates(ArrayList<clsThingPresentationMesh> oOutputTPMs){ //koller
         
         clsThingPresentationMesh oSelfBodystate = null;
