@@ -540,7 +540,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     for(clsEmotion oEmotion : oCurrentEmotions) {
                         //generate a new association
                         oOutputTPM.addInternalAssociations(new ArrayList<>(Arrays.asList(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oEmotion, oOutputTPM, 1.0))));
-                        log.debug("    added to self");
+                        log.debug("Emotion " + oEmotion.toString() + " added to self");
                     }
                 }
                 
