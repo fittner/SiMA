@@ -125,8 +125,6 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         this.setUniqueProperty(String.valueOf(this.getEffortImpactImportance() + pnImportance), eContentType.EFFORTIMPACTIMPORTANCE, ePredicate.HASEFFORTIMPACTIMPORTANCE, true);
     }
     
-    
-    
     public double getDriveDemandImportance() {
         double oRetVal = 0;
         
@@ -137,6 +135,16 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         
     
         return oRetVal;
+    }
+    
+    private double nonProportionalAggregation (double rBaseValue, double rAddValue) {
+        rBaseValue = rBaseValue + (1 - rBaseValue) * rAddValue;
+    
+        return rBaseValue;
+    }
+    
+    public double getPPImportance() {
+        return nonProportionalAggregation(getDriveDemandImportance(), getFeelingsImportance());
     }
     
     public void setDriveDemandImportance(double driveDemandImportance) {
@@ -225,21 +233,8 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         double totalImportance = this.getDriveDemandCorrectionImportance()
                 + getEffortImpactImportance()
                 + this.getSocialRulesImportance()
-                + getDriveAimImportance();
-        
-        if(this.moAssociationMapping.containsKey(ePredicate.HASDRIVEDEMANDIMPORTANCE)) {
-            nFactors++;
-            rTempImportance += getDriveDemandImportance();
-        }
-        
-        if(this.moAssociationMapping.containsKey(ePredicate.HASFEELINGSIMPORTANCE)) {
-            nFactors++;
-            rTempImportance += getFeelingsImportance();
-        }
-        
-        if(nFactors > 0) {
-            totalImportance += rTempImportance / nFactors;
-        }
+                + getDriveAimImportance()
+                + getPPImportance();
         
         return totalImportance;
         

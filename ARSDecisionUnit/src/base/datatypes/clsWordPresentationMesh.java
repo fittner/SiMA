@@ -1096,12 +1096,18 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
     protected <PROPERTY_TYPE extends clsWordPresentationMesh> List<PROPERTY_TYPE> getNonUniquePropertyWPM (ePredicate poPredicate, Class<PROPERTY_TYPE> poPropertyType) {
         List<PROPERTY_TYPE> oRetVal = new ArrayList<PROPERTY_TYPE>();
         
-        List<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(poPredicate);
+        //List<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(poPredicate);
         
-        if (oDS!=null) {
-            for (clsSecondaryDataStructure oProperty : oDS) {
-                if(poPropertyType.isInstance(oProperty)) {
-                    oRetVal.add(poPropertyType.cast(oProperty));
+        //The association mapping was not implemented consistently (it seems) - get association if exists
+        List<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(this, poPredicate, 0, true, false);
+        
+        if (oAssList != null) {
+            for (clsDataStructurePA oPropertyAss : oAssList) {
+                if(oPropertyAss instanceof clsAssociationSecondary) {
+                    clsDataStructurePA oProperty = ((clsAssociationSecondary) oPropertyAss).getTheOtherElement(this);
+                    if(poPropertyType.isInstance(oProperty)) {
+                        oRetVal.add(poPropertyType.cast(oProperty));
+                    }
                 }
             }
         }

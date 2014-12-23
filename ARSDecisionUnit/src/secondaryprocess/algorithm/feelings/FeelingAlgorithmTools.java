@@ -15,7 +15,6 @@ import secondaryprocess.datamanipulation.clsMeshTools;
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eGoalType;
-import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
@@ -93,6 +92,7 @@ public class FeelingAlgorithmTools {
     private static double getFeelingMatch(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         double rResult = 0;
         double rMatchingFactor = 0;
+        int nCount = 0;
         
         //Get Feeling affect
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
@@ -101,8 +101,8 @@ public class FeelingAlgorithmTools {
             
             for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
                 if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
-                    
                     rMatchingFactor += 1 - oCurrentFeeling.getDiff(oGoalFeeling);
+                    nCount++;
                 }
             }
         }
@@ -110,13 +110,14 @@ public class FeelingAlgorithmTools {
 //        if(poGoal.getSupportiveDataStructure().getContent().startsWith("A14")) 
 //            moLogger.debug("Feelings cause evaluation change for {}({}) by {}", poGoal.getContent(), poGoal.getSupportiveDataStructure().getContent(), rMatchingFactor);
         
-        rResult += rMatchingFactor;
+        rResult = rMatchingFactor / nCount;
         
         return rResult;
     }
     
     private static double getFeelingMatch(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         double rMatchingFactor = 0;
+        int nCount = 0;
         
         if(poImage != null && !poImage.isNullObject()) {
             //Get Feelings fromt he image
@@ -136,14 +137,15 @@ public class FeelingAlgorithmTools {
                 
                 for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
                     if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
-                        
                         rMatchingFactor += 1 - oCurrentFeeling.getDiff(oGoalFeeling);
+                        
                     }
                 }
+                nCount++;
             }
         }
         
-        return rMatchingFactor;
+        return rMatchingFactor / nCount;
     }
     
     /**
@@ -155,9 +157,8 @@ public class FeelingAlgorithmTools {
      * @param poGoal 
      */
     public static double evaluateGoalByTriggeredFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
-        double rFeelingMatchImportance = 0.5;
+        double rFeelingMatchImportance = 0.1;
         double rFeelingMatch = 0;
-        clsThingPresentationMesh oTPMImage = null;
         clsWordPresentationMesh oWPMImage = null;
         
         //get act for that goal (what should happen if the goal has no act [yet], like perception or drive goals?)
@@ -168,24 +169,10 @@ public class FeelingAlgorithmTools {
             //get the intention
             oWPMImage = clsActDataStructureTools.getIntention(oSupp);
             
-//            //get the association between WPM and TPM
-//            clsAssociationWordPresentation oAssWP = oWPMIntention.getAssociationWPOfWPM();
-//            
-//            //get the TPM of the intention (that's where the emotions are associated)
-//            if(oAssWP != null) {
-//                if(oAssWP.getTheOtherElement(oWPMIntention) instanceof clsThingPresentationMesh) {
-//                    oTPMImage = (clsThingPresentationMesh) oAssWP.getTheOtherElement(oWPMIntention);
-//                } else {
-//                    //TODO (Kollmann): log error that the associationWordPresentation did not reveal a TPM (the oWPMIntention could be a shadow node - that
-//                    //                 is a node that is, for example, an old clone or incorectly removed old node, that is getting mixed up with it's newer
-//                    //                 version
-//                }
-//            } else {
-//                //TODO (Kollmann): log error that the WPM Intention has no associationWordPresentation
-//            }
-            
-          //compare the intention(image) to the current feelings
+            //compare the intention(image) to the current feelings (match value is [0,1]
             rFeelingMatch = getFeelingMatch(oWPMImage, poFeltFeelingList);
+            
+            
         }
         
         //adjust match value by match importance
