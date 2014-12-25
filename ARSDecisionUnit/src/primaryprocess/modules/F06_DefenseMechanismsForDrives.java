@@ -1132,7 +1132,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			
 			// Lu Sun, 25.12.2012
 	        clsThingPresentationMesh oOriginalDriveObject = poOriginalDM.getActualDriveObject(); //the orignial drive object for the forbidden drive wish
-			oDisplacedDriveObject = oOriginalDriveObject;
+	        //oOriginalDriveObject.setMoDS_ID(-1); // produces an error
+	        oDisplacedDriveObject = oOriginalDriveObject;
             oDisplacedDriveObject.setInternalAssociatedContent(new ArrayList<clsAssociation>());
             oDisplacedDriveObject.setMoContent(DisplacedDriveObject);
  
