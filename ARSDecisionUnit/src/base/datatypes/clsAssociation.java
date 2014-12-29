@@ -463,6 +463,22 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		return oResult;
 	}
 	
+	/**
+	 * DOCUMENT - Tries to find the association in a given list of associations, considering clones and shadow nodes (this means all kind of fauly nodes,
+	 *            like old clones that should not be used anymore or similar)
+	 *            
+	 *            Evaluation criteria is the result of clsAssociation.isCloneOf(...).
+	 *            
+	 *            If there is more than one candidate for which clsAssociation.isCloneOf(...) returns true, the first one is used and an error message is
+	 *            logged.
+	 *
+	 * @author Kollmann
+	 * @since 24.09.2014 11:28:31
+	 *
+	 * @param poAssociation
+	 * @param poAssList
+	 * @return
+	 */
 	static private clsAssociation findAssociationInList(clsAssociation poAssociation, List<clsAssociation> poAssList) {
 	    clsAssociation oFoundAssociation = null;
 	    
@@ -515,6 +531,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
         //                     use that instead.
         clsAssociation oAssociationObject = null;
         
+        //try to remove the association from the list of internal associations (removes the link from the clsDataStructurePA to the clsAssociation)
         if(poDataStructure instanceof itfInternalAssociatedDataStructure) {
             oAssociationObject = findAssociationInList(poAssociation, ((itfInternalAssociatedDataStructure)poDataStructure).getInternalAssociatedContent());
             if(oAssociationObject != null) {
@@ -522,6 +539,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
             }
         }
         
+        //try to remove the association from the list of external associations (removes the link from the clsDataStructurePA to the clsAssociation)
         if(poDataStructure instanceof itfExternalAssociatedDataStructure) {
             oAssociationObject = findAssociationInList(poAssociation, ((itfExternalAssociatedDataStructure)poDataStructure).getExternalAssociatedContent());
             if(oAssociationObject != null) {
@@ -535,11 +553,27 @@ public abstract class clsAssociation extends clsDataStructurePA{
             log.warn("Association: " + poAssociation.toString());
         }
         
+        //complete the disconnection by removing the data structure reference from the association
+        //   (removes the link from the clsAssociation to the clsDataStructurePA)
         bDisconnected |= removeAssociationElement(poAssociation, poDataStructure);
         
         return bDisconnected;
     }
     
+    /**
+     * DOCUMENT - Removes the link from the clsAssociation to the clsDataStructurePA. The method tries to find out if the poDataStructurePA is root
+     *            or leaf in the clsAssociation and sets the apropriate end to null.
+     *            
+     *            The check is done using the comparison operator (==). If the clsDataStructurePA has neither been found in to be Root nor Leaf, the
+     *            method does not remove anything, logs an error message and returns false
+     *
+     * @author Kollmann
+     * @since 24.09.2014 11:36:50
+     *
+     * @param poAssociation
+     * @param poDataStructure
+     * @return
+     */
     protected static boolean removeAssociationElement(clsAssociation poAssociation, clsDataStructurePA poDataStructure) {
         boolean bRemoved = true;
         
@@ -550,8 +584,8 @@ public abstract class clsAssociation extends clsDataStructurePA{
                 poAssociation.setAssociationElementB(null);
             } else {
                 bRemoved = false;
-                log.error("Could not remove association from clsPhysicalStructureComposition since the "
-                        + "association does not point to the clsPhysicalStructureComposition."
+                log.error("Could not remove association from clsDataStructurePA since the "
+                        + "association does not point to the clsDataStructurePA."
                         + "\nclsPhysicalStructureComposition: " + poDataStructure.toString() 
                         + "\nAssociation: " + poAssociation.toString());
             }
@@ -560,6 +594,27 @@ public abstract class clsAssociation extends clsDataStructurePA{
         return bRemoved;
     }
     
+    /**
+     * DOCUMENT - This convenience method removes the provided clsAssociation, by first calling disconnectAssociation(...) for the clsAssociation and its
+     *            association element A and then calling disconnectAssociation(...) for the clsAssociation and its association element B.
+     *            
+     *            The association elements are obtained via getAssociationElementA() and getAssociationElementB().
+     *            
+     *            The method returns only TRUE if the association has been successfully disconnected from both elements. The used method disconnectAssociation(...)
+     *            normally only returns true if the disconnection was successful on both ends, meaning the link from clsAssociation to clsDataStructurePA AND the 
+     *            link from clsDataStructurePA to clsAssociation, where both removed. Therefore, the method should (normally) only return TRUE if the provided
+     *            clsAssociation has been removed completely and is not referencing anything, anymore.
+     *            
+     *            The method is only able to remove the association from clsDataStructurePAs that are referenced by the association.
+     *            Cloning errors and faulty removal attempts might have created shadow nodes that still reference the clsAssociation,
+     *            possibly keeping it from being removed by garbage collection.
+     *
+     * @author Kollmann
+     * @since 24.09.2014 11:39:48
+     *
+     * @param poAssociation
+     * @return
+     */
     public static boolean removeAssociationCompletely(clsAssociation poAssociation) {
         boolean bRemoved = true;
     
@@ -582,6 +637,28 @@ public abstract class clsAssociation extends clsDataStructurePA{
         
         return bIsClone;
     }
+    
+    /**
+     * DOCUMENT - Goes through a provided list of associations and returns a new list, containing only associations of a certain type
+     *
+     * @author Kollmann
+     * @since 24.09.2014 11:54:09
+     *
+     * @param poAssociations
+     * @return
+     */
+    public static <T extends clsAssociation> List<T> filterListByType(List<clsAssociation> poAssociations, Class<T> poAssocationType) {
+        List<T> oDriveMeshes = new ArrayList<>();
+        
+        for(clsAssociation oAssociation : poAssociations) {
+            if(poAssocationType.isInstance(oAssociation)) {
+                oDriveMeshes.add(poAssocationType.cast(oAssociation));
+            }
+        }
+        
+        return oDriveMeshes;
+    }
+
     
 //    /* (non-Javadoc)
 //     *

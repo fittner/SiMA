@@ -49,6 +49,25 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     }
     
     /**
+     * DOCUMENT - Alternate constructor for goals that have no potential drive fullfillment importance (could get their importance from other sources, like feelings)
+     *
+     * @author Kollmann
+     * @since 10.09.2014 15:00:36
+     *
+     * @param poDataStructureIdentifier
+     * @param poAssociatedStructures
+     * @param poContent
+     * @param poGoalObject
+     * @param poName
+     * @param oGoalType
+     */
+    public clsWordPresentationMeshPossibleGoal(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
+            ArrayList<clsAssociation> poAssociatedStructures, Object poContent, clsWordPresentationMesh poGoalObject, String poName,
+            eGoalType oGoalType) {
+        super(poDataStructureIdentifier, poAssociatedStructures, poContent, poGoalObject, poName, oGoalType);
+    }
+    
+    /**
      * @since 05.07.2012 22:04:13
      * 
      * @return the moNullObjectWPM
@@ -57,60 +76,6 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         return moNullObject;
     }
 
-    /**
-     * Get the Feelings from a goal
-     * 
-     * (wendt)
-     *
-     * @since 26.03.2012 21:25:11
-     *
-     * @param poGoal
-     * @return
-     */
-    public ArrayList<clsWordPresentationMeshFeeling> getFeelings() {
-        ArrayList<clsWordPresentationMesh> oRetVal = this.getNonUniquePropertyWPM(ePredicate.HASFEELING);;
-    
-        ArrayList<clsWordPresentationMeshFeeling> result = new ArrayList<clsWordPresentationMeshFeeling>();
-        
-        for (clsWordPresentationMesh wpm : oRetVal) {
-            if (wpm instanceof clsWordPresentationMeshFeeling) {
-                result.add((clsWordPresentationMeshFeeling) wpm);
-            } else {
-                throw new ClassCastException("This structure is no valid class for this association " + wpm);
-            }
-        }
-    
-        return result;
-    }
-    
-    /**
-     * Add a Feeling to the goal, which is not already present. If present, then replace
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 10:37:48
-     *
-     * @param poFeeling
-     */
-    public void addFeeling(clsWordPresentationMeshFeeling poFeeling) {
-        this.addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
-    }
-    
-    /**
-     * Add a list of feelings
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 11:33:11
-     *
-     * @param poFeeling
-     */
-    public void addFeelings(ArrayList<clsWordPresentationMeshFeeling> poFeeling) {
-        for (clsWordPresentationMeshFeeling oF : poFeeling) {
-            addFeeling(oF);
-        }
-    }
-    
     //==== Importance ====//
     
     /**
@@ -160,8 +125,6 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         this.setUniqueProperty(String.valueOf(this.getEffortImpactImportance() + pnImportance), eContentType.EFFORTIMPACTIMPORTANCE, ePredicate.HASEFFORTIMPACTIMPORTANCE, true);
     }
     
-    
-    
     public double getDriveDemandImportance() {
         double oRetVal = 0;
         
@@ -172,6 +135,16 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         
     
         return oRetVal;
+    }
+    
+    private double nonProportionalAggregation (double rBaseValue, double rAddValue) {
+        rBaseValue = rBaseValue + (1 - rBaseValue) * rAddValue;
+    
+        return rBaseValue;
+    }
+    
+    public double getPPImportance() {
+        return nonProportionalAggregation(getDriveDemandImportance(), getFeelingsImportance());
     }
     
     public void setDriveDemandImportance(double driveDemandImportance) {
@@ -254,7 +227,15 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
      */
     @Override
     public double getTotalImportance() {
-        double totalImportance = this.getDriveDemandImportance() + this.getDriveDemandCorrectionImportance() + getEffortImpactImportance() + getFeelingsImportance() + this.getSocialRulesImportance() + getDriveAimImportance();
+        int nFactors = 0;
+        double rTempImportance = 0;
+        
+        double totalImportance = this.getDriveDemandCorrectionImportance()
+                + getEffortImpactImportance()
+                + this.getSocialRulesImportance()
+                + getDriveAimImportance()
+                + getPPImportance();
+        
         return totalImportance;
         
         //double oRetVal = 0;
@@ -310,6 +291,14 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
      */
     public void setAssociatedPlanAction(clsWordPresentationMesh poAssociatedAction) {
         this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDPLANACTION, true);
+    }
+    
+    public void setPotentialDriveAim(clsWordPresentationMesh poPotentialDriveAim) {
+        this.setUniqueProperty(poPotentialDriveAim, ePredicate.HASPOTENTIALDRIVEAIM, true);
+    }
+    
+    public clsWordPresentationMesh getPotentialDriveAim() {
+        return this.getUniquePropertyWPM(ePredicate.HASPOTENTIALDRIVEAIM);
     }
     
     /**

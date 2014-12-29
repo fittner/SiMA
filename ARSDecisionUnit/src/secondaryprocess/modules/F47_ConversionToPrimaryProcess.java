@@ -8,11 +8,12 @@ package secondaryprocess.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.SortedMap;
 
 import properties.clsProperties;
-
 import memorymgmt.enums.PsychicSpreadingActivationMode;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
 import modules.interfaces.I5_19_receive;
 import modules.interfaces.I5_19_send;
 import modules.interfaces.I6_11_receive;
@@ -22,8 +23,11 @@ import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationWordPresentation;
+import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshFeeling;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
@@ -57,6 +61,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	/** The list of associated memories of the generated actions */
 	private clsWordPresentationMesh moWordingToContext;
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
+	private List<clsEmotion> moCurrentEmotions;
+	
+	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
+	
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -72,9 +80,13 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * @throws Exception
 	 */
 	public F47_ConversionToPrimaryProcess(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		
+		moShortTimeMemory = poShortTimeMemory;
+		
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -139,6 +151,18 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
             } catch (Exception e) {
                 log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
             }
+        }
+        
+        //extract the current feelings from the current mental situation
+        moCurrentEmotions = new ArrayList<>();
+        for(clsWordPresentationMeshFeeling oFeeling : moShortTimeMemory.getNewestMemory().b.getFeelings()) {
+            moCurrentEmotions.add(clsEmotion.fromFeeling(oFeeling));
+        }
+        
+        //debug output
+        log.debug("Emotions to send back: ");
+        for(clsEmotion oEmotion : moCurrentEmotions) {
+            log.debug("  {}", oEmotion.toString());
         }
 	}
 
@@ -247,7 +271,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@Override
 	protected void send() {
-		send_I5_19(returnedTPMemory_OUT, this.psychicSpreadingActivationMode, moWordingToContext);
+		send_I5_19(returnedTPMemory_OUT, this.psychicSpreadingActivationMode, moWordingToContext, moCurrentEmotions);
 	}
 
 	/* (non-Javadoc)
@@ -296,8 +320,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * @see pa.interfaces.send._v38.I7_7_send#send_I7_7(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode, clsWordPresentationMesh moWordingToContext2) {
-		((I5_19_receive)moModuleList.get(14)).receive_I5_19(poReturnedMemory, psychicSpreadingActivationMode, moWordingToContext2);
+	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode, clsWordPresentationMesh moWordingToContext2, List<clsEmotion> poCurrentEmotions) {
+		((I5_19_receive)moModuleList.get(14)).receive_I5_19(poReturnedMemory, psychicSpreadingActivationMode, moWordingToContext2, poCurrentEmotions);
 		putInterfaceData(I5_19_send.class, poReturnedMemory, moWordingToContext2);
 	}
 

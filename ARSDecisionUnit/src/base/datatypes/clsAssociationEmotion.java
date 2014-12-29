@@ -91,8 +91,8 @@ public class clsAssociationEmotion  extends clsAssociation{
 		
 	}
 	
-	public clsEmotion getDM(){
-		//Element A is always the Drive Mesh 
+	public clsEmotion getEmotion(){
+		//Element A is the emotion 
 		return (clsEmotion)moAssociationElementA; 
 	}
 }

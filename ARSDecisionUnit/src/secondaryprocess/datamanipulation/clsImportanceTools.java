@@ -258,18 +258,18 @@ public class clsImportanceTools {
 	 */
 	public static ArrayList<clsWordPresentationMeshPossibleGoal> getSelectableGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure, boolean pbKeepDuplicates) throws Exception {
 		ArrayList<clsWordPresentationMeshPossibleGoal> oRetVal = new ArrayList<clsWordPresentationMeshPossibleGoal>();
+		ArrayList<clsWordPresentationMeshPossibleGoal> oPrelResult = new ArrayList<clsWordPresentationMeshPossibleGoal> ();
 		
-		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage, 1);
-		
-		
+		if (poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
+		    oPrelResult = getAllDriveWishAssociationsInImage(poImage, 1);
+		} else if (poGoalType.equals(eGoalType.MEMORYDRIVE)) {
+		    oPrelResult = getAllPossibleGoalsFromImage(poImage, 1);
+		} else {
+		    log.warn("Unknonwn goal type {}.\nCan not get selectable goals from WPM {}", poGoalType, poImage);
+		}
 		
 		//Convert the result into a drive goal, which is a triple of the drive, the intensity and the drive object
-		for (clsDataStructurePA oDSPA : oPrelResult) {
-			clsAssociationSecondary oAssSec = (clsAssociationSecondary) oDSPA;
-			
-			//Copy goal, in order not to have erroneous references
-			clsWordPresentationMeshPossibleGoal originalSelectableGoal = (clsWordPresentationMeshPossibleGoal) oAssSec.getLeafElement();
-			
+		for (clsWordPresentationMeshPossibleGoal originalSelectableGoal : oPrelResult) {
 			clsWordPresentationMeshPossibleGoal copyOfSelectableGoal = clsGoalManipulationTools.createSelectableGoal(originalSelectableGoal.getGoalName(), originalSelectableGoal.getGoalSource(), originalSelectableGoal.getPotentialDriveFulfillmentImportance(), originalSelectableGoal.getGoalObject()); 
 			
 			
@@ -281,12 +281,13 @@ public class clsImportanceTools {
 			    }
 			    
 			} else {
+			    //Spezialfall f. Memorygoald abgleich mit Intention->action
 			    copyOfSelectableGoal.setSupportiveDataStructure(poSupportiveDataStructure);
 			}
-						
 			
-			
-			copyOfSelectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
+			if (!poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
+			    copyOfSelectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
+			}
 			
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
@@ -382,8 +383,10 @@ public class clsImportanceTools {
 	 * @param poImage
 	 * @return
 	 */
-	private static ArrayList<clsDataStructurePA> getAllDriveWishAssociationsInImage(clsWordPresentationMesh poImage, int pnLevel) {
-		ArrayList<clsDataStructurePA> oPrelResult = new ArrayList<clsDataStructurePA>();
+	private static ArrayList<clsWordPresentationMeshPossibleGoal> getAllDriveWishAssociationsInImage(clsWordPresentationMesh poImage, int pnLevel) {
+	    ArrayList<clsDataStructurePA> oAffects = new ArrayList<clsDataStructurePA>();
+	    clsDataStructurePA oPossGoal = null;
+		ArrayList<clsWordPresentationMeshPossibleGoal> oPrelResult = new ArrayList<clsWordPresentationMeshPossibleGoal>();
 		//Get a list of associationsecondary, where the root element is the drive object and the leafelement the affect
 		ArrayList<clsPair<eContentType, String>> oContentTypeAndContent = new ArrayList<clsPair<eContentType, String>>();
 		oContentTypeAndContent.add(new clsPair<eContentType, String>(eContentType.AFFECT, ""));
@@ -391,16 +394,61 @@ public class clsImportanceTools {
 		//Get all WPMs
 		ArrayList<clsWordPresentationMesh> oAllWPM = clsMeshTools.getAllWPMObjects(poImage, pnLevel);
 		for (clsWordPresentationMesh oWPM : oAllWPM) {
-		    oPrelResult.addAll(clsMeshTools.searchDataStructureOverAssociation(oWPM, ePredicate.HASAFFECT, 0, true, false));
+		    oAffects = clsMeshTools.searchDataStructureOverAssociation(oWPM, ePredicate.HASAFFECT, 0, true, false);
+		    for(clsDataStructurePA oEntry : oAffects) {
+		        if(oEntry instanceof clsAssociationSecondary) {
+                    oPossGoal = ((clsAssociationSecondary)oEntry).getLeafElement();
+                    if(oPossGoal instanceof clsWordPresentationMeshPossibleGoal) {
+                        oPrelResult.add((clsWordPresentationMeshPossibleGoal) oPossGoal);
+                    }
+		        }
+		    }
+		    
 		}
-		
-		
-		//oPrelResult = clsMeshTools.getDataStructureInWPM(poImage, eDataType.WPM, oContentTypeAndContent, false, 3);
 		
 		return oPrelResult;
 	}
 	
-
+	private static ArrayList<clsWordPresentationMeshPossibleGoal> getAllPossibleGoalsFromImage(clsWordPresentationMesh poImage, int pnLevel) {
+	    ArrayList<clsDataStructurePA> oAffects = new ArrayList<clsDataStructurePA>();
+	    ArrayList<clsDataStructurePA> oFeelings = new ArrayList<clsDataStructurePA>();
+        ArrayList<clsWordPresentationMeshPossibleGoal> oPrelResult = new ArrayList<clsWordPresentationMeshPossibleGoal>();
+        clsDataStructurePA oPossGoal = null;
+        
+        //Get a list of associationsecondary, where the root element is the drive object and the leaf element the affect
+        ArrayList<clsPair<eContentType, String>> oContentTypeAndContent = new ArrayList<clsPair<eContentType, String>>();
+        oContentTypeAndContent.add(new clsPair<eContentType, String>(eContentType.AFFECT, ""));
+        
+        //Get all WPMs
+        ArrayList<clsWordPresentationMesh> oAllWPM = clsMeshTools.getAllWPMObjects(poImage, pnLevel);
+        
+        for (clsWordPresentationMesh oWPM : oAllWPM) {
+            if(oWPM.getDS_ID() != poImage.getDS_ID()) { //the image itself is always returned by getAllWPMObjects
+                oAffects = clsMeshTools.searchDataStructureOverAssociation(oWPM, ePredicate.HASAFFECT, 0, true, false);
+                if(!oAffects.isEmpty()) {
+                    for(clsDataStructurePA oEntry : oAffects) {
+                        if(oEntry instanceof clsAssociationSecondary) {
+                            oPossGoal = ((clsAssociationSecondary)oEntry).getLeafElement();
+                            if(oPossGoal instanceof clsWordPresentationMeshPossibleGoal) {
+                                oPrelResult.add((clsWordPresentationMeshPossibleGoal) oPossGoal);
+                            }
+                        } else {
+                            log.warn("Image {} had an affect predicate in an association that is not of type clsAssociationSecondary", poImage);
+                        }
+                    }
+                }
+            }
+        }
+        
+        if(oPrelResult.isEmpty()) {
+            //The image had no WPM Objects that where associated with drive meshes - this could still be a feasable goal, for example a feeling motivated goal like FLEE
+            String oGoalName = "NO_DRIVE";
+            clsWordPresentationMeshPossibleGoal oGoal = clsGoalManipulationTools.createSelectableGoal(oGoalName, eGoalType.MEMORYDRIVE, clsWordPresentationMesh.getNullObject());
+            oPrelResult.add(oGoal);
+        }
+        
+        return oPrelResult;
+    }
 	
 //	/**
 //	 * Extract the type of drive like NOURISH, BITE etc... from an input string of drive content

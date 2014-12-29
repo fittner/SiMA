@@ -85,7 +85,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	private clsWordPresentationMesh moWordingToContext;
     private clsWordPresentationMesh moWordingToContextNew;
     private clsConcept moConcept;
-	
+    
 	///* Internal */
 	//private clsThingPresentationMesh moEnhancedPerception;
 	
@@ -188,9 +188,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		//Convert LOCATION to DISTANCE and POSITION
 		//FIXME AW: Remove this when CM has implemented it in his modules
 		//TEMPconvertLOCATIONtoPOSITIONandDISTANCE(oContainerWithTypes);
-		
-			
-		clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(moEnvironmentalPerception_IN, eContentType.PI, eContent.PI.toString());
+
+	    clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(moEnvironmentalPerception_IN, eContentType.PI, eContent.PI.toString());
 		
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
@@ -220,7 +219,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		}
 		
 		//--- Activation of associated memories ---//
-		
 		//Get the phantasy input
 		//clsThingPresentationMesh oBestPhantasyInput = this.processPhantasyInput(moReturnedPhantasy_IN);
 		
@@ -242,6 +240,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
         } catch (Exception e1) {
             log.error("", e1);
         }
+		
+//		//Reset SELFs DS ID to it's former value
+//		oSelf.setMoDS_ID(nOldSelfID);
 		
 		log.debug("PI: " + oPerceivedImage);
 		log.info("Activated images: {}", PrintTools.printActivatedMeshWithPIMatch(oPerceivedImage));

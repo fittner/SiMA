@@ -99,8 +99,7 @@ public class GoalHandlingFunctionality {
         double goalsByExpectedFeelingThreshold = 0.3;
         double goalsByReservedFeelingThreshold = 0.5;
         
-
-        
+        receivedPsychicIntensity = 0.25;
         
         for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
             moFeelingLog.debug(oFeeling.toString());
@@ -116,9 +115,7 @@ public class GoalHandlingFunctionality {
                 
                 if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold && receivedPsychicIntensity < goalsByExpectedFeelingThreshold ){
                     
-                    goal.setFeelingsImportance(FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));
- 
-                    
+                    goal.setFeelingsImportance(FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));                   
                     
                 } else if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold && receivedPsychicIntensity < goalsByReservedFeelingThreshold ){
                     

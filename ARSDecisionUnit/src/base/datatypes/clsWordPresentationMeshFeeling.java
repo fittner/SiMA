@@ -49,7 +49,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
      * @param poEmotion
      */
     public clsWordPresentationMeshFeeling(clsEmotion poEmotion) {
-        super(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.ASSOCIATIONWP), new ArrayList<clsAssociation>(), poEmotion.getContent().toString());
+        super(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.FEELING), new ArrayList<clsAssociation>(), poEmotion.getContent().toString());
         
         mapProperties(poEmotion);
         
@@ -174,7 +174,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     }
     
     public String debugString() {
-        String oText = "clsWordPresentationMeshFeeling " + getContent() + ":";
+        String oText = getContent() + ":";
         oText +=" Intensity=" + new DecimalFormat("0.00").format(getIntensity());
         oText +=" Libido=" + new DecimalFormat("0.00").format(getLibido());
         oText +=" Aggression=" + new DecimalFormat("0.00").format(getAggression());

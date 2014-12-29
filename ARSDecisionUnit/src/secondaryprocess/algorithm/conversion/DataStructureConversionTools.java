@@ -173,12 +173,27 @@ public class DataStructureConversionTools {
                     // Get the affect templates
                     // Get the DriveMesh
                     clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement();
+                    
                     //Get goal type
                     eGoalType goalType = eGoalType.MEMORYDRIVE;  
                     if (contentType.equals(eContentType.PI)) {
                         goalType = eGoalType.PERCEPTIONALDRIVE;
                     }
+                    
                     clsWordPresentationMeshPossibleGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType); //clsGoalTools.convertDriveMeshToWP(oDM);
+                    
+                    if(goalType.equals(eGoalType.MEMORYDRIVE)) {
+                        clsThingPresentationMesh oTPMPotentialDriveAim = oDM.getActualDriveAim();
+                        
+                        if(oTPMPotentialDriveAim != null) {
+                            //Kollmann : internal and external levels are set to -2 to keep the conversion method from going deeper into the TPM
+                            clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType);
+                            
+                            oDMWP.setPotentialDriveAim(oWPMPotentialDriveAim);
+                        } else {
+                            log.warn("DM {} has no actual drive aim", oDM);
+                        }
+                    }
 
                     // Create an association between the both structures and add
                     // the association to the external associationlist of the
@@ -188,7 +203,9 @@ public class DataStructureConversionTools {
                     clsEmotion oEmotion = (clsEmotion) oTPMExternalAss.getLeafElement();
                     clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
                     
-                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
+                    oRetVal.addFeeling(oFeeling);
+                    
+//                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
                 } else if(oTPMExternalAss instanceof clsAssociationPrimary) {
                 	clsDataStructurePA oSubDataStructure = ((clsAssociationPrimary) oTPMExternalAss).getLeafElement();
                 	
@@ -234,7 +251,7 @@ public class DataStructureConversionTools {
             }
         }
 
-        if (((pnLevelInternal > 0) || (pnLevelInternal == -1)) && oRetVal != null) {
+        if (((pnLevelInternal >= 0) || (pnLevelInternal == -1)) && oRetVal != null) {
 
             // Check the inner associations, if they are associationtime, as it
             // means that is an image
@@ -251,6 +268,12 @@ public class DataStructureConversionTools {
 
                     // Add the subWPM to the WPM structure
                     clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
+                } else if(oTPMInternalAss instanceof clsAssociationEmotion && poProcessedList.contains(((clsAssociationEmotion) oTPMInternalAss).getLeafElement()) == false) {
+                    clsEmotion oEmotion = (clsEmotion) oTPMInternalAss.getLeafElement();
+                    clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
+                    
+                    oRetVal.addFeeling(oFeeling);
+//                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
                 }
             }
         }
