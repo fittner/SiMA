@@ -12,12 +12,12 @@ import inspector.interfaces.itfInspectorCombinedTimeChart;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.SortedMap;
 
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
@@ -35,6 +35,7 @@ import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
@@ -1252,6 +1253,89 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     
 	
 	
+    /* @author SUN 10.2013
+     * This Method will find a random Target(TPM) for the forbidden Emotion,  
+     * and build a Association between them. 
+     * Parameters are to be defended forbidden Emotions and output Emotions
+     * as return value is a list of built Associations
+     */ 
+    
+    private ArrayList<clsAssociation> defenseMechanism_Projection(ArrayList<eEmotionType> oForbiddenEmotions_Input, 
+            ArrayList<clsEmotion> oEmotions_Output){       
+        //projection =1.0;
+        PassForbidenEmotions=0.0;
+        //ChartBarProjection++;
+        if (oForbiddenEmotions_Input == null) return null;                      // if no Emotion should be defensed, return immediately
+        
+        ArrayList<clsThingPresentationMesh> oTargetTPM = findEntityInSight();   // get the Target's candidates
+       
+        int counter= oTargetTPM.size();    // Range for the random figure
+        if (counter == 0) return null;     // if no candidate exits, return immediately       
+        ArrayList<clsAssociation> oNewAssociation = new ArrayList<clsAssociation>();  // will be used to save the created Associations        
+        Random r = new Random();           // for the random choice of Emotion's Target
+        int targetNr= r.nextInt(counter);  // number of the random agent, which will be chosen as the target for the forbidden emotion
+        
+        //followed prompt output are used for software test
+        //System.out.println("");
+        //System.out.println("##################################################################################################### "); 
+        //System.out.println("######### Info for Projection, available Objects in sight: "+oTargetTPM.toString()); 
+        //System.out.println("######### Info for Projection, amount of available Objects: "+counter);        
+        //System.out.println("######### Info for Projection, Nr. of the chosen Object: "+targetNr); 
+        
+        for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {           
+                    for(clsEmotion oOneEmotion : oEmotions_Output) { 
+                        if(oOneEmotion.getContent()==oOneForbiddenEmotion){     //find the forbidden Emotion from Output
+                            try{
+                                clsAssociation oAssociation = new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType>(
+                                        -1, eDataType.ASSOCIATIONEMOTION, eContentType.UNDEFINED),          
+                                        oOneEmotion, oTargetTPM.get(targetNr));     // Build the Association between forbidden 
+                                                                                    //Emotion and the chosen random Target, reference from F14 line 1178
+                                oNewAssociation.add(oAssociation);          // add this Association to the List
+                                ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent().add(oAssociation); 
+                                // add the association to the agent's perception-memory                                
+                                oEmotions_Output.remove(oOneEmotion);              //remove the forbidden Emotions, since it has been projected to others
+                                
+                                //followed prompt output are used for software test  
+                                ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent();
+                                for(clsAssociation oAssociation1 : oInternalAssociations){  //look up the ARSIN in Sight, refer to line 698
+                                    if (oAssociation1==oAssociation){
+                                        System.out.println("######### Info for Projection, new Association added to the Perception ");
+                                        }
+                                    }
+                                //System.out.println("######### Info for Projection, added new Association: "+ oAssociation.toString());
+                                //System.out.println("######### Info for Projection, done "); 
+                                //System.out.println("##################################################################################################### ");
+                                //System.out.println("");
+                                
+                                break;                                             // current action done, jump to the next forbidden Emotion
+                            }catch(Exception e){
+                                e.printStackTrace();
+                                System.out.println("Unable to create the Association for Projection!");
+                            }                     
+                        }
+                    }                                           
+        }       
+        return oNewAssociation;                  
+    }
+    
+    /* @author SUN 03.2013
+     * This Method will be used in defenseMechanism_Projection(). 
+     * This Method will check the inputed Perceptions, to find all ENTITYs like ARSIN from Perceptions
+     * It provides the Projection's Targets-TPM for defenseMechanism_Projection(). 
+     */
+    private ArrayList<clsThingPresentationMesh> findEntityInSight(){
+        ArrayList<clsThingPresentationMesh> oSelectedTPM = new ArrayList<clsThingPresentationMesh>();
+        ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent();
+        for(clsAssociation oAssociation : oInternalAssociations){  //look up the ARSIN in Sight, refer to line 698
+            if (oAssociation.getAssociationElementB() instanceof clsThingPresentationMesh){
+                if( ((clsThingPresentationMesh)oAssociation.getAssociationElementB()).getContentType().equals(eContentType.ENTITY) &&
+                    ((clsThingPresentationMesh)oAssociation.getAssociationElementB()).getContent().equals("BODO") ) { //ARSIN found in Sight
+                    oSelectedTPM.add((clsThingPresentationMesh)oAssociation.getAssociationElementB());                //add ARSIN to the List
+                }
+            }
+        }
+        return oSelectedTPM;
+    }
 	
 	
 	
