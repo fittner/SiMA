@@ -1,4 +1,4 @@
-; Mon Jan 05 13:04:06 CET 2015
+; Mon Jan 05 15:04:17 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,56 +45,56 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BASIC_UC1_FLEE_ProjectKB_Class140] of  String
+([BASIC_UC1_FLEE_ProjectKB_Class211] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class141] of  String
+([BASIC_UC1_FLEE_ProjectKB_Class212] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class142] of  String
+([BASIC_UC1_FLEE_ProjectKB_Class213] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class143] of  String
+([BASIC_UC1_FLEE_ProjectKB_Class214] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class144] of  String
+([BASIC_UC1_FLEE_ProjectKB_Class215] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class145] of  Map_Entry
+([BASIC_UC1_FLEE_ProjectKB_Class216] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class146] of  Map_Entry
+([BASIC_UC1_FLEE_ProjectKB_Class217] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class147] of  Map
+([BASIC_UC1_FLEE_ProjectKB_Class218] of  Map
 )
 
-([BASIC_UC1_FLEE_ProjectKB_Class148] of  Map_Entry
+([BASIC_UC1_FLEE_ProjectKB_Class219] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BASIC_UC1_FLEE_ProjectKB_Class147")
+	(value "BASIC_UC1_FLEE_ProjectKB_Class218")
 	(value_class "java.util.Map"))
 
-([BASIC_UC1_FLEE_ProjectKB_Class149] of  Map_Entry
+([BASIC_UC1_FLEE_ProjectKB_Class220] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BASIC_UC1_FLEE_ProjectKB_Class140]
-		[BASIC_UC1_FLEE_ProjectKB_Class141]
-		[BASIC_UC1_FLEE_ProjectKB_Class142]
-		[BASIC_UC1_FLEE_ProjectKB_Class143]
-		[BASIC_UC1_FLEE_ProjectKB_Class144]))
+		[BASIC_UC1_FLEE_ProjectKB_Class211]
+		[BASIC_UC1_FLEE_ProjectKB_Class212]
+		[BASIC_UC1_FLEE_ProjectKB_Class213]
+		[BASIC_UC1_FLEE_ProjectKB_Class214]
+		[BASIC_UC1_FLEE_ProjectKB_Class215]))
 
 ([CLSES_TAB] of  Widget
 
@@ -164,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BASIC_UC1_FLEE_ProjectKB_Class145]
-		[BASIC_UC1_FLEE_ProjectKB_Class146]
-		[BASIC_UC1_FLEE_ProjectKB_Class148]
-		[BASIC_UC1_FLEE_ProjectKB_Class149])
-	(referenced_maps [BASIC_UC1_FLEE_ProjectKB_Class147]))
+		[BASIC_UC1_FLEE_ProjectKB_Class216]
+		[BASIC_UC1_FLEE_ProjectKB_Class217]
+		[BASIC_UC1_FLEE_ProjectKB_Class219]
+		[BASIC_UC1_FLEE_ProjectKB_Class220])
+	(referenced_maps [BASIC_UC1_FLEE_ProjectKB_Class218]))
 
 ([KB_610615_Class10] of  Property_List
 )
