@@ -79,7 +79,7 @@ public class clsOrientationReasoner {
      * @return
      */
     protected clsWordPresentationMesh calculateChange(clsOrientation poOrientation) {
-        return poOrientation.difference();
+        return poOrientation.towards();
     }
     
     /**
@@ -101,5 +101,26 @@ public class clsOrientationReasoner {
         
         
         return calculateChange(oPosition);
+    }
+    
+    /**
+     * DOCUMENT - Create and return a WPM containing the necessary action(s) to orient
+     *            an agent away from the entity provided in poTargetEntity
+     *
+     * @author Kollmann
+     * @since 05.01.2015 13:28:00
+     *
+     * @param poTargetEntity: WPM of the entity the agent should orient away from
+     * @return
+     */
+    public clsWordPresentationMesh getActionAwayFromEntity(clsWordPresentationMesh poTargetEntity) {
+        if(poTargetEntity == null || poTargetEntity.isNullObject()) {
+            throw new InvalidParameterException("WPM parameter for method clsOrientationReasoner::getActionToEntity() is null or NULLOBJECT");
+        }
+        
+        clsOrientation oPosition = extractOrientation(poTargetEntity);
+        
+        
+        return oPosition.away();
     }
 }

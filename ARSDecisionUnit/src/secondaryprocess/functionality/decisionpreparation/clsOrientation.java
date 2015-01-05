@@ -76,7 +76,7 @@ public class clsOrientation {
      *
      * @return
      */
-    public clsWordPresentationMesh difference() {
+    public clsWordPresentationMesh towards() {
         eAction oChange = eAction.NONE;
         
         switch(moPosition.a) {
@@ -95,6 +95,51 @@ public class clsOrientation {
                 //Kollmann: temporarly removed, as this somehow increases the chance of the
                 //          object instance staying infinitely in the tempLocalizationStorage (in F46)
                 oChange = eAction.SEARCH1;
+                break;
+            default:
+                moLogger.warn("relative position of target entity invalid.");
+        }
+        
+        switch(moPosition.b) {
+        case CARRYING:
+            oChange = eAction.DROP;
+            break;
+        default:
+            break;
+        }
+        
+        clsWordPresentationMesh oDifferenceWPM = clsActionTools.createAction(oChange);
+        
+        return oDifferenceWPM;
+    }
+    
+    /**
+     * DOCUMENT - Create and return a WPM containing the information on how to "aim" away from the entity
+     *
+     * @author Kollmann
+     * @since 10.02.2014 21:06:47
+     *
+     * @return
+     */
+    public clsWordPresentationMesh away() {
+        eAction oChange = eAction.NONE;
+        
+        switch(moPosition.a) {
+            case LEFT:
+            case MIDDLE_LEFT:
+            case CENTER:
+                oChange = eAction.TURN_RIGHT;
+                break;
+            case RIGHT:
+            case MIDDLE_RIGHT:
+                oChange = eAction.TURN_LEFT;
+                break;
+            case UNKNOWNPOSITION:
+                //This means we want to flee from something that we do not know the position of ... for now, just stay true
+                
+                //Kollmann: temporarly removed, as this somehow increases the chance of the
+                //          object instance staying infinitely in the tempLocalizationStorage (in F46)
+                oChange = eAction.MOVE_FORWARD;
                 break;
             default:
                 moLogger.warn("relative position of target entity invalid.");
