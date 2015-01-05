@@ -29,7 +29,7 @@ import secondaryprocess.datamanipulation.clsMeshTools;
  */
 public class clsActPreparationTools {
 	
-	private static final double mrMomentActivationThreshold = 1.0;
+	private static final double mrMomentActivationThreshold = 0.5;
 	private static final double mrMomentConfidenceThreshold = 0.25;
 	private static final double mrDefaultConfidenceIncreasement = 0.5;
 	private static final double mrActConfidenceThreshold = 0.5;
@@ -42,7 +42,7 @@ public class clsActPreparationTools {
 	/** DOCUMENT (wendt) - insert description; @since 15.05.2014 09:52:12 */
 	private static final int mnMovementTimeoutEstalishValue = 10;
 	
-	private static final double P_ACTMATCHACTIVATIONTHRESHOLD = 1.0;
+	private static final double P_ACTMATCHACTIVATIONTHRESHOLD = 0.5;
 	
 	//private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
 	private static Logger log = Logger.getLogger("Acts");

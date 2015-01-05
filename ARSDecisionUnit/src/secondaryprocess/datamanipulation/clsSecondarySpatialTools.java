@@ -73,14 +73,18 @@ public class clsSecondarySpatialTools {
 	 */
 	public static ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> getEntityPositionsInImage(clsWordPresentationMesh poImage) {
 		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oResult = new ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>>();
+		clsWordPresentationMesh oEntity = null;
 		
 		for (clsAssociation poHasPartAssociation : poImage.getInternalAssociatedContent()) {
-			
-			clsWordPresentationMesh oEntity = (clsWordPresentationMesh) poHasPartAssociation.getLeafElement();
-			
-			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(oEntity);
-			
-			oResult.add(oPosition);
+			if(poHasPartAssociation.getLeafElement() instanceof clsWordPresentationMesh) {
+    			oEntity = (clsWordPresentationMesh) poHasPartAssociation.getLeafElement();
+    			
+    			if(oEntity.getContentType().equals(eContentType.ENTITY)) {    			
+    			    clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(oEntity);
+    			
+    			    oResult.add(oPosition);
+    			}
+			}
 		}
 		
 		return oResult;

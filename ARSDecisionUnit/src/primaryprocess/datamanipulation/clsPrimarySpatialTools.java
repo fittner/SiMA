@@ -14,6 +14,7 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationTime;
 import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
@@ -52,6 +53,8 @@ public class clsPrimarySpatialTools {
 	public static double getImageMatch(clsThingPresentationMesh poPI, clsThingPresentationMesh poRI) {
 		//Matching: All Objects in RI are searched for in PI, which means that RI is the more generalized image 
 		double rRetVal = 0;
+		double rEmotionImpactFactor = 0.5; // this factor defines how much influence the emotion match between PI and RI has on the total image match
+		double rEmotionMatch = 0;
 		//Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
 		//Only references in the array
 		
@@ -84,10 +87,27 @@ public class clsPrimarySpatialTools {
 				log.error("Systemtester has an error in addRIAssociations(oRIPIMatchList), poRI", e);
 			}
 		}
-		//Calculate the image match
-		rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
 		
-		return rRetVal;
+		//if the RI contains no entities at all, set the match value to 1, otherwise calculate the match
+		if(oRIPositionArray.isEmpty()) {
+		    rRetVal = 1;
+		} else {
+		    //Calculate the image match
+		    rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
+		}
+		
+		//calculate emotion match of images
+		//get emotions from first image
+		clsEmotion oEmotionPI = clsEmotion.fromTPM(poPI);
+		
+		//get emotions from second image
+		clsEmotion oEmotionRI = clsEmotion.fromTPM(poRI);
+		
+		//get match value for the two emotions
+		if(oEmotionPI != null && oEmotionRI != null) {
+		    rEmotionMatch = oEmotionPI.compareTo(oEmotionRI);
+		}    
+		return (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
 	}
 	
 	

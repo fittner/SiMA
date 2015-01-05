@@ -423,6 +423,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rInfluencePerceivedObjects = 0.3;
 		
 		clsDriveMesh oDM = null;
+		clsEmotion oExperiencedEmotion = null;
 		
 		// use QoA of the PI's entities  for emotion-generation
 		for(clsAssociation oPIINtAss: moPerceptions_IN.getInternalAssociatedContent()) {
@@ -490,6 +491,21 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                         }  
                     }//end koller  
                     
+                    //Experienced emotion for entities
+                    if(oEntityAss.getContentType().equals(eContentType.ASSOCIATIONEMOTION) && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")) {
+                        //check if the association really connects an emotion with a TPM
+                        if(oEntityAss.getAssociationElementA() instanceof clsEmotion && oEntityAss.getAssociationElementB() instanceof clsThingPresentationMesh) {
+                            oExperiencedEmotion = (clsEmotion) oEntityAss.getAssociationElementA();
+                            
+                            rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, oExperiencedEmotion.getSourcePleasure()); 
+                            rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oExperiencedEmotion.getSourceUnpleasure());
+                            rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, oExperiencedEmotion.getSourceLibid());
+                            rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, oExperiencedEmotion.getSourceAggr());
+                        } else {
+                            log.warn("Found ASSOCIATIONEMOTION that does NOT connect clsEmotion to clsThingPresentationMesh:");
+                            log.warn(oEntityAss.toString());
+                        }
+                    }
 				}
 			}
         }

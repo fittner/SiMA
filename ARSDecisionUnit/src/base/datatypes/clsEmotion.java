@@ -47,6 +47,19 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		mrSourceAggr = prSourceAggr ;
 	} 
 
+	public static clsEmotion fromTPM(clsThingPresentationMesh poTPM) {
+	    clsDataStructurePA oEmotion = null;
+	    
+	    for(clsAssociationEmotion oAssEmotion : clsAssociation.filterListByType(poTPM.getExternalAssociatedContent(), clsAssociationEmotion.class)) {
+	        oEmotion = oAssEmotion.getTheOtherElement(poTPM);
+	        if(oEmotion != null && oEmotion instanceof clsEmotion) {
+	            return (clsEmotion) oEmotion;
+	        }
+	    }
+	    
+	    return null;
+	}
+	
 	public static clsEmotion fromFeeling(clsWordPresentationMeshFeeling poFeeling) {
 	    eEmotionType oEmotionType = eEmotionType.valueOf(poFeeling.getContent());
 	    double rEmotionIntensity = poFeeling.getIntensity();
@@ -55,13 +68,10 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
         double rEmotionLibid = poFeeling.getLibido();
         double rEmotionAggr = poFeeling.getAggression();
                 
-        clsEmotion test1 = clsDataStructureGenerator.generateEMOTION(new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, oEmotionType, rEmotionIntensity),
+        clsEmotion oEmotion = clsDataStructureGenerator.generateEMOTION(new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, oEmotionType, rEmotionIntensity),
                 rEmotionPleasure, rEmotionUnpleasure, rEmotionLibid, rEmotionAggr);
         
-        clsEmotion test2 = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rEmotionIntensity, oEmotionType,
-                rEmotionPleasure,  rEmotionUnpleasure,  rEmotionLibid,  rEmotionAggr);
-        
-        return test1;
+        return oEmotion;
 	}
 	
 	static protected double doubleMatch(double rLHV, double rRHV) {

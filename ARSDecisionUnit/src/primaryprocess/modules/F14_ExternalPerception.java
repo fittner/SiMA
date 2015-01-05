@@ -475,7 +475,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         }
         rCurrentL /= rNumberOfLib;
         rCurrentA /= rNumberOfAgg;
-        clsEmotion oCurrentEmotion = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rCurrentP, rCurrentL + rCurrentA, rCurrentL, rCurrentA);
+        clsEmotion oCurrentEmotion = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0), rCurrentP, rCurrentL + rCurrentA, rCurrentL, rCurrentA);
         oCurrentEmotions.add(oCurrentEmotion);
       //oCurrentEmotions.add(oCurrentEmotion); // just for test
         
