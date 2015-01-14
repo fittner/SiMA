@@ -30,7 +30,7 @@ import secondaryprocess.datamanipulation.clsMeshTools;
 public class clsActPreparationTools {
 	
 	private static final double mrMomentActivationThreshold = 0.5;
-	private static final double mrMomentConfidenceThreshold = 0.25;
+	private static final double mrMomentConfidenceThreshold = 0.0;
 	private static final double mrDefaultConfidenceIncreasement = 0.5;
 	private static final double mrActConfidenceThreshold = 0.5;
 	/** This is the default start timeout value for images in acts. Der Timeout 

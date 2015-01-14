@@ -1,63 +1,63 @@
-; Mon Jan 05 16:00:30 CET 2015
+; Thu Jan 08 15:35:00 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
 
-([ADAM_EC2SC1_FLEE_ProjectKB_Class10] of  String
+([ADAM_EC2SC1_FLEE_ProjectKB_Class10050] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([ADAM_EC2SC1_FLEE_ProjectKB_Class10051] of  String
+
+	(name "ANTENNA_LEFT")
+	(string_value "instance_association"))
+
+([ADAM_EC2SC1_FLEE_ProjectKB_Class10052] of  String
+
+	(name "DOMAIN")
+	(string_value "value_type"))
+
+([ADAM_EC2SC1_FLEE_ProjectKB_Class10053] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_EC2SC1_FLEE_ProjectKB_Class11] of  Map_Entry
+([ADAM_EC2SC1_FLEE_ProjectKB_Class10054] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([ADAM_EC2SC1_FLEE_ProjectKB_Class10055] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC1_FLEE_ProjectKB_Class12] of  Map_Entry
+([ADAM_EC2SC1_FLEE_ProjectKB_Class10056] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC1_FLEE_ProjectKB_Class13] of  Map
+([ADAM_EC2SC1_FLEE_ProjectKB_Class10057] of  Map
 )
 
-([ADAM_EC2SC1_FLEE_ProjectKB_Class14] of  Map_Entry
+([ADAM_EC2SC1_FLEE_ProjectKB_Class10058] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_EC2SC1_FLEE_ProjectKB_Class13")
+	(value "ADAM_EC2SC1_FLEE_ProjectKB_Class10057")
 	(value_class "java.util.Map"))
 
-([ADAM_EC2SC1_FLEE_ProjectKB_Class15] of  Map_Entry
+([ADAM_EC2SC1_FLEE_ProjectKB_Class10059] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
-
-([ADAM_EC2SC1_FLEE_ProjectKB_Class6] of  String
-
-	(name "ANTENNA_LEFT")
-	(string_value "instance_association"))
-
-([ADAM_EC2SC1_FLEE_ProjectKB_Class7] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([ADAM_EC2SC1_FLEE_ProjectKB_Class8] of  String
-
-	(name "DOMAIN")
-	(string_value "value_type"))
-
-([ADAM_EC2SC1_FLEE_ProjectKB_Class9] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
 
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_EC2SC1_FLEE_ProjectKB_Class6]
-		[ADAM_EC2SC1_FLEE_ProjectKB_Class7]
-		[ADAM_EC2SC1_FLEE_ProjectKB_Class8]
-		[ADAM_EC2SC1_FLEE_ProjectKB_Class9]
-		[ADAM_EC2SC1_FLEE_ProjectKB_Class10]))
+		[ADAM_EC2SC1_FLEE_ProjectKB_Class10050]
+		[ADAM_EC2SC1_FLEE_ProjectKB_Class10051]
+		[ADAM_EC2SC1_FLEE_ProjectKB_Class10052]
+		[ADAM_EC2SC1_FLEE_ProjectKB_Class10053]
+		[ADAM_EC2SC1_FLEE_ProjectKB_Class10054]))
 
 ([CLSES_TAB] of  Widget
 
@@ -153,6 +153,9 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
+([KB_502320_Class5] of  Map
+)
+
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -161,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_EC2SC1_FLEE_ProjectKB_Class11]
-		[ADAM_EC2SC1_FLEE_ProjectKB_Class12]
-		[ADAM_EC2SC1_FLEE_ProjectKB_Class14]
-		[ADAM_EC2SC1_FLEE_ProjectKB_Class15])
-	(referenced_maps [ADAM_EC2SC1_FLEE_ProjectKB_Class13]))
+		[ADAM_EC2SC1_FLEE_ProjectKB_Class10055]
+		[ADAM_EC2SC1_FLEE_ProjectKB_Class10056]
+		[ADAM_EC2SC1_FLEE_ProjectKB_Class10058]
+		[ADAM_EC2SC1_FLEE_ProjectKB_Class10059])
+	(referenced_maps [ADAM_EC2SC1_FLEE_ProjectKB_Class10057]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -619,9 +622,6 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_714052_Class5] of  Map
-)
-
 ([LAYOUT_PROPERTIES] of  Property_List
 
 	(name "layout properties")
@@ -711,8 +711,8 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[STANDARD_SLOT_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
+		[STANDARD_SLOT_FORM_WIDGET]
 		[PAL_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")

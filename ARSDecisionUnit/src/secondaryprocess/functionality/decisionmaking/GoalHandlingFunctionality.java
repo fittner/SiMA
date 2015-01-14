@@ -169,7 +169,7 @@ public class GoalHandlingFunctionality {
      * @param poReachableGoals list of reachable goals (coming from perception or memory)
      * @param poAimOfDrives list of relevant drive aims
      */
-    public static void applyAimImportanceOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoals, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDrives) {
+    public static void applyAimImportanceOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoals, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDrives, double prGoalImpact) {
         double nImportance;
         String oGoalName;
         eAction oAction;
@@ -177,7 +177,7 @@ public class GoalHandlingFunctionality {
         for(clsWordPresentationMeshPossibleGoal oGoal : poReachableGoals) {
             oGoalName = oGoal.getGoalName();
             oAction = clsAimOfDrivesTools.getAimOfDriveActionByName(poAimOfDrives, oGoalName);
-            nImportance = GoalAlgorithmTools.calucateAimImportance(oGoal, oAction);
+            nImportance = GoalAlgorithmTools.calucateAimImportance(oGoal, oAction, prGoalImpact);
             oGoal.setDriveAimImportance(nImportance);
         }
     }
