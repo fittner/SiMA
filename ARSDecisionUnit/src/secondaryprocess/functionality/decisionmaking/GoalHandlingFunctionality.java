@@ -82,8 +82,8 @@ public class GoalHandlingFunctionality {
      * @param reachableGoalList
      * @param currentFeelingsList
      */
-    public static void applyFeelingsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings, boolean activateEmotionalInfluence,
-            double receivedPsychicIntensity) {
+    public static void applyFeelingsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings,
+            double prFeelingsMatchImpact, boolean activateEmotionalInfluence, double receivedPsychicIntensity) {
         //HOW DO WE INCLUDE HERE THE receivedPsychicIntensity? How does it influence the choice of ordering the goals by a given priority?
         //HOW DO WE REPORT THE QUANTITY OF PSYCHIC INTENSITY USED?
         
@@ -115,15 +115,15 @@ public class GoalHandlingFunctionality {
                 
                 if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold && receivedPsychicIntensity < goalsByExpectedFeelingThreshold ){
                     
-                    goal.setFeelingsImportance(FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));                   
+                    goal.setFeelingsImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));                   
                     
                 } else if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold && receivedPsychicIntensity < goalsByReservedFeelingThreshold ){
                     
-                    goal.setFeelingsImportance(FeelingAlgorithmTools.evaluateGoalByExpectedFeelings(goal, currentFeelings));
+                    goal.setFeelingsImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByExpectedFeelings(goal, currentFeelings));
                     
                 } else if (receivedPsychicIntensity>=goalsByReservedFeelingThreshold) {
                     
-                    goal.setFeelingsImportance(FeelingAlgorithmTools.evaluateGoalByReservedFeelings(goal, currentFeelings));
+                    goal.setFeelingsImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByReservedFeelings(goal, currentFeelings));
                 }
            }
         }
@@ -152,14 +152,14 @@ public class GoalHandlingFunctionality {
      * for example:
      *    in primary process: a drive LIBIDINOUS/STOMACH might have an object CAKE associated and an action EAT
      *                        then the super ego forces the action to be replaced by DVIDE
-     *    in secondy process: two acts are extracted from memory that might be able to satisfy the drive: one about hitting the cake, the other one about dividing it
-     *                        the act that contains information about dividing the cake should be prefered, since it corresponds with the original drive aim (DIVID)  
+     *    in secondary process: two acts are extracted from memory that might be able to satisfy the drive: one about hitting the cake, the other one about dividing it
+     *                        the act that contains information about dividing the cake should be preferred, since it corresponds with the original drive aim (DIVID)  
      *                        from the primary process.
      * 
-     * To achieve this, the function iterates over all reachable goals and, if the goal is associated to an act in memory, tries to extract the actio associated with
+     * To achieve this, the function iterates over all reachable goals and, if the goal is associated to an act in memory, tries to extract the action associated with
      * that act.
      * 
-     * If an action is found, it is compared to the action associated to the aim of drive it is supposed to satisfie (e.g. LIBIDINOUSESTOMACH)
+     * If an action is found, it is compared to the action associated to the aim of drive it is supposed to satisfy (e.g. LIBIDINOUSESTOMACH)
      * 
      * If no action is found, the importance is not changed
      * 

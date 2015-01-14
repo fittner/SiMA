@@ -157,7 +157,6 @@ public class FeelingAlgorithmTools {
      * @param poGoal 
      */
     public static double evaluateGoalByTriggeredFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
-        double rFeelingMatchImportance = 0.3;
         double rFeelingMatch = 0;
         clsWordPresentationMesh oWPMImage = null;
         
@@ -176,7 +175,7 @@ public class FeelingAlgorithmTools {
         }
         
         //adjust match value by match importance
-        return rFeelingMatchImportance * rFeelingMatch; 
+        return rFeelingMatch; 
     }
     
     

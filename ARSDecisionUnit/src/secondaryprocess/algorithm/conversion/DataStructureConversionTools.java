@@ -58,12 +58,12 @@ public class DataStructureConversionTools {
      * @param poTPM
      * @return
      */
-    public static clsWordPresentationMesh convertCompleteTPMtoWPMRoot(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM) {
-        return convertCompleteTPMtoWPM(ltm, poTPM, new ArrayList<clsThingPresentationMesh>(), 1, poTPM.getContentType());
+    public static clsWordPresentationMesh convertCompleteTPMtoWPMRoot(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM, double prDriveDemandImpactFactor) {
+        return convertCompleteTPMtoWPM(ltm, poTPM, new ArrayList<clsThingPresentationMesh>(), 1, poTPM.getContentType(), prDriveDemandImpactFactor);
     }
     
-    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess poLongTermMemory, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel, eContentType poContentType) {
-        return convertCompleteTPMtoWPM(poLongTermMemory, poTPM, new ArrayList<clsThingPresentationMesh>(), pnLevel, pnLevel, poTPM.getContentType());
+    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess poLongTermMemory, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel,eContentType poContentType, double prDriveDemandImpactFactor) {
+        return convertCompleteTPMtoWPM(poLongTermMemory, poTPM, new ArrayList<clsThingPresentationMesh>(), pnLevel, pnLevel, poTPM.getContentType(), prDriveDemandImpactFactor);
     }
     
     /**
@@ -81,7 +81,7 @@ public class DataStructureConversionTools {
      * @param poSubTPM
      * @return
      */
-    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevelInternal, int pnLevelExternal, eContentType contentType) {
+    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevelInternal, int pnLevelExternal, eContentType contentType, double prDriveDemandImpactFactor) {
         clsWordPresentationMesh oRetVal = null;
 
         // add the current TPM to the list
@@ -180,14 +180,14 @@ public class DataStructureConversionTools {
                         goalType = eGoalType.PERCEPTIONALDRIVE;
                     }
                     
-                    clsWordPresentationMeshPossibleGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType); //clsGoalTools.convertDriveMeshToWP(oDM);
+                    clsWordPresentationMeshPossibleGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType, prDriveDemandImpactFactor); //clsGoalTools.convertDriveMeshToWP(oDM);
                     
                     if(goalType.equals(eGoalType.MEMORYDRIVE)) {
                         clsThingPresentationMesh oTPMPotentialDriveAim = oDM.getActualDriveAim();
                         
                         if(oTPMPotentialDriveAim != null) {
                             //Kollmann : internal and external levels are set to -2 to keep the conversion method from going deeper into the TPM
-                            clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType);
+                            clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType, prDriveDemandImpactFactor);
                             
                             oDMWP.setPotentialDriveAim(oWPMPotentialDriveAim);
                         } else {
@@ -216,7 +216,7 @@ public class DataStructureConversionTools {
                 	    //          therefore we only consider associations where the current TPM is NOT the leaf
                 	    if(!(oSubTPM.getDS_ID() == poTPM.getDS_ID())) {
                         	// Convert the complete structure to a WPM
-                            clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, (clsThingPresentationMesh)oSubDataStructure, poProcessedList, pnLevelInternal, pnLevelExternal - 1, contentType);
+                            clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, (clsThingPresentationMesh)oSubDataStructure, poProcessedList, pnLevelInternal, pnLevelExternal - 1, contentType, prDriveDemandImpactFactor);
                             
                             if(oSubDataStructure.getContentType() == eContentType.ACTION) {
                         	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
@@ -264,7 +264,7 @@ public class DataStructureConversionTools {
 
                     clsThingPresentationMesh oSubTPM = ((clsAssociationTime) oTPMInternalAss).getLeafElement();
                     // Convert the complete structure to a WPM
-                    clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, oSubTPM, poProcessedList, pnLevelInternal - 1, pnLevelExternal, contentType);
+                    clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, oSubTPM, poProcessedList, pnLevelInternal - 1, pnLevelExternal, contentType, prDriveDemandImpactFactor);
 
                     // Add the subWPM to the WPM structure
                     clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);

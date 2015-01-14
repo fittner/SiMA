@@ -106,7 +106,7 @@ public class clsPrimarySpatialTools {
 		//get match value for the two emotions
 		if(oEmotionPI != null && oEmotionRI != null) {
 		    rEmotionMatch = oEmotionPI.compareTo(oEmotionRI);
-		}    
+		}
 		return (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
 	}
 	

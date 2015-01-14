@@ -256,8 +256,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
             log.error("", e1);
         }
 		
-//		//Reset SELFs DS ID to it's former value
-//		oSelf.setMoDS_ID(nOldSelfID);
+//		Remove the emotion from the perceived image
+		for(clsAssociationEmotion oAss : clsAssociation.filterListByType(oPerceivedImage.getExternalAssociatedContent(), clsAssociationEmotion.class)) {
+		    oPerceivedImage.getExternalAssociatedContent().remove(oAss);
+		}
 		
 		log.debug("PI: " + oPerceivedImage);
 		log.info("Activated images: {}", PrintTools.printActivatedMeshWithPIMatch(oPerceivedImage));

@@ -202,7 +202,7 @@ public class clsGoalManipulationTools {
      * @param poDM
      * @return
      */
-    public static clsWordPresentationMeshPossibleGoal convertDriveMeshPerceptionToGoal(clsDriveMesh poDM, clsWordPresentationMesh goalObject, eGoalType goalType) {
+    public static clsWordPresentationMeshPossibleGoal convertDriveMeshPerceptionToGoal(clsDriveMesh poDM, clsWordPresentationMesh goalObject, eGoalType goalType, double prDriveDemandImpactFactor) {
         //clsWordPresentationMeshGoal oResult = clsGoalTools.moNullObjectWPM;
         
         //Create the drive string from Drive component, orifice and organ
@@ -212,7 +212,7 @@ public class clsGoalManipulationTools {
         
         //FIXME SSCH: 
         //double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION), 0.1);
-        double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), 0, 0.1);
+        double rImportance = prDriveDemandImpactFactor * clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), 0, 0.1);
         //getGoalObject
         
         

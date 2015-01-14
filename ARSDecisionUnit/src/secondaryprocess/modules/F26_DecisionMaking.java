@@ -72,6 +72,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	public static final String P_GOAL_PASS = "NUMBER_OF_GOALS_TO_PASS";
 	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";
 	public static final String P_AVOIC_INTENSITY = "AVOID_INTENSITY";
+	public static final String P_INFLUENCE_FACTOR_FEELINGS = "INFLUENCE_FACTOR_FEELINGS";
 	
 	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_IN;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
@@ -97,6 +98,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	/** Threshold for letting through drive goals */
 	private double mrAffectThresold;	//Everything with an affect >= MEDIUM is passed through
 	
+	private double mrFeelingsImpact;
 	
 	private int mnAvoidIntensity;
 	
@@ -132,7 +134,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		mnNumberOfGoalsToPass=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_GOAL_PASS).getParameterInt();
 		mrAffectThresold=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AFFECT_THRESHOLD).getParameterDouble();
 		mnAvoidIntensity=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AVOIC_INTENSITY).getParameterInt();
-
+		mrFeelingsImpact=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_INFLUENCE_FACTOR_FEELINGS).getParameterDouble();
 		
 		//Get short time memory
 		moShortTermMemory = poShortTimeMemory;
@@ -273,7 +275,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		//Apply effect of feelings on goals
 		
-		GoalHandlingFunctionality.applyFeelingsOnReachableGoals(moReachableGoalList_IN, moFeeling_IN, bActivatePanicInfluence, rReceivedPsychicEnergy);
+		GoalHandlingFunctionality.applyFeelingsOnReachableGoals(moReachableGoalList_IN, moFeeling_IN, mrFeelingsImpact, bActivatePanicInfluence, rReceivedPsychicEnergy);
 		log.debug("Current feelings: {}", moFeeling_IN);
 		log.debug("Current feelings on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
