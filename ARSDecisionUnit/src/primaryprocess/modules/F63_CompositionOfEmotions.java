@@ -13,6 +13,7 @@ import inspector.interfaces.itfInspectorGenericTimeChart;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.SortedMap;
 
 import org.slf4j.Logger;
@@ -416,6 +417,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rPerceptionLibid = 0.0;
 		double rPerceptionAggr = 0.0;
 				
+		boolean bDMFound = false; // Kollmann: this is for debug. The DM comparison could is not all that stable, so this is a quick fix  
 		
 		double rInfluencePerception = 0;
 		
@@ -443,11 +445,24 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 							
 							// influence of perceived objects is dependent on agent's actual drives. e.g. if the agent is hungry and it perceives a schnitzel, 
 							// the perception influences emotion-generation more than in the case of an agent without hunger  
-							for (clsDriveMesh oActualDM: moDrives_IN) {
-								if (oDM.compareTo(oActualDM) >= 0.75) {
-									rInfluencePerception = oDM.getQuotaOfAffect() * oActualDM.getQuotaOfAffect();
-									if(rInfluencePerception>1) rInfluencePerception = 1;
-								}
+//							for (clsDriveMesh oActualDM: moDrives_IN) {
+//								if (oDM.compareTo(oActualDM) >= 0.75) {
+//									rInfluencePerception = oDM.getQuotaOfAffect() * oActualDM.getQuotaOfAffect();
+//									if(rInfluencePerception>1) rInfluencePerception = 1;
+//								}
+//							}
+							
+							List<clsDriveMesh> oMatchingDMs = clsDriveMesh.filterListByDM(moDrives_IN, oDM, clsDriveMesh.StructureComparator);
+							if(oMatchingDMs.size() > 1) {
+							    log.error("DM " + oDM + " has more than one simmilar DMs in the drives list.");
+							    rInfluencePerception = 0;
+							}
+							
+							if(oMatchingDMs.size() > 0) {
+							    rInfluencePerception = oMatchingDMs.get(0).getQuotaOfAffect() * oDM.getQuotaOfAffect();
+							} else {
+							    log.warn("DM " + oDM + " has no matching DMs in drive list.");
+							    rInfluencePerception = 0;
 							}
 							
 						    //rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oDM.getQuotaOfAffect());

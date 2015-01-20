@@ -11,6 +11,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
+import java.util.Comparator;
+import java.util.List;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import base.datahandlertools.clsDataStructureGenerator;
@@ -477,46 +480,44 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 
 		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
-		ArrayList <clsAssociation> oContentListTemplate = this.moInternalAssociatedContent; 
-		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moInternalAssociatedContent;
 				
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
+	
+		if(oDataStructure.moDS_ID >= 0 && this.moDS_ID == oDataStructure.moDS_ID){
+			/*In case the DataStructureIDs are equal, the return value is the number 
+			 * of associated data structures and their number of associations. The idendityMatch number
+			 * is not used here as it would distort the result.   
+			 */
+			//oRetVal = oDataStructure.getNumbAssociations();
+			oRetVal = 1.0;
+		} else if (oDataStructure.moDS_ID >= -1) {
+		//In case the data structure does not have an ID, it has to be compared to a stored 
+		//data structure and replaced by it (the processes base on information that is already
+		//defined
 		
-			if(this.moDS_ID == oDataStructure.moDS_ID){
-				/*In case the DataStructureIDs are equal, the return value is the number 
-				 * of associated data structures and their number of associations. The idendityMatch number
-				 * is not used here as it would distort the result.   
-				 */
-				//oRetVal = oDataStructure.getNumbAssociations();
-				oRetVal = 1.0;
-			}
-			else if (oDataStructure.moDS_ID >= -1) {
-			//In case the data structure does not have an ID, it has to be compared to a stored 
-			//data structure and replaced by it (the processes base on information that is already
-			//defined
-			
-				//Comparision of DMs makes only sense, if they have the same component, source (and partialdrive). Driveaim and -object are comparable
-					
-				double rDiffQoA = 0 ;
-				if(this.moDriveComponent == oDataStructure.moDriveComponent){
-					if(this.moPartialDrive == oDataStructure.moPartialDrive){
-						if(this.getActualDriveSourceAsENUM() == oDataStructure.getActualDriveSourceAsENUM()){
-							oRetVal = getMatchScore(this, oDataStructure);
-							// also consider QoA. if the two DMs have the same QoA -> higher matchingfactor
-							
-							rDiffQoA = (this.mrQuotaOfAffect/oDataStructure.getQuotaOfAffect());
-							
-							if(rDiffQoA>1){
-								rDiffQoA =1;
-							}
-							oRetVal = ((oRetVal + 1 +rDiffQoA)/3); // drivecomponent (+ partialdrive) (at this stage always "1") have the same weight as driveobject + driveaim
+			//Comparision of DMs makes only sense, if they have the same component, source (and partialdrive). Driveaim and -object are comparable
+				
+			double rDiffQoA = 0 ;
+			if(this.moDriveComponent == oDataStructure.moDriveComponent){
+				if(this.moPartialDrive == oDataStructure.moPartialDrive){
+					if(this.getActualDriveSourceAsENUM() == oDataStructure.getActualDriveSourceAsENUM()){
+						oRetVal = getMatchScore(this, oDataStructure);
+						// also consider QoA. if the two DMs have the same QoA -> higher matchingfactor
+						
+						rDiffQoA = (this.mrQuotaOfAffect/oDataStructure.getQuotaOfAffect());
+						
+						if(rDiffQoA>1){
+							rDiffQoA =1;
 						}
+						oRetVal = ((oRetVal + 1 +rDiffQoA)/3); // drivecomponent (+ partialdrive) (at this stage always "1") have the same weight as driveobject + driveaim
 					}
-					
 				}
+				
 			}
+		}
+		
 		return oRetVal; 
 	}
 	
@@ -780,6 +781,55 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         return false;
     }
 
-
+    /**
+     * DOCUMENT - Utility comparator that only compares:
+     *               - DRIVE COMPONENT
+     *               - DRIVE SOURCE
+     *               - PARTIAL DRIVE
+     *
+     * @author Kollmann
+     * @since 20.01.2015 18:32:00
+     *
+     * @param clsDriveMesh Drive mesh to compare
+     * @return
+     */
+    public static class StructureComparatorClass implements Comparator<clsDriveMesh> {
+        @Override
+        public int compare(clsDriveMesh poDM1, clsDriveMesh poDM2) {
+            int nDiff = 0;
+                    
+            if(poDM1 == poDM2){ return 0; }
+            
+            nDiff += Math.abs(poDM1.getDriveComponent().compareTo(poDM2.getDriveComponent()));
+            nDiff += Math.abs(poDM1.getActualDriveSourceAsENUM().compareTo(poDM2.getActualDriveSourceAsENUM()));
+            nDiff += Math.abs(poDM1.getPartialDrive().compareTo(poDM2.getPartialDrive()));
+            
+            return nDiff;
+        }
+    }
+    
+    public static StructureComparatorClass StructureComparator = new StructureComparatorClass();
+    
+    /**
+     * DOCUMENT - Goes through a provided list of drive meshes and returns a new list, containing only drive meshes that are equal to the comparison
+     *            DM, using the provided comparator (Rem
+     *
+     * @author Kollmann
+     * @since 24.09.2014 11:54:09
+     *
+     * @param poAssociations
+     * @return
+     */
+    public static List<clsDriveMesh> filterListByDM(List<clsDriveMesh> poMeshes, clsDriveMesh poDM, Comparator<clsDriveMesh> poComparator) {
+        List<clsDriveMesh> oDriveMeshes = new ArrayList<clsDriveMesh>();
+        
+        for(clsDriveMesh oDM : poMeshes) {
+            if(poComparator.compare(oDM, poDM) == 0) {
+                oDriveMeshes.add(oDM);
+            }
+        }
+        
+        return oDriveMeshes;
+    }
 }
 
