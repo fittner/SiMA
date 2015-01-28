@@ -694,6 +694,16 @@ public abstract class clsDataStructureComparisonTools {
 						}
 					}
 					
+					//Also check internal associations
+					if(bFound == false) {
+	                    for (clsAssociation oExternalAss : oRetVal.getInternalAssociatedContent()) {
+	                        if (oAss.getDS_ID()==oExternalAss.getDS_ID()) {
+	                            bFound=true;
+	                            break;
+	                        }
+	                    }
+					}
+					
 					if (bFound==false) {
 						try {
 							clsAssociation oClonedAss = (clsAssociation) oAss.clone();
@@ -840,8 +850,13 @@ public abstract class clsDataStructureComparisonTools {
 			}
 		}
 		
-		//Complement all associations in the other structures
-		clsMeshTools.setInverseAssociations(oRetVal);
+		if(oRetVal != null) {
+			//Complement all associations in the other structures
+			clsMeshTools.setInverseAssociations(oRetVal);
+		} else {
+			log.error("Could not complete WPM {} - possibly because it is not found in memory (did you forget to connect the TPM and WPM in memory?)", poInput.getContent());
+			log.error("Stack: ", new Exception());
+		}
 		
 		return oRetVal;
 	}

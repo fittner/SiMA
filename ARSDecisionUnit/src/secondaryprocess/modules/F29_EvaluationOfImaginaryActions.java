@@ -560,27 +560,35 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     public ArrayList<ArrayList<Double>> getStackedBarChartData() {
         ArrayList<ArrayList<Double>> oData = new ArrayList<>();
         oData.add(new ArrayList<Double>()); // idx 0 = Drive Demand Importance
-        oData.add(new ArrayList<Double>()); // idx 1 = Drive Demand Correction Importance
-        oData.add(new ArrayList<Double>()); // idx 2 = Effort Impact Importance
-        oData.add(new ArrayList<Double>()); // idx 3 = Drive Aim Importance
-        oData.add(new ArrayList<Double>()); // idx 4 = Feelings Importance
+        oData.add(new ArrayList<Double>()); // idx 1 = Feelings Importance
+        oData.add(new ArrayList<Double>()); // idx 2 = Drive Demand Correction Importance
+        oData.add(new ArrayList<Double>()); // idx 3 = Effort Impact Importance
+        oData.add(new ArrayList<Double>()); // idx 4 = Drive Aim Importance
         oData.add(new ArrayList<Double>()); // idx 5 = Social Rules Importance
         oData.add(new ArrayList<Double>()); // idx 6 = Unknown influence
         
-        double rTotalImportance;
-
+        double rTotalImportance = 0;
+        double rTempDriveDemandImportance = 0;
+        double rTempFeelingImportance = 0;
+        
         for (clsWordPresentationMeshPossibleGoal oGoal : moSelectableGoals) {
             rTotalImportance = 0;
-            oData.get(0).add(oGoal.getDriveDemandImportance());
-            rTotalImportance += oGoal.getDriveDemandImportance();
-            oData.get(1).add(oGoal.getDriveDemandCorrectionImportance());
+            
+            //Drive demand and feelings importance are combined via non-proportional aggregation, therefore we divide the
+            //PP impact factor, according to the relation between drive demand impact and feelings impact
+            rTempDriveDemandImportance = oGoal.getPPImportance() * (oGoal.getDriveDemandImportance() / (oGoal.getDriveDemandImportance() +  oGoal.getFeelingsImportance()));
+            rTempFeelingImportance = oGoal.getPPImportance() * (oGoal.getFeelingsImportance() / (oGoal.getDriveDemandImportance() +  oGoal.getFeelingsImportance()));
+            
+            oData.get(0).add(rTempDriveDemandImportance);
+            rTotalImportance += rTempDriveDemandImportance;
+            oData.get(1).add(rTempFeelingImportance);
+            rTotalImportance += rTempFeelingImportance;
+            oData.get(2).add(oGoal.getDriveDemandCorrectionImportance());
             rTotalImportance += oGoal.getDriveDemandCorrectionImportance();
-            oData.get(2).add(oGoal.getEffortImpactImportance());
+            oData.get(3).add(oGoal.getEffortImpactImportance());
             rTotalImportance += oGoal.getEffortImpactImportance();
-            oData.get(3).add(oGoal.getDriveAimImportance());
+            oData.get(4).add(oGoal.getDriveAimImportance());
             rTotalImportance += oGoal.getDriveAimImportance();
-            oData.get(4).add(oGoal.getFeelingsImportance());
-            rTotalImportance += oGoal.getFeelingsImportance();
             oData.get(5).add(oGoal.getSocialRulesImportance());
             rTotalImportance += oGoal.getSocialRulesImportance();
             oData.get(6).add(oGoal.getTotalImportance() - rTotalImportance);
@@ -601,10 +609,10 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         ArrayList<String> oResult = new ArrayList<String>();
 
         oResult.add("Drive Demand Importance");
+        oResult.add("Feelings Importance");
         oResult.add("Drive Demand Correction Importance");
         oResult.add("Effort Impact Importance");
         oResult.add("Drive Aim Importance");
-        oResult.add("Feelings Importance");
         oResult.add("Social Rules Importance");
         oResult.add("Unknown factors");
         

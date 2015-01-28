@@ -19,7 +19,6 @@ import java.util.SortedMap;
 import java.util.regex.PatternSyntaxException;
 
 import base.datatypes.enums.eOrgan;
-
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -450,10 +449,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		}
 		
 		
-		double rRequestedPsychicIntensity = threshold_psychicEnergy;
+		double rRequestedPsychicIntensity = mrInitialRequestIntensity;
 		
 		//AMP F07 receives the assigned psychic intensity.
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
+		
+		logger.clsLogger.getLog("NeutralizedIntensity").debug("neutralized intensity F07: " + Double.toString(rReceivedPsychicEnergy));
 		
 		// if there is enough psychic energy, then the module check the internalied rules.
 

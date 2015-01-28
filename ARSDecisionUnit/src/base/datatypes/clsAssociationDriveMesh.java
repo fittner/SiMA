@@ -205,6 +205,20 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	}
 	
 	@Override
+    public boolean isEquivalentOrClone(clsDataStructurePA poOther) {
+        boolean bIsClone = false; 
+        
+        if(poOther instanceof clsAssociation && this.getClass().equals(poOther.getClass())) {
+            clsAssociation oOther = (clsAssociation)poOther;
+            
+            bIsClone = getAssociationElementA().isEquivalentDataStructure(oOther.getAssociationElementA()) && 
+                    getAssociationElementB().isEquivalentDataStructure(oOther.getAssociationElementB());
+        }
+        
+        return bIsClone;
+    }
+	
+	@Override
 	public String toString() {
 		String oResult = "::"+this.moDataStructureType+"|";  
 		//oResult +=  this.moContentType + "|";

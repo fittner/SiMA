@@ -10,12 +10,12 @@ import general.datamanipulation.ImportanceComparatorWPM;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eCondition;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
-import memorymgmt.enums.eEmotionType;
 import memorymgmt.enums.eGoalType;
 import memorymgmt.enums.ePredicate;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -36,7 +36,6 @@ import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBaseKB;
 import secondaryprocess.algorithm.goals.GoalArrangementTools;
-import secondaryprocess.algorithm.goals.GoalGenerationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -94,6 +93,32 @@ public class clsGoalManipulationTools {
 		
 		return oRetVal;
 	}
+	
+	/**
+	 * DOCUMENT - Alternative goal creation method that does not set a drive fullfillment importance
+	 *
+	 * @author Kollmann
+	 * @since 10.09.2014 15:02:21
+	 *
+	 * @param poGoalName
+	 * @param poGoalType
+	 * @param poGoalObject
+	 * @return
+	 */
+	public static clsWordPresentationMeshPossibleGoal createSelectableGoal(String poGoalName, eGoalType poGoalType, clsWordPresentationMesh poGoalObject) {
+        
+        //Generate goalidentifier
+        String oGoalID = clsGoalManipulationTools.generateGoalContentIdentifier(poGoalName, poGoalObject, poGoalType);
+        
+        //--- Create goal ---//
+        //Create identifiyer. All goals must have the content type "GOAL"
+        clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.GOAL);
+    
+        //Create the basic goal structure
+        clsWordPresentationMeshPossibleGoal oRetVal = new clsWordPresentationMeshPossibleGoal(oDataStructureIdentifier, new ArrayList<clsAssociation>(), oGoalID, poGoalObject, poGoalName, poGoalType);
+        
+        return oRetVal;
+    }
 	
 	   /**
      * Create a new goal
@@ -177,7 +202,7 @@ public class clsGoalManipulationTools {
      * @param poDM
      * @return
      */
-    public static clsWordPresentationMeshPossibleGoal convertDriveMeshPerceptionToGoal(clsDriveMesh poDM, clsWordPresentationMesh goalObject, eGoalType goalType) {
+    public static clsWordPresentationMeshPossibleGoal convertDriveMeshPerceptionToGoal(clsDriveMesh poDM, clsWordPresentationMesh goalObject, eGoalType goalType, double prDriveDemandImpactFactor) {
         //clsWordPresentationMeshGoal oResult = clsGoalTools.moNullObjectWPM;
         
         //Create the drive string from Drive component, orifice and organ
@@ -187,7 +212,7 @@ public class clsGoalManipulationTools {
         
         //FIXME SSCH: 
         //double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION), 0.1);
-        double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), 0, 0.1);
+        double rImportance = prDriveDemandImpactFactor * clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), 0, 0.1);
         //getGoalObject
         
         
@@ -268,7 +293,14 @@ public class clsGoalManipulationTools {
     public static ArrayList<clsWordPresentationMeshFeeling> getFeelingsFromImage(clsWordPresentationMesh poImage) {
         ArrayList<clsWordPresentationMeshFeeling> oRetVal = new ArrayList<clsWordPresentationMeshFeeling>();
     
+        //First check if feelings are associated directly to the image
         ArrayList<clsWordPresentationMesh> oFeelings = clsMeshTools.getNonUniquePredicateWPM(poImage, ePredicate.HASFEELING);
+        
+        //next check if feelings are associated to the SELF in the image, if it has one
+        clsWordPresentationMesh oSelf = clsMeshTools.getSELF(poImage);
+        if(!(oSelf == null || oSelf.isNullObject())) {
+            oFeelings.addAll(clsMeshTools.getNonUniquePredicateWPM(oSelf, ePredicate.HASFEELING));
+        }
         
         for (clsWordPresentationMesh oF : oFeelings) {
             oRetVal.add((clsWordPresentationMeshFeeling) oF);
@@ -351,7 +383,7 @@ public class clsGoalManipulationTools {
 		
 		//Get all possible feelinggoals from the act
 		//FIXME: Activate goal generation from feelings again
-		oRetVal.addAll(GoalGenerationTools.generateSelectableGoalsFromFeelingsWPM(oIntention, poAct));  //Only in one image
+		//oRetVal.addAll(GoalGenerationTools.generateSelectableGoalsFromFeelingsWPM(oIntention, poAct));  //Only in one image
 		
 		
 		//Get from all subimages too
@@ -615,23 +647,7 @@ public class clsGoalManipulationTools {
 //	}
 	
 	public static clsWordPresentationMeshFeeling convertEmotionToFeeling(clsEmotion poEmotion) {
-	    //clsWordPresentationMeshFeeling oResult = (clsWordPresentationMeshFeeling) clsMeshTools.getNullObjectWPM();
-	    
-	    double oAffectContent = poEmotion.getEmotionIntensity();
-	    eEmotionType oFeelingContent = poEmotion.getContent();
-	    
-	    //Generate feeling
-	    clsWordPresentationMeshFeeling oResult = new clsWordPresentationMeshFeeling(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.FEELING), new ArrayList<clsAssociation>(), oFeelingContent.toString());
-	    
-	    //Set Affect
-	    oResult.setIntensity(oAffectContent);
-	    oResult.setAggression(poEmotion.getSourceAggr());
-	    oResult.setLibido(poEmotion.getSourceLibid());
-	    oResult.setPleasure(poEmotion.getSourcePleasure());
-	    oResult.setUnpleasure(poEmotion.getSourceUnpleasure());
-	    //clsMeshTools.setUniquePredicateWP(oResult, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, oAffectContent.toString(), false);
-	    
-	    return oResult;
+	    return new clsWordPresentationMeshFeeling(poEmotion);
 	}
 	
 	/**

@@ -8,7 +8,9 @@ package secondaryprocess.algorithm.planning;
 
 import logger.clsLogger;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
+
 import org.slf4j.Logger;
+
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import secondaryprocess.algorithm.planning.itfActionRefinement;
@@ -89,8 +91,10 @@ public class clsActionRefiner {
         
         if(poActionWPM.getContent().toString().equals("GOTO")) {
             oActionRefinement = new clsActionRefinementHardcoded_GOTO(moEnvironmentalImage); 
+        } else if(poActionWPM.getContent().toString().equals("FLEE")) {
+            oActionRefinement = new clsActionRefinementHardcoded_FLEE(moEnvironmentalImage);
         } else {
-         //   
+            //action has no refinement
         }
         
         return oActionRefinement; 
@@ -110,7 +114,15 @@ public class clsActionRefiner {
      * @return true if there is a refinement available, false otherwise
      */
     public boolean isRefineable(clsWordPresentationMesh poActionWPM) {
-        return poActionWPM.getContent().toString().equals("GOTO");
+        boolean bIsRefineable = false;
+        
+        if(poActionWPM.getContent().toString().equals("GOTO")) {
+            bIsRefineable = true;
+        } else if (poActionWPM.getContent().toString().equals("FLEE")) {
+            bIsRefineable = true;
+        }
+        
+        return bIsRefineable;
     }
     
     /**

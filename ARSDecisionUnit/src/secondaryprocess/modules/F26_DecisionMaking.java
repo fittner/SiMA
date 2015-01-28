@@ -72,6 +72,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	public static final String P_GOAL_PASS = "NUMBER_OF_GOALS_TO_PASS";
 	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";
 	public static final String P_AVOIC_INTENSITY = "AVOID_INTENSITY";
+	public static final String P_INFLUENCE_FACTOR_FEELINGS = "INFLUENCE_FACTOR_FEELINGS";
+	public static final String P_INFLUENCE_FACTOR_GOAL = "INFLUENCE_FACTOR_GOAL";
 	
 	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_IN;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
@@ -97,6 +99,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	/** Threshold for letting through drive goals */
 	private double mrAffectThresold;	//Everything with an affect >= MEDIUM is passed through
 	
+	private double mrFeelingsImpact;
+	private double mrGoalImpact;
 	
 	private int mnAvoidIntensity;
 	
@@ -132,7 +136,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		mnNumberOfGoalsToPass=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_GOAL_PASS).getParameterInt();
 		mrAffectThresold=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AFFECT_THRESHOLD).getParameterDouble();
 		mnAvoidIntensity=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AVOIC_INTENSITY).getParameterInt();
-
+		mrFeelingsImpact=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_INFLUENCE_FACTOR_FEELINGS).getParameterDouble();
+		mrGoalImpact=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, P_INFLUENCE_FACTOR_GOAL).getParameterDouble();
 		
 		//Get short time memory
 		moShortTermMemory = poShortTimeMemory;
@@ -245,8 +250,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 
         double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
 
+        logger.clsLogger.getLog("NeutralizedIntensity").debug("neutralized intensity F26: " + Double.toString(rReceivedPsychicEnergy));
         
-	    
 	    //FIXME SM: This is a temp variable, which shall be replaced with real feelings
 		boolean bActivatePanicInfluence = false;
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
@@ -273,7 +278,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		//Apply effect of feelings on goals
 		
-		GoalHandlingFunctionality.applyFeelingsOnReachableGoals(moReachableGoalList_IN, moFeeling_IN, bActivatePanicInfluence, rReceivedPsychicEnergy);
+		GoalHandlingFunctionality.applyFeelingsOnReachableGoals(moReachableGoalList_IN, moFeeling_IN, mrFeelingsImpact, bActivatePanicInfluence, rReceivedPsychicEnergy);
 		log.debug("Current feelings: {}", moFeeling_IN);
 		log.debug("Current feelings on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
@@ -287,7 +292,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
         
 		
         //AMP it is assumed that F26 uses all the psychic intensity that receives.
-        double rUsedPsychicIntensity = rReceivedPsychicEnergy;
+        double rUsedPsychicIntensity = rReceivedPsychicEnergy / 4;
        
         
 		//AMP F26 gives to know the intensity values to the psychic intensity storage
@@ -297,11 +302,11 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		//Kollmann HACK: This is not supposed to be here. According to the psychoanalytic concept, this should happen AFTER F26 - 
 		//               but for now we leave it here, because otherwise, some goals will not be considered that are essential for
 		//               the UC1.
-		GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(moReachableGoalList_IN, moDriveGoalList_IN);
+		GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(moReachableGoalList_IN, moDriveGoalList_IN, mrGoalImpact);
 		
 		//Debug output - sort the list of goals by attractiveness and log it
 		ArrayList <clsWordPresentationMeshPossibleGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(moReachableGoalList_IN, moReachableGoalList_IN.size());
-		log.info("Sorted Goals:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
+		log.debug("Sorted Goals after aplying aim importance:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
 		
 		//Apply social rules on goals
 		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);
@@ -318,7 +323,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		//Add the aim of drives goal to the mental situation
 		ShortTermMemoryFunctionality.addUsableAimOfDrivesToMentalSituation(moDriveGoalList_IN, moDecidedGoalList_OUT, this.moShortTermMemory);
-		
+	
 	
 		try {
 		    if (moDecidedGoalList_OUT.isEmpty()==true) {

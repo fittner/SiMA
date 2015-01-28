@@ -29,9 +29,11 @@ import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsConcept;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
@@ -65,8 +67,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	public static final String P_MATCH_THRESHOLD = "MATCH_THRESHOLD";
 	
 	//FIXME: Connect to neutral drive energy
-	private static final double PSYCHICINTENSITYFORSPREADINGACTIVATION = 20.0;
-	private static final int MAXDIRECTACTIVATIONFORSPREADINGACTIVATION = 20;
+	private static final double PSYCHICINTENSITYFORSPREADINGACTIVATION = 30.0;
+	private static final int MAXDIRECTACTIVATIONFORSPREADINGACTIVATION = 30;
 	private static final double RECOGNIZEDIMAGEMULTIPLICATIONFACTOR = 2;
 	
 	
@@ -85,7 +87,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	private clsWordPresentationMesh moWordingToContext;
     private clsWordPresentationMesh moWordingToContextNew;
     private clsConcept moConcept;
-	
+    
 	///* Internal */
 	//private clsThingPresentationMesh moEnhancedPerception;
 	
@@ -174,8 +176,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 */
 	@Override
 	protected void process_basic() {
-		
-	    if (moWordingToContext == null){
+		if (moWordingToContext == null){
             moConcept = new clsConcept();
             
             moWordingToContextNew = moConcept.moWording;
@@ -188,9 +189,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		//Convert LOCATION to DISTANCE and POSITION
 		//FIXME AW: Remove this when CM has implemented it in his modules
 		//TEMPconvertLOCATIONtoPOSITIONandDISTANCE(oContainerWithTypes);
-		
-			
-		clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(moEnvironmentalPerception_IN, eContentType.PI, eContent.PI.toString());
+
+	    clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(moEnvironmentalPerception_IN, eContentType.PI, eContent.PI.toString());
 		
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
@@ -220,7 +220,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		}
 		
 		//--- Activation of associated memories ---//
-		
 		//Get the phantasy input
 		//clsThingPresentationMesh oBestPhantasyInput = this.processPhantasyInput(moReturnedPhantasy_IN);
 		
@@ -236,12 +235,31 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
             }
         }
 		
+		//Associate current emotions (currently associated to SELF entity) to the perceived image via ASSOCIATIONEMOTION
+		// (this will later be used for the emotion aspect of the image match)
+		
+		//Start by finding the SELF entity
+		clsThingPresentationMesh oSelf = clsMeshTools.getSELF(oPerceivedImage);
+		
+		if(oSelf != null && !oSelf.isNullObject()) {
+		    for(clsAssociationEmotion oAssEmotion : clsAssociation.filterListByType(oSelf.getInternalAssociatedContent(), clsAssociationEmotion.class)) {
+                if(oAssEmotion.getTheOtherElement(oSelf) instanceof clsEmotion) {
+                    oPerceivedImage.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, (clsEmotion)oAssEmotion.getTheOtherElement(oSelf), oPerceivedImage, 1.0));
+                }
+            }
+		}
+		
 		//Activate memories (Spread activation)
 		try {
             activateMemories(oPerceivedImage, moReturnedPhantasy_IN, this.psychicSpreadingActivationMode);
         } catch (Exception e1) {
             log.error("", e1);
         }
+		
+//		Remove the emotion from the perceived image
+		for(clsAssociationEmotion oAss : clsAssociation.filterListByType(oPerceivedImage.getExternalAssociatedContent(), clsAssociationEmotion.class)) {
+		    oPerceivedImage.getExternalAssociatedContent().remove(oAss);
+		}
 		
 		log.debug("PI: " + oPerceivedImage);
 		log.info("Activated images: {}", PrintTools.printActivatedMeshWithPIMatch(oPerceivedImage));

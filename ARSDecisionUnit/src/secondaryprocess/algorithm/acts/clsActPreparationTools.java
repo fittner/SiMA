@@ -29,8 +29,8 @@ import secondaryprocess.datamanipulation.clsMeshTools;
  */
 public class clsActPreparationTools {
 	
-	private static final double mrMomentActivationThreshold = 1.0;
-	private static final double mrMomentConfidenceThreshold = 0.25;
+	private static final double mrMomentActivationThreshold = 0.5;
+	private static final double mrMomentConfidenceThreshold = 0.0;
 	private static final double mrDefaultConfidenceIncreasement = 0.5;
 	private static final double mrActConfidenceThreshold = 0.5;
 	/** This is the default start timeout value for images in acts. Der Timeout 
@@ -42,7 +42,7 @@ public class clsActPreparationTools {
 	/** DOCUMENT (wendt) - insert description; @since 15.05.2014 09:52:12 */
 	private static final int mnMovementTimeoutEstalishValue = 10;
 	
-	private static final double P_ACTMATCHACTIVATIONTHRESHOLD = 1.0;
+	private static final double P_ACTMATCHACTIVATIONTHRESHOLD = 0.5;
 	
 	//private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
 	private static Logger log = Logger.getLogger("Acts");
@@ -440,23 +440,23 @@ public class clsActPreparationTools {
 			bPossibleMomentIsPreviousExpectation = true;
 		}
 		
-		//4. The PI Match of the possible moment is 1.0
+		//4. The PI Match of the possible moment is above or equal 0.5
 		boolean bPossibleMomentPIMatchEqual10 = false;
-		if (clsActTools.getPIMatch(poPossibleMoment)==1.0) {
+		if (clsActTools.getPIMatch(poPossibleMoment) >= 0.5) {
 			bPossibleMomentPIMatchEqual10 = true;
 		}
 		
-		//5. The PI-Match of the previous event is 1.0
+		//5. The PI-Match of the previous event is above or equal 0.5
 		boolean bPreviousEventPIMatchEquals10 = false;
 		clsWordPresentationMesh oPreviousEvent = clsActTools.getPreviousImage(poPossibleMoment);
-		if (clsActTools.getPIMatch(oPreviousEvent)==1.0) {
+		if (clsActTools.getPIMatch(oPreviousEvent) >= 0.5) {
 			bPreviousEventPIMatchEquals10 = true;
 		}
 		
-		//6. The PI-Match of the next event is 1.0
+		//6. The PI-Match of the next event is above or equal 0.5
 		boolean bNextEventPIMatchEquals10 = false;
 		clsWordPresentationMesh oNextEvent = clsActTools.getNextImage(poPossibleMoment);
-		if (clsActTools.getPIMatch(oNextEvent)==1.0) {
+		if (clsActTools.getPIMatch(oNextEvent) >= 0.5) {
 			bNextEventPIMatchEquals10 = true;
 		}
 				

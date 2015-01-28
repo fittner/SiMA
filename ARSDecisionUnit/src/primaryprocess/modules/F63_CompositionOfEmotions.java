@@ -31,6 +31,7 @@ import modules.interfaces.I5_3_receive;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
@@ -360,8 +361,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 		}
-
-          
+        
 	    double rRequestedPsychicIntensity = 0.0;
 	                
 	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
@@ -422,6 +422,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rInfluencePerceivedObjects = 0.3;
 		
 		clsDriveMesh oDM = null;
+		clsEmotion oExperiencedEmotion = null;
 		
 		// use QoA of the PI's entities  for emotion-generation
 		for(clsAssociation oPIINtAss: moPerceptions_IN.getInternalAssociatedContent()) {
@@ -461,7 +462,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						
 					}
 					
-					//koller Emotionsübertragung
+					//koller Emotionsübertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
+
                     if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONATTRIBUTE && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
                         if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){
                             
@@ -488,6 +490,21 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                         }  
                     }//end koller  
                     
+                    //Experienced emotion for entities
+                    if(oEntityAss.getContentType().equals(eContentType.ASSOCIATIONEMOTION) && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")) {
+                        //check if the association really connects an emotion with a TPM
+                        if(oEntityAss.getAssociationElementA() instanceof clsEmotion && oEntityAss.getAssociationElementB() instanceof clsThingPresentationMesh) {
+                            oExperiencedEmotion = (clsEmotion) oEntityAss.getAssociationElementA();
+                            
+                            rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, oExperiencedEmotion.getSourcePleasure()); 
+                            rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oExperiencedEmotion.getSourceUnpleasure());
+                            rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, oExperiencedEmotion.getSourceLibid());
+                            rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, oExperiencedEmotion.getSourceAggr());
+                        } else {
+                            log.warn("Found ASSOCIATIONEMOTION that does NOT connect clsEmotion to clsThingPresentationMesh:");
+                            log.warn(oEntityAss.toString());
+                        }
+                    }
 				}
 			}
         }
@@ -520,7 +537,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                
        double rAssociationWeight = 0;
        
-       double rInfluenceRememberedImages = 0.5;
+       double rInfluenceRememberedImages = 0.75;
        
        clsEmotion oEmotionFromPerception = null;
        clsThingPresentationMesh oRI = null;
@@ -532,8 +549,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                    oRI = (clsThingPresentationMesh)oPIExtAss.getAssociationElementB();
                    
                    for (clsAssociation oRIAss: oRI.getExternalAssociatedContent()) {
-                       if (oRIAss.getContentType() == eContentType.ASSOCIATIONEMOTION) {
-                           oEmotionFromPerception = (clsEmotion) oRIAss.getAssociationElementA();
+                       if (oRIAss.getContentType() == eContentType.ASSOCIATIONEMOTION && oRIAss instanceof clsAssociationEmotion) {
+                           oEmotionFromPerception = ((clsAssociationEmotion)oRIAss).getEmotion();
                            // the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
                            rAssociationWeight = oPIExtAss.getMrWeight();
                            rMemoryPleasure = nonProportionalAggregation(rMemoryPleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourcePleasure()); 

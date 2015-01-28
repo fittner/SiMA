@@ -9,9 +9,11 @@ package base.datatypes;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
+import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
@@ -45,6 +47,55 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		mrSourceAggr = prSourceAggr ;
 	} 
 
+	public static clsEmotion fromTPM(clsThingPresentationMesh poTPM) {
+	    clsDataStructurePA oEmotion = null;
+	    
+	    for(clsAssociationEmotion oAssEmotion : clsAssociation.filterListByType(poTPM.getExternalAssociatedContent(), clsAssociationEmotion.class)) {
+	        oEmotion = oAssEmotion.getTheOtherElement(poTPM);
+	        if(oEmotion != null && oEmotion instanceof clsEmotion) {
+	            return (clsEmotion) oEmotion;
+	        }
+	    }
+	    
+	    return null;
+	}
+	
+	public static clsEmotion fromFeeling(clsWordPresentationMeshFeeling poFeeling) {
+	    eEmotionType oEmotionType = eEmotionType.valueOf(poFeeling.getContent());
+	    double rEmotionIntensity = poFeeling.getIntensity();
+	    double rEmotionPleasure = poFeeling.getPleasure();
+        double rEmotionUnpleasure = poFeeling.getUnpleasure();
+        double rEmotionLibid = poFeeling.getLibido();
+        double rEmotionAggr = poFeeling.getAggression();
+                
+        clsEmotion oEmotion = clsDataStructureGenerator.generateEMOTION(new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, oEmotionType, rEmotionIntensity),
+                rEmotionPleasure, rEmotionUnpleasure, rEmotionLibid, rEmotionAggr);
+        
+        return oEmotion;
+	}
+	
+	static protected double doubleMatch(double rLHV, double rRHV) {
+	    double rMatch = 1;
+	    
+	    if(rLHV != rRHV) {
+    	    double rDiff = Math.abs(rLHV - rRHV);
+    	    rMatch = 1 - (rDiff / Math.max(rLHV, rRHV));
+	    }
+	    
+	    return rMatch;
+	}
+	
+	static protected double matchingFunction(clsEmotion oLHV, clsEmotion oRHV) {
+	    double rMatch = 0;
+	    
+	    rMatch += doubleMatch(oLHV.getSourceAggr(), oRHV.getSourceAggr());
+	    rMatch += doubleMatch(oLHV.getSourceLibid(), oRHV.getSourceLibid());
+	    rMatch += doubleMatch(oLHV.getSourcePleasure(), oRHV.getSourcePleasure());
+	    rMatch += doubleMatch(oLHV.getSourceUnpleasure(), oRHV.getSourceUnpleasure());
+	    
+	    return rMatch / 4;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @since Jun 27, 2012 10:10:01 AM
@@ -53,8 +104,25 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
-		// TODO (schaat) - Auto-generated method stub
-		return 0;
+	    double rMatch = 0;
+	    clsEmotion oOtherEmotion = null;
+	    
+		//if the other data structure is no cleEmotion -> no match
+	    if(poDataStructure instanceof clsEmotion) {
+	        oOtherEmotion = (clsEmotion)poDataStructure;
+	        //for now we only implement the comparison for BASIC_EMOTIONS if either participant is something else -> exception
+	        if((getContentType() == eContentType.BASICEMOTION) && (oOtherEmotion.getContentType() == eContentType.BASICEMOTION)) {
+	            rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
+//	            //comparing two basic emotions of different types (e.g. JOY with PLEASURE) will not produce a match
+//	            if(getContent().equals(oOtherEmotion.getContent())) {
+//	                rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
+//	            }
+	        } else {
+	            throw new NotImplementedException();
+	        }
+	    }
+	    
+		return rMatch;
 	}
 	
 	/**

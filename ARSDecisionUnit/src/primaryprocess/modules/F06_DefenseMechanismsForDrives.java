@@ -12,8 +12,8 @@ import inspector.interfaces.itfInspectorModificationDrives;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import java.util.SortedMap;
+
 import memorymgmt.enums.eContent;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -30,6 +30,7 @@ import modules.interfaces.I5_5_receive;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAffect;
+import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
@@ -575,6 +576,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	        return;
 	    }
 	    
+	    defenseMechanism_Displacement(moForbiddenDrives_Input);
 	    
 	    if (conflictTension <= 0.5) {
 	        if (moEgoStrength < 0.15) { 
@@ -1101,8 +1103,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		oDisplaceDriveObjectList.put("BODO","CAKE");
 		
-		
-		
 		String oOriginalDOContent = poOriginalDM.getActualDriveObject().getContent();
 		
 		// if the Drive-Object-List doesn't contain the receiving object, no defense is activated 
@@ -1129,6 +1129,14 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			clsThingPresentationMesh oDisplacedDriveObject = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
 	               eDataType.TPM,
 	               new clsTriple<eContentType, Object, Object> (eContentType.ENTITY, new ArrayList<clsThingPresentation>(),DisplacedDriveObject));//eContentType.ACTION
+			
+			// Lu Sun, 25.12.2012
+	        clsThingPresentationMesh oOriginalDriveObject = poOriginalDM.getActualDriveObject(); //the orignial drive object for the forbidden drive wish
+	        //oOriginalDriveObject.setMoDS_ID(-1); // produces an error
+	        oDisplacedDriveObject = oOriginalDriveObject;
+            oDisplacedDriveObject.setInternalAssociatedContent(new ArrayList<clsAssociation>());
+            oDisplacedDriveObject.setMoContent(DisplacedDriveObject);
+ 
 			
 				try {
 					poOriginalDM.setActualDriveObject(oDisplacedDriveObject, 1.0);

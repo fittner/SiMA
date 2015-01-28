@@ -9,6 +9,7 @@ package base.datatypes;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -1082,6 +1083,39 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
     }
     
     /**
+     * DOCUMENT - Gets all non unique properties of a specified sub-class of WPM in a List (this is the more generic version of getNonUniquePropertyWPM)
+     *            Only properties with the specified predicate AND the specified type (provided via Class<T>) are returned
+     *
+     * @author Kollmann
+     * @since 19.08.2014 13:35:39
+     *
+     * @param poPredicate: the predicate the sought after properties have
+     * @param poPropertyType: the class of the sought after properties
+     * @return
+     */
+    protected <PROPERTY_TYPE extends clsWordPresentationMesh> List<PROPERTY_TYPE> getNonUniquePropertyWPM (ePredicate poPredicate, Class<PROPERTY_TYPE> poPropertyType) {
+        List<PROPERTY_TYPE> oRetVal = new ArrayList<PROPERTY_TYPE>();
+        
+        //List<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(poPredicate);
+        
+        //The association mapping was not implemented consistently (it seems) - get association if exists
+        List<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(this, poPredicate, 0, true, false);
+        
+        if (oAssList != null) {
+            for (clsDataStructurePA oPropertyAss : oAssList) {
+                if(oPropertyAss instanceof clsAssociationSecondary) {
+                    clsDataStructurePA oProperty = ((clsAssociationSecondary) oPropertyAss).getTheOtherElement(this);
+                    if(poPropertyType.isInstance(oProperty)) {
+                        oRetVal.add(poPropertyType.cast(oProperty));
+                    }
+                }
+            }
+        }
+        
+        return oRetVal;
+    }
+    
+    /**
      * DOCUMENT (wendt)
      *
      * @since 17.05.2013 11:24:13
@@ -1165,7 +1199,62 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         clsMeshTools.removeAssociationInObject(this, oPredicate);
         this.moAssociationMapping.remove(oPredicate);
     }
+
+    /**
+     * Get the Feelings from an Image.
+     * 
+     * (wendt) (moved and modified by kollmann)
+     *
+     * @since 26.03.2012 21:25:11
+     *
+     * @param poGoal
+     * @return
+     */
+    public ArrayList<clsWordPresentationMeshFeeling> getFeelings() {
+        return (ArrayList<clsWordPresentationMeshFeeling>) getNonUniquePropertyWPM(ePredicate.HASFEELING, clsWordPresentationMeshFeeling.class);
+        
+        //if the image had no feelings, try to get the 
+ 
+//        ArrayList<clsWordPresentationMesh> oRetVal = this.getNonUniquePropertyWPM(ePredicate.HASFEELING);;
+//    
+//        ArrayList<clsWordPresentationMeshFeeling> result = new ArrayList<clsWordPresentationMeshFeeling>();
+//        
+//        for (clsWordPresentationMesh wpm : oRetVal) {
+//            if (wpm instanceof clsWordPresentationMeshFeeling) {
+//                result.add((clsWordPresentationMeshFeeling) wpm);
+//            } else {
+//                throw new ClassCastException("This structure is no valid class for this association " + wpm);
+//            }
+//        }
+//    
+//        return result;
+    }
     
-
-
+    /**
+     * Add a Feeling to the goal, which is not already present. If present, then replace
+     * 
+     * (wendt) (moved by kollmann)
+     *
+     * @since 17.05.2013 10:37:48
+     *
+     * @param poFeeling
+     */
+    public void addFeeling(clsWordPresentationMeshFeeling poFeeling) {
+        this.addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
+    }
+    
+    /**
+     * Add a list of feelings
+     * 
+     * (wendt) (moved by kollmann)
+     *
+     * @since 17.05.2013 11:33:11
+     *
+     * @param poFeeling
+     */
+    public void addFeelings(ArrayList<clsWordPresentationMeshFeeling> poFeeling) {
+        for (clsWordPresentationMeshFeeling oF : poFeeling) {
+            addFeeling(oF);
+        }
+    }
 }

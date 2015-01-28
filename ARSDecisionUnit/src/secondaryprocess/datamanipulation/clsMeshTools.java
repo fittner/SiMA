@@ -3529,17 +3529,17 @@ public class clsMeshTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh getSuperStructure(clsWordPresentationMesh poInput) {
-		clsWordPresentationMesh oRetVal = poInput;
+		clsWordPresentationMesh oRetVal = clsWordPresentationMesh.getNullObject();
 		
 		//If it is an image, this will work
 		clsDataStructurePA oSuperStructure = searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASSUPER, 2, false);
 		if (oSuperStructure!=null) {
 			oRetVal = (clsWordPresentationMesh) oSuperStructure;
 		} else {
-			oSuperStructure = searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASPART, 1, false);
-			if (oSuperStructure!=null) {
-				oRetVal = (clsWordPresentationMesh) oSuperStructure;
-			}
+//			oSuperStructure = searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASPART, 1, false);
+//			if (oSuperStructure!=null) {
+//				oRetVal = (clsWordPresentationMesh) oSuperStructure;
+//			}
 		}
 
 		return oRetVal;

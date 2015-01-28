@@ -46,12 +46,12 @@ public class DataStructureConversion {
      * @param poPerceivedImage
      * @return
      */
-    public static clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> getWordPresentationsForImages(itfModuleMemoryAccess ltm, clsThingPresentationMesh poPerceivedImage) {
+    public static clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> getWordPresentationsForImages(itfModuleMemoryAccess ltm, clsThingPresentationMesh poPerceivedImage, double prDriveDemandImpactFactor) {
         clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oRetVal = null;
         // The input image is the perceived image (defined from the position).
         // Therefore, this image is taken to get the secondary process image
         //long start = System.currentTimeMillis();
-        clsWordPresentationMesh oPIWPM = DataStructureConversionTools.convertCompleteTPMtoWPMRoot(ltm, poPerceivedImage);
+        clsWordPresentationMesh oPIWPM = DataStructureConversionTools.convertCompleteTPMtoWPMRoot(ltm, poPerceivedImage, prDriveDemandImpactFactor);
         
         //System.out.println("Time11: " + (System.currentTimeMillis()- start));
         
@@ -163,7 +163,7 @@ public class DataStructureConversion {
         ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = new ArrayList<clsWordPresentationMesh>();
         for (clsThingPresentationMesh oRITPM : oRITPMList) {
             // Convert the complete image to WPM
-            clsWordPresentationMesh oRIWPM = DataStructureConversionTools.convertCompleteTPMtoWPM(ltm, oRITPM, new ArrayList<clsThingPresentationMesh>(), 1, 3, oRITPM.getContentType());
+            clsWordPresentationMesh oRIWPM = DataStructureConversionTools.convertCompleteTPMtoWPM(ltm, oRITPM, new ArrayList<clsThingPresentationMesh>(), 1, 3, oRITPM.getContentType(), 1.0);
             
             // 3. Search for WPM for all internal objects in the WPM if they are
             // available

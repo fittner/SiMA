@@ -41,7 +41,8 @@ public enum eAction {
 	
 	//Actions with Objects
 	GOTO,
-	
+	FLEE,
+    
 	//Unreal actions
 	UNREAL_MOVE_TO,
 	
@@ -65,7 +66,6 @@ public enum eAction {
 	
 	//Composed actions
 	SEARCH1,
-	FLEE,
 	STRAFE_RIGHT,
 	STRAFE_LEFT,
 	SPEAK,

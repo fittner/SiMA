@@ -82,7 +82,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 		moDSInstance_ID = 0;
 	}
 	
-	public boolean isCloneOf(clsDataStructurePA poOther) {
+	public boolean isEquivalentOrClone(clsDataStructurePA poOther) {
 	    return isEquivalentDataStructure(poOther) && getDSInstance_ID() == poOther.getDSInstance_ID();
 	}
 	
@@ -239,8 +239,15 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 		double oMatchScoreNorm = 0.0;
 		double rMatchScoreTemp = 0.0;
 		double rWeight = 0.0;
-		List<E> oClonedTemplateList = this.cloneList(oContentListTemplate); 
+		List<E> oClonedTemplateList = this.cloneList(oContentListTemplate);
+		oClonedTemplateList = (List<E>) oContentListTemplate.clone();
 		int nAssociationCount = oContentListUnknown.size(); 
+		
+		//this comparison method will only work for class that are sub class of clsDataStructurePA
+		if(!(poDSTemplate instanceof clsDataStructurePA) || !(poDSUnknown instanceof clsDataStructurePA))
+		{
+		    return oMatchScoreNorm;
+		}
 		
 		//The unknown data structures are searched in the known data structures.
 		//If an unknown data structure is not found in the known data structures, the match is 0, i. e. if the 
@@ -263,7 +270,22 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 					//Check data types
 					if( oClonedKnownDS instanceof clsAssociation ){
 						rWeight = ((clsAssociation)oClonedKnownDS).getMrWeight();
-						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) *  rWeight; // In non-definitional representations no imperative factor is used (TPMs are experienced objects and not definitions of object-classes) ; 
+						
+						//Find the 'other' ends of the associations
+						clsDataStructurePA oKnownLeaf = ((clsAssociation)oClonedKnownDS).getTheOtherElement((clsDataStructurePA)poDSTemplate);
+						if(oKnownLeaf == null) {
+						    log.warn("Association is contained in an element that is neither its root nor its leaf:\n  Association:{}\n  Container:{}", oClonedKnownDS, poDSTemplate);
+						    //TODO (Kollmann): implement a weaker lookup function that determines the 'other' element by DS_ID and DS_INSTANCEID
+						    continue;
+						}
+						
+						clsDataStructurePA oUnknownLeaf = ((clsAssociation)oUnknownDS).getTheOtherElement((clsDataStructurePA)poDSUnknown);
+						if(oUnknownLeaf == null) {
+                            log.warn("Association is contained in an element that is neither its root nor its leaf:\n  Association:{}\n  Container:{}", oUnknownDS, poDSUnknown);
+                            continue;
+                        }
+						
+						rMatchScoreTemp = oKnownLeaf.compareTo(oUnknownLeaf) *  rWeight; // In non-definitional representations no imperative factor is used (TPMs are experienced objects and not definitions of object-classes) ; 
 					}
 					else if (oClonedKnownDS instanceof clsSecondaryDataStructure){
 						rMatchScoreTemp = oClonedKnownDS.compareTo(oUnknownDS);

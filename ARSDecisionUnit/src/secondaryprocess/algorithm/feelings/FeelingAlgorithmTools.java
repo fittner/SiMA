@@ -10,9 +10,12 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eGoalType;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 
@@ -89,6 +92,7 @@ public class FeelingAlgorithmTools {
     private static double getFeelingMatch(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         double rResult = 0;
         double rMatchingFactor = 0;
+        int nCount = 0;
         
         //Get Feeling affect
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
@@ -97,8 +101,8 @@ public class FeelingAlgorithmTools {
             
             for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
                 if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
-                    
                     rMatchingFactor += 1 - oCurrentFeeling.getDiff(oGoalFeeling);
+                    nCount++;
                 }
             }
         }
@@ -106,9 +110,42 @@ public class FeelingAlgorithmTools {
 //        if(poGoal.getSupportiveDataStructure().getContent().startsWith("A14")) 
 //            moLogger.debug("Feelings cause evaluation change for {}({}) by {}", poGoal.getContent(), poGoal.getSupportiveDataStructure().getContent(), rMatchingFactor);
         
-        rResult += rMatchingFactor;
+        rResult = rMatchingFactor / nCount;
         
         return rResult;
+    }
+    
+    private static double getFeelingMatch(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
+        double rMatchingFactor = 0;
+        int nCount = 0;
+        
+        if(poImage != null && !poImage.isNullObject()) {
+            //Get Feelings fromt he image
+            ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poImage.getFeelings();
+            
+            if(oFeelingList.isEmpty()) {
+                //Try to get a SELF from the image and take the feelings from there
+                clsWordPresentationMesh oSelf = clsMeshTools.getSELF(poImage);
+                
+                if(oSelf != null && !oSelf.isNullObject()) {
+                    oFeelingList = oSelf.getFeelings();
+                }
+            }
+            
+            //Compare the feelings
+            for (clsWordPresentationMeshFeeling oGoalFeeling : oFeelingList) {
+                
+                for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
+                    if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
+                        rMatchingFactor += 1 - oCurrentFeeling.getDiff(oGoalFeeling);
+                        
+                    }
+                }
+                nCount++;
+            }
+        }
+        
+        return rMatchingFactor / nCount;
     }
     
     /**
@@ -120,11 +157,25 @@ public class FeelingAlgorithmTools {
      * @param poGoal 
      */
     public static double evaluateGoalByTriggeredFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
-        double rFeelingMatchImportance = 0.0;
+        double rFeelingMatch = 0;
+        clsWordPresentationMesh oWPMImage = null;
         
-        double rFeelingMatch = getFeelingMatch(poGoal, poFeltFeelingList);
+        //get act for that goal (what should happen if the goal has no act [yet], like perception or drive goals?)
+        clsWordPresentationMesh oSupp = poGoal.getSupportiveDataStructure();
         
-        return rFeelingMatchImportance * rFeelingMatch; 
+        //how to find out if this is an act
+        if(oSupp.getContentType().equals(eContentType.ACT)) {
+            //get the intention
+            oWPMImage = clsActDataStructureTools.getIntention(oSupp);
+            
+            //compare the intention(image) to the current feelings (match value is [0,1]
+            rFeelingMatch = getFeelingMatch(oWPMImage, poFeltFeelingList);
+            
+            
+        }
+        
+        //adjust match value by match importance
+        return rFeelingMatch; 
     }
     
     
@@ -138,7 +189,7 @@ public class FeelingAlgorithmTools {
      * @param poGoal 
      */
     public static double evaluateGoalByExpectedFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
-        double rFeelingMatchImportance = 0.4;
+        double rFeelingMatchImportance = 0.3;
         
         double rFeelingMatch = getFeelingMatch(poGoal, poFeltFeelingList);
         

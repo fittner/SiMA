@@ -7,8 +7,10 @@
 package modules.interfaces;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import memorymgmt.enums.PsychicSpreadingActivationMode;
+import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 
@@ -21,5 +23,5 @@ import base.datatypes.clsWordPresentationMesh;
  */
 public interface I5_19_send {
 	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode,
-            clsWordPresentationMesh moWordingToContext2);
+            clsWordPresentationMesh moWordingToContext2, List<clsEmotion> poCurrentEmotions);
 }

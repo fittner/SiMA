@@ -52,24 +52,24 @@ public class clsActTools {
 			//Either the intention of the oRI will be returned or the structure itself if it is an intention
 			clsWordPresentationMesh oSuperStructure = clsMeshTools.getSuperStructure(oRI);
 			
-			//2. Check if the super structure exists in any prediction
-			clsWordPresentationMesh oExistentPrediction = clsActDataStructureTools.checkIfIntentionExistsInActList(oRetVal, oSuperStructure);
-	
-			//3.a If act exists, then check if the match of the current moment, if exists, is lower than this image
-			if (oExistentPrediction.isNullObject()==false) {
-				//Merge meshes
-			    
-			    MeshProcessor x = new MeshProcessor();
-			    x.setSafeControlMode(false);
-			    x.complementMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI, true);
-			} else {
-				//Create prediction
-				clsWordPresentationMesh oPrediction = clsActDataStructureTools.createActDataStructure(oSuperStructure);
-				
-				oRetVal.add(oPrediction);
-			}
-			
-						
+			if(!oSuperStructure.isNullObject()) {
+    			//2. Check if the super structure exists in any prediction
+    			clsWordPresentationMesh oExistentPrediction = clsActDataStructureTools.checkIfIntentionExistsInActList(oRetVal, oSuperStructure);
+    	
+    			//3.a If act exists, then check if the match of the current moment, if exists, is lower than this image
+    			if (oExistentPrediction.isNullObject()==false) {
+    				//Merge meshes
+    			    
+    			    MeshProcessor x = new MeshProcessor();
+    			    x.setSafeControlMode(false);
+    			    x.complementMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI, true);
+    			} else {
+    				//Create prediction
+    				clsWordPresentationMesh oPrediction = clsActDataStructureTools.createActDataStructure(oSuperStructure);
+    				
+    				oRetVal.add(oPrediction);
+    			}
+			}			
 		}
 		
 		return oRetVal;
