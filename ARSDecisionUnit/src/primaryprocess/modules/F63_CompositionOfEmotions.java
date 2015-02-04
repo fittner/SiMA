@@ -247,7 +247,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		oDrivesExtractedValues.put("rDriveAggr", rDriveAggr);
 		
 		/* emotions triggered by perception (from memory) influence emotion-generation
-		 * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (unpleasure etc the emtion is based on) to influence the emotion generation in F63
+		 * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (un-pleasure etc the emotion is based on) to influence the emotion generation in F63
 		 * hence, the basic info of the triggered emotion is "mixed" with the categories form the drive track and the emotions are generated based on these mixed information
 		 * 
 		 */
@@ -506,7 +506,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                     }//end koller  
                     
                     //Experienced emotion for entities
-                    if(oEntityAss.getContentType().equals(eContentType.ASSOCIATIONEMOTION) && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")) {
+                    /*if(oEntityAss.getContentType().equals(eContentType.ASSOCIATIONEMOTION) && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")) {
                         //check if the association really connects an emotion with a TPM
                         if(oEntityAss.getAssociationElementA() instanceof clsEmotion && oEntityAss.getAssociationElementB() instanceof clsThingPresentationMesh) {
                             oExperiencedEmotion = (clsEmotion) oEntityAss.getAssociationElementA();
@@ -519,7 +519,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                             log.warn("Found ASSOCIATIONEMOTION that does NOT connect clsEmotion to clsThingPresentationMesh:");
                             log.warn(oEntityAss.toString());
                         }
-                    }
+                    }*/
 				}
 			}
         }

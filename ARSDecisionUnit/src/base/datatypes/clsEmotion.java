@@ -75,14 +75,18 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	}
 	
 	static protected double doubleMatch(double rLHV, double rRHV) {
-	    double rMatch = 1;
+	    /*double rMatch = 1;
 	    
 	    if(rLHV != rRHV) {
     	    double rDiff = Math.abs(rLHV - rRHV);
     	    rMatch = 1 - (rDiff / Math.max(rLHV, rRHV));
 	    }
 	    
-	    return rMatch;
+	    return rMatch;*/
+	    
+	    double rMatch = 1 - Math.abs(rLHV - rRHV);
+        
+        return rMatch;
 	}
 	
 	static protected double matchingFunction(clsEmotion oLHV, clsEmotion oRHV) {

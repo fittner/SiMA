@@ -33,6 +33,7 @@ public class clsActPreparationTools {
 	private static final double mrMomentConfidenceThreshold = 0.0;
 	private static final double mrDefaultConfidenceIncreasement = 0.5;
 	private static final double mrActConfidenceThreshold = 0.5;
+	private static final double mrApplicableMomentConfidenceThreshold = 0.5;
 	/** This is the default start timeout value for images in acts. Der Timeout 
 	 * rechnet herunter wenn das „Moment“ oder „Expectation“ kein 1.0-Match (oder andere Schwellenwert) 
 	 * haben und er ist da damit der Agent in keinem Deadlock verfällt. Wenn der Timeout nur=3 Bewegungen lang ist, 
@@ -221,7 +222,9 @@ public class clsActPreparationTools {
 		clsWordPresentationMesh oPreviousMoment = clsActDataStructureTools.getMoment(poPreviousAct);
 		//Get previous expectation
 		clsWordPresentationMesh oPreviousExpectation = clsActDataStructureTools.getExpectation(poPreviousAct);
-				
+		
+		//when start_with_first_image ersten vorziehen
+		
 		enhanceListWithPreviousMoment(oCurrentMomentCandidateList, poCurrentAct, oPreviousMoment);
 		
 		clsWordPresentationMesh oCurrentMoment = calculateMoment(oCurrentMomentCandidateList, oPreviousMoment, oPreviousExpectation);
@@ -291,8 +294,13 @@ public class clsActPreparationTools {
 				int nBestImagePosition = clsActTools.getEventPositionInAct(oPossibleMomentList.get(0));
 				oResult = oPossibleMomentList.get(0);
 				
+				//getfirstimage
+				
 				for (clsWordPresentationMesh oMoment : oPossibleMomentList) {
-					double rMomentConfidence = clsActTools.getPIMatch(oMoment) * 1/oPossibleMomentList.size();
+					double rMomentConfidence = clsActTools.getPIMatch(oMoment) * ((1-mrApplicableMomentConfidenceThreshold)*(1/oPossibleMomentList.size()) + mrApplicableMomentConfidenceThreshold);
+					
+					//if start with first image && isfirstimage do()
+					
 					clsActTools.setMomentConfidenceLevel(oMoment, rMomentConfidence);
 					int nImagePosition = clsActTools.getEventPositionInAct(oMoment);
 					
