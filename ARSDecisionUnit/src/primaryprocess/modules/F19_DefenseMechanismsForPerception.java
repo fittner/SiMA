@@ -404,7 +404,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		 * In F19 ForbidenEmotions and ForbidenPerceptions should be defended 
 		 * 		 
 		 */ 
-		 selectAndActivateDefenseMechanisms_UC1();
+//		 selectAndActivateDefenseMechanisms_UC1();
+
+		 selectAndActivateDefenseMechanisms_EC2();
 
 		
 		  			 
@@ -456,7 +458,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 
 	            if((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
 	                
-	                defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output);
+	                defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output, 1.0);
 	                
 	                             
 	            }else{
@@ -511,6 +513,31 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
             }
     }
 	
+    private void selectAndActivateDefenseMechanisms_EC2() {
+        
+        // Defense for perceptions
+        if (!moForbiddenPerceptions_Input.isEmpty()){ 
+             if (moEgoStrength <= 0.15) {
+                 defenseMechanism_Denial(moForbiddenPerceptions_Input);                      
+             }
+             else
+             {
+                 // For TimeChart    
+                 ResetTimeChartDefenseForbidenPerceptionData();
+             }       
+         }
+         
+         // Defense for emotions
+         if(!moForbiddenEmotions_Input.isEmpty()){
+             if (moEgoStrength <= 0.15) {
+                 defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output, 0.3);  
+             }
+             else
+             {   
+                 ResetTimeChartDefenseForbidenEmotionData();                 
+             }
+         }
+    }
 	
 	/* (non-Javadoc)
     *
@@ -1108,7 +1135,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     * Defense mechanism reversal of affect for emotions
     * 
     */
-	private ArrayList<clsEmotion> defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output) {
+	private ArrayList<clsEmotion> defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output, double prReversalStrength) {
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
 		reversalOfAffect =1.0;
 		PassForbidenEmotions=0.0;
@@ -1128,34 +1155,25 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {
 			for(clsEmotion oOneEmotion : oEmotions_Output) {
 				if(oOneEmotion.getContent() == oOneForbiddenEmotion) {
-					if(oEmotionFear != null) {
+				    // add the old emotion intensity to the emotion intensity of the emotion FEAR
+                    double rTransfer = oOneEmotion.getEmotionIntensity() * prReversalStrength;
+                    
+                    if(oEmotionFear != null) {
 						
-						// add the old emotion intensity to the emotion intensity of the emotion FEAR
-						double oNewEmotionIntensity = oEmotionFear.getEmotionIntensity() + oOneEmotion.getEmotionIntensity();
-						if (oNewEmotionIntensity > 1.0) {
-							oEmotionFear.setEmotionIntensity(1.0);
-							oOneEmotion .setEmotionIntensity(oNewEmotionIntensity - 1.0);
-							
-							// do not delete the original emotion if EmotionIntensity > 1
-							// otherwise psychic energy is lost
-							// -> the original emotion has a lower EmotionIntensity but still exists
-						}
-						else {
-							oEmotionFear.setEmotionIntensity(oNewEmotionIntensity);
-
-						// remove the old emotion from the input list of emotions
-						oEmotions_Output.remove(oOneEmotion);					
-						}
+						// do not transfer above 1.0
+					    rTransfer = Math.min(rTransfer, 1 - oEmotionFear.getEmotionIntensity());
+						
+					    oOneEmotion.setEmotionIntensity(oOneEmotion.getEmotionIntensity() - rTransfer);
+					    oEmotionFear.setEmotionIntensity(oEmotionFear.getEmotionIntensity() + rTransfer);
 					}
 					else {
 						clsEmotion oNewEmotion = clsDataStructureGenerator.generateEMOTION(
-								new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, eEmotionType.ANXIETY, oOneEmotion.getEmotionIntensity()),
+								new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, eEmotionType.ANXIETY, rTransfer),
 								oOneEmotion.getSourcePleasure(),
 								oOneEmotion.getSourceUnpleasure(),
                                 oOneEmotion.getSourceLibid(),
                                 oOneEmotion.getSourceAggr());
 						moEmotions_Output.add(oNewEmotion);
-						moEmotions_Output.remove(oOneEmotion);
 					}
 					
 					// there are not 2 emotions of the same eEmotionType in moEmotions_Output
@@ -1418,8 +1436,42 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (GELBARD) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
+	    moTimeInputChartData();
+        
+        // empty the list from last step otherwise list only grows
+        moQuotasOfAffect_Output.clear();
+        if (moForbiddenPerceptions_Input.isEmpty()){
+            ResetTimeChartForbidenPerceptionData(); 
+        }
+        if (moForbiddenEmotions_Input.isEmpty()){
+            ResetTimeChartForbidenEmotionData(); 
+        }
+       
+        // check for a psychoanalytic conflict
+        // defense mechanisms are delayed by one cycle to produce a situation where conflict exists and no action plans are executed
+        if (!moForbiddenPerceptions_Input.isEmpty() && !defense_active)
+        {
+            // conflicting events exist -> activate conflict -> activate defense mechanisms but do not defend yet. (defense will work in the next cycle)
+            defense_active = true;
+            
+            // send quota of affect 999.9 via I5.17 to produce a "CONFLICT"-signal in F20
+             moAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, 999.9)); 
+             moQuotasOfAffect_Output.add(moAffect);
+            
+            return;
+        }
+        else if (moForbiddenPerceptions_Input.isEmpty() &&
+                 moForbiddenEmotions_Input.isEmpty())
+        {
+            // no conflicting events -> deactivate defense mechanisms
+            defense_active = false;
+            return;
+        }
+        // Defense mechanisms start to work.
+                
+                    
+        // For time chart
+        moTimeInputChartData();
 	}
 
 	/* (non-Javadoc)
