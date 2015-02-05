@@ -514,29 +514,37 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     }
 	
     private void selectAndActivateDefenseMechanisms_EC2() {
+        double rConflictStrength;
+        
+        //Kollmann: calculate current ego-strength as base for choosing the defense mechanism 
+        //          Formula: current_ego_strength = personalityfactor_ego_strengh [influencedby] available_neutralized_intensity (possibly not just a multiplication
         
         // Defense for perceptions
         if (!moForbiddenPerceptions_Input.isEmpty()){ 
-             if (moEgoStrength <= 0.15) {
-                 defenseMechanism_Denial(moForbiddenPerceptions_Input);                      
-             }
-             else
-             {
-                 // For TimeChart    
-                 ResetTimeChartDefenseForbidenPerceptionData();
-             }       
-         }
-         
-         // Defense for emotions
-         if(!moForbiddenEmotions_Input.isEmpty()){
-             if (moEgoStrength <= 0.15) {
-                 defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output, 0.3);  
-             }
-             else
-             {   
-                 ResetTimeChartDefenseForbidenEmotionData();                 
-             }
-         }
+            if (moEgoStrength <= 0.15) {
+                defenseMechanism_Denial(moForbiddenPerceptions_Input);                      
+            }
+            else
+            {
+                // For TimeChart    
+                ResetTimeChartDefenseForbidenPerceptionData();
+            }       
+        }
+        
+        // Defense for emotions
+        if(!moForbiddenEmotions_Input.isEmpty()){
+            if (moEgoStrength <= 0.15) {
+                //Kollmann: calculate or extract the conflict tension for the emotion conflict and use it to calculate a value defining how thorough the defense 
+                //          mechanism should do his work
+                rConflictStrength = 0.3; //For now, just some arbitrary value that we use directly as reversal-strength (for reversal of affect)
+                
+                defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output, rConflictStrength);  
+            }
+            else
+            {   
+                ResetTimeChartDefenseForbidenEmotionData();                 
+            }
+        }
     }
 	
 	/* (non-Javadoc)
