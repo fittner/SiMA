@@ -1,3 +1,3 @@
 -- Friedrich 2014-02-19
 -- Super Ego rule for UC1: "Du darfst nicht wütend sein!"
-eDriveComponent AGGRESSIVE;eOrgan LIBIDO;QoA 0.0 0.15;eEmotionType ANGER;QoA 0.5 0.99#eEmotionType ANGER
+SuperEgoStrength 0,3;eEmotionType ANGER;QoA 0.5 0.99#eEmotionType ANGER

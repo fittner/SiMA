@@ -1,17 +1,17 @@
-; Wed Feb 04 13:32:01 CET 2015
+; Mon Feb 16 19:19:12 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
 
 ([ADAM_EC2_BEAT_ProjectKB_Class70] of  String
 
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
+	(name "ANTENNA_LEFT")
+	(string_value "instance_association"))
 
 ([ADAM_EC2_BEAT_ProjectKB_Class71] of  String
 
-	(name "ANTENNA_LEFT")
-	(string_value "instance_association"))
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
 
 ([ADAM_EC2_BEAT_ProjectKB_Class72] of  String
 
@@ -20,13 +20,13 @@
 
 ([ADAM_EC2_BEAT_ProjectKB_Class73] of  String
 
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
 
 ([ADAM_EC2_BEAT_ProjectKB_Class74] of  String
 
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
 
 ([ADAM_EC2_BEAT_ProjectKB_Class75] of  Map_Entry
 
@@ -153,7 +153,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_229335_Class5] of  Map
+([KB_120184_Class5] of  Map
 )
 
 ([KB_610615_Class0] of  String
@@ -711,8 +711,8 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[STANDARD_FACET_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
+		[STANDARD_FACET_FORM_WIDGET]
 		[PAL_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")

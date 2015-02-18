@@ -1,4 +1,4 @@
-; Wed Feb 04 13:32:58 CET 2015
+; Wed Feb 18 16:40:07 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2802,7 +2802,7 @@
 
 ([EMOTION%3ARE%3AANGER%3AMIDDLE] of  EMOTION
 
-	(emotionIntensity 0.75)
+	(emotionIntensity 0.8)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -2822,7 +2822,7 @@
 
 ([EMOTION%3ARE%3AANGER%3AMIDDLE_LOW] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.2)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -2872,7 +2872,7 @@
 
 ([EMOTION%3ARE%3AANXIETY%3AMIDDLE_LOW] of  EMOTION
 
-	(emotionIntensity 0.1)
+	(emotionIntensity 0.2)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3133,10 +3133,10 @@
 ([EMOTION%3AS01_BODO_CAKE%3AANXIETY%3AHIGH] of  EMOTION
 
 	(emotionIntensity 1.0)
-	(sourceAggr 0.0)
+	(sourceAggr 0.2)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.8)
+	(sourceUnpleasure 1.0)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 

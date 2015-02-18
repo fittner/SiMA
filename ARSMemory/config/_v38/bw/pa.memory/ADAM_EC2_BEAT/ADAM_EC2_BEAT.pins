@@ -1,4 +1,4 @@
-; Wed Feb 04 13:32:01 CET 2015
+; Mon Feb 16 19:19:12 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2783,7 +2783,7 @@
 ([EMOTION%3ABODO%3AANGER%3AHIGH] of  EMOTION
 
 	(emotionIntensity 1.0)
-	(sourceAggr 0.9)
+	(sourceAggr 0.6)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)

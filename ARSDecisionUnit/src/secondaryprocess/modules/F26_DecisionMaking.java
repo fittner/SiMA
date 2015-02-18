@@ -73,7 +73,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";
 	public static final String P_AVOIC_INTENSITY = "AVOID_INTENSITY";
 	public static final String P_INFLUENCE_FACTOR_FEELINGS = "INFLUENCE_FACTOR_FEELINGS";
-	public static final String P_INFLUENCE_FACTOR_GOAL = "INFLUENCE_FACTOR_GOAL";
+	public static final String P_INFLUENCE_FACTOR_GOAL = "INFLUENCE_FACTOR_AIM";
 	
 	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_IN;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
@@ -100,7 +100,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	private double mrAffectThresold;	//Everything with an affect >= MEDIUM is passed through
 	
 	private double mrFeelingsImpact;
-	private double mrGoalImpact;
+	private double mrAimImpact;
 	
 	private int mnAvoidIntensity;
 	
@@ -137,7 +137,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		mrAffectThresold=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AFFECT_THRESHOLD).getParameterDouble();
 		mnAvoidIntensity=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AVOIC_INTENSITY).getParameterInt();
 		mrFeelingsImpact=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_INFLUENCE_FACTOR_FEELINGS).getParameterDouble();
-		mrGoalImpact=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, P_INFLUENCE_FACTOR_GOAL).getParameterDouble();
+		mrAimImpact=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, P_INFLUENCE_FACTOR_GOAL).getParameterDouble();
 		
 		//Get short time memory
 		moShortTermMemory = poShortTimeMemory;
@@ -302,7 +302,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		//Kollmann HACK: This is not supposed to be here. According to the psychoanalytic concept, this should happen AFTER F26 - 
 		//               but for now we leave it here, because otherwise, some goals will not be considered that are essential for
 		//               the UC1.
-		GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(moReachableGoalList_IN, moDriveGoalList_IN, mrGoalImpact);
+		GoalHandlingFunctionality.applyAimImportanceOnReachableGoals(moReachableGoalList_IN, moDriveGoalList_IN, mrAimImpact);
 		
 		//Debug output - sort the list of goals by attractiveness and log it
 		ArrayList <clsWordPresentationMeshPossibleGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(moReachableGoalList_IN, moReachableGoalList_IN.size());
