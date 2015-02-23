@@ -42,6 +42,7 @@ import primaryprocess.modules.F57_MemoryTracesForDrives;
 import primaryprocess.modules.F63_CompositionOfEmotions;
 import primaryprocess.modules.F64_PartialSexualDrives;
 import primaryprocess.modules.F65_PartialSelfPreservationDrives;
+import primaryprocess.modules.F71_CompositionOfExtendedEmotion;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
@@ -145,6 +146,7 @@ public class clsPsychicApparatus {
 	public F65_PartialSelfPreservationDrives moF65_PartialSelfPreservationDrives;
 	public F66_SpeechProduction moF66_SpeechProduction;
 	public F67_BodilyReactionsOnEmotions moF67_BodilyReactionOnEmotions;
+	public F71_CompositionOfExtendedEmotion moF71_CompositionOfExtendedEmotion;
 	
 	/** Container for personality parameters ; @since 18.01.2013 15:09:03 */
 	public clsPersonalityParameterContainer moPersonalityParameterContainer;
@@ -325,6 +327,7 @@ public class clsPsychicApparatus {
 		oProp.putAll( F65_PartialSelfPreservationDrives.getDefaultProperties( pre + F64_PartialSexualDrives.P_MODULENUMBER ));
 	    oProp.putAll( F66_SpeechProduction.getDefaultProperties( pre + F66_SpeechProduction.P_MODULENUMBER ));
 	    oProp.putAll( F67_BodilyReactionsOnEmotions.getDefaultProperties( pre + F67_BodilyReactionsOnEmotions.P_MODULENUMBER ));
+	    oProp.putAll( F71_CompositionOfExtendedEmotion.getDefaultProperties( pre + F71_CompositionOfExtendedEmotion.P_MODULENUMBER));
 	    
 		return oProp;
 	}	
@@ -402,7 +405,8 @@ public class clsPsychicApparatus {
 			moF65_PartialSelfPreservationDrives = new F65_PartialSelfPreservationDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer, moLibidoBuffer, moPleasureStorage);
 			moF66_SpeechProduction = new F66_SpeechProduction(pre + F66_SpeechProduction.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, moConceptMemory);
 			moF67_BodilyReactionOnEmotions =  new F67_BodilyReactionsOnEmotions(pre + F67_BodilyReactionsOnEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-            
+            moF71_CompositionOfExtendedEmotion = new F71_CompositionOfExtendedEmotion(pre + F71_CompositionOfExtendedEmotion.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			
 			moDebugLevel = poProp.getPropertyString(pre+P_DEBUG_LEVEL);
 			
 			

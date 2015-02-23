@@ -309,7 +309,7 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF06_DefenseMechanismsForDrives.step();
 		moPsyApp.moF19_DefenseMechanismsForPerception.step();
 
-
+		moPsyApp.moF71_CompositionOfExtendedEmotion.step();
 
         logtiming.info("Duration Primary Process: {}", System.currentTimeMillis()-start);
 		//SECONDARY PROCESSES ----------------------------

@@ -35,8 +35,7 @@ import memorymgmt.enums.eEmotionType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
-import modules.interfaces.I5_16_receive;
-import modules.interfaces.I5_17_receive;
+import modules.interfaces.I5_23_receive;
 import modules.interfaces.I6_14_receive;
 import modules.interfaces.I6_14_send;
 import modules.interfaces.I6_2_receive;
@@ -64,7 +63,7 @@ import modules.interfaces.eInterfaces;
  * * 
  */
 public class F20_CompositionOfFeelings extends clsModuleBaseKB implements 
-					I5_17_receive, I5_16_receive, I6_5_receive, I6_4_receive, I6_2_send, I6_14_send, itfInspectorCombinedTimeChart {
+					I5_23_receive, I6_5_receive, I6_4_receive, I6_2_send, I6_14_send, itfInspectorCombinedTimeChart {
 	public static final String P_MODULENUMBER = "20";
 	
     private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
@@ -194,25 +193,14 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	 * @author deutsch
 	 * 11.08.2009, 14:41:15
 	 * 
-	 * @see pa.interfaces.I5_1#receive_I5_1(int)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void receive_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
-		moAffectOnlyList_Input = (ArrayList<clsPrimaryDataStructure>)this.deepCopy(poAffectOnlyList);		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 11.08.2009, 14:41:15
-	 * 
 	 * @see pa.interfaces.I5_2#receive_I5_2(int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
-		//moDeniedAffects_Input  = (ArrayList<clsAssociationDriveMesh>)this.deepCopy(poDeniedAffects);	
+	public void receive_I5_23(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
+		//moDeniedAffects_Input  = (ArrayList<clsAssociationDriveMesh>)this.deepCopy(poDeniedAffects);
+	    moAffectOnlyList_Input = (ArrayList<clsPrimaryDataStructure>)this.deepCopy(poAffectOnlyList);
+	    
 	    moWordingToContext = moWordingToContext2;
 	    
 	    moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);

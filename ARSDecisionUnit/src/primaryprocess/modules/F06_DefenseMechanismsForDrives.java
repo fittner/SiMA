@@ -1541,7 +1541,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	*/
 	@Override
 	public void send_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
-		((I5_17_receive)moModuleList.get(20)).receive_I5_17(poAffectOnlyList);	
+		((I5_17_receive)moModuleList.get(71)).receive_I5_17(poAffectOnlyList);	
 		putInterfaceData(I5_17_send.class, poAffectOnlyList);		
 	}
 	
