@@ -645,4 +645,80 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         return oResult;
     }
 
+//    /* (non-Javadoc)
+//     *
+//     * @since 19.02.2015 13:07:44
+//     * 
+//     * @see inspector.interfaces.itfInspectorStackedAreaChart#getTitle()
+//     */
+//    @Override
+//    public String getTitle() {
+//        return "Eat evaluating EAT over time";
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 19.02.2015 13:07:44
+//     * 
+//     * @see inspector.interfaces.itfInspectorStackedAreaChart#getData()
+//     */
+//    @Override
+//    public ArrayList<Double> getData() {
+//        double rTotalImportance = 0;
+//        double rTempDriveDemandImportance = 0;
+//        double rTempFeelingImportance = 0;
+//        
+//        HashMap<String, ArrayList<Double>> oData = new HashMap<>();
+//        ArrayList<Double> oEntry = null;
+//        
+//        for(clsWordPresentationMeshPossibleGoal oGoal : moSelectableGoals) {
+//            rTotalImportance = 0;
+//            oEntry = new ArrayList<Double>();
+//            
+//            //Drive demand and feelings importance are combined via non-proportional aggregation, therefore we divide the
+//            //PP impact factor, according to the relation between drive demand impact and feelings impact
+//            rTempDriveDemandImportance = oGoal.getPPImportance() * (oGoal.getDriveDemandImportance() / (oGoal.getDriveDemandImportance() +  oGoal.getFeelingsImportance()));
+//            rTempFeelingImportance = oGoal.getPPImportance() * (oGoal.getFeelingsImportance() / (oGoal.getDriveDemandImportance() +  oGoal.getFeelingsImportance()));
+//            
+//            oEntry.add(rTempDriveDemandImportance);
+//            rTotalImportance += rTempDriveDemandImportance;
+//            oEntry.add(rTempFeelingImportance);
+//            rTotalImportance += rTempFeelingImportance;
+//            oEntry.add(oGoal.getDriveDemandCorrectionImportance());
+//            rTotalImportance += oGoal.getDriveDemandCorrectionImportance();
+//            oEntry.add(oGoal.getEffortImpactImportance());
+//            rTotalImportance += oGoal.getEffortImpactImportance();
+//            oEntry.add(oGoal.getDriveAimImportance());
+//            rTotalImportance += oGoal.getDriveAimImportance();
+//            oEntry.add(oGoal.getSocialRulesImportance());
+//            rTotalImportance += oGoal.getSocialRulesImportance();
+//            oEntry.add(oGoal.getTotalImportance() - rTotalImportance);
+//            
+//            oData.put(oGoal.getSupportiveDataStructure().getContent(), oEntry);
+//        }
+//
+//        return oData.get("A12_EAT_CAKE_L01");
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 19.02.2015 13:07:44
+//     * 
+//     * @see inspector.interfaces.itfInspectorStackedAreaChart#getCategoryCaptions()
+//     */
+//    @Override
+//    public ArrayList<String> getCategoryCaptions() {
+//        ArrayList<String> oResult = new ArrayList<String>();
+//
+//        oResult.add("Drive Demand Importance");
+//        oResult.add("Feelings Importance");
+//        oResult.add("Drive Demand Correction Importance");
+//        oResult.add("Effort Impact Importance");
+//        oResult.add("Drive Aim Importance");
+//        oResult.add("Social Rules Importance");
+//        oResult.add("Unknown factors");
+//        
+//        return oResult;
+//    }
+
 }

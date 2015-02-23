@@ -57,7 +57,7 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
 	protected ArrayList<XYSeries> moValueHistory;
 	protected long mnCurrentTime;
 
-	private String moYAxisCaption;
+	protected String moYAxisCaption;
 	
 	protected final int mnAntiAliasingValue=10;
 	protected int mnAntiAliasingCounter=0;

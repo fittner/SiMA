@@ -41,8 +41,8 @@ public class cls_AreaChartInspector extends cls_AbstractChartInspector {
 	 * 
 	 * @see sim.portrayal.Inspector#updateInspector()
 	 */
-	private itfInspectorAreaChart moContainer;
-	private DefaultCategoryDataset moDataset;
+	protected itfInspectorAreaChart moContainer;
+	protected DefaultCategoryDataset moDataset;
 	
 	public cls_AreaChartInspector(itfInspectorAreaChart poObject){
 		super(poObject.getAreaChartTitle());
@@ -92,7 +92,7 @@ public class cls_AreaChartInspector extends cls_AbstractChartInspector {
 		}
 
 	  
-	    private DefaultCategoryDataset createDataset() {
+	    protected DefaultCategoryDataset createDataset() {
 	    	
 	    	ArrayList<ArrayList<Double>> iContainer = moContainer.getAreaChartData();
 		    double[][] data = new double[iContainer.size()][iContainer.get(0).size()];

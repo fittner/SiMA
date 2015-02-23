@@ -24,6 +24,7 @@ import inspector.interfaces.itfInspectorGenericTimeChart;
 import inspector.interfaces.itfInspectorInternalState;
 import inspector.interfaces.itfInspectorModificationDrives;
 import inspector.interfaces.itfInspectorSpiderWebChart;
+import inspector.interfaces.itfInspectorStackedAreaChart;
 import inspector.interfaces.itfInspectorStackedBarChart;
 import inspector.interfaces.itfInterfaceDescription;
 import inspector.interfaces.itfInterfaceInterfaceData;
@@ -61,6 +62,7 @@ import mind.autocreated.cls_GenericActivityTimeChartInspector;
 import mind.autocreated.cls_GenericDynamicTimeChartInspector;
 import mind.autocreated.cls_GenericTimeChartInspector;
 import mind.autocreated.cls_SpiderWebChartInspector;
+import mind.autocreated.cls_StackedAreaChartInspector;
 import mind.autocreated.cls_StackedBarChartInspector;
 import mind.autocreated.cls_StateInspector;
 import mind.functionalmodel.clsPAInspectorFunctional;
@@ -393,6 +395,11 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 				poTI.addInspector(
 						new clsInspectorImageDrives((itfInspectorModificationDrives) oModule),
 						"pictogram DM-Rules");
+			}
+			
+			if(oModule instanceof itfInspectorStackedAreaChart) {
+				poTI.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) oModule,
+						"", "Eat goal evaluation"), "Eat evaluation");
 			}
 			
 
