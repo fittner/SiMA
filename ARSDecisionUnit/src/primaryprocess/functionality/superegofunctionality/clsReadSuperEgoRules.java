@@ -6,7 +6,10 @@
  */
 package primaryprocess.functionality.superegofunctionality;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
@@ -70,8 +73,176 @@ public class clsReadSuperEgoRules {
         addFRule (em, fl);   
     }
     
+    public static List<clsReadSuperEgoRules> fromBufferedReader(double prSuperEgoStrength, BufferedReader oInput) throws IOException {
+        List<clsReadSuperEgoRules> oRegeln = new ArrayList<clsReadSuperEgoRules> ();
+        int nFileRow = 1; //marks the aktually row, so when an exception happens, we are showing the row where it happened
+        
+        String oFileLine = null; //die Zeile vom File
+        
+        for (int nListe = 0, nStelle = 0; (oFileLine = oInput.readLine()) != null; nFileRow++ ) { //read line by line from the file
+            
+            if (!oFileLine.startsWith("--") && !oFileLine.isEmpty()) { //sieht nach, ob die Zeile ein Kommentar oder leer ist
+                oFileLine = oFileLine.replace (',','.'); //falls jmd den QoA mit , getrennt hat, würde es eine Exepiton geben
+                
+                nStelle = nListe;
+                String[] oSplitFileLine = oFileLine.split("#"); //Zeilenweise wird der String zuerst nach '#' geteilt, weil mit '#' sind die Verbote definiert und diese behandele ich später
+                String[] oLineConditions = oSplitFileLine[0].split(";"); //Bis zum ersten '#' = [0] sind Bedingungen und wird nach Regelwerken/Syntax bearbeitet
+                
+                String[] oSuperEgo = oLineConditions[0].split(" ");
+                double nSuperEgo;
+                if (oSuperEgo[0].equalsIgnoreCase("SuperEgoStrength")) {
+                    nSuperEgo = Double.valueOf(oSuperEgo[1]);
+                } else nSuperEgo = 0.0;
+                
+                if (prSuperEgoStrength >= nSuperEgo) { //die Regel wird angenommen und abgespeichert nur wenn das moSuperEgoStrength größer ist als das im property-File
+                
+                    String oeDrive ="", oeOrgan="", oeEmotion="";
+                    boolean schalter = false; //wenn true ist ein eDriveComponent gefunden
+                    boolean beEmotion = false; //true, wenn ein eEmotionType gefunden wurde
+                    
+                    for (int nDriveElements = oLineConditions.length, i = 0; i < nDriveElements; i++) { // für alle Tuppeln EINER TriebeRegel
+                        String[] oLineElements = oLineConditions[i].split(" "); //Tuppel Unterteilung in Elemente
+                                                                
+                        switch (oLineElements.length) {
+                        case 2:
     
+                            if (oLineElements[0].equalsIgnoreCase("eDriveComponent"))  {
+                                if (!oeDrive.isEmpty() && schalter) { //wenn kein QoA angegeben war, jedoch ein nicht abgespeichertes eDriveComponent und eOrgan 
+                                    if (nStelle == nListe) //wenn true, ist es ein erstes Element, deswegen mit new anlegen; ansonsten eben add-en
+                                        oRegeln.add(nListe, new clsReadSuperEgoRules (eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null) );
+                                    else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null);
+                                    
+                                    nStelle++; //erhöhen, damit das nächste nicht mit new angelegt wird und somit unzusammenhängend wird
+                                    oeDrive = "";
+                                    schalter = false;
+                                }
+                                oeDrive = oLineElements[1];
+                            } else if (oLineElements[0].equalsIgnoreCase("eOrgan"))  {
+                                oeOrgan = oLineElements[1];
+                                schalter = true; //man soll den Trieb nicht gleich abspeichern, weil er vlt ein QoA hat
+                            } else if (oLineElements[0].equalsIgnoreCase("QoA"))  {
+                                Double[] rTmpQoA = {Double.NEGATIVE_INFINITY, Double.valueOf(oLineElements[1])}; 
+                                
+                                if (beEmotion) {
+                                    if (nStelle == nListe) 
+                                        oRegeln.add(new clsReadSuperEgoRules (eEmotionType.valueOf(oeEmotion), rTmpQoA) );
+                                    else oRegeln.get(nListe).addFRule(eEmotionType.valueOf(oeEmotion), rTmpQoA);
+                                    
+                                    nStelle++;
+                                    beEmotion = false;
+                                } else if (oeDrive.isEmpty() || oeOrgan.isEmpty())
+                                    System.err.println("ein unzusammenhängendes QoA wurde eingetragen, Zeile: " + nFileRow);
+                                else {
+
+                                    if (nStelle == nListe) 
+                                        oRegeln.add(new clsReadSuperEgoRules (eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), rTmpQoA) );
+                                    else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), rTmpQoA);
     
+                                    nStelle++;
+                                    oeDrive = "";
+                                    oeOrgan = "";
+                                    schalter = false;
+                                }
+                            } else if (oLineElements[0].equalsIgnoreCase("eEmotionType")) {
+                                oeEmotion = oLineElements[1];
+                                beEmotion = true;
+                            }
+                            break;
+                        case 3: 
+                            if (oLineElements[0].equalsIgnoreCase("QoA")) {
+                                
+                                Double[] rTmpQoA = {Double.valueOf(oLineElements[1]), Double.valueOf(oLineElements[2])};
+                                
+                                if (beEmotion) {
+                                    if (nStelle == nListe) 
+                                        oRegeln.add(new clsReadSuperEgoRules (eEmotionType.valueOf(oeEmotion), rTmpQoA) );
+                                    else oRegeln.get(nListe).addFRule(eEmotionType.valueOf(oeEmotion), rTmpQoA);
+                                    
+                                    nStelle++;
+                                    beEmotion = false;
+                                }
+                                else if (oeDrive.isEmpty() || oeOrgan.isEmpty())
+                                    System.err.println("ein unzusammenhängendes QoA wurde eingetragen, Zeile: " + nFileRow);
+                                else {
+                                                                        
+                                    if (nStelle == nListe) 
+                                        oRegeln.add(new clsReadSuperEgoRules (eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), rTmpQoA) );
+                                    else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), rTmpQoA);
+                                 
+                                    nStelle++;
+                                    oeDrive = "";
+                                    oeOrgan = "";
+                                    schalter = false;
+                                }
+                            } else if (!oeDrive.isEmpty() && schalter) { //wenn kein QoA angegeben war, jedoch ein nicht abgespeichertes eDriveComponent und eOrgan 
+                                if (nStelle == nListe) 
+                                    oRegeln.add(nListe, new clsReadSuperEgoRules (eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null) );
+                                else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null);
+                                
+                                nStelle++;
+                                oeDrive = "";
+                                oeOrgan = "";
+                                schalter = false;                               
+                            } else if (beEmotion) { //wenn kein QoA angegeben war, jedoch ein nicht abgespeichertes eEmotionType
+                                if (nStelle == nListe) 
+                                    oRegeln.add(new clsReadSuperEgoRules (eEmotionType.valueOf(oeEmotion), null) );
+                                else oRegeln.get(nListe).addFRule(eEmotionType.valueOf(oeEmotion), null);
+                                
+                                nStelle++;
+                                beEmotion = false;
+                            }
+                            
+                            if (oLineElements[0].equalsIgnoreCase("eContentType")) {
+                                if (nStelle == nListe)
+                                    oRegeln.add(nListe, new clsReadSuperEgoRules (eContentType.valueOf(oLineElements[1]), oLineElements[2]));
+                                else oRegeln.get(nListe).addFRule(eContentType.valueOf(oLineElements[1]), oLineElements[2]);
+                                nStelle++;
+                            }                           
+                            break;
+                        }
+                    }
+                    
+                    if (!oeDrive.isEmpty() && schalter) { //wenn kein QoA angegeben war, jedoch ein nicht abgespeichertes eDriveComponent und eOrgan 
+                        if (nStelle == nListe) 
+                            oRegeln.add(nListe, new clsReadSuperEgoRules (eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null) );
+                        else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null);
+                    }
+                    
+                    if (oSplitFileLine.length > 0)  {
+                        String oBuffer = "";
+                        if (nStelle == nListe)
+                            System.err.println("\nVerbote ohne Regeln werden einfach nicht beachtet :P!\n");
+                        else {
+                            for (int i = 1; i < oSplitFileLine.length; i++) { //i=0 sind die Regeln; ab i = 1 sind die verbotene Triebe/Objekte aufgelistet
+                                String[] oSplit = oSplitFileLine[i].split(" ");
+                                
+                                // zu blockierende Triebe und Wahrnehmungen abspeichern
+                                if (oSplit[0].equalsIgnoreCase("eContentType") && oSplit[1].equalsIgnoreCase("ENTITY")) {
+                                    oRegeln.get(nListe).addFObject(eContentType.valueOf(oSplit[1]), oSplit[2]);
+                                } else if (oSplit[0].equalsIgnoreCase("eDriveComponent")) {
+                                    oBuffer = oSplit[1];                                
+                                } else if (oSplit[0].equalsIgnoreCase("eOrgan")) {
+                                    if (!oBuffer.isEmpty()) {
+                                        oRegeln.get(nListe).addFObject(eDriveComponent.valueOf(oBuffer), eOrgan.valueOf(oSplit[1]));
+                                        oBuffer = "";
+                                    } else System.err.println("Verbotener Trieb ist Fehlerhaft, Zeile: " + nListe);
+                                } else if (oSplit[0].equalsIgnoreCase("eEmotionType")) {
+                                    oRegeln.get(nListe).addFObject(eEmotionType.valueOf(oSplit[1]));
+                                }
+                            }
+                            
+                            // superEgoStrength abspeichern
+                            oRegeln.get(nListe).setSuperEgoRuleStrength(nSuperEgo);
+                            
+                            nListe++;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return oRegeln;
+    }
             
     /**
      * DOCUMENT (Jordakieva) - erweitert die Regel der Objekte um einen Element
