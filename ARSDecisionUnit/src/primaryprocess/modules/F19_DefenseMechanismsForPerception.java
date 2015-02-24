@@ -514,7 +514,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     }
 	
     private void selectAndActivateDefenseMechanisms_EC2() {
-        double rConflictStrength;
+        double rResolutionRate;
         
         //Kollmann: calculate current ego-strength as base for choosing the defense mechanism 
         //          Formula: current_ego_strength = personalityfactor_ego_strengh [influencedby] available_neutralized_intensity (possibly not just a multiplication
@@ -536,9 +536,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
             if (moEgoStrength <= 0.15) {
                 //Kollmann: calculate or extract the conflict tension for the emotion conflict and use it to calculate a value defining how thorough the defense 
                 //          mechanism should do his work
-                rConflictStrength = 0.6; //For now, just some arbitrary value that we use directly as reversal-strength (for reversal of affect)
+                //rResolutionRate = 0.6; //For now, just some arbitrary value that we use directly as reversal-strength (for reversal of affect)
+                rResolutionRate = moEgoStrength / 0.15;
                 
-                defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output, rConflictStrength);  
+                defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output, rResolutionRate);  
             }
             else
             {   
