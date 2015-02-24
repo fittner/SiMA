@@ -6,6 +6,8 @@
  */
 package primaryprocess.modules;
 
+import inspector.interfaces.itfInspectorCombinedTimeChart;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +48,7 @@ import base.modules.ePsychicInstances;
  * 23.02.2015, 18:33:30
  * 
  */
-public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I5_16_receive, I5_17_receive, I5_23_send {
+public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I5_16_receive, I5_17_receive, I5_23_send, itfInspectorCombinedTimeChart {
     public static final String P_MODULENUMBER = "71";
     private static final String P_SUPER_EGO_STRENGTH = "SUPER_EGO_STRENGTH";
     private static final String P_SUPER_EGO_RULES_FILE = "SUPER_EGO_RULES_FILE";
@@ -533,4 +535,183 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
                 + "Beispiele für erweiterte Emotionen sind Scham, Mitleid, Neid, Schuld.";
     }
 
+    /*************************************************************/
+    /***              COMBINED TIME CHART METHODS              ***/
+    /*************************************************************/
+    
+    /* (non-Javadoc)
+     *
+     * @since Oct 2, 2012 1:31:29 PM
+     * 
+     * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getCombinedTimeChartAxis()
+     */
+    @Override
+    public String getCombinedTimeChartAxis() {
+        return "";
+    }
+
+    /* (non-Javadoc)
+    *
+    * @since Oct 2, 2012 1:31:29 PM
+    * 
+    * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getCombinedTimeChartData()
+    */
+   @Override
+   public ArrayList<ArrayList<Double>> getCombinedTimeChartData() {
+       ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
+       //EMOTIONS
+       ArrayList<Double> oAnger =new ArrayList<Double>();
+       Double oAngerQoA= 0.0;
+       
+       for(int i=0; i<moEmotions_Output.size();i++){
+           if(moEmotions_Output.get(i).getContent().equals(eEmotionType.ANGER)){
+               oAngerQoA = moEmotions_Output.get(i).getEmotionIntensity();
+
+           }
+       }
+       oAnger.add(oAngerQoA);
+       oResult.add(oAnger);
+       
+       
+       ArrayList<Double> oFear =new ArrayList<Double>();
+       Double oFearQoA= 0.0;
+       for(int i=0; i<moEmotions_Output.size();i++){
+           if(moEmotions_Output.get(i).getContent().equals(eEmotionType.ANXIETY)){
+               oFearQoA = moEmotions_Output.get(i).getEmotionIntensity();
+
+           }
+       }
+       oFear.add(oFearQoA);
+       oResult.add(oFear);
+       
+       ArrayList<Double> oGrief =new ArrayList<Double>();
+       Double oGriefQoA= 0.0;
+       for(int i=0; i<moEmotions_Output.size();i++){
+           if(moEmotions_Output.get(i).getContent().equals(eEmotionType.MOURNING)){
+               oGriefQoA = moEmotions_Output.get(i).getEmotionIntensity();
+
+           }
+       }
+       oGrief.add(oGriefQoA);
+       oResult.add(oGrief);
+       
+       ArrayList<Double> oLoveSa =new ArrayList<Double>();
+       Double oLoveSaQoA= 0.0;
+       for(int i=0; i<moEmotions_Output.size();i++){
+           if(moEmotions_Output.get(i).getContent().equals(eEmotionType.SATURATION)){
+               oLoveSaQoA = moEmotions_Output.get(i).getEmotionIntensity();
+
+           }
+       }
+       oLoveSa.add(oLoveSaQoA);
+       oResult.add(oLoveSa);
+       
+       ArrayList<Double> oLoveEx =new ArrayList<Double>();
+       Double oLoveExQoA= 0.0;
+       for(int i=0; i<moEmotions_Output.size();i++){
+           if(moEmotions_Output.get(i).getContent().equals(eEmotionType.ELATION)){
+               oLoveExQoA = moEmotions_Output.get(i).getEmotionIntensity();
+
+           }
+       }
+       oLoveEx.add(oLoveExQoA);
+       oResult.add(oLoveEx);
+       
+       ArrayList<Double> oPleasure =new ArrayList<Double>();
+       Double oPleasureQoA= 0.0;
+       for(int i=0; i<moEmotions_Output.size();i++){
+           if(moEmotions_Output.get(i).getContent().equals(eEmotionType.JOY)){
+               oPleasureQoA = moEmotions_Output.get(i).getEmotionIntensity();
+
+           }
+       }
+       oPleasure.add(oPleasureQoA);
+       oResult.add(oPleasure);
+       
+       ArrayList<Double> oGuilt =new ArrayList<Double>();
+       double rGuiltIntensity= 0.0;
+       for(int i=0; i<moEmotions_Output.size();i++){
+           if(moEmotions_Output.get(i).getContent().equals(eEmotionType.GUILT)){
+               rGuiltIntensity = moEmotions_Output.get(i).getEmotionIntensity();
+
+           }
+       }
+       oGuilt.add(rGuiltIntensity);
+       oResult.add(oGuilt);
+       
+       return oResult;
+   }
+
+
+   /* (non-Javadoc)
+    *
+    * @since Oct 2, 2012 1:31:29 PM
+    * 
+    * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getChartTitles()
+    */
+   @Override
+   public ArrayList<String> getChartTitles() {
+       ArrayList<String> oResult = new ArrayList<String>();
+       oResult.add(eEmotionType.ANGER.toString());
+       oResult.add(eEmotionType.ANXIETY.toString());
+       oResult.add(eEmotionType.MOURNING.toString());
+       
+       oResult.add(eEmotionType.SATURATION.toString());
+       oResult.add(eEmotionType.ELATION.toString());
+       oResult.add(eEmotionType.JOY.toString());
+       
+       oResult.add(eEmotionType.GUILT.toString());
+       
+       return oResult;
+   }
+
+   /* (non-Javadoc)
+    *
+    * @since Oct 2, 2012 1:31:29 PM
+    * 
+    * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getValueCaptions()
+    */
+   @Override
+   public ArrayList<ArrayList<String>> getValueCaptions() {
+       ArrayList<ArrayList<String>> oResult = new ArrayList<ArrayList<String>>();
+       
+       //Emotions
+       
+       //ChartAnger
+       ArrayList<String> chartAnger = new ArrayList<String>();
+       chartAnger.add("Emotion "+eEmotionType.ANGER.toString());
+       oResult.add(chartAnger);
+       
+       //ChartFear
+       ArrayList<String> chartFear = new ArrayList<String>();
+       chartFear.add("Emotion "+eEmotionType.ANXIETY.toString());
+       oResult.add(chartFear);
+       
+       //ChartGrief
+       ArrayList<String> chartGrief = new ArrayList<String>();
+       chartGrief.add("Emotion "+eEmotionType.MOURNING.toString());
+       oResult.add(chartGrief);    
+       
+       //ChartLoveSaturation
+       ArrayList<String> chartLoveSaturation = new ArrayList<String>();
+       chartLoveSaturation.add("Emotion "+eEmotionType.SATURATION.toString());
+       oResult.add(chartLoveSaturation);
+       
+       //ChartLoveexhilaration
+       ArrayList<String> chartLoveExhilaration = new ArrayList<String>();
+       chartLoveExhilaration.add("Emotion "+eEmotionType.ELATION.toString());
+       oResult.add(chartLoveExhilaration); 
+       
+       //ChartPleasure
+       ArrayList<String> chartPleasure= new ArrayList<String>();
+       chartPleasure.add("Emotion "+eEmotionType.JOY.toString());
+       oResult.add(chartPleasure); 
+       
+       //ChartGuilt
+       ArrayList<String> chartGuilt= new ArrayList<String>();
+       chartGuilt.add("Emotion "+eEmotionType.GUILT.toString());
+       oResult.add(chartGuilt);
+       
+       return oResult;
+   }
 }

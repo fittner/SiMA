@@ -6,8 +6,6 @@
  */
 package secondaryprocess.modules;
 
-import inspector.interfaces.itfInspectorCombinedTimeChart;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -63,7 +61,7 @@ import modules.interfaces.eInterfaces;
  * * 
  */
 public class F20_CompositionOfFeelings extends clsModuleBaseKB implements 
-					I5_23_receive, I6_5_receive, I6_4_receive, I6_2_send, I6_14_send, itfInspectorCombinedTimeChart {
+					I5_23_receive, I6_5_receive, I6_4_receive, I6_2_send, I6_14_send {
 	public static final String P_MODULENUMBER = "20";
 	
     private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
@@ -637,184 +635,5 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	@Override
 	public void setDescription() {
 		moDescription = "Until now, only quota of affects attached to thing presentations were available. Although the value of these quota of affects has immediate and strong influence on decision making they cannot become conscious. The qualitative counterpart of the quota of affects in the primary processes is the affect in the secondary processes. The affect is represented by a word presentation and thus can become conscious. Two different groups of affects are generated. Based on the output of the defense mechanisms, a set of affects is built. For these no explanation on their origin is available; they cannot be grasped. The other set uses the output of {E8} and {E21}. With the addition of word presentations ``explaining'' the contents attached to the quota of affects, the origin of the affect can be understood up to some extent. This results in more differentiated moods like unlust, fear, joy, sadness.";
-	}
-	/*************************************************************/
-    /***              COMBINED TIME CHART METHODS              ***/
-    /*************************************************************/
-    
-    /* (non-Javadoc)
-     *
-     * @since Oct 2, 2012 1:31:29 PM
-     * 
-     * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getCombinedTimeChartAxis()
-     */
-    @Override
-    public String getCombinedTimeChartAxis() {
-        return "";
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since Oct 2, 2012 1:31:29 PM
-     * 
-     * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getCombinedTimeChartData()
-     */
-    @Override
-    public ArrayList<ArrayList<Double>> getCombinedTimeChartData() {
-        ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
-        //EMOTIONS
-        ArrayList<Double> oAnger =new ArrayList<Double>();
-        Double oAngerQoA= 0.0;
-        
-        for(int i=0; i<moEmotions_Input.size();i++){
-            if(moEmotions_Input.get(i).getContent().equals(eEmotionType.ANGER)){
-                oAngerQoA = moEmotions_Input.get(i).getEmotionIntensity();
-
-            }
-        }
-        oAnger.add(oAngerQoA);
-        oResult.add(oAnger);
-        
-        
-        ArrayList<Double> oFear =new ArrayList<Double>();
-        Double oFearQoA= 0.0;
-        for(int i=0; i<moEmotions_Input.size();i++){
-            if(moEmotions_Input.get(i).getContent().equals(eEmotionType.ANXIETY)){
-                oFearQoA = moEmotions_Input.get(i).getEmotionIntensity();
-
-            }
-        }
-        oFear.add(oFearQoA);
-        oResult.add(oFear);
-        
-        ArrayList<Double> oGrief =new ArrayList<Double>();
-        Double oGriefQoA= 0.0;
-        for(int i=0; i<moEmotions_Input.size();i++){
-            if(moEmotions_Input.get(i).getContent().equals(eEmotionType.MOURNING)){
-                oGriefQoA = moEmotions_Input.get(i).getEmotionIntensity();
-
-            }
-        }
-        oGrief.add(oGriefQoA);
-        oResult.add(oGrief);
-        
-        ArrayList<Double> oLoveSa =new ArrayList<Double>();
-        Double oLoveSaQoA= 0.0;
-        for(int i=0; i<moEmotions_Input.size();i++){
-            if(moEmotions_Input.get(i).getContent().equals(eEmotionType.SATURATION)){
-                oLoveSaQoA = moEmotions_Input.get(i).getEmotionIntensity();
-
-            }
-        }
-        oLoveSa.add(oLoveSaQoA);
-        oResult.add(oLoveSa);
-        
-        ArrayList<Double> oLoveEx =new ArrayList<Double>();
-        Double oLoveExQoA= 0.0;
-        for(int i=0; i<moEmotions_Input.size();i++){
-            if(moEmotions_Input.get(i).getContent().equals(eEmotionType.ELATION)){
-                oLoveExQoA = moEmotions_Input.get(i).getEmotionIntensity();
-
-            }
-        }
-        oLoveEx.add(oLoveExQoA);
-        oResult.add(oLoveEx);
-        
-        ArrayList<Double> oPleasure =new ArrayList<Double>();
-        Double oPleasureQoA= 0.0;
-        for(int i=0; i<moEmotions_Input.size();i++){
-            if(moEmotions_Input.get(i).getContent().equals(eEmotionType.JOY)){
-                oPleasureQoA = moEmotions_Input.get(i).getEmotionIntensity();
-
-            }
-        }
-        oPleasure.add(oPleasureQoA);
-        oResult.add(oPleasure);
-        
-        ArrayList<Double> oGuilt =new ArrayList<Double>();
-        double rGuiltIntensity= 0.0;
-        for(int i=0; i<moEmotions_Input.size();i++){
-            if(moEmotions_Input.get(i).getContent().equals(eEmotionType.GUILT)){
-                rGuiltIntensity = moEmotions_Input.get(i).getEmotionIntensity();
-
-            }
-        }
-        oGuilt.add(rGuiltIntensity);
-        oResult.add(oGuilt);
-        
-        return oResult;
-        }
-
-
-    /* (non-Javadoc)
-     *
-     * @since Oct 2, 2012 1:31:29 PM
-     * 
-     * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getChartTitles()
-     */
-    @Override
-    public ArrayList<String> getChartTitles() {
-        ArrayList<String> oResult = new ArrayList<String>();
-        oResult.add(eEmotionType.ANGER.toString());
-        oResult.add(eEmotionType.ANXIETY.toString());
-        oResult.add(eEmotionType.MOURNING.toString());
-        
-        oResult.add(eEmotionType.SATURATION.toString());
-        oResult.add(eEmotionType.ELATION.toString());
-        oResult.add(eEmotionType.JOY.toString());
-        
-        oResult.add(eEmotionType.GUILT.toString());
-        
-        return oResult;
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since Oct 2, 2012 1:31:29 PM
-     * 
-     * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getValueCaptions()
-     */
-    @Override
-    public ArrayList<ArrayList<String>> getValueCaptions() {
-        ArrayList<ArrayList<String>> oResult = new ArrayList<ArrayList<String>>();
-        
-        //Emotions
-        
-        //ChartAnger
-        ArrayList<String> chartAnger = new ArrayList<String>();
-        chartAnger.add("Emotion "+eEmotionType.ANGER.toString());
-        oResult.add(chartAnger);
-        
-        //ChartFear
-        ArrayList<String> chartFear = new ArrayList<String>();
-        chartFear.add("Emotion "+eEmotionType.ANXIETY.toString());
-        oResult.add(chartFear);
-        
-        //ChartGrief
-        ArrayList<String> chartGrief = new ArrayList<String>();
-        chartGrief.add("Emotion "+eEmotionType.MOURNING.toString());
-        oResult.add(chartGrief);    
-        
-        //ChartLoveSaturation
-        ArrayList<String> chartLoveSaturation = new ArrayList<String>();
-        chartLoveSaturation.add("Emotion "+eEmotionType.SATURATION.toString());
-        oResult.add(chartLoveSaturation);
-        
-        //ChartLoveexhilaration
-        ArrayList<String> chartLoveExhilaration = new ArrayList<String>();
-        chartLoveExhilaration.add("Emotion "+eEmotionType.ELATION.toString());
-        oResult.add(chartLoveExhilaration); 
-        
-        //ChartPleasure
-        ArrayList<String> chartPleasure= new ArrayList<String>();
-        chartPleasure.add("Emotion "+eEmotionType.JOY.toString());
-        oResult.add(chartPleasure); 
-        
-        //ChartGuilt
-        ArrayList<String> chartGuilt= new ArrayList<String>();
-        chartGuilt.add("Emotion "+eEmotionType.GUILT.toString());
-        oResult.add(chartGuilt);
-        
-        return oResult;
-    }
+	}    
 }

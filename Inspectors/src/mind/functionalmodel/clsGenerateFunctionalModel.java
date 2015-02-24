@@ -81,11 +81,12 @@ public class clsGenerateFunctionalModel {
 	//	((clsNode)(oNodes.get(4))).setCoords(3, 2);
 		((clsNode)(oNodes.get(65))).setCoords(3, 2);
 		((clsNode)(oNodes.get(55))).setCoords(9, 2);
+		((clsNode)(oNodes.get(7))).setCoords(10, 2);
 		((clsNode)(oNodes.get(63))).setCoords(8, 2);
 		
 		((clsNode)(oNodes.get(10))).setCoords(0, 3);
 		((clsNode)(oNodes.get(11))).setCoords(1, 3);
-		((clsNode)(oNodes.get(7))).setCoords(9, 3);
+		((clsNode)(oNodes.get(19))).setCoords(9, 3);
 		
 		((clsNode)(oNodes.get(14))).setCoords(2, 4);		
 		((clsNode)(oNodes.get(46))).setCoords(3, 4);		
@@ -93,7 +94,7 @@ public class clsGenerateFunctionalModel {
 		((clsNode)(oNodes.get(35))).setCoords(5, 4);
 		((clsNode)(oNodes.get(45))).setCoords(6, 4);
 		((clsNode)(oNodes.get(18))).setCoords(7, 4);
-		((clsNode)(oNodes.get(19))).setCoords(10, 4);
+		((clsNode)(oNodes.get(71))).setCoords(9, 4);
 		
 		((clsNode)(oNodes.get(12))).setCoords(0, 5);
 		((clsNode)(oNodes.get(13))).setCoords(1, 5);
