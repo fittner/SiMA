@@ -8,6 +8,7 @@ package modules.interfaces;
 
 import java.util.ArrayList;
 
+import base.datatypes.clsDriveMesh;
 import base.datatypes.clsPrimaryDataStructure;
 
 
@@ -19,5 +20,5 @@ import base.datatypes.clsPrimaryDataStructure;
  * 
  */
 public interface I5_17_send {
-	public void send_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList);
+	public void send_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsDriveMesh> poDriveList);
 }

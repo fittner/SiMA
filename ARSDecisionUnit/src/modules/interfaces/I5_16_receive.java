@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructure;
+import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 
 /**
@@ -20,5 +21,5 @@ import base.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I5_16_receive {
-	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2);
+	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2, clsThingPresentationMesh poPerceptionalMesh);
 }

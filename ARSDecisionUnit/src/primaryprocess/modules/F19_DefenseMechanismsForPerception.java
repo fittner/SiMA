@@ -533,7 +533,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
         
         // Defense for emotions
         if(!moForbiddenEmotions_Input.isEmpty()){
-            if (moEgoStrength <= 0.15) {
+            if (moEgoStrength <= 0.15 && false) {
                 //Kollmann: calculate or extract the conflict tension for the emotion conflict and use it to calculate a value defining how thorough the defense 
                 //          mechanism should do his work
                 rConflictStrength = 0.6; //For now, just some arbitrary value that we use directly as reversal-strength (for reversal of affect)
@@ -1405,7 +1405,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	@Override
 	protected void send() {
 		send_I5_15(moPerceptionalMesh_OUT, moEmotions_Output);
-		send_I5_16(moQuotasOfAffect_Output, moEmotions_Output, moWordingToContext);
+		send_I5_16(moQuotasOfAffect_Output, moEmotions_Output, moWordingToContext, moPerceptionalMesh_OUT);
 	}
 	
 	/* (non-Javadoc)
@@ -1430,8 +1430,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.interfaces.send.I5_16_send#send_I5_16(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
-		((I5_16_receive)moModuleList.get(71)).receive_I5_16(poAffectOnlyList, poEmotions, moWordingToContext2);
+	public void send_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2, clsThingPresentationMesh poPerceptionalMesh) {
+		((I5_16_receive)moModuleList.get(71)).receive_I5_16(poAffectOnlyList, poEmotions, moWordingToContext2, poPerceptionalMesh);
 		putInterfaceData(I5_16_send.class, poAffectOnlyList, moWordingToContext2);
 	}
 

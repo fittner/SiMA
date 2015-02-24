@@ -7,10 +7,17 @@
 package primaryprocess.functionality.superegofunctionality;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+
+import utils.clsGetARSPath;
+import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
 import base.datatypes.enums.eDriveComponent;
@@ -26,6 +33,8 @@ import base.datatypes.helpstructures.clsTriple;
  * 
  */
 public class clsReadSuperEgoRules {
+    //logger
+    private static final Logger log = clsLogger.getLog(clsReadSuperEgoRules.class.getName());
     
     // right side of a rule (perceptions, drives, emotions)
     private ArrayList <clsPair <eContentType, String>> oForbiddenPerceptionRule = new ArrayList <clsPair <eContentType, String>> ();
@@ -71,6 +80,34 @@ public class clsReadSuperEgoRules {
      */
     public clsReadSuperEgoRules (eEmotionType em, Double [] fl) {
         addFRule (em, fl);   
+    }
+    
+    public static List<clsReadSuperEgoRules> fromFile(double prSuperEgoStrength, String poFileName) throws IOException {
+        BufferedReader oReadIn = null;
+        String oFileName = "";
+        ArrayList<clsReadSuperEgoRules> oRegeln = new ArrayList<>();
+        
+        if (!poFileName.isEmpty()) {
+            oFileName = clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath() + System.getProperty("file.separator") + poFileName;
+            
+            try {
+                oReadIn = new BufferedReader (new FileReader (new File (oFileName)));
+            
+                oRegeln = (ArrayList<clsReadSuperEgoRules>) clsReadSuperEgoRules.fromBufferedReader(prSuperEgoStrength, oReadIn);
+            } catch (FileNotFoundException e) {
+                log.error("\nSchlampigkeitsfehler: kann die ÜberIchRegel-Datei nicht finden/öffnen!\n");
+            } catch (NullPointerException e) {
+                log.error("\nFehler in der ÜberIchRegel-Datei\n");
+            } catch (IllegalArgumentException e) {
+                log.error("\nin der ÜberIchRegel-Datei gibt es einen Fehler in der Rechtschreibung\n");
+            } finally {
+                if (oReadIn != null)
+                    try { oReadIn.close(); }
+                            catch (IOException e) { System.err.println("Fehler beim schließen der ÜberIchRegel-Datei"); }
+            }
+        } else log.error("\nThe SuperEgoReactive-RuleFile is empty. Simulation started without any SuperEgoReactive-Rules\n");
+        
+        return oRegeln;
     }
     
     public static List<clsReadSuperEgoRules> fromBufferedReader(double prSuperEgoStrength, BufferedReader oInput) throws IOException {

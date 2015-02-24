@@ -1516,7 +1516,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 //	        System.out.println(moProcessDifference); System.err.println("-----------------------------"); }
 	    
 		send_I5_18(moDriveList_Output);
-		send_I5_17(moQuotasOfAffect_Output);
+		send_I5_17(moQuotasOfAffect_Output, moDriveList_Output);
 	}
 	
 	/* (non-Javadoc)
@@ -1540,8 +1540,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	* @see pa.interfaces.send.I5_1_send#send_I5_1(java.util.ArrayList)
 	*/
 	@Override
-	public void send_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
-		((I5_17_receive)moModuleList.get(71)).receive_I5_17(poAffectOnlyList);	
+	public void send_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsDriveMesh> poDriveList) {
+		((I5_17_receive)moModuleList.get(71)).receive_I5_17(poAffectOnlyList, poDriveList);	
 		putInterfaceData(I5_17_send.class, poAffectOnlyList);		
 	}
 	
