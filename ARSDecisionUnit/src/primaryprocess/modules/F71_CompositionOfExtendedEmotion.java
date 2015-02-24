@@ -13,10 +13,10 @@ import java.util.SortedMap;
 
 import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-import memorymgmt.enums.eEmotionType;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_16_receive;
 import modules.interfaces.I5_17_receive;
@@ -63,7 +63,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     
     private List<clsSuperEgoConflict> moForbiddenDrives = new ArrayList<>();
     private List<clsSuperEgoConflictPerception> moForbiddenPerceptions = new ArrayList<>();
-    private List<eEmotionType> moForbiddenEmotions = new ArrayList<>();
+    private List<clsSuperEgoConflictEmotion> moForbiddenEmotions = new ArrayList<>();
     private List<String> moSuperEgoOutputRules = new ArrayList <>();  
     
     /**
@@ -166,8 +166,11 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         log.debug("neutralized intensity F71: " + Double.toString(rReceivedPsychicEnergy));
         
         if (rReceivedPsychicEnergy > mrPsychicEnergyThreshold
-                /* for test purposes only: */ || true)
+                /* for test purposes only: */ || true) {
             rConsumedPsychicIntensity = checkInternalizedRules(rReceivedPsychicEnergy);   // check perceptions and drives, and apply internalized rules
+            
+            
+        }
         
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, mrInitialRequestIntensity, rConsumedPsychicIntensity);
     }
@@ -219,9 +222,10 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
                     int emotionsInOneRule = moRules.get(i).emotionSize();
                     
                     double quotaOfAffect_of_ForbiddenDrives = checkForDrives (drivesInOneRule, i);
+                    double rIntensityOfConflictingEmotions = checkForEmotions (emotionsInOneRule, i);
                         
                     //wurden alle DM, TPM und Emotions von der aktuellen = i Regel gefunden
-                    if (quotaOfAffect_of_ForbiddenDrives >= 0 && checkForPerception (perceptionInOneRule, i) && checkForEmotions (emotionsInOneRule, i)) { 
+                    if (quotaOfAffect_of_ForbiddenDrives >= 0 && checkForPerception (perceptionInOneRule, i) && rIntensityOfConflictingEmotions >= 0) { 
 
                         moSuperEgoOutputRules.add("FileRule: " + (i+1) + "\nDrives:");
                         for (int tmp=0; tmp < drivesInOneRule; tmp++) {
@@ -242,10 +246,10 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
                         moSuperEgoOutputRules.add("----------------------------------------------");
 
                         
-                        double conflictTension;
+                        double rConflictTension;
                         
                         for (int fd = 0; fd < moRules.get(i).FDriveSize(); fd++) {
-                            conflictTension = quotaOfAffect_of_ForbiddenDrives + moRules.get(i).getSuperEgoRuleStrength();
+                            rConflictTension = quotaOfAffect_of_ForbiddenDrives + moRules.get(i).getSuperEgoRuleStrength();
                             
                             // hier ist noch ein Fehler drinnen: am 18.03.2014 war
                             // der Datentyp von moForbiddenDrives: ArrayList<clsSuperEgoConflict>
@@ -254,32 +258,37 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
                             // Das heißt, die folgende if-Bedingung kann niemals false werden - der Compiler wurde da ausgetrickst.
                             // Das Gleiche gilt auch für die übernächste if-Bedingung.
                             if (!moForbiddenDrives.contains(moRules.get(i).getForbiddenDrive(fd)))
-                                moForbiddenDrives.add(new clsSuperEgoConflict(moRules.get(i).getForbiddenDrive(fd), conflictTension));
+                                moForbiddenDrives.add(new clsSuperEgoConflict(moRules.get(i).getForbiddenDrive(fd), rConflictTension));
                           
                             // if drive is already in list of forbidden drives: change conflict tension
                             else
-                                moForbiddenDrives.get(moForbiddenDrives.lastIndexOf(moRules.get(i).getForbiddenDrive(fd))).setConflictTension(conflictTension);
+                                moForbiddenDrives.get(moForbiddenDrives.lastIndexOf(moRules.get(i).getForbiddenDrive(fd))).setConflictTension(rConflictTension);
                         }
                         
                         for (int fp = 0; fp < moRules.get(i).FObjectSize(); fp++) {
                             // bei der folgenden Zeile könnte man noch schauen, ob es bei perceptions nicht soetwas gibt wie "Stärke einer Wahrnehmung" - analog dem quota of affect eines Triebes
-                            conflictTension = moRules.get(i).getSuperEgoRuleStrength();
+                            rConflictTension = moRules.get(i).getSuperEgoRuleStrength();
                             
                             if (!moForbiddenPerceptions.contains(moRules.get(i).getForbiddenObject(fp))) 
-                                moForbiddenPerceptions.add(new clsSuperEgoConflictPerception(moRules.get(i).getForbiddenObject(fp), conflictTension));
+                                moForbiddenPerceptions.add(new clsSuperEgoConflictPerception(moRules.get(i).getForbiddenObject(fp), rConflictTension));
                             
                             // if perception is already in list of forbidden perceptions: change conflict tension
                             else
-                                moForbiddenPerceptions.get(moForbiddenPerceptions.lastIndexOf(moRules.get(i).getForbiddenDrive(fp))).setConflictTension(conflictTension);
+                                moForbiddenPerceptions.get(moForbiddenPerceptions.lastIndexOf(moRules.get(i).getForbiddenDrive(fp))).setConflictTension(rConflictTension);
                         }
                         
                         for (int fe = 0; fe < moRules.get(i).FEmotionSize(); fe++) {
+                            //Kollmann: according to KD, the intensity of the confclicting emotion should have less impact than the super ego rule strength
+                            //          (0.5 is a completely arbitrary value)
+                            //          also: according to KD, the difference between allowed intensity and actual intensity should be used.
+                            rConflictTension = moRules.get(i).getSuperEgoRuleStrength() + rIntensityOfConflictingEmotions * /*arbitrary->*/0.5;
+                            
                             if (!moForbiddenEmotions.contains(moRules.get(i).getForbiddenEmotion(fe))) 
-                                moForbiddenEmotions.add(moRules.get(i).getForbiddenEmotion(fe));
+                                moForbiddenEmotions.add(new clsSuperEgoConflictEmotion(moRules.get(i).getForbiddenEmotion(fe), rConflictTension));
                         }
                         
                     } 
-                } // Ende vom for -> "für jede Zeile" = für jede Regel
+                }
             } catch (IndexOutOfBoundsException e) {
                 System.err.println("\nIndex nicht vorhanden\n");
             }
@@ -298,30 +307,39 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      * @param i
      * @return
      */
-    private boolean checkForEmotions(int emotionSize, int position) {
-
-        boolean beGefunden;
+    private double checkForEmotions(int emotionSize, int position) {
+        double rIntensitySum = 0;
+        double rEmotionIntensity = 0;
+        double rLowerBound = 0;
+        double rUpperBound = 0;
+        boolean bFound = false;
         int e;
 
-        for (e = 0, beGefunden = true; e < emotionSize && beGefunden; e++) {
-            
-            beGefunden = false;
+        for (e = 0; e < emotionSize; e++) {
             for(clsEmotion oOneEmotion : moEmotions_Input) {
-                
-                double rEmotionItensity = oOneEmotion.getEmotionIntensity();
+                rEmotionIntensity = oOneEmotion.getEmotionIntensity();
+                rLowerBound = moRules.get(position).getEmotionRule(e).b[0];
+                rUpperBound = moRules.get(position).getEmotionRule(e).b[1];
                 
                 if (oOneEmotion.getContent().equals(moRules.get(position).getEmotionRule(e).a) &&
-                        moRules.get(position).getEmotionRule(e).b[0] <= rEmotionItensity && 
-                                moRules.get(position).getEmotionRule(e).b[1] >= rEmotionItensity) {
-                    beGefunden = true;
+                        rLowerBound <= rEmotionIntensity && 
+                        rUpperBound >= rEmotionIntensity) {
+                    bFound = true;
+                    //Kollmann: according to KD we should consider the difference between the allowed range and the actual intensity.
+                    //          But currently the rule supplies the conflicting range - what if the rule says: must be nothing but moderately
+                    //          angry (for example), I decided to use the minimal difference to the bound, e.g. ANGER between 0.5 and 1.0 with
+                    //          actual intensity 0.6 --> rIntensitySum = 0.1 
+                    rIntensitySum += Math.min(rUpperBound - rEmotionIntensity, rEmotionIntensity - rLowerBound);
                     break;
                 }
             }
         }
         
+        if(!bFound) {
+            rIntensitySum = -1;
+        }
         
-        if (e == emotionSize && beGefunden) return true;
-        else return false;
+        return rIntensitySum;
     }
 
     /**
