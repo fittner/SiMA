@@ -55,7 +55,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     private static final String P_PSYCHIC_ENERGY_THESHOLD = "PSYCHIC_ENERGY_THESHOLD";
      
     private clsWordPresentationMesh moWordingToContext = null;
-    private ArrayList<clsEmotion> moEmotions_Input = new ArrayList<>();
+    //private ArrayList<clsEmotion> moEmotions_Input = new ArrayList<>();
     private ArrayList<clsEmotion> moEmotions_Output = new ArrayList<>();
     private ArrayList<clsPrimaryDataStructure> moAffectOnlyList_Input = new ArrayList<>();
     //Kollmann: I prefer using List as working type over ArrayList - I only use ArrayList as working type of an interface (or other demand)
@@ -90,9 +90,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      */
     public F71_CompositionOfExtendedEmotion(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsPersonalityParameterContainer poPersonalityParameterContainer,
-            DT3_PsychicIntensityStorage poPsychicEnergyStorage) throws Exception {
+            DT3_PsychicIntensityStorage poPsychicEnergyStorage) throws Exception {        
         super(poPrefix, poProp, poModuleList, poInterfaceData);
-        moPsychicEnergyStorage = poPsychicEnergyStorage;
         
         //Kollmann: this is a bit of a hack, I don't want to pass on the super ego rules so I load them again and for that I access F07s parameters
         //          for the filename and super-ego strength
@@ -103,6 +102,9 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F" + P_MODULENUMBER, P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
         mrPsychicEnergyThreshold = poPersonalityParameterContainer.getPersonalityParameter("F" + P_MODULENUMBER, P_PSYCHIC_ENERGY_THESHOLD).getParameterInt();
 
+        moPsychicEnergyStorage = poPsychicEnergyStorage;
+        moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
+        
         moRules = clsReadSuperEgoRules.fromFile(oSuperEgoStrength, oFileName);
     }
     
@@ -150,12 +152,11 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      * 
      * @see modules.interfaces.I5_16_receive#receive_I5_16(java.util.ArrayList, java.util.ArrayList, base.datatypes.clsWordPresentationMesh)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions,
             clsWordPresentationMesh poWordingToContext2, clsThingPresentationMesh poPerceptionalMesh) {
         moWordingToContext = poWordingToContext2;
-        moEmotions_Input = poEmotions;
+        //moEmotions_Input = poEmotions;
         moEmotions_Output = clone(poEmotions);
         moPerceptionalMesh_Input = poPerceptionalMesh;
     }

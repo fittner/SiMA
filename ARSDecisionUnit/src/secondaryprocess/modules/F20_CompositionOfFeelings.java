@@ -731,6 +731,17 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
         oPleasure.add(oPleasureQoA);
         oResult.add(oPleasure);
         
+        ArrayList<Double> oGuilt =new ArrayList<Double>();
+        double rGuiltIntensity= 0.0;
+        for(int i=0; i<moEmotions_Input.size();i++){
+            if(moEmotions_Input.get(i).getContent().equals(eEmotionType.GUILT)){
+                rGuiltIntensity = moEmotions_Input.get(i).getEmotionIntensity();
+
+            }
+        }
+        oGuilt.add(rGuiltIntensity);
+        oResult.add(oGuilt);
+        
         return oResult;
         }
 
@@ -751,6 +762,8 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
         oResult.add(eEmotionType.SATURATION.toString());
         oResult.add(eEmotionType.ELATION.toString());
         oResult.add(eEmotionType.JOY.toString());
+        
+        oResult.add(eEmotionType.GUILT.toString());
         
         return oResult;
     }
@@ -796,6 +809,11 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
         ArrayList<String> chartPleasure= new ArrayList<String>();
         chartPleasure.add("Emotion "+eEmotionType.JOY.toString());
         oResult.add(chartPleasure); 
+        
+        //ChartGuilt
+        ArrayList<String> chartGuilt= new ArrayList<String>();
+        chartGuilt.add("Emotion "+eEmotionType.GUILT.toString());
+        oResult.add(chartGuilt);
         
         return oResult;
     }
