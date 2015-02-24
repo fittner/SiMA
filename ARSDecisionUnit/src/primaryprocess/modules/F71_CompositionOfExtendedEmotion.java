@@ -17,18 +17,24 @@ import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmo
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eEmotionType;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_16_receive;
 import modules.interfaces.I5_17_receive;
 import modules.interfaces.I5_23_receive;
 import modules.interfaces.I5_23_send;
 import modules.interfaces.eInterfaces;
+import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
+import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
@@ -50,6 +56,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      
     private clsWordPresentationMesh moWordingToContext = null;
     private ArrayList<clsEmotion> moEmotions_Input = new ArrayList<>();
+    private ArrayList<clsEmotion> moEmotions_Output = new ArrayList<>();
     private ArrayList<clsPrimaryDataStructure> moAffectOnlyList_Input = new ArrayList<>();
     //Kollmann: I prefer using List as working type over ArrayList - I only use ArrayList as working type of an interface (or other demand)
     //          would force me to cast the List to ArrayList
@@ -148,7 +155,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions,
             clsWordPresentationMesh poWordingToContext2, clsThingPresentationMesh poPerceptionalMesh) {
         moWordingToContext = poWordingToContext2;
-        moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+        moEmotions_Input = poEmotions;
+        moEmotions_Output = clone(poEmotions);
         moPerceptionalMesh_Input = poPerceptionalMesh;
     }
 
@@ -162,6 +170,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     protected void process_basic() {
         double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
         double rConsumedPsychicIntensity = 0;
+        double rRemainingConflict = 0;
+        clsEmotion oNewGuilt = null;
         
         log.debug("neutralized intensity F71: " + Double.toString(rReceivedPsychicEnergy));
         
@@ -169,10 +179,52 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
                 /* for test purposes only: */ || true) {
             rConsumedPsychicIntensity = checkInternalizedRules(rReceivedPsychicEnergy);   // check perceptions and drives, and apply internalized rules
             
+            //TODO: create conflict base class and streamline this here 
+            for(clsSuperEgoConflict oConflict : moForbiddenDrives) {
+                rRemainingConflict += oConflict.getConflictTension();
+            }
+            for(clsSuperEgoConflictPerception oConflict : moForbiddenPerceptions) {
+                rRemainingConflict += oConflict.getConflictTension();
+            }
+            for(clsSuperEgoConflictEmotion oConflict : moForbiddenEmotions) {
+                rRemainingConflict += oConflict.getConflictTension();
+            }
             
+            if(rRemainingConflict > 0) {
+                oNewGuilt = generateGuilt(rRemainingConflict);
+                moEmotions_Output.add(oNewGuilt);
+            }
         }
         
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, mrInitialRequestIntensity, rConsumedPsychicIntensity);
+    }
+    
+    /* (non-Javadoc)
+    *
+    * @author gelbard
+    * 27.08.2012, 17:54:00
+    * 
+    * clones an ArrayList<clsEmotions>
+    */
+   private ArrayList<clsEmotion> clone(ArrayList<clsEmotion> oEmotions) {
+       // deep clone: oEmotions --> oClonedEmotions
+       ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
+       ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
+       for (clsEmotion oOneEmotion : oEmotions) {
+           try {
+               oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
+           } catch (CloneNotSupportedException e) {
+               // Auto-generated catch block
+               e.printStackTrace();
+           }
+       }
+       
+       return oClonedEmotions;
+   }
+    
+    private clsEmotion generateGuilt(double prConflictIntensity) {
+        //Kollmann: not sure how to generate guilt, but I think it should have some unpleasure component, I, for now, use the same pattern as with ANXIETY
+        return clsDataStructureGenerator.generateEMOTION(new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, eEmotionType.GUILT, prConflictIntensity),  0,  prConflictIntensity,  0,  0);
     }
     
     /* (non-Javadoc)
@@ -316,7 +368,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         int e;
 
         for (e = 0; e < emotionSize; e++) {
-            for(clsEmotion oOneEmotion : moEmotions_Input) {
+            for(clsEmotion oOneEmotion : moEmotions_Output) {
                 rEmotionIntensity = oOneEmotion.getEmotionIntensity();
                 rLowerBound = moRules.get(position).getEmotionRule(e).b[0];
                 rUpperBound = moRules.get(position).getEmotionRule(e).b[1];
@@ -430,7 +482,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      */
     @Override
     protected void send() {
-        send_I5_23(moAffectOnlyList_Input, moEmotions_Input, moWordingToContext);
+        send_I5_23(moAffectOnlyList_Input, moEmotions_Output, moWordingToContext);
     }
 
     /* (non-Javadoc)
