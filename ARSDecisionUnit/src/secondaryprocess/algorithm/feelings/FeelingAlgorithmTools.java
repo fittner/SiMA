@@ -7,14 +7,15 @@
 package secondaryprocess.algorithm.feelings;
 
 import java.util.ArrayList;
-
 import org.slf4j.Logger;
 
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eGoalType;
+import base.datatypes.clsEmotion;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
@@ -180,8 +181,25 @@ public class FeelingAlgorithmTools {
         return rFeelingMatch; 
     }
     
+    protected static clsEmotion extractBasicEmotion(clsWordPresentationMesh poImage) {
+        clsEmotion oBasicEmotion = null;
+        
+        if(poImage != null && !poImage.isNullObject()) {
+            ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poImage.getFeelings();
+            //kollmann: difficult to decide with emotion to use if several are available ...
+            if(!oFeelingList.isEmpty()) {
+                oBasicEmotion = oFeelingList.get(0).getEmotion();
+            }
+        }
+        
+        return oBasicEmotion;
+    }
     
-        /**
+    protected static double calculateEmotionAttractiveness(clsEmotion poEmotion) {
+        return poEmotion.getSourcePleasure() - poEmotion.getSourceUnpleasure();
+    }
+    
+    /**
      * 
      * DOCUMENT (martinez) - this method just resembles the evaluateGoalByTriggeredFeelings() method. Right now it just return 0, so the goal handling functionality class can work.
      * SSch: if enough neutralized intensity is available, the agent reflects about the goal's appropriateness. That is, the consideration if the act reduces unpleasure and increases pleasure. 
@@ -191,11 +209,44 @@ public class FeelingAlgorithmTools {
      * @param poGoal 
      */
     public static double evaluateGoalByExpectedFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
-        double rFeelingMatchImportance = 0.3;
+        double rImportanceChange = 0;
+        clsEmotion oExpectedChange = null;
+        clsWordPresentationMesh oIntention = null;
+        clsWordPresentationMesh oFirstImage = null;
+        clsWordPresentationMesh oLastImage = null;
+        clsEmotion oFirstEmotion = null;
+        clsEmotion oLastEmotion = null;
         
-        double rFeelingMatch = getFeelingMatch(poGoal, poFeltFeelingList);
+        //get act for that goal (what should happen if the goal has no act [yet], like perception or drive goals?)
+        clsWordPresentationMesh oSupp = poGoal.getSupportiveDataStructure();
         
-        return rFeelingMatchImportance * rFeelingMatch;
+        //how to find out if this is an act
+        if(oSupp.getContentType().equals(eContentType.ACT)) {
+            //get the intention
+            oIntention = clsActDataStructureTools.getIntention(oSupp);
+            
+            //just to be safe that the image actually has an intention
+            if(oIntention != null && !oIntention.isNullObject()) {
+                oFirstImage = clsActTools.getFirstImageFromIntention(oIntention);
+                oLastImage = clsActTools.getLastImage(oFirstImage);
+
+                oFirstEmotion = extractBasicEmotion(oFirstImage);
+                oLastEmotion = extractBasicEmotion(oLastImage);
+                
+                //kollmann: see if the image has emotions at all (only continue of we have a FIRST and LAST image emotion
+                //          TODO: not just extract the emotion from first and last imgae, but find the first and last emotion;
+                if(oFirstEmotion != null && oLastEmotion != null) {
+                    oExpectedChange = oLastEmotion.diff(oFirstEmotion);
+                
+                    rImportanceChange = calculateEmotionAttractiveness(oExpectedChange);
+                }
+            } else {
+                throw new RuntimeException("Act " + oSupp.getContent() + " has no intention associated");
+            }
+        }
+        
+        //adjust match value by match importance
+        return rImportanceChange; 
     }
     
     
