@@ -9,7 +9,6 @@ package base.datatypes;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
@@ -100,11 +99,11 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    return rMatch / 4;
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @since Jun 27, 2012 10:10:01 AM
+	/* (non-Javadoc) Kollmann: calculates difference of two emotions
 	 * 
-	 * @see pa._v38.memorymgmt.datatypes.itfComparable#compareTo(pa._v38.memorymgmt.datatypes.clsDataStructurePA)
+	 * @since 27.02.2015 17:50:53
+	 * 
+	 * @see base.datatypes.itfComparable#compareTo(base.datatypes.clsDataStructurePA)
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
@@ -114,15 +113,14 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		//if the other data structure is no cleEmotion -> no match
 	    if(poDataStructure instanceof clsEmotion) {
 	        oOtherEmotion = (clsEmotion)poDataStructure;
-	        //for now we only implement the comparison for BASIC_EMOTIONS if either participant is something else -> exception
-	        if((getContentType() == eContentType.BASICEMOTION) && (oOtherEmotion.getContentType() == eContentType.BASICEMOTION)) {
-	            rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
-//	            //comparing two basic emotions of different types (e.g. JOY with PLEASURE) will not produce a match
-//	            if(getContent().equals(oOtherEmotion.getContent())) {
-//	                rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
-//	            }
-	        } else {
-	            throw new NotImplementedException();
+	        //kollmann: emotions of different type always produce a math of 0
+	        if(getContentType().equals(oOtherEmotion.getContentType())) {
+	            switch(getContentType()) {
+	            case MEMORIZEDEMOTION:
+	            case BASICEMOTION:
+	                rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
+	                break;
+	            }
 	        }
 	    }
 	    

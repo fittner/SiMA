@@ -554,7 +554,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
        
        double rInfluenceRememberedImages = 0.75;
        
-       clsEmotion oEmotionFromPerception = null;
+       clsEmotion oEmotionFromMemory = null;
        clsThingPresentationMesh oRI = null;
        
        // use  assoc. emotions from PI's RIs for emotion-generation        
@@ -565,14 +565,19 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                    
                    for (clsAssociation oRIAss: oRI.getExternalAssociatedContent()) {
                        if (oRIAss.getContentType() == eContentType.ASSOCIATIONEMOTION && oRIAss instanceof clsAssociationEmotion) {
-                           oEmotionFromPerception = ((clsAssociationEmotion)oRIAss).getEmotion();
-                           // the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
-                           rAssociationWeight = oPIExtAss.getMrWeight();
-                           rMemoryPleasure = nonProportionalAggregation(rMemoryPleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourcePleasure()); 
-                           rMemoryUnpleasure = nonProportionalAggregation(rMemoryUnpleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourceUnpleasure());
-                           rMemoryLibid = nonProportionalAggregation(rMemoryLibid, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourceLibid());
-                           rMemoryAggr = nonProportionalAggregation(rMemoryAggr, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromPerception.getSourceAggr());
-               
+                           oEmotionFromMemory = ((clsAssociationEmotion)oRIAss).getEmotion();
+                           
+                           //kollmann: to allow control over which memories influence the state in which do not (neccessray for reflected feelings evaluation, for example)
+                           //          we only consider emotions with content type MEMORIZEDEMOTION
+                           
+                           if(oEmotionFromMemory.getContentType().equals(eContentType.MEMORIZEDEMOTION)) {
+                               // the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
+                               rAssociationWeight = oPIExtAss.getMrWeight();
+                               rMemoryPleasure = nonProportionalAggregation(rMemoryPleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourcePleasure()); 
+                               rMemoryUnpleasure = nonProportionalAggregation(rMemoryUnpleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceUnpleasure());
+                               rMemoryLibid = nonProportionalAggregation(rMemoryLibid, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceLibid());
+                               rMemoryAggr = nonProportionalAggregation(rMemoryAggr, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceAggr());
+                           }
                        }
                    }
                }
