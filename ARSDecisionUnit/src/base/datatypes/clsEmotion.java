@@ -99,7 +99,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    return rMatch / 4;
 	}
 	
-	/* (non-Javadoc) Kollmann: calculates difference of two emotions
+	/* (non-Javadoc) Kollmann: calculates difference of two emotions as single value
 	 * 
 	 * @since 27.02.2015 17:50:53
 	 * 
@@ -126,6 +126,43 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    
 		return rMatch;
 	}
+	
+	/**
+	 * DOCUMENT (Kollmann) - calculates the difference of two emotions as resulting emotion 
+	 * 
+     * @author Kollmann
+     * 
+     * 27.02.2015, 00:00:00
+     * 
+     */
+	public clsEmotion diff(clsDataStructurePA poDataStructure) {
+        clsEmotion oEmotionDiff = null;
+        clsEmotion oOtherEmotion = null;
+        
+        //if the other data structure is no cleEmotion -> no match
+        if(poDataStructure instanceof clsEmotion) {
+            oOtherEmotion = (clsEmotion)poDataStructure;
+            //kollmann: emotions of different type always produce a math of 0
+            if(getContentType().equals(oOtherEmotion.getContentType())) {
+                switch(getContentType()) {
+                case MEMORIZEDEMOTION:
+                case BASICEMOTION:
+                    oEmotionDiff = clsDataStructureGenerator.generateEMOTION(
+                            new clsTriple <eContentType, eEmotionType, Object>(
+                                    eContentType.BASICEMOTION,
+                                    eEmotionType.UNDEFINED,
+                                    getEmotionIntensity() - oOtherEmotion.getEmotionIntensity()),
+                                    getSourcePleasure() - oOtherEmotion.getSourcePleasure(),
+                                    getSourceUnpleasure() - oOtherEmotion.getSourceUnpleasure(),
+                                    getSourceLibid() - oOtherEmotion.getSourceLibid(),
+                                    getSourceAggr() - oOtherEmotion.getSourceAggr());
+                    break;
+                }
+            }
+        }
+        
+        return oEmotionDiff;
+    }
 	
 	/**
 	 * @author schaat
