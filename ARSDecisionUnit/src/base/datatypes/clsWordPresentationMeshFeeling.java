@@ -8,6 +8,7 @@ package base.datatypes;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -22,7 +23,9 @@ import base.datatypes.helpstructures.clsTriple;
  * 
  */
 public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
-
+    //kollmann: if we convert an emotion from memory into a feeling, the resulting feelings needs an instance_id. We will use the original emotions ID + this CONVERT_FEELING_BASE
+    static final int CONVERTED_FEELING_BASE = 10000;
+    
     /**
      * DOCUMENT (wendt) - insert description 
      *
@@ -58,6 +61,8 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         (-1, eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP), this, poEmotion);
         this.addExternalAssociation(oWPAssEmotion);
 
+        this.moDSInstance_ID = CONVERTED_FEELING_BASE + poEmotion.getDS_ID();
+        
         //Kollmann: for some reason clsEmotion seems to be missing its externalAssociation array - for now we only anchor the associationWP in the WPMFeeling
 //        poEmotion.addExternalAssociation(oWPAssEmotion);
     }
@@ -182,6 +187,25 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         oText +=" Unpleasure=" + new DecimalFormat("0.00").format(getUnpleasure());
         
         return oText;
+    }
+    
+    public clsEmotion getEmotion() {
+        clsEmotion oEmotion = null;
+        List<clsAssociationWordPresentation> oAssWPs = clsAssociationWordPresentation.getAllExternAssociationWordPresentation(this);
+        
+        if(!oAssWPs.isEmpty()) {
+            for(clsAssociationWordPresentation oAssWP : oAssWPs) {
+                if(oAssWP.getRootElement() instanceof clsEmotion) {
+                    if(oEmotion != null) {
+                        log.warn("Feeling " + getContent() + " seems to have more than one emotion associated - will only be using the first one");
+                    } else {
+                        oEmotion = (clsEmotion) oAssWP.getRootElement();
+                    }
+                }
+            }
+        }
+        
+        return oEmotion;
     }
     
     @Override
