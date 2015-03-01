@@ -209,7 +209,10 @@ public class FeelingAlgorithmTools {
      * @param poGoal 
      */
     public static double evaluateGoalByExpectedFeelings(clsWordPresentationMeshPossibleGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList){
+        final double EMOTION_STATE_SIMILARITY_IMPACT = 1.0;
+        
         double rImportanceChange = 0;
+        double rEmotionStateSimilarity = 0;
         clsEmotion oExpectedChange = null;
         clsWordPresentationMesh oIntention = null;
         clsWordPresentationMesh oFirstImage = null;
@@ -217,28 +220,44 @@ public class FeelingAlgorithmTools {
         clsEmotion oFirstEmotion = null;
         clsEmotion oLastEmotion = null;
         
+        moLogger.debug("Evaluating feeling expactation for goal:\n\t{}", poGoal);
+        
         //get act for that goal (what should happen if the goal has no act [yet], like perception or drive goals?)
         clsWordPresentationMesh oSupp = poGoal.getSupportiveDataStructure();
         
         //how to find out if this is an act
         if(oSupp.getContentType().equals(eContentType.ACT)) {
+            moLogger.debug("\tFound supportive data structure:\n\t\t{}", oSupp);
             //get the intention
             oIntention = clsActDataStructureTools.getIntention(oSupp);
             
             //just to be safe that the image actually has an intention
             if(oIntention != null && !oIntention.isNullObject()) {
+                moLogger.debug("\t\tFound intention:\n\t\t\t{}", oIntention);
+                
                 oFirstImage = clsActTools.getFirstImageFromIntention(oIntention);
                 oLastImage = clsActTools.getLastImage(oFirstImage);
+                
+                moLogger.debug("\t\tFound first image:\n\t\t\t{}", oFirstImage);
+                moLogger.debug("\t\tFound last image:\n\t\t\t{}", oLastImage);
 
                 oFirstEmotion = extractBasicEmotion(oFirstImage);
                 oLastEmotion = extractBasicEmotion(oLastImage);
+                
+                moLogger.debug("Comparing emotions:\n\t\tFirst: {}\n\t\tLast: {}", oFirstEmotion, oLastEmotion);
                 
                 //kollmann: see if the image has emotions at all (only continue of we have a FIRST and LAST image emotion
                 //          TODO: not just extract the emotion from first and last imgae, but find the first and last emotion;
                 if(oFirstEmotion != null && oLastEmotion != null) {
                     oExpectedChange = oLastEmotion.diff(oFirstEmotion);
-                
+                    
                     rImportanceChange = calculateEmotionAttractiveness(oExpectedChange);
+                    moLogger.debug("Expected emotion change: {} ({})", oExpectedChange, rImportanceChange);
+                    
+                    //kollmann: calculate importance of change for curent situation == similarity to current situation
+                    rEmotionStateSimilarity = getFeelingMatch(oFirstImage, poFeltFeelingList) * EMOTION_STATE_SIMILARITY_IMPACT;
+                    moLogger.info("Evaluating feeling expactation for goal:{}\n\tFirst image: {}\n\t\thas emotion: {}\n\tSecond image: {}\n\t\thasemotion: {}\n\tExpected change: {} ({})\n\tBy valuated similarity: {}\n\tResults in importance: {}",
+                            poGoal, oFirstImage.getContent(), oFirstEmotion, oLastImage.getContent(), oLastEmotion, oExpectedChange, rImportanceChange, rEmotionStateSimilarity, rImportanceChange * rEmotionStateSimilarity);
                 }
             } else {
                 throw new RuntimeException("Act " + oSupp.getContent() + " has no intention associated");
@@ -246,7 +265,7 @@ public class FeelingAlgorithmTools {
         }
         
         //adjust match value by match importance
-        return rImportanceChange; 
+        return rImportanceChange * rEmotionStateSimilarity; 
     }
     
     
