@@ -1,4 +1,4 @@
-; Sat Feb 28 15:53:13 CET 2015
+; Mon Mar 02 14:56:47 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1543,7 +1543,7 @@
 
 	(element
 		[TPM%3AIMAGE%3AA14_FLEE_BODO_L01_I01]
-		[EMOTION%3AAE%3AA14_FLEE_BODO_L01_I01%3AANXIETY%3AHIGH])
+		[EMOTION%3ARE%3AANXIETY%3AMIDDLE])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONEMOTION%3AA14_FLEE_BODO_L01_I02%3AAE%3AANXIETY%3ALOW] of  ASSOCIATIONEMOTION
@@ -2841,11 +2841,11 @@
 
 ([EMOTION%3AAE%3AA14_FLEE_BODO_L01_I01%3AANXIETY%3ALOW] of  EMOTION
 
-	(emotionIntensity 0.1)
-	(sourceAggr 0.1)
+	(emotionIntensity 0.0)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.1)
+	(sourceUnpleasure 0.0)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -2945,17 +2945,17 @@
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.0)
+	(sourceUnpleasure 0.5)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3ARE%3AANXIETY%3AMIDDLE_HIGH] of  EMOTION
 
-	(emotionIntensity 0.7)
+	(emotionIntensity 0.65)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.0)
+	(sourceUnpleasure 0.65)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 

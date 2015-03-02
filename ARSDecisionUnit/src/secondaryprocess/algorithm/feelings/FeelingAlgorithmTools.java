@@ -7,6 +7,9 @@
 package secondaryprocess.algorithm.feelings;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.slf4j.Logger;
 
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
@@ -117,13 +120,11 @@ public class FeelingAlgorithmTools {
     }
     
     private static double getFeelingMatch(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
-        double rMatchingFactor = 0;
-        int nCount = 0;
         double rDiffValue = 0;
         double rDiff = 0;
         
         if(poImage != null && !poImage.isNullObject()) {
-            //Get Feelings fromt he image
+            //Get Feelings from the image
             ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poImage.getFeelings();
             
             if(oFeelingList.isEmpty()) {
@@ -148,7 +149,7 @@ public class FeelingAlgorithmTools {
             }
         }
         
-        return 1 - rDiffValue;
+        return (rDiffValue > 0)?(1 - rDiffValue):(0);
     }
     
     /**
@@ -181,22 +182,66 @@ public class FeelingAlgorithmTools {
         return rFeelingMatch; 
     }
     
-    protected static clsEmotion extractBasicEmotion(clsWordPresentationMesh poImage) {
-        clsEmotion oBasicEmotion = null;
+    protected static List<clsEmotion> extractBasicEmotions(clsWordPresentationMesh poImage) {
+        List<clsEmotion> oEmotions = new ArrayList<>();
         
         if(poImage != null && !poImage.isNullObject()) {
             ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poImage.getFeelings();
-            //kollmann: difficult to decide with emotion to use if several are available ...
-            if(!oFeelingList.isEmpty()) {
-                oBasicEmotion = oFeelingList.get(0).getEmotion();
+            for(clsWordPresentationMeshFeeling oFeeling : oFeelingList) {
+                if(!oFeelingList.isEmpty()) {
+                    oEmotions.add(oFeeling.getEmotion());
+                }
             }
         }
         
-        return oBasicEmotion;
+        return oEmotions;
     }
     
-    protected static double calculateEmotionAttractiveness(clsEmotion poEmotion) {
-        return poEmotion.getSourcePleasure() - poEmotion.getSourceUnpleasure();
+    protected static double calculateEmotionAttractiveness(List<clsEmotion> poEmotion) {
+        double rAttractiveness = 0;
+        
+        for(clsEmotion oEmotion : poEmotion) {
+            rAttractiveness += oEmotion.getSourcePleasure() - oEmotion.getSourceUnpleasure();
+        }
+        
+        return rAttractiveness / poEmotion.size();
+    }
+    
+    public static List<clsEmotion> calculateEmotionChanges(List<clsEmotion> poBeginEmotions, List<clsEmotion> poEndEmotions) {
+        //kollmann: for now we consider the union of begin and end emotions
+        List<clsEmotion> oEmotionUnion = new ArrayList<>();
+        List<clsEmotion> oBeginEmotions = new ArrayList<>(poBeginEmotions);
+        List<clsEmotion> oEndEmotions = new ArrayList<>(poEndEmotions);
+        Iterator<clsEmotion> oIteratorEnd = null;
+        clsEmotion oBeginEmotion = null;
+        clsEmotion oEndEmotion = null;
+        boolean bHit = false;
+        
+        for (Iterator<clsEmotion> iteratorBegin = oBeginEmotions.iterator(); iteratorBegin.hasNext();) {
+            oBeginEmotion = iteratorBegin.next();
+            bHit = false;
+            for (oIteratorEnd = oEndEmotions.iterator(); !bHit && oIteratorEnd.hasNext();) {
+                oEndEmotion = oIteratorEnd.next();
+                if(oBeginEmotion.getContentType().equals(eContentType.BASICEMOTION)) {
+                    if(oBeginEmotion.getContent().equals(oEndEmotion.getContent())) {
+                        oEmotionUnion.add(oEndEmotion.diff(oBeginEmotion));
+                        oIteratorEnd.remove();
+                        bHit = true;
+                    }
+                }
+            }
+            if(!bHit) {
+                oEmotionUnion.add(clsEmotion.zeroEmotion(eContentType.BASICEMOTION, oBeginEmotion.getContent()).diff(oBeginEmotion));
+            }
+            iteratorBegin.remove();
+        }
+        
+        for(oIteratorEnd = oEndEmotions.iterator(); oIteratorEnd.hasNext();) {
+            oEndEmotion = oIteratorEnd.next();
+            oEmotionUnion.add(oEndEmotion);
+        }
+        
+        return oEmotionUnion;
     }
     
     /**
@@ -213,12 +258,12 @@ public class FeelingAlgorithmTools {
         
         double rImportanceChange = 0;
         double rEmotionStateSimilarity = 0;
-        clsEmotion oExpectedChange = null;
+        List<clsEmotion> oExpectedChanges = null;
         clsWordPresentationMesh oIntention = null;
         clsWordPresentationMesh oFirstImage = null;
         clsWordPresentationMesh oLastImage = null;
-        clsEmotion oFirstEmotion = null;
-        clsEmotion oLastEmotion = null;
+        List<clsEmotion> oFirstEmotions = null;
+        List<clsEmotion> oLastEmotions = null;
         
         moLogger.debug("Evaluating feeling expactation for goal:\n\t{}", poGoal);
         
@@ -241,23 +286,23 @@ public class FeelingAlgorithmTools {
                 moLogger.debug("\t\tFound first image:\n\t\t\t{}", oFirstImage);
                 moLogger.debug("\t\tFound last image:\n\t\t\t{}", oLastImage);
 
-                oFirstEmotion = extractBasicEmotion(oFirstImage);
-                oLastEmotion = extractBasicEmotion(oLastImage);
+                oFirstEmotions = extractBasicEmotions(oFirstImage);
+                oLastEmotions = extractBasicEmotions(oLastImage);
                 
-                moLogger.debug("Comparing emotions:\n\t\tFirst: {}\n\t\tLast: {}", oFirstEmotion, oLastEmotion);
+                moLogger.debug("Comparing emotions:\n\t\tFirst: {}\n\t\tLast: {}", oFirstEmotions, oLastEmotions);
                 
                 //kollmann: see if the image has emotions at all (only continue of we have a FIRST and LAST image emotion
                 //          TODO: not just extract the emotion from first and last imgae, but find the first and last emotion;
-                if(oFirstEmotion != null && oLastEmotion != null) {
-                    oExpectedChange = oLastEmotion.diff(oFirstEmotion);
+                if(oFirstEmotions != null && oLastEmotions != null) {
+                    oExpectedChanges = calculateEmotionChanges(oFirstEmotions, oLastEmotions);
                     
-                    rImportanceChange = calculateEmotionAttractiveness(oExpectedChange);
-                    moLogger.debug("Expected emotion change: {} ({})", oExpectedChange, rImportanceChange);
+                    rImportanceChange = calculateEmotionAttractiveness(oExpectedChanges);
+                    moLogger.debug("Expected emotion change: {} ({})", oExpectedChanges, rImportanceChange);
                     
-                    //kollmann: calculate importance of change for curent situation == similarity to current situation
+                    //kollmann: calculate importance of change for current situation == similarity to current situation
                     rEmotionStateSimilarity = getFeelingMatch(oFirstImage, poFeltFeelingList) * EMOTION_STATE_SIMILARITY_IMPACT;
                     moLogger.info("Evaluating feeling expactation for goal:{}\n\tFirst image: {}\n\t\thas emotion: {}\n\tSecond image: {}\n\t\thasemotion: {}\n\tExpected change: {} ({})\n\tBy valuated similarity: {}\n\tResults in importance: {}",
-                            poGoal, oFirstImage.getContent(), oFirstEmotion, oLastImage.getContent(), oLastEmotion, oExpectedChange, rImportanceChange, rEmotionStateSimilarity, rImportanceChange * rEmotionStateSimilarity);
+                            poGoal, oFirstImage.getContent(), oFirstEmotions, oLastImage.getContent(), oLastEmotions, oExpectedChanges, rImportanceChange, rEmotionStateSimilarity, rImportanceChange * rEmotionStateSimilarity);
                 }
             } else {
                 throw new RuntimeException("Act " + oSupp.getContent() + " has no intention associated");
