@@ -21,7 +21,6 @@ import modules.interfaces.eInterfaces;
 import org.slf4j.Logger;
 
 import properties.clsProperties;
-
 import externalmessager.MonitorExecutor;
 import externalmessager.MonitorExecutorForModuleBaseInterface;
 
@@ -118,13 +117,12 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 	 * @return
 	 */
 	public static clsProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsProperties.addDot(poPrefix);
-		
-		clsProperties oProp = new clsProperties();
-		
-		//nothing to do
-				
-		return oProp;
+        String pre = clsProperties.addDot(poPrefix);
+        
+        clsProperties oProp = new clsProperties();
+        oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+                
+        return oProp;
 	}	
 
 	/**
