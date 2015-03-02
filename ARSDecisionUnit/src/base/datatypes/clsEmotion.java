@@ -24,7 +24,6 @@ import base.datatypes.helpstructures.clsTriple;
  * 
  */
 public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAssociatedDataStructure{
-	
 	private eEmotionType moContent = null;
 	private ArrayList<clsAssociation> moExternalAssociatedContent = null; 
 	private double mrEmotionIntensity = 0.0; 
@@ -127,6 +126,28 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		return rMatch;
 	}
 	
+	public static clsEmotion zeroEmotion(eContentType oContentType, eEmotionType oEmotionType) {
+	    return clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType, eEmotionType, Object>(oContentType, oEmotionType, 0.0), 0.0, 0.0, 0.0, 0.0);
+	}
+	
+	public void sub(clsEmotion poEmotion) {
+        //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a math of 0
+        if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {
+            switch(getContentType()) {
+            case MEMORIZEDEMOTION:
+            case BASICEMOTION:
+                mrEmotionIntensity -= poEmotion.getEmotionIntensity();
+                mrSourcePleasure -= poEmotion.getSourcePleasure();
+                mrSourceUnpleasure -= poEmotion.getSourceUnpleasure();
+                mrSourceLibid -= poEmotion.getSourceLibid();
+                mrSourceAggr -= poEmotion.getSourceAggr();
+                break;
+            }
+        } else {
+            throw new RuntimeException("Can not subtract two emotions with different content types");
+        }
+	}
+	
 	/**
 	 * DOCUMENT (Kollmann) - calculates the difference of two emotions as resulting emotion 
 	 * 
@@ -135,34 +156,46 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
      * 27.02.2015, 00:00:00
      * 
      */
-	public clsEmotion diff(clsDataStructurePA poDataStructure) {
+	public clsEmotion diff(clsEmotion poEmotion) {
         clsEmotion oEmotionDiff = null;
-        clsEmotion oOtherEmotion = null;
         
-        //if the other data structure is no cleEmotion -> no match
-        if(poDataStructure instanceof clsEmotion) {
-            oOtherEmotion = (clsEmotion)poDataStructure;
-            //kollmann: emotions of different type always produce a math of 0
-            if(getContentType().equals(oOtherEmotion.getContentType())) {
-                switch(getContentType()) {
-                case MEMORIZEDEMOTION:
-                case BASICEMOTION:
-                    oEmotionDiff = clsDataStructureGenerator.generateEMOTION(
-                            new clsTriple <eContentType, eEmotionType, Object>(
-                                    eContentType.BASICEMOTION,
-                                    eEmotionType.UNDEFINED,
-                                    getEmotionIntensity() - oOtherEmotion.getEmotionIntensity()),
-                                    getSourcePleasure() - oOtherEmotion.getSourcePleasure(),
-                                    getSourceUnpleasure() - oOtherEmotion.getSourceUnpleasure(),
-                                    getSourceLibid() - oOtherEmotion.getSourceLibid(),
-                                    getSourceAggr() - oOtherEmotion.getSourceAggr());
-                    break;
-                }
+        //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a math of 0
+        if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {
+            switch(getContentType()) {
+            case MEMORIZEDEMOTION:
+            case BASICEMOTION:
+                oEmotionDiff = clsDataStructureGenerator.generateEMOTION(
+                    new clsTriple <eContentType, eEmotionType, Object>(
+                            getContentType(),
+                            getContent(),
+                            getEmotionIntensity() - poEmotion.getEmotionIntensity()),
+                            getSourcePleasure() - poEmotion.getSourcePleasure(),
+                            getSourceUnpleasure() - poEmotion.getSourceUnpleasure(),
+                            getSourceLibid() - poEmotion.getSourceLibid(),
+                            getSourceAggr() - poEmotion.getSourceAggr());
             }
         }
         
         return oEmotionDiff;
     }
+	
+	public void add(clsEmotion poEmotion) {
+	  //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a math of 0
+        if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {
+            switch(getContentType()) {
+            case MEMORIZEDEMOTION:
+            case BASICEMOTION:
+                mrEmotionIntensity += poEmotion.getEmotionIntensity();
+                mrSourcePleasure += poEmotion.getSourcePleasure();
+                mrSourceUnpleasure += poEmotion.getSourceUnpleasure();
+                mrSourceLibid += poEmotion.getSourceLibid();
+                mrSourceAggr += poEmotion.getSourceAggr();
+                break;
+            }
+        } else {
+            throw new RuntimeException("Can not add two emotions with different content types");
+        }
+	}
 	
 	/**
 	 * @author schaat
