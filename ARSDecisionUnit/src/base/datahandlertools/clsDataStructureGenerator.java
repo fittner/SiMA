@@ -122,15 +122,20 @@ public abstract class clsDataStructureGenerator {
 //		return oRetVal;
 //	}
 	
+	public static clsEmotion generateEMOTION(eContentType poContentType, eEmotionType poEmotionType, double prIntensity, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
+        clsEmotion oRetVal; 
+        
+        oRetVal = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.EMOTION, poContentType), prIntensity, poEmotionType,  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr); 
+        
+        return oRetVal;
+    }
+	
 	public static clsEmotion generateEMOTION(clsTriple <eContentType, eEmotionType, Object> poContent, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr){
-		clsEmotion oRetVal; 
 		eContentType oContentType = poContent.a;
 		eEmotionType oContent = poContent.b;
-		
 		double rIntensity = (Double)poContent.c;
 		
-		oRetVal = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.EMOTION, oContentType), rIntensity, oContent,  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr); 
-		return oRetVal;
+		return generateEMOTION(oContentType, oContent, rIntensity, prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr);
 	}
 	
 	public static clsAffect generateAFFECT(clsPair <eContentType, Object> poContent){
