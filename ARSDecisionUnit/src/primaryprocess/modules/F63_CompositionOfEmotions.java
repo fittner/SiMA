@@ -305,61 +305,61 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		// just generate Unpleasure--based Emotions
 		if(rRelativeSystemUnpleasure > mrRelativeThreshold){
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, 0, rSystemUnpleasure, 0, 0);
-			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 			else if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.MOURNING, rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.MOURNING, rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 			else {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
-				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 		}
 		// just generate Pleasure-based Emotions
 		else if (rRelativeSystemPleasure > mrRelativeThreshold) {
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, 0, rSystemUnpleasure, 0, 0);
-			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 			else if (rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 			else {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
-				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			} 
 		}
 		// generate both
 		else {
 			// pleasure-based emotions		    
-			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 			else if (rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 			else {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
-				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 			
 			//unpleasure-based emotions			
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, 0, rSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 			else if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.MOURNING, rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.MOURNING, rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 			else {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
-				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
 			}
 		}
         
