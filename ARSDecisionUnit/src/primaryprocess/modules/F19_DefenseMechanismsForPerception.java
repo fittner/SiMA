@@ -537,6 +537,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
                 //Kollmann: calculate or extract the conflict tension for the emotion conflict and use it to calculate a value defining how thorough the defense 
                 //          mechanism should do his work
                 //rResolutionRate = 0.6; //For now, just some arbitrary value that we use directly as reversal-strength (for reversal of affect)
+                //resolution = (normalize)ego-strength
                 rResolutionRate = moEgoStrength / 0.15;
                 
                 defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output, rResolutionRate);  
