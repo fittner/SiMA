@@ -560,7 +560,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
         for (e = 0, beGefunden = true; e < emotionSize && beGefunden; e++) {
             
             beGefunden = false;
-            for(clsEmotion oOneEmotion : moEmotions_Input) {
+            for(clsEmotion oOneEmotion : moEmotions_Input.get(0).generateExtendedEmotions()) {
                 
                 double rEmotionItensity = oOneEmotion.getEmotionIntensity();
                 

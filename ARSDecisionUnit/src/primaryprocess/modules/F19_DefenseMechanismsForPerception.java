@@ -458,7 +458,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 
 	            if((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
 	                
-	                defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output, 1.0);
+	                defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output.get(0), 1.0);
 	                
 	                             
 	            }else{
@@ -504,7 +504,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
             // Defense for emotions
             if(!moForbiddenEmotions_Input.isEmpty()){
                 if (moEgoStrength <= 0.15) {
-                    defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output);  
+                    defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output.get(0).generateExtendedEmotions());  
                 }
                 else
                 {   
@@ -540,7 +540,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
                 //resolution = (normalize)ego-strength
                 rResolutionRate = moEgoStrength / 0.15;
                 
-                defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output, rResolutionRate);  
+                defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output.get(0), rResolutionRate);  
             }
             else
             {   
@@ -615,7 +615,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
         // Defense for emotions
         if(!moForbiddenEmotions_Input.isEmpty()){
             if (moEgoStrength <= 0.15) {
-                defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output);  
+                defenseMechanism_ReactionFormation (moForbiddenEmotions_Input, moEmotions_Output.get(0).generateExtendedEmotions());  
             }
             else
             {   
@@ -648,7 +648,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	// get the intensity of the emotions MOURNING, ANXIETY and ANGER 
 	private double GetEmotionIntensity(eEmotionType moEmotionType){
 			double oEmotionIntensity =0.0;
-			for(clsEmotion oOneEmotion : moEmotions_Output) {
+			for(clsEmotion oOneEmotion : moEmotions_Output.get(0).generateExtendedEmotions()) {
 				
 					if(searchInEmotions (eEmotionType.MOURNING)){
 						if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getContent() == eEmotionType.MOURNING)){
@@ -674,7 +674,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	// Search of the emotion types if they exist
 	private boolean searchInEmotions (eEmotionType oEmotionType) {	
 			
-		   	for(clsEmotion oOneEmotion : moEmotions_Output) {
+		   	for(clsEmotion oOneEmotion : moEmotions_Output.get(0).generateExtendedEmotions()) {
 		   		if(oOneEmotion.getContent() == oEmotionType) {
 		   			return true;
 		   		}
@@ -1145,54 +1145,28 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     * Defense mechanism reversal of affect for emotions
     * 
     */
-	private ArrayList<clsEmotion> defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output, double prReversalStrength) {
+	private void defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, clsEmotion poBaseEmotion, double prReversalStrength) {
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
 		reversalOfAffect =1.0;
 		PassForbidenEmotions=0.0;
 		ChartBarReversalOfAffect++;
-	   	if (oForbiddenEmotions_Input == null) return oEmotions_Output;
+	   	if (oForbiddenEmotions_Input == null) return;
 		
-	   	// Is the emotion FEAR already in the list moEmotions_Output?
-	   	clsEmotion oEmotionFear = null;
-	   	for(clsEmotion oEmotion : oEmotions_Output) {
-	   		if(oEmotion.getContent() == eEmotionType.ANXIETY) {
-	   			oEmotionFear = oEmotion;
-	   			break;
-	   		}
-	   	}
-	   	
-		// check list of forbidden emotions
+	   	// check list of forbidden emotions
 		for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {
-			for(clsEmotion oOneEmotion : oEmotions_Output) {
+			for(clsEmotion oOneEmotion : poBaseEmotion.generateExtendedEmotions()) {
 				if(oOneEmotion.getContent() == oOneForbiddenEmotion) {
 				    // add the old emotion intensity to the emotion intensity of the emotion FEAR
-                    double rTransfer = oOneEmotion.getEmotionIntensity() * prReversalStrength;
+                    double rTransfer = oOneEmotion.getSourceAggr() * prReversalStrength;
                     
-                    if(oEmotionFear != null) {
-						
-						// do not transfer above 1.0
-					    rTransfer = Math.min(rTransfer, 1 - oEmotionFear.getEmotionIntensity());
-						
-					    oOneEmotion.setEmotionIntensity(oOneEmotion.getEmotionIntensity() - rTransfer);
-					    oEmotionFear.setEmotionIntensity(oEmotionFear.getEmotionIntensity() + rTransfer);
-					}
-					else {
-						clsEmotion oNewEmotion = clsDataStructureGenerator.generateEMOTION(
-								new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, eEmotionType.ANXIETY, rTransfer),
-								oOneEmotion.getSourcePleasure(),
-								oOneEmotion.getSourceUnpleasure(),
-                                oOneEmotion.getSourceLibid(),
-                                oOneEmotion.getSourceAggr());
-						moEmotions_Output.add(oNewEmotion);
-					}
+                    // do not transfer above 1.0
+					rTransfer = Math.min(rTransfer, 1 - oOneEmotion.getSourceLibid());
 					
-					// there are not 2 emotions of the same eEmotionType in moEmotions_Output
-					break;
-					
+					poBaseEmotion.setSourceAggr(poBaseEmotion.getSourceAggr() - rTransfer);
+					poBaseEmotion.setSourceLibid(poBaseEmotion.getSourceLibid() + rTransfer);
 				}
 			}
 		}
-		return oEmotions_Output;
 	}
 	
 	

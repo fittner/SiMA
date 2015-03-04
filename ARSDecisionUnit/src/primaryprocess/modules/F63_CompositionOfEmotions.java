@@ -38,7 +38,6 @@ import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
-import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
@@ -278,90 +277,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
             log.debug("Unpleasure missing");
         }
         
-		// Normalize to be able to decide which basic category prevails/dominates
-		double rSumValuesPlUnPl = rSystemUnpleasure + rSystemPleasure;
-		double rSumValuesLibidAggr =  rSystemAggr +rSystemLibid;		
-		rRelativeSystemPleasure = rSystemPleasure/rSumValuesPlUnPl; 
-		rRelativeSystemUnpleasure = rSystemUnpleasure/rSumValuesPlUnPl;
-		rRelativeSystemLibid = rSystemLibid/rSumValuesLibidAggr;
-		rRelativeSystemAggr = rSystemAggr/rSumValuesLibidAggr;
-		
-
-		/*
-		 * Generate Emotions
-		 * if unpleasure prevails --> only generate unpleasure-based  emotions (always-> anxiety. if agg prevails -> ANGER. if libid prevails -> mourning. if no one prevails -> both)
-		 * if pleasure prevails --> only generate pleasure-based emotions (always->> PLEASURE. if agg prevails ->ELATION if libid prevails -> SATURATION)
-		 * 
-		 * the intensity of generated emotions is dependent on the relative amount of the basic category (Pleasuer, aggr, ... = from which the emotion is derived), particularly relative to the amount of pleasure+unpleasure
-		 * E.g. As Grief is based on aggr. unpleasure, its intensity is derived from the amount of aggr. unpleasure relative to the total amount of the ground truth (pleasure+unpleasure) 
-		 * 
-		 * Aggr and libid components/categories are just another form of unpleasure. This is considered in the further
-		 * procedure to avoid duplicating the ground truth(=the values emotions are based on).
-		 * 
-		 * variable "rGrade": To avoid "leaps" in emotion-intensity, a threshold-range is considered and a gradual change of intensity (e.g. if the domination of pleasure changes very fast (e.g. in every step), the intensity of the according emotions should not "jump" up and down   
-		*/
-		
-		
-		
-		// just generate Unpleasure--based Emotions
-		if(rRelativeSystemUnpleasure > mrRelativeThreshold){
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			
-			if(rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-			else if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.MOURNING, rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-			else {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-		}
-		// just generate Pleasure-based Emotions
-		else if (rRelativeSystemPleasure > mrRelativeThreshold) {
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-			else if (rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-			else {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			} 
-		}
-		// generate both
-		else {
-			// pleasure-based emotions		    
-			generateEmotion(eEmotionType.JOY, rSystemPleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-			else if (rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-			else {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-				generateEmotion(eEmotionType.ELATION, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-			
-			//unpleasure-based emotions			
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			if(rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-			else if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.MOURNING, rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-			else {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-				generateEmotion(eEmotionType.MOURNING,  rSystemLibid, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-			}
-		}
+        //create the base emotion state
+        clsEmotion oBaseEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+        oBaseEmotion.setRelativeThreshold(mrRelativeThreshold);
+        moEmotions_OUT.add(oBaseEmotion);
         
 	    double rRequestedPsychicIntensity = 0.0;
 	                
@@ -594,15 +513,15 @@ public class F63_CompositionOfEmotions extends clsModuleBase
        return oMemoryExtractedValues;
    }
 	
-	/* (non-Javadoc)
-	 *
-	 * @author schaat
-	 * 03.07.2012, 15:48:45
-	 * 
-	 */
-	private void generateEmotion(eEmotionType poEmotionType, double prEmotionIntensity, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
-		moEmotions_OUT.add(clsDataStructureGenerator.generateEMOTION(new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, poEmotionType, prEmotionIntensity),  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr));
-	}
+//	/* (non-Javadoc)
+//	 *
+//	 * @author schaat
+//	 * 03.07.2012, 15:48:45
+//	 * 
+//	 */
+//	private void generateEmotion(eEmotionType poEmotionType, double prEmotionIntensity, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
+//		moEmotions_OUT.add(clsDataStructureGenerator.generateEMOTION(new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, poEmotionType, prEmotionIntensity),  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr));
+//	}
 	
 	/* (non-Javadoc)
 	 *
@@ -836,13 +755,15 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 */
 	@Override
 	public ArrayList<ArrayList<Double>> getCombinedTimeChartData() {
+	    ArrayList<clsEmotion> oEmotions = moEmotions_OUT.get(0).generateExtendedEmotions();
 		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
+		
 		//EMOTIONS
 		ArrayList<Double> oAnger =new ArrayList<Double>();
 		Double oAngerQoA= 0.0;
-		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.ANGER)){
-				oAngerQoA = moEmotions_OUT.get(i).getEmotionIntensity();
+		for(int i=0; i<oEmotions.size();i++){
+			if(oEmotions.get(i).getContent().equals(eEmotionType.ANGER)){
+				oAngerQoA = oEmotions.get(i).getEmotionIntensity();
 
 			}
 		}
@@ -852,9 +773,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		ArrayList<Double> oFear =new ArrayList<Double>();
 		Double oFearQoA= 0.0;
-		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.ANXIETY)){
-				oFearQoA = moEmotions_OUT.get(i).getEmotionIntensity();
+		for(int i=0; i<oEmotions.size();i++){
+			if(oEmotions.get(i).getContent().equals(eEmotionType.ANXIETY)){
+				oFearQoA = oEmotions.get(i).getEmotionIntensity();
 
 			}
 		}
@@ -863,9 +784,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		ArrayList<Double> oGrief =new ArrayList<Double>();
 		Double oGriefQoA= 0.0;
-		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.MOURNING)){
-				oGriefQoA = moEmotions_OUT.get(i).getEmotionIntensity();
+		for(int i=0; i<oEmotions.size();i++){
+			if(oEmotions.get(i).getContent().equals(eEmotionType.MOURNING)){
+				oGriefQoA = oEmotions.get(i).getEmotionIntensity();
 
 			}
 		}
@@ -874,9 +795,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		ArrayList<Double> oLoveSa =new ArrayList<Double>();
 		Double oLoveSaQoA= 0.0;
-		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.SATURATION)){
-				oLoveSaQoA = moEmotions_OUT.get(i).getEmotionIntensity();
+		for(int i=0; i<oEmotions.size();i++){
+			if(oEmotions.get(i).getContent().equals(eEmotionType.SATURATION)){
+				oLoveSaQoA = oEmotions.get(i).getEmotionIntensity();
 
 			}
 		}
@@ -885,9 +806,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		ArrayList<Double> oLoveEx =new ArrayList<Double>();
 		Double oLoveExQoA= 0.0;
-		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.ELATION)){
-				oLoveExQoA = moEmotions_OUT.get(i).getEmotionIntensity();
+		for(int i=0; i<oEmotions.size();i++){
+			if(oEmotions.get(i).getContent().equals(eEmotionType.ELATION)){
+				oLoveExQoA = oEmotions.get(i).getEmotionIntensity();
 
 			}
 		}
@@ -896,9 +817,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		ArrayList<Double> oPleasure =new ArrayList<Double>();
 		Double oPleasureQoA= 0.0;
-		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getContent().equals(eEmotionType.JOY)){
-				oPleasureQoA = moEmotions_OUT.get(i).getEmotionIntensity();
+		for(int i=0; i<oEmotions.size();i++){
+			if(oEmotions.get(i).getContent().equals(eEmotionType.JOY)){
+				oPleasureQoA = oEmotions.get(i).getEmotionIntensity();
 
 			}
 		}

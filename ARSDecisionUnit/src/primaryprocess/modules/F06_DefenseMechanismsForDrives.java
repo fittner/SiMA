@@ -652,7 +652,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	// Search of the emotion types if they exist
 	private boolean searchInEmotions (eEmotionType oEmotionType) {	
 		
-	   	for(clsEmotion oOneEmotion : moEmotions_Output) {
+	   	for(clsEmotion oOneEmotion : moEmotions_Output.get(0).generateExtendedEmotions()) {
 	   		if(oOneEmotion.getContent() == oEmotionType) {
 	   			return true;
 	   		}
@@ -664,7 +664,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	// get the intensity of the emotions MOURNING, ANXIETY and ANGER 
 	private double GetEmotionIntensity(eEmotionType moEmotionType){
 		double oEmotionIntensity =0.0;
-		for(clsEmotion oOneEmotion : moEmotions_Output) {
+		for(clsEmotion oOneEmotion : moEmotions_Output.get(0).generateExtendedEmotions()) {
 			
 				if(searchInEmotions (eEmotionType.MOURNING)){
 					if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getContent() == eEmotionType.MOURNING)){

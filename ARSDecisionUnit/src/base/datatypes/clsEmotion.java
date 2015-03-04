@@ -33,6 +33,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private double mrSourceUnpleasure = 0.0;
 	private double mrSourceLibid = 0.0;
 	private double mrSourceAggr = 0.0;
+	private double mrRelativeThreshold = 0.0;
 	
 	public clsEmotion(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prEmotionIntensity, eEmotionType poContent, 
 			double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
@@ -275,8 +276,13 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
         this.mrSourceAggr = mrSourceAggr;
     }  
 	
+	public double getRelativeThreshold() {
+	    return mrRelativeThreshold;
+	}
 	
-	
+	public void setRelativeThreshold(double prRelativeThreshold) {
+	    mrRelativeThreshold = prRelativeThreshold;
+	}
 
 	
 	@Override
@@ -438,5 +444,101 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	public void addExternalAssociation(clsAssociation poAssociatedDataStructure) {
 		// TODO (schaat) - Auto-generated method stub
 		this.moExternalAssociatedContent.add(poAssociatedDataStructure);
+	}
+	
+	protected clsEmotion generateEmotion(eEmotionType poEmotionType, double prIntensity) {
+	    return clsDataStructureGenerator.generateEMOTION(new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, poEmotionType, prIntensity),  mrSourcePleasure,  mrSourceUnpleasure,  mrSourceLibid,  mrSourceAggr);
+	}
+	
+	public ArrayList<clsEmotion> generateExtendedEmotions() {
+	    return generateExtendedEmotions(mrRelativeThreshold);
+	}
+	
+	public ArrayList<clsEmotion> generateExtendedEmotions(double prRelativeThreshold) {
+	    ArrayList<clsEmotion> oExtEmotions = new ArrayList<>();
+	    
+	    // Normalize to be able to decide which basic category prevails/dominates
+        double rSumValuesPlUnPl = mrSourceUnpleasure + mrSourcePleasure;
+        double rSumValuesLibidAggr =  mrSourceAggr + mrSourceLibid;        
+        double rRelativeSystemPleasure = mrSourcePleasure/rSumValuesPlUnPl; 
+        double rRelativeSystemUnpleasure = mrSourceUnpleasure/rSumValuesPlUnPl;
+        double rRelativeSystemLibid = mrSourceLibid/rSumValuesLibidAggr;
+        double rRelativeSystemAggr = mrSourceAggr/rSumValuesLibidAggr;
+        
+        /*
+         * Generate Emotions
+         * if unpleasure prevails --> only generate unpleasure-based  emotions (always-> anxiety. if agg prevails -> ANGER. if libid prevails -> mourning. if no one prevails -> both)
+         * if pleasure prevails --> only generate pleasure-based emotions (always->> PLEASURE. if agg prevails ->ELATION if libid prevails -> SATURATION)
+         * 
+         * the intensity of generated emotions is dependent on the relative amount of the basic category (Pleasuer, aggr, ... = from which the emotion is derived), particularly relative to the amount of pleasure+unpleasure
+         * E.g. As Grief is based on aggr. unpleasure, its intensity is derived from the amount of aggr. unpleasure relative to the total amount of the ground truth (pleasure+unpleasure) 
+         * 
+         * Aggr and libid components/categories are just another form of unpleasure. This is considered in the further
+         * procedure to avoid duplicating the ground truth(=the values emotions are based on).
+         * 
+         * variable "rGrade": To avoid "leaps" in emotion-intensity, a threshold-range is considered and a gradual change of intensity (e.g. if the domination of pleasure changes very fast (e.g. in every step), the intensity of the according emotions should not "jump" up and down   
+        */
+        
+	    // just generate Unpleasure--based Emotions
+        if(rRelativeSystemUnpleasure > prRelativeThreshold){
+            oExtEmotions.add(generateEmotion(eEmotionType.ANXIETY, mrSourceUnpleasure));
+            oExtEmotions.add(generateEmotion(eEmotionType.JOY, mrSourcePleasure));
+            
+            if(rRelativeSystemAggr > prRelativeThreshold) {
+                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr));
+            }
+            else if (rRelativeSystemLibid > prRelativeThreshold) {
+                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING, mrSourceLibid));
+            }
+            else {
+                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr));
+                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING,  mrSourceLibid));
+            }
+        }
+        // just generate Pleasure-based Emotions
+        else if (rRelativeSystemPleasure > prRelativeThreshold) {
+            oExtEmotions.add(generateEmotion(eEmotionType.ANXIETY, mrSourceUnpleasure));
+            oExtEmotions.add(generateEmotion(eEmotionType.JOY, mrSourcePleasure));
+            if (rRelativeSystemLibid > prRelativeThreshold) {
+                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid));
+            }
+            else if (rRelativeSystemAggr > prRelativeThreshold) {
+                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr));
+            }
+            else {
+                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid));
+                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr));
+            } 
+        }
+        // generate both
+        else {
+            // pleasure-based emotions          
+            oExtEmotions.add(generateEmotion(eEmotionType.JOY, mrSourcePleasure));
+            if (rRelativeSystemLibid > prRelativeThreshold) {
+                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid));
+            }
+            else if (rRelativeSystemAggr > prRelativeThreshold) {
+                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr));
+            }
+            else {
+                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid));
+                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr));
+            }
+            
+            //unpleasure-based emotions         
+            oExtEmotions.add(generateEmotion(eEmotionType.ANXIETY, mrSourceUnpleasure));
+            if(rRelativeSystemAggr > prRelativeThreshold) {
+                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr));
+            }
+            else if (rRelativeSystemLibid > prRelativeThreshold) {
+                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING, mrSourceLibid));
+            }
+            else {
+                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr));
+                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING,  mrSourceLibid));
+            }
+        }
+	    
+	    return oExtEmotions;
 	}
 }

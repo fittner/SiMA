@@ -57,7 +57,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     private static final String P_PSYCHIC_ENERGY_THESHOLD = "PSYCHIC_ENERGY_THESHOLD";
      
     private clsWordPresentationMesh moWordingToContext = null;
-    //private ArrayList<clsEmotion> moEmotions_Input = new ArrayList<>();
+    private ArrayList<clsEmotion> moEmotions_Input = new ArrayList<>();
     private ArrayList<clsEmotion> moEmotions_Output = new ArrayList<>();
     private ArrayList<clsPrimaryDataStructure> moAffectOnlyList_Input = new ArrayList<>();
     //Kollmann: I prefer using List as working type over ArrayList - I only use ArrayList as working type of an interface (or other demand)
@@ -158,8 +158,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions,
             clsWordPresentationMesh poWordingToContext2, clsThingPresentationMesh poPerceptionalMesh) {
         moWordingToContext = poWordingToContext2;
-        //moEmotions_Input = poEmotions;
-        moEmotions_Output = clone(poEmotions);
+        moEmotions_Input = poEmotions;
         moPerceptionalMesh_Input = poPerceptionalMesh;
     }
 
@@ -177,6 +176,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         clsEmotion oNewGuilt = null;
         
         log.debug("neutralized intensity F71: " + Double.toString(rReceivedPsychicEnergy));
+
+        moEmotions_Output = moEmotions_Input.get(0).generateExtendedEmotions();
         
         if (rReceivedPsychicEnergy > mrPsychicEnergyThreshold
                 /* for test purposes only: */ || true) {
@@ -198,7 +199,6 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
                 moEmotions_Output.add(oNewGuilt);
             }
         }
-        
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, mrInitialRequestIntensity, rConsumedPsychicIntensity);
     }
     
@@ -371,7 +371,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         int e;
 
         for (e = 0; e < emotionSize; e++) {
-            for(clsEmotion oOneEmotion : moEmotions_Output) {
+            for(clsEmotion oOneEmotion : moEmotions_Input.get(0).generateExtendedEmotions()) {
                 rEmotionIntensity = oOneEmotion.getEmotionIntensity();
                 rLowerBound = moRules.get(position).getEmotionRule(e).b[0];
                 rUpperBound = moRules.get(position).getEmotionRule(e).b[1];

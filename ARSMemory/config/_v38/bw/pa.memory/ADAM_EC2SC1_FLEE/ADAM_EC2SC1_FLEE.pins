@@ -1,4 +1,4 @@
-; Tue Mar 03 16:19:36 CET 2015
+; Wed Mar 04 10:09:14 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1501,7 +1501,7 @@
 
 	(element
 		[TPM%3AIMAGE%3AA14_FLEE_BODO_L01]
-		[EMOTION%3AAE%3AA14_FLEE_BODO_L01%3AANXIETY%3AHIGH])
+		[EMOTION%3AAE%3AA14_FLEE_BODO_L01%3AANXIETY%3AMIDDLE_HIGH])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONEMOTION%3AS01_BODO_CAKE] of  ASSOCIATIONEMOTION
@@ -2782,7 +2782,7 @@
 
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.2)
+	(emotionIntensity 0.1)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -2792,7 +2792,7 @@
 
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.1)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -2800,23 +2800,23 @@
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AAE%3AA14_FLEE_BODO_L01%3AANXIETY%3AHIGH] of  EMOTION
+([EMOTION%3AAE%3AA14_FLEE_BODO_L01%3AANXIETY%3AMIDDLE_HIGH] of  EMOTION
 
-	(emotionIntensity 0.75)
-	(sourceAggr 0.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.0)
+	(emotionIntensity 0.65)
+	(sourceAggr 0.11)
+	(sourceLibid 0.35)
+	(sourcePleasure 0.06)
+	(sourceUnpleasure 0.65)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3ABODO_CAKE] of  EMOTION
 
 	(emotionIntensity 1.0)
-	(sourceAggr 0.4)
+	(sourceAggr 0.2)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.4)
+	(sourceUnpleasure 1.0)
 	(value "ANXIETY")
 	(value_type "MEMORIZEDEMOTION"))
 

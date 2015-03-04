@@ -119,9 +119,21 @@ public class FeelingAlgorithmTools {
         return rResult;
     }
     
+    private static double similarity(double prValue1, double prValue2) {
+        //Kollmann:
+        double rSimilarity = 0.0;
+        double rTightness = 1.5; // >1
+        double rDiff = Math.abs(prValue1 - prValue2);
+        
+        rSimilarity = Math.pow((1 - rDiff), rTightness);
+        
+        return rSimilarity;
+    }
+    
     private static double getFeelingMatch(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         double rDiffValue = 0;
         double rDiff = 0;
+        double rMatch = 0;
         
         if(poImage != null && !poImage.isNullObject()) {
             //Get Feelings from the image
@@ -140,7 +152,8 @@ public class FeelingAlgorithmTools {
             for (clsWordPresentationMeshFeeling oGoalFeeling : oFeelingList) {
                 for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
                     if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
-                        rDiff = oCurrentFeeling.getDiff(oGoalFeeling);
+                        
+                        rDiff = 1 - similarity(oCurrentFeeling.getIntensity(), oGoalFeeling.getIntensity());
                         rDiffValue = rDiffValue + (1 - rDiffValue) * rDiff;
                         //rMatchingFactor += 1 - oCurrentFeeling.getDiff(oGoalFeeling);
                         
