@@ -1,63 +1,63 @@
-; Tue Mar 03 16:00:56 CET 2015
+; Wed Mar 04 17:24:15 CET 2015
 ; 
 ;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (build "Build 580")
 
-([ADAM_EC2_EAT_ProjectKB_Class70] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([ADAM_EC2_EAT_ProjectKB_Class71] of  String
-
-	(name "ANTENNA_LEFT")
-	(string_value "instance_association"))
-
-([ADAM_EC2_EAT_ProjectKB_Class72] of  String
-
-	(name "DOMAIN")
-	(string_value "value_type"))
-
-([ADAM_EC2_EAT_ProjectKB_Class73] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([ADAM_EC2_EAT_ProjectKB_Class74] of  String
+([ADAM_EC2_EAT_ProjectKB_Class10] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_EC2_EAT_ProjectKB_Class75] of  Map
+([ADAM_EC2_EAT_ProjectKB_Class11] of  Map
 )
 
-([ADAM_EC2_EAT_ProjectKB_Class76] of  Map_Entry
+([ADAM_EC2_EAT_ProjectKB_Class12] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_EC2_EAT_ProjectKB_Class75")
+	(value "ADAM_EC2_EAT_ProjectKB_Class11")
 	(value_class "java.util.Map"))
 
-([ADAM_EC2_EAT_ProjectKB_Class77] of  Map_Entry
+([ADAM_EC2_EAT_ProjectKB_Class13] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2_EAT_ProjectKB_Class78] of  Map_Entry
+([ADAM_EC2_EAT_ProjectKB_Class14] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2_EAT_ProjectKB_Class79] of  Map_Entry
+([ADAM_EC2_EAT_ProjectKB_Class15] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
+
+([ADAM_EC2_EAT_ProjectKB_Class6] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([ADAM_EC2_EAT_ProjectKB_Class7] of  String
+
+	(name "ANTENNA_LEFT")
+	(string_value "instance_association"))
+
+([ADAM_EC2_EAT_ProjectKB_Class8] of  String
+
+	(name "DOMAIN")
+	(string_value "value_type"))
+
+([ADAM_EC2_EAT_ProjectKB_Class9] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
 
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_EC2_EAT_ProjectKB_Class70]
-		[ADAM_EC2_EAT_ProjectKB_Class71]
-		[ADAM_EC2_EAT_ProjectKB_Class72]
-		[ADAM_EC2_EAT_ProjectKB_Class73]
-		[ADAM_EC2_EAT_ProjectKB_Class74]))
+		[ADAM_EC2_EAT_ProjectKB_Class6]
+		[ADAM_EC2_EAT_ProjectKB_Class7]
+		[ADAM_EC2_EAT_ProjectKB_Class8]
+		[ADAM_EC2_EAT_ProjectKB_Class9]
+		[ADAM_EC2_EAT_ProjectKB_Class10]))
 
 ([CLSES_TAB] of  Widget
 
@@ -153,6 +153,9 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
+([KB_552114_Class5] of  Map
+)
+
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -161,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_EC2_EAT_ProjectKB_Class76]
-		[ADAM_EC2_EAT_ProjectKB_Class77]
-		[ADAM_EC2_EAT_ProjectKB_Class78]
-		[ADAM_EC2_EAT_ProjectKB_Class79])
-	(referenced_maps [ADAM_EC2_EAT_ProjectKB_Class75]))
+		[ADAM_EC2_EAT_ProjectKB_Class12]
+		[ADAM_EC2_EAT_ProjectKB_Class13]
+		[ADAM_EC2_EAT_ProjectKB_Class14]
+		[ADAM_EC2_EAT_ProjectKB_Class15])
+	(referenced_maps [ADAM_EC2_EAT_ProjectKB_Class11]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -617,9 +620,6 @@
 )
 
 ([KB_610615_Class99] of  Property_List
-)
-
-([KB_752634_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
