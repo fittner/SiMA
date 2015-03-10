@@ -1,34 +1,34 @@
-EMOTION(A06_BEAT_BODO_L01:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0,6]; sourceAggr=[0,6]; sourceLibid=[0,2]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A06_BEAT_BODO_L01_I01:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0,6]; sourceAggr=[0,6]; sourceLibid=[0,2]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A06_BEAT_BODO_L01_I02:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0,6]; sourceAggr=[0,6]; sourceLibid=[0,2]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A06_BEAT_BODO_L01_I03:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0,6]; sourceAggr=[0,6]; sourceLibid=[0,2]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A10_DIVIDE_CAKE_L01:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,3]; sourceAggr=[0,3]; sourceLibid=[0,4]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A10_DIVIDE_CAKE_L01_I01:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,3]; sourceAggr=[0,3]; sourceLibid=[0,4]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A10_DIVIDE_CAKE_L01_I02:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,3]; sourceAggr=[0,3]; sourceLibid=[0,4]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A10_DIVIDE_CAKE_L01_I03:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,3]; sourceAggr=[0,3]; sourceLibid=[0,4]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A10_DIVIDE_CAKE_L01_I04:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,3]; sourceAggr=[0,3]; sourceLibid=[0,4]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A10_DIVIDE_CAKE_L01_I05:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,3]; sourceAggr=[0,3]; sourceLibid=[0,4]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A10_DIVIDE_CAKE_L01_I06:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,3]; sourceAggr=[0,3]; sourceLibid=[0,4]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A10_DIVIDE_CAKE_L01_I07:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,3]; sourceAggr=[0,3]; sourceLibid=[0,4]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A10_DIVIDE_CAKE_L01_I08:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,3]; sourceAggr=[0,3]; sourceLibid=[0,4]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A10_DIVIDE_CAKE_L01_I09:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,3]; sourceAggr=[0,3]; sourceLibid=[0,4]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A12_EAT_CAKE_L01:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0,1]; sourceAggr=[0,2]; sourceLibid=[0,15]; sourcePleasure=[0,05]; sourceUnpleasure=[0,25]}
-EMOTION(A12_EAT_CAKE_L01:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0,1]; sourceAggr=[0,2]; sourceLibid=[0,15]; sourcePleasure=[0,05]; sourceUnpleasure=[0,25]}
-EMOTION(A12_EAT_CAKE_L01_I01:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0,1]; sourceAggr=[0,2]; sourceLibid=[0,15]; sourcePleasure=[0,05]; sourceUnpleasure=[0,25]}
-EMOTION(A12_EAT_CAKE_L01_I01:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0,1]; sourceAggr=[0,2]; sourceLibid=[0,15]; sourcePleasure=[0,05]; sourceUnpleasure=[0,25]}
-EMOTION(A12_EAT_CAKE_L01_I02:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0,1]; sourceAggr=[0,2]; sourceLibid=[0,15]; sourcePleasure=[0,05]; sourceUnpleasure=[0,25]}
-EMOTION(A12_EAT_CAKE_L01_I02:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0,1]; sourceAggr=[0,2]; sourceLibid=[0,15]; sourcePleasure=[0,05]; sourceUnpleasure=[0,25]}
-EMOTION(A12_EAT_CAKE_L01_I03:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0,1]; sourceAggr=[0,2]; sourceLibid=[0,15]; sourcePleasure=[0,05]; sourceUnpleasure=[0,25]}
-EMOTION(A12_EAT_CAKE_L01_I03:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0,1]; sourceAggr=[0,2]; sourceLibid=[0,15]; sourcePleasure=[0,05]; sourceUnpleasure=[0,25]}
-EMOTION(A13_GIVE_CAKE_L01:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,6]; sourceAggr=[0,6]; sourceLibid=[0,2]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A13_GIVE_CAKE_L01_I01:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,6]; sourceAggr=[0,6]; sourceLibid=[0,2]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A13_GIVE_CAKE_L01_I02:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,6]; sourceAggr=[0,6]; sourceLibid=[0,2]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A13_GIVE_CAKE_L01_I03:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,6]; sourceAggr=[0,6]; sourceLibid=[0,2]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A13_GIVE_CAKE_L01_I04:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,6]; sourceAggr=[0,6]; sourceLibid=[0,2]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A13_GIVE_CAKE_L01_I05:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0,6]; sourceAggr=[0,6]; sourceLibid=[0,2]; sourcePleasure=[0,1]; sourceUnpleasure=[0,6]}
-EMOTION(A14_FLEE_BODO_L01:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0,65]; sourceAggr=[0,11]; sourceLibid=[0,35]; sourcePleasure=[0,06]; sourceUnpleasure=[0,65]}
-EMOTION(A14_FLEE_BODO_L01_I01:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0,65]; sourceAggr=[0,11]; sourceLibid=[0,35]; sourcePleasure=[0,06]; sourceUnpleasure=[0,65]}
-EMOTION(A14_FLEE_BODO_L01_I02:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0,65]; sourceAggr=[0,11]; sourceLibid=[0,1]; sourcePleasure=[0,1]; sourceUnpleasure=[0,2]}
+EMOTION(A06_BEAT_BODO_L01:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0.6]; sourceAggr=[0.6]; sourceLibid=[0.2]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A06_BEAT_BODO_L01_I01:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0.6]; sourceAggr=[0.6]; sourceLibid=[0.2]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A06_BEAT_BODO_L01_I02:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0.6]; sourceAggr=[0.6]; sourceLibid=[0.2]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A06_BEAT_BODO_L01_I03:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0.6]; sourceAggr=[0.6]; sourceLibid=[0.2]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A10_DIVIDE_CAKE_L01:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.3]; sourceAggr=[0.3]; sourceLibid=[0.4]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A10_DIVIDE_CAKE_L01_I01:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.3]; sourceAggr=[0.3]; sourceLibid=[0.4]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A10_DIVIDE_CAKE_L01_I02:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.3]; sourceAggr=[0.3]; sourceLibid=[0.4]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A10_DIVIDE_CAKE_L01_I03:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.3]; sourceAggr=[0.3]; sourceLibid=[0.4]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A10_DIVIDE_CAKE_L01_I04:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.3]; sourceAggr=[0.3]; sourceLibid=[0.4]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A10_DIVIDE_CAKE_L01_I05:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.3]; sourceAggr=[0.3]; sourceLibid=[0.4]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A10_DIVIDE_CAKE_L01_I06:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.3]; sourceAggr=[0.3]; sourceLibid=[0.4]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A10_DIVIDE_CAKE_L01_I07:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.3]; sourceAggr=[0.3]; sourceLibid=[0.4]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A10_DIVIDE_CAKE_L01_I08:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.3]; sourceAggr=[0.3]; sourceLibid=[0.4]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A10_DIVIDE_CAKE_L01_I09:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.3]; sourceAggr=[0.3]; sourceLibid=[0.4]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A12_EAT_CAKE_L01:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0.1]; sourceAggr=[0.2]; sourceLibid=[0.15]; sourcePleasure=[0.05]; sourceUnpleasure=[0.25]}
+EMOTION(A12_EAT_CAKE_L01:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0.1]; sourceAggr=[0.2]; sourceLibid=[0.15]; sourcePleasure=[0.05]; sourceUnpleasure=[0.25]}
+EMOTION(A12_EAT_CAKE_L01_I01:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0.1]; sourceAggr=[0.2]; sourceLibid=[0.15]; sourcePleasure=[0.05]; sourceUnpleasure=[0.25]}
+EMOTION(A12_EAT_CAKE_L01_I01:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0.1]; sourceAggr=[0.2]; sourceLibid=[0.15]; sourcePleasure=[0.05]; sourceUnpleasure=[0.25]}
+EMOTION(A12_EAT_CAKE_L01_I02:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0.1]; sourceAggr=[0.2]; sourceLibid=[0.15]; sourcePleasure=[0.05]; sourceUnpleasure=[0.25]}
+EMOTION(A12_EAT_CAKE_L01_I02:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0.1]; sourceAggr=[0.2]; sourceLibid=[0.15]; sourcePleasure=[0.05]; sourceUnpleasure=[0.25]}
+EMOTION(A12_EAT_CAKE_L01_I03:ANGER){value=[ANGER]; value_type=[BASICEMOTION]; emotionIntensity=[0.1]; sourceAggr=[0.2]; sourceLibid=[0.15]; sourcePleasure=[0.05]; sourceUnpleasure=[0.25]}
+EMOTION(A12_EAT_CAKE_L01_I03:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0.1]; sourceAggr=[0.2]; sourceLibid=[0.15]; sourcePleasure=[0.05]; sourceUnpleasure=[0.25]}
+EMOTION(A13_GIVE_CAKE_L01:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.6]; sourceAggr=[0.6]; sourceLibid=[0.2]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A13_GIVE_CAKE_L01_I01:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.6]; sourceAggr=[0.6]; sourceLibid=[0.2]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A13_GIVE_CAKE_L01_I02:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.6]; sourceAggr=[0.6]; sourceLibid=[0.2]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A13_GIVE_CAKE_L01_I03:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.6]; sourceAggr=[0.6]; sourceLibid=[0.2]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A13_GIVE_CAKE_L01_I04:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.6]; sourceAggr=[0.6]; sourceLibid=[0.2]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A13_GIVE_CAKE_L01_I05:GUILT){value=[GUILT]; value_type=[BASICEMOTION]; emotionIntensity=[0.6]; sourceAggr=[0.6]; sourceLibid=[0.2]; sourcePleasure=[0.1]; sourceUnpleasure=[0.6]}
+EMOTION(A14_FLEE_BODO_L01:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0.65]; sourceAggr=[0.11]; sourceLibid=[0.35]; sourcePleasure=[0.06]; sourceUnpleasure=[0.65]}
+EMOTION(A14_FLEE_BODO_L01_I01:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0.65]; sourceAggr=[0.11]; sourceLibid=[0.35]; sourcePleasure=[0.06]; sourceUnpleasure=[0.65]}
+EMOTION(A14_FLEE_BODO_L01_I02:ANXIETY){value=[ANXIETY]; value_type=[BASICEMOTION]; emotionIntensity=[0.65]; sourceAggr=[0.11]; sourceLibid=[0.1]; sourcePleasure=[0.1]; sourceUnpleasure=[0.2]}
 ASSOCIATIONEMOTION(A06_BEAT_BODO_L01:ANGER){element=[\TPM:IMAGE:A06_BEAT_BODO_L01, \EMOTION:A06_BEAT_BODO_L01:ANGER]}
 ASSOCIATIONEMOTION(A06_BEAT_BODO_L01_I01:ANGER){element=[\TPM:IMAGE:A06_BEAT_BODO_L01_I01, \EMOTION:A06_BEAT_BODO_L01_I01:ANGER]}
 ASSOCIATIONEMOTION(A06_BEAT_BODO_L01_I02:ANGER){element=[\TPM:IMAGE:A06_BEAT_BODO_L01_I02, \EMOTION:A06_BEAT_BODO_L01_I02:ANGER]}
@@ -60,4 +60,3 @@ ASSOCIATIONEMOTION(A13_GIVE_CAKE_L01_I05:GUILT){element=[\TPM:IMAGE:A13_GIVE_CAK
 ASSOCIATIONEMOTION(A14_FLEE_BODO_L01:ANXIETY){element=[\TPM:IMAGE:A14_FLEE_BODO_L01, \EMOTION:A14_FLEE_BODO_L01:ANXIETY]}
 ASSOCIATIONEMOTION(A14_FLEE_BODO_L01_I01:ANXIETY){element=[\TPM:IMAGE:A14_FLEE_BODO_L01_I01, \EMOTION:A14_FLEE_BODO_L01_I01:ANXIETY]}
 ASSOCIATIONEMOTION(A14_FLEE_BODO_L01_I02:ANXIETY){element=[\TPM:IMAGE:A14_FLEE_BODO_L01_I02, \EMOTION:A14_FLEE_BODO_L01_I02:ANXIETY]}
-

@@ -1,4 +1,4 @@
-; Wed Mar 04 17:24:15 CET 2015
+; Tue Mar 10 16:51:58 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 580")
@@ -2961,311 +2961,311 @@
 
 ([EMOTION%3AA06_BEAT_BODO_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.6)
+	(sourceAggr 0.6)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA06_BEAT_BODO_L01_I01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.6)
+	(sourceAggr 0.6)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA06_BEAT_BODO_L01_I02%3AANGER] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.6)
+	(sourceAggr 0.6)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA06_BEAT_BODO_L01_I03%3AANGER] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.6)
+	(sourceAggr 0.6)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.3)
+	(sourceAggr 0.3)
+	(sourceLibid 0.4)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.3)
+	(sourceAggr 0.3)
+	(sourceLibid 0.4)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.3)
+	(sourceAggr 0.3)
+	(sourceLibid 0.4)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.3)
+	(sourceAggr 0.3)
+	(sourceLibid 0.4)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.3)
+	(sourceAggr 0.3)
+	(sourceLibid 0.4)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.3)
+	(sourceAggr 0.3)
+	(sourceLibid 0.4)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.3)
+	(sourceAggr 0.3)
+	(sourceLibid 0.4)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.3)
+	(sourceAggr 0.3)
+	(sourceLibid 0.4)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.3)
+	(sourceAggr 0.3)
+	(sourceLibid 0.4)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.3)
+	(sourceAggr 0.3)
+	(sourceLibid 0.4)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I02%3AANGER] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I02%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I03%3AANGER] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I03%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.1)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA13_GIVE_CAKE_L01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.6)
+	(sourceAggr 0.6)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.6)
+	(sourceAggr 0.6)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I02%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.6)
+	(sourceAggr 0.6)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I03%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.6)
+	(sourceAggr 0.6)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I04%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.6)
+	(sourceAggr 0.6)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I05%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.6)
+	(sourceAggr 0.6)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA14_FLEE_BODO_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.65)
+	(sourceAggr 0.11)
+	(sourceLibid 0.35)
+	(sourcePleasure 0.06)
+	(sourceUnpleasure 0.65)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA14_FLEE_BODO_L01_I01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.65)
+	(sourceAggr 0.11)
+	(sourceLibid 0.35)
+	(sourcePleasure 0.06)
+	(sourceUnpleasure 0.65)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA14_FLEE_BODO_L01_I02%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0)
-	(sourceAggr 0)
-	(sourceLibid 0)
-	(sourcePleasure 0)
-	(sourceUnpleasure 0)
+	(emotionIntensity 0.65)
+	(sourceAggr 0.11)
+	(sourceLibid 0.1)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.2)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
