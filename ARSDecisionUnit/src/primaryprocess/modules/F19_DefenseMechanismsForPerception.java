@@ -535,9 +535,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
         if(!moForbiddenEmotions_Input.isEmpty()){
             if (moEgoStrength <= 0.15) {
                 //Kollmann: calculate or extract the conflict tension for the emotion conflict and use it to calculate a value defining how thorough the defense 
-                //          mechanism should do his work
-                //rResolutionRate = 0.6; //For now, just some arbitrary value that we use directly as reversal-strength (for reversal of affect)
-                //resolution = (normalize)ego-strength
+                //          mechanism should do his work ... for now we simply use the ego strenght, which is currently (10.03.2015) mocked by using the
+                //          value of the parameter: F56.INTENSITY_REDUCTION_RATE_SELF_PRESERV (see constructor of F19)
                 rResolutionRate = moEgoStrength / 0.15;
                 
                 defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output.get(0), rResolutionRate);  
