@@ -99,7 +99,7 @@ public class GoalHandlingFunctionality {
         double goalsByExpectedFeelingThreshold = 0.3;
         double goalsByReservedFeelingThreshold = 0.5;
         
-        receivedPsychicIntensity = 0.25;
+        receivedPsychicIntensity = 0.35;
         
         for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
             moFeelingLog.debug(oFeeling.toString());
@@ -113,17 +113,16 @@ public class GoalHandlingFunctionality {
                  * Priorities are compared here so the evaluation of the goal can be chosen accordingly. 
                  */
                 
-                if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold && receivedPsychicIntensity < goalsByExpectedFeelingThreshold ){
-                    
-                    goal.setFeelingsImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));                   
-                    
-                } else if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold && receivedPsychicIntensity < goalsByReservedFeelingThreshold ){
-                    
-                    goal.setFeelingsImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByExpectedFeelings(goal, currentFeelings));
-                    
-                } else if (receivedPsychicIntensity>=goalsByReservedFeelingThreshold) {
-                    
-                    goal.setFeelingsImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByReservedFeelings(goal, currentFeelings));
+                if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold /*&& receivedPsychicIntensity < goalsByExpectedFeelingThreshold*/ ){
+                    goal.setFeelingsMatchImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));                   
+                }
+                
+                if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold /*&& receivedPsychicIntensity < goalsByReservedFeelingThreshold*/ ){
+                    goal.setFeelingsExpactationImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByExpectedFeelings(goal, currentFeelings));
+                }
+                
+                if (receivedPsychicIntensity>=goalsByReservedFeelingThreshold) {
+                    goal.setFeelingsMatchImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByReservedFeelings(goal, currentFeelings));
                 }
            }
         }
