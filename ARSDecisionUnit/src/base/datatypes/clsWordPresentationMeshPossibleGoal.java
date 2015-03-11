@@ -144,25 +144,52 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     }
     
     public double getPPImportance() {
-        return nonProportionalAggregation(getDriveDemandImportance(), getFeelingsImportance());
+        double rImportance = getDriveDemandImportance();
+        rImportance = nonProportionalAggregation(rImportance, getFeelingsMatchImportance());
+        
+        if(this.hasFeelingsExcpactationImportance()) {
+            rImportance = nonProportionalAggregation(rImportance, getFeelingsExcpactationImportance());
+        }
+        
+        return rImportance;
     }
     
     public void setDriveDemandImportance(double driveDemandImportance) {
         this.setUniqueProperty(String.valueOf(driveDemandImportance), eContentType.DRIVEDEMANDIMPORTANCE, ePredicate.HASDRIVEDEMANDIMPORTANCE, true);
     }
     
-    public void setFeelingsImportance(double feelingsImportance) {
-        this.setUniqueProperty(String.valueOf(feelingsImportance), eContentType.FEELINGSIMPORTANCE, ePredicate.HASFEELINGSIMPORTANCE, true);
+    public void setFeelingsMatchImportance(double feelingsImportance) {
+        this.setUniqueProperty(String.valueOf(feelingsImportance), eContentType.FEELINGSIMPORTANCE, ePredicate.HASFEELINGSMATCHIMPORTANCE, true);
     }
     
-    public double getFeelingsImportance() {
+    public void setFeelingsExpactationImportance(double feelingsImportance) {
+        this.setUniqueProperty(String.valueOf(feelingsImportance), eContentType.FEELINGSIMPORTANCE, ePredicate.HASEXPECTEDFEELINGSIMPORTANCE, true);
+    }
+    
+    public double getFeelingsMatchImportance() {
         double oRetVal = 0;
         
-        String oAffectLevel = this.getUniqueProperty(ePredicate.HASFEELINGSIMPORTANCE);
+        String oAffectLevel = this.getUniqueProperty(ePredicate.HASFEELINGSMATCHIMPORTANCE);
         if (oAffectLevel.isEmpty()==false) {
             oRetVal = Double.valueOf(oAffectLevel);
         }
         
+    
+        return oRetVal;
+    }
+    
+    public boolean hasFeelingsExcpactationImportance() {
+        String oAffectLevel = this.getUniqueProperty(ePredicate.HASEXPECTEDFEELINGSIMPORTANCE);
+        return !oAffectLevel.isEmpty();
+    }
+    
+    public double getFeelingsExcpactationImportance() {
+        double oRetVal = 0;
+        
+        String oAffectLevel = this.getUniqueProperty(ePredicate.HASEXPECTEDFEELINGSIMPORTANCE);
+        if (oAffectLevel.isEmpty()==false) {
+            oRetVal = Double.valueOf(oAffectLevel);
+        }
     
         return oRetVal;
     }
@@ -321,7 +348,7 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
      *
      */
     public void removeAllImportance() {
-        this.removeAllProperties(ePredicate.HASFEELINGSIMPORTANCE);
+        this.removeAllProperties(ePredicate.HASFEELINGSMATCHIMPORTANCE);
         this.removeAllProperties(ePredicate.HASDRIVEDEMANDIMPORTANCE);
         this.removeAllProperties(ePredicate.HASEFFORTIMPACTIMPORTANCE);
         this.removeAllProperties(ePredicate.HASSOCIALRULESIMPORTANCE);
