@@ -311,7 +311,17 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		
 		}
 		catch(Exception e){
-			System.out.printf(e + "\n" + e.getStackTrace().toString());
+			log.error(e + "\n" + e.getStackTrace().toString());
+		}
+		
+		if(getContent().equals(eEmotionType.UNDEFINED))
+		{
+    		oResult += "\nEmotions with undefined type are normally used to create extended emotions.\nCurrent extended emotions:";
+    		for(clsEmotion oEmotion : generateExtendedEmotions()) {
+    		    if(!oEmotion.getContent().equals(eEmotionType.UNDEFINED)) {
+    		        oResult += "\n" + oEmotion.toString();
+    		    }
+    		}
 		}
 		
 		return oResult; 
