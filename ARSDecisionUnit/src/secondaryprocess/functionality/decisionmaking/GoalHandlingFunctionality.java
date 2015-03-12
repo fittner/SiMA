@@ -95,11 +95,9 @@ public class GoalHandlingFunctionality {
          * Every goal has a threshold. The threshold are now hardcoded. It is so arranged that goalsByTriggeredFeeling needs less psychic intensity and
          * goalsByReservedFeeling more than goalsByTriggeredFeeling and goalsByExpectedFeelingThreshold.
          */
-        double goalsByTriggeredFeelingThreshold = 0.1;
-        double goalsByExpectedFeelingThreshold = 0.3;
-        double goalsByReservedFeelingThreshold = 0.5;
-        
-        receivedPsychicIntensity = 0.35;
+        double goalsByTriggeredFeelingThreshold = 0.05;
+        double goalsByExpectedFeelingThreshold = 0.15;
+        double goalsByReservedFeelingThreshold = 0.3;
         
         for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
             moFeelingLog.debug(oFeeling.toString());

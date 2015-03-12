@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.SortedMap;
 
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
@@ -100,7 +101,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
 	// Perceptions and emotions not "liked" by Super-Ego
 	private ArrayList<clsSuperEgoConflictPerception> moForbiddenPerceptions_Input;
-	private ArrayList<eEmotionType>                  moForbiddenEmotions_Input;
+	private ArrayList<clsSuperEgoConflictEmotion>    moForbiddenEmotions_Input;
 	
 
 	private ArrayList<base.datatypes.clsThingPresentation> moDeniedThingPresentations;
@@ -169,7 +170,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 	    // for use case 1: the Ego strength is equal to the neutralization rate
         // (normalerweise wird sie über receive_I5_22 empfangen - siehe vorletzte Zeile in diesem File)
-        moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_INTENSITY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
+        //moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_INTENSITY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
  		
  		//Get Blocked content storage
 		moBlockedContentStorage = poBlockedContentStorage;
@@ -257,7 +258,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	@Override
 	public void receive_I5_11(ArrayList<clsSuperEgoConflictPerception> poForbiddenPerceptions,
 			                  clsThingPresentationMesh poPerceptionalMesh,
-			                  ArrayList<eEmotionType> poForbiddenEmotions,
+			                  ArrayList<clsSuperEgoConflictEmotion> poForbiddenEmotions,
 			                  ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2) {
 	    moWordingToContext = moWordingToContext2;
 	    
@@ -458,7 +459,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 
 	            if((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
 	                
-	                defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output.get(0), 1.0);
+	                defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output.get(0));
 	                
 	                             
 	            }else{
@@ -514,11 +515,6 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     }
 	
     private void selectAndActivateDefenseMechanisms_EC2() {
-        double rResolutionRate;
-        
-        //Kollmann: calculate current ego-strength as base for choosing the defense mechanism 
-        //          Formula: current_ego_strength = personalityfactor_ego_strengh [influencedby] available_neutralized_intensity (possibly not just a multiplication
-        
         // Defense for perceptions
         if (!moForbiddenPerceptions_Input.isEmpty()){ 
             if (moEgoStrength <= 0.15) {
@@ -533,17 +529,23 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
         
         // Defense for emotions
         if(!moForbiddenEmotions_Input.isEmpty()){
-            if (moEgoStrength <= 0.15) {
-                //Kollmann: calculate or extract the conflict tension for the emotion conflict and use it to calculate a value defining how thorough the defense 
-                //          mechanism should do his work ... for now we simply use the ego strenght, which is currently (10.03.2015) mocked by using the
-                //          value of the parameter: F56.INTENSITY_REDUCTION_RATE_SELF_PRESERV (see constructor of F19)
-                rResolutionRate = moEgoStrength / 0.15;
+            if(moEgoStrength < 0.1) {
+                ResetTimeChartDefenseForbidenEmotionData();
+            } else {
+                //the simplest defense mechanism
+                if (moEgoStrength <= 0.25) {
+                    defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output.get(0));
+                }
                 
-                defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output.get(0), rResolutionRate);  
-            }
-            else
-            {   
-                ResetTimeChartDefenseForbidenEmotionData();                 
+                //a mid-level defense mechanism
+                if (moEgoStrength >= 0.15 && moEgoStrength <= 0.35) {
+                    //not yet
+                }
+                
+                //a high level defense mchanism
+                if (moEgoStrength >= 0.3) {
+                    //not yet
+                }
             }
         }
     }
@@ -1144,7 +1146,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     * Defense mechanism reversal of affect for emotions
     * 
     */
-	private void defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, clsEmotion poBaseEmotion, double prReversalStrength) {
+	private void defenseMechanism_ReversalOfAffect(ArrayList<clsSuperEgoConflictEmotion> oForbiddenEmotions_Input, clsEmotion poBaseEmotion) {
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
 		reversalOfAffect =1.0;
 		PassForbidenEmotions=0.0;
@@ -1152,11 +1154,12 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	   	if (oForbiddenEmotions_Input == null) return;
 		
 	   	// check list of forbidden emotions
-		for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {
+		for(clsSuperEgoConflictEmotion oConflict : oForbiddenEmotions_Input) {
 			for(clsEmotion oOneEmotion : poBaseEmotion.generateExtendedEmotions()) {
-				if(oOneEmotion.getContent() == oOneForbiddenEmotion) {
+				if(oOneEmotion.getContent().equals(oConflict.getConflictEmotionType())) {
+				    double rReversalStrength = oConflict.getConflictTension();
 				    // add the old emotion intensity to the emotion intensity of the emotion FEAR
-                    double rTransfer = oOneEmotion.getSourceAggr() * prReversalStrength;
+                    double rTransfer = oOneEmotion.getSourceAggr() * rReversalStrength;
                     
                     // do not transfer above 1.0
 					rTransfer = Math.min(rTransfer, 1 - oOneEmotion.getSourceLibid());
@@ -1181,7 +1184,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
      * whether the Source Emotion should be deleted or remained, but with updated Intensity.
      * Otherwise will the new Target Emotion(s) created, and the Source Emotion should be deleted.
      */
-    private ArrayList<clsEmotion> defenseMechanism_ReactionFormation(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output) {
+    private ArrayList<clsEmotion> defenseMechanism_ReactionFormation(ArrayList<clsSuperEgoConflictEmotion> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output) {
         
         reactionFormation =1.0;
         PassForbidenEmotions=0.0;
@@ -1200,10 +1203,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
         if (oForbiddenEmotions_Input == null) return oEmotions_Output; // if no Emotion should be defensed, return immediately
         
         ArrayList<eEmotionType> oSuitableEmotions = new ArrayList<eEmotionType>(); //List for the "Forbidden" Emotion Types in Input, which can be transformed with this DM
-        for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input){ 
+        for(clsSuperEgoConflictEmotion oConflict : oForbiddenEmotions_Input){ 
             for(Iterator<eEmotionType> i = oEmotionMap.keySet().iterator(); i.hasNext();){
                 eEmotionType key = i.next();
-                if(oOneForbiddenEmotion==key){ //found a Emotion Type, which can be transformed with this DM.
+                if(oConflict.getConflictEmotionType() == key){ //found a Emotion Type, which can be transformed with this DM.
                     oSuitableEmotions.add(key);  // add it to the List
                     oDMflag=true;  
                 }
@@ -1669,6 +1672,6 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
      */
     @Override
     public void receive_I5_22(double neutralisationFactor, double neutralizedIntensity) {
-        //moEgoStrength=poEgoStrength;
+        moEgoStrength = neutralizedIntensity;
     }
 }

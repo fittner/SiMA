@@ -102,7 +102,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F" + P_MODULENUMBER, P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F" + P_MODULENUMBER, P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
-        mrPsychicEnergyThreshold = poPersonalityParameterContainer.getPersonalityParameter("F" + P_MODULENUMBER, P_PSYCHIC_ENERGY_THESHOLD).getParameterInt();
+        mrPsychicEnergyThreshold = poPersonalityParameterContainer.getPersonalityParameter("F" + P_MODULENUMBER, P_PSYCHIC_ENERGY_THESHOLD).getParameterDouble();
 
         moPsychicEnergyStorage = poPsychicEnergyStorage;
         moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
@@ -179,8 +179,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
 
         moEmotions_Output = moEmotions_Input.get(0).generateExtendedEmotions();
         
-        if (rReceivedPsychicEnergy > mrPsychicEnergyThreshold
-                /* for test purposes only: */ || true) {
+        if (rReceivedPsychicEnergy > mrPsychicEnergyThreshold) {
             rConsumedPsychicIntensity = checkInternalizedRules(rReceivedPsychicEnergy);   // check perceptions and drives, and apply internalized rules
             
             //TODO: create conflict base class and streamline this here 
@@ -336,7 +335,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
                             //Kollmann: according to KD, the intensity of the confclicting emotion should have less impact than the super ego rule strength
                             //          (0.5 is a completely arbitrary value)
                             //          also: according to KD, the difference between allowed intensity and actual intensity should be used.
-                            rConflictTension = moRules.get(i).getSuperEgoRuleStrength() + rIntensityOfConflictingEmotions * /*arbitrary->*/0.5;
+                            rConflictTension = (moRules.get(i).getSuperEgoRuleStrength() * Math.min(prReceivedPsychicEnergy / mrInitialRequestIntensity, 1)) + (rIntensityOfConflictingEmotions * /*arbitrary->*/0.5);
                             
                             if (!moForbiddenEmotions.contains(moRules.get(i).getForbiddenEmotion(fe))) 
                                 moForbiddenEmotions.add(new clsSuperEgoConflictEmotion(moRules.get(i).getForbiddenEmotion(fe), rConflictTension));

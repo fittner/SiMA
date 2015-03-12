@@ -8,9 +8,8 @@ package modules.interfaces;
 
 import java.util.ArrayList;
 
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
-
-import memorymgmt.enums.eEmotionType;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
@@ -27,6 +26,6 @@ import base.datatypes.clsWordPresentationMesh;
 public interface I5_11_receive {
 	public void receive_I5_11(ArrayList<clsSuperEgoConflictPerception> poForbiddenPerceptions,
 			                  clsThingPresentationMesh poPerceptionalMesh,
-			                  ArrayList<eEmotionType> poForbiddenEmotions,
+			                  ArrayList<clsSuperEgoConflictEmotion> poForbiddenEmotions,
 			                  ArrayList<clsEmotion> poEmotions, clsWordPresentationMesh moWordingToContext2);
 }
