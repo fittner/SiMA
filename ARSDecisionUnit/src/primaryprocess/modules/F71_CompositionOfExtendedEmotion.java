@@ -29,17 +29,16 @@ import modules.interfaces.I5_23_send;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
-import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
+import base.tools.toText;
 
 /**
  * DOCUMENT (Kollmann) - insert description 
@@ -74,6 +73,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     private List<clsSuperEgoConflictPerception> moForbiddenPerceptions = new ArrayList<>();
     private List<clsSuperEgoConflictEmotion> moForbiddenEmotions = new ArrayList<>();
     private List<String> moSuperEgoOutputRules = new ArrayList <>();  
+    
+    double mrRemainingConflict = 0;
     
     /**
      * DOCUMENT - In F71 (Zusammenstellung von erweiterter Emotion) führen Abwehrmechanismen eine Färbung/Akzentuierung der Basisemotionen
@@ -118,8 +119,18 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      */
     @Override
     public String stateToTEXT() {
-        // TODO (Kollmann) - Auto-generated method stub
-        return null;
+        String text ="";
+        
+        text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
+        text += "---------------------------------------------------------------------------------------------";
+        text += toText.listToTEXT("moEmotions_Output", moEmotions_Output);
+        text += "---------------------------------------------------------------------------------------------";
+        text += toText.valueToTEXT("moForbiddenDrives", moForbiddenDrives);     
+        text += toText.valueToTEXT("moForbiddenPerceptions", moForbiddenPerceptions);
+        text += toText.valueToTEXT("moForbiddenEmotions", moForbiddenEmotions);
+        text += "---------------------------------------------------------------------------------------------";
+        text += toText.valueToTEXT("Remaining conflict", mrRemainingConflict);
+        return text;
     }
 
     /* (non-Javadoc)
@@ -172,8 +183,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     protected void process_basic() {
         double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
         double rConsumedPsychicIntensity = 0;
-        double rRemainingConflict = 0;
         clsEmotion oNewGuilt = null;
+        mrRemainingConflict = 0;
         
         log.debug("neutralized intensity F71: " + Double.toString(rReceivedPsychicEnergy));
 
@@ -184,45 +195,22 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
             
             //TODO: create conflict base class and streamline this here 
             for(clsSuperEgoConflict oConflict : moForbiddenDrives) {
-                rRemainingConflict += oConflict.getConflictTension();
+                mrRemainingConflict += oConflict.getConflictTension();
             }
             for(clsSuperEgoConflictPerception oConflict : moForbiddenPerceptions) {
-                rRemainingConflict += oConflict.getConflictTension();
+                mrRemainingConflict += oConflict.getConflictTension();
             }
             for(clsSuperEgoConflictEmotion oConflict : moForbiddenEmotions) {
-                rRemainingConflict += oConflict.getConflictTension();
+                mrRemainingConflict += oConflict.getConflictTension();
             }
             
-            if(rRemainingConflict > 0) {
-                oNewGuilt = generateGuilt(rRemainingConflict);
+            if(mrRemainingConflict > 0) {
+                oNewGuilt = generateGuilt(mrRemainingConflict);
                 moEmotions_Output.add(oNewGuilt);
             }
         }
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, mrInitialRequestIntensity, rConsumedPsychicIntensity);
     }
-    
-    /* (non-Javadoc)
-    *
-    * @author gelbard
-    * 27.08.2012, 17:54:00
-    * 
-    * clones an ArrayList<clsEmotions>
-    */
-   private ArrayList<clsEmotion> clone(ArrayList<clsEmotion> oEmotions) {
-       // deep clone: oEmotions --> oClonedEmotions
-       ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
-       ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
-       for (clsEmotion oOneEmotion : oEmotions) {
-           try {
-               oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
-           } catch (CloneNotSupportedException e) {
-               // Auto-generated catch block
-               e.printStackTrace();
-           }
-       }
-       
-       return oClonedEmotions;
-   }
     
     private clsEmotion generateGuilt(double prConflictIntensity) {
         //Kollmann: not sure how to generate guilt, but I think it should have some unpleasure component, I, for now, use the same pattern as with ANXIETY
