@@ -111,9 +111,9 @@ public class GoalHandlingFunctionality {
                  * Priorities are compared here so the evaluation of the goal can be chosen accordingly. 
                  */
                 
-                if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold /*&& receivedPsychicIntensity < goalsByExpectedFeelingThreshold*/ ){
+                //if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold /*&& receivedPsychicIntensity < goalsByExpectedFeelingThreshold*/ ){
                     goal.setFeelingsMatchImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));                   
-                }
+                //}
                 
                 if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold /*&& receivedPsychicIntensity < goalsByReservedFeelingThreshold*/ ){
                     goal.setFeelingsExpactationImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByExpectedFeelings(goal, currentFeelings));
