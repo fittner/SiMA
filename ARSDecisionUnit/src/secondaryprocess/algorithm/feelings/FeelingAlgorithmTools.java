@@ -213,11 +213,15 @@ public class FeelingAlgorithmTools {
     protected static double calculateEmotionAttractiveness(List<clsEmotion> poEmotion) {
         double rAttractiveness = 0;
         
-        for(clsEmotion oEmotion : poEmotion) {
-            rAttractiveness += oEmotion.getSourcePleasure() - oEmotion.getSourceUnpleasure();
+        if(poEmotion.size() > 0) {
+            for(clsEmotion oEmotion : poEmotion) {
+                rAttractiveness += oEmotion.getSourcePleasure() - oEmotion.getSourceUnpleasure();
+            }
+        
+            rAttractiveness = rAttractiveness / poEmotion.size();
         }
         
-        return rAttractiveness / poEmotion.size();
+        return rAttractiveness;
     }
     
     public static List<clsEmotion> calculateEmotionChanges(List<clsEmotion> poBeginEmotions, List<clsEmotion> poEndEmotions) {
