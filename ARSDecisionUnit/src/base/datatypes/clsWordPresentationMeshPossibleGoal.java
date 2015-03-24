@@ -109,7 +109,11 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
      * @param pnImportance
      */
     public void setEffortImpactImportance(double pnImportance) {
-        this.setUniqueProperty(String.valueOf(pnImportance), eContentType.EFFORTIMPACTIMPORTANCE, ePredicate.HASEFFORTIMPACTIMPORTANCE, true);
+        if(!Double.isNaN(pnImportance)) {
+            this.setUniqueProperty(String.valueOf(pnImportance), eContentType.EFFORTIMPACTIMPORTANCE, ePredicate.HASEFFORTIMPACTIMPORTANCE, true);
+        } else {
+            log.error("Method setEffortImpactImportance tried to set NaN as dable value");
+        }
     }
     
     /**
@@ -122,7 +126,11 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
      * @param pnImportance
      */
     public void addEffortImpactImportance(double pnImportance) {
-        this.setUniqueProperty(String.valueOf(this.getEffortImpactImportance() + pnImportance), eContentType.EFFORTIMPACTIMPORTANCE, ePredicate.HASEFFORTIMPACTIMPORTANCE, true);
+        if(!Double.isNaN(pnImportance)) {
+            this.setUniqueProperty(String.valueOf(this.getEffortImpactImportance() + pnImportance), eContentType.EFFORTIMPACTIMPORTANCE, ePredicate.HASEFFORTIMPACTIMPORTANCE, true);
+        } else {
+            log.error("Method addEffortImpactImportance tried to set NaN as dable value");
+        }
     }
     
     public double getDriveDemandImportance() {
@@ -155,15 +163,27 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     }
     
     public void setDriveDemandImportance(double driveDemandImportance) {
-        this.setUniqueProperty(String.valueOf(driveDemandImportance), eContentType.DRIVEDEMANDIMPORTANCE, ePredicate.HASDRIVEDEMANDIMPORTANCE, true);
+        if(!Double.isNaN(driveDemandImportance)) {
+            this.setUniqueProperty(String.valueOf(driveDemandImportance), eContentType.DRIVEDEMANDIMPORTANCE, ePredicate.HASDRIVEDEMANDIMPORTANCE, true);
+        } else {
+            log.error("Method setDriveDemandImportance tried to set NaN as dable value");
+        }
     }
     
     public void setFeelingsMatchImportance(double feelingsImportance) {
-        this.setUniqueProperty(String.valueOf(feelingsImportance), eContentType.FEELINGSIMPORTANCE, ePredicate.HASFEELINGSMATCHIMPORTANCE, true);
+        if(!Double.isNaN(feelingsImportance)) {
+            this.setUniqueProperty(String.valueOf(feelingsImportance), eContentType.FEELINGSIMPORTANCE, ePredicate.HASFEELINGSMATCHIMPORTANCE, true);
+        } else {
+            log.error("Method setFeelingsExpactationImportance tried to set NaN as dable value");
+        }
     }
     
     public void setFeelingsExpactationImportance(double feelingsImportance) {
-        this.setUniqueProperty(String.valueOf(feelingsImportance), eContentType.FEELINGSIMPORTANCE, ePredicate.HASEXPECTEDFEELINGSIMPORTANCE, true);
+        if(!Double.isNaN(feelingsImportance)) {
+            this.setUniqueProperty(String.valueOf(feelingsImportance), eContentType.FEELINGSIMPORTANCE, ePredicate.HASEXPECTEDFEELINGSIMPORTANCE, true);
+        } else {
+            log.error("Method setFeelingsExpactationImportance tried to set NaN as dable value");
+        }
     }
     
     public double getFeelingsMatchImportance() {
@@ -195,7 +215,11 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     }
     
     public void setSocialRulesImportance(double socialRulesImportance) {
-        this.setUniqueProperty(String.valueOf(socialRulesImportance), eContentType.SOCIALRULESIMPORTANCE, ePredicate.HASSOCIALRULESIMPORTANCE, true);
+        if(!Double.isNaN(socialRulesImportance)) {
+            this.setUniqueProperty(String.valueOf(socialRulesImportance), eContentType.SOCIALRULESIMPORTANCE, ePredicate.HASSOCIALRULESIMPORTANCE, true);
+        } else {
+            log.error("Method setSocialRulesImportance tried to set NaN as dable value");
+        }
     }
     
     public double getSocialRulesImportance() {
@@ -211,11 +235,19 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     }
     
     public void setDriveDemandCorrectionImportance(double driveDemandCorrectionImportance) {
-        this.setUniqueProperty(String.valueOf(driveDemandCorrectionImportance), eContentType.DRIVEDEMANDCORRECTIONIMPORTANCE, ePredicate.HASDRIVEDEMANDCORRECTIONIMPORTANCE, true);
+        if(!Double.isNaN(driveDemandCorrectionImportance)) {
+            this.setUniqueProperty(String.valueOf(driveDemandCorrectionImportance), eContentType.DRIVEDEMANDCORRECTIONIMPORTANCE, ePredicate.HASDRIVEDEMANDCORRECTIONIMPORTANCE, true);
+        } else {
+            log.error("Method setDriveDemandCorrectionImportance tried to set NaN as dable value");
+        }
     }
     
     public void setDriveAimImportance(double prDriveAimImportance) {
-        this.setUniqueProperty(String.valueOf(prDriveAimImportance), eContentType.DRIVEAIMIMPORTANCE, ePredicate.HASDRIVEAIMIMPORTANCE, true);
+        if(!Double.isNaN(prDriveAimImportance)) {
+            this.setUniqueProperty(String.valueOf(prDriveAimImportance), eContentType.DRIVEAIMIMPORTANCE, ePredicate.HASDRIVEAIMIMPORTANCE, true);
+        } else {
+            log.error("Method setDriveAimImportance tried to set NaN as dable value");
+        }
     }
     
     public double getDriveDemandCorrectionImportance() {
@@ -277,7 +309,11 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     }
     
     public void setPotentialDriveFulfillmentImportance(double importance) {
-        this.setUniqueProperty(String.valueOf(importance), eContentType.POTENTIALDRIVEFULFILLMENTIMPORTANCE, ePredicate.HASPOTENTIALDRIVEFULFILLMENTIMPORTANCE, true);
+        if(!Double.isNaN(importance)) {
+            this.setUniqueProperty(String.valueOf(importance), eContentType.POTENTIALDRIVEFULFILLMENTIMPORTANCE, ePredicate.HASPOTENTIALDRIVEFULFILLMENTIMPORTANCE, true);
+        } else {
+            log.error("Method setPotentialDriveFulfillmentImportance tried to set NaN as dable value");
+        }
     }
     
     public double getPotentialDriveFulfillmentImportance() {

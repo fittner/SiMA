@@ -201,8 +201,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		
-		clsThingPresentationMesh x = moPerceptions_IN;
 		moEmotions_OUT = new ArrayList<clsEmotion>() ;
 		
 		
@@ -216,14 +214,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rDrivePleasure = 0.0; 
 		double rDriveLibid = 0.0;
 		double rDriveAggr = 0.0;
-		
-		double rRelativeSystemPleasure = 0.0; 
-		double rRelativeSystemUnpleasure = 0.0;
-		
-		double rRelativeSystemLibid = 0.0;
-		double rRelativeSystemAggr = 0.0;
-
-		
 		
 		//1. Get Unpleasure from all drives, and the aggr. and libid parts
 		for (clsDriveMesh oDM: moDrives_IN) {
@@ -280,6 +270,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         //create the base emotion state
         clsEmotion oBaseEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
         oBaseEmotion.setRelativeThreshold(mrRelativeThreshold);
+        oBaseEmotion.setThresholdRange(mrThresholdRange);
         moEmotions_OUT.add(oBaseEmotion);
         
 	    double rRequestedPsychicIntensity = 0.0;
@@ -336,14 +327,12 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rPerceptionLibid = 0.0;
 		double rPerceptionAggr = 0.0;
 				
-		boolean bDMFound = false; // Kollmann: this is for debug. The DM comparison could is not all that stable, so this is a quick fix  
-		
 		double rInfluencePerception = 0;
 		
 		double rInfluencePerceivedObjects = 0.3;
 		
 		clsDriveMesh oDM = null;
-		clsEmotion oExperiencedEmotion = null;
+		//clsEmotion oExperiencedEmotion = null;
 		
 		// use QoA of the PI's entities  for emotion-generation
 		for(clsAssociation oPIINtAss: moPerceptions_IN.getInternalAssociatedContent()) {
@@ -632,7 +621,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 * 
 	 * @see pa._v38.interfaces.modules.I5_3_receive#receive_I5_3(java.util.ArrayList)
 	 */
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	public void receive_I5_3(
 			ArrayList<clsDriveMesh> poDrives) {
 		moDrives_IN = (ArrayList<clsDriveMesh>) deepCopy(poDrives); 

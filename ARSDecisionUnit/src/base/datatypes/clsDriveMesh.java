@@ -106,7 +106,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	        moPartialDrive = poTemplate.getPartialDrive();
 	        
 	        moDriveComponent = poTemplate.getDriveComponent();
-	        mrPsychicSatisfactionValue = 0.0;
+	        mrPsychicSatisfactionValue = poTemplate.getPsychicSatisfactionValue();
 	    }
 	
 	   public clsDriveMesh(    clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poInternalAssociatedContent, double prQuotaOfAffect, String poContent, eDriveComponent poDriveComponent, ePartialDrive poPartialDrive, double poPsychicSatisfaction) {

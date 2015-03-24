@@ -124,7 +124,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     private double mrEmotionrecognitionPrimingLibido;
     private double mrEmotionrecognitionPrimingIntensity;
     
-    boolean boUseCase = true; //aktivates the bodystate use case function
+    boolean boUseCase = false; //aktivates the bodystate use case function
     boolean boSelfHasExpressionVar = true; //true, if the self should have body expressions for bodystates
 	
 	/**
