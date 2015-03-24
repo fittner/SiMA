@@ -529,7 +529,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
         
         // Defense for emotions
         if(!moForbiddenEmotions_Input.isEmpty()){
-            if(moEgoStrength < 0.1) {
+            if(moEgoStrength < 0.01) {
                 ResetTimeChartDefenseForbidenEmotionData();
             } else {
                 defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output.get(0));
