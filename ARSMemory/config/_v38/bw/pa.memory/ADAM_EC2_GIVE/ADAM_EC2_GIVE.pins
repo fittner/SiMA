@@ -1,4 +1,4 @@
-; Thu Mar 12 16:29:03 CET 2015
+; Tue Mar 24 16:30:49 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -574,6 +574,13 @@
 		[TPM%3AACTION%3AL1_EAT])
 	(weight 1.0 1.0))
 
+([AD%3AAIM%3ACAKE%3AGIVE] of  ASSOCIATIONDM
+
+	(element
+		[DM%3AGIVE%3ACAKE]
+		[TPM%3AACTION%3AL1_GIVE])
+	(weight 1.0 1.0))
+
 ([AD%3AAIM%3ACAKE%3ALEECH] of  ASSOCIATIONDM
 
 	(element
@@ -711,6 +718,13 @@
 
 	(element
 		[DM%3ADIVIDE%3ACAKE]
+		[TPM%3AENTITY%3ACAKE%3ABASIC])
+	(weight 1.0 1.0))
+
+([AD%3ADRIVEOBJECT%3ACAKE%3AGIVE] of  ASSOCIATIONDM
+
+	(element
+		[DM%3AGIVE%3ACAKE]
 		[TPM%3AENTITY%3ACAKE%3ABASIC])
 	(weight 1.0 1.0))
 
@@ -2849,6 +2863,19 @@
 	(value "DM:RECTUM:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
+([DM%3AGIVE%3ACAKE] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "LIBIDINOUS")
+	(instance_association
+		[AD%3ADRIVEOBJECT%3ACAKE%3AGIVE]
+		[AD%3AAIM%3ACAKE%3AGIVE])
+	(partial_drive "UNDEFINED")
+	(psychic_satisfaction 0.1)
+	(quotaOfAffect 0.2)
+	(value "DM:STOMACH:LIBIDINOUS")
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
+
 ([DM%3ALEECH%3ACAKE] of  DM_oral
 
 	(class_association [TPM%3AORGANS%3ALIBIDO])
@@ -3234,7 +3261,7 @@
 	(emotionIntensity 0.5)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
-	(sourcePleasure 0.5)
+	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.6)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
