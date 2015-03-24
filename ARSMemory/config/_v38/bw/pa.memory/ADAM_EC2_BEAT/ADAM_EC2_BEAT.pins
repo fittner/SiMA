@@ -1,4 +1,4 @@
-; Tue Mar 10 16:28:21 CET 2015
+; Mon Mar 23 14:53:23 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2659,7 +2659,7 @@
 		[AD%3AAIM%3ABODO%3ABEAT%3AANAL]
 		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3AANAL])
 	(partial_drive "ANAL")
-	(psychic_satisfaction 0.2)
+	(psychic_satisfaction 0.01)
 	(quotaOfAffect 0.2)
 	(value "DM:ANAL:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
@@ -2672,7 +2672,7 @@
 		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3APHALLIC]
 		[AD%3AAIM%3ABODO%3ABEAT%3APHALLIC])
 	(partial_drive "PHALLIC")
-	(psychic_satisfaction 0.2)
+	(psychic_satisfaction 0.01)
 	(quotaOfAffect 0.2)
 	(value "DM:PHALIC:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
@@ -3272,10 +3272,10 @@
 ([EMOTION%3ABODO%3AANGER%3AHIGH] of  EMOTION
 
 	(emotionIntensity 1.0)
-	(sourceAggr 0.8)
+	(sourceAggr 1.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.6)
+	(sourceUnpleasure 0.2)
 	(value "ANGER")
 	(value_type "MEMORIZEDEMOTION"))
 
