@@ -532,11 +532,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
             if(moEgoStrength < 0.1) {
                 ResetTimeChartDefenseForbidenEmotionData();
             } else {
+                defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output.get(0));
+                
+                /* For now we only use the simple defense mechanism - otherwise we could use something like this:
+                 * 
                 //the simplest defense mechanism
                 if (moEgoStrength <= 0.25) {
                     defenseMechanism_ReversalOfAffect(moForbiddenEmotions_Input, moEmotions_Output.get(0));
                 }
-                
                 //a mid-level defense mechanism
                 if (moEgoStrength >= 0.15 && moEgoStrength <= 0.35) {
                     //not yet
@@ -545,7 +548,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
                 //a high level defense mchanism
                 if (moEgoStrength >= 0.3) {
                     //not yet
-                }
+                }*/
             }
         }
     }
