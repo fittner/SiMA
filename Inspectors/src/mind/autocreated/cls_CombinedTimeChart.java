@@ -89,11 +89,13 @@ public class cls_CombinedTimeChart extends Inspector{
 		moContainer = poContainer;
 		moCharts = new ArrayList<Inspector>();
 		moData = new ArrayList<DataContainer>();
-		int iColumns=(int) Math.ceil(Math.sqrt(moContainer.getCombinedTimeChartData().size()));
-		this.setLayout(new GridLayout(moContainer.getCombinedTimeChartData().size()/iColumns,iColumns));
+		double iNumCharts = moContainer.getCombinedTimeChartData().size();
+		int nColumns=(int) Math.ceil(Math.sqrt(iNumCharts));
+		int nRows = (int) Math.ceil(iNumCharts/nColumns);
+		this.setLayout(new GridLayout(nRows , nColumns));
 		for(int i=0; i <  moContainer.getCombinedTimeChartData().size(); i++){
 			DataContainer iData = new DataContainer(moContainer.getChartTitles().get(i),moContainer.getCombinedTimeChartAxis(),moContainer.getCombinedTimeChartData().get(i),moContainer.getValueCaptions().get(i));
-			cls_GenericTimeChartInspector iContainer = new cls_GenericTimeChartInspector(iData,200,750/iColumns,550/iColumns);
+			cls_GenericTimeChartInspector iContainer = new cls_GenericTimeChartInspector(iData,200,(750/nColumns),(550/nColumns));
 			iContainer.setShowRangeLabel(true);
 			moCharts.add(iContainer);
 			moData.add(iData);
