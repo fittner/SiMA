@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -26,7 +27,6 @@ import physics2D.shape.clsAnimatedCircleImage;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import utils.clsGetARSPath;
-
 import complexbody.brainsocket.clsBrainSocket;
 import complexbody.expressionVariables.clsExpressionVariable;
 import complexbody.expressionVariables.clsExpressionVariableCheeksRedning;
@@ -38,7 +38,6 @@ import complexbody.expressionVariables.clsExpressionVariablePartialSweat;
 import complexbody.expressionVariables.clsExpressionVariableShake;
 import complexbody.interBodyWorldSystems.clsInterBodyWorldSystem;
 import complexbody.io.sensors.datatypes.enums.eBodyActionType;
-
 import body.itfget.itfGetInternalEnergyConsumption;
 import complexbody.internalSystems.clsInternalEnergyConsumption;
 import complexbody.internalSystems.clsInternalSystem;
@@ -50,12 +49,10 @@ import complexbody.io.actuators.actionCommands.clsActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 import utils.exceptions.exFoodAlreadyNormalized;
 import utils.exceptions.exFoodWeightBelowZero;
-
 import datatypes.clsMutableDouble;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyType;
 import entities.enums.eNutritions;
-
 import body.attributes.clsAttributes;
 import body.utils.clsFood;
 
@@ -119,7 +116,7 @@ public class clsComplexBody extends clsBaseBody implements
 		String pre = clsProperties.addDot(poPrefix);
 
 	    String moFilename= poProp.getProperty(pre +P_PERSONALITY_PARAMETER);
-		moPersonalityParameterContainer= new clsPersonalityParameterContainer(clsGetARSPath.getBodyPeronalityParameterConfigPath(),moFilename,P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
+		moPersonalityParameterContainer= new clsPersonalityParameterContainer(clsGetARSPath.getBodyPeronalityParameterConfigPath(),Arrays.asList(moFilename),P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 
 		
 		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp, moPersonalityParameterContainer);

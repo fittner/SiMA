@@ -92,7 +92,7 @@ public class GoalHandlingFunctionality {
         moFeelingLog.debug("Step {}:", mnStep++);
         moFeelingLog.debug("Current feelings: ");
         /**
-         * Every goal has a threshold. The threshold are now hardcoded. It is so arranged that goalsByTriggeredFeeling needs less psychic intensity and
+         * Every goal has a threshold. The thresholds are now hardcoded. It is so arranged that goalsByTriggeredFeeling needs less psychic intensity and
          * goalsByReservedFeeling more than goalsByTriggeredFeeling and goalsByExpectedFeelingThreshold.
          */
         double goalsByTriggeredFeelingThreshold = 0.05;

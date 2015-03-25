@@ -7,6 +7,7 @@
 package base.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
@@ -99,7 +100,9 @@ public class clsPsychicApparatus {
 	public static final String P_DEBUG_LEVEL = "debuglevel";
 	
 	public static final String P_PERSONALITY_PARAMETER ="personality.parameter.file";
+	public static final String P_PERSONALITY_PARAMETER_DEFAULT ="personality.parameter.default_file";
 	public static final String P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME="default.properties";
+	public static final String P_DEFAULT_PERSONALITY_PARAMETER_DEFAULT_FILE_NAME="default.properties";
 	
 	public F01_SensorsMetabolism moF01_SensorsMetabolism;
 	public F02_NeurosymbolizationOfNeeds moF02_NeurosymbolizationOfNeeds;
@@ -280,6 +283,7 @@ public class clsPsychicApparatus {
 		
 		clsProperties oProp = new clsProperties();
 
+		oProp.setProperty(pre +P_PERSONALITY_PARAMETER_DEFAULT, P_DEFAULT_PERSONALITY_PARAMETER_DEFAULT_FILE_NAME);
 		oProp.setProperty(pre +P_PERSONALITY_PARAMETER, P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 		
 		oProp.setProperty(pre+P_DEBUG_LEVEL, "DEBUG");
@@ -348,8 +352,9 @@ public class clsPsychicApparatus {
 			//TODO HZ - Integrate to Properties
 			//FIXME (Zeilinger) - TD 2011/04/11 commented the (recreation) of moKnowledgeBaseHandler. see clsProcessor.applyProperties. knowlegebasehandler is created twice!
 			//moKnowledgeBaseHandler = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
-		    String moFilename= poProp.getProperty(pre +P_PERSONALITY_PARAMETER);
-			moPersonalityParameterContainer= new clsPersonalityParameterContainer(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(),moFilename,P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
+		    String oFilename= poProp.getProperty(pre +P_PERSONALITY_PARAMETER);
+		    String oDefaultFilename = poProp.getProperty(pre + P_PERSONALITY_PARAMETER_DEFAULT);
+			moPersonalityParameterContainer= new clsPersonalityParameterContainer(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(), Arrays.asList(oDefaultFilename, oFilename),P_DEFAULT_PERSONALITY_PARAMETER_DEFAULT_FILE_NAME);
 
             // init buffers
             moLibidoBuffer = new DT1_PsychicIntensityBuffer(moPersonalityParameterContainer);

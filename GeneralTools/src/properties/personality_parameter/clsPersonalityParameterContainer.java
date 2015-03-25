@@ -8,6 +8,7 @@ package properties.personality_parameter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import properties.clsProperties;
@@ -29,21 +30,27 @@ public class clsPersonalityParameterContainer {
 	private ArrayList<clsPersonalityParameterModule> moModules;
 	private String moFilename;
 	
-	public clsPersonalityParameterContainer(String poFilePath, String poFilename, String poDefaultFileName){
+	public clsPersonalityParameterContainer(String poFilePath, List<String> poFilenames, String poDefaultFileName){
 		moModules = new ArrayList<clsPersonalityParameterModule>();
-		loadProperties(poFilePath, poFilename, poDefaultFileName);
+		loadProperties(poFilePath, poFilenames, poDefaultFileName);
 		
 	}
 	
-	private void loadProperties(String poFilePath, String poFilename, String poDefaultFileName){
+	private void loadProperties(String poFilePath, List<String> poFilenames, String poDefaultFileName){
 		//String pre = clsProperties.addDot(poPrefix);
 		//moFilename= poProp.getProperty(poPrefix);
+		List<String> oUsedFilenames = new ArrayList<String>();
+		
 		clsProperties iProp = clsProperties.readProperties(poFilePath, poDefaultFileName);
 		moFilename = poDefaultFileName;
-		if(!poFilename.equals(poDefaultFileName)){
-			moFilename = poFilename;
-			iProp.putAll(clsProperties.readProperties(poFilePath, moFilename));
-			
+		oUsedFilenames.add(poDefaultFileName);
+		
+		for(String oFilename : poFilenames) {
+			if(!oUsedFilenames.contains(oFilename)) {
+				iProp.putAll(clsProperties.readProperties(poFilePath, oFilename));
+				moFilename = oFilename;
+				oUsedFilenames.add(oFilename);
+			}
 		}
 		ArrayList<String> modules = new ArrayList<String>();
 		
