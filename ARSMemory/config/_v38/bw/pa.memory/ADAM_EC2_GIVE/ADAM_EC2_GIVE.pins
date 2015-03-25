@@ -1,4 +1,4 @@
-; Tue Mar 24 16:30:49 CET 2015
+; Wed Mar 25 18:04:47 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3028,7 +3028,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.3)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3038,7 +3038,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.3)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3048,7 +3048,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.3)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3058,7 +3058,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.3)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3068,7 +3068,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.3)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3078,7 +3078,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.3)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3088,7 +3088,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.3)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3098,7 +3098,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.3)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3108,7 +3108,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.3)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3118,7 +3118,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.25)
+	(emotionIntensity 0.3)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3208,7 +3208,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.5)
+	(emotionIntensity 0.45)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3218,7 +3218,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.5)
+	(emotionIntensity 0.45)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3228,7 +3228,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I02%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.5)
+	(emotionIntensity 0.45)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3238,7 +3238,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I03%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.5)
+	(emotionIntensity 0.45)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3248,7 +3248,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I04%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.5)
+	(emotionIntensity 0.45)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3258,7 +3258,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I05%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.5)
+	(emotionIntensity 0.45)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3268,7 +3268,7 @@
 
 ([EMOTION%3AA14_FLEE_BODO_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.65)
+	(emotionIntensity 0.45)
 	(sourceAggr 0.11)
 	(sourceLibid 0.35)
 	(sourcePleasure 0.06)
@@ -3278,7 +3278,7 @@
 
 ([EMOTION%3AA14_FLEE_BODO_L01_I01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.65)
+	(emotionIntensity 0.45)
 	(sourceAggr 0.11)
 	(sourceLibid 0.35)
 	(sourcePleasure 0.06)
@@ -3288,7 +3288,7 @@
 
 ([EMOTION%3AA14_FLEE_BODO_L01_I02%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.65)
+	(emotionIntensity 0.45)
 	(sourceAggr 0.11)
 	(sourceLibid 0.1)
 	(sourcePleasure 0.1)

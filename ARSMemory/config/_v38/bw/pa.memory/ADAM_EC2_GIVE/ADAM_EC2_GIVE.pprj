@@ -1,58 +1,58 @@
-; Tue Mar 24 16:30:49 CET 2015
+; Wed Mar 25 18:04:47 CET 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
 
-([ADAM_EC2_GIVE_ProjectKB_Class199] of  String
+([ADAM_EC2_GIVE_ProjectKB_Class75] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ADAM_EC2_GIVE_ProjectKB_Class200] of  String
+([ADAM_EC2_GIVE_ProjectKB_Class76] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([ADAM_EC2_GIVE_ProjectKB_Class201] of  String
+([ADAM_EC2_GIVE_ProjectKB_Class77] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([ADAM_EC2_GIVE_ProjectKB_Class202] of  String
+([ADAM_EC2_GIVE_ProjectKB_Class78] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ADAM_EC2_GIVE_ProjectKB_Class203] of  String
+([ADAM_EC2_GIVE_ProjectKB_Class79] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_EC2_GIVE_ProjectKB_Class204] of  Map
+([ADAM_EC2_GIVE_ProjectKB_Class80] of  Map
 )
 
-([ADAM_EC2_GIVE_ProjectKB_Class205] of  Map_Entry
+([ADAM_EC2_GIVE_ProjectKB_Class81] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_EC2_GIVE_ProjectKB_Class204")
+	(value "ADAM_EC2_GIVE_ProjectKB_Class80")
 	(value_class "java.util.Map"))
 
-([ADAM_EC2_GIVE_ProjectKB_Class206] of  Map_Entry
+([ADAM_EC2_GIVE_ProjectKB_Class82] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2_GIVE_ProjectKB_Class207] of  Map_Entry
+([ADAM_EC2_GIVE_ProjectKB_Class83] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2_GIVE_ProjectKB_Class208] of  Map_Entry
+([ADAM_EC2_GIVE_ProjectKB_Class84] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_EC2_GIVE_ProjectKB_Class199]
-		[ADAM_EC2_GIVE_ProjectKB_Class200]
-		[ADAM_EC2_GIVE_ProjectKB_Class201]
-		[ADAM_EC2_GIVE_ProjectKB_Class202]
-		[ADAM_EC2_GIVE_ProjectKB_Class203]))
+		[ADAM_EC2_GIVE_ProjectKB_Class75]
+		[ADAM_EC2_GIVE_ProjectKB_Class76]
+		[ADAM_EC2_GIVE_ProjectKB_Class77]
+		[ADAM_EC2_GIVE_ProjectKB_Class78]
+		[ADAM_EC2_GIVE_ProjectKB_Class79]))
 
 ([CLSES_TAB] of  Widget
 
@@ -161,11 +161,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_EC2_GIVE_ProjectKB_Class205]
-		[ADAM_EC2_GIVE_ProjectKB_Class206]
-		[ADAM_EC2_GIVE_ProjectKB_Class207]
-		[ADAM_EC2_GIVE_ProjectKB_Class208])
-	(referenced_maps [ADAM_EC2_GIVE_ProjectKB_Class204]))
+		[ADAM_EC2_GIVE_ProjectKB_Class81]
+		[ADAM_EC2_GIVE_ProjectKB_Class82]
+		[ADAM_EC2_GIVE_ProjectKB_Class83]
+		[ADAM_EC2_GIVE_ProjectKB_Class84])
+	(referenced_maps [ADAM_EC2_GIVE_ProjectKB_Class80]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -619,7 +619,7 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_695891_Class5] of  Map
+([KB_828627_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
@@ -710,9 +710,9 @@
 
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
+		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
-		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
 		[PAL_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
