@@ -1151,7 +1151,6 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
     */
 	private void defenseMechanism_ReversalOfAffect(ArrayList<clsSuperEgoConflictEmotion> oForbiddenEmotions_Input, clsEmotion poBaseEmotion) {
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
-		reversalOfAffect =1.0;
 		PassForbidenEmotions=0.0;
 		ChartBarReversalOfAffect++;
 	   	if (oForbiddenEmotions_Input == null) return;
@@ -1167,7 +1166,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
                     // do not transfer above 1.0
 					rTransfer = Math.min(rTransfer, 1 - oOneEmotion.getSourceLibid());
 					
-					poBaseEmotion.setSourceAggr(poBaseEmotion.getSourceAggr() - rTransfer);
+					/*Kollmann: this stores the reversal rate for visualization. The rate will be calculated based on the
+					 *          current aggressive component of the base emotion*/
+                    reversalOfAffect = rTransfer / oOneEmotion.getSourceAggr();
+                    
+                    poBaseEmotion.setSourceAggr(poBaseEmotion.getSourceAggr() - rTransfer);
 					poBaseEmotion.setSourceLibid(poBaseEmotion.getSourceLibid() + rTransfer);
 				}
 			}
