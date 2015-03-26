@@ -831,5 +831,28 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         
         return oDriveMeshes;
     }
+    /*
+     * @since  25.03.2015
+     * (Zhukova)
+     * set the quota of affect for the drive mesh associated with the current one
+     * 
+     */
+    public boolean changeExpectedQuotaOfAffectOfDrive(String poDriveMeshAim, String poDriveMeshObject,   double poCoefficient, boolean poPairSearch ) {
+        
+        ArrayList<clsDriveMesh> associatedDriveMeshes = new ArrayList<>();// = getAssociatedDriveMeshes();
+        
+        for(clsDriveMesh oTmpDriveMesh : associatedDriveMeshes) {
+    // either we are checking the matching of both drive aim and drive object or we are checking mapping just of drive aim
+            if(oTmpDriveMesh.getActualDriveAim().getContent() == poDriveMeshAim &&((poPairSearch && oTmpDriveMesh.getActualDriveObject().getContent() == poDriveMeshObject) || !poPairSearch) ) {    
+                
+                    oTmpDriveMesh.setQuotaOfAffect(oTmpDriveMesh.getQuotaOfAffect()*(1 + poCoefficient)); 
+                    return true;
+             }
+          }
+        
+        return false;
+    }
 }
+
+
 
