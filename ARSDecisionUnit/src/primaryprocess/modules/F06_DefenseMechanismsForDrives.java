@@ -1210,6 +1210,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 
 		defenseMechanism_ReactionFormation_Sublimation_Intellectualization(oForbiddenDrives_Input);
 		
+		// for gradual sublimation: 
+		// defenceMechanismGradualSublimation(oForbiddenDrives_Input);
+
 	
 		TimeSublimation=1.0;
 		Sublimation++;
@@ -1271,6 +1274,27 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			  }
 	}
 	
+/*
+ * Zhukova
+ * Gradual sublimation update, sublimation calibration via coefficient	
+ */
+	
+	   private void defenceMechanismGradualSublimation(ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input)  {
+	        
+	        ArrayList<clsDriveMesh> oForbiddenDriveMeshes = findInDriveList(moForbiddenDrives_Input);
+	        double coefficient = 0.5;
+	        
+	        if (!oForbiddenDriveMeshes.isEmpty()) {
+	            for (clsDriveMesh oForbiddenDriveMesh : oForbiddenDriveMeshes) {
+	                moDriveList_Output.remove(oForbiddenDriveMesh);
+	                oForbiddenDriveMesh.changeExpectedQuotaOfAffectOfDrive(oForbiddenDriveMesh.getActualDriveAim().getContent(), oForbiddenDriveMesh.getActualDriveObject().getContent(), -coefficient, true);
+	                oForbiddenDriveMesh.changeExpectedQuotaOfAffectOfDrive(oOppositeTP.get(oForbiddenDriveMesh.getActualDriveAim().getContent()), oForbiddenDriveMesh.getActualDriveObject().getContent(), coefficient, false);
+	                oForbiddenDriveMesh.updateDriveAim();
+	                moDriveList_Output.add(oForbiddenDriveMesh);
+	            }
+	        }
+	    }
+	    
 	
 	/**
      * DOCUMENT - insert description

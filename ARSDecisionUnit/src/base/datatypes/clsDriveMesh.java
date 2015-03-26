@@ -831,5 +831,79 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         
         return oDriveMeshes;
     }
+    /*
+     * @since  25.03.2015
+     * (Zhukova)
+     * set the quota of affect for the drive mesh associated with the current one
+     * 
+     */
+    public boolean changeExpectedQuotaOfAffectOfDrive(String poDriveMeshAim, String poDriveMeshObject,   double poCoefficient, boolean poPairSearch ) {
+        
+        ArrayList<clsDriveMesh> associatedDriveMeshes = getAssociatedDriveMeshes();
+        
+        for(clsDriveMesh oTmpDriveMesh : associatedDriveMeshes) {
+    // either we are checking the matching of both drive aim and drive object or we are checking mapping just of drive aim
+            if(oTmpDriveMesh.getActualDriveAim().getContent() == poDriveMeshAim &&((poPairSearch && oTmpDriveMesh.getActualDriveObject().getContent() == poDriveMeshObject) || !poPairSearch) ) {    
+                
+                    oTmpDriveMesh.setQuotaOfAffect(oTmpDriveMesh.getQuotaOfAffect()*(1 + poCoefficient)); 
+                    return true;
+             }
+          }
+        
+        return false;
+    }
+    
+    /*
+     * Zhukova Olga, 25.03.2015
+     * Calculate new drive aim for the current drive mesh and memorize new drive object, drive subject, drive aim 
+     */
+     public void updateDriveAim(){ 
+          
+         double nMaxQuotaOfAffect =  0;
+         
+         String oUpdDriveAim = ""; 
+         
+          for(clsAssociation oAssociation :  moExternalAssociatedContent) { 
+              if(oAssociation.getContentType() == eContentType.ASSOCIATIONPRIDM) {
+                 clsDriveMesh oDriveMesh = (clsDriveMesh)oAssociation.getAssociationElementB();
+                 if(oDriveMesh.getQuotaOfAffect() > nMaxQuotaOfAffect) { 
+                                 
+                     nMaxQuotaOfAffect = oDriveMesh.getQuotaOfAffect();
+                     oUpdDriveAim = oDriveMesh.getActualDriveAim().getContent();
+                  
+                }
+              }
+          }
+          
+          clsThingPresentationMesh oNewDriveAim = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
+          eDataType.TPM,
+          new clsTriple<eContentType, Object, Object> (eContentType.ACTION, new ArrayList<clsThingPresentation>(), oUpdDriveAim));
+          
+          try {
+              setActualDriveAim(oNewDriveAim, 1.0);
+           } 
+          catch (Exception e) {
+            e.printStackTrace();
+        }
+     }
+     
+     /* 
+      * Zhukova 25.03.2015
+      * return the list of associated drive meshes with the current one from the external associated content*/
+     
+     private ArrayList<clsDriveMesh> getAssociatedDriveMeshes() {
+         ArrayList<clsDriveMesh> oAssociatedDriveMeshList = new ArrayList<clsDriveMesh>();
+         
+         for(clsAssociation oAssociation :  moExternalAssociatedContent) { 
+             if(oAssociation.getContentType() == eContentType.ASSOCIATIONPRIDM) {
+                 clsDriveMesh oAssociatedElement = (clsDriveMesh)oAssociation.getAssociationElementB() ;
+                 oAssociatedDriveMeshList.add(oAssociatedElement);
+             }
+         }
+         return oAssociatedDriveMeshList; 
+         
+     }
 }
+
+
 
