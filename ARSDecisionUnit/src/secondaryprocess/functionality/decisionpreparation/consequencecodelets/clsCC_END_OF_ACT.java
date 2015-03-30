@@ -65,10 +65,13 @@ public class clsCC_END_OF_ACT extends clsConsequenceCodelet {
         ArrayList<clsDriveMesh> oDrives = new ArrayList<clsDriveMesh>();
         
         clsThingPresentationMesh oTPM = clsDataStructureTools.getTPMfromWPM(goalObject);
-        for (clsAssociation oAssoc :oTPM.getExternalAssociatedContent()){
-            if(oAssoc.getAssociationElementA() instanceof clsDriveMesh ){
-               clsThingPresentationMesh oDriveAim =  ((clsDriveMesh) oAssoc.getAssociationElementA()).getActualDriveAim();
-               if(oDriveAim.getContent().equals(goalAction.getContent()))oDrives.add((clsDriveMesh) oAssoc.getAssociationElementA());
+        if(oTPM != null && !oTPM.isNullObject()) {
+            for (clsAssociation oAssoc :oTPM.getExternalAssociatedContent()){
+                if(oAssoc.getAssociationElementA() instanceof clsDriveMesh ){
+                   clsThingPresentationMesh oDriveAim =  ((clsDriveMesh) oAssoc.getAssociationElementA()).getActualDriveAim();
+                   if(oDriveAim.getContent().equals(goalAction.getContent()))
+                       oDrives.add((clsDriveMesh) oAssoc.getAssociationElementA());
+                }
             }
         }
         

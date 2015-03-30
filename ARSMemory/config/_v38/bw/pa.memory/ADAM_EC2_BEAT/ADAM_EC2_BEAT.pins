@@ -1,4 +1,4 @@
-; Mon Mar 30 13:46:30 CEST 2015
+; Mon Mar 30 15:16:35 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1132,7 +1132,15 @@
 	(predicate "HASACTION")
 	(weight 1.0 1.0))
 
-([AS%3AHASACTION%3AA14_FLEE_BODO_L01_I02%3ATURN_RIGHT] of  ASSOCIATIONSEC
+([AS%3AHASACTION%3AA14_FLEE_BODO_L01%3ATURN_RIGHT] of  ASSOCIATIONSEC
+
+	(element
+		[WPM%3AIMAGE%3AA14_FLEE_BODO_L01]
+		[WPM%3AACTION%3AL1_TURN_RIGHT])
+	(predicate "HASACTION")
+	(weight 1.0 1.0))
+
+([AS%3AHASACTION%3AA14_FLEE_BODO_L01_I01%3ATURN_RIGHT] of  ASSOCIATIONSEC
 
 	(element
 		[WPM%3AIMAGE%3AA14_FLEE_BODO_L01_I01]
@@ -3164,7 +3172,7 @@
 	(emotionIntensity 0.1)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
-	(sourcePleasure 0.05)
+	(sourcePleasure 0.2)
 	(sourceUnpleasure 0.25)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
@@ -3174,7 +3182,7 @@
 	(emotionIntensity 0.1)
 	(sourceAggr 0.2)
 	(sourceLibid 0.3)
-	(sourcePleasure 0.3)
+	(sourcePleasure 0.2)
 	(sourceUnpleasure 0.25)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))

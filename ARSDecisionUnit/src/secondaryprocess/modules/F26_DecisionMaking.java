@@ -292,7 +292,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
         
 		
         //AMP it is assumed that F26 uses all the psychic intensity that receives.
-        double rUsedPsychicIntensity = rReceivedPsychicEnergy / 4;
+        double rUsedPsychicIntensity = rReceivedPsychicEnergy;
        
         
 		//AMP F26 gives to know the intensity values to the psychic intensity storage

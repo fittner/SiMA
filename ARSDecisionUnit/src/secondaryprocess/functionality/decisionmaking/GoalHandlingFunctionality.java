@@ -95,7 +95,7 @@ public class GoalHandlingFunctionality {
          * Every goal has a threshold. The thresholds are now hardcoded. It is so arranged that goalsByTriggeredFeeling needs less psychic intensity and
          * goalsByReservedFeeling more than goalsByTriggeredFeeling and goalsByExpectedFeelingThreshold.
          */
-        double goalsByTriggeredFeelingThreshold = 0.05;
+        double goalsByTriggeredFeelingThreshold = 0.00;
         double goalsByExpectedFeelingThreshold = 0.15;
         double goalsByReservedFeelingThreshold = 0.3;
         
