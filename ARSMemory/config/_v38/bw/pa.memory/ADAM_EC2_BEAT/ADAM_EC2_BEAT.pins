@@ -1,4 +1,4 @@
-; Wed Mar 25 18:07:11 CET 2015
+; Mon Mar 30 13:46:30 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2991,11 +2991,11 @@
 
 ([EMOTION%3AA06_BEAT_BODO_L01_I03%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
-	(sourceAggr 0.6)
+	(emotionIntensity 0.4)
+	(sourceAggr 0.4)
 	(sourceLibid 0.2)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourcePleasure 0.3)
+	(sourceUnpleasure 0.7)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -3091,11 +3091,11 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.1)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourcePleasure 0.2)
+	(sourceUnpleasure 0.4)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
@@ -3173,8 +3173,8 @@
 
 	(emotionIntensity 0.1)
 	(sourceAggr 0.2)
-	(sourceLibid 0.15)
-	(sourcePleasure 0.05)
+	(sourceLibid 0.3)
+	(sourcePleasure 0.3)
 	(sourceUnpleasure 0.25)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
@@ -3235,7 +3235,7 @@
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourceUnpleasure 0.4)
 	(value "GUILT")
 	(value_type "BASICEMOTION"))
 
