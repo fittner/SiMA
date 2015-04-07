@@ -1208,10 +1208,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oOppositeTP.put("EAT","DIVIDE");
         //oOppositeTP.put("EAT","SHARE");
 		 
-		defenseMechanism_ReactionFormation_Sublimation_Intellectualization(oForbiddenDrives_Input);
+		//defenseMechanism_ReactionFormation_Sublimation_Intellectualization(oForbiddenDrives_Input);
 		
-		// for gradual sublimation: 
-		// defenceMechanismGradualSublimation(oForbiddenDrives_Input);
+		// for gradual sublimation in UC2  
+		 defenceMechanismGradualSublimation(oForbiddenDrives_Input);
 
 	
 		TimeSublimation=1.0;
@@ -1282,13 +1282,16 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	   private void defenceMechanismGradualSublimation(ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input)  {
 	        
 	        ArrayList<clsDriveMesh> oForbiddenDriveMeshes = findInDriveList(moForbiddenDrives_Input);
-	        double coefficient = 0.5;
+	        double rTransfer = calculateConflictTension(moForbiddenDrives_Input);
+	        
+	        
 	        
 	        if (!oForbiddenDriveMeshes.isEmpty()) {
 	            for (clsDriveMesh oForbiddenDriveMesh : oForbiddenDriveMeshes) {
 	                moDriveList_Output.remove(oForbiddenDriveMesh);
-	                oForbiddenDriveMesh.changeExpectedQuotaOfAffectOfDrive(oForbiddenDriveMesh.getActualDriveAim().getContent(), oForbiddenDriveMesh.getActualDriveObject().getContent(), -coefficient, true);
-	                oForbiddenDriveMesh.changeExpectedQuotaOfAffectOfDrive(oOppositeTP.get(oForbiddenDriveMesh.getActualDriveAim().getContent()), oForbiddenDriveMesh.getActualDriveObject().getContent(), coefficient, false);
+	                rTransfer = rTransfer*oForbiddenDriveMesh.getQuotaOfAffect();
+	                oForbiddenDriveMesh.changeExpectedQuotaOfAffectOfDrive(oForbiddenDriveMesh.getActualDriveAim().getContent(), oForbiddenDriveMesh.getActualDriveObject().getContent(), -rTransfer, true);
+	                oForbiddenDriveMesh.changeExpectedQuotaOfAffectOfDrive(oOppositeTP.get(oForbiddenDriveMesh.getActualDriveAim().getContent()), oForbiddenDriveMesh.getActualDriveObject().getContent(), rTransfer, false);
 	                oForbiddenDriveMesh.updateDriveAim();
 	                moDriveList_Output.add(oForbiddenDriveMesh);
 	            }

@@ -581,7 +581,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
         }
         
         if(!bFound) {
-            rIntensitySum = -1;
+            rIntensitySum = 0;
         }
         
         return rIntensitySum;

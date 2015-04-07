@@ -844,8 +844,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         for(clsDriveMesh oTmpDriveMesh : associatedDriveMeshes) {
     // either we are checking the matching of both drive aim and drive object or we are checking mapping just of drive aim
             if(oTmpDriveMesh.getActualDriveAim().getContent() == poDriveMeshAim &&((poPairSearch && oTmpDriveMesh.getActualDriveObject().getContent() == poDriveMeshObject) || !poPairSearch) ) {    
-                
-                    oTmpDriveMesh.setQuotaOfAffect(oTmpDriveMesh.getQuotaOfAffect()*(1 + poCoefficient)); 
+                    // can't be more than 1
+                    oTmpDriveMesh.setQuotaOfAffect(Math.min(oTmpDriveMesh.getQuotaOfAffect() +  poCoefficient, 1)); 
                     return true;
              }
           }
