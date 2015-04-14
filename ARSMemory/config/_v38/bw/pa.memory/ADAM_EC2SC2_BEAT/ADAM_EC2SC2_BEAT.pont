@@ -1,4 +1,4 @@
-; Tue Apr 14 12:15:49 CEST 2015
+; Tue Apr 14 16:18:25 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1195,7 +1195,16 @@
 
 (defclass EXPRESSION
 	(is-a VISION)
-	(role concrete))
+	(role concrete)
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+		(default "Expression")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
 
 (defclass ACCELERATION
 	(is-a SENSOR_EXT)
