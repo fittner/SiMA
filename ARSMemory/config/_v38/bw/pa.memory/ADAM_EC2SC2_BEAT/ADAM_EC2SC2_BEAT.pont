@@ -1,7 +1,7 @@
-; Tue Apr 14 16:40:35 CEST 2015
+; Wed Apr 15 13:21:55 CEST 2015
 ; 
 ;+ (version "3.4.4")
-;+ (build "Build 580")
+;+ (build "Build 579")
 
 
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
