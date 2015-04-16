@@ -46,7 +46,7 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictDrive;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.helpstructures.clsQuadruppel;
@@ -85,7 +85,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	
 	private double moEgoStrength; // personality parameter to adjust the strength of the Ego
 	
-	private ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input;
+	private ArrayList<clsSuperEgoConflictDrive> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	private ArrayList<clsDriveMesh> moSexualDrives;
 //	private ArrayList<String>Test =new ArrayList<String>();
@@ -334,10 +334,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	*/
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_13(ArrayList<clsSuperEgoConflict> poForbiddenDrives, ArrayList<clsDriveMesh> poData,ArrayList<clsEmotion> poEmotions) {
+	public void receive_I5_13(ArrayList<clsSuperEgoConflictDrive> poForbiddenDrives, ArrayList<clsDriveMesh> poData,ArrayList<clsEmotion> poEmotions) {
 	
 		moDriveList_Input       = (ArrayList<clsDriveMesh>) deepCopy(poData);
-		moForbiddenDrives_Input = (ArrayList<clsSuperEgoConflict>) deepCopy(poForbiddenDrives);
+		moForbiddenDrives_Input = (ArrayList<clsSuperEgoConflictDrive>) deepCopy(poForbiddenDrives);
 		moEmotions_Input             = clone(poEmotions);
 		
 	}
@@ -601,7 +601,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	        }
 	        else if (moEgoStrength < 0.25) ;//Das ist nur für UC1 deaktiviert. Sollte man wieder aktivieren. Repression funktioniert einwandfrei. //defenseMechanism_Repression(moForbiddenDrives_Input);
 	        else if (moEgoStrength < 0.35) defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
-	        else                           defenseMechanism_Sublimation(moForbiddenDrives_Input);
+ 	        else                           defenseMechanism_Sublimation(moForbiddenDrives_Input);
 	        
 	    }       
 	    else {
@@ -625,9 +625,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	
 	private void NoDefenseIsDone(){
 		TimePassForbiddenDrives =1.0;
-		PassForbiddenDrives++;
-
-		
+		PassForbiddenDrives++;	
 	}
 	
 	/* (non-Javadoc)
@@ -638,7 +636,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
     * This function calculates the average conflict tension of the drives in the list of forbidden drives.
     *
     */
-	private double calculateConflictTension(ArrayList<clsSuperEgoConflict> forbiddenDrives_Input) {
+	private double calculateConflictTension(ArrayList<clsSuperEgoConflictDrive> forbiddenDrives_Input) {
 	    double conflictTension = 0.0;
 	    int sizeOfForbiddenDrivesList = forbiddenDrives_Input.size();
 	    
@@ -703,7 +701,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @param oShiftQuotaOfAffect: oShiftQuotaOfAffect is the amount which is shifted from the quota of affect to the opposite drive
 	 *
 	 */
-	private void defenseMechanism_ReversalOfAffect(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input, double oShiftQuotaOfAffect) {
+	private void defenseMechanism_ReversalOfAffect(ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input, double oShiftQuotaOfAffect) {
 	   	
 		// If no forbidden drive in list return immediately (otherwise NullPointerException)
 		// oShiftQuotaOfAffect must always be less or equal to 1, otherwise error
@@ -836,7 +834,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
     *
     */
 	
-	private void defenseMechanism_Turning_Against_Self (ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
+	private void defenseMechanism_Turning_Against_Self (ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input){
 	    Turning_Against_Self ++;
 	    TimeTurning_Against_Self=1.0;
 	    
@@ -903,7 +901,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
         return poOriginalDM;
     }
 	
-	private void defenseMechanism_Projection(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
+	private void defenseMechanism_Projection(ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input){
 //	    Projection ++;
 //        TimeProjection=1.0;
 
@@ -993,7 +991,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * Displacement means that the drive object is changed.
 	 *
 	 */
-	private void defenseMechanism_Displacement(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
+	private void defenseMechanism_Displacement(ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input) {
 		
 	    Displacement ++;
 	    TimeDisplacement=1.0;
@@ -1016,7 +1014,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	   
 	}
 	
-	private void defense_done(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
+	private void defense_done(ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input) {
 		// Ivy-Frage: fügt er da alle gelöschten verbotenen Drives quasi wieder zurück?
 		
 		   ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
@@ -1174,7 +1172,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	}
 	
 	
-	private void defenseMechanism_ReactionFormation (ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
+	private void defenseMechanism_ReactionFormation (ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input){
 		
 		// List from eDriveContent
 		oOppositeTP.put("NOURISH","BITE");
@@ -1198,7 +1196,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 ReactionFormation++;
 	}
 	
-	private void defenseMechanism_Sublimation (ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
+	private void defenseMechanism_Sublimation (ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input){
 		
 		oOppositeTP.put("NOURISH","TASTE_FOOD_FOR_OTHERS");
 		oOppositeTP.put("BITE","DESTROY_DANGEROUS_ANIMALS");
@@ -1218,7 +1216,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		Sublimation++;
 	}
 	
-	private void defenseMechanism_Intellectualization(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input){
+	private void defenseMechanism_Intellectualization(ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input){
 		
 		oOppositeTP.put("NOURISH","TAKE_PART_IN_SOCIAL_ACTIVITY");
 		oOppositeTP.put("BITE","MOVE_JAW_MUSCLES");	
@@ -1241,7 +1239,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * all of those Defense Mechanisms have to change Drive Aim
 	 * 
 	 */
-	private void defenseMechanism_ReactionFormation_Sublimation_Intellectualization (ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input){
+	private void defenseMechanism_ReactionFormation_Sublimation_Intellectualization (ArrayList<clsSuperEgoConflictDrive> moForbiddenDrives_Input){
 				
 			ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
 			
@@ -1279,7 +1277,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
  * Gradual sublimation update, sublimation calibration via coefficient	
  */
 	
-	   private void defenceMechanismGradualSublimation(ArrayList<clsSuperEgoConflict> moForbiddenDrives_Input)  {
+	   private void defenceMechanismGradualSublimation(ArrayList<clsSuperEgoConflictDrive> moForbiddenDrives_Input)  {
 	        
 	        ArrayList<clsDriveMesh> oForbiddenDriveMeshes = findInDriveList(moForbiddenDrives_Input);
 	        double rTransfer = calculateConflictTension(moForbiddenDrives_Input);
@@ -1289,7 +1287,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	        if (!oForbiddenDriveMeshes.isEmpty()) {
 	            for (clsDriveMesh oForbiddenDriveMesh : oForbiddenDriveMeshes) {
 	                moDriveList_Output.remove(oForbiddenDriveMesh);
-	                rTransfer = rTransfer*oForbiddenDriveMesh.getQuotaOfAffect();
+	                rTransfer = moForbiddenDrives_Input.get(0).getConflictTension()*5;
 	                oForbiddenDriveMesh.changeExpectedQuotaOfAffectOfDrive(oForbiddenDriveMesh.getActualDriveAim().getContent(), oForbiddenDriveMesh.getActualDriveObject().getContent(), -rTransfer, true);
 	                oForbiddenDriveMesh.changeExpectedQuotaOfAffectOfDrive(oOppositeTP.get(oForbiddenDriveMesh.getActualDriveAim().getContent()), oForbiddenDriveMesh.getActualDriveObject().getContent(), rTransfer, false);
 	                oForbiddenDriveMesh.updateDriveAim();
@@ -1400,10 +1398,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	* This method represents the defense mechanism "repression"
 	* 
 	*/
-	private void defenseMechanism_Repression(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
+	private void defenseMechanism_Repression(ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input) {
 		
 		// Iterate over all forbidden drives
-		for (clsSuperEgoConflict oConflict : oForbiddenDrives_Input) {
+		for (clsSuperEgoConflictDrive oConflict : oForbiddenDrives_Input) {
 				
 			int i = 0;
 			// search in list of incoming drives
@@ -1449,7 +1447,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	* (matching drives are drives which are forbidden drives and which are element of the input drive list)
 	* 
 	*/
-	private double getQuotaOfAffect(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
+	private double getQuotaOfAffect(ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input) {
 		
 	  double oSumOfQuotaOfAffect = 0.0;
 	  int i = 0;
@@ -1477,13 +1475,13 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	* It returns those drives from the input drive list which are forbidden (according to the forbidden drive list)
 	* 
 	*/
-	private ArrayList<clsDriveMesh> findInDriveList(ArrayList<clsSuperEgoConflict> oForbiddenDrives_Input) {
+	private ArrayList<clsDriveMesh> findInDriveList(ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input) {
 		
 	  ArrayList<clsDriveMesh> returnDriveList = new ArrayList<clsDriveMesh>();
 	  
 	  // Iterate over all forbidden drives
 	  //int i=0;
-		for (clsSuperEgoConflict oConflict : oForbiddenDrives_Input) {
+		for (clsSuperEgoConflictDrive oConflict : oForbiddenDrives_Input) {
 				
 			// search in list of incoming drives
 			for(clsDriveMesh oDrive : moDriveList_Output){
