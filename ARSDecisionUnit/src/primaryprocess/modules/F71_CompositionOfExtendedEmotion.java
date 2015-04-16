@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 
-import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictDrive;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
 import properties.clsProperties;
@@ -28,7 +28,6 @@ import modules.interfaces.I5_23_receive;
 import modules.interfaces.I5_23_send;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
-import base.datatypes.clsAssociation;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructure;
@@ -61,15 +60,20 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     private ArrayList<clsPrimaryDataStructure> moAffectOnlyList_Input = new ArrayList<>();
     //Kollmann: I prefer using List as working type over ArrayList - I only use ArrayList as working type of an interface (or other demand)
     //          would force me to cast the List to ArrayList
-    private List<clsDriveMesh> moDrives_Input = new ArrayList<>();
-    private List<clsReadSuperEgoRules> moRules = new ArrayList<>();
+    private ArrayList<clsDriveMesh> moDrives_Input = new ArrayList<>();
+    private ArrayList<clsSuperEgoRulesCheck> moRules = new ArrayList<>();
     private clsThingPresentationMesh moPerceptionalMesh_Input = null;
     private double mrModuleStrength = 0;
     private double mrInitialRequestIntensity = 0;
     private double mrPsychicEnergyThreshold = 0;
     private DT3_PsychicIntensityStorage moPsychicEnergyStorage = null;
     
-    private List<clsSuperEgoConflict> moForbiddenDrives = new ArrayList<>();
+    double oSuperEgoStrength;
+    String oFileName;
+    
+    public clsSuperEgoRulesCheck moSuperEgoRulesCheckInstance; 
+    
+    private List<clsSuperEgoConflictDrive> moForbiddenDrives = new ArrayList<>();
     private List<clsSuperEgoConflictPerception> moForbiddenPerceptions = new ArrayList<>();
     private List<clsSuperEgoConflictEmotion> moForbiddenEmotions = new ArrayList<>();
     private List<String> moSuperEgoOutputRules = new ArrayList <>();  
@@ -98,8 +102,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         
         //Kollmann: this is a bit of a hack, I don't want to pass on the super ego rules so I load them again and for that I access F07s parameters
         //          for the filename and super-ego strength
-        double oSuperEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F07", P_SUPER_EGO_STRENGTH).getParameterDouble();
-        String oFileName = poPersonalityParameterContainer.getPersonalityParameter("F07", P_SUPER_EGO_RULES_FILE).getParameter();
+        oSuperEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F07", P_SUPER_EGO_STRENGTH).getParameterDouble();
+        oFileName = poPersonalityParameterContainer.getPersonalityParameter("F07", P_SUPER_EGO_RULES_FILE).getParameter();
         
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F" + P_MODULENUMBER, P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F" + P_MODULENUMBER, P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
@@ -108,7 +112,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         moPsychicEnergyStorage = poPsychicEnergyStorage;
         moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
         
-        moRules = clsReadSuperEgoRules.fromFile(oSuperEgoStrength, oFileName);
+        moSuperEgoRulesCheckInstance = new clsSuperEgoRulesCheck();
+       // moRules = clsReadSuperEgoRules.fromFile(oSuperEgoStrength, oFileName);
     }
     
     /* (non-Javadoc)
@@ -179,6 +184,9 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      * 
      * @see base.modules.clsModuleBase#process_basic()
      */
+    
+
+    
     @Override
     protected void process_basic() {
         double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
@@ -191,10 +199,22 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         moEmotions_Output = moEmotions_Input.get(0).generateExtendedEmotions();
         
         if (rReceivedPsychicEnergy > mrPsychicEnergyThreshold) {
-            rConsumedPsychicIntensity = checkInternalizedRules(rReceivedPsychicEnergy);   // check perceptions and drives, and apply internalized rules
+            //rConsumedPsychicIntensity = checkInternalizedRules(rReceivedPsychicEnergy);   // check perceptions and drives, and apply internalized rules
+            moSuperEgoRulesCheckInstance.setCheckingSuperEgoRuleParameters(moPerceptionalMesh_Input, moEmotions_Input, moDrives_Input);
             
+            try {  
+                rConsumedPsychicIntensity = moSuperEgoRulesCheckInstance.checkInternalizedRules(rReceivedPsychicEnergy, oSuperEgoStrength, oFileName);
+                moSuperEgoOutputRules = moSuperEgoRulesCheckInstance.getSuperEgoOutputRules();
+                moForbiddenDrives = moSuperEgoRulesCheckInstance.getForbiddenDrives();
+                moForbiddenEmotions = moSuperEgoRulesCheckInstance.getForbiddenEmotions();
+                moForbiddenPerceptions = moSuperEgoRulesCheckInstance.getForbiddenPerception();
+            }  
+            
+            catch(Exception e) {
+                log.error("Fail of reading super-ego files");
+            }
             //TODO: create conflict base class and streamline this here 
-            for(clsSuperEgoConflict oConflict : moForbiddenDrives) {
+            for(clsSuperEgoConflictDrive oConflict : moForbiddenDrives) {
                 mrRemainingConflict += oConflict.getConflictTension();
             }
             for(clsSuperEgoConflictPerception oConflict : moForbiddenPerceptions) {
@@ -241,228 +261,6 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
 
     }
 
-    protected double checkInternalizedRules(double prReceivedPsychicEnergy) {
-        // For now, its assumed that the consumed psychic intensity equals to the recevied psychic intensity in each period.
-        double rConsumedPsychicIntensity = prReceivedPsychicEnergy;
-        
-        // If no Super-Ego rule fires, the lists with forbidden drives, forbidden perceptions, and forbidden emotions must be empty
-        moForbiddenDrives     .clear();
-        moForbiddenPerceptions.clear();
-        moForbiddenEmotions   .clear();
-        moSuperEgoOutputRules .clear();
-                
-        int nRules = moRules.size(); //number of rules
-        
-        if (nRules > 0) {
-            
-            try {
-            
-                for (int i = 0; i < nRules; i++) { //für alle Regel
-                    
-                    int drivesInOneRule = moRules.get(i).driveSize();
-                    int perceptionInOneRule = moRules.get(i).perceptionSize();
-                    int emotionsInOneRule = moRules.get(i).emotionSize();
-                    
-                    double quotaOfAffect_of_ForbiddenDrives = checkForDrives (drivesInOneRule, i);
-                    double rIntensityOfConflictingEmotions = checkForEmotions (emotionsInOneRule, i);
-                        
-                    //wurden alle DM, TPM und Emotions von der aktuellen = i Regel gefunden
-                    if (quotaOfAffect_of_ForbiddenDrives >= 0 && checkForPerception (perceptionInOneRule, i) && rIntensityOfConflictingEmotions >= 0) { 
-
-                        moSuperEgoOutputRules.add("FileRule: " + (i+1) + "\nDrives:");
-                        for (int tmp=0; tmp < drivesInOneRule; tmp++) {
-                            moSuperEgoOutputRules.add(moRules.get(i).getForbiddenDriveRule(tmp).a.toString() + " " +
-                                    moRules.get(i).getForbiddenDriveRule(tmp).b.toString() + " " +
-                                    moRules.get(i).getForbiddenDriveRule(tmp).c[0].toString() + " " +
-                                    moRules.get(i).getForbiddenDriveRule(tmp).c[1].toString());
-                                
-                        }
-                        moSuperEgoOutputRules.add("\nPerception:");
-                        for (int tmp=0; tmp < perceptionInOneRule; tmp++) 
-                            moSuperEgoOutputRules.add(moRules.get(i).getForbiddenPerceptionRule(tmp).toString());
-                        moSuperEgoOutputRules.add("\nEmotion:");
-                        for (int tmp=0; tmp < emotionsInOneRule; tmp++) 
-                            moSuperEgoOutputRules.add(moRules.get(i).getForbiddenEmotinRule(tmp).a.toString() + " " +
-                                    moRules.get(i).getForbiddenEmotinRule(tmp).b[0].toString() + " " +
-                                    moRules.get(i).getForbiddenEmotinRule(tmp).b[1].toString());
-                        moSuperEgoOutputRules.add("----------------------------------------------");
-
-                        
-                        double rConflictTension;
-                        
-                        for (int fd = 0; fd < moRules.get(i).FDriveSize(); fd++) {
-                            rConflictTension = quotaOfAffect_of_ForbiddenDrives + moRules.get(i).getSuperEgoRuleStrength();
-                            
-                            // hier ist noch ein Fehler drinnen: am 18.03.2014 war
-                            // der Datentyp von moForbiddenDrives: ArrayList<clsSuperEgoConflict>
-                            // aber
-                            // der Datentyp von oRegeln.get(i).getForbiddenDrive(fd): clsPair <eDriveComponent, eOrgan>
-                            // Das heißt, die folgende if-Bedingung kann niemals false werden - der Compiler wurde da ausgetrickst.
-                            // Das Gleiche gilt auch für die übernächste if-Bedingung.
-                            if (!moForbiddenDrives.contains(moRules.get(i).getForbiddenDrive(fd)))
-                                moForbiddenDrives.add(new clsSuperEgoConflict(moRules.get(i).getForbiddenDrive(fd), rConflictTension));
-                          
-                            // if drive is already in list of forbidden drives: change conflict tension
-                            else
-                                moForbiddenDrives.get(moForbiddenDrives.lastIndexOf(moRules.get(i).getForbiddenDrive(fd))).setConflictTension(rConflictTension);
-                        }
-                        
-                        for (int fp = 0; fp < moRules.get(i).FObjectSize(); fp++) {
-                            // bei der folgenden Zeile könnte man noch schauen, ob es bei perceptions nicht soetwas gibt wie "Stärke einer Wahrnehmung" - analog dem quota of affect eines Triebes
-                            rConflictTension = moRules.get(i).getSuperEgoRuleStrength();
-                            
-                            if (!moForbiddenPerceptions.contains(moRules.get(i).getForbiddenObject(fp))) 
-                                moForbiddenPerceptions.add(new clsSuperEgoConflictPerception(moRules.get(i).getForbiddenObject(fp), rConflictTension));
-                            
-                            // if perception is already in list of forbidden perceptions: change conflict tension
-                            else
-                                moForbiddenPerceptions.get(moForbiddenPerceptions.lastIndexOf(moRules.get(i).getForbiddenDrive(fp))).setConflictTension(rConflictTension);
-                        }
-                        
-                        for (int fe = 0; fe < moRules.get(i).FEmotionSize(); fe++) {
-                            //Kollmann: according to KD, the intensity of the confclicting emotion should have less impact than the super ego rule strength
-                            //          (0.5 is a completely arbitrary value)
-                            //          also: according to KD, the difference between allowed intensity and actual intensity should be used.
-                            rConflictTension = (moRules.get(i).getSuperEgoRuleStrength() * Math.min(Math.pow(prReceivedPsychicEnergy, 0.3), 1)) + (rIntensityOfConflictingEmotions * /*arbitrary->*/0.5);
-                            
-                            if (!moForbiddenEmotions.contains(moRules.get(i).getForbiddenEmotion(fe))) 
-                                moForbiddenEmotions.add(new clsSuperEgoConflictEmotion(moRules.get(i).getForbiddenEmotion(fe), rConflictTension));
-                        }
-                        
-                    } 
-                }
-            } catch (IndexOutOfBoundsException e) {
-                System.err.println("\nIndex nicht vorhanden\n");
-            }
-        }
-        
-        return rConsumedPsychicIntensity;
-    }
-    
-    /**
-     * DOCUMENT - insert description
-     *
-     * @author Jordakieva
-     * @since 11.12.2013 16:14:28
-     *
-     * @param emotionSize
-     * @param i
-     * @return
-     */
-    private double checkForEmotions(int emotionSize, int position) {
-        double rIntensitySum = 0;
-        double rEmotionIntensity = 0;
-        double rLowerBound = 0;
-        double rUpperBound = 0;
-        boolean bFound = false;
-        int e;
-
-        for (e = 0; e < emotionSize; e++) {
-            for(clsEmotion oOneEmotion : moEmotions_Input.get(0).generateExtendedEmotions()) {
-                rEmotionIntensity = oOneEmotion.getEmotionIntensity();
-                rLowerBound = moRules.get(position).getEmotionRule(e).b[0];
-                rUpperBound = moRules.get(position).getEmotionRule(e).b[1];
-                
-                if (oOneEmotion.getContent().equals(moRules.get(position).getEmotionRule(e).a) &&
-                        rLowerBound <= rEmotionIntensity && 
-                        rUpperBound >= rEmotionIntensity) {
-                    bFound = true;
-                    //Kollmann: according to KD we should consider the difference between the allowed range and the actual intensity.
-                    //          But currently the rule supplies the conflicting range - what if the rule says: must be nothing but moderately
-                    //          angry (for example), I decided to use the minimal difference to the bound, e.g. ANGER between 0.5 and 1.0 with
-                    //          actual intensity 0.6 --> rIntensitySum = 0.1 
-                    rIntensitySum += Math.min(rUpperBound - rEmotionIntensity, rEmotionIntensity - rLowerBound);
-                    break;
-                }
-            }
-        }
-        
-        if(!bFound) {
-            rIntensitySum = -1;
-        }
-        
-        return rIntensitySum;
-    }
-
-    /**
-     * DOCUMENT - insert description
-     *
-     * @author Jordakieva
-     * @since 11.12.2013 16:01:13
-     *
-     * @param perceptionSize
-     * @param i
-     * @return
-     */
-    private boolean checkForPerception(int perceptionSize, int position) {
-
-        boolean bPerception;
-        int p;
-        
-        ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_Input).getInternalAssociatedContent();
-    
-        for (p = 0, bPerception = true; p < perceptionSize && bPerception; p++) {
-            
-            bPerception = false;
-            for (clsAssociation oAssociation : oInternalAssociations) {
-                if (oAssociation.getAssociationElementB() instanceof clsThingPresentationMesh) {
-                    if( ((clsThingPresentationMesh)oAssociation.getAssociationElementB()).getContentType().equals(moRules.get(position).getPerceptionRule(p).a) &&
-                            ((clsThingPresentationMesh)oAssociation.getAssociationElementB()).getContent().equals(moRules.get(position).getPerceptionRule(p).b) ) {
-                        //EINE TPM GEFUNDEN (von vlt vielen) JUHUU! und da gefunden ab zur nächsten in der Schleife
-                        bPerception = true;
-                        break;
-                    }
-                }
-            }   
-        }
-        
-        if ((bPerception && p == perceptionSize)) { //true wenn alle TPMs gefunden wurden = abspeichern
-            return true;
-        } else return false;
-    }
-
-    /* (non-Javadoc)
-     * 
-     * checks whether all conflicting drive meshes of one super-ego rule are contained in the array list of incoming drive meshes
-     * 
-     * returns the sum of quotas of affect of all forbidden drives (if all forbidden drives are in the array list of incoming drives)
-     * returns -1 if not all forbidden drives are in the array list of incoming drives
-     *
-     * @author Jordakieva
-     * @since 11.12.2013 15:17:59
-     *
-     * @param driveSize
-     * @return
-     */
-    private double checkForDrives(int driveSize, int position) {
-
-        boolean match;
-        int d;
-        double sum_of_QuoataOfAffect_of_MatchingDrives = 0;
-        
-        for (d = 0, match = true; d < driveSize && match; d++) { //für alle DM in einer Regel
-            
-            match = false;
-            for (clsDriveMesh oDrive : moDrives_Input) { //moDrives ist received_I5_12 moDrives = (ArrayList<clsDriveMesh>) deepCopy(poDrives);
-                
-                if (oDrive.getDriveComponent().equals(moRules.get(position).getDriveRule(d).a) &&
-                        oDrive.getActualDriveSourceAsENUM().equals(moRules.get(position).getDriveRule(d).b) &&
-                        oDrive.getQuotaOfAffect() >= moRules.get(position).getDriveRule(d).c[0] && 
-                        oDrive.getQuotaOfAffect() <= moRules.get(position).getDriveRule(d).c[1]) 
-                {
-                    match = true;
-                    sum_of_QuoataOfAffect_of_MatchingDrives += oDrive.getQuotaOfAffect();
-                    break;
-                } 
-            }
-
-        }
-        
-        if (d == driveSize && match)        
-            return sum_of_QuoataOfAffect_of_MatchingDrives;
-
-        else return -1.0; // no match found or not all drive mashes of the super-ego-rule match
-    }
     
     /* (non-Javadoc)
      *

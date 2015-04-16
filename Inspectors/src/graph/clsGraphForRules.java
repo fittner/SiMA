@@ -12,7 +12,7 @@ import javax.swing.JSplitPane;
 
 
 import inspector.interfaces.itfInspectorForRules;
-import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;
 
 /**
  * DOCUMENT (Jordakieva) - insert description 
@@ -23,7 +23,7 @@ import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;
  */
 public class clsGraphForRules extends clsGraphWindow {
 
-	private ArrayList<clsReadSuperEgoRules> moRules;
+	private ArrayList<clsSuperEgoRulesCheck> moRules;
 	
 	/** DOCUMENT (Jordakieva) - insert description; @since 01.11.2013 16:05:50 */
 	private static final long serialVersionUID = -924552491855248160L;

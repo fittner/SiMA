@@ -42,7 +42,7 @@ import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntry;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntryAction;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
-import primaryprocess.functionality.superegofunctionality.clsReadSuperEgoRules;import base.datatypes.clsAct;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;import base.datatypes.clsAct;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
@@ -613,8 +613,8 @@ public class clsGraph extends JGraph {
 			oRootCell = generateGraphCell(poParent, oO.toString()); 
  
 
-		} else if (oO instanceof clsReadSuperEgoRules) { //Ivy
-			clsReadSuperEgoRules bla = (clsReadSuperEgoRules) oO;
+		} else if (oO instanceof clsSuperEgoRulesCheck) { //Ivy
+			clsSuperEgoRulesCheck bla = (clsSuperEgoRulesCheck) oO;
 			oRootCell = generateGraphCell(poParent, bla);
 		} else {
 			oRootCell = generateGraphCell(poParent, oO.toString());
@@ -1221,9 +1221,9 @@ public class clsGraph extends JGraph {
 	 * @param poRule - one rule
 	 * @return oRootRulesCell - the finish "tree"
 	 */
-	private clsGraphCell generateGraphCell (clsGraphCell poParentCell, clsReadSuperEgoRules poRule) {
+	private clsGraphCell generateGraphCell (clsGraphCell poParentCell, clsSuperEgoRulesCheck poRule) {
 		
-		clsReadSuperEgoRules oRule = poRule;
+		clsSuperEgoRulesCheck oRule = poRule;
 		
 		clsGraphCell oRootRulesCell = createDefaultGraphVertex("Rule " + mnRuleNumber + ":", moColorTPMRoot); //rule number in the csv-File
 		this.moCellList.add(oRootRulesCell); //adding to the list of graphCells

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflict;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictDrive;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
 
 
@@ -22,5 +22,5 @@ import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmo
  * 
  */
 public interface I5_13_send {
-	public void send_I5_13(ArrayList<clsSuperEgoConflict> poForbiddenDrive, ArrayList<clsDriveMesh> poData,ArrayList<clsSuperEgoConflictEmotion> poForbiddenEmotions,ArrayList<clsEmotion> poEmotions);
+	public void send_I5_13(ArrayList<clsSuperEgoConflictDrive> poForbiddenDrive, ArrayList<clsDriveMesh> poData,ArrayList<clsSuperEgoConflictEmotion> poForbiddenEmotions,ArrayList<clsEmotion> poEmotions);
 }
