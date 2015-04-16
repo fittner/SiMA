@@ -1,10 +1,17 @@
 package complexbody.expressionVariables;
 
+import properties.clsProperties;
+
 public class clsExpressionVariablePartialSweat extends clsExpressionVariable{
 	
 	static int counter = 0;
 	
-	public clsExpressionVariablePartialSweat(){
+	public clsExpressionVariablePartialSweat() {
+		super();
+	}
+	
+	public clsExpressionVariablePartialSweat(String poPrefix, clsProperties poProp){
+		super(poPrefix, poProp);
 		counter++;
 		speakCounter();
 	}

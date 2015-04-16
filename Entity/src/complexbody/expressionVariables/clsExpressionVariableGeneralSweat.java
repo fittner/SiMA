@@ -1,10 +1,13 @@
 package complexbody.expressionVariables;
 
+import properties.clsProperties;
+
 public class clsExpressionVariableGeneralSweat extends clsExpressionVariable{
 
 	static int counter = 0;
 	
-	public clsExpressionVariableGeneralSweat(){
+	public clsExpressionVariableGeneralSweat(String poPrefix, clsProperties poProp){
+		super(poPrefix, poProp);
 		counter++;
 		speakCounter();
 	}

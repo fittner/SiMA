@@ -972,19 +972,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                             
                             bAddToRemoveList = true;
                             for(clsAssociation oAssociation : oSearchItem.b.getMoAssociatedDataStructures()){
-                                if(oAssociation.getAssociationElementA().getContentType().equals(eContentType.ENTITY)){
-                                    u = (clsThingPresentationMesh) oAssociation.getAssociationElementA();
-                                    if(u.getContent().equals("SELF")){
-                                        bAddToRemoveList = false;
-                                        break;
-                                    }
-                                }
-                                else if(oAssociation.getAssociationElementB().getContentType().equals(eContentType.ENTITY)){
-                                    u = (clsThingPresentationMesh) oAssociation.getAssociationElementB();
-                                    if(u.getContent().equals("SELF")){
-                                        bAddToRemoveList = false;
-                                        break;
-                                    }
+                                if(oAssociation.getAssociationElementA().getContentType().equals(eContentType.ENTITY) && 
+                                        ((clsThingPresentationMesh) oAssociation.getAssociationElementA()).getContent().equals("SELF")) {
+                                    bAddToRemoveList = false;
+                                    break;
+                                } else if(oAssociation.getAssociationElementB().getContentType().equals(eContentType.ENTITY) &&
+                                        ((clsThingPresentationMesh) oAssociation.getAssociationElementB()).getContent().equals("SELF")) {
+                                    bAddToRemoveList = false;
+                                    break;
                                 } 
                             }
                             if(bAddToRemoveList == true){
