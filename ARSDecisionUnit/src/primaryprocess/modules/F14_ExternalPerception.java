@@ -127,6 +127,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     boolean boUseCase = false; //aktivates the bodystate use case function
     boolean boSelfHasExpressionVar = true; //true, if the self should have body expressions for bodystates
 	
+    private String moBodystateCreation = "";
+    ArrayList<clsThingPresentationMesh> moSearchPattern; //kollmann: store this globally to have access to the search pattern for inspection
+    
 	/**
 	 * Constructor of F14, nothing unusual
 	 * 
@@ -168,7 +171,69 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		text += toText.mapToTEXT("moBodyData", moBodyData);
 		text += toText.listToTEXT("moCompleteThingPresentationMeshList", moCompleteThingPresentationMeshList);
 
+		text += "\n---------------------------------------------------------------------------------------------\n";
+		text += "Search pattern:\n";
+		
+		for(clsThingPresentationMesh oPattern : moSearchPattern) {
+		    text += oPattern.getContent().toString() + ":\n";
+		    for(clsAssociation oAssociation : oPattern.getInternalAssociatedContent()) {
+		        text += oAssociation.getTheOtherElement(oPattern).toString() + "\n";
+		    }
+		}
+		
 		return text;
+	}
+	
+	public String debugBodystate(clsThingPresentationMesh poBodystate) {
+	    String oText = "Bodystate";
+	    clsDataStructurePA oOtherElement = null;
+	    clsEmotion oEmotion = null;
+	    clsThingPresentationMesh oBodystateSource = null;
+	    
+	    for(clsAssociationAttribute oAssAttribute : clsAssociation.filterListByType(poBodystate.getInternalAssociatedContent(), clsAssociationAttribute.class)) {
+	        oOtherElement = oAssAttribute.getTheOtherElement(poBodystate);
+	        if(oOtherElement instanceof clsEmotion) {
+	            oEmotion = (clsEmotion) oOtherElement;
+
+	            oText += "Emotion: " + oEmotion.toString() + "\n";
+	        }
+	    }
+	    
+	    for(clsAssociationAttribute oAssAttribute : clsAssociation.filterListByType(poBodystate.getInternalAssociatedContent(), clsAssociationAttribute.class)) {
+            oOtherElement = oAssAttribute.getTheOtherElement(poBodystate);
+            if(oOtherElement instanceof clsThingPresentationMesh && ((clsThingPresentationMesh)oOtherElement).getContentType().equals(eContentType.ENTITY)) {
+                oBodystateSource = (clsThingPresentationMesh) oOtherElement;
+
+                oText += "from: " + oBodystateSource.getContent() + "\n\n";
+            }
+        }
+	    
+	    return oText;
+	}
+	
+	public String getBodystatesTextual() {
+	    String oText = "";
+	    
+	    for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList) {
+	        if(oEntity.getContentType().equals(eContentType.ENTITY)) {
+	            //it's an entity, now check if it has a bodystate associated
+	            for(clsAssociationAttribute oAssAttribute : clsAssociation.filterListByType(oEntity.getExternalAssociatedContent(), clsAssociationAttribute.class)) {
+	                if(oAssAttribute.getAssociationElementB().getContentType().equals(eContentType.ENTITY)
+	                        && ((clsThingPresentationMesh)oAssAttribute.getAssociationElementB()).getContent().equals("Bodystate")) {
+	                    oText += "Bodystate at " + oEntity.getContent() + ":\n";
+	                    oText += debugBodystate((clsThingPresentationMesh)oAssAttribute.getAssociationElementB());
+	                } else if(oAssAttribute.getAssociationElementA().getContentType().equals(eContentType.ENTITY)
+                            && ((clsThingPresentationMesh)oAssAttribute.getAssociationElementA()).getContent().equals("Bodystate")) {
+	                    oText += "Bodystate at " + oEntity.getContent() + ": (WARN: might be associated on the wrong end of attribute association)\n";
+                        oText += debugBodystate((clsThingPresentationMesh)oAssAttribute.getAssociationElementA());
+                    }
+	            }
+	        }
+	    }
+	    
+	    oText += "\nBodystate emotion creation:\n" + moBodystateCreation;
+	    
+	    return oText;
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -393,6 +458,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
+	    // 0. reset datastructures for inspectors
+	    moBodystateCreation = "";
+	    moSearchPattern = new ArrayList<clsThingPresentationMesh>();
+	    
         // 1. Convert Neurosymbols to TPMs
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP= convertSymbolToTPM(moEnvironmentalData);
        
@@ -634,6 +703,16 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 // d. associate Emotions to Bodystates
                 if(!oDMStimulusList.isEmpty()){
                     if(oDMStimulusList.get(0) instanceof clsEmotion){//koller
+                        moBodystateCreation += "Combining " + k + " candidates:\n";
+                        
+                        for(ArrayList<clsAssociation> oAssList : oAssDMforCategorization.values()) {
+                            for(clsAssociation oAssAttribute : oAssList) {
+                                moBodystateCreation += oAssAttribute.getAssociationElementB().toString() + "\n";
+                                moBodystateCreation += "+++++++++++++++++++++++++++\n";
+                            }
+                        }
+                        
+                        moBodystateCreation += "into new emotion " + ((clsEmotion)oDMStimulusList.get(0)).toString() + "\n";
                         //koller remove unaltered emotion
                         ArrayList<clsAssociation> oEmotionAssToRemove = new ArrayList<clsAssociation>();
                         for(clsAssociation oAss : oOutputTPM.getInternalAssociatedContent()){
@@ -671,6 +750,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     }
                     
                     if((boExpressionFound == true) && (boBodystateFound == false)){
+                        moBodystateCreation += "for " + oTPM.toString() + "\n\n";
                         oTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, oTPM, oOutputTPM, 1));
                         break;
                     }
@@ -1029,6 +1109,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					oRankedCandidateTPMs.add(oSpecificCandidates);
 				}
 				
+				//kollmann: store search pattern for later inspection
+				moSearchPattern.addAll(poSearchPattern);
+				
 				return oRankedCandidateTPMs;
 	}
 	
@@ -1282,8 +1365,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     }
     
  
-  //If the agent has a bodystate, that bodystates influences the perception of other agents' bodystates   
-ArrayList<clsThingPresentationMesh> PrimingBodystates(ArrayList<clsThingPresentationMesh> oOutputTPMs){ //koller
+    //If the agent has a bodystate, that bodystates influences the perception of other agents' bodystates   
+    ArrayList<clsThingPresentationMesh> PrimingBodystates(ArrayList<clsThingPresentationMesh> oOutputTPMs){ //koller
         
         clsThingPresentationMesh oSelfBodystate = null;
         for(clsThingPresentationMesh oOPTPM : oOutputTPMs){

@@ -46,6 +46,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import primaryprocess.modules.F14_ExternalPerception;
 import base.modules.clsModuleBase;
 import base.modules.clsPsychicApparatus;
 import control.clsProcessor;
@@ -435,7 +436,18 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 		} else if(poModuleName.equals("E11_NeuroSymbolizationEnvironment")) {
 		} else if(poModuleName.equals("E12_SensorsBody")) {
 		} else if(poModuleName.equals("E13_NeuroSymbolizationBody")) {
-		} else if(poModuleName.equals("E14_ExternalPerception")) {
+		} else if(poModuleName.equals("F14_ExternalPerception")) {
+			//Kollmann: for simplicity use an anonymous subclass of cls_StateInspector als bodystate inspector
+			poTI.addInspector(new cls_StateInspector(poPA.moF14_ExternalPerception) {
+				/** DOCUMENT (Kollmann) - insert description; @since 20.04.2015 13:21:27 */
+				private static final long serialVersionUID = -8296500660267573600L;
+
+				@Override
+				protected void updateContent() {
+					moContent = ((F14_ExternalPerception)moObject).getBodystatesTextual();
+				}
+			} //end of anonymous subclass
+			,"Bodystates");
 		} else if(poModuleName.equals("E18_CompositionOfAffectsForPerception")) {
 		} else if(poModuleName.equals("E19_DefenseMechanismsForPerception")) {
 		} else if(poModuleName.equals("E20_InnerPerception_Affects")) {
@@ -444,7 +456,7 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 		} else if(poModuleName.equals("E23_ExternalPerception_focused")) {
 		} else if(poModuleName.equals("E24_RealityCheck_1")) {
 		} else if(poModuleName.equals("E25_KnowledgeAboutReality_1")) {
-		} else if(poModuleName.equals("E26_DecisionMaking")) {
+		} else if(poModuleName.equals("F26_DecisionMaking")) {
 			poTI.addInspector( new clsF26DecisionCalculation(poPA.moF26_DecisionMaking), "Decision Calculation");
 		} else if(poModuleName.equals("E27_GenerationOfImaginaryActions")) {
 		} else if(poModuleName.equals("E28_KnowledgeBase_StoredScenarios")) {
