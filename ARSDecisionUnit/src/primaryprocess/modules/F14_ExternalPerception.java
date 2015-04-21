@@ -616,18 +616,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         }
                         
                         moBodystateCreation += "into new emotion " + ((clsEmotion)oDMStimulusList.get(0)).toString() + "\n";
-                        //koller remove unaltered emotion
-                        ArrayList<clsAssociation> oEmotionAssToRemove = new ArrayList<clsAssociation>();
-                        for(clsAssociation oAss : oOutputTPM.getInternalAssociatedContent()){
-                            if(oAss.getAssociationElementB() instanceof clsEmotion){
-                                oEmotionAssToRemove.add(oAss);
-                            }
-                        }
-                        for(clsAssociation oAssRemove : oEmotionAssToRemove){
-                            //clsAssociation.removeAssociationCompletely(oAssRemove);
-                            oOutputTPM.getInternalAssociatedContent().remove(oAssRemove); 
-                        }
-                        //koller attach new emotion
+                        
                         oOutputTPM.getInternalAssociatedContent().add(clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONEMOTION, oOutputTPM, oDMStimulusList.get(0), 1));
                     }
                 }
@@ -915,7 +904,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 								
                 oSearchResults = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPattern); //koller Suchaufruf mit neuem DMTPM eDataType
 				
-              //koller remove TPM-Associations that contain no Bodystates (because the search function cannot distinguish)
+                //koller remove TPM-Associations that contain no Bodystates (because the search function cannot distinguish)
                 ArrayList<clsAssociation> oAssToRemove = null;
                 for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult : oSearchResults){
                     for(clsPair<Double, clsDataStructureContainer> oSearchItem : oSearchResult){
@@ -1126,6 +1115,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		return oAssDMforCategorization;
 	}
 	
+	private double nonProportionalAggregation (double rBaseValue, double rAddValue) {
+        rBaseValue = rBaseValue + (1 - rBaseValue) * rAddValue;
+        return rBaseValue;
+    }
 	
 	private ArrayList<clsPrimaryDataStructure> getStimulusDMs(HashMap<String, ArrayList<clsAssociation>> oAssDMforCategorization) {
 		double rQoASum = 0;
@@ -1177,16 +1170,24 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     rActivationValue =  oAss.getMrWeight();
                     oEmoExemplar = (clsEmotion) oAss.getAssociationElementB();
     
-                    rSrcAggr += rActivationValue * (oEmoExemplar).getSourceAggr();
-                    rSrcLib += rActivationValue * (oEmoExemplar).getSourceLibid();
-                    rSrcPle += rActivationValue * (oEmoExemplar).getSourcePleasure();
-                    rSrcUnple += rActivationValue * (oEmoExemplar).getSourceUnpleasure();
+                    rSrcAggr = nonProportionalAggregation(rSrcAggr, rActivationValue * (oEmoExemplar).getSourceAggr());
+                    rSrcLib = nonProportionalAggregation(rSrcLib, rActivationValue * (oEmoExemplar).getSourceLibid());
+                    rSrcPle = nonProportionalAggregation(rSrcPle, rActivationValue * (oEmoExemplar).getSourcePleasure());
+                    rSrcUnple = nonProportionalAggregation(rSrcUnple, rActivationValue * (oEmoExemplar).getSourceUnpleasure());
+
+                    //kollmann: at this point the intensity should not be relevant anyway, but still, lets calculate it for completeness sake 
                     rIntensity += rActivationValue * (oEmoExemplar).getEmotionIntensity();
-                    
                     rMax += rActivationValue;
                 }
-                    
-                oEmoStimulus = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rIntensity/rMax, eEmotionType.UNDEFINED, rSrcPle/rMax, rSrcUnple/rMax, rSrcLib/rMax, rSrcAggr/rMax);
+
+                //kollmann: if there was only one emotion for categorization, use the emotions type for the modified emotion
+                //          Note: the new emotion can, of course, still differ in the other factors from the categorization emotion,
+                //                due to the effect of the association weight (e.g. only one emotion is considered fitting at all and that only only at 0.5)
+                if(oAssDMforCategorization.get(oDMID_End).size() == 1) {
+                    oEmoStimulus = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rIntensity/rMax, oEmoExemplar.getContent(), rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
+                } else {
+                    oEmoStimulus = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rIntensity/rMax, eEmotionType.UNDEFINED, rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
+                }
                 
                 oDMStimulusList.add(oEmoStimulus);
             }
