@@ -1180,14 +1180,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     rMax += rActivationValue;
                 }
 
-                //kollmann: if there was only one emotion for categorization, use the emotions type for the modified emotion
-                //          Note: the new emotion can, of course, still differ in the other factors from the categorization emotion,
-                //                due to the effect of the association weight (e.g. only one emotion is considered fitting at all and that only only at 0.5)
-                if(oAssDMforCategorization.get(oDMID_End).size() == 1) {
-                    oEmoStimulus = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rIntensity/rMax, oEmoExemplar.getContent(), rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
-                } else {
-                    oEmoStimulus = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rIntensity/rMax, eEmotionType.UNDEFINED, rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
-                }
+                oEmoStimulus = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rIntensity/rMax, eEmotionType.UNDEFINED, rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
                 
                 oDMStimulusList.add(oEmoStimulus);
             }
@@ -1264,6 +1257,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         }
     }
     
+    private double primeCalc(double pnValueSelf, double pnValueOther, double pnPrimeFactor) {
+        return (pnPrimeFactor * pnValueSelf) + ((1 - pnPrimeFactor) * pnValueOther);
+    }
  
     //If the agent has a bodystate, that bodystates influences the perception of other agents' bodystates   
     ArrayList<clsThingPresentationMesh> PrimingBodystates(ArrayList<clsThingPresentationMesh> oOutputTPMs){ //koller
@@ -1305,17 +1301,26 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                                             }
                                         }
                                         
-                                        rPle = mrEmotionrecognitionPrimingPleasure * oFoundEmotion.getSourcePleasure() * oSelfBodystateEmotion.getSourcePleasure();
-                                        rUnple = mrEmotionrecognitionPrimingUnpleasure * oFoundEmotion.getSourceUnpleasure() * oSelfBodystateEmotion.getSourceUnpleasure();
-                                        rAggr = mrEmotionrecognitionPrimingAggression * oFoundEmotion.getSourceAggr() * oSelfBodystateEmotion.getSourceAggr();
-                                        rLib = mrEmotionrecognitionPrimingLibido * oFoundEmotion.getSourceLibid() * oSelfBodystateEmotion.getSourceLibid();
-                                        rIntensity = mrEmotionrecognitionPrimingIntensity * oFoundEmotion.getEmotionIntensity() * oSelfBodystateEmotion.getEmotionIntensity();
+//                                        rPle = mrEmotionrecognitionPrimingPleasure * oFoundEmotion.getSourcePleasure() * oSelfBodystateEmotion.getSourcePleasure();
+//                                        rUnple = mrEmotionrecognitionPrimingUnpleasure * oFoundEmotion.getSourceUnpleasure() * oSelfBodystateEmotion.getSourceUnpleasure();
+//                                        rAggr = mrEmotionrecognitionPrimingAggression * oFoundEmotion.getSourceAggr() * oSelfBodystateEmotion.getSourceAggr();
+//                                        rLib = mrEmotionrecognitionPrimingLibido * oFoundEmotion.getSourceLibid() * oSelfBodystateEmotion.getSourceLibid();
+                                        //kollmann: alternative idea for priming calculation:
+                                        //          
+
+                                        rPle = primeCalc(oSelfBodystateEmotion.getSourcePleasure(), oFoundEmotion.getSourcePleasure(), mrEmotionrecognitionPrimingPleasure);
+                                        rUnple = primeCalc(oSelfBodystateEmotion.getSourceUnpleasure(), oFoundEmotion.getSourceUnpleasure(), mrEmotionrecognitionPrimingUnpleasure);
+                                        rAggr = primeCalc(oSelfBodystateEmotion.getSourceAggr(), oFoundEmotion.getSourceAggr(), mrEmotionrecognitionPrimingAggression);
+                                        rLib = primeCalc(oSelfBodystateEmotion.getSourceLibid(), oFoundEmotion.getSourceLibid(), mrEmotionrecognitionPrimingLibido);
+                                      
+                                        //kollmann: intensity does not need to be primed as long as intensity does not have influence in PP
+                                        //rIntensity = mrEmotionrecognitionPrimingIntensity * oFoundEmotion.getEmotionIntensity() * oSelfBodystateEmotion.getEmotionIntensity();
+                                        //oFoundEmotion.setEmotionIntensity(rIntensity);
                                         
                                         oFoundEmotion.setSourcePleasure(rPle);
                                         oFoundEmotion.setSourceUnpleasure(rUnple);
                                         oFoundEmotion.setSourceAggr(rAggr);
-                                        oFoundEmotion.setSourceLibid(rLib);
-                                        oFoundEmotion.setEmotionIntensity(rIntensity);
+                                        oFoundEmotion.setSourceLibid(rLib);   
                                     }
                                         
                                 }

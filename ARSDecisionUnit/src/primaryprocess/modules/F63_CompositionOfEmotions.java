@@ -391,7 +391,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                         if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){
                             
                             clsThingPresentationMesh oTPMA = (clsThingPresentationMesh)oEntityAss.getAssociationElementA();
-                            if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
+//                            if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
                                 if(oEntityAss.getAssociationElementB().getContentType() == eContentType.ENTITY){
                             
                                     clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oEntityAss.getAssociationElementB();
@@ -401,15 +401,15 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                                             if(oAssoc.getAssociationElementB().getContentType() == eContentType.BASICEMOTION){
                                                 clsEmotion oEmotionFromBodystate = (clsEmotion)oAssoc.getAssociationElementB();
                                                 //koller EmotionRecognitionFactor * PerceptionPleasureImpactFactor * SourcePleasure/Unpleasure/Aggr/Libid * EmotionIntensity     
-                                                rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrEmotionrecognitionImpactFactor*mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure()*oEmotionFromBodystate.getEmotionIntensity()); 
-                                                rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceUnpleasure()*oEmotionFromBodystate.getEmotionIntensity());
-                                                rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceLibid()*oEmotionFromBodystate.getEmotionIntensity());
-                                                rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceAggr()*oEmotionFromBodystate.getEmotionIntensity()); 
+                                                rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrEmotionrecognitionImpactFactor*mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure()); 
+                                                rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceUnpleasure());
+                                                rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceLibid());
+                                                rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceAggr()); 
                                             }
                                         }
                                     }
                                 }
-                            }
+//                            }
                         }  
                     }//end koller  
                     
@@ -842,7 +842,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         oResult.add(oMemory);
 		
 		return oResult;
-		}
+	}
 
 
 	/* (non-Javadoc)
