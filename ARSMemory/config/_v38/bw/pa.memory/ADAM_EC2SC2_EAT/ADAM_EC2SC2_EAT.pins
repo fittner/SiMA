@@ -1,4 +1,4 @@
-; Wed Apr 22 16:47:52 CEST 2015
+; Thu Apr 23 11:21:52 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3561,10 +3561,10 @@
 ([EMOTION%3ABODO_CAKE] of  EMOTION
 
 	(emotionIntensity 1.0)
-	(sourceAggr 0.3)
+	(sourceAggr 0.6)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.1)
+	(sourceUnpleasure 0.0)
 	(value "ANGER")
 	(value_type "MEMORIZEDEMOTION"))
 
@@ -3580,11 +3580,11 @@
 
 ([EMOTION%3ASELF%3ABODYSTATE%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.8)
+	(emotionIntensity 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.7)
+	(sourceUnpleasure 1.0)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
