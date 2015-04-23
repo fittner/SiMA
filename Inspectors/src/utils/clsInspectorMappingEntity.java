@@ -8,6 +8,10 @@
  */
 package utils;
 
+import sim.display.GUIState;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import body.clsBaseBody;
 import body.clsComplexBody;
 import body.clsInspectorAttributes;
@@ -21,15 +25,29 @@ import body.clsInspectorSlowMessengers;
 import body.clsMeatBody;
 import body.clsSimpleBody;
 import body.itfget.itfGetBody;
-
-import entities.*;
-import entities.abstractEntities.*;
-import entity.*;
-
-import sim.display.GUIState;
-import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
-import sim.portrayal.inspector.TabbedInspector;
+import entities.clsARSIN;
+import entities.clsCake;
+import entities.clsCan;
+import entities.clsCarrot;
+import entities.clsFungus;
+import entities.clsFungusEater;
+import entities.clsHare;
+import entities.clsLynx;
+import entities.clsPlant;
+import entities.clsStone;
+import entities.abstractEntities.clsBase;
+import entities.abstractEntities.clsEntity;
+import entities.abstractEntities.clsMobile;
+import entities.abstractEntities.clsStationary;
+import entities.abstractEntities.clsUraniumOre;
+import entity.clsInspectorARSin;
+import entity.clsInspectorARSinDebugActions;
+import entity.clsInspectorBasic;
+import entity.clsInspectorFungus;
+import entity.clsInspectorFungusBase;
+import entity.clsInspectorFungusEater;
+import entity.clsInspectorInventory;
+import entity.clsInspectorSensor;
 
 /**
  * assigns the required entity inspector classes to the object extending the clsEntity-class 

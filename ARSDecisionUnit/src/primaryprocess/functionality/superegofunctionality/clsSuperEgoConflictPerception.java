@@ -6,8 +6,8 @@
  */
 package primaryprocess.functionality.superegofunctionality;
 
-import base.datatypes.helpstructures.clsPair;
 import memorymgmt.enums.eContentType;
+import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (Gelbard) - This class represents a single conflict between super ego rules and perceptions.

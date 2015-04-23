@@ -22,14 +22,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
-import du.enums.eDecisionType;
-import entities.clsARSIN;
-import entities.abstractEntities.clsEntity;
-
-import body.clsBaseBody;
-import body.itfGetBrain;
-import body.itfget.itfGetBody;
-
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -38,6 +30,12 @@ import sim.util.gui.PropertyField;
 import utils.clsExceptionUtils;
 import utils.clsInspectorMappingDecisionUnit;
 import utils.clsInspectorMappingEntity;
+import body.clsBaseBody;
+import body.itfGetBrain;
+import body.itfget.itfGetBody;
+import du.enums.eDecisionType;
+import entities.clsARSIN;
+import entities.abstractEntities.clsEntity;
 
 /**
  * The InspectorEntity is the main entry point for all further entity

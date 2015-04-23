@@ -8,16 +8,16 @@
 
 package sim;
 
-import properties.clsProperties;
 import loader.clsLoader;
 import loader.clsSimplePropertyLoader;
-import du.enums.eDecisionType;
-import ec.util.MersenneTwisterFast;
+import properties.clsProperties;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 import singeltons.clsSimState;
 import singeltons.clsSingletonProperties;
 import utils.clsGetARSPath;
+import du.enums.eDecisionType;
+import ec.util.MersenneTwisterFast;
 
 
 /**

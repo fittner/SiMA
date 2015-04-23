@@ -6,8 +6,6 @@
  */
 package pa.modules;
 
-import config.clsBWProperties;
-import decisionunit.itf.actions.itfActionProcessor;
 import pa.interfaces.I8_2;
 import pa.interfaces.itfReturnActionCommands;
 

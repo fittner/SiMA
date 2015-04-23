@@ -8,8 +8,15 @@ package primaryprocess.datamanipulation;
 
 import java.util.ArrayList;
 
+import logger.clsLogger;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.enums.ePhiPosition;
+import memorymgmt.enums.eRadius;
+
 import org.slf4j.Logger;
 
+import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationTime;
@@ -19,12 +26,6 @@ import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import logger.clsLogger;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eDataType;
-import memorymgmt.enums.ePhiPosition;
-import memorymgmt.enums.eRadius;
-import testfunctions.clsTester;
 
 /**
  * DOCUMENT (wendt) - insert description 

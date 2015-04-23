@@ -9,6 +9,7 @@
 package tools;
 
 import java.text.NumberFormat;
+
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 

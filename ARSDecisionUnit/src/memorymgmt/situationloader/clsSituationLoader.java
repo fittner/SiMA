@@ -9,11 +9,10 @@ package memorymgmt.situationloader;
 import java.util.List;
 import java.util.Random;
 
-import properties.clsProperties;
-
+import memorymgmt.situationloader.itfSituationSearchAlgorithm.ALGORITHMS;
 import memorymgmt.situationloader.algorithm.clsConstraintDrivenSearch;
 import memorymgmt.situationloader.algorithm.clsGreedySearch;
-import memorymgmt.situationloader.itfSituationSearchAlgorithm.ALGORITHMS;
+import properties.clsProperties;
 import base.datatypes.clsConcept;
 import base.datatypes.clsSituation;
 

@@ -1,8 +1,8 @@
 
 package body.attributes;
 
-import body.itfget.itfGetMuscleTension;
 import properties.clsProperties;
+import body.itfget.itfGetMuscleTension;
 
 
 public class clsBodyOrganLegs extends clsBodyOrgan implements itfGetMuscleTension{

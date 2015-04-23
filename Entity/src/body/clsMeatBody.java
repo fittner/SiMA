@@ -9,11 +9,12 @@
 package body;
 
 import properties.clsProperties;
+import body.attributes.clsAttributes;
+
 import complexbody.internalSystems.clsFlesh;
 
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyType;
-import body.attributes.clsAttributes;
 
 /**
  * DOCUMENT (deutsch) - insert description 

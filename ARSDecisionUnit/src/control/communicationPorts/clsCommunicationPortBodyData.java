@@ -7,11 +7,13 @@
 package control.communicationPorts;
 
 
+import base.clsCommunicationInterface;
+
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 import communication.interfaces.itfCommunicationPartner;
+
 import control.interfaces.clsBaseDecisionUnit;
-import base.clsCommunicationInterface;
 
 /**
  * DOCUMENT (herret) - Defines hold the data and the control interfaces to the body

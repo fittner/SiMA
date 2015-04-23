@@ -12,11 +12,11 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
+import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsSecondaryDataStructure;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

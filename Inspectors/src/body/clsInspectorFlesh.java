@@ -8,12 +8,12 @@ package body;
 
 import java.awt.BorderLayout;
 
-import complexbody.internalSystems.clsFlesh;
-
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
+
+import complexbody.internalSystems.clsFlesh;
 
 /**
  * DOCUMENT (deutsch) - insert description 

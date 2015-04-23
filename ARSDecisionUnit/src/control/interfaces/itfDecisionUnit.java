@@ -8,7 +8,6 @@ package control.interfaces;
 
 
 import base.clsCommunicationInterface;
-
 import du.enums.eDecisionType;
 /**
  * The interface that a decision unit has to implement to be compatible with the brain socket.

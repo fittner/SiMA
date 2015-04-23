@@ -8,7 +8,7 @@
  */
 package tstbfg.symbolization.brainimages;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Vector;
 
@@ -25,7 +25,6 @@ import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsPerceptionVisionEntity;
 import bfg.tools.cls0to1;
-import bfg.tools.shapes.clsPoint;
 import bfg.tools.xmltools.clsXMLConfiguration;
 
 /**

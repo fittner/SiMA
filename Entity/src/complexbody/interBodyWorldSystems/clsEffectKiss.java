@@ -7,6 +7,7 @@
 package complexbody.interBodyWorldSystems;
 
 import properties.clsProperties;
+
 import complexbody.internalSystems.clsFastMessengerSystem;
 import complexbody.internalSystems.clsSlowMessengerSystem;
 

@@ -15,15 +15,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import complexbody.internalSystems.clsInternalEnergyConsumption;
-import datatypes.clsMutableDouble;
-import entities.enums.eBodyParts;
-
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
 import singeltons.clsSingletonMasonGetter;
+
+import complexbody.internalSystems.clsInternalEnergyConsumption;
+
+import datatypes.clsMutableDouble;
+import entities.enums.eBodyParts;
 
 /**
  * DOCUMENT (deutsch) - insert description 

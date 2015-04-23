@@ -1,13 +1,12 @@
 package memorymgmt.situationloader;
 
+import memorymgmt.situationloader.itfContextEntitySearchAlgorithm.ALGORITHMS;
 import memorymgmt.situationloader.algorithm.clsBreadthFirstSearch;
 import memorymgmt.situationloader.algorithm.clsDepthFirstSearch;
-import memorymgmt.situationloader.itfContextEntitySearchAlgorithm.ALGORITHMS;
 
 import org.apache.log4j.Logger;
 
 import properties.clsProperties;
-
 import base.datatypes.clsConcept;
 import base.datatypes.clsDataStructurePA;
 

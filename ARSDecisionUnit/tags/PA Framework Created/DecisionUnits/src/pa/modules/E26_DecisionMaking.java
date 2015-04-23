@@ -6,7 +6,6 @@
  */
 package pa.modules;
 
-import config.clsBWProperties;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_13;
 import pa.interfaces.I3_3;

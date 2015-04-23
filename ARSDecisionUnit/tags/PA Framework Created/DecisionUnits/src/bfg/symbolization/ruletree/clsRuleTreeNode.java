@@ -7,14 +7,16 @@ package bfg.symbolization.ruletree;
 
 // Imports
 import java.util.Vector;
-import org.w3c.dom.Node;
+
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
+import bfg.symbolization.brainimages.clsContainerPerceptions;
+import bfg.symbolization.brainimages.clsIdentity;
+import bfg.symbolization.brainimages.clsImageAbstract;
+import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumBooleanOperator;
-import bfg.symbolization.brainimages.clsIdentity;
-import bfg.symbolization.brainimages.clsImagePerception;
-import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
 
 //no emotions - prohibitet in import from langr
 //import pkgBrainComplexEmotion.clsContainerComplexEmotion;

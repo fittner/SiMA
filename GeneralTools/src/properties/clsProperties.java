@@ -1,5 +1,6 @@
 package properties;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -17,16 +18,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-import java.awt.Color;
-
-
 import java.util.regex.Matcher;
 
 import logger.clsLogger;
 
 import org.slf4j.Logger;
-
-import properties.clsRandomProperties;
 
 import utils.clsColorParser;
 

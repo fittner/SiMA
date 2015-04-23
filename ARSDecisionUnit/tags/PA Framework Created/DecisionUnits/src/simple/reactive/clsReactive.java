@@ -8,23 +8,6 @@
  */
 package simple.reactive;
 
-import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itf.actions.clsActionEat;
-import decisionunit.itf.actions.clsActionMove;
-import decisionunit.itf.actions.clsActionTurn;
-import decisionunit.itf.actions.itfActionProcessor;
-import enums.eActionMoveDirection;
-import enums.eActionTurnDirection;
-import enums.eEntityType;
-import enums.eSensorExtType;
-import enums.eSensorIntType;
-import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsSensorData;
-import decisionunit.itf.sensors.clsRadiation;
-import decisionunit.itf.sensors.clsEnergy;
-import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsVisionEntry;
-import bfg.tools.shapes.clsPolarcoordinate;
 import java.util.Random;
 
 /**

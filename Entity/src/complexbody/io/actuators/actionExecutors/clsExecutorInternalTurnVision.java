@@ -8,14 +8,17 @@ package complexbody.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
-import complexbody.io.actuators.clsInternalActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
-import complexbody.io.sensors.datatypes.enums.eActionTurnDirection;
-
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
 import properties.clsProperties;
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
+
+import complexbody.io.actuators.clsInternalActionExecutor;
+import complexbody.io.actuators.actionCommands.clsActionMove;
+import complexbody.io.actuators.actionCommands.clsActionTurn;
+import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
+import complexbody.io.actuators.actionCommands.clsInternalActionTurnVision;
+import complexbody.io.sensors.datatypes.enums.eActionTurnDirection;
 
 import entities.abstractEntities.clsEntity;
 

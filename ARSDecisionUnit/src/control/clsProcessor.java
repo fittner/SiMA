@@ -7,19 +7,20 @@ package control;
 
 import java.util.HashMap;
 
-import org.slf4j.Logger;
-
-import communication.datatypes.clsDataContainer;
-import communication.datatypes.clsDataPoint;
-import control.interfaces.itfProcessor;
-
-import properties.clsProperties;
-
-import base.modules.clsPsychicApparatus;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 //import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 //import pa._v38.memorymgmt.old.clsInformationRepresentationManagement;
 //import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
+
+import org.slf4j.Logger;
+
+import properties.clsProperties;
+import base.modules.clsPsychicApparatus;
+
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
+
+import control.interfaces.itfProcessor;
 
 
 /**

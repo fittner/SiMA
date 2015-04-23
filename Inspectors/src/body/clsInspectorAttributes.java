@@ -8,17 +8,16 @@ package body;
 
 import java.awt.BorderLayout;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import entities.enums.eBodyAttributes;
-
-import body.attributes.clsAttributes;
-import body.attributes.clsBaseAttribute;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
+import body.attributes.clsAttributes;
+import body.attributes.clsBaseAttribute;
+import entities.enums.eBodyAttributes;
 
 /**
  * DOCUMENT (deutsch) - insert description 

@@ -10,21 +10,20 @@ package entities.abstractEntities;
 
 import java.util.TreeMap;
 
-import complexbody.io.sensors.external.clsSensorEngine;
-import control.interfaces.itfDecisionUnit;
-
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
 import properties.clsProperties;
-
 import registration.clsRegisterEntity;
-
-import entities.enums.eBodyType;
 import body.clsBaseBody;
 import body.clsComplexBody;
 import body.clsMeatBody;
 import body.itfGetBrain;
 import body.itfGetExternalIO;
 import body.itfget.itfGetSensorEngine;
+
+import complexbody.io.sensors.external.clsSensorEngine;
+
+import control.interfaces.itfDecisionUnit;
+import entities.enums.eBodyType;
 
 /**
  * Animates represents living objects that can e.g. move, grow, think.

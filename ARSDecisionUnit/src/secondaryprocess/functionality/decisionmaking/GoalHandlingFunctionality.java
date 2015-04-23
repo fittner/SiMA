@@ -18,6 +18,11 @@ import memorymgmt.shorttermmemory.clsShortTermMemory;
 
 import org.slf4j.Logger;
 
+import secondaryprocess.algorithm.aimofdrives.clsAimOfDrivesTools;
+import secondaryprocess.algorithm.feelings.FeelingAlgorithmTools;
+import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
+import secondaryprocess.algorithm.goals.GoalGenerationTools;
+import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import base.datatypes.clsAct;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
@@ -25,11 +30,6 @@ import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshGoal;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsPair;
-import secondaryprocess.algorithm.aimofdrives.clsAimOfDrivesTools;
-import secondaryprocess.algorithm.feelings.FeelingAlgorithmTools;
-import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
-import secondaryprocess.algorithm.goals.GoalGenerationTools;
-import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -10,13 +10,15 @@ package complexbody.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
-import complexbody.io.actuators.clsActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
-import complexbody.io.sensors.datatypes.enums.eActionTurnDirection;
-
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
 import properties.clsProperties;
 import body.clsComplexBody;
+
+import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionTurnVision;
+import complexbody.io.sensors.datatypes.enums.eActionTurnDirection;
+
 import entities.abstractEntities.clsEntity;
 /**
  * Action Executor for turning

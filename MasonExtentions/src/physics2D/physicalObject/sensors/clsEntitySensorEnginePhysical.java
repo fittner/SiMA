@@ -5,7 +5,6 @@ import interfaces.itfEntity;
 import java.awt.Color;
 
 import physics2D.shape.clsFullCircleBorder;
-
 import sim.engine.Steppable;
 import singeltons.clsSingletonProperties;
 

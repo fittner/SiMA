@@ -12,22 +12,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-
 import org.slf4j.Logger;
 
-import complexbody.io.actuators.actionCommands.*;
+import properties.clsProperties;
+import utils.clsUniqueIdGenerator;
+import body.clsComplexBody;
+import body.itfget.itfGetBody;
+
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.itfActionProcessor;
 import complexbody.io.sensors.datatypes.enums.eCallPriority;
 
-import properties.clsProperties;
-
-
-import utils.clsUniqueIdGenerator;
 import datatypes.clsMutableDouble;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
-import entities.enums.*;
-import body.clsComplexBody;
-import body.itfget.itfGetBody;
+import entities.enums.eBodyParts;
+import entities.enums.eExecutionResult;
 
 
 /**

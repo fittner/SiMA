@@ -1,11 +1,12 @@
 package physics2D.shape;
 
-import sim.portrayal.*;
 import interfaces.itfEntity;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
+import sim.portrayal.DrawInfo2D;
 
 /**
  * DOCUMENT (MW) - insert description 

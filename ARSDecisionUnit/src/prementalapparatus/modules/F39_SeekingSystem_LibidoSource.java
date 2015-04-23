@@ -13,21 +13,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import communication.datatypes.clsDataContainer;
-
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import modules.interfaces.I0_1_receive;
 import modules.interfaces.I0_2_receive;
 import modules.interfaces.I1_1_receive;
 import modules.interfaces.I1_1_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+
+import communication.datatypes.clsDataContainer;
 
 
 /**

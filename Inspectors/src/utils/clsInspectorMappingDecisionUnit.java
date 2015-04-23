@@ -8,13 +8,13 @@
  */
 package utils;
 
-import control.clsPsychoAnalysis;
-import control.interfaces.clsBaseDecisionUnit;
-import control.interfaces.itfDecisionUnit;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
+import control.clsPsychoAnalysis;
+import control.interfaces.clsBaseDecisionUnit;
+import control.interfaces.itfDecisionUnit;
 
 /**
  * assigns the required decision inspector class to the object extending the clsEntity-class 

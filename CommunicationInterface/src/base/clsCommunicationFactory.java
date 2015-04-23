@@ -3,8 +3,6 @@ package base;
 import communication.layer1.implementations.clsLayer1ProcedureCall;
 import communication.layer2.implementations.clsXMLData;
 import communication.layer3.implementations.clsBufferContainer;
-import communication.layer3.implementations.clsEventBuffer;
-import communication.layer3.implementations.clsSignalBuffer;
 import communication.layer4.implementations.clsLayer4Blocking;
 import communication.layer4.implementations.clsLayer4NonBlocking;
 import communication.layer4.implementations.clsLayer4NonBlockingThread;

@@ -11,17 +11,19 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import properties.clsProperties;
-
-import complexbody.io.actuators.clsActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
-import complexbody.io.sensors.datatypes.enums.eSensorExtType;
-
 import singeltons.eImages;
-
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
+
+import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionDrop;
+import complexbody.io.actuators.actionCommands.clsActionFromInventory;
+import complexbody.io.actuators.actionCommands.clsActionToInventory;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
+
 import entities.abstractEntities.clsMobile;
-import entities.actionProxies.*;
+import entities.actionProxies.itfAPCarryable;
 
 /**
  * Action Executor for picking-up objects

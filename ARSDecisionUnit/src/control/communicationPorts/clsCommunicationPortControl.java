@@ -6,12 +6,13 @@
  */
 package control.communicationPorts;
 
+import base.clsCommunicationInterface;
+
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 import communication.interfaces.itfCommunicationPartnerThread;
-import control.interfaces.clsBaseDecisionUnit;
 
-import base.clsCommunicationInterface;
+import control.interfaces.clsBaseDecisionUnit;
 
 /**
  * DOCUMENT (herret) - Defines hold teh data and the control interfaces to the vody

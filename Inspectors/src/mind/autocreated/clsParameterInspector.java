@@ -21,7 +21,6 @@ import javax.swing.border.TitledBorder;
 import properties.personality_parameter.clsPersonalityParameter;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import properties.personality_parameter.clsPersonalityParameterModule;
-
 import sim.portrayal.Inspector;
 
 /**

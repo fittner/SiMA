@@ -1,6 +1,5 @@
 package lifeCycle.JAM;
 
-import decisionunit.clsBaseDecisionUnit;
 
 public class clsLynxMind extends clsBaseDecisionUnit  {
 

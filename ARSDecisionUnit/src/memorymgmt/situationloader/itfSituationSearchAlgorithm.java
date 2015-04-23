@@ -9,7 +9,6 @@ package memorymgmt.situationloader;
 import java.util.List;
 
 import properties.clsProperties;
-
 import base.datatypes.clsConcept;
 import base.datatypes.clsSituation;
 

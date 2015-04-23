@@ -20,7 +20,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import properties.clsProperties;
-
 import base.datatypes.clsConcept;
 import base.datatypes.clsDataStructurePA;
 

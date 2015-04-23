@@ -20,16 +20,15 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import entities.clsARSIN;
-import entities.abstractEntities.clsMobile;
-import entities.systems.clsInventory;
-
 import panels.TextOutputPanel;
-import body.clsComplexBody;
-import body.utils.clsContentColumn;
 import sim.portrayal.Inspector;
 import singeltons.clsSingletonMasonGetter;
 import utils.clsExceptionUtils;
+import body.clsComplexBody;
+import body.utils.clsContentColumn;
+import entities.clsARSIN;
+import entities.abstractEntities.clsMobile;
+import entities.systems.clsInventory;
 
 /**
  * DOCUMENT (Jordakieva) - Visualizes the inventory of a selected agent in three forms of representation. 

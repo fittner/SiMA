@@ -8,6 +8,10 @@ package secondaryprocess.algorithm.planning;
 
 import java.security.InvalidParameterException;
 
+import logger.clsLogger;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.ePredicate;
+
 import org.slf4j.Logger;
 
 import secondaryprocess.datamanipulation.clsActionTools;
@@ -15,9 +19,6 @@ import secondaryprocess.datamanipulation.clsMeshTools;
 import secondaryprocess.functionality.decisionpreparation.clsOrientationReasoner;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsWordPresentationMesh;
-import logger.clsLogger;
-import memorymgmt.enums.eAction;
-import memorymgmt.enums.ePredicate;
 
 
 /**

@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import modules.interfaces.D3_1_receive;
 import modules.interfaces.D3_1_send;
 import modules.interfaces.eInterfaces;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsPsychicIntensityPerModule;
 import base.tools.toText;
 

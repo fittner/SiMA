@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import org.jfree.util.Log;
 
 import properties.clsProperties;
+import body.itfStepUpdateInternalState;
+import body.attributes.clsBodyOrganArms;
+import body.attributes.clsBodyOrganHeart;
+import body.attributes.clsBodyOrganLegs;
+import body.attributes.clsBodyOrganStomach;
+import body.attributes.clsBodyOrganSweatGlands;
+
 import complexbody.expressionVariables.clsExpressionVariable;
 import complexbody.expressionVariables.clsExpressionVariableCheeksRedning;
 import complexbody.expressionVariables.clsExpressionVariableFacialEyeBrows;
@@ -14,12 +21,6 @@ import complexbody.expressionVariables.clsExpressionVariableFacialMouth;
 import complexbody.expressionVariables.clsExpressionVariableGeneralSweat;
 import complexbody.expressionVariables.clsExpressionVariablePartialSweat;
 import complexbody.expressionVariables.clsExpressionVariableShake;
-import body.itfStepUpdateInternalState;
-import body.attributes.clsBodyOrganArms;
-import body.attributes.clsBodyOrganHeart;
-import body.attributes.clsBodyOrganLegs;
-import body.attributes.clsBodyOrganStomach;
-import body.attributes.clsBodyOrganSweatGlands;
 
 
 

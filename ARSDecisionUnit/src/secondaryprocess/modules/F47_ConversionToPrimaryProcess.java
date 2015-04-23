@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 
-import properties.clsProperties;
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import modules.interfaces.I5_19_receive;
 import modules.interfaces.I5_19_send;
 import modules.interfaces.I6_11_receive;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;

@@ -9,12 +9,13 @@
 package complexbody.io.sensors.internal;
 
 import properties.clsProperties;
+import body.clsBaseBody;
+import body.clsComplexBody;
+
 import complexbody.internalSystems.clsHealthSystem;
 import complexbody.io.clsBaseIO;
 
 import entities.enums.eBodyParts;
-import body.clsBaseBody;
-import body.clsComplexBody;
 
 
 /**

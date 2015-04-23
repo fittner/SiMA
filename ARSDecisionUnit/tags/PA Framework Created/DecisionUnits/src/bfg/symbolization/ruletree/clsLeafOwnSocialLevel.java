@@ -6,12 +6,13 @@
 package bfg.symbolization.ruletree;
 
 // Imports
-import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
-import bfg.symbolization.brainimages.clsIdentity;
-import bfg.symbolization.brainimages.clsImagePerception;
-import bfg.symbolization.brainimages.clsImageAbstract;
+import org.w3c.dom.Node;
+
 import bfg.symbolization.brainimages.clsContainerPerceptions;
+import bfg.symbolization.brainimages.clsIdentity;
+import bfg.symbolization.brainimages.clsImageAbstract;
+import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeEntityMessages;
 import bfg.utils.enums.enumTypeSocialLevel;

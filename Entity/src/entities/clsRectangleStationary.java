@@ -10,25 +10,22 @@ package entities;
 
 import java.awt.Color;
 
-import complexbody.io.sensors.datatypes.enums.eEntityType;
-
 import properties.clsProperties;
-
 import tools.clsPose;
 import tools.eImagePositioning;
 
-//import sim.display.GUIState;
-//import sim.portrayal.Inspector;
-//import sim.portrayal.LocationWrapper;
-//import sim.portrayal.inspector.TabbedInspector;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 
-//import bw.utils.inspectors.entity.clsInspectorBasic;
-
-import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsStationary;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
+//import sim.display.GUIState;
+//import sim.portrayal.Inspector;
+//import sim.portrayal.LocationWrapper;
+//import sim.portrayal.inspector.TabbedInspector;
+//import bw.utils.inspectors.entity.clsInspectorBasic;
+import entities.abstractEntities.clsEntity;
 
 
 /**

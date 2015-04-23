@@ -8,10 +8,10 @@ package secondaryprocess.datamanipulation.meshprocessor;
 
 import java.util.ArrayList;
 
+import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datatypes.clsAssociationSecondary;
 import base.datatypes.clsSecondaryDataStructure;
 import base.datatypes.clsWordPresentationMesh;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

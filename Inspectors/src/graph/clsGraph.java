@@ -23,8 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-
-
 import javax.swing.ToolTipManager;
 
 import memorymgmt.enums.eActivationType;
@@ -42,7 +40,8 @@ import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntry;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntryAction;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;import base.datatypes.clsAct;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;
+import base.datatypes.clsAct;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
@@ -68,7 +67,6 @@ import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
-
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 import complexbody.io.actuators.actionCommands.clsActionCommand;

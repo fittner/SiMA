@@ -9,7 +9,6 @@ package mind.functionalmodel;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-
 import javax.swing.JFrame;
 
 

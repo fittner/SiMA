@@ -6,7 +6,6 @@
  */
 package pa.interfaces;
 
-import decisionunit.itf.actions.itfActionProcessor;
 
 /**
  * DOCUMENT (deutsch) - insert description 

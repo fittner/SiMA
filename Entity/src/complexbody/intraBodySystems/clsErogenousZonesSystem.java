@@ -7,11 +7,12 @@
 package complexbody.intraBodySystems;
 
 import properties.clsProperties;
+import body.itfStepUpdateInternalState;
+
 import complexbody.internalSystems.clsFastMessengerSystem;
 
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
-import body.itfStepUpdateInternalState;
 
 /**
  * DOCUMENT (muchitsch) - insert description 

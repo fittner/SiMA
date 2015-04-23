@@ -4,10 +4,10 @@
  * 2011/07/06 TD - added javadoc comments. code sanitation.
  */
 package control.factory;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import properties.clsProperties;
 import control.interfaces.clsBaseDecisionUnit;
 import control.interfaces.itfDecisionUnit;
-import properties.clsProperties;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
 import du.enums.eDecisionType;
 
 

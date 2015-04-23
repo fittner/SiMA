@@ -18,11 +18,11 @@ import memorymgmt.enums.eRadius;
 
 import org.slf4j.Logger;
 
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.helpstructures.clsPair;
 import secondaryprocess.algorithm.conversion.DataExtractionTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -12,12 +12,14 @@ import java.util.ArrayList;
 
 import physical2d.physicalObject.datatypes.eSpeechExpression;
 import properties.clsProperties;
-
-import complexbody.io.actuators.clsInternalActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
-
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
+
+import complexbody.io.actuators.clsInternalActionExecutor;
+import complexbody.io.actuators.actionCommands.clsActionMove;
+import complexbody.io.actuators.actionCommands.clsActionTurn;
+import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
+
 import entities.abstractEntities.clsEntity;
 
 /**

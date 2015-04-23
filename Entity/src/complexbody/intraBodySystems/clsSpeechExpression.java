@@ -7,14 +7,15 @@
  */
 package complexbody.intraBodySystems;
 
+import properties.clsProperties;
+import body.attributes.clsAttributeAntenna;
+import body.attributes.clsAttributeEye;
+
 import complexbody.io.sensors.datatypes.enums.eAntennaPositions;
 import complexbody.io.sensors.datatypes.enums.eEyeSize;
 import complexbody.io.sensors.datatypes.enums.eLensShape;
 import complexbody.io.sensors.datatypes.enums.eLensSize;
 
-import properties.clsProperties;
-import body.attributes.clsAttributeAntenna;
-import body.attributes.clsAttributeEye;
 import entities.abstractEntities.clsEntity;
 
 /**

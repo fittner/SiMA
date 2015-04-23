@@ -8,14 +8,14 @@ package complexbody.io.sensors.datatypes;
 
 import java.util.ArrayList;
 
+import physical2d.physicalObject.datatypes.eCount;
+import physical2d.physicalObject.datatypes.eSide;
+
 import complexbody.io.sensors.datatypes.enums.eAntennaPositions;
 import complexbody.io.sensors.datatypes.enums.eEntityType;
 import complexbody.io.sensors.datatypes.enums.eSaliency;
 import complexbody.io.sensors.datatypes.enums.eShapeType;
 import complexbody.io.speech.clsAbstractSpeech;
-
-import physical2d.physicalObject.datatypes.eCount;
-import physical2d.physicalObject.datatypes.eSide;
 
 import datatypes.clsPolarcoordinate;
 

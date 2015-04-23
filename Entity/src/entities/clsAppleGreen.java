@@ -11,26 +11,10 @@ package entities;
 import java.awt.Color;
 
 import properties.clsProperties;
-
-import complexbody.internalSystems.clsFlesh;
-import complexbody.io.sensors.datatypes.enums.eEntityType;
-
 import registration.clsRegisterEntity;
 import tools.clsPose;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
-
-import entities.abstractEntities.clsAnimate;
-import entities.abstractEntities.clsEntity;
-import entities.abstractEntities.clsInanimate;
-import entities.abstractEntities.clsMobile;
-import entities.abstractEntities.clsOrganic;
-import entities.actionProxies.*;
-import entities.enums.eBindingState;
-import entities.enums.eNutritions;
-import entities.enums.eShapeType;
-import entities.factory.clsEntityFactory;
-import entities.tools.clsShape2DCreator;
 import body.clsBaseBody;
 import body.clsMeatBody;
 import body.attributes.clsAttributes;
@@ -38,6 +22,22 @@ import body.itfget.itfGetBody;
 import body.itfget.itfGetFlesh;
 import body.itfget.itfIsConsumeable;
 import body.utils.clsFood;
+
+import complexbody.internalSystems.clsFlesh;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+
+import entities.abstractEntities.clsAnimate;
+import entities.abstractEntities.clsEntity;
+import entities.abstractEntities.clsInanimate;
+import entities.abstractEntities.clsMobile;
+import entities.abstractEntities.clsOrganic;
+import entities.actionProxies.itfAPCarryable;
+import entities.actionProxies.itfAPEatable;
+import entities.enums.eBindingState;
+import entities.enums.eNutritions;
+import entities.enums.eShapeType;
+import entities.factory.clsEntityFactory;
+import entities.tools.clsShape2DCreator;
 
 
 //import bw.utils.inspectors.entity.clsInspectorBasic;

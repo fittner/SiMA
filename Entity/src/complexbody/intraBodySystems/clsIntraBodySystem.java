@@ -8,11 +8,11 @@
 package complexbody.intraBodySystems;
 
 import properties.clsProperties;
+import body.itfStepUpdateInternalState;
+
 import complexbody.internalSystems.clsInternalSystem;
 
 import entities.abstractEntities.clsEntity;
-
-import body.itfStepUpdateInternalState;
 
 
 /**

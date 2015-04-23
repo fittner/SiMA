@@ -8,18 +8,16 @@ package complexbody.io.sensors.external;
 
 import java.util.ArrayList;
 
+import physics2D.physicalObject.clsCollidingObject;
+import properties.clsProperties;
+import sim.physics2D.util.Double2D;
+import tools.clsPose;
+
 import complexbody.io.clsBaseIO;
 import complexbody.io.clsExternalIO;
 
-import physics2D.physicalObject.clsCollidingObject;
-import properties.clsProperties;
-
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
-
-
-import sim.physics2D.util.Double2D;
-import tools.clsPose;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

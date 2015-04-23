@@ -6,11 +6,11 @@
  */
 package secondaryprocess.functionality.decisionpreparation.initcodelets;
 
-import base.tools.ElementNotFoundException;
 import memorymgmt.enums.eCondition;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
+import base.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 

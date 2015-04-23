@@ -8,14 +8,15 @@
 package complexbody.io;
 
 import properties.clsProperties;
-import complexbody.internalSystems.clsInternalEnergyConsumption;
-
-import datatypes.clsMutableDouble;
-import entities.enums.eBodyParts;
 import body.clsBaseBody;
 import body.itfStepExecution;
 import body.itfStepSensing;
 import body.itfget.itfGetInternalEnergyConsumption;
+
+import complexbody.internalSystems.clsInternalEnergyConsumption;
+
+import datatypes.clsMutableDouble;
+import entities.enums.eBodyParts;
 
 /**
  * DOCUMENT (deutsch) - insert description 

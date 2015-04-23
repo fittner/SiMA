@@ -9,7 +9,6 @@ package body.attributes;
 import java.util.HashMap;
 
 import properties.clsProperties;
-
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyAttributes;
 

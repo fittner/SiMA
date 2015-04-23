@@ -20,14 +20,13 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import mind.autocreated.cls_StateInspector;
-
-import base.modules.clsPsychicApparatus;
-import control.clsProcessor;
-import control.clsPsychoAnalysis;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
+import base.modules.clsPsychicApparatus;
+import control.clsProcessor;
+import control.clsPsychoAnalysis;
 
 /**
  * Inspector to show an overview of the planning-system of the ARSIN

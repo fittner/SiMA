@@ -9,15 +9,19 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import properties.clsProperties;
-
-import complexbody.io.actuators.clsActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
-import complexbody.io.sensors.datatypes.enums.eSensorExtType;
-
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
+
+import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.clsActionAttackLightning;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionCultivate;
+import complexbody.io.actuators.actionCommands.clsActionEat;
+import complexbody.io.actuators.actionCommands.clsActionKiss;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
+
 import entities.abstractEntities.clsEntity;
-import entities.actionProxies.*;
+import entities.actionProxies.itfAPAttackableLightning;
 
 /**
  * Action Executor for attack/lightning

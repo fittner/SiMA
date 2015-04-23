@@ -8,6 +8,7 @@
 package complexbody.io.sensors.internal;
 
 import properties.clsProperties;
+
 import complexbody.io.clsBaseIO;
 import complexbody.io.clsSensorActuatorBaseInt;
 import complexbody.io.sensors.itfSensorUpdate;

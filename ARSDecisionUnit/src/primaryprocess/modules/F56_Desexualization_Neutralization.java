@@ -12,15 +12,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
-import modules.interfaces.I5_22_send;
 import modules.interfaces.I5_22_receive;
+import modules.interfaces.I5_22_send;
 import modules.interfaces.I5_3_receive;
 import modules.interfaces.I5_4_receive;
 import modules.interfaces.I5_4_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.enums.ePartialDrive;
 import base.modules.clsModuleBase;

@@ -9,8 +9,8 @@ package secondaryprocess.functionality.decisionmaking;
 import java.util.ArrayList;
 
 import memorymgmt.enums.eCondition;
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.datamanipulation.SortAndFilterTools;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 

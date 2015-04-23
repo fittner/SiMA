@@ -11,7 +11,9 @@ package complexbody.io.sensors.internal;
 import java.util.HashMap;
 
 import properties.clsProperties;
-
+import body.clsBaseBody;
+import body.clsComplexBody;
+import body.utils.clsNutritionLevel;
 
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.io.clsBaseIO;
@@ -19,9 +21,6 @@ import complexbody.io.clsBaseIO;
 import datatypes.clsMutableDouble;
 import entities.enums.eBodyParts;
 import entities.enums.eNutritions;
-import body.clsBaseBody;
-import body.clsComplexBody;
-import body.utils.clsNutritionLevel;
 
 /**
  * DOCUMENT (langr) - insert description 

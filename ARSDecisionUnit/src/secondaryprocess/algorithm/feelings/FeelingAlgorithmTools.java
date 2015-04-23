@@ -10,14 +10,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import logger.clsLogger;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eGoalType;
+
 import org.slf4j.Logger;
 
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
-import logger.clsLogger;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eGoalType;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;

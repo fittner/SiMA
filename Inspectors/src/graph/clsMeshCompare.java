@@ -8,8 +8,8 @@ package graph;
 
 import java.util.ArrayList;
 
-import base.modules.clsPsychicApparatus;
 import modules.interfaces.eInterfaces;
+import base.modules.clsPsychicApparatus;
 
 /**
  * DOCUMENT (herret) - insert description 

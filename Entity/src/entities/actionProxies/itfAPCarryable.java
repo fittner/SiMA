@@ -9,7 +9,7 @@
 package entities.actionProxies;
 
 import entities.abstractEntities.clsMobile;
-import entities.enums.*;
+import entities.enums.eBindingState;
 
 /**
  * Proxy-Interface for actions PickUp, Drop, ToInventory, FromInventory

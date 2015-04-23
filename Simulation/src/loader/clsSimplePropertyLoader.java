@@ -7,18 +7,30 @@ package loader;
 
 import java.awt.Color;
 
-
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.interfaces.itfSearchSpaceAccess;
+import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
+import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
+import properties.clsProperties;
+import registration.clsRegisterEntity;
+import sim.engine.SimState;
+import singeltons.clsSingletonMasonGetter;
+import tools.clsPose;
+import tools.eImagePositioning;
+import utils.clsGetARSPath;
+import utils.clsUniqueIdGenerator;
+import utils.ePositionType;
+import base.clsCommunicationFactory;
+import base.clsCommunicationInterface;
+import body.clsBaseBody;
+import body.clsComplexBody;
+import body.clsMeatBody;
 
 import communication.layer1.implementations.clsLayer1ProcedureCall;
 import complexbody.internalSystems.clsFlesh;
 import complexbody.internalSystems.clsInternalSystem;
 import complexbody.io.sensors.datatypes.enums.eEntityType;
 
-import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
-import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
-import properties.clsProperties;
 import control.clsProcessor;
 import control.clsPsychoAnalysis;
 import control.factory.clsARSDecisionUnitFactory;
@@ -35,19 +47,6 @@ import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
 import entity.clsInspectorEntity;
-import base.clsCommunicationFactory;
-import base.clsCommunicationInterface;
-import body.clsBaseBody;
-import body.clsComplexBody;
-import body.clsMeatBody;
-import registration.clsRegisterEntity;
-import sim.engine.SimState;
-import singeltons.clsSingletonMasonGetter;
-import tools.clsPose;
-import tools.eImagePositioning;
-import utils.clsGetARSPath;
-import utils.clsUniqueIdGenerator;
-import utils.ePositionType;
 
 /**
  * Creates the world and all of its entities according to a simple property file. This file contains basic world settings

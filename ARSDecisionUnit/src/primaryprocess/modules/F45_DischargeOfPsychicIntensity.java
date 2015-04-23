@@ -14,11 +14,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import base.datatypes.enums.eOrgan;
-
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eDrive;
@@ -29,6 +24,8 @@ import modules.interfaces.I5_8_receive;
 import modules.interfaces.I5_9_receive;
 import modules.interfaces.I5_9_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datahandlertools.clsDataStructureCompareTools;
 import base.datatypes.clsAssociation;
@@ -38,6 +35,7 @@ import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.enums.eOrgan;
 import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;

@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -21,15 +22,14 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import complexbody.internalSystems.clsSlowMessengerSystem;
-import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
-
-
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import singeltons.clsSingletonMasonGetter;
 import utils.exceptions.exSlowMessengerDoesNotExist;
+
+import complexbody.internalSystems.clsSlowMessengerSystem;
+import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
 
 /**
  * DOCUMENT (deutsch) - insert description 

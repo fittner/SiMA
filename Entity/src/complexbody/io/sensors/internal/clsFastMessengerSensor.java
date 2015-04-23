@@ -9,14 +9,14 @@ package complexbody.io.sensors.internal;
 import java.util.ArrayList;
 
 import properties.clsProperties;
+import body.clsBaseBody;
+import body.clsComplexBody;
 
 import complexbody.internalSystems.clsFastMessengerEntry;
 import complexbody.internalSystems.clsFastMessengerSystem;
 import complexbody.io.clsBaseIO;
 
 import entities.enums.eBodyParts;
-import body.clsBaseBody;
-import body.clsComplexBody;
 
 /**
  * DOCUMENT (deutsch) - insert description 

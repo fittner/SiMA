@@ -8,7 +8,6 @@
  */
 package symbolization;
 
-import decisionunit.itf.sensors.clsSensorData;
 
 /**
  * Implementation for symbolization of sensory data using the Anylogic-based 

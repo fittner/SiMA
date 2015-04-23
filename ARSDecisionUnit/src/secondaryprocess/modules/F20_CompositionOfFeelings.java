@@ -10,6 +10,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import memorymgmt.enums.eEmotionType;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
+import modules.interfaces.I5_23_receive;
+import modules.interfaces.I6_14_receive;
+import modules.interfaces.I6_14_send;
+import modules.interfaces.I6_2_receive;
+import modules.interfaces.I6_2_send;
+import modules.interfaces.I6_4_receive;
+import modules.interfaces.I6_5_receive;
+import modules.interfaces.eInterfaces;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsAffect;
@@ -29,18 +41,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import memorymgmt.enums.eEmotionType;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicIntensityStorage;
-import modules.interfaces.I5_23_receive;
-import modules.interfaces.I6_14_receive;
-import modules.interfaces.I6_14_send;
-import modules.interfaces.I6_2_receive;
-import modules.interfaces.I6_2_send;
-import modules.interfaces.I6_4_receive;
-import modules.interfaces.I6_5_receive;
-import modules.interfaces.eInterfaces;
 
 /**
  * - Converts separated quota of affect into affects for the secondary process.

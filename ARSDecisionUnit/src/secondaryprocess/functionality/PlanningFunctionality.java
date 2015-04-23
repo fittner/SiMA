@@ -14,11 +14,11 @@ import memorymgmt.enums.eActionType;
 
 import org.slf4j.Logger;
 
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.algorithm.planning.ActionPlanAlgorithm;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 

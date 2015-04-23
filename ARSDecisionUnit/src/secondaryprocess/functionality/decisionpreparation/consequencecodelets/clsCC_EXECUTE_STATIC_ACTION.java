@@ -6,13 +6,13 @@
  */
 package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
-import base.datatypes.clsWordPresentationMesh;
-import base.tools.ElementNotFoundException;
 import memorymgmt.enums.eCondition;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
+import base.datatypes.clsWordPresentationMesh;
+import base.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 

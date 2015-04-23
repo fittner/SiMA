@@ -1,6 +1,5 @@
 package lifeCycle.JADEX;
 
-import decisionunit.clsBaseDecisionUnit;
 
 public class clsLynxMind extends clsBaseDecisionUnit  {
 

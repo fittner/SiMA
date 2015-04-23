@@ -9,10 +9,10 @@ package general.datamanipulation;
 import java.util.ArrayList;
 
 import memorymgmt.enums.eContent;
-import base.datatypes.clsThingPresentationMesh;
-import base.datatypes.helpstructures.clsPair;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

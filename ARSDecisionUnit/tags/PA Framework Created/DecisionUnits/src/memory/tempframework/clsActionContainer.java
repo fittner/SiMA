@@ -6,9 +6,6 @@
 package memory.tempframework;
 
 // Imports
-import memory.tempframework.enumTypeTrippleState;
-
-import memory.tempframework.clsContainerBaseVector;
 
 /**
  *

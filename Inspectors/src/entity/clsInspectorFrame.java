@@ -17,8 +17,6 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 
 import mind.clsInspectorTab_Modules;
-
-
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;

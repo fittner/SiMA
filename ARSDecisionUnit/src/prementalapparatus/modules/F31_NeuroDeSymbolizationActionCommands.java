@@ -14,23 +14,22 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import communication.datatypes.clsDataContainer;
-import communication.datatypes.clsDataPoint;
-
-import properties.clsProperties;
-
 import memorymgmt.enums.eAction;
 import modules.interfaces.I1_5_receive;
 import modules.interfaces.I1_5_send;
 import modules.interfaces.I2_5_receive;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import secondaryprocess.datamanipulation.clsMeshTools;
+
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
 
 /**
  * Conversion of neuro-symbols into raw data. F31_NeuroDeSymbolizationActionCommands should be just an empty function which forwards data to F32.

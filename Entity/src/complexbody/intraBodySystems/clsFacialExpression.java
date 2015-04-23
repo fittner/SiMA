@@ -6,6 +6,16 @@
  */
 package complexbody.intraBodySystems;
 
+import properties.clsProperties;
+import body.clsComplexBody;
+import body.itfStepUpdateInternalState;
+import body.attributes.clsAttributeAntenna;
+import body.attributes.clsAttributeEye;
+import body.attributes.clsBodyOrganFacialEyeBrows;
+import body.attributes.clsBodyOrganFacialEyes;
+import body.attributes.clsBodyOrganFacialMouth;
+import body.itfget.itfGetBody;
+
 import complexbody.expressionVariables.clsExpressionVariable;
 import complexbody.expressionVariables.clsExpressionVariableFacialEyeBrows;
 import complexbody.expressionVariables.clsExpressionVariableFacialEyes;
@@ -15,16 +25,7 @@ import complexbody.io.sensors.datatypes.enums.eEyeSize;
 import complexbody.io.sensors.datatypes.enums.eLensShape;
 import complexbody.io.sensors.datatypes.enums.eLensSize;
 
-import properties.clsProperties;
 import entities.abstractEntities.clsEntity;
-import body.clsComplexBody;
-import body.itfStepUpdateInternalState;
-import body.attributes.clsAttributeAntenna;
-import body.attributes.clsAttributeEye;
-import body.attributes.clsBodyOrganFacialEyeBrows;
-import body.attributes.clsBodyOrganFacialEyes;
-import body.attributes.clsBodyOrganFacialMouth;
-import body.itfget.itfGetBody;
 
 
 /**

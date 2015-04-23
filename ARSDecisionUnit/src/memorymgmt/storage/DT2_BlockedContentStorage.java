@@ -21,6 +21,8 @@ import modules.interfaces.D2_3_receive;
 import modules.interfaces.D2_4_receive;
 import modules.interfaces.D2_4_send;
 import modules.interfaces.eInterfaces;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationDriveMesh;
@@ -33,8 +35,6 @@ import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.tools.toText;
-import primaryprocess.datamanipulation.clsPrimarySpatialTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 
 /**

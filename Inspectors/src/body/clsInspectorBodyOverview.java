@@ -14,6 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -28,13 +29,13 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LevelRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import complexbody.internalSystems.clsInternalSystem;
-import entities.enums.eNutritions;
-
-import body.clsComplexBody;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
+
+import complexbody.internalSystems.clsInternalSystem;
+
+import entities.enums.eNutritions;
 
 /**
  * This inspector is used to show the basic information needed for the body: health, energy, stamina, undigestable, stomack tension 

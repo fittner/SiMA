@@ -13,6 +13,14 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT1_PsychicIntensityBuffer;
+import memorymgmt.storage.DT2_BlockedContentStorage;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
+import memorymgmt.storage.DT4_PleasureStorage;
+import modules.interfaces.eInterfaces;
 import prementalapparatus.modules.F01_SensorsMetabolism;
 import prementalapparatus.modules.F02_NeurosymbolizationOfNeeds;
 import prementalapparatus.modules.F10_SensorsEnvironment;
@@ -46,18 +54,6 @@ import primaryprocess.modules.F65_PartialSelfPreservationDrives;
 import primaryprocess.modules.F71_CompositionOfExtendedEmotion;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-import base.datatypes.clsWordPresentationMeshMentalSituation;
-import base.datatypes.helpstructures.clsPair;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT1_PsychicIntensityBuffer;
-import memorymgmt.storage.DT2_BlockedContentStorage;
-import memorymgmt.storage.DT3_PsychicIntensityStorage;
-import memorymgmt.storage.DT4_PleasureStorage;
-import modules.interfaces.eInterfaces;
-import externalmessager.DatapointHandler;
-import externalmessager.MonitorExecutor;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.decisionpreparation.GoalInitiationProcessor.GoalInitiator;
 import secondaryprocess.modules.F20_CompositionOfFeelings;
@@ -75,6 +71,10 @@ import secondaryprocess.modules.F66_SpeechProduction;
 import testfunctions.clsTester;
 import timing.TimingStarter;
 import utils.clsGetARSPath;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.helpstructures.clsPair;
+import externalmessager.DatapointHandler;
+import externalmessager.MonitorExecutor;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the

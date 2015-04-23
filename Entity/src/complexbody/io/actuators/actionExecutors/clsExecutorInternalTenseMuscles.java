@@ -1,15 +1,16 @@
 
 package complexbody.io.actuators.actionExecutors;
 
-import body.clsComplexBody;
 import properties.clsProperties;
+import body.clsComplexBody;
+import body.itfget.itfGetBody;
+
 import complexbody.io.actuators.clsInternalActionExecutor;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionTenseMuscles;
 
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
-import body.itfget.itfGetBody;
 public class clsExecutorInternalTenseMuscles extends clsInternalActionExecutor {
 	
 	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 	?

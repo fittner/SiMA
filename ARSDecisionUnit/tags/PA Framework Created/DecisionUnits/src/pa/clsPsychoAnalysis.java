@@ -6,8 +6,6 @@
  */
 package pa;
 
-import config.clsBWProperties;
-import decisionunit.clsBaseDecisionUnit;
 
 /**
  * DOCUMENT (deutsch) - insert description 

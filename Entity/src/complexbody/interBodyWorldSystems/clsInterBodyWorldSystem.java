@@ -8,10 +8,11 @@
 package complexbody.interBodyWorldSystems;
 
 import properties.clsProperties;
+import body.itfStepUpdateInternalState;
+
 import complexbody.internalSystems.clsInternalSystem;
 
 import entities.abstractEntities.clsEntity;
-import body.itfStepUpdateInternalState;
 
 /**
  * DOCUMENT (deutsch) - insert description 

@@ -8,7 +8,6 @@ package pa._v38.memorymgmt.framessearchspace;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -20,7 +19,6 @@ import memorymgmt.enums.ePredicate;
 
 import org.slf4j.Logger;
 
-import base.datatypes.clsAct;
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
@@ -53,7 +51,6 @@ import edu.stanford.smi.protege.model.Instance;
 import edu.stanford.smi.protege.model.KnowledgeBase;
 import edu.stanford.smi.protege.model.Project;
 import edu.stanford.smi.protege.model.Slot;
-import edu.stanford.smi.protege.util.GetOwnSlotValuesBrowserTextJob;
 import edu.stanford.smi.protege.util.MessageError;
 import edu.stanford.smi.protege.util.MessageError.Severity;
 

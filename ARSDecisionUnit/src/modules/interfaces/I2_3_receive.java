@@ -8,11 +8,6 @@ package modules.interfaces;
 
 import java.util.HashMap;
 
-
-
-
-
-
 import prementalapparatus.symbolization.eSymbolExtType;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 

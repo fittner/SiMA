@@ -12,6 +12,7 @@ import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.ePredicate;
+import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsAssociationSecondary;
@@ -19,7 +20,6 @@ import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentation;
 import base.datatypes.clsWordPresentationMesh;
-import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 
 /**
  * This class contains all functions, which are used in the processing of acts and are used in more than one module

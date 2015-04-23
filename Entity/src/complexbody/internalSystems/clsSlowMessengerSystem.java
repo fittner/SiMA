@@ -10,18 +10,16 @@ package complexbody.internalSystems;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
-
 import properties.clsProperties;
-
 import utils.exceptions.exContentColumnMaxContentExceeded;
 import utils.exceptions.exContentColumnMinContentUnderrun;
 import utils.exceptions.exSlowMessengerAlreadyExists;
 import utils.exceptions.exSlowMessengerDoesNotExist;
 import utils.exceptions.exValueNotWithinRange;
-
 import body.itfStepUpdateInternalState;
 import body.utils.clsDecayColumn;
+
+import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
 
 /**
  * DOCUMENT (deutsch) - insert description 

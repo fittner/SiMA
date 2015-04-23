@@ -6,15 +6,16 @@
  */
 package complexbody.io.actuators.actionExecutors;
 
-import body.clsComplexBody;
 import properties.clsProperties;
+import body.clsComplexBody;
+import body.itfget.itfGetBody;
+
 import complexbody.io.actuators.clsInternalActionExecutor;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionRaiseEyeBrowsCenter;
 
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
-import body.itfget.itfGetBody;
 
 public class clsExecutorInternalRaiseEyeBrowsCenter extends clsInternalActionExecutor {
 

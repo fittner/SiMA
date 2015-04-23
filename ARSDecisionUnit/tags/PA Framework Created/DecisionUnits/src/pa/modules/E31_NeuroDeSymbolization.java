@@ -6,7 +6,6 @@
  */
 package pa.modules;
 
-import config.clsBWProperties;
 import pa.interfaces.I8_1;
 import pa.interfaces.I8_2;
 

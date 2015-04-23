@@ -8,11 +8,8 @@ package memory.tempframework;
 // Imports
 //import com.xj.anylogic.*;
 //
-import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
-import memory.tempframework.clsCloneable;
-import memory.tempframework.enumTypeLevelDrive;
-import memory.tempframework.enumTypeDrive;
+import org.w3c.dom.Node;
 
 /**
  *

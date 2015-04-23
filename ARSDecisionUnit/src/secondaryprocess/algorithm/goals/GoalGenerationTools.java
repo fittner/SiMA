@@ -12,13 +12,13 @@ import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
 import memorymgmt.enums.eEmotionType;
 import memorymgmt.enums.eGoalType;
+import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
-import secondaryprocess.datamanipulation.clsActionTools;
-import secondaryprocess.datamanipulation.clsGoalManipulationTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

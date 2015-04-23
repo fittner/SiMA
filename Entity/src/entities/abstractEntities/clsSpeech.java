@@ -9,13 +9,8 @@ package entities.abstractEntities;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import complexbody.interBodyWorldSystems.clsCreateSpeech;
-import complexbody.io.sensors.datatypes.enums.eEntityType;
-import complexbody.io.speech.clsAbstractSpeech;
-
 import physics2D.physicalObject.clsCollidingObject;
 import properties.clsProperties;
-
 import registration.clsRegisterEntity;
 import sim.physics2D.shape.Shape;
 import singeltons.clsSingletonMasonGetter;
@@ -24,6 +19,11 @@ import tools.clsPose;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
 import body.clsBaseBody;
+
+import complexbody.interBodyWorldSystems.clsCreateSpeech;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+import complexbody.io.speech.clsAbstractSpeech;
+
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;

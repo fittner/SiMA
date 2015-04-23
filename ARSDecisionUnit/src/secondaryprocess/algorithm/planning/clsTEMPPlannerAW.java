@@ -18,15 +18,6 @@ import memorymgmt.enums.eRadius;
 
 import org.slf4j.Logger;
 
-import base.datahandlertools.clsDataStructureGenerator;
-import base.datatypes.clsAct;
-import base.datatypes.clsAssociation;
-import base.datatypes.clsImage;
-import base.datatypes.clsPlanFragment;
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshGoal;
-import base.datatypes.helpstructures.clsPair;
-import base.datatypes.helpstructures.clsTriple;
 import secondaryprocess.algorithm.planning.helpers.PlanningGraph;
 import secondaryprocess.algorithm.planning.helpers.PlanningNode;
 import secondaryprocess.algorithm.planning.helpers.PlanningWizard;
@@ -39,6 +30,15 @@ import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import base.datahandlertools.clsDataStructureGenerator;
+import base.datatypes.clsAct;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsImage;
+import base.datatypes.clsPlanFragment;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 

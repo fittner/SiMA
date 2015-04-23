@@ -13,12 +13,12 @@ import memorymgmt.shorttermmemory.clsShortTermMemory;
 
 import org.apache.log4j.Logger;
 
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshGoal;
-import base.datatypes.clsWordPresentationMeshMentalSituation;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
 
 /**
  * DOCUMENT (wendt) - insert description 

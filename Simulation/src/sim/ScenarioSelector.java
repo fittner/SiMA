@@ -18,7 +18,6 @@ import java.util.TimerTask;
 import javax.swing.ImageIcon;
 
 import properties.clsProperties;
-
 import singeltons.clsSingletonMasonGetter;
 import utils.clsGetARSPath;
 import utils.PropertiesInspector.clsPropertiesInspector;

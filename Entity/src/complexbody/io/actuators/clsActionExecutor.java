@@ -10,6 +10,13 @@ package complexbody.io.actuators;
 
 import java.util.ArrayList;
 
+import physics2D.physicalObject.clsCollidingObject;
+import physics2D.physicalObject.clsMobileObject2D;
+import physics2D.physicalObject.clsStationaryObject2D;
+import properties.clsProperties;
+import sim.physics2D.physicalObject.PhysicalObject2D;
+import body.clsComplexBody;
+
 import complexbody.io.clsSensorActuatorBaseExt;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
 import complexbody.io.sensors.datatypes.enums.eSensorExtType;
@@ -17,14 +24,6 @@ import complexbody.io.sensors.external.clsSensorEatableArea;
 import complexbody.io.sensors.external.clsSensorManipulateArea;
 import complexbody.io.sensors.external.clsSensorVision;
 
-import physics2D.physicalObject.clsCollidingObject;
-import physics2D.physicalObject.clsMobileObject2D;
-import physics2D.physicalObject.clsStationaryObject2D;
-import properties.clsProperties;
-
-
-import sim.physics2D.physicalObject.PhysicalObject2D;
-import body.clsComplexBody;
 import entities.abstractEntities.clsEntity;
 
 /**

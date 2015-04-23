@@ -8,17 +8,14 @@ package secondaryprocess.functionality.decisionpreparation;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-
-import base.datatypes.clsWordPresentationMeshGoal;
-import base.datatypes.clsWordPresentationMeshMentalSituation;
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
-import base.tools.ElementNotFoundException;
 import logger.clsLogger;
 import memorymgmt.enums.eCondition;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT1_PsychicIntensityBuffer;
+
+import org.slf4j.Logger;
+
 import secondaryprocess.functionality.decisionpreparation.GoalInitiationProcessor.GoalInitiatorInterface;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_EXECUTE_EXTERNAL_ACTION;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_FLEE;
@@ -48,6 +45,10 @@ import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_Ini
 import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_InitUnprocessedAct;
 import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_InitUnprocessedDrive;
 import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_InitUnprocessedPerception;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 

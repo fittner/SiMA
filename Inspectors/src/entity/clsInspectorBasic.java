@@ -9,19 +9,19 @@
 package entity;
 
 import java.awt.BorderLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.border.TitledBorder;
-
-import entities.abstractEntities.clsEntity;
-import entities.abstractEntities.clsMobile;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.PropertyField;
 import utils.clsInspectorUtils;
+import entities.abstractEntities.clsEntity;
+import entities.abstractEntities.clsMobile;
 
 /**
  * Basic Inspector for the all entities, displays the minimum, default values

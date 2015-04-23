@@ -9,20 +9,15 @@
 package entities.tools;
 
 import java.awt.Color;
-
 import java.util.ArrayList;
 
-import datatypes.clsPoint;
-
-import entities.enums.eShapeType;
-
-
 import properties.clsProperties;
-
 import sim.physics2D.shape.Shape;
 import singeltons.clsSingletonProperties;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
+import datatypes.clsPoint;
+import entities.enums.eShapeType;
 
 
 /**

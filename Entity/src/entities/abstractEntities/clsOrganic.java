@@ -7,13 +7,13 @@
 package entities.abstractEntities;
 
 import properties.clsProperties;
-import complexbody.internalSystems.clsFlesh;
-
 import registration.clsRegisterEntity;
 import body.clsBaseBody;
 import body.clsMeatBody;
 import body.itfget.itfGetBody;
 import body.itfget.itfGetFlesh;
+
+import complexbody.internalSystems.clsFlesh;
 
 
 /**

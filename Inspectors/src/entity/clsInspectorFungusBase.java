@@ -9,18 +9,16 @@
 package entity;
 
 import java.awt.BorderLayout;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-
-import entities.abstractEntities.clsBase;
 
 //import bw.entities.clsEntity;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
-
-
 import sim.util.gui.PropertyField;
+import entities.abstractEntities.clsBase;
 
 /**
  * Basic Inspector for the Base class, add values you want to see on the base tab here

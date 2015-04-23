@@ -17,6 +17,8 @@ import memorymgmt.interfaces.itfModuleMemoryAccess;
 
 import org.slf4j.Logger;
 
+import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
@@ -35,8 +37,6 @@ import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsTriple;
-import secondaryprocess.datamanipulation.clsGoalManipulationTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -10,13 +10,17 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import properties.clsProperties;
+import body.clsComplexBody;
+import body.itfget.itfGetBody;
 
 import complexbody.intraBodySystems.clsBodyColor;
 import complexbody.io.actuators.clsActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
+import complexbody.io.actuators.actionCommands.clsActionBodyColor;
+import complexbody.io.actuators.actionCommands.clsActionBodyColorBlue;
+import complexbody.io.actuators.actionCommands.clsActionBodyColorGreen;
+import complexbody.io.actuators.actionCommands.clsActionBodyColorRed;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
 
-import body.clsComplexBody;
-import body.itfget.itfGetBody;
 import entities.abstractEntities.clsEntity;
 
 /**

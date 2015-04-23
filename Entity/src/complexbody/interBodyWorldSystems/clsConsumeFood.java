@@ -8,20 +8,17 @@
 package complexbody.interBodyWorldSystems;
 
 import java.util.HashMap;
-
 import java.util.Iterator;
 
 import properties.clsProperties;
-
 import utils.exceptions.exFoodNotFinalized;
 import utils.exceptions.exNoSuchNutritionType;
+import body.utils.clsFood;
 
 import complexbody.internalSystems.clsDigestiveSystem;
 
 import datatypes.clsMutableDouble;
 import entities.enums.eNutritions;
-
-import body.utils.clsFood;
 
 /**
  * DOCUMENT (deutsch) - insert description 

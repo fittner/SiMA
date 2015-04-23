@@ -1,17 +1,18 @@
 package physics2D.shape;
 
-import sim.physics2D.shape.Circle;
-import sim.portrayal.DrawInfo2D;
-
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
-import java.awt.image.WritableRaster;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
+
+import sim.physics2D.shape.Circle;
+import sim.portrayal.DrawInfo2D;
 
 /**
  * Extension of the Physics Engine circle, showing a image instead

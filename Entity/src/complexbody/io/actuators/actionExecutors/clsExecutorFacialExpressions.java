@@ -9,13 +9,18 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import properties.clsProperties;
+import body.clsComplexBody;
+import body.itfget.itfGetBody;
 
 import complexbody.intraBodySystems.clsFacialExpression;
 import complexbody.io.actuators.clsActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionFacialExEyeSize;
+import complexbody.io.actuators.actionCommands.clsActionFacialExLeftAntennaPosition;
+import complexbody.io.actuators.actionCommands.clsActionFacialExLensShape;
+import complexbody.io.actuators.actionCommands.clsActionFacialExLensSize;
+import complexbody.io.actuators.actionCommands.clsActionFacialExRightAntennaPosition;
 
-import body.clsComplexBody;
-import body.itfget.itfGetBody;
 import entities.abstractEntities.clsEntity;
 
 /**

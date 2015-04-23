@@ -12,12 +12,10 @@ import java.util.Iterator;
 //import memory.tempframework.clsMutableDouble;
 //import memory.tempframework.clsMutableFloat;
 //import memory.tempframework.clsMutableInteger;
-import memory.tempframework.clsContainerBaseVector;
 //import memory.tempframework.clsContainerEmotion;
 //import memory.tempframework.clsEmotion;
 //import memory.tempframework.clsContainerDrive;
 //import memory.tempframework.clsDrive;
-import memory.tempframework.clsRuleCompareResult;
 //import memory.tempframework.clsAction;
 //import memory.tempframework.clsActionContainer;
 

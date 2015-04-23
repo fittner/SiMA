@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
 import memorymgmt.enums.eContentType;
-import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsActionTools;
@@ -19,6 +18,7 @@ import secondaryprocess.datamanipulation.clsMeshTools;
 import secondaryprocess.datamanipulation.clsPhantasyTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 

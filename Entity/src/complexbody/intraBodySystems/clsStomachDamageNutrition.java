@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import properties.clsProperties;
+import body.itfStepUpdateInternalState;
+import body.utils.clsNutritionLevel;
 
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsFastMessengerSystem;
@@ -18,9 +20,6 @@ import complexbody.internalSystems.clsHealthSystem;
 
 import entities.enums.eBodyParts;
 import entities.enums.eNutritions;
-
-import body.itfStepUpdateInternalState;
-import body.utils.clsNutritionLevel;
 
 /**
  * DOCUMENT (deutsch) - insert description 

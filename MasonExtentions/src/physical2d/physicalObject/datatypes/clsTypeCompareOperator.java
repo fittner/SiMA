@@ -17,7 +17,6 @@
 // Belongs to package
 package physical2d.physicalObject.datatypes;
 
-import physical2d.physicalObject.datatypes.enumClass;
 
 // Imports
 

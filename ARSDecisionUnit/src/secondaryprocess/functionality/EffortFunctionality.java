@@ -12,8 +12,8 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 

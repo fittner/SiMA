@@ -12,12 +12,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import properties.clsProperties;
-
-
+import body.itfStep;
 import datatypes.clsMutableDouble;
 import entities.enums.eBodyParts;
-
-import body.itfStep;
 
 
 /**

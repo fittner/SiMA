@@ -11,6 +11,15 @@ package entities;
 
 import java.awt.Color;
 
+import physics2D.physicalObject.clsMobileObject2D;
+import physics2D.physicalObject.clsStationaryObject2D;
+import properties.clsProperties;
+import sim.engine.SimState;
+import sim.physics2D.physicalObject.PhysicalObject2D;
+import tools.clsPose;
+import tools.eImagePositioning;
+import utils.clsGetARSPath;
+
 import complexbody.io.clsExternalIO;
 import complexbody.io.sensors.datatypes.enums.eEntityType;
 import complexbody.io.sensors.datatypes.enums.eSensorExtType;
@@ -18,20 +27,11 @@ import complexbody.io.sensors.external.clsSensorEatableArea;
 import complexbody.io.sensors.external.clsSensorEngine;
 import complexbody.io.sensors.external.clsSensorVision;
 
-import physics2D.physicalObject.clsMobileObject2D;
-import physics2D.physicalObject.clsStationaryObject2D;
-import properties.clsProperties;
-
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsStationary;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
-import sim.engine.SimState;
-import sim.physics2D.physicalObject.PhysicalObject2D;
-import tools.clsPose;
-import tools.eImagePositioning;
-import utils.clsGetARSPath;
 
 /**
  * DOCUMENT Is a landmark for safe defection and stores smart excrements. Has infinite capacity.

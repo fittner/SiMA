@@ -20,15 +20,15 @@ import memorymgmt.enums.eRadius;
 
 import org.slf4j.Logger;
 
+import secondaryprocess.datamanipulation.clsEntityTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsSecondaryDataStructure;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import secondaryprocess.datamanipulation.clsEntityTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

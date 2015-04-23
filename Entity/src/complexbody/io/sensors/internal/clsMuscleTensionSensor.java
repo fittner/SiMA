@@ -7,13 +7,13 @@
 package complexbody.io.sensors.internal;
 
 import properties.clsProperties;
-import complexbody.io.clsBaseIO;
-
-import entities.enums.eBodyParts;
-
 import body.clsBaseBody;
 import body.clsComplexBody;
 import body.itfget.itfGetMuscleTension;
+
+import complexbody.io.clsBaseIO;
+
+import entities.enums.eBodyParts;
 
 /**
  * DOCUMENT (herret) - insert description 

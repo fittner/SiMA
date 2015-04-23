@@ -8,10 +8,10 @@ package testfunctions.meshtester;
 
 import java.util.ArrayList;
 
+import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsThingPresentationMesh;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

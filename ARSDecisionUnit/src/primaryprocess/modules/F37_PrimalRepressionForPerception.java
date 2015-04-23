@@ -12,9 +12,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.storage.DT2_BlockedContentStorage;
@@ -22,6 +19,9 @@ import modules.interfaces.I5_6_receive;
 import modules.interfaces.I5_7_receive;
 import modules.interfaces.I5_7_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+import testfunctions.clsTester;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationDriveMesh;
@@ -37,7 +37,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import testfunctions.clsTester;
 
 /**
  * 

@@ -26,6 +26,12 @@ import modules.interfaces.I2_6_receive;
 import modules.interfaces.I5_6_receive;
 import modules.interfaces.I5_6_send;
 import modules.interfaces.eInterfaces;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+import secondaryprocess.datamanipulation.clsEntityTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
@@ -46,12 +52,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import primaryprocess.datamanipulation.clsPrimarySpatialTools;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
-import secondaryprocess.datamanipulation.clsEntityTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import testfunctions.clsTester;
 
 /**
  * Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). 

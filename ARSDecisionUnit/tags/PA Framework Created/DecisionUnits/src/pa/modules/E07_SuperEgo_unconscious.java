@@ -7,10 +7,9 @@
 package pa.modules;
 
 import pa.interfaces.I1_5;
+import pa.interfaces.I2_9;
 import pa.interfaces.I3_1;
 import pa.interfaces.I3_2;
-import pa.interfaces.I2_9;
-import config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

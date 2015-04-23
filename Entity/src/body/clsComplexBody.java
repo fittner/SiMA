@@ -27,6 +27,12 @@ import physics2D.shape.clsAnimatedCircleImage;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import utils.clsGetARSPath;
+import utils.exceptions.exFoodAlreadyNormalized;
+import utils.exceptions.exFoodWeightBelowZero;
+import body.attributes.clsAttributes;
+import body.itfget.itfGetInternalEnergyConsumption;
+import body.utils.clsFood;
+
 import complexbody.brainsocket.clsBrainSocket;
 import complexbody.expressionVariables.clsExpressionVariable;
 import complexbody.expressionVariables.clsExpressionVariableCheeksRedning;
@@ -37,8 +43,6 @@ import complexbody.expressionVariables.clsExpressionVariableGeneralSweat;
 import complexbody.expressionVariables.clsExpressionVariablePartialSweat;
 import complexbody.expressionVariables.clsExpressionVariableShake;
 import complexbody.interBodyWorldSystems.clsInterBodyWorldSystem;
-import complexbody.io.sensors.datatypes.enums.eBodyActionType;
-import body.itfget.itfGetInternalEnergyConsumption;
 import complexbody.internalSystems.clsInternalEnergyConsumption;
 import complexbody.internalSystems.clsInternalSystem;
 import complexbody.intraBodySystems.clsIntraBodySystem;
@@ -47,14 +51,12 @@ import complexbody.io.clsInternalIO;
 import complexbody.io.actuators.clsInternalActionProcessor;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
-import utils.exceptions.exFoodAlreadyNormalized;
-import utils.exceptions.exFoodWeightBelowZero;
+import complexbody.io.sensors.datatypes.enums.eBodyActionType;
+
 import datatypes.clsMutableDouble;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyType;
 import entities.enums.eNutritions;
-import body.attributes.clsAttributes;
-import body.utils.clsFood;
 
 
 

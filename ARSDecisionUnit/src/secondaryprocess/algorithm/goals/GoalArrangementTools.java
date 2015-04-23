@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import memorymgmt.enums.eGoalType;
+import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
 import base.datatypes.clsWordPresentationMeshGoal;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsTriple;
-import secondaryprocess.datamanipulation.clsGoalManipulationTools;
-import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

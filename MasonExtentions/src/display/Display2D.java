@@ -10,14 +10,11 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 
 import properties.clsProperties;
-
-
-
 import sim.display.GUIState;
-import sim.util.Bag;
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.LocationWrapper;
+import sim.util.Bag;
 
 /**
  * Using this ARSDisplay2D in your MainWithUI supports drag and drop of objects.

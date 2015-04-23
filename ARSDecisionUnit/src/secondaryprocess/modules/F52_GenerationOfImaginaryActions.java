@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.enums.eSpeech;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
@@ -25,6 +23,8 @@ import modules.interfaces.I6_8_receive;
 import modules.interfaces.I6_9_receive;
 import modules.interfaces.I6_9_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.functionality.PlanningFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import testfunctions.clsTester;

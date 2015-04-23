@@ -8,13 +8,6 @@ package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
 import java.util.ArrayList;
 
-import base.datatypes.clsAssociation;
-import base.datatypes.clsDriveMesh;
-import base.datatypes.clsThingPresentationMesh;
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.enums.eOrgan;
-import base.datatypes.enums.ePartialDrive;
-import base.datatypes.helpstructures.clsPair;
 import memorymgmt.enums.eCondition;
 import memorymgmt.enums.eDrive;
 import memorymgmt.enums.eDriveComponent;
@@ -24,6 +17,13 @@ import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsDataStructureTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.enums.eOrgan;
+import base.datatypes.enums.ePartialDrive;
+import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

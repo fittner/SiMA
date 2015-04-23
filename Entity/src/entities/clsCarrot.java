@@ -12,6 +12,16 @@ import java.awt.Color;
 import java.util.Random;
 
 import properties.clsProperties;
+import registration.clsRegisterEntity;
+import sim.physics2D.shape.Shape;
+import tools.clsPose;
+import tools.eImagePositioning;
+import utils.clsGetARSPath;
+import utils.exceptions.exFoodWeightBelowZero;
+import body.clsMeatBody;
+import body.itfget.itfGetFlesh;
+import body.itfget.itfIsConsumeable;
+import body.utils.clsFood;
 
 import complexbody.internalSystems.clsFlesh;
 import complexbody.io.sensors.datatypes.enums.eEntityType;
@@ -29,18 +39,6 @@ import entities.enums.eNutritions;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
-import body.clsMeatBody;
-import body.itfget.itfGetFlesh;
-import body.itfget.itfIsConsumeable;
-import body.utils.clsFood;
-import registration.clsRegisterEntity;
-import sim.physics2D.shape.Shape;
-
-
-import tools.clsPose;
-import tools.eImagePositioning;
-import utils.clsGetARSPath;
-import utils.exceptions.exFoodWeightBelowZero;
 
 /**
  * DOCUMENT (deutsch) - insert description 

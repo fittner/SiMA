@@ -9,15 +9,27 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import properties.clsProperties;
-
-import complexbody.io.actuators.clsActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
-import complexbody.io.sensors.datatypes.enums.eActionSleepIntensity;
-
 import singeltons.eImages;
 
+import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.clsActionAttackBite;
+import complexbody.io.actuators.actionCommands.clsActionAttackLightning;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionCultivate;
+import complexbody.io.actuators.actionCommands.clsActionDrop;
+import complexbody.io.actuators.actionCommands.clsActionEat;
+import complexbody.io.actuators.actionCommands.clsActionFromInventory;
+import complexbody.io.actuators.actionCommands.clsActionKiss;
+import complexbody.io.actuators.actionCommands.clsActionMove;
+import complexbody.io.actuators.actionCommands.clsActionMoveToEatableArea;
+import complexbody.io.actuators.actionCommands.clsActionPickUp;
+import complexbody.io.actuators.actionCommands.clsActionSleep;
+import complexbody.io.actuators.actionCommands.clsActionToInventory;
+import complexbody.io.actuators.actionCommands.clsActionTurn;
+import complexbody.io.sensors.datatypes.enums.eActionSleepIntensity;
+
 import entities.abstractEntities.clsEntity;
-import entities.actionProxies.*;
+import entities.actionProxies.itfAPSleep;
 
 /**
  * Action Executor for Sleeping

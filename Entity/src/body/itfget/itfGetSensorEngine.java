@@ -10,9 +10,9 @@ package body.itfget;
 
 import java.util.TreeMap;
 
-import complexbody.io.sensors.external.clsSensorEngine;
-
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
+
+import complexbody.io.sensors.external.clsSensorEngine;
 
 
 /**

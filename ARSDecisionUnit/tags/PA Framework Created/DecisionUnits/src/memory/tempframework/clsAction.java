@@ -10,10 +10,6 @@ package memory.tempframework;
 // Imports
 import java.util.Comparator;
 
-import memory.tempframework.enumTypeTrippleState;
-import memory.tempframework.enumTypeBrainAction;
-import memory.tempframework.enumTypeActionSource;
-
 //import bw.memory.tempframework.clsXMLAbstractImageReader;
 
 /**

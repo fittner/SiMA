@@ -6,6 +6,8 @@
  */
 package mind.handcrafted;
 
+import inspector.interfaces.itfInspectorModificationDrives;
+
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,11 +34,10 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
-import base.datatypes.helpstructures.clsPair;
-import inspector.interfaces.itfInspectorModificationDrives;
 import primaryprocess.modules.F06_DefenseMechanismsForDrives.clsChangedDrives;
 import sim.portrayal.Inspector;
 import utils.clsGetARSPath;
+import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (Jordakieva) - insert description 

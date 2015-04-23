@@ -11,20 +11,16 @@ package entities.systems;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
-import entities.abstractEntities.clsMobile;
-import entities.actionProxies.itfAPCarryable;
-import entities.enums.eBindingState;
-
 import physics2D.shape.clsCircleImage;
-
-
 import registration.clsRegisterEntity;
 import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.util.Double2D;
 import singeltons.clsSingletonMasonGetter;
 import tools.clsPose;
 import utils.exceptions.exInventoryFull;
+import entities.abstractEntities.clsMobile;
+import entities.actionProxies.itfAPCarryable;
+import entities.enums.eBindingState;
 
 /**
  * Class for managing an entities inventory. 

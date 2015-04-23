@@ -10,11 +10,11 @@ package body;
 import properties.clsProperties;
 import utils.exceptions.exFoodAlreadyNormalized;
 import utils.exceptions.exFoodWeightBelowZero;
+import body.utils.clsFood;
 import datatypes.clsMutableDouble;
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyType;
 import entities.enums.eNutritions;
-import body.utils.clsFood;
 
 
 /**

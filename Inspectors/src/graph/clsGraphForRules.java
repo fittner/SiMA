@@ -6,12 +6,12 @@
  */
 package graph;
 
+import inspector.interfaces.itfInspectorForRules;
+
 import java.util.ArrayList;
 
 import javax.swing.JSplitPane;
 
-
-import inspector.interfaces.itfInspectorForRules;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;
 
 /**

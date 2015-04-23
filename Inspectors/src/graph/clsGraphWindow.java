@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -30,7 +29,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 
-
+import sim.portrayal.Inspector;
+import utils.clsGetARSPath;
 
 import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
@@ -40,14 +40,8 @@ import com.jgraph.layout.organic.JGraphFastOrganicLayout;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 import com.jgraph.layout.tree.JGraphRadialTreeLayout;
 import com.jgraph.layout.tree.JGraphTreeLayout;
-
-
-
 import com.l2fprod.common.swing.JTaskPane;
 import com.l2fprod.common.swing.JTaskPaneGroup;
-
-import sim.portrayal.Inspector;
-import utils.clsGetARSPath;
 
 
 /**

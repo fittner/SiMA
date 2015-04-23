@@ -8,17 +8,18 @@ package secondaryprocess.functionality.decisionpreparation;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshMentalSituation;
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
-import base.tools.ElementNotFoundException;
 import logger.clsLogger;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT1_PsychicIntensityBuffer;
+
+import org.slf4j.Logger;
+
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 

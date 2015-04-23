@@ -16,15 +16,15 @@ import memorymgmt.enums.eDataType;
 import memorymgmt.enums.ePhiPosition;
 import memorymgmt.enums.ePredicate;
 import memorymgmt.enums.eRadius;
-import base.datahandlertools.clsDataStructureGenerator;
-import base.datatypes.helpstructures.clsPair;
-import base.datatypes.helpstructures.clsTriple;
-import base.tools.ElementNotFoundException;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
+import base.datahandlertools.clsDataStructureGenerator;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
+import base.tools.ElementNotFoundException;
 
 /**
  * A mesh of >=1 word presentations. If a word presentation is a word, then the word presentation is a sentence 

@@ -13,9 +13,9 @@ import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eGoalType;
 import memorymgmt.enums.ePredicate;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datatypes.helpstructures.clsTriple;
 import base.tools.ElementNotFoundException;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -5,8 +5,6 @@
 // Belongs to package
 package memory.tempframework;
 
-import memory.tempframework.cls0to1;
-import memory.tempframework.clsCloneable;
 //import memory.tempframework.clsContainerDrive;
 //import memory.tempframework.clsContainerEmotion;
 

@@ -10,14 +10,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import properties.clsProperties;
+
 import complexbody.io.sensors.datatypes.enums.eEntityType;
 
 import control.interfaces.itfDecisionUnit;
-
-import properties.clsProperties;
-
-
-
 import entities.clsARSIN;
 import entities.clsApple;
 import entities.clsAppleGreen;

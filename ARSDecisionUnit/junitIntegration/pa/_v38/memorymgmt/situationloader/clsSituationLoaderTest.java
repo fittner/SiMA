@@ -15,7 +15,6 @@ import memorymgmt.situationloader.clsSituationLoader;
 import org.junit.Test;
 
 import properties.clsProperties;
-
 import base.datatypes.clsConcept;
 import base.datatypes.clsSituation;
 

@@ -6,9 +6,9 @@
 package datatypes;
 
 // Imports
-import java.text.NumberFormat;
 import java.io.Serializable;
 //import pkgTools.clsCloneable;
+import java.text.NumberFormat;
 
 /**
  *

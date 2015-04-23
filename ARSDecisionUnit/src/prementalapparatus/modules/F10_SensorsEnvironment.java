@@ -10,19 +10,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import communication.datatypes.clsDataContainer;
-
-import properties.clsProperties;
-
 import modules.interfaces.I0_4_receive;
 import modules.interfaces.I1_3_receive;
 import modules.interfaces.I1_3_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+
+import communication.datatypes.clsDataContainer;
 
 /**
  * These sensors collect data of the environment. Typical sensors are the five senses: sight, hearing, smell, touch, and taste. Also non-humanoid

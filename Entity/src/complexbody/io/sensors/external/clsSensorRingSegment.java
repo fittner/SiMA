@@ -13,16 +13,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import complexbody.io.clsBaseIO;
-import complexbody.io.clsExternalIO;
-import complexbody.io.sensors.external.clsSensorExt;
-
 import physics2D.physicalObject.clsCollidingObject;
 import properties.clsProperties;
-
-import entities.enums.eBodyParts;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.util.Double2D;
+
+import complexbody.io.clsBaseIO;
+import complexbody.io.clsExternalIO;
+
+import entities.enums.eBodyParts;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

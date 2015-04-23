@@ -22,6 +22,7 @@ import memorymgmt.shorttermmemory.clsShortTermMemory;
 
 import org.apache.log4j.Logger;
 
+import secondaryprocess.algorithm.goals.GoalArrangementTools;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsDriveMesh;
@@ -35,7 +36,6 @@ import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBaseKB;
-import secondaryprocess.algorithm.goals.GoalArrangementTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

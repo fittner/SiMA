@@ -1,6 +1,5 @@
 package communication.layer2.interfaces;
 
-import commication.exceptions.exNeigbourLayerNullPointerException;
 import communication.datatypes.clsDataContainer;
 
 public interface itfLayer2 {

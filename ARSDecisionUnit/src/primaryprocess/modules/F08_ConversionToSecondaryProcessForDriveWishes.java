@@ -10,16 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
-import base.datatypes.clsDriveMesh;
-import base.datatypes.clsWordPresentationMeshAimOfDrive;
-import base.modules.clsModuleBase;
-import base.modules.clsModuleBaseKB;
-import base.modules.eImplementationStage;
-import base.modules.eProcessType;
-import base.modules.ePsychicInstances;
-import base.tools.toText;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_18_receive;
@@ -28,7 +18,17 @@ import modules.interfaces.I6_3_send;
 import modules.interfaces.I6_5_receive;
 import modules.interfaces.I6_5_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsWordPresentationMeshAimOfDrive;
+import base.modules.clsModuleBase;
+import base.modules.clsModuleBaseKB;
+import base.modules.eImplementationStage;
+import base.modules.eProcessType;
+import base.modules.ePsychicInstances;
+import base.tools.toText;
 
 /**
  * Conversion of drive demands in the form of thing-presentations into drive-wishes in the form of word presentations associated with incoming thing-presentations. For the incoming thing presentations fitting word presentations are selected from memory. The whole packagething presentations, word presentations, and quota of affectsare now converted into a form which can be used by secondary process modules. The drive contents are now drive wishes.  

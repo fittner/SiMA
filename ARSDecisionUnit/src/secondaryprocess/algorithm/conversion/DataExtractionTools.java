@@ -11,12 +11,12 @@ import java.util.ListIterator;
 
 import memorymgmt.enums.ePhiPosition;
 import memorymgmt.enums.eRadius;
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.helpstructures.clsPair;
-import base.datatypes.helpstructures.clsTriple;
 import secondaryprocess.datamanipulation.SortAndFilterTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 

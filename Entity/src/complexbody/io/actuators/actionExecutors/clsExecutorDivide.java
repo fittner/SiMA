@@ -9,6 +9,9 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import properties.clsProperties;
+import singeltons.eImages;
+import body.clsComplexBody;
+import body.itfget.itfGetBody;
 
 import complexbody.io.actuators.clsActionExecutor;
 import complexbody.io.actuators.actionCommands.clsActionAttackLightning;
@@ -19,10 +22,6 @@ import complexbody.io.actuators.actionCommands.clsActionEat;
 import complexbody.io.actuators.actionCommands.clsActionKiss;
 import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 
-import singeltons.eImages;
-
-import body.clsComplexBody;
-import body.itfget.itfGetBody;
 import entities.abstractEntities.clsEntity;
 import entities.actionProxies.itfAPDivideable;
 

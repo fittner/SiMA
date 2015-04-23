@@ -6,8 +6,16 @@
 package bfg.symbolization.ruletree;
 
 // Imports
-import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
+import bfg.symbolization.brainimages.clsContainerPercVisionsObstacles;
+import bfg.symbolization.brainimages.clsContainerPerceptions;
+//import pkgBrainComplexEmotion.clsContainerComplexEmotion;
+import bfg.symbolization.brainimages.clsIdentity;
+import bfg.symbolization.brainimages.clsImageAbstract;
+import bfg.symbolization.brainimages.clsImagePerception;
+import bfg.symbolization.brainimages.clsPerceptionVisionObstacle;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeCount;
@@ -15,13 +23,6 @@ import bfg.utils.enums.enumTypeDistance;
 import bfg.utils.enums.enumTypeObstacle;
 import bfg.utils.enums.enumTypeSide;
 import bfg.utils.enums.enumTypeTrippleState;
-//import pkgBrainComplexEmotion.clsContainerComplexEmotion;
-import bfg.symbolization.brainimages.clsIdentity;
-import bfg.symbolization.brainimages.clsImagePerception;
-import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
-import bfg.symbolization.brainimages.clsContainerPercVisionsObstacles;
-import bfg.symbolization.brainimages.clsPerceptionVisionObstacle;
 
 /**
  *

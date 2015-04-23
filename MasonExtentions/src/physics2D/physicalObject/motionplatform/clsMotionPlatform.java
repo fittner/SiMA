@@ -1,8 +1,9 @@
 package physics2D.physicalObject.motionplatform;
 
 import physics2D.physicalObject.clsMobileObject2D;
+import sim.physics2D.util.Angle;
+import sim.physics2D.util.Double2D;
 import sim.util.matrix.DenseMatrix;
-import sim.physics2D.util.*;
 
 public class clsMotionPlatform
    {

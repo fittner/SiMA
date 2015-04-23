@@ -9,9 +9,9 @@
 package utils;
 
 import java.awt.Color;
-import java.util.Map;
-import java.util.HashMap;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**

@@ -8,10 +8,6 @@ package modules.interfaces;
 
 import java.util.ArrayList;
 
-
-
-
-
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 

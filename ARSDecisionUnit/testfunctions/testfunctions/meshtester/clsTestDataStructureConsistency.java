@@ -8,8 +8,13 @@ package testfunctions.meshtester;
 
 import java.util.ArrayList;
 
+import logger.clsLogger;
+import memorymgmt.enums.eContentType;
+
 import org.slf4j.Logger;
 
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.TestException;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationSecondary;
 import base.datatypes.clsDataStructurePA;
@@ -17,10 +22,6 @@ import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
-import logger.clsLogger;
-import memorymgmt.enums.eContentType;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import testfunctions.TestException;
 
 /**
  * DOCUMENT (wendt) - insert description 

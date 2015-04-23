@@ -5,14 +5,13 @@
  */
 package control.interfaces;
 
+import properties.clsProperties;
 import base.clsCommunicationInterface;
 
 import communication.datatypes.clsDataContainer;
+
 import control.communicationPorts.clsCommunicationPortBodyData;
 import control.communicationPorts.clsCommunicationPortControl;
-
-import properties.clsProperties;
-
 import du.enums.eDecisionType;
 /**
  * The base class for all control architectures/decision units to be used with the brain socket an the projekt DecisionUnitInterface.

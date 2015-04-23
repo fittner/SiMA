@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -23,6 +21,8 @@ import modules.interfaces.I2_5_send;
 import modules.interfaces.I6_11_receive;
 import modules.interfaces.I6_14_receive;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsConcept.clsEntity;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsWordPresentationMesh;

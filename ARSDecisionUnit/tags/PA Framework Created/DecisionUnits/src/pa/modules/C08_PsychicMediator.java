@@ -25,7 +25,6 @@ import pa.interfaces.I5_2;
 import pa.interfaces.I5_5;
 import pa.interfaces.I6_3;
 import pa.interfaces.I7_4;
-import config.clsBWProperties;
 
 /**
  * DOCUMENT (langr) - insert description 

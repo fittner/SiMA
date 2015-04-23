@@ -11,8 +11,8 @@ import java.util.Collection;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
-import base.datatypes.helpstructures.clsTriple;
 import secondaryprocess.algorithm.planning.helpers.PlanningNode;
+import base.datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (hinterleitner) - insert description

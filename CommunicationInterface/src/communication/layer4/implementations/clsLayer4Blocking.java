@@ -1,9 +1,7 @@
 package communication.layer4.implementations;
 
 import communication.datatypes.clsDataContainer;
-import communication.datatypes.clsDataPoint;
 import communication.interfaces.itfCommunicationPartner;
-import communication.layer2.interfaces.itfLayer2;
 import communication.layer3.interfaces.itfLayer3;
 import communication.layer4.interfaces.itfLayer4;
 

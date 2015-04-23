@@ -9,21 +9,20 @@ package entities.abstractEntities;
 import java.awt.Color;
 
 import properties.clsProperties;
-
-import complexbody.internalSystems.clsFlesh;
-import complexbody.io.sensors.datatypes.enums.eEntityType;
-
 import tools.clsPose;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
 import utils.exceptions.exFoodWeightBelowZero;
+import body.clsMeatBody;
+
+import complexbody.internalSystems.clsFlesh;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 
 import entities.enums.eBodyType;
 import entities.enums.eNutritions;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
-import body.clsMeatBody;
 
 
 /**

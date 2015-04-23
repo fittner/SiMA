@@ -10,10 +10,6 @@ package entities;
 import java.awt.Color;
 
 import properties.clsProperties;
-
-import complexbody.internalSystems.clsFlesh;
-import complexbody.io.sensors.datatypes.enums.eEntityType;
-
 import registration.clsRegisterEntity;
 //import sim.display.GUIState;
 //import sim.portrayal.Inspector;
@@ -22,6 +18,14 @@ import registration.clsRegisterEntity;
 import tools.clsPose;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
+import body.clsMeatBody;
+import body.itfget.itfGetFlesh;
+import body.itfget.itfIsConsumeable;
+import body.utils.clsFood;
+//import bw.utils.inspectors.entity.clsInspectorFungus;
+
+import complexbody.internalSystems.clsFlesh;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
@@ -36,11 +40,6 @@ import entities.enums.eNutritions;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
-import body.clsMeatBody;
-import body.itfget.itfGetFlesh;
-import body.itfget.itfIsConsumeable;
-import body.utils.clsFood;
-//import bw.utils.inspectors.entity.clsInspectorFungus;
 
 
 /**

@@ -8,15 +8,6 @@ package secondaryprocess.algorithm.goals;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshAimOfDrive;
-import base.datatypes.clsWordPresentationMeshGoal;
-import base.datatypes.clsWordPresentationMeshMentalSituation;
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
-import base.datatypes.helpstructures.clsPair;
-import base.datatypes.helpstructures.clsTriple;
 import logger.clsLogger;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
@@ -24,11 +15,21 @@ import memorymgmt.enums.eGoalType;
 import memorymgmt.enums.ePhiPosition;
 import memorymgmt.enums.eRadius;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
+
+import org.slf4j.Logger;
+
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
 import secondaryprocess.datamanipulation.clsImportanceTools;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshAimOfDrive;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 

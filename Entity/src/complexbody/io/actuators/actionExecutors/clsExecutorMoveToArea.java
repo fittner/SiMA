@@ -9,18 +9,26 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import properties.clsProperties;
+import body.clsComplexBody;
+import body.itfget.itfGetBody;
 
 import complexbody.io.actuators.clsActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionCultivate;
+import complexbody.io.actuators.actionCommands.clsActionDrop;
+import complexbody.io.actuators.actionCommands.clsActionFromInventory;
+import complexbody.io.actuators.actionCommands.clsActionInnerSpeech;
+import complexbody.io.actuators.actionCommands.clsActionMove;
+import complexbody.io.actuators.actionCommands.clsActionPickUp;
+import complexbody.io.actuators.actionCommands.clsActionToInventory;
+import complexbody.io.actuators.actionCommands.clsActionTurn;
 import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import complexbody.io.sensors.external.clsSensorExt;
 import complexbody.io.sensors.external.clsSensorRingSegment;
 
-import body.clsComplexBody;
-import body.itfget.itfGetBody;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
-import entities.actionProxies.*;
+import entities.actionProxies.itfAPCarryable;
 
 /**
  * Action Executor for moving objects from one area to another

@@ -9,9 +9,8 @@ package complexbody.io;
 
 import java.util.ArrayList;
 
-import body.clsBaseBody;
-
 import properties.clsProperties;
+import body.clsBaseBody;
 
 import complexbody.io.actuators.clsActionProcessor;
 import complexbody.io.actuators.actionCommands.clsActionAttackBite;

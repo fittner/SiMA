@@ -11,11 +11,8 @@ package entities;
 import java.awt.Color;
 
 import properties.clsProperties;
-
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
-
-
 import entities.enums.eShapeType;
 import entities.tools.clsShape2DCreator;
 

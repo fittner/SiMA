@@ -8,8 +8,8 @@ package complexbody.internalSystems;
 
 
 import properties.clsProperties;
-import entities.actionProxies.itfAPSpeakable;
 import body.itfStepUpdateInternalState;
+import entities.actionProxies.itfAPSpeakable;
 
 /**
  * DOCUMENT (MW) - insert description 

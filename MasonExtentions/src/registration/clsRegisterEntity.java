@@ -16,7 +16,6 @@ import java.util.TreeMap;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
 import physics2D.physicalObject.sensors.clsEntitySensorEngine;
-
 import sim.engine.Schedule;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import singeltons.clsSingletonMasonGetter;

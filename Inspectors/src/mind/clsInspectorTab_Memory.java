@@ -25,14 +25,13 @@ import mind.autocreated.cls_DescriptionInspector;
 import mind.autocreated.cls_GenericTimeChartInspector;
 import mind.autocreated.cls_StackedBarChartInspector;
 import mind.autocreated.cls_StateInspector;
-
-import base.modules.clsPsychicApparatus;
-import control.clsProcessor;
-import control.clsPsychoAnalysis;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
+import base.modules.clsPsychicApparatus;
+import control.clsProcessor;
+import control.clsPsychoAnalysis;
 
 /**
  * Inspector instertion point to show the actual state of the semantic memory 

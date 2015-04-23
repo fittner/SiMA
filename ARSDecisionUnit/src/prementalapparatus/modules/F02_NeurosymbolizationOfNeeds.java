@@ -14,20 +14,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import communication.datatypes.clsDataContainer;
-import communication.datatypes.clsDataPoint;
-
-import properties.clsProperties;
-
 import modules.interfaces.I1_2_receive;
 import modules.interfaces.I2_2_receive;
 import modules.interfaces.I2_2_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
 
 
 /**

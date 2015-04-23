@@ -10,21 +10,22 @@ import general.datamanipulation.GeneralSortingTools;
 
 import java.util.ArrayList;
 
+import logger.clsLogger;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT1_PsychicIntensityBuffer;
+
 import org.slf4j.Logger;
 
+import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsActionCodelet;
+import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsConsequenceCodelet;
+import secondaryprocess.functionality.decisionpreparation.decisioncodelets.clsDecisionCodelet;
+import secondaryprocess.functionality.decisionpreparation.initcodelets.clsInitCodelet;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsPair;
 import base.tools.ElementNotFoundException;
-import logger.clsLogger;
-import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT1_PsychicIntensityBuffer;
-import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsActionCodelet;
-import secondaryprocess.functionality.decisionpreparation.consequencecodelets.clsConsequenceCodelet;
-import secondaryprocess.functionality.decisionpreparation.decisioncodelets.clsDecisionCodelet;
-import secondaryprocess.functionality.decisionpreparation.initcodelets.clsInitCodelet;
 
 /**
  * DOCUMENT (wendt) - insert description 

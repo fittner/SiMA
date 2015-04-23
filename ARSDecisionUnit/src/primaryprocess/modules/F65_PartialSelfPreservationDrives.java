@@ -11,8 +11,8 @@ import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.SortedMap;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -27,12 +27,8 @@ import modules.interfaces.eInterfaces;
 
 import org.apache.log4j.Logger;
 
-
-
-
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentation;

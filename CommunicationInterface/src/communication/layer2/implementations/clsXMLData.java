@@ -1,8 +1,5 @@
 package communication.layer2.implementations;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
 

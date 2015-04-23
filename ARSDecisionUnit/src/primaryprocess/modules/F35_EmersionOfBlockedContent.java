@@ -10,17 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import properties.clsProperties;
-
-import base.datatypes.clsPrimaryDataStructureContainer;
-import base.datatypes.clsThingPresentationMesh;
-import base.datatypes.clsWordPresentationMesh;
-import base.modules.clsModuleBase;
-import base.modules.clsModuleBaseKB;
-import base.modules.eImplementationStage;
-import base.modules.eProcessType;
-import base.modules.ePsychicInstances;
-import base.tools.toText;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.storage.DT2_BlockedContentStorage;
 import modules.interfaces.D2_1_send;
@@ -29,7 +18,16 @@ import modules.interfaces.I5_7_receive;
 import modules.interfaces.I5_8_receive;
 import modules.interfaces.I5_8_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
 import testfunctions.clsTester;
+import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
+import base.modules.clsModuleBase;
+import base.modules.clsModuleBaseKB;
+import base.modules.eImplementationStage;
+import base.modules.eProcessType;
+import base.modules.ePsychicInstances;
+import base.tools.toText;
 
 /**
  * Emersion of blocked content. The inputs of the perception and associated memories are compared with

@@ -10,19 +10,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import communication.datatypes.clsDataContainer;
-
-import properties.clsProperties;
-
 import modules.interfaces.I0_6_send;
 import modules.interfaces.I1_5_receive;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+
+import communication.datatypes.clsDataContainer;
 
 /**
  * How the body executes action commands is defined in this module. Various motor controls are operated from here. 

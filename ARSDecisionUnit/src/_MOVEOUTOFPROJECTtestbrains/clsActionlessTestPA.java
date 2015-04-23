@@ -6,8 +6,8 @@
  */
 package _MOVEOUTOFPROJECTtestbrains;
 
-import properties.clsProperties;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
+import properties.clsProperties;
 import control.clsPsychoAnalysis;
 import du.enums.eDecisionType;
 

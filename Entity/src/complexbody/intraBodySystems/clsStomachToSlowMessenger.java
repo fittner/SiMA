@@ -10,19 +10,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import properties.clsProperties;
-
 import utils.exceptions.exContentColumnMaxContentExceeded;
 import utils.exceptions.exContentColumnMinContentUnderrun;
 import utils.exceptions.exSlowMessengerDoesNotExist;
 import utils.exceptions.exValueNotWithinRange;
+import body.itfStepUpdateInternalState;
+import body.utils.clsNutritionLevel;
 
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsSlowMessengerSystem;
 import complexbody.io.sensors.datatypes.enums.eSlowMessenger;
 
 import entities.enums.eNutritions;
-import body.itfStepUpdateInternalState;
-import body.utils.clsNutritionLevel;
 
 /**
  * DOCUMENT (deutsch) - insert description 

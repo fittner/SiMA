@@ -14,21 +14,21 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import communication.datatypes.clsDataContainer;
-
-import prementalapparatus.symbolization.clsSensorToSymbolConverter;
-import prementalapparatus.symbolization.eSymbolExtType;
-import prementalapparatus.symbolization.representationsymbol.itfSymbol;
-import properties.clsProperties;
 import modules.interfaces.I1_3_receive;
 import modules.interfaces.I2_3_receive;
 import modules.interfaces.I2_3_send;
 import modules.interfaces.eInterfaces;
+import prementalapparatus.symbolization.clsSensorToSymbolConverter;
+import prementalapparatus.symbolization.eSymbolExtType;
+import prementalapparatus.symbolization.representationsymbol.itfSymbol;
+import properties.clsProperties;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+
+import communication.datatypes.clsDataContainer;
 /**
  * Conversion of raw data into neuro-symbols.
  * 

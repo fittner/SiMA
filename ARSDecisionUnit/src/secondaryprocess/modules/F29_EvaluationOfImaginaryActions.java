@@ -6,8 +6,8 @@
  */
 package secondaryprocess.modules;
 
-import inspector.interfaces.clsTimeChartPropeties;
 import general.datamanipulation.PrintTools;
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 import inspector.interfaces.itfInspectorStackedBarChart;
 
@@ -17,8 +17,24 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eCondition;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
+import modules.interfaces.I6_10_receive;
+import modules.interfaces.I6_11_receive;
+import modules.interfaces.I6_11_send;
+import modules.interfaces.I6_2_receive;
+import modules.interfaces.eInterfaces;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.functionality.PlanningFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
+import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
+import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshGoal;
@@ -31,22 +47,6 @@ import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.ElementNotFoundException;
 import base.tools.toText;
-import memorymgmt.enums.eAction;
-import memorymgmt.enums.eCondition;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicIntensityStorage;
-import modules.interfaces.I6_10_receive;
-import modules.interfaces.I6_11_receive;
-import modules.interfaces.I6_11_send;
-import modules.interfaces.I6_2_receive;
-import modules.interfaces.eInterfaces;
-import secondaryprocess.datamanipulation.clsActionTools;
-import secondaryprocess.functionality.PlanningFunctionality;
-import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
-import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
-import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 
 /**
  * DOCUMENT (perner) - insert description

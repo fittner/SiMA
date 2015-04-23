@@ -7,8 +7,8 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
-import externalmessager.DatapointClientInterface;
 import externalmessager.Datapoint;
+import externalmessager.DatapointClientInterface;
 import externalmessager.DatapointHandlerForCodeletInterface;
 
 public abstract class DatapointClient extends Thread implements DatapointClientInterface {

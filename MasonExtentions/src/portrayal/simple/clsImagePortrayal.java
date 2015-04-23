@@ -8,11 +8,12 @@
 package portrayal.simple;
 
 import java.awt.Graphics2D;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
+
 import sim.field.continuous.Continuous2D;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.simple.ImagePortrayal2D;

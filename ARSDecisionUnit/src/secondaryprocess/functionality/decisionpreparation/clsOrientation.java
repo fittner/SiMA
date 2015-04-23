@@ -8,12 +8,13 @@ package secondaryprocess.functionality.decisionpreparation;
 
 import java.security.InvalidParameterException;
 
-import org.slf4j.Logger;
-
 import logger.clsLogger;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.ePhiPosition;
 import memorymgmt.enums.eRadius;
+
+import org.slf4j.Logger;
+
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
 import base.datatypes.clsWordPresentationMesh;

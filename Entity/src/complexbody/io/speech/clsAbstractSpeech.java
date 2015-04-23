@@ -12,12 +12,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
-import java.lang.Double;
-
-import complexbody.io.speech.itfSpeakable;
-import complexbody.io.speech.clsAbstractSpeech.clsGrainLevel.clsGrain;
 
 import properties.clsProperties;
+
+import complexbody.io.speech.clsAbstractSpeech.clsGrainLevel.clsGrain;
 
 
 /**

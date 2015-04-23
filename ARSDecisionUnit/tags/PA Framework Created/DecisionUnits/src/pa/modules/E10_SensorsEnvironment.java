@@ -6,9 +6,7 @@
  */
 package pa.modules;
 
-import config.clsBWProperties;
 import pa.interfaces.I2_1;
-import decisionunit.itf.sensors.clsSensorData;
 import pa.interfaces.itfProcessSensorEnvironment;
 
 /**

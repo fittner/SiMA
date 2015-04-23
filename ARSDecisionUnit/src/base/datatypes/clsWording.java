@@ -2,9 +2,6 @@ package base.datatypes;
 
 import java.util.ArrayList;
 
-import base.datatypes.clsPrimaryDataStructureContainer;
-import base.datatypes.clsThingPresentationMesh;
-
 
 
 

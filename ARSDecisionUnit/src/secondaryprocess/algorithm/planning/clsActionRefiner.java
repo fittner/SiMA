@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
-import secondaryprocess.algorithm.planning.itfActionRefinement;
 
 /**
  * DOCUMENT (Kollmann) - This class can be used to refine actions.

@@ -8,9 +8,17 @@
 
 package sim;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+
+import javax.swing.JFrame;
+
+import properties.clsProperties;
 import sim.display.Controller;
 import sim.display.GUIState;
 import sim.engine.SimState;
+import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.continuous.ContinuousPortrayal2D;
 import sim.portrayal.grid.FastValueGridPortrayal2D;
@@ -18,23 +26,11 @@ import sim.portrayal.network.NetworkPortrayal2D;
 import sim.portrayal.network.SimpleEdgePortrayal2D;
 import sim.portrayal.network.SpatialNetwork2D;
 import sim.portrayal.simple.OvalPortrayal2D;
-import java.awt.Color;
-import java.awt.Dimension;
-
-
-import javax.swing.JFrame;
-
-import complexbody.io.sensors.datatypes.clsInspectorPerceptionItem;
-
-import properties.clsProperties;
-
-
-import java.awt.Graphics2D;
-
-import sim.portrayal.DrawInfo2D;
 import singeltons.clsSingletonMasonGetter;
 import singeltons.clsSingletonProperties;
 import utils.clsGetARSPath;
+
+import complexbody.io.sensors.datatypes.clsInspectorPerceptionItem;
 
 
 

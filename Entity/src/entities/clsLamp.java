@@ -11,6 +11,11 @@ package entities;
 import java.awt.Color;
 
 import properties.clsProperties;
+import sim.physics2D.shape.Shape;
+import tools.clsPose;
+import tools.eImagePositioning;
+import utils.clsGetARSPath;
+import body.clsMeatBody;
 
 import complexbody.internalSystems.clsFlesh;
 import complexbody.io.sensors.datatypes.enums.eEntityType;
@@ -25,11 +30,6 @@ import entities.enums.eBindingState;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
-import body.clsMeatBody;
-import sim.physics2D.shape.Shape;
-import tools.clsPose;
-import tools.eImagePositioning;
-import utils.clsGetARSPath;
 
 
 /**

@@ -6,12 +6,8 @@
 package memory.tempframework;
 
 // Imports
-import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
-
-import memory.tempframework.clsAction;
-
-import memory.tempframework.clsCloneable;
+import org.w3c.dom.Node;
 
 /*
 import pkgXMLTools.clsXMLConfiguration;

@@ -6,9 +6,6 @@
  */
 package pa;
 
-import config.clsBWProperties;
-import decisionunit.itf.actions.itfActionProcessor;
-import decisionunit.itf.sensors.clsSensorData;
 import pa.modules.C00_PsychicApparatus;
 import pa.modules.E01_Homeostases;
 import pa.modules.E02_NeurosymbolizationOfNeeds;

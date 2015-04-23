@@ -16,10 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 
-import org.slf4j.Logger;
-
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
@@ -30,6 +26,11 @@ import modules.interfaces.I5_21_receive;
 import modules.interfaces.I5_21_send;
 import modules.interfaces.I5_3_receive;
 import modules.interfaces.eInterfaces;
+
+import org.slf4j.Logger;
+
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationEmotion;

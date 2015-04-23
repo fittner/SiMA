@@ -10,9 +10,8 @@ package complexbody.intraBodySystems;
 import java.awt.Color;
 
 import properties.clsProperties;
-
-import entities.abstractEntities.clsEntity;
 import body.itfStepUpdateInternalState;
+import entities.abstractEntities.clsEntity;
 
 /**
  * DOCUMENT (deutsch) - insert description 

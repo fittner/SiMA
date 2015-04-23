@@ -16,19 +16,17 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 
 import physics2D.physicalObject.clsCollidingObject;
-
-import complexbody.io.sensors.datatypes.enums.eSensorExtType;
-import complexbody.io.sensors.external.clsSensorVision;
-
-
-import entities.abstractEntities.clsEntity;
-
 import sim.display.GUIState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.PropertyField;
 import body.itfget.itfGetSensorEngine;
+
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
+import complexbody.io.sensors.external.clsSensorVision;
+
+import entities.abstractEntities.clsEntity;
 
 
 /**

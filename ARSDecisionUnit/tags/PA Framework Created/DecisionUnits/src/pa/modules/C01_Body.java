@@ -18,9 +18,6 @@ import pa.interfaces.itfProcessHomeostases;
 import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
-import config.clsBWProperties;
-import decisionunit.itf.actions.itfActionProcessor;
-import decisionunit.itf.sensors.clsSensorData;
 
 /**
  * DOCUMENT (deutsch) - insert description 

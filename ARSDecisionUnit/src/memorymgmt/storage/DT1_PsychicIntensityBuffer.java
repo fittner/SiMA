@@ -28,7 +28,6 @@ import modules.interfaces.eInterfaces;
 import org.slf4j.Logger;
 
 import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import base.datatypes.helpstructures.clsPair;
 import base.tools.toText;
 

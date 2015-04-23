@@ -9,7 +9,6 @@ package pa._v38.memorymgmt.longtermmemory.psychicspreadactivation;
 import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 import logger.clsLogger;
@@ -18,6 +17,10 @@ import memorymgmt.interfaces.itfSearchSpaceAccess;
 
 import org.slf4j.Logger;
 
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import secondaryprocess.datamanipulation.clsImportanceTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsAssociationTime;
@@ -25,12 +28,6 @@ import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
-import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadActivationNode;
-import primaryprocess.datamanipulation.clsPrimarySpatialTools;
-import secondaryprocess.datamanipulation.clsImportanceTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import testfunctions.HackMethods;
-import testfunctions.clsTester;
 
 /**
  * DOCUMENT (wendt) - insert description 

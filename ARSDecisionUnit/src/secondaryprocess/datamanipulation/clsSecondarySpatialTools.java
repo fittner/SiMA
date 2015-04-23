@@ -14,11 +14,11 @@ import memorymgmt.enums.ePhiPosition;
 import memorymgmt.enums.ePositionRelation;
 import memorymgmt.enums.ePredicate;
 import memorymgmt.enums.eRadius;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 
 /**
  * This function creates relational relationships between all object pairs (m with n) in the image. Only

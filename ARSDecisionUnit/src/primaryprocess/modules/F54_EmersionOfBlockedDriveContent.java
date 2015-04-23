@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import properties.clsProperties;
-
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.storage.DT2_BlockedContentStorage;
@@ -19,6 +17,7 @@ import modules.interfaces.I5_2_receive;
 import modules.interfaces.I5_3_receive;
 import modules.interfaces.I5_3_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsPhysicalRepresentation;

@@ -5,12 +5,13 @@
  */
 package control;
 
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+
 import org.slf4j.Logger;
 
+import properties.clsProperties;
 import control.interfaces.clsBaseDecisionUnit;
 import control.interfaces.itfProcessor;
-import properties.clsProperties;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
 import du.enums.eDecisionType;
 
 

@@ -8,10 +8,11 @@ package secondaryprocess.functionality.decisionpreparation;
 
 import java.security.InvalidParameterException;
 
+import logger.clsLogger;
+
 import org.slf4j.Logger;
 
 import base.datatypes.clsWordPresentationMesh;
-import logger.clsLogger;
 
 /**
  * DOCUMENT (Kollmann) - Very simple reasoner class for orientation reasoning.

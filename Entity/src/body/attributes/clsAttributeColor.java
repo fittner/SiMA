@@ -9,7 +9,6 @@ package body.attributes;
 import java.awt.Color;
 
 import properties.clsProperties;
-
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyAttributes;
 

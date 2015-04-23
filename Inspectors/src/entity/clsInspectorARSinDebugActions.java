@@ -18,15 +18,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 
-import entities.clsARSIN;
-import entities.abstractEntities.clsEntity;
-
-import body.clsComplexBody;
-import body.itfget.itfGetBody;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.PropertyField;
+import body.clsComplexBody;
+import body.itfget.itfGetBody;
+import entities.clsARSIN;
+import entities.abstractEntities.clsEntity;
 
 /**
  * Basic Inspector for the all entities, displays the minimum, default values

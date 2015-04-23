@@ -10,19 +10,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import communication.datatypes.clsDataContainer;
-
-import properties.clsProperties;
-
 import modules.interfaces.I0_5_receive;
 import modules.interfaces.I1_4_receive;
 import modules.interfaces.I1_4_send;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+
+import communication.datatypes.clsDataContainer;
 /**
  * Although, modules {F39} and {F1} are collecting information on internal body values too, {F12} focuses 
  * on sensors comparable to the one from Module {F10} but which are directed inwardly. Thus, the sensors 

@@ -6,6 +6,8 @@
  */
 package secondaryprocess.functionality.conversion;
 
+import general.datamanipulation.IDComparator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,15 +17,14 @@ import memorymgmt.interfaces.itfModuleMemoryAccess;
 
 import org.slf4j.Logger;
 
+import secondaryprocess.algorithm.conversion.DataStructureConversionTools;
+import secondaryprocess.datamanipulation.clsActTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 import base.datahandlertools.clsDataStructureConverter;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
-import secondaryprocess.algorithm.conversion.DataStructureConversionTools;
-import secondaryprocess.datamanipulation.clsActTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import general.datamanipulation.IDComparator;
-import testfunctions.clsTester;
 
 /**
  * DOCUMENT (wendt) - insert description 

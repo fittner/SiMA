@@ -15,23 +15,18 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
-import entities.clsARSIN;
-import entities.abstractEntities.clsEntity;
-
-//import decisionunit.clsBaseDecisionUnit;
-
-//import pa._v38.clsProcessor;
-//import pa._v38.modules.clsPsychicApparatus;
-
-import body.clsComplexBody;
-import body.clsInspectorBodyOverview;
-import body.itfget.itfGetBody;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
-
-
 import sim.util.gui.PropertyField;
+import body.clsInspectorBodyOverview;
+import entities.clsARSIN;
+import entities.abstractEntities.clsEntity;
+//import decisionunit.clsBaseDecisionUnit;
+//import pa._v38.clsProcessor;
+//import pa._v38.modules.clsPsychicApparatus;
+import body.itfget.itfGetBody;
+import body.clsComplexBody;
 
 /**
  * Main Inspector for the ARSIN class, add values you want to see on the ARSIN tab here

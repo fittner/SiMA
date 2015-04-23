@@ -7,12 +7,13 @@
 package complexbody.interBodyWorldSystems;
 
 import properties.clsProperties;
-import complexbody.internalSystems.clsSpeechSystem;
-import complexbody.io.speech.clsAbstractSpeech;
-
 import tools.clsPolarcoordinate;
 import tools.clsPose;
 import utils.clsUniqueIdGenerator;
+
+import complexbody.internalSystems.clsSpeechSystem;
+import complexbody.io.speech.clsAbstractSpeech;
+
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsSpeech;
 

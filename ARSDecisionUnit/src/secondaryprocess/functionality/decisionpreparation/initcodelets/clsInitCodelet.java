@@ -8,9 +8,9 @@ package secondaryprocess.functionality.decisionpreparation.initcodelets;
 
 import java.util.ArrayList;
 
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.functionality.decisionpreparation.clsCodelet;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 

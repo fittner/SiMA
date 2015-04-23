@@ -7,8 +7,6 @@ package bfg.symbolization.brainimages;
 
 // Imports
 //import pkgTools.clsCloneable;
-import bfg.tools.shapes.clsPolarcoordinate;
-import bfg.tools.shapes.clsPoint;
 import bfg.utils.enums.enumTypeDistance;
 import bfg.utils.enums.enumTypeHealthState;
 import bfg.utils.enums.enumTypeSide;

@@ -8,11 +8,11 @@ package prementalapparatus.symbolization;
 
 import java.util.HashMap;
 
-import communication.datatypes.clsDataContainer;
-import communication.datatypes.clsDataPoint;
-
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
+
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
 
 /**
  * Iterates through the list of clsSensorExtern values, and creates for every entry a clsSymbol[SensorType] entry.

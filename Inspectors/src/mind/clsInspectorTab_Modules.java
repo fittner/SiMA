@@ -46,11 +46,6 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import primaryprocess.modules.F14_ExternalPerception;
-import base.modules.clsModuleBase;
-import base.modules.clsPsychicApparatus;
-import control.clsProcessor;
-import control.clsPsychoAnalysis;
 import mind.autocreated.clsE_SimpleInterfaceDataInspector;
 import mind.autocreated.clsI_SimpleInterfaceDataInspector;
 import mind.autocreated.cls_AreaChartInspector;
@@ -71,9 +66,14 @@ import mind.handcrafted.clsF26DecisionCalculation;
 import mind.handcrafted.clsI_AllInterfaceData;
 import mind.handcrafted.clsInspectorImageDrives;
 import modules.interfaces.eInterfaces;
+import primaryprocess.modules.F14_ExternalPerception;
 import sim.portrayal.Inspector;
 import sim.portrayal.inspector.TabbedInspector;
 import utils.clsExceptionUtils;
+import base.modules.clsModuleBase;
+import base.modules.clsPsychicApparatus;
+import control.clsProcessor;
+import control.clsPsychoAnalysis;
 
 /**
  * DOCUMENT (langr) - insert description 

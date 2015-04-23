@@ -6,7 +6,6 @@
  */
 package pa.modules;
 
-import config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

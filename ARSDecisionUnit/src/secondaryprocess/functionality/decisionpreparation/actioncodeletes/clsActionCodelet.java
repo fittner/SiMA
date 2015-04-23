@@ -8,12 +8,12 @@ package secondaryprocess.functionality.decisionpreparation.actioncodeletes;
 
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.ePredicate;
-import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.algorithm.planning.clsTEMPPlannerAW;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodelet;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 

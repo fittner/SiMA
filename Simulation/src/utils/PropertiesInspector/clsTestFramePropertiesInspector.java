@@ -1,6 +1,7 @@
 package utils.PropertiesInspector;
 
 import java.awt.HeadlessException;
+
 import javax.swing.JFrame;
 
 import properties.clsProperties;

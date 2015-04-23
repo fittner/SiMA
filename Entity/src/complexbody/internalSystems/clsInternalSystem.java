@@ -9,10 +9,9 @@ package complexbody.internalSystems;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import body.itfStepUpdateInternalState;
 import datatypes.clsMutableDouble;
 import entities.enums.eBodyParts;
-import body.itfStepUpdateInternalState;
-import complexbody.internalSystems.clsBodyOrganSystem;
 
 /**
  * DOCUMENT (deutsch) - insert description 

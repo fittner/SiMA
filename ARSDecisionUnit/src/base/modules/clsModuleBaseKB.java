@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import properties.clsProperties;
-
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
 
 
 /**

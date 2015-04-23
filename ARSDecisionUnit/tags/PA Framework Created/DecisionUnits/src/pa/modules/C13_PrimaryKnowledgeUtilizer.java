@@ -10,7 +10,6 @@ import pa.interfaces.I1_5;
 import pa.interfaces.I2_6;
 import pa.interfaces.I2_7;
 import pa.interfaces.I6_3;
-import config.clsBWProperties;
 
 /**
  * DOCUMENT (langr) - insert description 

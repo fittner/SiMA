@@ -8,10 +8,10 @@ package mind.autocreated;
 
 import java.awt.BorderLayout;
 
-import base.tools.toText;
 import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
 import utils.clsExceptionUtils;
+import base.tools.toText;
 
 /**
  * DOCUMENT (deutsch) - insert description 

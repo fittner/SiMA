@@ -6,12 +6,12 @@
  */
 package communicationPorts;
 
+import base.clsCommunicationInterface;
+
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 import communication.interfaces.itfCommunicationPartner;
 import complexbody.brainsocket.clsBrainSocket;
-
-import base.clsCommunicationInterface;
 
 /**
  * DOCUMENT (herret) - Defines hold the data and the control interfaces to the DU

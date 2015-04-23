@@ -13,10 +13,13 @@ import java.util.ArrayList;
 import properties.clsProperties;
 
 import complexbody.io.actuators.clsActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionDrop;
+import complexbody.io.actuators.actionCommands.clsActionFromInventory;
+import complexbody.io.actuators.actionCommands.clsActionPickUp;
 
 import entities.abstractEntities.clsMobile;
-import entities.actionProxies.*;
+import entities.actionProxies.itfAPCarryable;
 import entities.enums.eBindingState;
 
 /**

@@ -15,28 +15,22 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import complexbody.io.actuators.actionExecutors.clsAction;
-import complexbody.io.sensors.datatypes.enums.eEntityType;
-import complexbody.io.sensors.datatypes.enums.eOdor;
-
 import physical2d.physicalObject.datatypes.eFacialExpression;
 import physical2d.physicalObject.datatypes.eSpeechExpression;
 import physics2D.shape.itfImageShape;
 import properties.clsProperties;
-
-
-import body.clsBaseBody;
-import body.clsSimpleBody;
-import body.itfget.itfGetBody;
-
-
-
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import singeltons.clsSimState;
 import singeltons.eImages;
-
 import tools.clsPose;
+import body.clsBaseBody;
+import body.clsSimpleBody;
+import body.itfget.itfGetBody;
+
+import complexbody.io.actuators.actionExecutors.clsAction;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+import complexbody.io.sensors.datatypes.enums.eOdor;
 
 
 /**

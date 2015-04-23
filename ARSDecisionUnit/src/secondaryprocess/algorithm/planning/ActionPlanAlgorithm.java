@@ -7,9 +7,9 @@
 package secondaryprocess.algorithm.planning;
 
 import memorymgmt.enums.eActionType;
-import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 

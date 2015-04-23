@@ -11,14 +11,12 @@ package physics2D.physicalObject.sensors;
 import interfaces.itfEntity;
 import interfaces.itfMobile;
 
-
 import java.awt.Color;
 import java.util.ArrayList;
 
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.shape.clsCircleBorder;
-
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.physicalObject.MobileObject2D;

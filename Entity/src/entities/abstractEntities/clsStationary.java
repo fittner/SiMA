@@ -8,17 +8,17 @@
 package entities.abstractEntities;
 
 
-import physics2D.physicalObject.clsStationaryObject2D;
-import properties.clsProperties;
 import interfaces.itfEntityInspectorFactory;
 import interfaces.itfStationary;
-import entities.tools.clsShape2DCreator;
+import physics2D.physicalObject.clsStationaryObject2D;
+import properties.clsProperties;
 import registration.clsRegisterEntity;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
 import tools.clsPose;
 import body.clsBaseBody;
 import body.clsSimpleBody;
+import entities.tools.clsShape2DCreator;
 
 
 /**

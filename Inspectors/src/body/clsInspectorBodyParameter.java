@@ -7,7 +7,6 @@
 package body;
 
 import mind.autocreated.clsParameterInspector;
-import body.clsComplexBody;
 
 /**
  * DOCUMENT (herret) - insert description 

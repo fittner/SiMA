@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import memorymgmt.enums.eCondition;
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshGoal;
-import base.tools.ElementNotFoundException;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
@@ -21,6 +18,9 @@ import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsCommonCodeletTools;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 import testfunctions.clsTester;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 

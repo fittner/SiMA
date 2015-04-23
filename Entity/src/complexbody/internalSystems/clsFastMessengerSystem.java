@@ -13,9 +13,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import properties.clsProperties;
-
-import entities.enums.eBodyParts;
 import body.itfStepUpdateInternalState;
+import entities.enums.eBodyParts;
 
 /**
  * DOCUMENT (deutsch) - insert description 

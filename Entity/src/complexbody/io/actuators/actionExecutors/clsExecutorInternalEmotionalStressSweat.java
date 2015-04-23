@@ -10,15 +10,16 @@ package complexbody.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
-import body.clsComplexBody;
 import properties.clsProperties;
+import body.clsComplexBody;
+import body.itfget.itfGetBody;
+
 import complexbody.io.actuators.clsInternalActionExecutor;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionEmotionalStressSweat;
 
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
-import body.itfget.itfGetBody;
 /**
  * Action Executor for eating
  * Proxy itfAPEatable

@@ -12,8 +12,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
+import modules.interfaces.I5_15_receive;
+import modules.interfaces.I6_1_receive;
+import modules.interfaces.I6_1_send;
+import modules.interfaces.I6_4_receive;
+import modules.interfaces.I6_4_send;
+import modules.interfaces.eInterfaces;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import secondaryprocess.functionality.conversion.DataStructureConversion;
+import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
+import testfunctions.clsTester;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
@@ -25,19 +38,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicIntensityStorage;
-import modules.interfaces.I5_15_receive;
-import modules.interfaces.I6_1_receive;
-import modules.interfaces.I6_1_send;
-import modules.interfaces.I6_4_receive;
-import modules.interfaces.I6_4_send;
-import modules.interfaces.eInterfaces;
-import secondaryprocess.functionality.conversion.DataStructureConversion;
-import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
-import testfunctions.clsTester;
 
 /**
  * This module does the same as {E8} but with perceptions instead of drive

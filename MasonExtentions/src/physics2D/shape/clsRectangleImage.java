@@ -1,13 +1,15 @@
 package physics2D.shape;
 
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
+import javax.imageio.ImageIO;
 
 import sim.physics2D.shape.Polygon;
 import sim.physics2D.util.Double2D;

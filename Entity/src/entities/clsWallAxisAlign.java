@@ -11,12 +11,10 @@ package entities;
 
 import java.awt.Color;
 
-import complexbody.io.sensors.datatypes.enums.eEntityType;
-
 import properties.clsProperties;
-
 import tools.clsPose;
 
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsStationary;

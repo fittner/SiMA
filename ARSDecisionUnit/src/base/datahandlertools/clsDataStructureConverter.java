@@ -10,13 +10,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntryExpression;
 import prementalapparatus.symbolization.representationsymbol.itfGetDataAccessMethods;
 import prementalapparatus.symbolization.representationsymbol.itfGetSymbolName;
 import prementalapparatus.symbolization.representationsymbol.itfIsContainer;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eDataType;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsPhysicalRepresentation;

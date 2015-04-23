@@ -3,10 +3,10 @@ package complexbody.io.sensors.datatypes;
 
 import java.util.ArrayList;
 
+import physical2d.physicalObject.datatypes.eCount;
+
 import complexbody.io.sensors.datatypes.enums.eEntityType;
 import complexbody.io.sensors.datatypes.enums.eShapeType;
-
-import physical2d.physicalObject.datatypes.eCount;
 
 import datatypes.clsPolarcoordinate;
 

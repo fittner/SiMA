@@ -9,12 +9,12 @@ package secondaryprocess.functionality.decisionpreparation.initcodelets;
 import java.util.ArrayList;
 
 import memorymgmt.enums.eCondition;
-import base.datatypes.clsWordPresentationMesh;
-import base.tools.ElementNotFoundException;
 import secondaryprocess.algorithm.acts.clsActPreparationTools;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
+import base.datatypes.clsWordPresentationMesh;
+import base.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 

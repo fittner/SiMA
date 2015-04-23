@@ -10,8 +10,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
+import logger.clsLogger;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.interfaces.itfSearchSpaceAccess;
+
 import org.slf4j.Logger;
 
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.framessearchspace.enums.eDataSources;
+import pa._v38.memorymgmt.framessearchspace.enums.eSearchMethod;
+import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
+import properties.clsProperties;
+import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
@@ -19,16 +30,6 @@ import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
-import logger.clsLogger;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eDataType;
-import memorymgmt.interfaces.itfSearchSpaceAccess;
-import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
-import pa._v38.memorymgmt.framessearchspace.enums.eDataSources;
-import pa._v38.memorymgmt.framessearchspace.enums.eSearchMethod;
-import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
-import properties.clsProperties;
-import testfunctions.clsTester;
 
 /**
  * DOCUMENT (wendt) - insert description 

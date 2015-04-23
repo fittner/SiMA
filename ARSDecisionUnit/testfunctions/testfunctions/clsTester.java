@@ -9,13 +9,13 @@ package testfunctions;
 import java.util.ArrayList;
 
 import memorymgmt.enums.eAction;
+import testfunctions.meshtester.clsTestDataStructureConsistency;
+import testfunctions.meshtester.clsTestDataStructureNullPointers;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshGoal;
 import base.datatypes.helpstructures.clsPair;
-import testfunctions.meshtester.clsTestDataStructureConsistency;
-import testfunctions.meshtester.clsTestDataStructureNullPointers;
 
 /**
  * DOCUMENT (wendt) - insert description 

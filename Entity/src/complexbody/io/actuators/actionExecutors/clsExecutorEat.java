@@ -11,19 +11,21 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import properties.clsProperties;
-
-import complexbody.internalSystems.clsFastMessengerSystem;
-import complexbody.io.actuators.clsActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
-import complexbody.io.sensors.datatypes.enums.eSensorExtType;
-
 import singeltons.eImages;
-
 import body.clsComplexBody;
 import body.itfget.itfGetBody;
 import body.utils.clsFood;
+
+import complexbody.internalSystems.clsFastMessengerSystem;
+import complexbody.io.actuators.clsActionExecutor;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionEat;
+import complexbody.io.actuators.actionCommands.clsActionMove;
+import complexbody.io.actuators.actionCommands.clsActionTurn;
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
+
 import entities.abstractEntities.clsEntity;
-import entities.actionProxies.*;
+import entities.actionProxies.itfAPEatable;
 import entities.enums.eBodyParts;
 
 /**

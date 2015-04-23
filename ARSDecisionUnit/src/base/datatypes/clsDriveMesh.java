@@ -9,13 +9,12 @@ package base.datatypes;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
-
 import java.util.Comparator;
 import java.util.List;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.enums.eDriveComponent;
 import base.datatypes.enums.eOrgan;
@@ -23,7 +22,6 @@ import base.datatypes.enums.eOrifice;
 import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * DOCUMENT (muchitsch) - insert description 

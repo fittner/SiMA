@@ -30,17 +30,18 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LevelRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import complexbody.internalSystems.clsFastMessengerEntry;
-import complexbody.internalSystems.clsFastMessengerKeyTuple;
-import complexbody.internalSystems.clsFastMessengerSystem;
-import datatypes.clsMutableDouble;
-import datatypes.clsMutableInteger;
-import entities.enums.eBodyParts;
-
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import singeltons.clsSingletonMasonGetter;
+
+import complexbody.internalSystems.clsFastMessengerEntry;
+import complexbody.internalSystems.clsFastMessengerKeyTuple;
+import complexbody.internalSystems.clsFastMessengerSystem;
+
+import datatypes.clsMutableDouble;
+import datatypes.clsMutableInteger;
+import entities.enums.eBodyParts;
 /**
  * DOCUMENT (deutsch) - insert description 
  * 

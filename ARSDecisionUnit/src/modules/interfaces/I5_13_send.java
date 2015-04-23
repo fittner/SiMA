@@ -8,10 +8,10 @@ package modules.interfaces;
 
 import java.util.ArrayList;
 
-import base.datatypes.clsDriveMesh;
-import base.datatypes.clsEmotion;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictDrive;
 import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsEmotion;
 
 
 /**

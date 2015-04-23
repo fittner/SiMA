@@ -7,12 +7,13 @@
 package complexbody.io.sensors.internal;
 
 import properties.clsProperties;
+import body.clsBaseBody;
+import body.clsComplexBody;
+
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.io.clsBaseIO;
 
 import entities.enums.eBodyParts;
-import body.clsBaseBody;
-import body.clsComplexBody;
 
 /**
  * DOCUMENT (deutsch) - insert description 

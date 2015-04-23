@@ -9,9 +9,6 @@ package primaryprocess.modules;
 import inspector.interfaces.itfGraphInterface;
 import inspector.interfaces.itfInspectorForRules;
 
-import java.lang.Object;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -24,6 +21,12 @@ import modules.interfaces.I5_12_receive;
 import modules.interfaces.I5_13_receive;
 import modules.interfaces.I5_13_send;
 import modules.interfaces.eInterfaces;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictDrive;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
@@ -33,12 +36,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictDrive;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 
 /**
  * Checks incoming drives and perceptions according to internalized rules.

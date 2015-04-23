@@ -7,13 +7,9 @@
  */
 package complexbody.internalSystems;
 
-import body.utils.clsFood;
-
-import java.lang.Math;
-
 import properties.clsProperties;
-
 import utils.exceptions.exFoodWeightBelowZero;
+import body.utils.clsFood;
 
 
 /**

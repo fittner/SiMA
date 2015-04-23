@@ -6,7 +6,6 @@
  */
 package pa.interfaces;
 
-import decisionunit.itf.sensors.clsSensorData;
 
 /**
  * DOCUMENT (deutsch) - insert description 

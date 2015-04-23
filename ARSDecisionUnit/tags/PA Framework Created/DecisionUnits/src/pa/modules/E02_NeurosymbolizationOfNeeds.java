@@ -8,7 +8,6 @@ package pa.modules;
 
 import pa.interfaces.I1_1;
 import pa.interfaces.I1_2;
-import config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

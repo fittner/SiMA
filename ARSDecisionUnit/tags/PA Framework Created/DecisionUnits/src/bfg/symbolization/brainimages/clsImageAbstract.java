@@ -7,20 +7,21 @@ package bfg.symbolization.brainimages;
 
 // Imports
 import java.util.Vector;
-import org.w3c.dom.Node;
-import org.w3c.dom.NamedNodeMap;
 
-import bfg.tools.cls0to1;
-import bfg.tools.xmltools.XMLException;
-import bfg.tools.xmltools.clsXMLConfiguration;
-import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.utils.enums.enumTypeTrippleState;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
+import bfg.symbolization.ruletree.clsRuleCompareResult;
+import bfg.symbolization.ruletree.clsRuleTreeElement;
 //import bfg.symbolization.recognition.clsScenarioContainer;
 //import bfg.symbolization.recognition.clsSuperEgoAction;
 //import bfg.symbolization.recognition.clsDesireContainer;
 import bfg.symbolization.ruletree.clsRuleTreeNode;
-import bfg.symbolization.ruletree.clsRuleTreeElement;
-import bfg.symbolization.ruletree.clsRuleCompareResult;
+import bfg.tools.cls0to1;
+import bfg.tools.xmltools.XMLException;
+import bfg.tools.xmltools.clsXMLAbstractImageReader;
+import bfg.tools.xmltools.clsXMLConfiguration;
+import bfg.utils.enums.enumTypeTrippleState;
 
 //TODO (langr): are these necessary???
 //import pkgTools.cls0to1;

@@ -7,10 +7,8 @@ package utils.Defaultconfig;
 
 import java.util.Iterator;
 
-import properties.clsProperties;
-
 import loader.clsSimplePropertyLoader;
-
+import properties.clsProperties;
 import sim.SimulatorMain;
 import utils.clsGetARSPath;
 import entities.factory.clsEntityFactory;

@@ -6,13 +6,14 @@
  */
 package body.attributes;
 
-import complexbody.io.sensors.datatypes.enums.eTriState;
-
 import properties.clsProperties;
-import entities.abstractEntities.clsEntity;
-import entities.enums.eBodyAttributes;
 import body.itfget.itfIsAlive;
 import body.itfget.itfIsConsumeable;
+
+import complexbody.io.sensors.datatypes.enums.eTriState;
+
+import entities.abstractEntities.clsEntity;
+import entities.enums.eBodyAttributes;
 
 /**
  * DOCUMENT (deutsch) - insert description 

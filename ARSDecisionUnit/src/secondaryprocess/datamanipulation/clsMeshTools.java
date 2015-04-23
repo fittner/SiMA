@@ -9,6 +9,12 @@ package secondaryprocess.datamanipulation;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import logger.clsLogger;
+import memorymgmt.enums.eContent;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.enums.ePredicate;
+
 import org.slf4j.Logger;
 
 import base.datahandlertools.clsDataStructureGenerator;
@@ -30,11 +36,6 @@ import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import logger.clsLogger;
-import memorymgmt.enums.eContent;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eDataType;
-import memorymgmt.enums.ePredicate;
 
 /**
  * This class contains methods for data search and extraction in meshes

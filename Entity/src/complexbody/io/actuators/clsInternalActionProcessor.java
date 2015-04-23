@@ -14,19 +14,20 @@ import java.util.Iterator;
 
 import org.slf4j.Logger;
 
-import complexbody.io.actuators.actionCommands.*;
+import properties.clsProperties;
+import utils.clsUniqueIdGenerator;
+import body.clsComplexBody;
+import body.itfget.itfGetBody;
+
+import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
+import complexbody.io.actuators.actionCommands.itfInternalActionProcessor;
 import complexbody.io.sensors.datatypes.enums.eCallPriority;
 
-import properties.clsProperties;
-
-
-import utils.clsUniqueIdGenerator;
 import datatypes.clsMutableDouble;
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
-import entities.enums.*;
-import body.clsComplexBody;
-import body.itfget.itfGetBody;
+import entities.enums.eBodyParts;
+import entities.enums.eExecutionResult;
 
 /**
  * The action processor provides functions to control the execution of commands

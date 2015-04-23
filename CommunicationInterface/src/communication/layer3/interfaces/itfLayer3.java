@@ -1,7 +1,6 @@
 package communication.layer3.interfaces;
 
 import communication.datatypes.clsDataContainer;
-import communication.datatypes.clsDataPoint;
 
 public interface itfLayer3 {
 

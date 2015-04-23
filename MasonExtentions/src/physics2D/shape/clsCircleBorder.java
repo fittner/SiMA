@@ -1,8 +1,10 @@
 package physics2D.shape;
 
+import java.awt.Graphics2D;
+import java.awt.Paint;
+
 import sim.physics2D.shape.Circle;
-import sim.portrayal.*;
-import java.awt.*;
+import sim.portrayal.DrawInfo2D;
 
 //import bw.entities.base.clsEntity;
 //import bw.factories.clsSingletonDisplay2D;

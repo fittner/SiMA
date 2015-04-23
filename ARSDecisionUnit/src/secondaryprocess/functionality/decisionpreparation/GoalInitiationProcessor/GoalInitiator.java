@@ -13,10 +13,10 @@ import memorymgmt.enums.eCondition;
 
 import org.slf4j.Logger;
 
-import base.datatypes.clsWordPresentationMeshMentalSituation;
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 

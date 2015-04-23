@@ -11,11 +11,11 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 import properties.clsProperties;
+import singeltons.eImages;
 
 import complexbody.io.actuators.clsActionExecutor;
-import complexbody.io.actuators.actionCommands.*;
-
-import singeltons.eImages;
+import complexbody.io.actuators.actionCommands.clsActionCommand;
+import complexbody.io.actuators.actionCommands.clsActionMove;
 
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;

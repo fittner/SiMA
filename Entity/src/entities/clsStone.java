@@ -9,14 +9,12 @@ package entities;
 
 import java.awt.Color;
 
-import complexbody.io.sensors.datatypes.enums.eEntityType;
-
 import properties.clsProperties;
-
 import tools.clsPose;
 import tools.eImagePositioning;
 import utils.clsGetARSPath;
 
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsInanimate;

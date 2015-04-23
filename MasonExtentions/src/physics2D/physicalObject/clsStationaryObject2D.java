@@ -10,19 +10,16 @@ import interfaces.itfSetupFunctions;
 
 import java.awt.image.BufferedImage;
 
-
-
 import physical2d.physicalObject.datatypes.eFacialExpression;
 import physical2d.physicalObject.datatypes.eSpeechExpression;
 import physics2D.shape.clsAnimatedCircleImage;
-
+import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.shape.Shape;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
-import sim.display.GUIState;
 import singeltons.clsSingletonMasonGetter;
 import singeltons.eImages;
 import tools.clsPose;

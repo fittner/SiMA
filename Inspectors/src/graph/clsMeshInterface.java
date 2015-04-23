@@ -6,8 +6,8 @@
  */
 package graph;
 
-import base.modules.clsPsychicApparatus;
 import modules.interfaces.eInterfaces;
+import base.modules.clsPsychicApparatus;
 
 /**
  * DOCUMENT (deutsch) - insert description 

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.ePhiPosition;
-import base.datatypes.helpstructures.clsTriple;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import base.datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -12,20 +12,13 @@ import interfaces.itfSetupFunctions;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-
-
-
 import physical2d.physicalObject.datatypes.eFacialExpression;
 import physical2d.physicalObject.datatypes.eSpeechExpression;
 import physics2D.physicalObject.motionplatform.clsMotionPlatform;
 import physics2D.shape.clsAnimatedCircleImage;
-
-
-
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
-
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;

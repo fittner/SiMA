@@ -9,17 +9,17 @@ package entities.abstractEntities;
 
 
 
-import physics2D.physicalObject.clsMobileObject2D;
-import properties.clsProperties;
 import interfaces.itfEntityInspectorFactory;
 import interfaces.itfMobile;
-import entities.systems.clsInventory;
-import entities.tools.clsShape2DCreator;
+import physics2D.physicalObject.clsMobileObject2D;
+import properties.clsProperties;
 import registration.clsRegisterEntity;
 //import bw.utils.inspectors.entity.clsInspectorBasic;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
 import tools.clsPose;
+import entities.systems.clsInventory;
+import entities.tools.clsShape2DCreator;
 
 
 

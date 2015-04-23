@@ -10,6 +10,8 @@ package complexbody.io;
 import java.util.HashMap;
 
 import properties.clsProperties;
+import body.clsBaseBody;
+import body.clsComplexBody;
 
 import complexbody.io.actuators.clsActionProcessor;
 import complexbody.io.actuators.clsInternalActionProcessor;
@@ -57,12 +59,9 @@ import complexbody.io.sensors.internal.clsStomachSensor;
 import complexbody.io.sensors.internal.clsStomachTensionSensor;
 import complexbody.io.sensors.internal.clsSweatSensor;
 import complexbody.io.sensors.internal.clsTemperatureSensor;
+
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
-
-import body.clsComplexBody;
-
-import body.clsBaseBody;
 
 /**
  * DOCUMENT (deutsch) - insert description 

@@ -6,11 +6,12 @@
  */
 package body.attributes;
 
+import properties.clsProperties;
+
 import complexbody.io.sensors.datatypes.enums.eEyeSize;
 import complexbody.io.sensors.datatypes.enums.eLensShape;
 import complexbody.io.sensors.datatypes.enums.eLensSize;
 
-import properties.clsProperties;
 import entities.enums.eBodyAttributes;
 
 /**

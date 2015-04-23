@@ -9,12 +9,13 @@
 package complexbody.io.sensors.internal;
 
 import properties.clsProperties;
+import body.clsBaseBody;
+import body.clsComplexBody;
+
 import complexbody.internalSystems.clsTemperatureSystem;
 import complexbody.io.clsBaseIO;
 
 import entities.enums.eBodyParts;
-import body.clsBaseBody;
-import body.clsComplexBody;
 
 /**
  * DOCUMENT (andi) - insert description 

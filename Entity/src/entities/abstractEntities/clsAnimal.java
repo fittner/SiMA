@@ -9,19 +9,18 @@ package entities.abstractEntities;
 
 import java.awt.Color;
 
-import complexbody.io.sensors.datatypes.enums.eEntityType;
-
-import control.interfaces.itfDecisionUnit;
-
 import properties.clsProperties;
-
 import tools.clsPose;
-import entities.enums.eShapeType;
-import entities.factory.clsEntityFactory;
-import entities.tools.clsShape2DCreator;
 import body.itfget.itfGetRadiation;
 import body.itfget.itfGetSensorEngine;
 import body.itfget.itfIsAlive;
+
+import complexbody.io.sensors.datatypes.enums.eEntityType;
+
+import control.interfaces.itfDecisionUnit;
+import entities.enums.eShapeType;
+import entities.factory.clsEntityFactory;
+import entities.tools.clsShape2DCreator;
 
 /**
  * Preliminary simple moving entities with the 'ability' to be eaten.

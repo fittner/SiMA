@@ -1,8 +1,5 @@
 package communication.layer2.implementations;
 
-import java.util.ArrayList;
-
-import commication.exceptions.exNeigbourLayerNullPointerException;
 import communication.datatypes.clsDataContainer;
 import communication.layer1.interfaces.itfLayer1;
 import communication.layer2.interfaces.itfLayer2;

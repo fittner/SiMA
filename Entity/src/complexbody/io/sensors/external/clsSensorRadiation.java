@@ -12,23 +12,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import complexbody.io.clsBaseIO;
-import complexbody.io.clsExternalIO;
-import complexbody.io.sensors.datatypes.enums.eEntityType;
-
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
 import properties.clsProperties;
+import sim.physics2D.util.Double2D;
+
+import complexbody.io.clsBaseIO;
+import complexbody.io.clsExternalIO;
+import complexbody.io.sensors.datatypes.enums.eEntityType;
 
 import entities.abstractEntities.clsEntity;
 import entities.enums.eBodyParts;
-
-
 //import bw.entities.clsUraniumOre;
-
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import sim.physics2D.util.Double2D;
 
 /**
  * TODO (zeilinger) - insert description 

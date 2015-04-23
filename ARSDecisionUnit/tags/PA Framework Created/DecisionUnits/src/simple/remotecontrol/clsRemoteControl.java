@@ -6,16 +6,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import statictools.clsGetARSPath;
-import statictools.clsSingletonUniqueIdGenerator;
-import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itf.actions.*;
-import decisionunit.itf.sensors.clsEatableArea;
-import enums.eActionMoveDirection;
-import enums.eActionTurnDirection;
-import enums.eEntityType;
-import enums.eSensorExtType;
-
 public class clsRemoteControl extends clsBaseDecisionUnit  {
 	private int mnUniqueId;
 	private int moKeyPressed;

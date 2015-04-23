@@ -12,7 +12,6 @@ import pa.interfaces.itfPrimaryProcessStorage;
 import pa.interfaces.itfSecondaryProcessAssociation;
 import pa.interfaces.itfSecondaryProcessRetrieval;
 import pa.interfaces.itfSecondaryProcessStorage;
-import config.clsBWProperties;
 
 //import pa.datatypes.clsBWProperties;
 

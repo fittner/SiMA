@@ -10,10 +10,10 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Formatter;
 
+import physical2d.physicalObject.datatypes.eSide;
+
 import complexbody.io.sensors.datatypes.enums.eAntennaPositions;
 import complexbody.io.sensors.datatypes.enums.eSaliency;
-
-import physical2d.physicalObject.datatypes.eSide;
 
 
 

@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
-
 import communication.layer2.interfaces.itfLayer2;
 import communication.layer3.interfaces.itfLayer3;
 import communication.layer4.interfaces.itfLayer4;

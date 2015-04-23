@@ -14,9 +14,9 @@ import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.ePhiPosition;
 import memorymgmt.enums.eRadius;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 
 /**
  * DOCUMENT (zeilinger) - The term Thing Presentation Mesh (TPM) describes a mesh of TPs which are connected via attribute associations. 

@@ -8,8 +8,6 @@ package pa.modules;
 
 import pa.interfaces.I1_1;
 import pa.interfaces.itfProcessHomeostases;
-import config.clsBWProperties;
-import decisionunit.itf.sensors.clsSensorData;
 
 /**
  * DOCUMENT (deutsch) - insert description 

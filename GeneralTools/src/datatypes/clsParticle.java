@@ -6,8 +6,8 @@
 package datatypes;
 
 // Imports
-import java.text.NumberFormat;
 import java.io.Serializable;
+import java.text.NumberFormat;
 
 /**
  *

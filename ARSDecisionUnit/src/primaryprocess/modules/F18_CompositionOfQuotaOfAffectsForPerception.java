@@ -14,6 +14,7 @@ import modules.interfaces.I5_10_receive;
 import modules.interfaces.I5_10_send;
 import modules.interfaces.I5_9_receive;
 import modules.interfaces.eInterfaces;
+import properties.clsProperties;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
@@ -21,7 +22,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import properties.clsProperties;
 
 /**
  * DOCUMENT (wendt) - insert description 

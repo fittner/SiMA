@@ -12,10 +12,10 @@ import java.util.Map;
 import java.util.SortedMap;
 
 import modules.interfaces.eInterfaces;
-import base.tools.toText;
 import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
 import utils.clsExceptionUtils;
+import base.tools.toText;
 
 /**
  * DOCUMENT (deutsch) - insert description 

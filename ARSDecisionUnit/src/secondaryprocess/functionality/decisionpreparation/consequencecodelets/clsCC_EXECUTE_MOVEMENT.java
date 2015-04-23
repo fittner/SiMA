@@ -7,11 +7,11 @@
 package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
 import memorymgmt.enums.eCondition;
-import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
+import base.datatypes.clsWordPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 

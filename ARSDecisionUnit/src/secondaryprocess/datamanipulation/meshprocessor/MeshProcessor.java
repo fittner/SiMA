@@ -12,13 +12,13 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.TestException;
+import testfunctions.meshtester.clsTestDataStructureConsistency;
 import base.datatypes.clsAssociationSecondary;
 import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsSecondaryDataStructure;
 import base.datatypes.clsWordPresentationMesh;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import testfunctions.TestException;
-import testfunctions.meshtester.clsTestDataStructureConsistency;
 
 /**
  * DOCUMENT (wendt) - insert description 

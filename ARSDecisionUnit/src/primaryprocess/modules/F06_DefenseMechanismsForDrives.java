@@ -28,6 +28,9 @@ import modules.interfaces.I5_18_send;
 import modules.interfaces.I5_22_receive;
 import modules.interfaces.I5_5_receive;
 import modules.interfaces.eInterfaces;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictDrive;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
@@ -40,16 +43,13 @@ import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
 import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsQuadruppel;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictDrive;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
-import base.datatypes.helpstructures.clsQuadruppel;
 
 /**
  * Defends forbidden drives. Super-Ego (F7 and F55) sends a list with forbidden drives to F06. F06 decides whether to 

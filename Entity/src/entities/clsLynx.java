@@ -11,19 +11,19 @@ package entities;
 import java.awt.Color;
 
 import properties.clsProperties;
+import sim.physics2D.shape.Shape;
+import tools.clsPose;
+import tools.eImagePositioning;
+import utils.clsGetARSPath;
+import body.clsComplexBody;
+import body.utils.clsNutritionLevel;
 
 import complexbody.internalSystems.clsDigestiveSystem;
 import complexbody.internalSystems.clsFlesh;
 import complexbody.internalSystems.clsInternalSystem;
 import complexbody.io.sensors.datatypes.enums.eEntityType;
+
 import control.interfaces.itfDecisionUnit;
-
-
-import sim.physics2D.shape.Shape;
-import tools.clsPose;
-import tools.eImagePositioning;
-import utils.clsGetARSPath;
-
 import entities.abstractEntities.clsAnimal;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
@@ -32,8 +32,6 @@ import entities.enums.eNutritions;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
-import body.clsComplexBody;
-import body.utils.clsNutritionLevel;
 
 /**
  * DOCUMENT (deutsch) - insert description 

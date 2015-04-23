@@ -8,11 +8,19 @@ package pa._v38.memorymgmt.framessearchspace.tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
+
+import logger.clsLogger;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
 
 import org.slf4j.Logger;
 
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceBase;
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
@@ -32,17 +40,8 @@ import base.datatypes.clsTemplateImage;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.itfInternalAssociatedDataStructure;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
-import logger.clsLogger;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceBase;
-import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
-import primaryprocess.datamanipulation.clsPrimarySpatialTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import testfunctions.clsTester;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

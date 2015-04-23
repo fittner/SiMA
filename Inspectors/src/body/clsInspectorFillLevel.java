@@ -29,15 +29,14 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LevelRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import complexbody.internalSystems.clsDigestiveSystem;
-import entities.enums.eNutritions;
-
-import body.utils.clsNutritionLevel;
-
 import sim.display.GUIState;
-
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
+import body.utils.clsNutritionLevel;
+
+import complexbody.internalSystems.clsDigestiveSystem;
+
+import entities.enums.eNutritions;
 
 /**
  * Inspector for testing purpose to switch on/off intelligence-levels in 'AI brain'  

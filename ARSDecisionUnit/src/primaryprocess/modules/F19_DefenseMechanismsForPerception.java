@@ -15,10 +15,6 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.SortedMap;
 
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
@@ -32,6 +28,13 @@ import modules.interfaces.I5_16_receive;
 import modules.interfaces.I5_16_send;
 import modules.interfaces.I5_22_receive;
 import modules.interfaces.eInterfaces;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+//import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+//import pa._v38.tools.clsMeshTools;
+import testfunctions.clsTester;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
@@ -52,9 +55,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-//import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-//import pa._v38.tools.clsMeshTools;
-import testfunctions.clsTester;
 
 /**
  * F19 defends forbidden perceptions and forbidden emotions.

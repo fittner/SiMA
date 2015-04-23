@@ -8,8 +8,6 @@ package secondaryprocess.datamanipulation;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-
 import logger.clsLogger;
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import memorymgmt.enums.eAction;
@@ -18,6 +16,9 @@ import memorymgmt.enums.eCondition;
 import memorymgmt.enums.eContent;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.ePredicate;
+
+import org.slf4j.Logger;
+
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationSecondary;
