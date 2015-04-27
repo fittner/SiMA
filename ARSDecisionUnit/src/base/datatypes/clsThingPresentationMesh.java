@@ -178,7 +178,19 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 			
 		}
 		else if (this.moContentType  == poDataStructure.moContentType ){
-			oRetVal = getMatchScore(this, oDataStructure);
+		    //kollmann: at this point, change ordering of comparison, depending on content type
+		    //          NOTE: the second parameter to getMatchScore(...) will determine the required inernal associations for a perfect match
+		    //          Example: 
+		    //                   A has internal associations X, Y, Z
+		    //                   B has internal associationx X, Y
+		    //                   getMatchScore(A, B) -> 1.0 match
+		    //                   getMatchScore(B, A) -> 0.6* match
+		    
+		    if(this.moContent.equals("Bodystate")) {
+		        oRetVal = getMatchScore(oDataStructure, this);
+		    } else {
+		        oRetVal = getMatchScore(this, oDataStructure);
+		    }
 		}
 		
 		//Special case, if the TPM is empty	

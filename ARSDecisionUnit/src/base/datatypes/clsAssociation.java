@@ -446,6 +446,8 @@ public abstract class clsAssociation extends clsDataStructurePA{
 				oResult += ":" + ((clsThingPresentation)moAssociationElement).getContent().toString();
 			} else if (moAssociationElement instanceof clsSecondaryDataStructure) {
 				oResult += ":" + ((clsSecondaryDataStructure)moAssociationElement).getContent().toString();
+			} else if (moAssociationElement instanceof clsEmotion) {
+			    oResult += ":" + ((clsEmotion)moAssociationElement).getContent().toString();
 			}
 
 //			// find moContent

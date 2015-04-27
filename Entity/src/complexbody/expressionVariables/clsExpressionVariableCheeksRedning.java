@@ -1,10 +1,17 @@
 package complexbody.expressionVariables;
 
+import properties.clsProperties;
+
 public class clsExpressionVariableCheeksRedning extends clsExpressionVariable{
 
 	static int counter = 0;
 	
-	public clsExpressionVariableCheeksRedning(){
+	public clsExpressionVariableCheeksRedning() {
+		super();
+	}
+	
+	public clsExpressionVariableCheeksRedning(String poPrefix, clsProperties poProp){
+		super(poPrefix, poProp);
 		counter++;
 		speakCounter();
 	}
@@ -17,5 +24,4 @@ public class clsExpressionVariableCheeksRedning extends clsExpressionVariable{
 	public String getName(){
 		return "CHEEKS_REDNING";
 	}
-	
 }

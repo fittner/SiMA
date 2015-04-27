@@ -1,9 +1,8 @@
 package complexbody.expressionVariables;
 
+import properties.clsProperties;
+
 public class clsExpressionVariableFacialEyes extends clsExpressionVariable{
-
-	private double mrCrying;
-
 	static int counter = 0;
 	
 	void speakCounter(){
@@ -11,28 +10,29 @@ public class clsExpressionVariableFacialEyes extends clsExpressionVariable{
 	}
 	
 	
-	public clsExpressionVariableFacialEyes(){
-		mrCrying = 0;
+	public clsExpressionVariableFacialEyes() {
+		super();
+	}
+	
+	public clsExpressionVariableFacialEyes(String poPrefix, clsProperties poProp){
+		super(poPrefix, poProp);
 		counter++;
 		speakCounter();
 	}
 	
 	
 	public double getCrying() {
-		return mrCrying;
+		return getEIntensity();
 	}
 	public void setCrying(double prCrying) {
-
 		// delete this line. for testing only...
 		System.out.println( this.getClass().toString() + " -> setting crying intensity: " + prCrying);
 
-		
-		this.mrCrying = prCrying;
+		triggerExpression(prCrying);
 	}
 	
 	@Override
 	public String getName(){
 		return "EYES_CRYING_INTENSITY";
 	}
-
 }

@@ -3,8 +3,9 @@ package complexbody.internalSystems;
 
 import java.util.ArrayList;
 
-import properties.clsProperties;
+import org.jfree.util.Log;
 
+import properties.clsProperties;
 import complexbody.expressionVariables.clsExpressionVariable;
 import complexbody.expressionVariables.clsExpressionVariableCheeksRedning;
 import complexbody.expressionVariables.clsExpressionVariableFacialEyeBrows;
@@ -13,7 +14,6 @@ import complexbody.expressionVariables.clsExpressionVariableFacialMouth;
 import complexbody.expressionVariables.clsExpressionVariableGeneralSweat;
 import complexbody.expressionVariables.clsExpressionVariablePartialSweat;
 import complexbody.expressionVariables.clsExpressionVariableShake;
-
 import body.itfStepUpdateInternalState;
 import body.attributes.clsBodyOrganArms;
 import body.attributes.clsBodyOrganHeart;
@@ -30,6 +30,15 @@ public class clsBodyOrganSystem implements itfStepUpdateInternalState {
 	public static final String P_BODYORGANLEGS = "bodyorganlegs";
 	public static final String P_BODYORGANSWEATGLANDS = "bodyorgansweatglands";
 	
+	public static final String P_BODYORGANEXPRESSIONS = "bodyorganexpressions";
+	public static final String P_BODYORGANEXPRESSION_SHAKE = "shake";
+	public static final String P_BODYORGANEXPRESSION_CHEEKSREDNING = "cheeksredning";
+	public static final String P_BODYORGANEXPRESSION_FACIALEYEBROWS = "facialeyebrows";
+	public static final String P_BODYORGANEXPRESSION_FACIALEYES = "facialeyes";
+	public static final String P_BODYORGANEXPRESSION_FACIALMOUTH = "facialmouth";
+	public static final String P_BODYORGANEXPRESSION_GENERALSWEAT = "generalsweat";
+	public static final String P_BODYORGANEXPRESSION_PARTIALSWEAT = "partialsweat";
+	
     // body parts
 	private ArrayList<clsExpressionVariable> moExpressionsList = null;
     private clsBodyOrganArms moBOArms;
@@ -43,7 +52,7 @@ public class clsBodyOrganSystem implements itfStepUpdateInternalState {
     public clsBodyOrganSystem(String poPrefix, clsProperties poProp) {
 
 		moExpressionsList = new ArrayList<clsExpressionVariable>();
-		initializeExpressionList();
+		//initializeExpressionList();
 		
 		
 //		moPersonalityParameterContainer = poPersonalityParameterContainer;
@@ -59,7 +68,7 @@ public class clsBodyOrganSystem implements itfStepUpdateInternalState {
  * @since 25.09.2014 14:07:46
  *
  */
-private void initializeExpressionList() {
+/*private void initializeExpressionList() {
 	moExpressionsList.add( new clsExpressionVariableShake() );
 	moExpressionsList.add( new clsExpressionVariableCheeksRedning() );
 	moExpressionsList.add( new clsExpressionVariableFacialEyeBrows() );
@@ -67,10 +76,10 @@ private void initializeExpressionList() {
 	moExpressionsList.add( new clsExpressionVariableFacialMouth() );
 	moExpressionsList.add( new clsExpressionVariableGeneralSweat() );
 	moExpressionsList.add( new clsExpressionVariablePartialSweat() );
-	moExpressionsList.add( new clsExpressionVariableShake() );
+	//moExpressionsList.add( new clsExpressionVariableShake() );
 	
 	
-}
+}*/
 
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -83,6 +92,17 @@ private void initializeExpressionList() {
 		oProp.putAll( clsBodyOrganLegs.getDefaultProperties(pre+P_BODYORGANLEGS) );
 		oProp.putAll( clsBodyOrganSweatGlands.getDefaultProperties(pre+P_BODYORGANSWEATGLANDS) );
 
+		//kollmann: now extend the pre string for the expression varaibles
+		pre = clsProperties.addDot(pre + P_BODYORGANEXPRESSIONS);
+		
+		oProp.putAll( clsExpressionVariableShake.getDefaultProperties(pre + P_BODYORGANEXPRESSION_SHAKE));
+		oProp.putAll( clsExpressionVariableCheeksRedning.getDefaultProperties(pre + P_BODYORGANEXPRESSION_CHEEKSREDNING));
+		oProp.putAll( clsExpressionVariableFacialEyeBrows.getDefaultProperties(pre + P_BODYORGANEXPRESSION_FACIALEYEBROWS));
+		oProp.putAll( clsExpressionVariableFacialEyes.getDefaultProperties(pre + P_BODYORGANEXPRESSION_FACIALEYES));
+		oProp.putAll( clsExpressionVariableFacialMouth.getDefaultProperties(pre + P_BODYORGANEXPRESSION_FACIALMOUTH));
+		oProp.putAll( clsExpressionVariableGeneralSweat.getDefaultProperties(pre + P_BODYORGANEXPRESSION_GENERALSWEAT));
+		oProp.putAll( clsExpressionVariablePartialSweat.getDefaultProperties(pre + P_BODYORGANEXPRESSION_PARTIALSWEAT));
+		
 		return oProp;
 
 	}
@@ -95,6 +115,19 @@ private void initializeExpressionList() {
 	    moBOLegs = new clsBodyOrganLegs(pre+P_BODYORGANLEGS, poProp);
 	    moBOSweatGlands = new clsBodyOrganSweatGlands(pre+P_BODYORGANSWEATGLANDS, poProp);
 
+	    //kollmann: now extend the pre string for the expression varaibles
+	    pre = clsProperties.addDot(pre + P_BODYORGANEXPRESSIONS);
+	    try {
+		    moExpressionsList.add( new clsExpressionVariableShake(pre + P_BODYORGANEXPRESSION_SHAKE, poProp) );
+			moExpressionsList.add( new clsExpressionVariableCheeksRedning(pre + P_BODYORGANEXPRESSION_CHEEKSREDNING, poProp) );
+			moExpressionsList.add( new clsExpressionVariableFacialEyeBrows(pre + P_BODYORGANEXPRESSION_FACIALEYEBROWS, poProp) );
+			moExpressionsList.add( new clsExpressionVariableFacialEyes(pre + P_BODYORGANEXPRESSION_FACIALEYES, poProp) );
+			moExpressionsList.add( new clsExpressionVariableFacialMouth(pre + P_BODYORGANEXPRESSION_FACIALMOUTH, poProp) );
+			moExpressionsList.add( new clsExpressionVariableGeneralSweat(pre + P_BODYORGANEXPRESSION_GENERALSWEAT, poProp) );
+			moExpressionsList.add( new clsExpressionVariablePartialSweat(pre + P_BODYORGANEXPRESSION_PARTIALSWEAT, poProp) );
+	    } catch(NumberFormatException e) {
+	    	Log.error("Number format exception in when applying expression properties in body organ system");
+	    }
 	}
 
 
