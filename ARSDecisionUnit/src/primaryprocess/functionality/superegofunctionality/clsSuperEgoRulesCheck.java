@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import utils.clsGetARSPath;
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDriveMesh;
@@ -27,7 +28,7 @@ import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
 import base.datatypes.enums.eOrgan;
 import base.datatypes.helpstructures.clsPair;
-import base.datatypes.helpstructures.clsTriple;
+import base.datatypes.helpstructures.clsQuadruppel;
 
 /**
  * DOCUMENT (Jordakieva) - die Klasse speichert die Über-Ich-Regeln (Perceptions, Drives, Emotions), welche extern aus einer Datei ausgelesen werden
@@ -43,17 +44,22 @@ public class clsSuperEgoRulesCheck {
     // 
     // right side of a rule (perceptions, drives, emotions)
     private ArrayList <clsPair <eContentType, String>> oForbiddenPerceptionRule = new ArrayList <clsPair <eContentType, String>> ();
-    private ArrayList <clsTriple <eDriveComponent, eOrgan, Double[]>> oForbiddenDriveRule = new ArrayList <clsTriple <eDriveComponent, eOrgan, Double[]>> ();
+    //private ArrayList <clsTriple <eDriveComponent, eOrgan, Double[]>> oForbiddenDriveRule = new ArrayList <clsTriple <eDriveComponent, eOrgan, Double[]>> ();
+  
+    private ArrayList <clsQuadruppel <eDriveComponent, eOrgan,  Double[], String >> oForbiddenDriveRule = new ArrayList <clsQuadruppel <eDriveComponent, eOrgan, Double[], String >> ();
+    
     private ArrayList <clsPair <eEmotionType, Double[]>> oForbiddenEmotionRule = new ArrayList <clsPair <eEmotionType, Double[]>> ();
     
     // right side of a rule (forbidden perceptions, drives, emotions)
     private ArrayList <clsPair <eContentType, String>> oForbiddenObject = new ArrayList <clsPair <eContentType, String>> (); //zB: eContentType.ENTITY, "CAKE"
     private ArrayList <clsPair <eDriveComponent, eOrgan>> oForbiddenDrive = new ArrayList <clsPair <eDriveComponent, eOrgan>> (); //zB: eDriveComponent.AGGRESSIVE, eOrgan STOMACH
+    private ArrayList <String> oForbiddenActions = new ArrayList <String>(); //for example, Action EAT
+    
     private ArrayList <eEmotionType> oForbiddenEmotion = new ArrayList <eEmotionType> ();
     
     // for internal rool checking
     private ArrayList<clsSuperEgoRulesCheck> moRules;  //   //die Regeln die das Über-Ich verbietet Ivy
-    private ArrayList<clsSuperEgoConflictDrive> moForbiddenDrives;
+    private ArrayList<clsSuperEgoConflictDrive> moForbiddenDrives = new ArrayList<clsSuperEgoConflictDrive>();
     private ArrayList<clsSuperEgoConflictPerception> moForbiddenPerceptions;
     private ArrayList<clsSuperEgoConflictEmotion> moForbiddenEmotions;
     private ArrayList<String> moSuperEgoOutputRules = new ArrayList <String> (); //für die Ausgabe  
@@ -63,6 +69,8 @@ public class clsSuperEgoRulesCheck {
     private clsThingPresentationMesh moPerceptionalMeshInput;
     private ArrayList<clsEmotion> moEmotionsInput;
     private ArrayList<clsDriveMesh> moDrivesInput;
+    
+    private ArrayList<clsDriveMesh> moForbiddenMemorizedDrives = new ArrayList<clsDriveMesh>();
     
     private double superEgoRuleStrength; // indicates how important a super-ego rule is
     
@@ -83,7 +91,11 @@ public class clsSuperEgoRulesCheck {
      *             fl [Zahl, null] ist nicht vorgesehen
      */
     public clsSuperEgoRulesCheck (eDriveComponent edc, eOrgan eorg, Double[] fl) {
-        addFRule(edc, eorg, fl); 
+        addFRule(edc, eorg, fl, null); 
+    }
+    
+    public clsSuperEgoRulesCheck (eDriveComponent edc, eOrgan eorg, Double[] fl, String pAction) {
+        addFRule(edc, eorg, fl, pAction); 
     }
     /**
      * DOCUMENT (Jordakieva) - Konstruktor
@@ -158,9 +170,10 @@ public class clsSuperEgoRulesCheck {
                 
                 if (prSuperEgoStrength >= nSuperEgo) { //die Regel wird angenommen und abgespeichert nur wenn das moSuperEgoStrength größer ist als das im property-File
                 
-                    String oeDrive ="", oeOrgan="", oeEmotion="";
+                    String oeDrive ="", oeOrgan="", oeEmotion="", oAction="";
                     boolean schalter = false; //wenn true ist ein eDriveComponent gefunden
                     boolean beEmotion = false; //true, wenn ein eEmotionType gefunden wurde
+                    boolean bActionFlag = false;
                     
                     for (int nDriveElements = oLineConditions.length, i = 0; i < nDriveElements; i++) { // für alle Tuppeln EINER TriebeRegel
                         String[] oLineElements = oLineConditions[i].split(" "); //Tuppel Unterteilung in Elemente
@@ -172,7 +185,7 @@ public class clsSuperEgoRulesCheck {
                                 if (!oeDrive.isEmpty() && schalter) { //wenn kein QoA angegeben war, jedoch ein nicht abgespeichertes eDriveComponent und eOrgan 
                                     if (nStelle == nListe) //wenn true, ist es ein erstes Element, deswegen mit new anlegen; ansonsten eben add-en
                                         oRegeln.add(nListe, new clsSuperEgoRulesCheck (eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null) );
-                                    else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null);
+                                    else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null, null);
                                     
                                     nStelle++; //erhöhen, damit das nächste nicht mit new angelegt wird und somit unzusammenhängend wird
                                     oeDrive = "";
@@ -182,7 +195,12 @@ public class clsSuperEgoRulesCheck {
                             } else if (oLineElements[0].equalsIgnoreCase("eOrgan"))  {
                                 oeOrgan = oLineElements[1];
                                 schalter = true; //man soll den Trieb nicht gleich abspeichern, weil er vlt ein QoA hat
-                            } else if (oLineElements[0].equalsIgnoreCase("QoA"))  {
+                            } else if(oLineElements[0].equalsIgnoreCase("ACTION")) {
+                                oAction = oLineElements[1];
+                                bActionFlag = true;
+                            }
+                            
+                            else if (oLineElements[0].equalsIgnoreCase("QoA"))  {
                                 Double[] rTmpQoA = {Double.NEGATIVE_INFINITY, Double.valueOf(oLineElements[1])}; 
                                 
                                 if (beEmotion) {
@@ -192,13 +210,23 @@ public class clsSuperEgoRulesCheck {
                                     
                                     nStelle++;
                                     beEmotion = false;
-                                } else if (oeDrive.isEmpty() || oeOrgan.isEmpty())
+                                } else if (bActionFlag) {
+                                    if (nStelle == nListe) 
+                                    oRegeln.add(new clsSuperEgoRulesCheck (null, null, rTmpQoA, oAction)); 
+                                else oRegeln.get(nListe).addFRule(null, null, rTmpQoA, oAction); 
+                                    
+                                    nStelle++;
+                                    bActionFlag = false; 
+                                } 
+                                
+                                
+                                else if (oeDrive.isEmpty() || oeOrgan.isEmpty())
                                     System.err.println("ein unzusammenhängendes QoA wurde eingetragen, Zeile: " + nFileRow);
                                 else {
 
                                     if (nStelle == nListe) 
                                         oRegeln.add(new clsSuperEgoRulesCheck (eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), rTmpQoA) );
-                                    else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), rTmpQoA);
+                                    else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), rTmpQoA, null);
     
                                     nStelle++;
                                     oeDrive = "";
@@ -223,13 +251,22 @@ public class clsSuperEgoRulesCheck {
                                     nStelle++;
                                     beEmotion = false;
                                 }
+                                
+                                else if(bActionFlag) {
+                                    if (nStelle == nListe) 
+                                        oRegeln.add(new clsSuperEgoRulesCheck ( null, null ,rTmpQoA, oAction) );
+                                    else oRegeln.get(nListe).addFRule(null, null, rTmpQoA, oAction);  
+                                    nStelle++;
+                                    bActionFlag = false; 
+                                }
+                                
                                 else if (oeDrive.isEmpty() || oeOrgan.isEmpty())
                                     System.err.println("ein unzusammenhängendes QoA wurde eingetragen, Zeile: " + nFileRow);
                                 else {
                                                                         
                                     if (nStelle == nListe) 
                                         oRegeln.add(new clsSuperEgoRulesCheck (eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), rTmpQoA) );
-                                    else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), rTmpQoA);
+                                    else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), rTmpQoA, null);
                                  
                                     nStelle++;
                                     oeDrive = "";
@@ -239,7 +276,7 @@ public class clsSuperEgoRulesCheck {
                             } else if (!oeDrive.isEmpty() && schalter) { //wenn kein QoA angegeben war, jedoch ein nicht abgespeichertes eDriveComponent und eOrgan 
                                 if (nStelle == nListe) 
                                     oRegeln.add(nListe, new clsSuperEgoRulesCheck (eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null) );
-                                else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null);
+                                else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null,  null);
                                 
                                 nStelle++;
                                 oeDrive = "";
@@ -252,6 +289,15 @@ public class clsSuperEgoRulesCheck {
                                 
                                 nStelle++;
                                 beEmotion = false;
+                            }
+                            
+                            else if(bActionFlag) {
+                                if (nStelle == nListe) 
+                                    oRegeln.add(nListe, new clsSuperEgoRulesCheck (null, null, null, oAction) );
+                                else oRegeln.get(nListe).addFRule(null, null, null, oAction);
+                                
+                                nStelle++;
+                                bActionFlag = false;  
                             }
                             
                             if (oLineElements[0].equalsIgnoreCase("eContentType")) {
@@ -267,7 +313,7 @@ public class clsSuperEgoRulesCheck {
                     if (!oeDrive.isEmpty() && schalter) { //wenn kein QoA angegeben war, jedoch ein nicht abgespeichertes eDriveComponent und eOrgan 
                         if (nStelle == nListe) 
                             oRegeln.add(nListe, new clsSuperEgoRulesCheck (eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null) );
-                        else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null);
+                        else oRegeln.get(nListe).addFRule(eDriveComponent.valueOf(oeDrive), eOrgan.valueOf(oeOrgan), null, null);
                     }
                     
                     if (oSplitFileLine.length > 0)  {
@@ -279,9 +325,13 @@ public class clsSuperEgoRulesCheck {
                                 String[] oSplit = oSplitFileLine[i].split(" ");
                                 
                                 // zu blockierende Triebe und Wahrnehmungen abspeichern
-                                if (oSplit[0].equalsIgnoreCase("eContentType") && oSplit[1].equalsIgnoreCase("ENTITY")) {
+                                if (oSplit[0].equalsIgnoreCase("eContentType")) {
                                     oRegeln.get(nListe).addFObject(eContentType.valueOf(oSplit[1]), oSplit[2]);
-                                } else if (oSplit[0].equalsIgnoreCase("eDriveComponent")) {
+                                }
+                                else if(oSplit[0].equalsIgnoreCase("ACTION")) {
+                                    oRegeln.get(nListe).addFObject(oSplit[1]);
+                                }
+                                else if (oSplit[0].equalsIgnoreCase("eDriveComponent")) {
                                     oBuffer = oSplit[1];                                
                                 } else if (oSplit[0].equalsIgnoreCase("eOrgan")) {
                                     if (!oBuffer.isEmpty()) {
@@ -326,13 +376,13 @@ public class clsSuperEgoRulesCheck {
      * @param eorg - eOrgan = die Triebart
      * @param fl - Double = den QoA
      */
-    public void addFRule (eDriveComponent edc, eOrgan eorg, Double[] fl) {
+    public void addFRule (eDriveComponent edc, eOrgan eorg,  Double[] fl, String poAction) { 
         if (fl != null) {
             if (fl[0] == null) fl[0] = Double.NEGATIVE_INFINITY;
-            oForbiddenDriveRule.add(new clsTriple<eDriveComponent, eOrgan, Double[]>(edc, eorg, fl));
+            oForbiddenDriveRule.add(new clsQuadruppel<eDriveComponent, eOrgan, Double[],  String>(edc, eorg, fl, poAction));
         } else {
             Double[] temp = {Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY};
-            oForbiddenDriveRule.add(new clsTriple<eDriveComponent, eOrgan, Double[]>(edc, eorg, temp));
+            oForbiddenDriveRule.add(new clsQuadruppel<eDriveComponent, eOrgan, Double[],  String>(edc, eorg,  temp, poAction));
         }
     }       
     /**
@@ -366,6 +416,11 @@ public class clsSuperEgoRulesCheck {
      */
     public void addFObject (eContentType type, String str) {
         oForbiddenObject.add( new clsPair <eContentType, String> (type, str));
+    }
+    
+    
+    public void addFObject (String str) {
+        oForbiddenActions.add(str);
     }
     /**
      * DOCUMENT (Jordakieva) - speichert der zu verbietende Trieb
@@ -433,8 +488,7 @@ public class clsSuperEgoRulesCheck {
      * @param i - die Stelle
      * @return die verbotene Trieb-Regel
      */
-    public clsTriple <eDriveComponent, eOrgan, Double[]> getDriveRule (int i) {
-        if (oForbiddenDriveRule.size() < i) return null;
+    public clsQuadruppel <eDriveComponent, eOrgan, Double[], String> getDriveRule (int i) {
         return oForbiddenDriveRule.get(i);
     }
     /**
@@ -497,7 +551,7 @@ public class clsSuperEgoRulesCheck {
         return oForbiddenPerceptionRule.get(i);
     }
     
-    public clsTriple <eDriveComponent, eOrgan, Double[]> getForbiddenDriveRule (int i) {
+    public clsQuadruppel<eDriveComponent, eOrgan, Double[], String> getForbiddenDriveRule (int i) {
         if (oForbiddenDriveRule.size() < i) return null;
         return oForbiddenDriveRule.get(i);
     }
@@ -544,7 +598,9 @@ public class clsSuperEgoRulesCheck {
         return oForbiddenEmotionRule.size();
     }
     
-    
+    public int actionSize() {
+        return oForbiddenActions.size();
+    }
     
     /**
      * DOCUMENT (Jordakieva) - Anzahl der zu verbietende Objekte in der einen Regel
@@ -583,7 +639,7 @@ public class clsSuperEgoRulesCheck {
         moDrivesInput = poDrivesInput;
         moEmotionsInput = poEmotions_Input;
         moPerceptionalMeshInput = poPerceptionalMesh;
-        
+          
     }
     
     
@@ -606,7 +662,7 @@ public class clsSuperEgoRulesCheck {
            moForbiddenPerceptions.clear();
            moForbiddenEmotions   .clear();
            moSuperEgoOutputRules .clear();
-           
+           oForbiddenActions .clear();
            // reading the rools from File
            moRules =   readSuperEgoRules(moSuperEgoStrength, oFileName );
 
@@ -623,6 +679,8 @@ public class clsSuperEgoRulesCheck {
                        int perceptionInOneRule = moRules.get(i).perceptionSize();
                        int emotionsInOneRule = moRules.get(i).emotionSize();
                        
+                       moForbiddenMemorizedDrives.clear();
+                       
                        double quotaOfAffect_of_ForbiddenDrives = checkForDrives (drivesInOneRule, i);
                        double rIntensityOfConflictingEmotions = checkForEmotions (emotionsInOneRule, i);
                            
@@ -631,11 +689,14 @@ public class clsSuperEgoRulesCheck {
 
                            moSuperEgoOutputRules.add("FileRule: " + (i+1) + "\nDrives:");
                            for (int tmp=0; tmp < drivesInOneRule; tmp++) {
-                               moSuperEgoOutputRules.add(moRules.get(i).getForbiddenDriveRule(tmp).a.toString() + " " +
-                                       moRules.get(i).getForbiddenDriveRule(tmp).b.toString() + " " +
+                              //clsQuadruppel<eDriveComponent, eOrgan, Double[], String> tmpRule = moRules.get(i).getForbiddenDriveRule(tmp);
+                              // String 
+                               //if(tmpRule.a != null)
+                               
+                               moSuperEgoOutputRules.add(
                                        moRules.get(i).getForbiddenDriveRule(tmp).c[0].toString() + " " +
                                        moRules.get(i).getForbiddenDriveRule(tmp).c[1].toString());
-                                   
+                                 
                            }
                            moSuperEgoOutputRules.add("\nPerception:");
                            for (int tmp=0; tmp < perceptionInOneRule; tmp++) 
@@ -650,8 +711,12 @@ public class clsSuperEgoRulesCheck {
                            
                            double rConflictTension;
                            
-                           for (int fd = 0; fd < moRules.get(i).FDriveSize(); fd++) {
-                               rConflictTension = quotaOfAffect_of_ForbiddenDrives + moRules.get(i).getSuperEgoRuleStrength();
+                           
+                           //for (int fd = 0; fd < moRules.get(i).FDriveSize(); fd++)
+                           for (int fd = 0; fd < drivesInOneRule; fd++) {
+                               //for sublimation  rConflictTension = quotaOfAffect_of_ForbiddenDrives + moRules.get(i).getSuperEgoRuleStrength();
+                               
+                               rConflictTension = Math.min(quotaOfAffect_of_ForbiddenDrives + moRules.get(i).getSuperEgoRuleStrength(), 0.5);
                                
                                // hier ist noch ein Fehler drinnen: am 18.03.2014 war
                                // der Datentyp von moForbiddenDrives: ArrayList<clsSuperEgoConflict>
@@ -659,12 +724,22 @@ public class clsSuperEgoRulesCheck {
                                // der Datentyp von oRegeln.get(i).getForbiddenDrive(fd): clsPair <eDriveComponent, eOrgan>
                                // Das heißt, die folgende if-Bedingung kann niemals false werden - der Compiler wurde da ausgetrickst.
                                // Das Gleiche gilt auch für die übernächste if-Bedingung.
-                               if (!moForbiddenDrives.contains(moRules.get(i).getForbiddenDrive(fd)))
+                               //if (moForbiddenDrives.isEmpty() || !moForbiddenDrives.contains(moRules.get(i).getForbiddenDrive(fd)))
+                                  // moForbiddenDrives.add(new clsSuperEgoConflictDrive(moRules.get(i).getForbiddenDrive(fd), rConflictTension));
+                            // if some of the memorized drives are found conflicting and one of the drive has conflicting action as internally connected memorized drive 
+                               if(!moForbiddenMemorizedDrives.isEmpty() && !moRules.get(i).oForbiddenActions.isEmpty() &&  
+                                (moForbiddenDrives.isEmpty() || !moForbiddenDrives.contains(moRules.get(i).getForbiddenDrive(fd)))) {
+                                   for(int j = 0; j < moForbiddenMemorizedDrives.size(); j++) {
+                                       moForbiddenDrives.add(new clsSuperEgoConflictDrive(moRules.get(i).oForbiddenActions.get(fd),rConflictTension, moForbiddenMemorizedDrives.get(j).getDriveComponent(), moForbiddenMemorizedDrives.get(j).getActualDriveSourceAsENUM()));
+                                   }
+                                  // moForbiddenDrives.add(new clsSuperEgoConflictDrive(moRules.get(i).oForbiddenActions.get(fd), rConflictTension));
+                               }
+                               else if(!moForbiddenDrives.contains(moRules.get(i).getForbiddenDrive(fd)) && moRules.get(i).oForbiddenActions.isEmpty()){
                                    moForbiddenDrives.add(new clsSuperEgoConflictDrive(moRules.get(i).getForbiddenDrive(fd), rConflictTension));
-                             
-                               // if drive is already in list of forbidden drives: change conflict tension
-                               else
+                               }
+                               else if(moForbiddenDrives.contains(moRules.get(i).getForbiddenDrive(fd))) {
                                    moForbiddenDrives.get(moForbiddenDrives.lastIndexOf(moRules.get(i).getForbiddenDrive(fd))).setConflictTension(rConflictTension);
+                               }
                            }
                            
                            for (int fp = 0; fp < moRules.get(i).FObjectSize(); fp++) {
@@ -800,30 +875,85 @@ public class clsSuperEgoRulesCheck {
         boolean match;
         int d;
         double sum_of_QuoataOfAffect_of_MatchingDrives = 0;
+        // number of drives with forbidden action
+        double numberOfConflictMemorizedDrives = 0;
         
         for (d = 0, match = true; d < driveSize && match; d++) { //für alle DM in einer Regel
             
             match = false;
-            for (clsDriveMesh oDrive : moDrivesInput) { //moDrives ist received_I5_12 moDrives = (ArrayList<clsDriveMesh>) deepCopy(poDrives);
+            
+            for (clsDriveMesh oDrive : moDrivesInput) { 
+                // // when do we have a drive as forbidden source
+                if (moRules.get(position).getDriveRule(d).d == null || moRules.get(position).getDriveRule(d).d == "") { 
+                        if(oDrive.getDriveComponent().equals(moRules.get(position).getDriveRule(d).a) &&
+                            oDrive.getActualDriveSourceAsENUM().equals(moRules.get(position).getDriveRule(d).b) &&
+                            oDrive.getQuotaOfAffect() >= moRules.get(position).getDriveRule(d).c[0] && 
+                            oDrive.getQuotaOfAffect() <= moRules.get(position).getDriveRule(d).c[1]) 
+                    {
+                        match = true;
+                        sum_of_QuoataOfAffect_of_MatchingDrives += oDrive.getQuotaOfAffect();
+                        break; 
+                    } 
+                  
+                }// when we have an action as forbidden source
                 
-                if (oDrive.getDriveComponent().equals(moRules.get(position).getDriveRule(d).a) &&
-                        oDrive.getActualDriveSourceAsENUM().equals(moRules.get(position).getDriveRule(d).b) &&
-                        oDrive.getQuotaOfAffect() >= moRules.get(position).getDriveRule(d).c[0] && 
-                        oDrive.getQuotaOfAffect() <= moRules.get(position).getDriveRule(d).c[1]) 
-                {
-                    match = true;
-                    sum_of_QuoataOfAffect_of_MatchingDrives += oDrive.getQuotaOfAffect();
-                    break;
-                } 
+                else {
+                    for(clsAssociation externalAssociation : oDrive.getExternalAssociatedContent()) {
+                        // for all associated DriveMesches
+                        if (externalAssociation.getAssociationElementB().getMoDataStructureType() ==  eDataType.DM) 
+                        {
+                            clsDriveMesh moMemorizedDrive = (clsDriveMesh)externalAssociation.getAssociationElementB();  
+                            if(moMemorizedDrive.getActualDriveAim().getContent().equalsIgnoreCase(moRules.get(position).getDriveRule(d).d) &&
+                               moMemorizedDrive.getQuotaOfAffect() >= moRules.get(position).getDriveRule(d).c[0] &&
+                               moMemorizedDrive.getQuotaOfAffect() <= moRules.get(position).getDriveRule(d).c[1])  {
+                                sum_of_QuoataOfAffect_of_MatchingDrives += moMemorizedDrive.getQuotaOfAffect();
+                                numberOfConflictMemorizedDrives ++;
+                                moForbiddenMemorizedDrives.add(oDrive);
+                            }
+                        
+                        }
+                        else continue;
+                    }
+                }
             }
 
         }
         
-        if (d == driveSize && match)        
-            return sum_of_QuoataOfAffect_of_MatchingDrives;
+        
 
-        else return -1.0; // no match found or not all drive mashes of the super-ego-rule match
+        if(d == driveSize) {
+            if(numberOfConflictMemorizedDrives > 0 && match)
+                return sum_of_QuoataOfAffect_of_MatchingDrives/(numberOfConflictMemorizedDrives+1);
+            else if(numberOfConflictMemorizedDrives > 0 && !match)
+                return sum_of_QuoataOfAffect_of_MatchingDrives/(numberOfConflictMemorizedDrives);
+        
+            else if (match)        
+                return sum_of_QuoataOfAffect_of_MatchingDrives; 
+        }
+        
+         return -1.0; // no match found or not all drive mashes of the super-ego-rule match
     }
+        
+    
+    /**
+     * @since Apr 21, 2015 12:21:25 PM
+     * 
+     * @return the oForbiddenAction
+     */
+    public ArrayList <String> getoForbiddenAction() {
+        return oForbiddenActions;
+    }
+    /**
+     * @since Apr 21, 2015 12:21:25 PM
+     * 
+     * @param oForbiddenAction the oForbiddenAction to set
+     */
+    public void setoForbiddenAction(ArrayList <String> oForbiddenAction) {
+        this.oForbiddenActions = oForbiddenAction;
+    }
+    
+    
+    //private double calculateConflictTension
 
     
 
