@@ -687,15 +687,25 @@ public class clsSuperEgoRulesCheck {
                        //wurden alle DM, TPM und Emotions von der aktuellen = i Regel gefunden
                        if (quotaOfAffect_of_ForbiddenDrives >= 0 && checkForPerception (perceptionInOneRule, i) && rIntensityOfConflictingEmotions >= 0) { 
 
-                           moSuperEgoOutputRules.add("FileRule: " + (i+1) + "\nDrives:");
+                          moSuperEgoOutputRules.add("FileRule: " + (i+1) + "\nDrives:");
                            for (int tmp=0; tmp < drivesInOneRule; tmp++) {
                               //clsQuadruppel<eDriveComponent, eOrgan, Double[], String> tmpRule = moRules.get(i).getForbiddenDriveRule(tmp);
                               // String 
                                //if(tmpRule.a != null)
-                               
-                               moSuperEgoOutputRules.add(
-                                       moRules.get(i).getForbiddenDriveRule(tmp).c[0].toString() + " " +
-                                       moRules.get(i).getForbiddenDriveRule(tmp).c[1].toString());
+                           StringBuffer strBufferDriveRule = new StringBuffer();
+                           
+                           if(moRules.get(i).getForbiddenDriveRule(tmp).a != null)
+                               strBufferDriveRule.append(moRules.get(i).getForbiddenDriveRule(tmp).a.toString());
+                           if(moRules.get(i).getForbiddenDriveRule(tmp).b != null)
+                               strBufferDriveRule.append(moRules.get(i).getForbiddenDriveRule(tmp).b.toString());
+                           
+                           strBufferDriveRule.append(moRules.get(i).getForbiddenDriveRule(tmp).c[0].toString());
+                           strBufferDriveRule.append(moRules.get(i).getForbiddenDriveRule(tmp).c[1].toString());
+                           
+                           if(moRules.get(i).getForbiddenDriveRule(tmp).d != null)
+                               strBufferDriveRule.append(moRules.get(i).getForbiddenDriveRule(tmp).d.toString());
+                           
+                           moSuperEgoOutputRules.add(strBufferDriveRule.toString());
                                  
                            }
                            moSuperEgoOutputRules.add("\nPerception:");
@@ -908,7 +918,8 @@ public class clsSuperEgoRulesCheck {
                                moMemorizedDrive.getQuotaOfAffect() <= moRules.get(position).getDriveRule(d).c[1])  {
                                 sum_of_QuoataOfAffect_of_MatchingDrives += moMemorizedDrive.getQuotaOfAffect();
                                 numberOfConflictMemorizedDrives ++;
-                                moForbiddenMemorizedDrives.add(oDrive);
+                                if(!moForbiddenMemorizedDrives.contains(oDrive))
+                                    moForbiddenMemorizedDrives.add(oDrive);
                             }
                         
                         }
