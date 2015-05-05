@@ -454,6 +454,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         return oCurrentEmotions;
 	}
 	
+	
+	//search TPM which were received from the receptors in the memory 
 	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
         ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
         ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
@@ -677,7 +679,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	protected void process_final() {
 		throw new java.lang.NoSuchMethodError();
 	}
-
+	// Internal attributes = body state variables, distance ...
 	private boolean isInternalAttribute(String poAttribute) {
 		for(eEntityExternalAttributes eAttr: eEntityExternalAttributes.values()) {
 			if  (eAttr.toString().equals(poAttribute)){
@@ -835,10 +837,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
 	
+		// list of external associations which we will remove later on (external associations will not needed for search and so on)
 		ArrayList<clsAssociation> oRemoveAss = null;
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResults = 
 						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-					
+		// entities for search from enviroment without external associations			
 		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
 						
 		clsThingPresentationMesh oUnknownTPM = null;
@@ -852,7 +855,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
 													
 							// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
-							for (clsAssociation oIntAss: oUnknownTPM.getInternalAssociatedContent()) {
+					// remove external attributes		
+					for (clsAssociation oIntAss: oUnknownTPM.getInternalAssociatedContent()) {
 								if (isInternalAttribute(oIntAss.getAssociationElementB().getContentType().toString()) == false) {
 									// remove Assoc from internal and put it in external assoc
 									oRemoveAss.add(oIntAss);
@@ -873,7 +877,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				//koller create bodystate search objects
                 boolean boCheckForBodystate = false;
                 clsThingPresentationMesh tpm = null;
-                
+                //which variables should we search for defining which emotion it is (shaking, cheeks_redning and so on )
                 ArrayList<clsThingPresentation> oArrayListExpressionVarTPForSearch = null;
                 clsThingPresentationMesh oTPMForSearch = null;
                 int rTPMCount = 0;
@@ -883,7 +887,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         tpm = (clsThingPresentationMesh)pdsc.getMoDataStructure(); 
                         boCheckForBodystate = false;
                         oArrayListExpressionVarTPForSearch = new ArrayList<clsThingPresentation>();
-                            
+                        //emotion expression - our body states variables    
+
+                        
                         for (clsAssociation iterAssoc : tpm.getExternalAssociatedContent()) { 
                             for(eEmotionExpression e :eEmotionExpression.values()){
                                 if(iterAssoc.getAssociationElementB().getContentType().toString() == e.toString()){
@@ -927,6 +933,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 }
                 
                 // "Von sich ausgehen" für die Erinnerungen an Bodystates
+                
                 ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchItemsToRemove = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
                 boolean bAddToRemoveList;
                 for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult : oSearchResults){
@@ -947,7 +954,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                                 } else if(oAssociation.getAssociationElementB().getContentType().equals(eContentType.ENTITY) &&
                                         ((clsThingPresentationMesh) oAssociation.getAssociationElementB()).getContent().equals("SELF")) {
                                     bAddToRemoveList = false;
-                                    break;
+                                    break;  
                                 } 
                             }
                             if(bAddToRemoveList == true){
@@ -959,6 +966,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         oSearchResult.remove(pair);
                     }
                 }//end koller
+                
+                //begin Zhukova
                 
 				//TODO: embed this code in search function
 				for(ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult :oSearchResults) {
@@ -1040,7 +1049,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		return k;
 	}
 	
-	
+	//combines the k-number of candidates into one resulting candidate
 	private HashMap<String, ArrayList<clsAssociation>> getKassDMs(long prK, ArrayList<clsDataStructureContainer> poSpecificCandidates){
 
 		ArrayList<clsAssociation> oAssDMList = new ArrayList<clsAssociation>();
