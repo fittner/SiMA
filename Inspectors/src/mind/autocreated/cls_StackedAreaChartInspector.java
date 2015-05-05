@@ -37,6 +37,7 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	protected String moYAxisCaption = "";
 	protected itfInspectorStackedAreaChart moContent = null;
 	protected DefaultCategoryDataset moDataset = null;
+	protected String moLabel = "";
 	
 	/**
 	 * DOCUMENT (Kollmann) - insert description 
@@ -50,8 +51,10 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	 */
 	public cls_StackedAreaChartInspector(
 			itfInspectorStackedAreaChart poTimingContainer, String poYAxisCaption,
-			String poChartName) {
+			String poChartName, String poLabel) {
 		super(poChartName);
+		
+		moLabel = poLabel;
 
 		moContent = poTimingContainer;
 		moChartName = poChartName;
@@ -71,7 +74,7 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	@Override
 	protected ChartPanel initChart() {
 		final JFreeChart chart = ChartFactory.createStackedAreaChart(
-	            moChartName,      			// chart title
+	            moContent.getTitle(moLabel),// chart title
 	            "Steps",                	// domain axis label
 	            moYAxisCaption,             // range axis label
 	            moDataset,					// data
@@ -92,9 +95,11 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	        final CategoryAxis domainAxis = plot.getDomainAxis();
 	        domainAxis.setLowerMargin(0.0);
 	        domainAxis.setUpperMargin(0.0);
-
+	        domainAxis.setTickLabelsVisible(false);
+	        
 	        // change the auto tick unit selection to integer units only...
 	        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+	        rangeAxis.setRange(0.0, 1.0);
 	        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
 	        final CategoryItemRenderer renderer = plot.getRenderer();
@@ -116,8 +121,8 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	 */
 	@Override
 	protected void updateDataset() {
-		ArrayList<Double> oData = moContent.getData();
-		ArrayList<String> oCaptions = moContent.getCategoryCaptions();
+		ArrayList<Double> oData = moContent.getData(moLabel);
+		ArrayList<String> oCaptions = moContent.getCategoryCaptions(moLabel);
 		
 		if(oData.size() != oCaptions.size()) {
 			throw new RuntimeException("Dataset inconsistent");

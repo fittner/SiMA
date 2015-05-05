@@ -1,4 +1,4 @@
-; Thu Apr 23 13:31:59 CEST 2015
+; Thu Apr 30 10:55:58 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1924,6 +1924,13 @@
 		[EMOTION%3AA14_FLEE_BODO_L01_I02%3AANXIETY])
 	(weight 1.0 1.0))
 
+([ASSOCIATIONEMOTION%3ABODO%3ADISLIKE] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AENTITY%3AARSIN%3ABODO]
+		[EMOTION%3ABODO%3ADISLIKE])
+	(weight 1.0 1.0))
+
 ([ASSOCIATIONEMOTION%3AS01_BODO_CAKE] of  ASSOCIATIONEMOTION
 
 	(element
@@ -3557,6 +3564,16 @@
 	(sourceUnpleasure 0.2)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
+
+([EMOTION%3ABODO%3ADISLIKE] of  EMOTION
+
+	(emotionIntensity 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 1.0)
+	(sourceUnpleasure 0.0)
+	(value "ANGER")
+	(value_type "MEMORIZEDEMOTION"))
 
 ([EMOTION%3ABODO_CAKE] of  EMOTION
 
