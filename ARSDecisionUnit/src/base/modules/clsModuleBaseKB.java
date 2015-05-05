@@ -70,7 +70,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @return the moMemoryAccess
 	 */
 	public itfModuleMemoryAccess getLongTermMemory() {
-		return moMemoryAccess;
+ 		return moMemoryAccess;
 	}
 
 //	/**

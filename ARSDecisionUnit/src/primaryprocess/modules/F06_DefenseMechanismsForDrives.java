@@ -396,12 +396,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 
 		moTimeInputChartData();
 		detect_conflict_and_activate_defense_machanisms();
-		
-		
-		
-			
-			
-	
 	}
 
 	/* (non-Javadoc)
@@ -1280,14 +1274,13 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	   private void defenceMechanismGradualSublimation(ArrayList<clsSuperEgoConflictDrive> moForbiddenDrives_Input)  {
 	        
 	        ArrayList<clsDriveMesh> oForbiddenDriveMeshes = findInDriveList(moForbiddenDrives_Input);
-	        double rTransfer = calculateConflictTension(moForbiddenDrives_Input);
-	        
-	        
+	        // parameter 0.1 in expression moEgoStrength + 0.1 is for the calibration (arbitrary)
+	        double rTransfer = calculateConflictTension(moForbiddenDrives_Input)*(moEgoStrength - 0.1);
 	        
 	        if (!oForbiddenDriveMeshes.isEmpty()) {
 	            for (clsDriveMesh oForbiddenDriveMesh : oForbiddenDriveMeshes) {
 	                moDriveList_Output.remove(oForbiddenDriveMesh);
-	                rTransfer = moForbiddenDrives_Input.get(0).getConflictTension()*5;
+	                
 	                oForbiddenDriveMesh.changeExpectedQuotaOfAffectOfDrive(oForbiddenDriveMesh.getActualDriveAim().getContent(), oForbiddenDriveMesh.getActualDriveObject().getContent(), -rTransfer, true);
 	                oForbiddenDriveMesh.changeExpectedQuotaOfAffectOfDrive(oOppositeTP.get(oForbiddenDriveMesh.getActualDriveAim().getContent()), oForbiddenDriveMesh.getActualDriveObject().getContent(), rTransfer, false);
 	                oForbiddenDriveMesh.updateDriveAim();
@@ -1481,13 +1474,15 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	  
 	  // Iterate over all forbidden drives
 	  //int i=0;
-		for (clsSuperEgoConflictDrive oConflict : oForbiddenDrives_Input) {
-				
+	  
+	  
+		for (clsSuperEgoConflictDrive oConflict : oForbiddenDrives_Input) {    
+		    //if(oConflict.)
 			// search in list of incoming drives
 			for(clsDriveMesh oDrive : moDriveList_Output){
 				
 				// check DriveMesh
-				if (oConflict.isConflict(oDrive)) {
+				if (oConflict.isConflict(oDrive)) { 
 					
 					// matching drive found
 				    returnDriveList.add(oDrive);
