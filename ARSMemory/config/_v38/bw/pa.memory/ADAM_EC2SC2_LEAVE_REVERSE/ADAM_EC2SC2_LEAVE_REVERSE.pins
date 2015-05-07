@@ -1,4 +1,4 @@
-; Thu Apr 30 10:55:58 CEST 2015
+; Thu May 07 16:13:06 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1714,6 +1714,20 @@
 		[EMOTION%3AA06_BEAT_BODO_L01%3AANGER])
 	(weight 1.0 1.0))
 
+([ASSOCIATIONEMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AANGER] of  ASSOCIATIONEMOTION
+
+	(element
+		[PRI%3AA06_BEAT_BODO_L01%3ABODO]
+		[EMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AHATE])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONEMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AATTRIBUTED%3AANXIETY] of  ASSOCIATIONEMOTION
+
+	(element
+		[PRI%3AA06_BEAT_BODO_L01%3ABODO]
+		[EMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AATTRIBUTED%3AANXIETY])
+	(weight 1.0 1.0))
+
 ([ASSOCIATIONEMOTION%3AA06_BEAT_BODO_L01_I01%3AANGER] of  ASSOCIATIONEMOTION
 
 	(element
@@ -3262,6 +3276,26 @@
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.6)
+	(value "ANGER")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AATTRIBUTED%3AANXIETY] of  EMOTION
+
+	(emotionIntensity 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.5)
+	(value "ANXIETY")
+	(value_type "ATTRIBUTEDEMOTION"))
+
+([EMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AHATE] of  EMOTION
+
+	(emotionIntensity 0.0)
+	(sourceAggr 0.8)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.8)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
