@@ -1244,6 +1244,19 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
     }
     
     /**
+     * Add a Feeling to the goal, which is not already present. If present, then replace
+     * 
+     * (wendt) (moved by kollmann)
+     *
+     * @since 17.05.2013 10:37:48
+     *
+     * @param poFeeling
+     */
+    public void addAttributedEmotion(clsWordPresentationMeshEmotion poEmotion) {
+        this.addReplaceNonUniqueProperty(poEmotion, ePredicate.HASATTRIBUTEDEMOTION, false);
+    }
+    
+    /**
      * Add a list of feelings
      * 
      * (wendt) (moved by kollmann)

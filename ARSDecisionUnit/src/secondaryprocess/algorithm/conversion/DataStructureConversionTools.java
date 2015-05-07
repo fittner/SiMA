@@ -32,6 +32,7 @@ import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentation;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshEmotion;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsTriple;
@@ -201,9 +202,20 @@ public class DataStructureConversionTools {
                     clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
                 } else if (oTPMExternalAss instanceof clsAssociationEmotion) {
                     clsEmotion oEmotion = (clsEmotion) oTPMExternalAss.getLeafElement();
-                    clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
                     
-                    oRetVal.addFeeling(oFeeling);
+                    if(oEmotion.getContentType().equals(eContentType.BASICEMOTION)) {
+                        clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
+                    
+                        oRetVal.addFeeling(oFeeling);
+                    } else if(oEmotion.getContentType().equals(eContentType.ATTRIBUTEDEMOTION)) {
+                        clsWordPresentationMeshEmotion oAttributedEmotion = new clsWordPresentationMeshEmotion(oEmotion);
+                        
+                        oRetVal.addAttributedEmotion(oAttributedEmotion);
+                    } else if (oEmotion.getContentType().equals(eContentType.MEMORIZEDEMOTION)) {
+                        //do nothing
+                    } else {
+                        log.debug("AssociationEmotion found that neither points to an attributed, nor to a basicemotion:\n{}", oEmotion);
+                    }
                     
 //                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
                 } else if(oTPMExternalAss instanceof clsAssociationPrimary) {

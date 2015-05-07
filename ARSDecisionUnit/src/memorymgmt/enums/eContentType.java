@@ -110,6 +110,7 @@ public enum eContentType {
 	//--- Emotions
 	BASICEMOTION,
 	MEMORIZEDEMOTION, // kollmann: this is used to identify that this emotion, if associated to an activated image, will influence the current drive state
+	ATTRIBUTEDEMOTION, // kollmann: this is used to identify that an emotion is attributed to the primaryinstance of an entity (currently used in intentions)
 	COMPLEXEMOTION,
 	
 	// Feelings

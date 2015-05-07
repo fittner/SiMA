@@ -102,6 +102,9 @@ public enum ePredicate {
 	HASTEMPORALCONTEXT,
 	HASSPATIALCONTEXT,
 	
+	//Entities
+	HASATTRIBUTEDEMOTION,
+	
 	//Relations
 	GENERAL, 
 	LEFTBEHINDOF,

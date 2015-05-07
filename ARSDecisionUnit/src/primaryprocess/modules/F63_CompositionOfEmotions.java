@@ -478,11 +478,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			    
 			    if(oExperiencedEmotion != null) {
                     //let the expierenced emotion have influence on the current emotion state
-//                    rPerceptionPleasure_EXP = nonProportionalAggregation(rPerceptionPleasure_DM, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourcePleasure()); 
-//                    rPerceptionUnpleasure_EXP = nonProportionalAggregation(rPerceptionUnpleasure_DM, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceUnpleasure());
-//                    rPerceptionLibid_EXP = nonProportionalAggregation(rPerceptionLibid_DM, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceLibid());
-//                    rPerceptionAggr_EXP = nonProportionalAggregation(rPerceptionAggr_DM, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceAggr());
-
 			        rPerceptionPleasure_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourcePleasure(); 
                     rPerceptionUnpleasure_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceUnpleasure();
                     rPerceptionLibid_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceLibid();
@@ -510,11 +505,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                     rTransferUnpleasure += mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure() * rUnpleasureFactor;
                     rTransferAggressive += mrPerceptionLibidinousImpactFactor*oEmotionFromBodystate.getSourceLibid() * rUnpleasureFactor;
                     rTransferLibidinous += mrPerceptionAggressiveImpactFactor*oEmotionFromBodystate.getSourceAggr() * rUnpleasureFactor;
-                    
-//                    rPerceptionPleasure_BS = nonProportionalAggregation(rPerceptionPleasure_DM, mrEmotionrecognitionImpactFactor * rTransferPleasure); 
-//                    rPerceptionUnpleasure_BS = nonProportionalAggregation(rPerceptionUnpleasure_DM, mrEmotionrecognitionImpactFactor * rTransferUnpleasure);
-//                    rPerceptionLibid_BS = nonProportionalAggregation(rPerceptionLibid_DM, mrEmotionrecognitionImpactFactor * rTransferAggressive);
-//                    rPerceptionAggr_BS = nonProportionalAggregation(rPerceptionAggr_DM, mrEmotionrecognitionImpactFactor * rTransferLibidinous);
                     
                     rPerceptionPleasure_BS = mrEmotionrecognitionImpactFactor * rTransferPleasure;
                     rPerceptionUnpleasure_BS = mrEmotionrecognitionImpactFactor * rTransferUnpleasure;
