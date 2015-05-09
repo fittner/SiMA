@@ -57,6 +57,7 @@ import mind.autocreated.cls_AreaChartInspector;
 import mind.autocreated.cls_BarChartInspector;
 import mind.autocreated.cls_BarChartInspectorF06;
 import mind.autocreated.cls_BarChartInspectorF19;
+import mind.autocreated.cls_CombinedGenericChart;
 import mind.autocreated.cls_CombinedTimeChart;
 import mind.autocreated.cls_DescriptionInspector;
 import mind.autocreated.cls_GenericActivityTimeChartInspector;
@@ -397,14 +398,6 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 						new clsInspectorImageDrives((itfInspectorModificationDrives) oModule),
 						"pictogram DM-Rules");
 			}
-			
-			if(oModule instanceof itfInspectorStackedAreaChart) {
-				poTI.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) oModule,
-						"", "Eat goal evaluation"), "Eat evaluation");
-			}
-			
-
-			
 		} catch (java.lang.NoSuchFieldException e) {
 			// do nothing
 		} catch (java.lang.Exception e) {
@@ -479,7 +472,18 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 		} else if(poModuleName.equals("E45_LibidoDischarge")) {
 		} else if(poModuleName.equals("E46_FusionWithMemoryTraces")) {
 		} else if(poModuleName.equals("E47_ConversionToPrimaryProcess")) {
-		} 
+		} else if(poModuleName.equals("F63_CompositionOfEmotions")) {
+			cls_CombinedGenericChart oContainer = new cls_CombinedGenericChart();
+			oContainer.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) poPA.moF63_CompositionOfEmotions,
+					"Pleasure", "Pleasure Development", "PLEASURE"));
+			oContainer.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) poPA.moF63_CompositionOfEmotions,
+					"Un-pleasure", "Pleasure Development", "UNPLEASURE"));
+			oContainer.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) poPA.moF63_CompositionOfEmotions,
+					"Aggressive", "Pleasure Development", "AGGRESSIVE"));
+			oContainer.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) poPA.moF63_CompositionOfEmotions,
+					"Libidinous", "Pleasure Development", "LIBIDINOUS"));
+			poTI.addInspector(oContainer, "Emotion Development");
+		}
 	}
 	
 	public void close(){
