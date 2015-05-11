@@ -455,135 +455,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         return oCurrentEmotions;
 	}
 	
-	// Zhukova
-	// Assign to the body state the corresponding entity
-	
-	private HashMap<String,String> assignEntityToBodyState(ArrayList<ArrayList<clsDataStructureContainer>> poRankedCandidates, ArrayList<clsThingPresentationMesh> poSearchPattern) {
-	    
-
-
-	    
-	    int currentEntityNumber = 0;
-	    int currentBodyStateNumber = 0;
-	    
-	    /*
-	    
-	    HashMap<String, String> bodyStateToEntityTMP = new HashMap<String, String>();
-	    
-	    if((!poSearchPattern.isEmpty() || !poRankedCandidates.isEmpty())  && (poSearchPattern.size() == poRankedCandidates.size())) {
-	        for(clsThingPresentationMesh entitySearchPattern: poSearchPattern) {
-	            if(entitySearchPattern.getContent().equals("ARSIN")) {
-	                String entityName = ((clsThingPresentationMesh) poRankedCandidates.get(currentEntityNumber).get(0).getMoDataStructure()).getContent();
-	                String bodyStateName = ((clsThingPresentationMesh) moSearchPatternBodyState.get(currentBodyStateNumber)).getContent();
-	                bodyStateToEntityTMP.put(bodyStateName, entityName);
-	                currentBodyStateNumber ++;
-	            }
-	            
-	            currentEntityNumber++;
-	        }
-	    }
-	    // message about failure
-	    else {
-	        
-	    } */
-	    
-	    return null; // bodyStateToEntityTMP;
-	}
-	
-	private ArrayList<ArrayList<clsDataStructureContainer>> searchForBodyState(ArrayList<ArrayList<clsDataStructureContainer>> poRankedCandidates, ArrayList<clsThingPresentationMesh> poSearchPattern) {
-	    	    
-
-        /*
-	    oSearchResults = this.getLongTermMemory().searchEntity(eDataType.DMTPM, moSearchPatternBodyState);
-	    
-        //koller remove TPM-Associations that contain no Bodystates (because the search function cannot distinguish)
-        ArrayList<clsAssociation> oAssToRemove = null;
-        for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult : oSearchResults){
-            for(clsPair<Double, clsDataStructureContainer> oSearchItem : oSearchResult){
-                oAssToRemove = new ArrayList<clsAssociation>();
-                for(clsAssociation oAssociation : oSearchItem.b.getMoAssociatedDataStructures()){
-                    if(oAssociation.getContentType() != eContentType.ASSOCIATIONDM  &&  oAssociation.getContentType() != eContentType.ASSOCIATIONEMOTION){
-                        clsThingPresentationMesh t = (clsThingPresentationMesh) oSearchItem.b.getMoDataStructure();
-                        if(t.getContent().equals("Bodystate")){
-                            break;
-                        }
-                        else{
-                            oAssToRemove.add(oAssociation);  
-                        }
-                    }
-                }
-                for(clsAssociation oAss : oAssToRemove){
-                    oSearchItem.b.getMoAssociatedDataStructures().remove(oAss);
-                }   
-            }
-        }
-	  
-        BodyStateToEntity = assignEntityToBodyState(poRankedCandidates, poSearchPattern);
-        
-        
-        // Zhukova
-        // Searching the body state for the 
-        
-        
-        ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchItemsToRemove = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
-        boolean bAddToRemoveList;
-        int nSearchItemIndex = 0;
-        
-        // consider similar entities for body search (when there is no associated memory with the agent, not familiar with this agent)
-        boolean isFamiliarWithAgent;
-        String oArsinName ;
-        
-        for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult : oSearchResults) {
-            
-            
-            oArsinName = BodyStateToEntity.get(moSearchPatternBodyState.get(nSearchItemIndex).getContent());
-            isFamiliarWithAgent = false;
-            
-            for(clsPair<Double, clsDataStructureContainer> oSearchItem : oSearchResult){ 
-                
-                clsThingPresentationMesh t = (clsThingPresentationMesh) oSearchItem.b.getMoDataStructure();
-                clsThingPresentationMesh u = null;
-                
-                if(t.getContent().equals("Bodystate")){
-                    
-                    bAddToRemoveList = true;
-                    for(clsAssociation oAssociation : oSearchItem.b.getMoAssociatedDataStructures()){
-                        if(oAssociation.getAssociationElementA().getContentType().equals(eContentType.ENTITY) && 
-                                ((clsThingPresentationMesh) oAssociation.getAssociationElementA()).getContent().equals(oArsinName)) {
-                            bAddToRemoveList = false;
-                            isFamiliarWithAgent = true;
-                            break;
-                        } else if(oAssociation.getAssociationElementB().getContentType().equals(eContentType.ENTITY) &&
-                                ((clsThingPresentationMesh) oAssociation.getAssociationElementB()).getContent().equals(oArsinName)) {
-                            bAddToRemoveList = false;
-                            isFamiliarWithAgent = true;
-                            break;  
-                        } 
-                    }
-                    if(bAddToRemoveList == true){
-                        oSearchItemsToRemove.add(oSearchItem);
-                    }
-                }
-                
-                
-            }
-            
-            if(isFamiliarWithAgent) {
-                for(clsPair<Double, clsDataStructureContainer> pair : oSearchItemsToRemove){
-                    oSearchResult.remove(pair);
-                }
-            }
-            nSearchItemIndex ++;
-        }
-        
-        return rankCandidatesTPM(oSearchResults); */
-	    return null;
-        
-	}
-	
-	
-	
-	
 	//search TPM which were received from the receptors in the memory 
 	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
         ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
@@ -1146,13 +1017,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     }
                     nSearchItemIndex ++;
                 } 
+                
+                poRankingResultsBodyStateSearch = rankCandidatesTPM(oSearchResultsBodyState);
 				// end Zhukova
                 
 				//kollmann: store search pattern for later inspection
 				moSearchPattern.addAll(poSearchPatternEnviromentalTP);
 				moSearchPattern.addAll(poSearchPatternBodyState);
 				
-				poRankingResultsBodyStateSearch = rankCandidatesTPM(oSearchResultsBodyState);
 				poRankingResultsEnviromentalTP.addAll(poRankingResultsBodyStateSearch);
 				
 				return  poRankingResultsEnviromentalTP;

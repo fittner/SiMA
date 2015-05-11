@@ -473,8 +473,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                 //          negative evaluation -> reverse transfer (e.g. 0.5 pleasure -> 0.5 un-pleasure)
 			    //The default value of 1 means that, if a bodystate emotion but no experienced emotion is associated to the agent, the transfer will be fully positive
 			    
-			    double rPleasureFactor = 0;
-			    double rUnpleasureFactor = 0;
+			    double rPleasureFactor = 0.0;
+			    double rUnpleasureFactor = 0.0;
 			    
 			    if(oExperiencedEmotion != null) {
                     //let the expierenced emotion have influence on the current emotion state
@@ -518,8 +518,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                     
                     rPerceptionPleasure_BS = mrEmotionrecognitionImpactFactor * rTransferPleasure;
                     rPerceptionUnpleasure_BS = mrEmotionrecognitionImpactFactor * rTransferUnpleasure;
-                    rPerceptionLibid_BS = mrEmotionrecognitionImpactFactor * rTransferAggressive;
-                    rPerceptionAggr_BS = mrEmotionrecognitionImpactFactor * rTransferLibidinous;    
+                    rPerceptionLibid_BS = mrEmotionrecognitionImpactFactor * rTransferLibidinous; ;
+                    rPerceptionAggr_BS = mrEmotionrecognitionImpactFactor * rTransferAggressive;    
                 }
 			}
         }
