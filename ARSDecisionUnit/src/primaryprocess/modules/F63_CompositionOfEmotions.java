@@ -79,8 +79,12 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	public static final String P_PERCEPTION_UNPLEASURE_IMPACT_FACTOR = "PERCEPTION_UNPLEASURE_IMPACT_FACTOR";
 	public static final String P_PERCEPTION_AGGRESSIVE_IMPACT_FACTOR = "PERCEPTION_AGGRESSIVE_IMPACT_FACTOR";
 	public static final String P_PERCEPTION_LIBIDINOUS_IMPACT_FACTOR = "PERCEPTION_LIBIDINOUS_IMPACT_FACTOR";
+    
+	public static final String P_DRIVEDEMAND_IMPACT_FACTOR = "DRIVEDEMAND_IMPACT_FACTOR";
+	public static final String P_MEMORIZEDDRIVE_IMPACT_FACTOR = "MEMORIZEDDRIVE_IMPACT_FACTOR";
     public static final String P_EMOTIONRECOGNITION_IMPACT_FACTOR = "EMOTIONRECOGNITION_IMPACT_FACTOR"; //koller
     public static final String P_EXPERIENCEDEMOTION_IMPACT_FACTOR = "EXPERIENCEDEMOTION_IMPACT_FACTOR";
+    public static final String P_MEMORIZEDIMAGE_IMPACT_FACTOR = "MEMORIZEDIMAGE_IMPACT_FACTOR";
 
 	
 	//Private members for send and recieve
@@ -110,7 +114,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	private double mrPerceptionUnpleasureImpactFactor;
 	private double mrPerceptionAggressiveImpactFactor;
     private double mrPerceptionLibidinousImpactFactor;
-	
+    private double mrInfluenceRememberedImages;
+    private double mrInfluenceDrivesOnPerceivedObjects;
+    private double mrInfluenceCurrentDrives;
+    
 	// koller 
     private double mrEmotionrecognitionImpactFactor;
 	
@@ -153,9 +160,12 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		moPleasureStorage = poPleasureStorage;
 		
 		//koller
-        mrEmotionrecognitionImpactFactor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_IMPACT_FACTOR).getParameterDouble();
+        mrEmotionrecognitionImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_IMPACT_FACTOR).getParameterDouble();
         
-        mrExperiencedEmotionImpactFactor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EXPERIENCEDEMOTION_IMPACT_FACTOR).getParameterDouble();
+        mrExperiencedEmotionImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EXPERIENCEDEMOTION_IMPACT_FACTOR).getParameterDouble();
+        mrInfluenceRememberedImages = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MEMORIZEDIMAGE_IMPACT_FACTOR).getParameterDouble();
+        mrInfluenceDrivesOnPerceivedObjects = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MEMORIZEDDRIVE_IMPACT_FACTOR).getParameterDouble();
+        mrInfluenceCurrentDrives = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_DRIVEDEMAND_IMPACT_FACTOR).getParameterDouble();
         
         //Kollmann: prepare hashmap for holding visualization data
         moBaseEmotionComposition.put("PLEASURE", new ArrayList<Double>());
@@ -249,10 +259,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		rDrivePleasure =  moPleasureStorage.send_D4_1();
 		
 		// TEMPORARY
-		oDrivesExtractedValues.put("rDrivePleasure", rDrivePleasure);
-		oDrivesExtractedValues.put("rDriveUnpleasure", rDriveLibid+rDriveAggr);
-		oDrivesExtractedValues.put("rDriveLibid", rDriveLibid);
-		oDrivesExtractedValues.put("rDriveAggr", rDriveAggr);
+		oDrivesExtractedValues.put("rDrivePleasure", rDrivePleasure * mrInfluenceCurrentDrives);
+		oDrivesExtractedValues.put("rDriveUnpleasure", (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives);
+		oDrivesExtractedValues.put("rDriveLibid", rDriveLibid * mrInfluenceCurrentDrives);
+		oDrivesExtractedValues.put("rDriveAggr", rDriveAggr * mrInfluenceCurrentDrives);
 		
 		/* emotions triggered by perception (from memory) influence emotion-generation
 		 * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (un-pleasure etc the emotion is based on) to influence the emotion generation in F63
@@ -366,8 +376,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				
 		double rInfluencePerception = 0;
 		
-		double rInfluencePerceivedObjects = 0.3;
-		
 		//kollmann: entity valuation ranges from -1 (maximum dislike) to 1 (maximum like)
 		double nEntityValuation = 0.0;
 		
@@ -389,7 +397,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						if(oDM.getContentType() == eContentType.LIBIDO) {
 							//rPerceptionPleasure += mrPerceptionPleasureImpactFactor*oDM.getQuotaOfAffect();
 							// Change by Kollmann - should be calculated as any other emotion value, by nonProportionalAggregation with PerceptionInfluence
-							rPerceptionPleasure_DM = nonProportionalAggregation(rPerceptionPleasure_DM, rInfluencePerceivedObjects*oDM.getQuotaOfAffect());
+							rPerceptionPleasure_DM = nonProportionalAggregation(rPerceptionPleasure_DM, mrInfluenceDrivesOnPerceivedObjects*oDM.getQuotaOfAffect());
 						}
 						else {
 							
@@ -417,12 +425,12 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 							
 						    //rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oDM.getQuotaOfAffect());
 							if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
-								rPerceptionLibid_DM = nonProportionalAggregation(rPerceptionLibid_DM, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
+								rPerceptionLibid_DM = nonProportionalAggregation(rPerceptionLibid_DM, mrInfluenceDrivesOnPerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 							} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
-								rPerceptionAggr_DM = nonProportionalAggregation(rPerceptionAggr_DM, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
+								rPerceptionAggr_DM = nonProportionalAggregation(rPerceptionAggr_DM, mrInfluenceDrivesOnPerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 							}
 							
-							rPerceptionPleasure_DM = nonProportionalAggregation(rPerceptionPleasure_DM, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
+							rPerceptionPleasure_DM = nonProportionalAggregation(rPerceptionPleasure_DM, mrInfluenceDrivesOnPerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 						}
 						
 					}
@@ -562,8 +570,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                
        double rAssociationWeight = 0;
        
-       double rInfluenceRememberedImages = 0.75;
-       
        clsEmotion oEmotionFromMemory = null;
        clsThingPresentationMesh oRI = null;
        
@@ -583,10 +589,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                            if(oEmotionFromMemory.getContentType().equals(eContentType.MEMORIZEDEMOTION)) {
                                // the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
                                rAssociationWeight = oPIExtAss.getMrWeight();
-                               rMemoryPleasure = nonProportionalAggregation(rMemoryPleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourcePleasure()); 
-                               rMemoryUnpleasure = nonProportionalAggregation(rMemoryUnpleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceUnpleasure());
-                               rMemoryLibid = nonProportionalAggregation(rMemoryLibid, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceLibid());
-                               rMemoryAggr = nonProportionalAggregation(rMemoryAggr, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceAggr());
+                               rMemoryPleasure = nonProportionalAggregation(rMemoryPleasure, mrInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourcePleasure()); 
+                               rMemoryUnpleasure = nonProportionalAggregation(rMemoryUnpleasure, mrInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceUnpleasure());
+                               rMemoryLibid = nonProportionalAggregation(rMemoryLibid, mrInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceLibid());
+                               rMemoryAggr = nonProportionalAggregation(rMemoryAggr, mrInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceAggr());
                            }
                        }
                    }
