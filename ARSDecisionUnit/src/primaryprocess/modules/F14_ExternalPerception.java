@@ -882,8 +882,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 ArrayList<clsThingPresentation> oArrayListExpressionVarTPForSearch = null;
                 clsThingPresentationMesh oTPMForSearch = null;
                 int rTPMCount = 0;
-               
-                
                 
                 for(clsPrimaryDataStructureContainer pdsc : poEnvironmentalTP){
                     if(pdsc.getMoDataStructure().getContentType() == eContentType.ENTITY){
@@ -891,12 +889,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         boCheckForBodystate = false;
                         oArrayListExpressionVarTPForSearch = new ArrayList<clsThingPresentation>();
                         //emotion expression - our body states variables    
-
                         
-                        for (clsAssociation iterAssoc : tpm.getExternalAssociatedContent()) { 
+                        for (clsAssociation exterAssoc : tpm.getExternalAssociatedContent()) { 
                             for(eEmotionExpression e :eEmotionExpression.values()){
-                                if(iterAssoc.getAssociationElementB().getContentType().toString() == e.toString()){
-                                    clsThingPresentation y = (clsThingPresentation)iterAssoc.getAssociationElementB();
+                                if(exterAssoc.getAssociationElementB().getContentType().toString() == e.toString()){
+                                    clsThingPresentation y = (clsThingPresentation)exterAssoc.getAssociationElementB();
                                     boCheckForBodystate = true;
                                     oArrayListExpressionVarTPForSearch.add(y);                           
                                 }
@@ -943,6 +940,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     }
                 }
               
+                
                 // assign entity name to body state
                 int currentEntityNumber = 0;
                 int currentBodyStateNumber = 0;
@@ -950,7 +948,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 String entityName;
                 String bodyStateName;
                 
-                if((!poSearchPatternEnviromentalTP.isEmpty() || !poRankingResultsEnviromentalTP.isEmpty())  && (poSearchPatternEnviromentalTP.size() == poRankingResultsEnviromentalTP.size())) {
+                /* kollmann: The stimulus action is also performed for perceived actions AND the targets of perceived actions. But the
+                 *           current implementation of perception provides these action targets already as TPM (which is probably wrong).
+                 *           This TPM does not have any attributes of the entities in the perception and is actually more of a placeholder.
+                 *           Due to this it is possible to have ARSIN entities that do not emit expression variables and therefore do not
+                 *           have an bodystate search patterns -> safety check before accessing bodystate search patterns 
+                 */
+                if(!poSearchPatternEnviromentalTP.isEmpty() && !poRankingResultsEnviromentalTP.isEmpty() && !poSearchPatternBodyState.isEmpty()
+                        && (poSearchPatternEnviromentalTP.size() == poRankingResultsEnviromentalTP.size())) {
                     for(clsThingPresentationMesh entitySearchPattern: poSearchPatternEnviromentalTP) {
                         if(entitySearchPattern.getContent().equals("ARSIN")) {
                             entityName = ((clsThingPresentationMesh) poRankingResultsEnviromentalTP.get(currentEntityNumber).get(0).getMoDataStructure()).getContent();
@@ -958,7 +963,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                             bodyStateToEntityTMP.put(bodyStateName, entityName);
                             currentBodyStateNumber ++;
                         }
-                        
                         currentEntityNumber++;
                     }
                 }
