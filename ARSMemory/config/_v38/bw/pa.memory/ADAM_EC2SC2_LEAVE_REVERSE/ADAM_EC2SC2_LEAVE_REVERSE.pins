@@ -1,4 +1,4 @@
-; Thu Apr 30 10:55:58 CEST 2015
+; Tue May 12 15:03:39 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1931,11 +1931,18 @@
 		[EMOTION%3ABODO%3ADISLIKE])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AS01_BODO_CAKE] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AS01_BODO_CAKE%3AANGER] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AS01_BODO_CAKE]
-		[EMOTION%3ABODO_CAKE])
+		[EMOTION%3ABODO_CAKE%3AANGER])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONEMOTION%3AS01_BODO_CAKE%3AANXIETY] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AS01_BODO_CAKE]
+		[EMOTION%3ABODO_CAKE%3AANXIETY])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONTEMP%3AS01_BODO_CAKE%3ABODO] of  ASSOCIATIONTEMP
@@ -3567,22 +3574,32 @@
 
 ([EMOTION%3ABODO%3ADISLIKE] of  EMOTION
 
-	(emotionIntensity 0.0)
-	(sourceAggr 0.0)
+	(emotionIntensity 1.0)
+	(sourceAggr 1.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 1.0)
-	(sourceUnpleasure 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.5)
 	(value "ANGER")
-	(value_type "MEMORIZEDEMOTION"))
+	(value_type "BASICEMOTION"))
 
-([EMOTION%3ABODO_CAKE] of  EMOTION
+([EMOTION%3ABODO_CAKE%3AANGER] of  EMOTION
 
 	(emotionIntensity 1.0)
-	(sourceAggr 0.6)
+	(sourceAggr 0.4)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)
 	(value "ANGER")
+	(value_type "MEMORIZEDEMOTION"))
+
+([EMOTION%3ABODO_CAKE%3AANXIETY] of  EMOTION
+
+	(emotionIntensity 1.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.2)
+	(value "ANXIETY")
 	(value_type "MEMORIZEDEMOTION"))
 
 ([EMOTION%3ASELF%3ABODYSTATE%3AANGER] of  EMOTION
@@ -3617,10 +3634,10 @@
 
 ([EMOTION%3ASELF%3ABODYSTATE%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.0)
+	(emotionIntensity 0.8)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 1.0)
+	(sourcePleasure 0.7)
 	(sourceUnpleasure 0.0)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
