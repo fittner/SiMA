@@ -258,11 +258,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		//get Pleasure
 		rDrivePleasure =  moPleasureStorage.send_D4_1();
 		
+		rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives;
+        rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives;
+        rSystemLibid = rDriveLibid * mrInfluenceCurrentDrives;
+        rSystemAggr = rDriveAggr * mrInfluenceCurrentDrives;
+        
 		// TEMPORARY
-		oDrivesExtractedValues.put("rDrivePleasure", rDrivePleasure * mrInfluenceCurrentDrives);
-		oDrivesExtractedValues.put("rDriveUnpleasure", (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives);
-		oDrivesExtractedValues.put("rDriveLibid", rDriveLibid * mrInfluenceCurrentDrives);
-		oDrivesExtractedValues.put("rDriveAggr", rDriveAggr * mrInfluenceCurrentDrives);
+        oDrivesExtractedValues.put("rDriveUnpleasure", rSystemUnpleasure);
+        oDrivesExtractedValues.put("rDrivePleasure", rSystemPleasure);
+		oDrivesExtractedValues.put("rDriveLibid", rSystemLibid);
+		oDrivesExtractedValues.put("rDriveAggr", rSystemAggr);
 		
 		/* emotions triggered by perception (from memory) influence emotion-generation
 		 * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (un-pleasure etc the emotion is based on) to influence the emotion generation in F63
@@ -274,10 +279,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		// aggregate values from drive- and perception track
 		// normalize grundkategorien
 		// (if agent sees many objects the perception has more influence, otherwise drives have more influence on emotions)
-		rSystemUnpleasure = nonProportionalAggregation(rDriveLibid+rDriveAggr, oPerceptionExtractedValues.get("rPerceptionDriveMeshUnpleasure"));
-		rSystemPleasure = nonProportionalAggregation(rDrivePleasure, oPerceptionExtractedValues.get("rPerceptionDriveMeshPleasure"));
-		rSystemLibid = nonProportionalAggregation(rDriveLibid, oPerceptionExtractedValues.get("rPerceptionDriveMeshLibid"));
-		rSystemAggr = nonProportionalAggregation(rDriveAggr, oPerceptionExtractedValues.get("rPerceptionDriveMeshAggr"));
+		rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, oPerceptionExtractedValues.get("rPerceptionDriveMeshUnpleasure"));
+		rSystemPleasure = nonProportionalAggregation(rSystemPleasure, oPerceptionExtractedValues.get("rPerceptionDriveMeshPleasure"));
+		rSystemLibid = nonProportionalAggregation(rSystemLibid, oPerceptionExtractedValues.get("rPerceptionDriveMeshLibid"));
+		rSystemAggr = nonProportionalAggregation(rSystemAggr, oPerceptionExtractedValues.get("rPerceptionDriveMeshAggr"));
 
 		rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, oPerceptionExtractedValues.get("rPerceptionExperienceUnpleasure"));
         rSystemPleasure = nonProportionalAggregation(rSystemPleasure, oPerceptionExtractedValues.get("rPerceptionExperiencePleasure"));
@@ -441,7 +446,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                         if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){
                             
                             clsThingPresentationMesh oTPMA = (clsThingPresentationMesh)oEntityAss.getAssociationElementA();
-                            if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
+                            //if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
                                 if(oEntityAss.getAssociationElementB().getContentType() == eContentType.ENTITY){
                             
                                     clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oEntityAss.getAssociationElementB();
@@ -457,7 +462,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                                         }
                                     }
                                 }
-                            }
+                            //}
                         }  
                     }//end koller  
                     
