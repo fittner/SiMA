@@ -1,4 +1,4 @@
-; Thu Apr 30 13:44:36 GMT 2015
+; Wed May 13 13:36:02 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -48,11 +48,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[JAKUADAM_ProjectKB_Class35]
-		[JAKUADAM_ProjectKB_Class36]
-		[JAKUADAM_ProjectKB_Class37]
-		[JAKUADAM_ProjectKB_Class38]
-		[JAKUADAM_ProjectKB_Class39]))
+		[JAKUADAM_ProjectKB_Class10088]
+		[JAKUADAM_ProjectKB_Class10089]
+		[JAKUADAM_ProjectKB_Class10090]
+		[JAKUADAM_ProjectKB_Class10091]
+		[JAKUADAM_ProjectKB_Class10092]))
 
 ([CLSES_TAB] of  Widget
 
@@ -97,61 +97,64 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([JAKUADAM_ProjectKB_Class35] of  String
+([JAKUADAM_ProjectKB_Class10088] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([JAKUADAM_ProjectKB_Class36] of  String
+([JAKUADAM_ProjectKB_Class10089] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([JAKUADAM_ProjectKB_Class37] of  String
+([JAKUADAM_ProjectKB_Class10090] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([JAKUADAM_ProjectKB_Class38] of  String
-
-	(name "DOMAIN")
-	(string_value "value_type"))
-
-([JAKUADAM_ProjectKB_Class39] of  String
+([JAKUADAM_ProjectKB_Class10091] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([JAKUADAM_ProjectKB_Class40] of  Map_Entry
+([JAKUADAM_ProjectKB_Class10092] of  String
+
+	(name "DOMAIN")
+	(string_value "value_type"))
+
+([JAKUADAM_ProjectKB_Class10093] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([JAKUADAM_ProjectKB_Class41] of  Map_Entry
+([JAKUADAM_ProjectKB_Class10094] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([JAKUADAM_ProjectKB_Class42] of  Map_Entry
+([JAKUADAM_ProjectKB_Class10095] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([JAKUADAM_ProjectKB_Class43] of  Map
+([JAKUADAM_ProjectKB_Class10096] of  Map
 )
 
-([JAKUADAM_ProjectKB_Class44] of  Map_Entry
+([JAKUADAM_ProjectKB_Class10097] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "JAKUADAM_ProjectKB_Class43")
+	(value "JAKUADAM_ProjectKB_Class10096")
 	(value_class "java.util.Map"))
+
+([KB_595882_Class5] of  Map
+)
 
 ([KB_610615_Class0] of  String
 
@@ -161,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[JAKUADAM_ProjectKB_Class40]
-		[JAKUADAM_ProjectKB_Class41]
-		[JAKUADAM_ProjectKB_Class42]
-		[JAKUADAM_ProjectKB_Class44])
-	(referenced_maps [JAKUADAM_ProjectKB_Class43]))
+		[JAKUADAM_ProjectKB_Class10093]
+		[JAKUADAM_ProjectKB_Class10094]
+		[JAKUADAM_ProjectKB_Class10095]
+		[JAKUADAM_ProjectKB_Class10097])
+	(referenced_maps [JAKUADAM_ProjectKB_Class10096]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -617,9 +620,6 @@
 )
 
 ([KB_610615_Class99] of  Property_List
-)
-
-([KB_764462_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
