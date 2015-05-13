@@ -1262,7 +1262,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     rMax += rActivationValue;
                 }
 
-                oEmoStimulus = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rIntensity/rMax, eEmotionType.UNDEFINED, rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
+                //oEmoStimulus = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rIntensity/rMax, eEmotionType.UNDEFINED, rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
+                oEmoStimulus = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, rIntensity/rMax, rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
                 
                 oDMStimulusList.add(oEmoStimulus);
             }

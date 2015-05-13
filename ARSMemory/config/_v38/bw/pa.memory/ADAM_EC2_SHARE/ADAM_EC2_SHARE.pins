@@ -1,4 +1,4 @@
-; Wed May 13 10:51:44 CEST 2015
+; Wed May 13 11:07:43 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3230,7 +3230,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.4)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)

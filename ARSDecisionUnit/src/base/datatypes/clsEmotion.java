@@ -27,6 +27,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private eEmotionType moContent = null;
 	private ArrayList<clsAssociation> moExternalAssociatedContent = null; 
 	private double mrEmotionIntensity = 0.0; 
+	private double mrIntensityDeviation = 0.0;
 	
 	// save the values of those components that the emotion is based on (dependent on the emotion)
 	private double mrSourcePleasure = 0.0; 
@@ -36,10 +37,11 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private double mrRelativeThreshold = 0.0;
 	private double mrThresholdRange = 0.0;
 	
-	public clsEmotion(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prEmotionIntensity, eEmotionType poContent, 
-			double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
+	public clsEmotion(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prEmotionIntensity, double prIntensityDeviation, 
+	        eEmotionType poContent, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
 		super(poDataStructureIdentifier); 
 		mrEmotionIntensity = prEmotionIntensity;
+		mrIntensityDeviation = prIntensityDeviation;
 		moContent = poContent;
 		mrSourcePleasure = prSourcePleasure; 
 		mrSourceUnpleasure = prSourceUnpleasure;
