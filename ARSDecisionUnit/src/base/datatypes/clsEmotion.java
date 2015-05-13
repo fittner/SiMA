@@ -47,6 +47,21 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		mrSourceAggr = prSourceAggr ;
 	} 
 
+	//Copy constructor - THIS SHOULD ONLY CREATE A FLEET COPY - NO RECURSIONS!
+	public clsEmotion(clsEmotion poToCopy) {
+	    this(new clsTriple<Integer, eDataType, eContentType>(poToCopy.getDS_ID(), poToCopy.getMoDataStructureType(), poToCopy.getContentType()),
+	            poToCopy.getEmotionIntensity(),
+	            poToCopy.getContent(),
+	            poToCopy.getSourcePleasure(),
+	            poToCopy.getSourceUnpleasure(),
+	            poToCopy.getSourceLibid(),
+	            poToCopy.getSourceAggr());
+	}
+	
+	public clsEmotion flatCopy() {
+	    return new clsEmotion(this);
+	}
+	
 	public static clsEmotion fromTPM(clsThingPresentationMesh poTPM) {
 	    clsDataStructurePA oEmotion = null;
 	    
@@ -130,6 +145,26 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	
 	public static clsEmotion zeroEmotion(eContentType oContentType, eEmotionType oEmotionType) {
 	    return clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType, eEmotionType, Object>(oContentType, oEmotionType, 0.0), 0.0, 0.0, 0.0, 0.0);
+	}
+	
+	private double stepChange(double prOldValue, double prNewValue, double prMaxChange) {
+	    //double rDiff = prNewValue - prOldValue;
+	    //return Math.min(rDiff, Math.signum(rDiff) * prMaxChange);
+	    
+	    double rDiff = prNewValue - prOldValue;
+	    if(rDiff < prMaxChange) {
+	        return rDiff;
+	    } else {
+	        return rDiff * prMaxChange;
+	    }
+	}
+	
+	public void gradualChange(clsEmotion poTargetState, double prMaxChange) {
+	    mrEmotionIntensity += stepChange(mrEmotionIntensity, poTargetState.getEmotionIntensity(), prMaxChange);
+	    mrSourcePleasure += stepChange(mrSourcePleasure, poTargetState.getSourcePleasure(), prMaxChange);
+	    mrSourceUnpleasure += stepChange(mrSourceUnpleasure, poTargetState.getSourceUnpleasure(), prMaxChange);
+	    mrSourceLibid += stepChange(mrSourceLibid, poTargetState.getSourceLibid(), prMaxChange);
+	    mrSourceAggr += stepChange(mrSourceAggr, poTargetState.getSourceAggr(), prMaxChange);
 	}
 	
 	public void sub(clsEmotion poEmotion) {

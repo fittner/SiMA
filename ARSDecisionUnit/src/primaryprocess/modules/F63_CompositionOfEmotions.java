@@ -92,6 +92,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private clsThingPresentationMesh moPerceptions_IN;
 	
+	//Provide steadier emotion change
+	private clsEmotion moLastEmotion = null;         /*ATTENTION: this is a local emotion that MUST NEVER be linked to ANYTHING*/
+	private double mrEmotionChangeFactor = 0.1;
 	
 	// threshold to determine in which case domination of a emotion occurs
 	private double mrRelativeThreshold;
@@ -128,8 +131,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
     
 	double mrGrade = 0;
 	
-	HashMap<String, List<Double>> moBaseEmotionComposition = new HashMap<>();
-
 	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	private final Logger log = clsLogger.getLog("F" + P_MODULENUMBER);
@@ -167,11 +168,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         mrInfluenceDrivesOnPerceivedObjects = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MEMORIZEDDRIVE_IMPACT_FACTOR).getParameterDouble();
         mrInfluenceCurrentDrives = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_DRIVEDEMAND_IMPACT_FACTOR).getParameterDouble();
         
-        //Kollmann: prepare hashmap for holding visualization data
-        moBaseEmotionComposition.put("PLEASURE", new ArrayList<Double>());
-        moBaseEmotionComposition.put("UNPLEASURE", new ArrayList<Double>());
-        moBaseEmotionComposition.put("AGGRESSIVE", new ArrayList<Double>());
-        moBaseEmotionComposition.put("LIBIDINOUS", new ArrayList<Double>());
+        moLastEmotion = null;
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -311,8 +308,21 @@ public class F63_CompositionOfEmotions extends clsModuleBase
             log.debug("Unpleasure missing");
         }
         
-        //create the base emotion state
-        clsEmotion oBaseEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+        //create the new base emotion target state
+        clsEmotion oBaseEmotionTarget = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+        
+        if(moLastEmotion == null) {
+            //if this is the first step
+            moLastEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+            
+            //kollmann: debug code
+            //moLastEmotion = clsEmotion.zeroEmotion(eContentType.BASICEMOTION, eEmotionType.UNDEFINED);
+        } else {
+            //move last emotion state towards this target
+            moLastEmotion.gradualChange(oBaseEmotionTarget, mrEmotionChangeFactor);
+        }
+        
+        clsEmotion oBaseEmotion = moLastEmotion.flatCopy();
         oBaseEmotion.setRelativeThreshold(mrRelativeThreshold);
         oBaseEmotion.setThresholdRange(mrThresholdRange);
         moEmotions_OUT.add(oBaseEmotion);
