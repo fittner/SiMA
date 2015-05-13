@@ -1,58 +1,58 @@
-; Wed May 13 11:47:21 CEST 2015
+; Wed May 13 15:33:10 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
 
-([ADAM_ProjectKB_Class80] of  String
+([ADAM_ProjectKB_Class290] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ADAM_ProjectKB_Class81] of  String
+([ADAM_ProjectKB_Class291] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([ADAM_ProjectKB_Class82] of  String
+([ADAM_ProjectKB_Class292] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([ADAM_ProjectKB_Class83] of  String
+([ADAM_ProjectKB_Class293] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ADAM_ProjectKB_Class84] of  String
+([ADAM_ProjectKB_Class294] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_ProjectKB_Class85] of  Map
+([ADAM_ProjectKB_Class295] of  Map
 )
 
-([ADAM_ProjectKB_Class86] of  Map_Entry
+([ADAM_ProjectKB_Class296] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_ProjectKB_Class85")
+	(value "ADAM_ProjectKB_Class295")
 	(value_class "java.util.Map"))
 
-([ADAM_ProjectKB_Class87] of  Map_Entry
+([ADAM_ProjectKB_Class297] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_ProjectKB_Class88] of  Map_Entry
+([ADAM_ProjectKB_Class298] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_ProjectKB_Class89] of  Map_Entry
+([ADAM_ProjectKB_Class299] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_ProjectKB_Class80]
-		[ADAM_ProjectKB_Class81]
-		[ADAM_ProjectKB_Class82]
-		[ADAM_ProjectKB_Class83]
-		[ADAM_ProjectKB_Class84]))
+		[ADAM_ProjectKB_Class290]
+		[ADAM_ProjectKB_Class291]
+		[ADAM_ProjectKB_Class292]
+		[ADAM_ProjectKB_Class293]
+		[ADAM_ProjectKB_Class294]))
 
 ([CLSES_TAB] of  Widget
 
@@ -164,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_ProjectKB_Class86]
-		[ADAM_ProjectKB_Class87]
-		[ADAM_ProjectKB_Class88]
-		[ADAM_ProjectKB_Class89])
-	(referenced_maps [ADAM_ProjectKB_Class85]))
+		[ADAM_ProjectKB_Class296]
+		[ADAM_ProjectKB_Class297]
+		[ADAM_ProjectKB_Class298]
+		[ADAM_ProjectKB_Class299])
+	(referenced_maps [ADAM_ProjectKB_Class295]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -710,9 +710,9 @@
 
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
-		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
+		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
 		[PAL_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
