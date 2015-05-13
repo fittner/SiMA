@@ -1,4 +1,4 @@
-; Wed Mar 25 18:04:47 CET 2015
+; Wed May 13 10:41:48 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -15,6 +15,12 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot emotionIntensity
+		(type FLOAT)
+		(range 0.0 1.0)
+		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot intensityDeviation
 		(type FLOAT)
 		(range 0.0 1.0)
 		(default 0.0)
@@ -1272,6 +1278,28 @@
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot sourceUnpleasure
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot sourceLibid
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot emotionIntensity
+		(type FLOAT)
+		(range 0.0 1.0)
+		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot intensityDeviation
+		(type FLOAT)
+		(range 0.0 1.0)
+		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(multislot instance_association
 		(type INSTANCE)
 ;+		(allowed-classes)
@@ -1298,25 +1326,9 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot sourceUnpleasure
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot %3ANAME
 		(type STRING)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot sourceLibid
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot emotionIntensity
-		(type FLOAT)
-		(range 0.0 1.0)
-		(default 0.0)
-;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass DOMAIN
