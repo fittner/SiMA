@@ -50,23 +50,23 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
     private double FullAffectionFactor = 1.0;
 
     // EB
-    private double JoyEyeBrowsFactor;
-    private double ElationEyeBrowsFactor;
-    private double MourningEyeBrowsFactor;
-    private double AngerEyeBrowsFactor;
-    private double AnxietyEyeBrowsFactor;
+    private double JoyEyeBrowsFactor = 1.0;
+    private double ElationEyeBrowsFactor = 1.0;
+    private double MourningEyeBrowsFactor = 1.0;
+    private double AngerEyeBrowsFactor = 1.0;
+    private double AnxietyEyeBrowsFactor = 1.0;
 
     // H
-    private double AnxietyHeartFactor;
+    private double AnxietyHeartFactor = 1.0;
 
     // M
-    private double ElationMouthFactor;
+    private double ElationMouthFactor = 1.0;
 
     // MT
-    private double AngerTenseMusclesFactor;
+    private double AngerTenseMusclesFactor = 1.0;
 
     // SG
-    private double AngerSweatGlandsFactor;
+    private double AngerSweatGlandsFactor = 1.0;
 
     // direction multipliers
     private int MinusDirection = -1;
