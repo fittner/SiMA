@@ -94,7 +94,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	
 	//Provide steadier emotion change
 	private clsEmotion moLastEmotion = null;         /*ATTENTION: this is a local emotion that MUST NEVER be linked to ANYTHING*/
+	private clsEmotion moTargetEmotion = null;       /*This is stored for visualization purposes only*/
 	private double mrEmotionChangeFactor = 0.1;
+	private static final boolean mbShowTargetEmotionInChart = true;
 	
 	// threshold to determine in which case domination of a emotion occurs
 	private double mrRelativeThreshold;
@@ -111,7 +113,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 
 	// values from drive-track . to get a better output in the inspectors a hashmap is used instead of separate variables
 	HashMap<String, Double> oDrivesExtractedValues = new HashMap<String, Double>();
-
+	
 	// personality parameter, perceiving a drive object sould trigger less emotions than the bodily needs
 	private double mrPerceptionPleasureImpactFactor;
 	private double mrPerceptionUnpleasureImpactFactor;
@@ -309,7 +311,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         }
         
         //create the new base emotion target state
-        clsEmotion oBaseEmotionTarget = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+        moTargetEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
         
         if(moLastEmotion == null) {
             //if this is the first step
@@ -319,7 +321,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
             //moLastEmotion = clsEmotion.zeroEmotion(eContentType.BASICEMOTION, eEmotionType.UNDEFINED);
         } else {
             //move last emotion state towards this target
-            moLastEmotion.gradualChange(oBaseEmotionTarget, mrEmotionChangeFactor);
+            moLastEmotion.gradualChange(moTargetEmotion, mrEmotionChangeFactor);
         }
         
         clsEmotion oBaseEmotion = moLastEmotion.flatCopy();
@@ -859,6 +861,29 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		return "";
 	}
 
+	/**
+	 * DOCUMENT - Searaches a List of clsEmotion objects for emotions of a specific type and return the intensity
+	 * 
+	 *            If an emotion occurs more than once, the QoAs will be summed up.
+	 *
+	 * @author Kollmann
+	 * @since 18.05.2015 13:53:08
+	 *
+	 * @param poEmotionList
+	 * @param poEmotionType
+	 * @return
+	 */
+	private Double extractEmotionValueForType(List<clsEmotion> poEmotionList, eEmotionType poEmotionType) {
+	    //EMOTIONS
+        Double oQoA= 0.0;
+        for(clsEmotion oEmotion : poEmotionList) {
+            if(oEmotion.getContent().equals(poEmotionType))
+                oQoA += oEmotion.getEmotionIntensity();
+        }
+        
+        return oQoA;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @since Oct 2, 2012 1:31:29 PM
@@ -868,76 +893,58 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	@Override
 	public ArrayList<ArrayList<Double>> getCombinedTimeChartData() {
 	    ArrayList<clsEmotion> oEmotions = moEmotions_OUT.get(0).generateExtendedEmotions();
+	    ArrayList<clsEmotion> oTargetEmotions = moTargetEmotion.generateExtendedEmotions();
 		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
 		
 		//EMOTIONS
 		ArrayList<Double> oAnger =new ArrayList<Double>();
-		Double oAngerQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.ANGER)){
-				oAngerQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
+		oAnger.add(extractEmotionValueForType(oEmotions, eEmotionType.ANGER));
+		if (mbShowTargetEmotionInChart)
+		{
+		    oAnger.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.ANGER));
 		}
-		oAnger.add(oAngerQoA);
 		oResult.add(oAnger);
 		
-		
-		ArrayList<Double> oFear =new ArrayList<Double>();
-		Double oFearQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.ANXIETY)){
-				oFearQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
-		}
-		oFear.add(oFearQoA);
-		oResult.add(oFear);
-		
-		ArrayList<Double> oGrief =new ArrayList<Double>();
-		Double oGriefQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.MOURNING)){
-				oGriefQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
-		}
-		oGrief.add(oGriefQoA);
-		oResult.add(oGrief);
-		
-		ArrayList<Double> oLoveSa =new ArrayList<Double>();
-		Double oLoveSaQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.SATURATION)){
-				oLoveSaQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
-		}
-		oLoveSa.add(oLoveSaQoA);
-		oResult.add(oLoveSa);
-		
-		ArrayList<Double> oLoveEx =new ArrayList<Double>();
-		Double oLoveExQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.ELATION)){
-				oLoveExQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
-		}
-		oLoveEx.add(oLoveExQoA);
-		oResult.add(oLoveEx);
-		
-		ArrayList<Double> oPleasure =new ArrayList<Double>();
-		Double oPleasureQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.JOY)){
-				oPleasureQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
-		}
-		oPleasure.add(oPleasureQoA);
-		oResult.add(oPleasure);
-		
+		ArrayList<Double> oAnxiety =new ArrayList<Double>();
+		oAnxiety.add(extractEmotionValueForType(oEmotions, eEmotionType.ANXIETY));
+		if (mbShowTargetEmotionInChart)
+        {
+            oAnxiety.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.ANXIETY));
+        }
+        oResult.add(oAnxiety);
+        
+        ArrayList<Double> oMourning =new ArrayList<Double>();
+        oMourning.add(extractEmotionValueForType(oEmotions, eEmotionType.MOURNING));
+        if (mbShowTargetEmotionInChart)
+        {
+            oMourning.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.MOURNING));
+        }
+        oResult.add(oMourning);
+        
+        ArrayList<Double> oSaturation =new ArrayList<Double>();
+        oSaturation.add(extractEmotionValueForType(oEmotions, eEmotionType.SATURATION));
+        if (mbShowTargetEmotionInChart)
+        {
+            oSaturation.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.SATURATION));
+        }
+        oResult.add(oSaturation);
+        
+        ArrayList<Double> oElation =new ArrayList<Double>();
+        oElation.add(extractEmotionValueForType(oEmotions, eEmotionType.ELATION));
+        if (mbShowTargetEmotionInChart)
+        {
+            oElation.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.ELATION));
+        }
+        oResult.add(oElation);
+        
+        ArrayList<Double> oJoy =new ArrayList<Double>();
+        oJoy.add(extractEmotionValueForType(oEmotions, eEmotionType.JOY));
+        if (mbShowTargetEmotionInChart)
+        {
+            oJoy.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.JOY));
+        }
+        oResult.add(oJoy);
+        
 		//Chart Drive
 		ArrayList<Double> oDrive =new ArrayList<Double>();
 		oDrive.add(oDrivesExtractedValues.get("rDriveAggr"));
@@ -1006,33 +1013,57 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		//ChartAnger
 		ArrayList<String> chartAnger = new ArrayList<String>();
-		chartAnger.add("Emotion "+eEmotionType.ANGER.toString());
+		chartAnger.add("Current Emotion "+eEmotionType.ANGER.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartAnger.add("Target Emotion "+eEmotionType.ANGER.toString());
+        }
 		oResult.add(chartAnger);
 		
 		//ChartFear
 		ArrayList<String> chartFear = new ArrayList<String>();
-		chartFear.add("Emotion "+eEmotionType.ANXIETY.toString());
-		oResult.add(chartFear);
+		chartFear.add("Current Emotion "+eEmotionType.ANXIETY.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartFear.add("Target Emotion "+eEmotionType.ANXIETY.toString());
+        }
+        oResult.add(chartFear);
 		
 		//ChartGrief
 		ArrayList<String> chartGrief = new ArrayList<String>();
-		chartGrief.add("Emotion "+eEmotionType.MOURNING.toString());
-		oResult.add(chartGrief);	
+		chartGrief.add("Current Emotion "+eEmotionType.MOURNING.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartGrief.add("Target Emotion "+eEmotionType.MOURNING.toString());
+        }
+        oResult.add(chartGrief);	
 		
 		//ChartLoveSaturation
 		ArrayList<String> chartLoveSaturation = new ArrayList<String>();
-		chartLoveSaturation.add("Emotion "+eEmotionType.SATURATION.toString());
-		oResult.add(chartLoveSaturation);
+		chartLoveSaturation.add("Current Emotion "+eEmotionType.SATURATION.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartLoveSaturation.add("Target Emotion "+eEmotionType.SATURATION.toString());
+        }
+        oResult.add(chartLoveSaturation);
 		
 		//ChartLoveexhilaration
 		ArrayList<String> chartLoveExhilaration = new ArrayList<String>();
-		chartLoveExhilaration.add("Emotion "+eEmotionType.ELATION.toString());
-		oResult.add(chartLoveExhilaration);	
+		chartLoveExhilaration.add("Current Emotion "+eEmotionType.ELATION.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartLoveExhilaration.add("Target Emotion "+eEmotionType.ELATION.toString());
+        }
+        oResult.add(chartLoveExhilaration);	
 		
 		//ChartPleasure
 		ArrayList<String> chartPleasure= new ArrayList<String>();
-		chartPleasure.add("Emotion "+eEmotionType.JOY.toString());
-		oResult.add(chartPleasure);	
+		chartPleasure.add("Current Emotion "+eEmotionType.JOY.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartPleasure.add("Target Emotion "+eEmotionType.JOY.toString());
+        }
+        oResult.add(chartPleasure);	
 		
 		
 		//ChartDrive

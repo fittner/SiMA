@@ -151,12 +151,14 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    //double rDiff = prNewValue - prOldValue;
 	    //return Math.min(rDiff, Math.signum(rDiff) * prMaxChange);
 	    
-	    double rDiff = prNewValue - prOldValue;
-	    if(rDiff < prMaxChange) {
-	        return rDiff;
-	    } else {
-	        return rDiff * prMaxChange;
-	    }
+	    return (prNewValue - prOldValue) * prMaxChange;
+	    
+//	    double rDiff = prNewValue - prOldValue;
+//	    if(Math.abs(rDiff) < prMaxChange) {
+//	        return rDiff;
+//	    } else {
+//	        return rDiff * prMaxChange;
+//	    }
 	}
 	
 	public void gradualChange(clsEmotion poTargetState, double prMaxChange) {
