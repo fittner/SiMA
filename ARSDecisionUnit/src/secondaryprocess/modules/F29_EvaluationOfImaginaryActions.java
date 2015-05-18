@@ -238,6 +238,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
 
         clsWordPresentationMeshPossibleGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
+
+        logger.clsLogger.getLog("EmotionRange").info("Emotion Match on plangoal: {}", planGoal.getFeelingsMatchImportance());
+        
         try {
             this.moDecisionEngine.declareGoalAsPlanGoal(planGoal);
         } catch (Exception e1) {

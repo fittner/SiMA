@@ -53,6 +53,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	public clsEmotion(clsEmotion poToCopy) {
 	    this(new clsTriple<Integer, eDataType, eContentType>(poToCopy.getDS_ID(), poToCopy.getMoDataStructureType(), poToCopy.getContentType()),
 	            poToCopy.getEmotionIntensity(),
+	            poToCopy.getIntensityDeviation(),
 	            poToCopy.getContent(),
 	            poToCopy.getSourcePleasure(),
 	            poToCopy.getSourceUnpleasure(),
@@ -276,6 +277,14 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 */
 	public void setEmotionIntensity(double mrEmotionIntensity) {
 		this.mrEmotionIntensity = mrEmotionIntensity;
+	}
+	
+	public double getIntensityDeviation() {
+	    return mrIntensityDeviation;
+	}
+	
+	public void setIntensityDeviation(double prIntensityDeviation) {
+	    this.mrIntensityDeviation = prIntensityDeviation;
 	}
 	
 	/**

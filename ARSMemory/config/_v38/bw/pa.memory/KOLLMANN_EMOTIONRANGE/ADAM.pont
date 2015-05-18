@@ -1,4 +1,4 @@
-; Mon May 18 15:11:17 CEST 2015
+; Mon May 18 15:57:33 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -7,10 +7,6 @@
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract)
-	(single-slot value_type_EmotionOfBodystate
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot cathegory%3Agenital
 ;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
 		(type FLOAT)
@@ -45,18 +41,14 @@
 		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot ADAM_Class0
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot value_max
-		(type FLOAT)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot psychic_satisfaction
 		(type FLOAT)
 		(range 0.0 1.0)
 		(default 1.0)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot value_max
+		(type FLOAT)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot drive_source
@@ -64,16 +56,16 @@
 ;+		(allowed-classes)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot emotion
+		(type INSTANCE)
+;+		(allowed-classes EMOTION)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot cathegory%3Aoral
 ;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
 		(type FLOAT)
 		(range 0.0 1.0)
 		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot emotion
-		(type INSTANCE)
-;+		(allowed-classes EMOTION)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot precondition
@@ -117,15 +109,15 @@
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot value_min
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot action
 		(type INSTANCE)
 ;+		(allowed-classes WPM%3AACTION)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_min
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot cathegory%3Aphalic
 ;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
@@ -138,13 +130,13 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
-	(multislot ext_assdatastructure
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot ext_assdatastructure
+		(type INSTANCE)
+;+		(allowed-classes)
 		(create-accessor read-write))
 	(single-slot instance_type
 		(type INSTANCE)
@@ -197,11 +189,6 @@
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
-		(create-accessor read-write))
-	(single-slot value_EmotionOfBodystate
-		(type STRING)
-		(default "BASICEMOTION")
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot drive_representation
 		(type STRING)
@@ -385,19 +372,6 @@
 (defclass WORDING
 	(is-a TPM%3AENTITY)
 	(role concrete))
-
-(defclass BODYSTATE
-	(is-a TPM%3AENTITY)
-	(role concrete)
-	(single-slot value_type_EmotionOfBodystate
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_EmotionOfBodystate
-		(type STRING)
-		(default "BASICEMOTION")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
 
 (defclass TPM%3ABODYPART
 	(is-a TPM)
@@ -810,15 +784,15 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
+	(single-slot drive_component
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot psychic_satisfaction
 		(type FLOAT)
 		(range 0.0 1.0)
 		(default 1.0)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot drive_component
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
@@ -1203,19 +1177,6 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass EXPRESSION
-	(is-a VISION)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-		(default "Expression")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
 (defclass ACCELERATION
 	(is-a SENSOR_EXT)
 	(role concrete)
@@ -1312,10 +1273,6 @@
 (defclass EMOTION "Emotion"
 	(is-a USER)
 	(role concrete)
-	(single-slot ADAM_Class0
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot sourceAggr
 		(type FLOAT)
 		(default 0.0)
@@ -1356,14 +1313,14 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot sourcePleasure
 		(type FLOAT)
 		(default 0.0)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
@@ -1439,14 +1396,14 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot feelingIntensity
 		(type FLOAT)
 		(range 0.0 1.0)
 		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot %3ANAME

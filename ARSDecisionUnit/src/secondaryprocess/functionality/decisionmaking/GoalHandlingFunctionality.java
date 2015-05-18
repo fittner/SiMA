@@ -112,7 +112,7 @@ public class GoalHandlingFunctionality {
                  */
                 
                 if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold && receivedPsychicIntensity < goalsByExpectedFeelingThreshold){
-                    goal.setFeelingsMatchImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));                   
+                    goal.setFeelingsMatchImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));
                 }
                 
                 if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold && receivedPsychicIntensity < goalsByReservedFeelingThreshold){
