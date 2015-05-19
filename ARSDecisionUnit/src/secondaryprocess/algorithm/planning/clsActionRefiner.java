@@ -32,15 +32,15 @@ import secondaryprocess.algorithm.planning.itfActionRefinement;
  */
 public class clsActionRefiner {
     private Logger moLogger = clsLogger.getLog("planning");
-    private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory = null;
     private clsWordPresentationMesh moEnvironmentalImage = null;
     
     //remove access to constructor and copy constructor
+    @SuppressWarnings("unused")
     private clsActionRefiner() {}
+    @SuppressWarnings("unused")
     private clsActionRefiner(clsActionRefiner poOrientationReasoner) {}
     
     public clsActionRefiner(clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTermMemory, clsWordPresentationMesh poEnvironmentalImage) {
-        moShortTermMemory = poShortTermMemory;
         moEnvironmentalImage = poEnvironmentalImage;
     }
     
@@ -149,5 +149,10 @@ public class clsActionRefiner {
                 moLogger.warn("Could not refine action " + poActionWPM + " even thou it's considered refineable");
             }
         }
+    }
+    
+    @Override
+    public String toString() {
+        return moEnvironmentalImage.toString();
     }
 }
