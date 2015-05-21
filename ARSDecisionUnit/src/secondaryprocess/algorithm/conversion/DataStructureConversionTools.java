@@ -164,7 +164,15 @@ public class DataStructureConversionTools {
                         }
                     }
                     else if (oTPMExternalAss.getAssociationElementB() instanceof clsThingPresentationMesh){
-                        //do Nothing
+                        //Kollmann: check if the association attribute points to a bodystate, if so, convert the bodystate and the associated emotion
+                        clsThingPresentationMesh oAssociatedTPM = (clsThingPresentationMesh) oTPMExternalAss.getAssociationElementB();
+                        if(oAssociatedTPM.getContent().equals("Bodystate")) {
+                            clsWordPresentationMesh oAssociatedWPM = convertCompleteTPMtoWPM(ltm, oAssociatedTPM, poProcessedList, pnLevelInternal, pnLevelExternal - 1, contentType, prDriveDemandImpactFactor);
+                            clsMeshTools.createAssociationSecondary(oRetVal, 2,
+                                    oAssociatedWPM, 0, 2.0,
+                                    eContentType.ASSOCIATIONSECONDARY,
+                                    ePredicate.HASBODYSTATE, false);
+                        }
                     }
                     
                     
@@ -286,6 +294,25 @@ public class DataStructureConversionTools {
                     
                     oRetVal.addFeeling(oFeeling);
 //                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
+                } else if (oTPMInternalAss instanceof clsAssociationAttribute
+                        && oTPMInternalAss.getAssociationElementB() instanceof clsEmotion
+                        && poProcessedList.contains(((clsAssociationAttribute) oTPMInternalAss).getLeafElement()) == false) {
+                    //Kollmann if the association points to an attributed emotion
+                    clsEmotion oEmotion = (clsEmotion) oTPMInternalAss.getAssociationElementB();
+                    
+                    if(oEmotion.getContentType().equals(eContentType.BASICEMOTION)) {
+                        clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
+                    
+                        oRetVal.addFeeling(oFeeling);
+                    } else if(oEmotion.getContentType().equals(eContentType.ATTRIBUTEDEMOTION)) {
+                        clsWordPresentationMeshEmotion oAttributedEmotion = new clsWordPresentationMeshEmotion(oEmotion);
+                        
+                        oRetVal.addAttributedEmotion(oAttributedEmotion);
+                    } else if (oEmotion.getContentType().equals(eContentType.MEMORIZEDEMOTION)) {
+                        //do nothing
+                    } else {
+                        log.debug("AssociationEmotion found that neither points to an attributed, nor to a basicemotion:\n{}", oEmotion);
+                    }
                 }
             }
         }

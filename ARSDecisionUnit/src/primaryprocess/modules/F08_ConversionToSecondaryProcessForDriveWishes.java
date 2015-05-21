@@ -167,7 +167,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 		//Fixme: Remove this hack
 	    //moDriveList_Input = HackMethods.JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE(moDriveList_Input, this.getLongTermMemory());
-		//log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
+		//log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivated");
 		
 		
 		try {
