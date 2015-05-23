@@ -591,7 +591,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         // there has to be at least one emotion for continuing
                         if(rNumberOfExemplarsWithEmotion!=0) {
                             // mean & add result to oOutputTPM with help of clsEmotion
-                            clsEmotion oResultEmotionObject = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.UNDEFINED, eEmotionType.UNDEFINED, 0.0), rResultP/rNumberOfExemplarsWithEmotion, rResultU/rNumberOfExemplarsWithEmotion, rResultL/rNumberOfExemplarsWithEmotion, rResultA/rNumberOfExemplarsWithEmotion);
+                            clsEmotion oResultEmotionObject = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0), rResultP/rNumberOfExemplarsWithEmotion, rResultU/rNumberOfExemplarsWithEmotion, rResultL/rNumberOfExemplarsWithEmotion, rResultA/rNumberOfExemplarsWithEmotion);
                             oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oResultEmotionObject, oOutputTPM, 1.0));
                         }
                         //################################################################

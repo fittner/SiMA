@@ -114,15 +114,18 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		//if the other data structure is no cleEmotion -> no match
 	    if(poDataStructure instanceof clsEmotion) {
 	        oOtherEmotion = (clsEmotion)poDataStructure;
-	        //kollmann: emotions of different type always produce a math of 0
-	        if(getContentType().equals(oOtherEmotion.getContentType())) {
-	            switch(getContentType()) {
-	            case MEMORIZEDEMOTION:
-	            case BASICEMOTION:
-	                rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
-	                break;
-	            }
-	        }
+	        //kollmann: memorizedemotions can only be compared with other memorizedemotions - basic and attributedemotions can be compared to any other emotion type
+            switch(getContentType()) {
+            case MEMORIZEDEMOTION:
+                if(oOtherEmotion.getContentType().equals(eContentType.MEMORIZEDEMOTION)) {
+                    rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
+                }
+                break;
+            case BASICEMOTION:
+            case ATTRIBUTEDEMOTION:
+                rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
+                break;
+            }
 	    }
 	    
 		return rMatch;
@@ -133,7 +136,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	}
 	
 	public void sub(clsEmotion poEmotion) {
-        //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a math of 0
+        //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a match of 0
         if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {
             switch(getContentType()) {
             case MEMORIZEDEMOTION:

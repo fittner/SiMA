@@ -1,4 +1,4 @@
-; Tue May 05 14:28:15 CEST 2015
+; Sat May 23 12:55:11 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1784,6 +1784,20 @@
 		[EMOTION%3AA06_BEAT_BODO_L01%3AANGER])
 	(weight 1.0 1.0))
 
+([ASSOCIATIONEMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AANGER] of  ASSOCIATIONEMOTION
+
+	(element
+		[PRI%3AA06_BEAT_BODO_L01%3ABODO]
+		[EMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AHATE])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONEMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AATTRIBUTED%3AANXIETY] of  ASSOCIATIONEMOTION
+
+	(element
+		[PRI%3AA06_BEAT_BODO_L01%3ABODO]
+		[EMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AATTRIBUTED%3AANXIETY])
+	(weight 1.0 1.0))
+
 ([ASSOCIATIONEMOTION%3AA06_BEAT_BODO_L01_I01%3AANGER] of  ASSOCIATIONEMOTION
 
 	(element
@@ -1992,6 +2006,13 @@
 	(element
 		[TPM%3AIMAGE%3AA14_FLEE_BODO_L01_I02]
 		[EMOTION%3AA14_FLEE_BODO_L01_I02%3AANXIETY])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONEMOTION%3ABODO%3AMAKES_ME_ANGRY] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AENTITY%3AARSIN%3ABODO]
+		[EMOTION%3ABODO%3AMAKES_ME_ANGRY])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONEMOTION%3AS01_BODO_CAKE] of  ASSOCIATIONEMOTION
@@ -3348,6 +3369,26 @@
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
+([EMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AATTRIBUTED%3AANXIETY] of  EMOTION
+
+	(emotionIntensity 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.5)
+	(value "ANXIETY")
+	(value_type "ATTRIBUTEDEMOTION"))
+
+([EMOTION%3AA06_BEAT_BODO_L01%3ABODO%3AHATE] of  EMOTION
+
+	(emotionIntensity 0.0)
+	(sourceAggr 0.8)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.8)
+	(value "ANGER")
+	(value_type "BASICEMOTION"))
+
 ([EMOTION%3AA06_BEAT_BODO_L01_I01%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.6)
@@ -3667,6 +3708,16 @@
 	(sourceUnpleasure 0.7)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
+
+([EMOTION%3ABODO%3AMAKES_ME_ANGRY] of  EMOTION
+
+	(emotionIntensity 0.0)
+	(sourceAggr 1.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "ANGER")
+	(value_type "MEMORIZEDEMOTION"))
 
 ([EMOTION%3ABODO_CAKE] of  EMOTION
 

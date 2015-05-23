@@ -210,8 +210,6 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     
     @Override
     public String toString() {
-        String oText = getContent().toString() + "=" + new DecimalFormat("0.00").format(getIntensity());
-        
-        return oText;
+        return debugString();
     }
 }

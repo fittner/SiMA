@@ -17,6 +17,7 @@ import memorymgmt.interfaces.itfModuleMemoryAccess;
 
 import org.slf4j.Logger;
 
+import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
@@ -35,6 +36,7 @@ import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshEmotion;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
@@ -216,9 +218,13 @@ public class DataStructureConversionTools {
                     
                         oRetVal.addFeeling(oFeeling);
                     } else if(oEmotion.getContentType().equals(eContentType.ATTRIBUTEDEMOTION)) {
-                        clsWordPresentationMeshEmotion oAttributedEmotion = new clsWordPresentationMeshEmotion(oEmotion);
+                        clsWordPresentationMesh oBodystate = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.ENTITY, "Bodystate"), new ArrayList<clsAssociation>());
+                        oBodystate.addFeeling(clsGoalManipulationTools.convertEmotionToFeeling(oEmotion));
                         
-                        oRetVal.addAttributedEmotion(oAttributedEmotion);
+                        clsMeshTools.createAssociationSecondary(oRetVal, 2,
+                                oBodystate, 0, 2.0,
+                                eContentType.ASSOCIATIONSECONDARY,
+                                ePredicate.HASBODYSTATE, false);
                     } else if (oEmotion.getContentType().equals(eContentType.MEMORIZEDEMOTION)) {
                         //do nothing
                     } else {

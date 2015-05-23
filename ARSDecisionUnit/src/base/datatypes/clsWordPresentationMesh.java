@@ -1231,7 +1231,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
     }
     
     /**
-     * Add a Feeling to the goal, which is not already present. If present, then replace
+     * Add a Feeling to the WPM, which is not already present. If present, then replace
      * 
      * (wendt) (moved by kollmann)
      *
@@ -1244,16 +1244,29 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
     }
     
     /**
-     * Add a Feeling to the goal, which is not already present. If present, then replace
+     * Add an attributed emotion to the WPM, which is not already present. If present, then replace
      * 
-     * (wendt) (moved by kollmann)
+     * (kollmann)
      *
      * @since 17.05.2013 10:37:48
      *
-     * @param poFeeling
+     * @param poEmotion
      */
     public void addAttributedEmotion(clsWordPresentationMeshEmotion poEmotion) {
         this.addReplaceNonUniqueProperty(poEmotion, ePredicate.HASATTRIBUTEDEMOTION, false);
+    }
+    
+    /**
+     * Add an attributed emotion to the WPM, which is not already present. If present, then replace
+     * 
+     * (kollmann)
+     *
+     * @since 17.05.2013 10:37:48
+     *
+     * @param poEmotion
+     */
+    public ArrayList<clsWordPresentationMeshEmotion> getAttributedEmotions() {
+        return (ArrayList<clsWordPresentationMeshEmotion>) getNonUniquePropertyWPM(ePredicate.HASATTRIBUTEDEMOTION, clsWordPresentationMeshEmotion.class);
     }
     
     /**

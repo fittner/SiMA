@@ -16,6 +16,8 @@ import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
+import modules.interfaces.I6_15_receive;
+import modules.interfaces.I6_15_send;
 import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
@@ -46,7 +48,7 @@ import base.tools.toText;
  * 07.05.2012, 14:49:09
  * 
  */
-public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send {
+public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send, I6_15_send {
 	public static final String P_MODULENUMBER = "51";
 	
     private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
@@ -295,6 +297,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
    protected void send() {
        //HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
        send_I6_7(moReachableGoalList_OUT, moWordingToContext);
+       send_I6_15(moPerceptionalMesh_IN);
    }
 
    /* (non-Javadoc)
@@ -305,13 +308,26 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
     * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
     */
    @Override
-   public void send_I6_7(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, clsWordPresentationMesh moWordingToContext2)
-           {
+   public void send_I6_7(ArrayList<clsWordPresentationMeshPossibleGoal> poReachableGoalList, clsWordPresentationMesh moWordingToContext2) {
        ((I6_7_receive)moModuleList.get(26)).receive_I6_7(poReachableGoalList, moWordingToContext2);
        
        putInterfaceData(I6_7_send.class, poReachableGoalList, moWordingToContext2);
    }
 
+   /* (non-Javadoc)
+   *
+   * @since 23.05.2015 13:55:13
+   * 
+   * @see modules.interfaces.I6_15_send#send_I6_15(base.datatypes.clsWordPresentationMesh)
+   */
+    @Override
+    public void send_I6_15(clsWordPresentationMesh poFocusedPerception) {
+        ((I6_15_receive)moModuleList.get(53)).receive_I6_15(poFocusedPerception);
+        
+        putInterfaceData(I6_15_send.class, poFocusedPerception);
+    }
+
+   
    /* (non-Javadoc)
     *
     * @author kohlhauser
@@ -375,6 +391,7 @@ public void receive_I6_6(clsWordPresentationMesh poPerception, ArrayList<clsWord
     moReachableGoalList_IN = poReachableGoalList;
     moWordingToContext = poContextToWording;
 }
+
 
   
    
