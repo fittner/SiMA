@@ -566,7 +566,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         oData.add(new ArrayList<Double>()); // idx 4 = Effort Impact Importance
         oData.add(new ArrayList<Double>()); // idx 5 = Drive Aim Importance
         oData.add(new ArrayList<Double>()); // idx 6 = Social Rules Importance
-        oData.add(new ArrayList<Double>()); // idx 7 = Unknown influence
+        oData.add(new ArrayList<Double>()); // idx 7 = Entities Emotion Valuation Match Importance
+        oData.add(new ArrayList<Double>()); // idx 8 = Entities Bodystate Match Importance
+        oData.add(new ArrayList<Double>()); // idx 9 = Unknown influence
         
         double rTotalImportance = 0;
         double rTempDriveDemandImportance = 0;
@@ -598,7 +600,11 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             rTotalImportance += oGoal.getDriveAimImportance();
             oData.get(6).add(oGoal.getSocialRulesImportance());
             rTotalImportance += oGoal.getSocialRulesImportance();
-            oData.get(7).add(oGoal.getTotalImportance() - rTotalImportance);
+            oData.get(7).add(oGoal.getEntityValuationImportance());
+            rTotalImportance += oGoal.getEntityValuationImportance();
+            oData.get(8).add(oGoal.getEntityBodystateImportance());
+            rTotalImportance += oGoal.getEntityBodystateImportance();
+            oData.get(9).add(oGoal.getTotalImportance() - rTotalImportance);
         }
 
         return oData;
@@ -622,6 +628,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         oResult.add("Effort Impact Importance");
         oResult.add("Drive Aim Importance");
         oResult.add("Social Rules Importance");
+        oResult.add("Emotion Valuation Match Importance");
+        oResult.add("Bodystate Match Importance");
         oResult.add("Unknown factors");
         
         return oResult;

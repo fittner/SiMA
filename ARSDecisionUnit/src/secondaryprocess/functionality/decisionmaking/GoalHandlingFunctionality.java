@@ -35,7 +35,6 @@ import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
 import secondaryprocess.algorithm.goals.GoalGenerationTools;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
-import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -210,7 +209,6 @@ public class GoalHandlingFunctionality {
         clsWordPresentationMesh oIntention = null;
         clsDataStructurePA oRawDS = null;
         clsWordPresentationMesh oRIEntity = null;
-        ArrayList<clsWordPresentationMesh> oMatchingEntities = null;
         List<clsWordPresentationMesh> oPerceivedEntities = new ArrayList<>();
         List<clsAssociationSecondary> oBodystateAssociations = null;
         List<clsPair<clsWordPresentationMesh, clsWordPresentationMesh>> oPairs = new ArrayList<>();
@@ -221,6 +219,10 @@ public class GoalHandlingFunctionality {
         clsWordPresentationMesh oBodystate = null;
         double rValuationMatch = 0.0;
         double rAttributedMatch = 0.0;
+        int nNumValidMatchings = 0;
+        
+        double mrEntityValuationMatchImpact = 0.1;
+        double mrEntityBodystateMatchImpact = 0.1;
         
         //extract the perceived entities
         for(clsAssociationSecondary oEntityAssociation : clsAssociationSecondary.filterListByPredicate(poFocusedPerception.getInternalAssociatedContent(), ePredicate.HASPART)) {
@@ -236,7 +238,7 @@ public class GoalHandlingFunctionality {
             if(oSupportiveDataStructure.getContentType().equals(eContentType.ACT)) {
                 oIntention = clsActDataStructureTools.getIntention(oSupportiveDataStructure);
                 
-                oMatchingEntities = clsSecondarySpatialTools.getAlreadyExistingEntitiesInImage(poFocusedPerception, (clsWordPresentationMesh)oRawDS, true);
+                oPairs = new ArrayList<>();
                 
                 for(clsAssociationSecondary oEntityAssociation : clsAssociationSecondary.filterListByPredicate(oIntention.getInternalAssociatedContent(), ePredicate.HASPART)) {
                     oRawDS = oEntityAssociation.getTheOtherElement(oIntention);
@@ -253,53 +255,74 @@ public class GoalHandlingFunctionality {
                     }
                 }
                 
+                nNumValidMatchings = 0;
+                
                 //calculate matches for found pairs
                 for(clsPair<clsWordPresentationMesh, clsWordPresentationMesh> oPair : oPairs) {
                     //The feeling valuation is stored via setFeelings()
-                    oValuationPI = oPair.a.getFeelings().get(0);
-                    oValuationRI = oPair.b.getFeelings().get(0);
                     
-                    oBodystateAssociations = clsAssociationSecondary.filterListByPredicate(oPair.a.getExternalAssociatedContent(), ePredicate.HASBODYSTATE);
-                    if(oBodystateAssociations.size() > 0) {
-                        if(oBodystateAssociations.size() > 1) {
-                            log.warn("Entity {} has more than one bodystate associated - will be usind the first one", oPair.a);
-                        }
-                        oRawDS = oBodystateAssociations.get(0).getTheOtherElement(oPair.a);
-                        oBodystate = (clsWordPresentationMesh)oRawDS;
-                        if(oBodystate.getFeelings().size() < 1) {
-                            log.warn("Bodystate {} has no feelings associated", oBodystate);
-                        } else if(oBodystate.getFeelings().size() > 1) {
-                            log.warn("Bodystate {} has more than one feeling associated", oBodystate);
-                        } else {
-                            oAttributedPI = oBodystate.getFeelings().get(0);
-                        }
+                    if(oPair.a.getFeelings().size() < 1) {
+                        log.debug("Entity {} in goal {} has no feelings associated", oPair.a, oGoal);
+                    } else if(oPair.a.getFeelings().size() > 1) {
+                        log.warn("Entity {} in goal {} has more than one feeling associated", oPair.a, oGoal);
                     } else {
-                        log.debug("Entity {} has no bodystates associated", oPair.a);
-                    }
-                    
-                    oBodystateAssociations = clsAssociationSecondary.filterListByPredicate(oPair.b.getExternalAssociatedContent(), ePredicate.HASBODYSTATE);
-                    if(oBodystateAssociations.size() > 0) {
-                        if(oBodystateAssociations.size() > 1) {
-                            log.warn("Entity {} has more than one bodystate associated - will be usind the first one", oPair.b);
-                        }
-                        oRawDS = oBodystateAssociations.get(0).getTheOtherElement(oPair.b);
-                        oBodystate = (clsWordPresentationMesh)oRawDS;
-                        if(oBodystate.getFeelings().size() < 1) {
-                            log.warn("Bodystate {} has no feelings associated", oBodystate);
-                        } else if(oBodystate.getFeelings().size() > 1) {
-                            log.warn("Bodystate {} has more than one feeling associated", oBodystate);
+                        oValuationPI = oPair.a.getFeelings().get(0);
+                        if(oPair.b.getFeelings().size() < 1) {
+                            log.debug("Entity {} in goal {} has no feelings associated", oPair.b, oGoal);
+                        } else if(oPair.b.getFeelings().size() > 1) {
+                            log.warn("Entity {} in goal {} has more than one feeling associated", oPair.b, oGoal);
                         } else {
-                            oAttributedRI = oBodystate.getFeelings().get(0);
+                            oValuationRI = oPair.b.getFeelings().get(0);
+                            
+                            nNumValidMatchings++;
+                            
+                            oBodystateAssociations = clsAssociationSecondary.filterListByPredicate(oPair.a.getExternalAssociatedContent(), ePredicate.HASBODYSTATE);
+                            if(oBodystateAssociations.size() > 0) {
+                                if(oBodystateAssociations.size() > 1) {
+                                    log.warn("Entity {} has more than one bodystate associated - will be usind the first one", oPair.a);
+                                }
+                                oRawDS = oBodystateAssociations.get(0).getTheOtherElement(oPair.a);
+                                oBodystate = (clsWordPresentationMesh)oRawDS;
+                                if(oBodystate.getFeelings().size() < 1) {
+                                    log.warn("Bodystate {} has no feelings associated", oBodystate);
+                                } else if(oBodystate.getFeelings().size() > 1) {
+                                    log.warn("Bodystate {} has more than one feeling associated", oBodystate);
+                                } else {
+                                    oAttributedPI = oBodystate.getFeelings().get(0);
+                                }
+                            } else {
+                                log.debug("Entity {} has no bodystates associated", oPair.a);
+                            }
+                            
+                            oBodystateAssociations = clsAssociationSecondary.filterListByPredicate(oPair.b.getExternalAssociatedContent(), ePredicate.HASBODYSTATE);
+                            if(oBodystateAssociations.size() > 0) {
+                                if(oBodystateAssociations.size() > 1) {
+                                    log.warn("Entity {} has more than one bodystate associated - will be usind the first one", oPair.b);
+                                }
+                                oRawDS = oBodystateAssociations.get(0).getTheOtherElement(oPair.b);
+                                oBodystate = (clsWordPresentationMesh)oRawDS;
+                                if(oBodystate.getFeelings().size() < 1) {
+                                    log.warn("Bodystate {} has no feelings associated", oBodystate);
+                                } else if(oBodystate.getFeelings().size() > 1) {
+                                    log.warn("Bodystate {} has more than one feeling associated", oBodystate);
+                                } else {
+                                    oAttributedRI = oBodystate.getFeelings().get(0);
+                                }
+                            } else {
+                                log.debug("Entity {} has no bodystates associated", oPair.b);
+                            }
+                            
+                            rValuationMatch += oValuationPI.getEmotion().compareTo(oValuationRI.getEmotion());
+                            
+                            rAttributedMatch += oAttributedPI.getEmotion().compareTo(oAttributedRI.getEmotion());
                         }
-                    } else {
-                        log.debug("Entity {} has no bodystates associated", oPair.b);
-                    }
-                    
-                    rValuationMatch = oValuationPI.getEmotion().compareTo(oValuationRI.getEmotion());
-                    
-                    rAttributedMatch = oAttributedPI.getEmotion().compareTo(oAttributedRI.getEmotion());
+                    }  
                 }
-                //assign importance value to goal based on matches
+                if(nNumValidMatchings > 0) {
+                    //assign importance value to goal based on matches
+                    oGoal.setEntityValuationImportance((rValuationMatch / nNumValidMatchings) * oGoal.getDriveDemandImportance() * mrEntityValuationMatchImpact);
+                    oGoal.setEntityBodystateImportance((rAttributedMatch / nNumValidMatchings) * oGoal.getDriveDemandImportance() * mrEntityBodystateMatchImpact);
+                }
             }
         }
     }
