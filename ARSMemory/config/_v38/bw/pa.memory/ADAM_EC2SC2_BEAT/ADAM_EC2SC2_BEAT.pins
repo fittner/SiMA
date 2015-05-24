@@ -1,4 +1,4 @@
-; Sun May 24 12:56:29 CEST 2015
+; Sun May 24 15:54:37 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1486,7 +1486,7 @@
 
 	(element
 		[BODYSTATE%3ABODO_ANGER]
-		[EXPRESSION%3ACHEEKS_REDNING%3AMED])
+		[EXPRESSION%3ACHEEKS_REDNING%3ALOW])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3AEYE_BROW_CENTER%3ADOWN] of  ASSOCIATIONATTRIBUTE
@@ -3386,7 +3386,7 @@
 
 ([EMOTION%3AA06_BEAT_BODO_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3694,7 +3694,7 @@
 
 ([EMOTION%3AA14_FLEE_BODO_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.11)
 	(sourceLibid 0.35)
@@ -3740,21 +3740,21 @@
 
 	(emotionIntensity 0.8)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.8)
+	(sourceAggr 1.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.3)
+	(sourceUnpleasure 0.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3ABODO%3ALIKE] of  EMOTION
 
-	(emotionIntensity 0.0)
+	(emotionIntensity 1.0)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.7)
-	(sourceUnpleasure 0.2)
+	(sourcePleasure 1.0)
+	(sourceUnpleasure 0.0)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
 
