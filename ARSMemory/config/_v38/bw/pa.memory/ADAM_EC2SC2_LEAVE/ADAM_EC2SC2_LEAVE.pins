@@ -1,4 +1,4 @@
-; Sun May 24 13:14:42 CEST 2015
+; Sun May 24 16:00:52 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3599,7 +3599,7 @@
 
 	(emotionIntensity 1.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 1.0)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.5)
 	(sourceUnpleasure 0.0)
