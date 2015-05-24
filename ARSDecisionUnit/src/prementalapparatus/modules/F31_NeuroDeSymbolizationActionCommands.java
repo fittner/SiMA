@@ -400,6 +400,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         else if (oAction.equals(eAction.DROP.toString())) {
             oRetVal.addDataPoint(createAction("DROP",null));
         }
+        else if (oAction.equals(eAction.FLEE.toString()) 
+                || oAction.equals(eAction.GOTO.toString())) {
+            throw new UnknownError("Action " + oAction + " is a complex action that has not been translated into basic actions");
+        }
         else {
             throw new UnknownError("Action " + oAction + " not known");
         }
