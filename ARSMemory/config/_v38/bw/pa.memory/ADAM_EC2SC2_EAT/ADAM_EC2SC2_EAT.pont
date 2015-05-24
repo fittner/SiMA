@@ -1,7 +1,7 @@
-; Tue May 19 15:18:10 CEST 2015
+; Sun May 24 13:12:43 CEST 2015
 ; 
 ;+ (version "3.4.4")
-;+ (build "Build 580")
+;+ (build "Build 579")
 
 
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
@@ -19,6 +19,12 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot emotionIntensity
+		(type FLOAT)
+		(range 0.0 1.0)
+		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot intensityDeviation
 		(type FLOAT)
 		(range 0.0 1.0)
 		(default 0.0)
@@ -1307,6 +1313,28 @@
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot sourceUnpleasure
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot sourceLibid
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot emotionIntensity
+		(type FLOAT)
+		(range 0.0 1.0)
+		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot intensityDeviation
+		(type FLOAT)
+		(range 0.0 1.0)
+		(default 0.0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(multislot instance_association
 		(type INSTANCE)
 ;+		(allowed-classes)
@@ -1333,25 +1361,9 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot sourceUnpleasure
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot %3ANAME
 		(type STRING)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot sourceLibid
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot emotionIntensity
-		(type FLOAT)
-		(range 0.0 1.0)
-		(default 0.0)
-;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass DOMAIN
