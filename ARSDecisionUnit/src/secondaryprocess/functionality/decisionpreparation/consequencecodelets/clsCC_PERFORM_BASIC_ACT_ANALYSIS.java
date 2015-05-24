@@ -57,6 +57,13 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		//This function shall extract the current moment and the expectation
 		ArrayList<eCondition> oTaskStatusList = clsActPreparationTools.performBasicActAnalysis(oCurrentAct, this.moShortTermMemory);
 		
+		//test perception with acts
+		
+		
+		
+		
+		
+		
 		//Check if act analysis failed and remove all status if this is the case
 		if (oTaskStatusList.contains(eCondition.GOAL_NOT_REACHABLE)==true) {
 		    this.moGoal.removeAllConditions();

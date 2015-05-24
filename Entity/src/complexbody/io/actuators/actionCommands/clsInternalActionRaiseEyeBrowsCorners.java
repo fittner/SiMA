@@ -22,7 +22,7 @@ public class clsInternalActionRaiseEyeBrowsCorners extends clsInternalActionComm
 		return meInternalActionIntensity;
 	}
 	public double getEyeBrowsCornersRaise(){
-		return 0.0;
+		return mrTenseMuscles;
 	}
 
 	public void setEmotionalStressSweat(double prTenseMuscles) {

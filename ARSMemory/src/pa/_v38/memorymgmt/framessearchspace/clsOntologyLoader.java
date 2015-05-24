@@ -498,6 +498,8 @@ public class clsOntologyLoader {
 				.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		float rEmotionIntensity = ((Float) poElement
 				.getOwnSlotValue(poDataContainer.a.getSlot("emotionIntensity")));
+		float rIntensityDeviation = ((Float) poElement
+				.getOwnSlotValue(poDataContainer.a.getSlot("intensityDeviation")));
 		float rSourcePleasure = ((Float) poElement
 				.getOwnSlotValue(poDataContainer.a.getSlot("sourcePleasure")));
 		float rSourceUnpleasure = ((Float) poElement
@@ -511,7 +513,7 @@ public class clsOntologyLoader {
 
 		clsEmotion oDataStructure = new clsEmotion(
 				new clsTriple<Integer, eDataType, eContentType>(oID,
-						oElementType, oElementValueType), rEmotionIntensity,
+						oElementType, oElementValueType), rEmotionIntensity, rIntensityDeviation,
 				oEmotionType, rSourcePleasure, rSourceUnpleasure, rSourceLibid,
 				rSourceAggr);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);

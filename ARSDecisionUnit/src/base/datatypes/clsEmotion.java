@@ -27,6 +27,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private eEmotionType moContent = null;
 	private ArrayList<clsAssociation> moExternalAssociatedContent = null; 
 	private double mrEmotionIntensity = 0.0; 
+	private double mrIntensityDeviation = 0.0;
 	
 	// save the values of those components that the emotion is based on (dependent on the emotion)
 	private double mrSourcePleasure = 0.0; 
@@ -36,10 +37,11 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private double mrRelativeThreshold = 0.0;
 	private double mrThresholdRange = 0.0;
 	
-	public clsEmotion(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prEmotionIntensity, eEmotionType poContent, 
-			double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
+	public clsEmotion(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prEmotionIntensity, double prIntensityDeviation, 
+	        eEmotionType poContent, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
 		super(poDataStructureIdentifier); 
 		mrEmotionIntensity = prEmotionIntensity;
+		mrIntensityDeviation = prIntensityDeviation;
 		moContent = poContent;
 		mrSourcePleasure = prSourcePleasure; 
 		mrSourceUnpleasure = prSourceUnpleasure;
@@ -47,6 +49,22 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		mrSourceAggr = prSourceAggr ;
 	} 
 
+	//Copy constructor - THIS SHOULD ONLY CREATE A FLEET COPY - NO RECURSIONS!
+	public clsEmotion(clsEmotion poToCopy) {
+	    this(new clsTriple<Integer, eDataType, eContentType>(poToCopy.getDS_ID(), poToCopy.getMoDataStructureType(), poToCopy.getContentType()),
+	            poToCopy.getEmotionIntensity(),
+	            poToCopy.getIntensityDeviation(),
+	            poToCopy.getContent(),
+	            poToCopy.getSourcePleasure(),
+	            poToCopy.getSourceUnpleasure(),
+	            poToCopy.getSourceLibid(),
+	            poToCopy.getSourceAggr());
+	}
+	
+	public clsEmotion flatCopy() {
+	    return new clsEmotion(this);
+	}
+	
 	public static clsEmotion fromTPM(clsThingPresentationMesh poTPM) {
 	    clsDataStructurePA oEmotion = null;
 	    
@@ -133,6 +151,28 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	
 	public static clsEmotion zeroEmotion(eContentType oContentType, eEmotionType oEmotionType) {
 	    return clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType, eEmotionType, Object>(oContentType, oEmotionType, 0.0), 0.0, 0.0, 0.0, 0.0);
+	}
+	
+	private double stepChange(double prOldValue, double prNewValue, double prMaxChange) {
+	    //double rDiff = prNewValue - prOldValue;
+	    //return Math.min(rDiff, Math.signum(rDiff) * prMaxChange);
+	    
+	    return (prNewValue - prOldValue) * prMaxChange;
+	    
+//	    double rDiff = prNewValue - prOldValue;
+//	    if(Math.abs(rDiff) < prMaxChange) {
+//	        return rDiff;
+//	    } else {
+//	        return rDiff * prMaxChange;
+//	    }
+	}
+	
+	public void gradualChange(clsEmotion poTargetState, double prMaxChange) {
+	    mrEmotionIntensity += stepChange(mrEmotionIntensity, poTargetState.getEmotionIntensity(), prMaxChange);
+	    mrSourcePleasure += stepChange(mrSourcePleasure, poTargetState.getSourcePleasure(), prMaxChange);
+	    mrSourceUnpleasure += stepChange(mrSourceUnpleasure, poTargetState.getSourceUnpleasure(), prMaxChange);
+	    mrSourceLibid += stepChange(mrSourceLibid, poTargetState.getSourceLibid(), prMaxChange);
+	    mrSourceAggr += stepChange(mrSourceAggr, poTargetState.getSourceAggr(), prMaxChange);
 	}
 	
 	public void sub(clsEmotion poEmotion) {
@@ -240,6 +280,14 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 */
 	public void setEmotionIntensity(double mrEmotionIntensity) {
 		this.mrEmotionIntensity = mrEmotionIntensity;
+	}
+	
+	public double getIntensityDeviation() {
+	    return mrIntensityDeviation;
+	}
+	
+	public void setIntensityDeviation(double prIntensityDeviation) {
+	    this.mrIntensityDeviation = prIntensityDeviation;
 	}
 	
 	/**

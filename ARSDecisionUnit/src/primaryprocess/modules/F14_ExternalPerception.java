@@ -129,6 +129,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     private String moBodystateCreation = "";
     ArrayList<clsThingPresentationMesh> moSearchPattern; //kollmann: store this globally to have access to the search pattern for inspection
     
+    
 	/**
 	 * Constructor of F14, nothing unusual
 	 * 
@@ -454,19 +455,18 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         return oCurrentEmotions;
 	}
 	
-	
 	//search TPM which were received from the receptors in the memory 
 	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
         ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
         ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
-                 
+                     
         double rImpactFactorOfCurrentEmotion = 0.5; // Personality Factor for the impact of current emotions on emotional valuation of perceived agents
         ArrayList<clsEmotion> oCurrentEmotions = getCurrentEmotions(moDrives_IN);
         clsEmotion oCurrentEmotionValues = getEmotionValues(oCurrentEmotions);
 
         // 3. similarity criterion. perceptual activation. memory-search
         oRankedCandidateTPMs = stimulusActivatesEntities(poEnvironmentalTP);            
-
+        
         // 4.  decide category membership
         for(ArrayList<clsDataStructureContainer> oRankedCandidates :oRankedCandidateTPMs) {
 
@@ -602,7 +602,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 // Reminder: mit self assoziierte emotionen führen anscheinend zu "orphan associations" (wahrscheinlich beim klonen im search space) , d.h. eine assoziation, die in einem objekt (TPM) gespecihert ist, jedoch ist das objekt (TPM) nicht in der assoziation gespeichert. 
                 
                 oOutputTPMs.add(oOutputTPM);
-        }
+            }
             else if(!oRankedCandidates.isEmpty()) { //koller add generated emotion, if oDMStimulusList is not empty
                 clsThingPresentationMesh oOutputTPM = (clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure();
                 // d. associate Emotions to Bodystates
@@ -827,23 +827,30 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}
 	}
 	
+	// search and rank the enviromental TPM from the external perception 
 	
 	private ArrayList<ArrayList<clsDataStructureContainer>>  stimulusActivatesEntities(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
 		
-		clsThingPresentationMesh oCandidateTPM = null;
-		clsThingPresentationMesh oCandidateTPM_DM = null;
-		
-		clsDriveMesh oMemorizedDriveMesh = null;
-		
-		ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
+	    
 	
 		// list of external associations which we will remove later on (external associations will not needed for search and so on)
 		ArrayList<clsAssociation> oRemoveAss = null;
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResults = 
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultsEnviromentalTP = 
 						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultsBodyState = 
+                new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		
 		// entities for search from enviroment without external associations			
-		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
-						
+		ArrayList<clsThingPresentationMesh> poSearchPatternEnviromentalTP = new ArrayList<clsThingPresentationMesh>();
+		ArrayList<clsThingPresentationMesh> poSearchPatternBodyState = new ArrayList<clsThingPresentationMesh>();
+		
+		ArrayList<ArrayList<clsDataStructureContainer>> poRankingResultsEnviromentalTP = null; 
+		ArrayList<ArrayList<clsDataStructureContainer>> poRankingResultsBodyStateSearch = null; 
+		
+		// which bodystate corresponds to which 
+		HashMap<String, String> bodyStateToEntityTMP = new HashMap<String, String>();
+		
 		clsThingPresentationMesh oUnknownTPM = null;
 		
 		
@@ -851,30 +858,24 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				for(clsPrimaryDataStructureContainer oEnvTPM :poEnvironmentalTP) {
 
 					oRemoveAss = new ArrayList<clsAssociation>();
-					
-					oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
-													
-							// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
+					oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();										
+					// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
 					// remove external attributes		
 					for (clsAssociation oIntAss: oUnknownTPM.getInternalAssociatedContent()) {
 								if (isInternalAttribute(oIntAss.getAssociationElementB().getContentType().toString()) == false) {
 									// remove Assoc from internal and put it in external assoc
 									oRemoveAss.add(oIntAss);
-								}
-											
-							}
-										
+								}				
+							}			
 							for(clsAssociation oAss: oRemoveAss){
 								oUnknownTPM.getInternalAssociatedContent().remove(oAss);
 								oUnknownTPM.addExternalAssociation(oAss);
 							}
-							
-							poSearchPattern.add(oUnknownTPM);			
-										
-						
+							poSearchPatternEnviromentalTP.add(oUnknownTPM);									
 				}
 				
 				//koller create bodystate search objects
+				//zhukova update: save the body state values into the   array
                 boolean boCheckForBodystate = false;
                 clsThingPresentationMesh tpm = null;
                 //which variables should we search for defining which emotion it is (shaking, cheeks_redning and so on )
@@ -888,12 +889,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         boCheckForBodystate = false;
                         oArrayListExpressionVarTPForSearch = new ArrayList<clsThingPresentation>();
                         //emotion expression - our body states variables    
-
                         
-                        for (clsAssociation iterAssoc : tpm.getExternalAssociatedContent()) { 
+                        for (clsAssociation exterAssoc : tpm.getExternalAssociatedContent()) { 
                             for(eEmotionExpression e :eEmotionExpression.values()){
-                                if(iterAssoc.getAssociationElementB().getContentType().toString() == e.toString()){
-                                    clsThingPresentation y = (clsThingPresentation)iterAssoc.getAssociationElementB();
+                                if(exterAssoc.getAssociationElementB().getContentType().toString() == e.toString()){
+                                    clsThingPresentation y = (clsThingPresentation)exterAssoc.getAssociationElementB();
                                     boCheckForBodystate = true;
                                     oArrayListExpressionVarTPForSearch.add(y);                           
                                 }
@@ -902,17 +902,25 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         
                         if(boCheckForBodystate == true){
                             oTPMForSearch = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ENTITY, oArrayListExpressionVarTPForSearch, "BodystateForSearch"+ rTPMCount));
-                            poSearchPattern.add(oTPMForSearch);
+                            poSearchPatternBodyState.add(oTPMForSearch);
                             rTPMCount++;       
                         }
                     }
+                   
                 }
 								
-                oSearchResults = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPattern); //koller Suchaufruf mit neuem DMTPM eDataType
+                oSearchResultsEnviromentalTP = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternEnviromentalTP); //koller Suchaufruf mit neuem DMTPM eDataType
 				
+                poRankingResultsEnviromentalTP = rankCandidatesTPM(oSearchResultsEnviromentalTP);
+                
+                // Zhukova
+                // Searching the body state for the entity
+                
+                oSearchResultsBodyState = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternBodyState);
+                
                 //koller remove TPM-Associations that contain no Bodystates (because the search function cannot distinguish)
                 ArrayList<clsAssociation> oAssToRemove = null;
-                for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult : oSearchResults){
+                for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult : oSearchResultsBodyState){
                     for(clsPair<Double, clsDataStructureContainer> oSearchItem : oSearchResult){
                         oAssToRemove = new ArrayList<clsAssociation>();
                         for(clsAssociation oAssociation : oSearchItem.b.getMoAssociatedDataStructures()){
@@ -931,12 +939,51 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         }   
                     }
                 }
+              
                 
-                // "Von sich ausgehen" für die Erinnerungen an Bodystates
+                // assign entity name to body state
+                int currentEntityNumber = 0;
+                int currentBodyStateNumber = 0;
                 
+                String entityName;
+                String bodyStateName;
+                
+                /* kollmann: The stimulus action is also performed for perceived actions AND the targets of perceived actions. But the
+                 *           current implementation of perception provides these action targets already as TPM (which is probably wrong).
+                 *           This TPM does not have any attributes of the entities in the perception and is actually more of a placeholder.
+                 *           Due to this it is possible to have ARSIN entities that do not emit expression variables and therefore do not
+                 *           have an bodystate search patterns -> safety check before accessing bodystate search patterns 
+                 */
+                if(!poSearchPatternEnviromentalTP.isEmpty() && !poRankingResultsEnviromentalTP.isEmpty() && !poSearchPatternBodyState.isEmpty()
+                        && (poSearchPatternEnviromentalTP.size() == poRankingResultsEnviromentalTP.size())) {
+                    for(clsThingPresentationMesh entitySearchPattern: poSearchPatternEnviromentalTP) {
+                        if(entitySearchPattern.getContent().equals("ARSIN")) {
+                            entityName = ((clsThingPresentationMesh) poRankingResultsEnviromentalTP.get(currentEntityNumber).get(0).getMoDataStructure()).getContent();
+                            bodyStateName = ((clsThingPresentationMesh) poSearchPatternBodyState.get(currentBodyStateNumber)).getContent();
+                            bodyStateToEntityTMP.put(bodyStateName, entityName);
+                            currentBodyStateNumber ++;
+                        }
+                        currentEntityNumber++;
+                    }
+                }
+                // message about failure
+                else {
+                    
+                }
+                                
                 ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchItemsToRemove = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
                 boolean bAddToRemoveList;
-                for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult : oSearchResults){
+                int nSearchItemIndex = 0;
+                
+                // consider similar entities for body search (when there is no associated memory with the agent, not familiar with this agent)
+                boolean isFamiliarWithAgent;
+                String oArsinName ;
+                
+                for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult : oSearchResultsBodyState) {
+                    
+                    
+                    oArsinName = bodyStateToEntityTMP.get(poSearchPatternBodyState.get(nSearchItemIndex).getContent());
+                    isFamiliarWithAgent = false;
                     
                     for(clsPair<Double, clsDataStructureContainer> oSearchItem : oSearchResult){ 
                         
@@ -948,12 +995,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                             bAddToRemoveList = true;
                             for(clsAssociation oAssociation : oSearchItem.b.getMoAssociatedDataStructures()){
                                 if(oAssociation.getAssociationElementA().getContentType().equals(eContentType.ENTITY) && 
-                                        ((clsThingPresentationMesh) oAssociation.getAssociationElementA()).getContent().equals("SELF")) {
+                                        ((clsThingPresentationMesh) oAssociation.getAssociationElementA()).getContent().equals(oArsinName)) {
                                     bAddToRemoveList = false;
+                                    isFamiliarWithAgent = true;
                                     break;
                                 } else if(oAssociation.getAssociationElementB().getContentType().equals(eContentType.ENTITY) &&
-                                        ((clsThingPresentationMesh) oAssociation.getAssociationElementB()).getContent().equals("SELF")) {
+                                        ((clsThingPresentationMesh) oAssociation.getAssociationElementB()).getContent().equals(oArsinName)) {
                                     bAddToRemoveList = false;
+                                    isFamiliarWithAgent = true;
                                     break;  
                                 } 
                             }
@@ -961,56 +1010,80 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                                 oSearchItemsToRemove.add(oSearchItem);
                             }
                         }
+                        
+                        
                     }
-                    for(clsPair<Double, clsDataStructureContainer> pair : oSearchItemsToRemove){
-                        oSearchResult.remove(pair);
+                    
+                    if(isFamiliarWithAgent) {
+                        for(clsPair<Double, clsDataStructureContainer> pair : oSearchItemsToRemove){
+                            oSearchResult.remove(pair);
+                        }
                     }
-                }//end koller
+                    nSearchItemIndex ++;
+                } 
                 
-                //begin Zhukova
+                poRankingResultsBodyStateSearch = rankCandidatesTPM(oSearchResultsBodyState);
+				// end Zhukova
                 
-				//TODO: embed this code in search function
-				for(ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult :oSearchResults) {
-					ArrayList<clsDataStructureContainer> oSpecificCandidates = new ArrayList<clsDataStructureContainer>();
-					for(clsPair<Double,clsDataStructureContainer> oSearchItem: oSearchResult){				
-						oCandidateTPM = (clsThingPresentationMesh)oSearchItem.b.getMoDataStructure();
-						
-						// TEST similarity activation: source activation
-						
-						oCandidateTPM.setCriterionActivationValue(eActivationType.SIMILARITY_ACTIVATION, oSearchItem.a);
-					
-						
-						//  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged
-						for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
-							for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalAssociatedContent() ) {
-							    try {
-							        oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
-	                                oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
-	                                
-	                                // is it the same TPM?
-	                                if(oCandidateTPM_DM.getDS_ID() == oCandidateTPM.getDS_ID()){
-	                                    oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
-	                                }
-							    } catch (Exception e) {
-							        log.error("Errors in the following drives: {} and  {}",  oMemorizedDriveMesh, oCandidateTPM_DM, e);
-							        System.exit(-1);
-							    }
-								
-							}
-						}
-						
-						// add candidates to ranking
-						oSpecificCandidates.add(oSearchItem.b);
-					}
-					Collections.sort( oSpecificCandidates, new clsActivationComperator() );
-					oRankedCandidateTPMs.add(oSpecificCandidates);
-				}
-				
 				//kollmann: store search pattern for later inspection
-				moSearchPattern.addAll(poSearchPattern);
+				moSearchPattern.addAll(poSearchPatternEnviromentalTP);
+				moSearchPattern.addAll(poSearchPatternBodyState);
 				
-				return oRankedCandidateTPMs;
+				poRankingResultsEnviromentalTP.addAll(poRankingResultsBodyStateSearch);
+				
+				return  poRankingResultsEnviromentalTP;
+
 	}
+	
+	
+	private ArrayList<ArrayList<clsDataStructureContainer>> rankCandidatesTPM(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResults) {
+	    ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>();
+	    
+	    clsThingPresentationMesh oCandidateTPM = null;
+	    clsThingPresentationMesh oCandidateTPM_DM = null;
+	    clsDriveMesh oMemorizedDriveMesh = null;  
+	    
+	  //TODO: embed this code in search function
+        for(ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult :oSearchResults) {
+            ArrayList<clsDataStructureContainer> oSpecificCandidates = new ArrayList<clsDataStructureContainer>();
+            for(clsPair<Double,clsDataStructureContainer> oSearchItem: oSearchResult){              
+                oCandidateTPM = (clsThingPresentationMesh)oSearchItem.b.getMoDataStructure();
+                
+                // TEST similarity activation: source activation
+                
+                oCandidateTPM.setCriterionActivationValue(eActivationType.SIMILARITY_ACTIVATION, oSearchItem.a);
+            
+                
+                //  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged
+                for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
+                    for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalAssociatedContent() ) {
+                        try {
+                            oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getAssociationElementB();
+                            oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
+                            
+                            // is it the same TPM?
+                            if(oCandidateTPM_DM.getDS_ID() == oCandidateTPM.getDS_ID()){
+                                oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
+                            }
+                        } catch (Exception e) {
+                            log.error("Errors in the following drives: {} and  {}",  oMemorizedDriveMesh, oCandidateTPM_DM, e);
+                            System.exit(-1);
+                        }
+                        
+                    }
+                }
+                
+                // add candidates to ranking
+                oSpecificCandidates.add(oSearchItem.b);
+            }
+            Collections.sort( oSpecificCandidates, new clsActivationComperator() );
+            oRankedCandidateTPMs.add(oSpecificCandidates);
+        }
+        
+	    return oRankedCandidateTPMs;
+	    
+	}
+	
 	
 	
 	private long determineK(ArrayList<clsDataStructureContainer> poSpecificCandidates){
@@ -1189,7 +1262,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     rMax += rActivationValue;
                 }
 
-                oEmoStimulus = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rIntensity/rMax, eEmotionType.UNDEFINED, rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
+                //oEmoStimulus = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.EMOTION, eContentType.BASICEMOTION), rIntensity/rMax, eEmotionType.UNDEFINED, rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
+                oEmoStimulus = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, rIntensity/rMax, rSrcPle, rSrcUnple, rSrcLib, rSrcAggr);
                 
                 oDMStimulusList.add(oEmoStimulus);
             }

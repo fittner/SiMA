@@ -1,4 +1,4 @@
-; Mon May 11 10:52:54 GMT 2015
+; Mon May 18 15:11:17 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1476,118 +1476,6 @@
 	(predicate "HASSUPER")
 	(weight 1.0 1.0))
 
-([ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEMOTION] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANGER]
-		[EMOTION%3ABODO%3ABODYTSTATE%3AANGER])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AENTITY] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3ABODO]
-		[BODYSTATE%3ABODO_ANGER])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3ACHEEKS_REDNING%3AMED] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANGER]
-		[EXPRESSION%3ACHEEKS_REDNING%3AMED])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3AEYE_BROW_CENTER%3ADOWN] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANGER]
-		[EXPRESSION%3AEYE_BROW_CENTER%3ADOWN])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3AEYE_BROW_CORNERS%3AUP] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANGER]
-		[EXPRESSION%3AEYE_BROW_CORNERS%3AUP])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3AGENERAL_SWEAT%3AMED] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANGER]
-		[EXPRESSION%3AGENERAL_SWEAT%3AMED])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3AMOUTH_OPEN%3ACLOSED] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANGER]
-		[EXPRESSION%3AMOUTH_OPEN%3ACLOSED])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3ASHAKE_INTENSITY%3AMED] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANGER]
-		[EXPRESSION%3ASHAKE_INTENSITY%3AMED])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEMOTION] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANXIETY]
-		[EMOTION%3ABODO%3ABODYSTATE%3AANXIETY])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AENTITY] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3ABODO]
-		[BODYSTATE%3ABODO_ANXIETY])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3ACHEEKS_REDNING%3ALOW] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANXIETY]
-		[EXPRESSION%3ACHEEKS_REDNING%3ALOW])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3AEYE_BROW_CENTER%3AUP] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANXIETY]
-		[EXPRESSION%3AEYE_BROW_CENTER%3AUP])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3AEYE_BROW_CORNERS%3ADOWN] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANXIETY]
-		[EXPRESSION%3AEYE_BROW_CORNERS%3ADOWN])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3AGENERAL_SWEAT%3AHIGH] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANXIETY]
-		[EXPRESSION%3AGENERAL_SWEAT%3AHIGH])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3AMOUTH_OPEN%3AOPEN] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANXIETY]
-		[EXPRESSION%3AMOUTH_OPEN%3AOPEN])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3ASHAKE_INTENSITY%3ALOW] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ABODO_ANXIETY]
-		[EXPRESSION%3ASHAKE_INTENSITY%3ALOW])
-	(weight 1.0 1.0))
-
 ([ASSOCIATIONATTRIBUTE%3ASELF_ANGER%3AEMOTION] of  ASSOCIATIONATTRIBUTE
 
 	(element
@@ -2036,18 +1924,18 @@
 		[EMOTION%3AA14_FLEE_BODO_L01_I02%3AANXIETY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3ABODO%3ALIKE] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3ABODO]
-		[EMOTION%3ABODO%3ALIKE])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONEMOTION%3AS01_BODO_CAKE] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AS01_BODO_CAKE%3AANXIETY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AS01_BODO_CAKE]
-		[EMOTION%3ABODO_CAKE])
+		[EMOTION%3ABODO_CAKE%3AANXIETY])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONEMOTION%3ASELF%3ALIKE] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AENTITY%3ASELF%3ASELF_BASIC]
+		[EMOTION%3ASELF%3ALIKE])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONTEMP%3AS01_BODO_CAKE%3ABODO] of  ASSOCIATIONTEMP
@@ -3001,31 +2889,6 @@
 	(consequence [WP%3AACTION%3AFLEE])
 	(value_type "EAT"))
 
-([BODYSTATE%3ABODO_ANGER] of  BODYSTATE
-
-	(instance_association
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3ACHEEKS_REDNING%3AMED]
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3AGENERAL_SWEAT%3AMED]
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3ASHAKE_INTENSITY%3AMED]
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3AEYE_BROW_CENTER%3ADOWN]
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3AEYE_BROW_CORNERS%3AUP]
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANGER%3AEXPRESSION%3AMOUTH_OPEN%3ACLOSED])
-	(value "Bodystate")
-	(value_EmotionOfBodystate "BASICEMOTION")
-	(value_type_EmotionOfBodystate "ANGER"))
-
-([BODYSTATE%3ABODO_ANXIETY] of  BODYSTATE
-
-	(instance_association
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3AGENERAL_SWEAT%3AHIGH]
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3ASHAKE_INTENSITY%3ALOW]
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3AEYE_BROW_CENTER%3AUP]
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3AEYE_BROW_CORNERS%3ADOWN]
-		[ASSOCIATIONATTRIBUTE%3ABODO_ANXIETY%3AEXPRESSION%3AMOUTH_OPEN%3AOPEN])
-	(value "Bodystate")
-	(value_EmotionOfBodystate "BASICEMOTION")
-	(value_type_EmotionOfBodystate "ANXIETY"))
-
 ([BODYSTATE%3ASELF_ANGER] of  BODYSTATE
 
 	(instance_association
@@ -3395,6 +3258,7 @@
 ([EMOTION%3AA06_BEAT_BODO_L01%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.6)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3405,6 +3269,7 @@
 ([EMOTION%3AA06_BEAT_BODO_L01_I01%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.6)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3415,6 +3280,7 @@
 ([EMOTION%3AA06_BEAT_BODO_L01_I02%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.6)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3425,6 +3291,7 @@
 ([EMOTION%3AA06_BEAT_BODO_L01_I03%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.6)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3435,6 +3302,7 @@
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3445,6 +3313,7 @@
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3455,6 +3324,7 @@
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3465,6 +3335,7 @@
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3475,6 +3346,7 @@
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3485,6 +3357,7 @@
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3495,6 +3368,7 @@
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3505,6 +3379,7 @@
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3515,6 +3390,7 @@
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3525,6 +3401,7 @@
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3535,6 +3412,7 @@
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -3545,6 +3423,7 @@
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -3555,6 +3434,7 @@
 ([EMOTION%3AA12_EAT_CAKE_L01_I01%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -3565,6 +3445,7 @@
 ([EMOTION%3AA12_EAT_CAKE_L01_I01%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -3575,6 +3456,7 @@
 ([EMOTION%3AA12_EAT_CAKE_L01_I02%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -3585,6 +3467,7 @@
 ([EMOTION%3AA12_EAT_CAKE_L01_I02%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -3595,6 +3478,7 @@
 ([EMOTION%3AA12_EAT_CAKE_L01_I03%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -3605,6 +3489,7 @@
 ([EMOTION%3AA12_EAT_CAKE_L01_I03%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -3615,6 +3500,7 @@
 ([EMOTION%3AA13_GIVE_CAKE_L01%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.45)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3625,6 +3511,7 @@
 ([EMOTION%3AA13_GIVE_CAKE_L01_I01%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.45)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3635,6 +3522,7 @@
 ([EMOTION%3AA13_GIVE_CAKE_L01_I02%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.45)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3645,6 +3533,7 @@
 ([EMOTION%3AA13_GIVE_CAKE_L01_I03%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.45)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3655,6 +3544,7 @@
 ([EMOTION%3AA13_GIVE_CAKE_L01_I04%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.45)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3665,6 +3555,7 @@
 ([EMOTION%3AA13_GIVE_CAKE_L01_I05%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.45)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
@@ -3675,6 +3566,7 @@
 ([EMOTION%3AA14_FLEE_BODO_L01%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 0.45)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.11)
 	(sourceLibid 0.35)
 	(sourcePleasure 0.06)
@@ -3685,6 +3577,7 @@
 ([EMOTION%3AA14_FLEE_BODO_L01_I01%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 0.45)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.11)
 	(sourceLibid 0.35)
 	(sourcePleasure 0.06)
@@ -3695,6 +3588,7 @@
 ([EMOTION%3AA14_FLEE_BODO_L01_I02%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 0.45)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.11)
 	(sourceLibid 0.1)
 	(sourcePleasure 0.1)
@@ -3702,49 +3596,21 @@
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3ABODO%3ABODYSTATE%3AANXIETY] of  EMOTION
-
-	(emotionIntensity 0.8)
-	(sourceAggr 0.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.7)
-	(value "ANXIETY")
-	(value_type "BASICEMOTION"))
-
-([EMOTION%3ABODO%3ABODYTSTATE%3AANGER] of  EMOTION
-
-	(emotionIntensity 0.8)
-	(sourceAggr 0.8)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.3)
-	(value "ANGER")
-	(value_type "BASICEMOTION"))
-
-([EMOTION%3ABODO%3ALIKE] of  EMOTION
-
-	(emotionIntensity 0.0)
-	(sourceAggr 0.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.7)
-	(sourceUnpleasure 0.2)
-	(value "JOY")
-	(value_type "BASICEMOTION"))
-
-([EMOTION%3ABODO_CAKE] of  EMOTION
+([EMOTION%3ABODO_CAKE%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 1.0)
-	(sourceAggr 0.3)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.1)
-	(value "ANGER")
+	(sourceUnpleasure 0.2)
+	(value "ANXIETY")
 	(value_type "MEMORIZEDEMOTION"))
 
 ([EMOTION%3ASELF%3ABODYSTATE%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3754,17 +3620,19 @@
 
 ([EMOTION%3ASELF%3ABODYSTATE%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.8)
+	(emotionIntensity 0.0)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.7)
+	(sourceUnpleasure 1.0)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3ASELF%3ABODYSTATE%3AELATION] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.7)
@@ -3775,6 +3643,7 @@
 ([EMOTION%3ASELF%3ABODYSTATE%3AJOY] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.7)
@@ -3785,6 +3654,7 @@
 ([EMOTION%3ASELF%3ABODYSTATE%3AMOURNING] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.7)
 	(sourcePleasure 0.0)
@@ -3792,19 +3662,20 @@
 	(value "MOURNING")
 	(value_type "BASICEMOTION"))
 
+([EMOTION%3ASELF%3ALIKE] of  EMOTION
+
+	(emotionIntensity 0.0)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 1.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
+	(value_type "BASICEMOTION"))
+
 ([EXPRESSION%3ACHEEKS_REDNING%3AHIGH] of  EXPRESSION
 
 	(value "HIGH")
-	(value_type "CHEEKS_REDNING"))
-
-([EXPRESSION%3ACHEEKS_REDNING%3ALOW] of  EXPRESSION
-
-	(value "LOW")
-	(value_type "CHEEKS_REDNING"))
-
-([EXPRESSION%3ACHEEKS_REDNING%3AMED] of  EXPRESSION
-
-	(value "MED")
 	(value_type "CHEEKS_REDNING"))
 
 ([EXPRESSION%3AEYE_BROW_CENTER%3ADOWN] of  EXPRESSION
@@ -3835,11 +3706,6 @@
 ([EXPRESSION%3AGENERAL_SWEAT%3AHIGH] of  EXPRESSION
 
 	(value "HIGH")
-	(value_type "GENERAL_SWEAT"))
-
-([EXPRESSION%3AGENERAL_SWEAT%3AMED] of  EXPRESSION
-
-	(value "MED")
 	(value_type "GENERAL_SWEAT"))
 
 ([EXPRESSION%3AMOUTH_OPEN%3ACLOSED] of  EXPRESSION
@@ -3875,11 +3741,6 @@
 ([EXPRESSION%3ASHAKE_INTENSITY%3ALOW] of  EXPRESSION
 
 	(value "LOW")
-	(value_type "SHAKE_INTENSITY"))
-
-([EXPRESSION%3ASHAKE_INTENSITY%3AMED] of  EXPRESSION
-
-	(value "MED")
 	(value_type "SHAKE_INTENSITY"))
 
 ([Feeling%3AAnger%3A07] of  FEELING
