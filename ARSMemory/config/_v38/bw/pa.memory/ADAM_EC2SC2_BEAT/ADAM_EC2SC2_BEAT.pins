@@ -1,7 +1,7 @@
-; Sun May 24 15:54:37 CEST 2015
+; Tue May 26 11:40:16 CEST 2015
 ; 
 ;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (build "Build 580")
 
 ([AA%3AA06_BEAT_BODO_L01_I02%3ABODO%3ADISTANCE%3ANEAR] of  ASSOCIATIONATTRIBUTE
 
@@ -2042,6 +2042,13 @@
 		[EMOTION%3ABODO_CAKE])
 	(weight 1.0 1.0))
 
+([ASSOCIATIONEMOTION%3ASELF%3ALIKE] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AENTITY%3ASELF%3ASELF_BASIC]
+		[EMOTION%3ASELF%3ALIKE])
+	(weight 1.0 1.0))
+
 ([ASSOCIATIONPRI%3AA14_FLEE_BODO_L01_I01%3AACTION%3AFLEE] of  ASSOCIATIONPRI
 
 	(element
@@ -3822,6 +3829,17 @@
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.7)
 	(value "MOURNING")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ASELF%3ALIKE] of  EMOTION
+
+	(emotionIntensity 0.0)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.5)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EXPRESSION%3ACHEEKS_REDNING%3AHIGH] of  EXPRESSION
