@@ -1,58 +1,58 @@
-; Sun May 24 13:25:20 CEST 2015
+; Tue May 26 11:17:19 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
 
-([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class77] of  String
+([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10091] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class78] of  String
+([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10092] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class79] of  String
+([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10093] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class80] of  String
+([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10094] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class81] of  String
+([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10095] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class82] of  Map
+([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10096] of  Map
 )
 
-([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class83] of  Map_Entry
+([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10097] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class82")
+	(value "ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10096")
 	(value_class "java.util.Map"))
 
-([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class84] of  Map_Entry
+([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10098] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class85] of  Map_Entry
+([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10099] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class86] of  Map_Entry
+([ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10100] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class77]
-		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class78]
-		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class79]
-		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class80]
-		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class81]))
+		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10091]
+		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10092]
+		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10093]
+		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10094]
+		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10095]))
 
 ([CLSES_TAB] of  Widget
 
@@ -153,7 +153,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_098480_Class5] of  Map
+([KB_579821_Class5] of  Map
 )
 
 ([KB_610615_Class0] of  String
@@ -164,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class83]
-		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class84]
-		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class85]
-		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class86])
-	(referenced_maps [ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class82]))
+		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10097]
+		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10098]
+		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10099]
+		[ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10100])
+	(referenced_maps [ADAM_EC2SC2_LEAVE_REVERSE_ProjectKB_Class10096]))
 
 ([KB_610615_Class10] of  Property_List
 )
