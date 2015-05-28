@@ -1189,9 +1189,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 
         oData.add("Current Drives");
         oData.add("Memorized Drive Satisfactions");
-        oData.add("Experienced Emotions - Entities");
-        oData.add("Attributed Emotions");
-        oData.add("Experienced Emotions - Situations");
+        oData.add("Memorized Emotions - Entities");
+        oData.add("Transferred Emotions");
+        oData.add("Memorized Emotions - Situations");
 
         return oData;
     }
