@@ -458,6 +458,20 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                         if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){
                             
                             clsThingPresentationMesh oTPMA = (clsThingPresentationMesh)oEntityAss.getAssociationElementA();
+                            
+                            /*Kollmann: THE IF STATEMENT BELLOW IS THE LAST OPPERTUNITY FOR TURNING THE SELF-PERCEPTION LOOP OFF (or on)
+                             * 
+                             * The self perception currently (06/2015) moves the agents emotion state towards the emotion state associated to the
+                             * bodystate the agent perceives at himself. E.g. if the agents emotion state would slowly change from anxious to joyful,
+                             * as the agent starts emiting the expressions associated with joy, the target emotion state would immediately take a leap
+                             * towards the emotion state associated with the JOY-bodystate.
+                             * 
+                             *  ATTENTION: Which expression variables are used for which emotion state is NOT stored in memory but hardcoded!
+                             *  This means, if you change the memorized bodystates or the emotions associated to these bodystates, the self perception
+                             *  behavior could become confusing! E.g. the agent shows ANGER but interprets it as JOY, which would result in the agent
+                             *  getting happier while being angry - the result will probably stabilize somewhere between these two emotions.
+                             */
+                            
                             //if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
                                 if(oEntityAss.getAssociationElementB().getContentType() == eContentType.ENTITY){
                             
