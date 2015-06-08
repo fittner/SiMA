@@ -244,7 +244,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		if(oSelf != null && !oSelf.isNullObject()) {
 		    for(clsAssociationEmotion oAssEmotion : clsAssociation.filterListByType(oSelf.getInternalAssociatedContent(), clsAssociationEmotion.class)) {
                 if(oAssEmotion.getTheOtherElement(oSelf) instanceof clsEmotion) {
-                    oPerceivedImage.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, (clsEmotion)oAssEmotion.getTheOtherElement(oSelf), oPerceivedImage, 1.0));
+                    clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, (clsEmotion)oAssEmotion.getTheOtherElement(oSelf), oPerceivedImage, false, 1.0);
                 }
             }
 		}

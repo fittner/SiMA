@@ -10,6 +10,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+
+import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
@@ -35,6 +38,8 @@ import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentation;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.itfExternalAssociatedDataStructure;
+import base.datatypes.itfInternalAssociatedDataStructure;
 import base.datatypes.enums.eDriveComponent;
 import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
@@ -48,6 +53,8 @@ import base.datatypes.helpstructures.clsTriple;
  * 
  */
 public abstract class clsDataStructureGenerator {
+    private final static Logger log = clsLogger.getLog("Datastructures");
+    
 	public static clsDataStructurePA generateDataStructure(eDataType peDataType, Object poContent){
 		
 		clsDataStructurePA oRetVal = null;
@@ -259,14 +266,27 @@ public abstract class clsDataStructureGenerator {
 	}
 	
 	public static clsAssociation generateASSOCIATIONATTRIBUTE(eContentType poContentType, 
-			clsPrimaryDataStructure poRoot, clsPrimaryDataStructure poLeaf, double prWeight) {
+			clsPrimaryDataStructure poRoot, boolean pbRootInternal, clsPrimaryDataStructure poLeaf, double prWeight) {
 		clsAssociation oRetVal=null;
 		eContentType oContentType = poContentType;  
 		
 		oRetVal = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONATTRIBUTE, oContentType), poRoot, poLeaf);
 		oRetVal.setMrWeight(prWeight);
 		
-		return oRetVal;
+		if(pbRootInternal) {
+		    if(poRoot instanceof itfInternalAssociatedDataStructure) {
+		        ((itfInternalAssociatedDataStructure)poRoot).getInternalAssociatedContent().add(oRetVal);
+		    }
+		} else {
+		    if(poRoot instanceof itfExternalAssociatedDataStructure)
+		        ((itfExternalAssociatedDataStructure)poRoot).getExternalAssociatedContent().add(oRetVal);
+		}
+        
+        if(poLeaf instanceof itfExternalAssociatedDataStructure) {
+            ((itfExternalAssociatedDataStructure)poLeaf).getExternalAssociatedContent().add(oRetVal);
+        }
+        
+        return oRetVal;
 	}
 	
 	public static clsAssociation generateASSOCIATIONWP(eContentType poContentType, clsSecondaryDataStructure poRoot, clsDataStructurePA poLeaf, double prWeight) {
@@ -279,17 +299,37 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT - Generates and clsAssociationEmotion and connects it to the association elements.
+     * 
+     * The root (the emotion)  is always connected externally, the root is connected, depending on the pbLeafInternal parameter (true == internal)
+	 *
+	 * @author Wendt (probably) - modified by Kollmann
+	 * @since 02.06.2015 17:14:29
+	 *
+	 * @param poContentType
+	 * @param poRoot
+	 * @param poLeaf
+	 * @param pbLeafInternal
+	 * @param prWeight
+	 * @return
+	 */
 	public static clsAssociation generateASSOCIATIONEMOTION(eContentType poContentType, 
-            clsEmotion poRoot, clsThingPresentationMesh poLeaf, double prWeight) {
+            clsEmotion poRoot, clsThingPresentationMesh poLeaf, boolean pbLeafInternal, double prWeight) {
         clsAssociation oRetVal=null;
         eContentType oContentType = poContentType;  
         
         oRetVal = new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONEMOTION, oContentType), poRoot, poLeaf);
         oRetVal.setMrWeight(prWeight);
         
+        poRoot.getExternalAssociatedContent().add(oRetVal);
+        
+        if(pbLeafInternal) {
+            poLeaf.getInternalAssociatedContent().add(oRetVal);
+        } else {
+            poLeaf.getExternalAssociatedContent().add(oRetVal);
+        }
+        
         return oRetVal;
     }
-	
-	
-	
-	}
+}

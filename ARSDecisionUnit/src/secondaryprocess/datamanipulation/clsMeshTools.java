@@ -1404,15 +1404,9 @@ public class clsMeshTools {
 	 */
 	public static void createAssociationAttribute(clsThingPresentationMesh poStructureA, clsThingPresentation poStructureB, double prWeight, int pnAddMode) throws Exception {
 		eContentType oContentType = eContentType.ASSOCIATIONATTRIBUTE;
-		clsAssociationAttribute oAssAttr = (clsAssociationAttribute)clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(oContentType, poStructureA, poStructureB, prWeight);
-		if (pnAddMode==0) {
-			poStructureA.getInternalAssociatedContent().add(oAssAttr);
-		} else if (pnAddMode==1) {
-			poStructureA.getExternalAssociatedContent().add(oAssAttr);
-		} else {
-			throw new Exception("Only 0=add to internal associations or 1=add to external associations are selectable");
-		}
 		
+		//AddMode == 0 --> internal
+		clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(oContentType, poStructureA, (pnAddMode == 0), poStructureB, prWeight);
 	}
 	
 	/**

@@ -13,6 +13,7 @@ import java.util.List;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import base.datatypes.clsDataStructurePA;
+import base.datatypes.enums.eConnectionType;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
@@ -248,16 +249,22 @@ public abstract class clsAssociation extends clsDataStructurePA{
 //		    }
 //		}
 
-			boolean isRoot=false;
-			if(this instanceof clsAssociationDriveMesh||this instanceof clsAssociationPrimary|| this instanceof clsAssociationSecondary|| this instanceof clsAssociationPrimaryDM|| this instanceof clsAssociationEmotion || this instanceof clsAssociationFeeling || this instanceof clsAssociationWordPresentation|| this instanceof clsAssociationFeeling){
-		        isRoot = true; 
-			}
-			else{
-		         if(this.getRootElement().equals(poOriginalObject)==true) isRoot =true;
-			}
-			if(!isRoot) {
-			    return null;
-			}
+		    //Kollmann: this part seems to be outdated - it currently only seems to make a difference for clsAssciationAttribute.
+		    //          The reason behind it is possibly that clsThingPresentation does not implement any association interface - but now
+		    //          clsAssociationAttribute can also be used to associate emotions to bodystates (and the 'direction' of these associations
+		    //          is reversed in comparison to other such associations - the emotion is stored as 'root')
+		
+		    //          Therefore: lets remove the code for now - if we do need the code - let someone know you need it :)
+//			boolean isRoot=false;
+//			if(this instanceof clsAssociationDriveMesh||this instanceof clsAssociationPrimary|| this instanceof clsAssociationSecondary|| this instanceof clsAssociationPrimaryDM|| this instanceof clsAssociationEmotion || this instanceof clsAssociationFeeling || this instanceof clsAssociationWordPresentation|| this instanceof clsAssociationFeeling){
+//		        isRoot = true; 
+//			}
+//			else{
+//		         if(this.getRootElement().equals(poOriginalObject)==true) isRoot =true;
+//			}
+//			if(!isRoot) {
+//			    return null;
+//			}
 	        if (this.getRootElement().equals(poOriginalObject)==false && this.getLeafElement().equals(poOriginalObject)==false) {
 	            log.error("Association is orphan. The association has to be connected with one of its sources");
 	            log.error("Association: " + this.toString());
@@ -481,7 +488,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * @param poAssList
 	 * @return
 	 */
-	static private clsAssociation findAssociationInList(clsAssociation poAssociation, List<clsAssociation> poAssList) {
+	static public clsAssociation findAssociationInList(clsAssociation poAssociation, List<clsAssociation> poAssList) {
 	    clsAssociation oFoundAssociation = null;
 	    
 	    if(poAssList.contains(poAssociation)) {
@@ -659,6 +666,65 @@ public abstract class clsAssociation extends clsDataStructurePA{
         }
         
         return oDriveMeshes;
+    }
+    
+    protected static boolean performSafeConnect(clsAssociation poAssociation, ArrayList<clsAssociation> poAssociations) {
+        boolean bPerformed = false;
+        
+        if(clsAssociation.findAssociationInList(poAssociation, poAssociations) != null) {
+            if(clsAssociation.findAssociationInList(poAssociation, poAssociations) != poAssociation) {
+                log.error("Trying to connect an association to a target that already contains a clone of that association - "
+                        + "this is a sign for a serious flaw in graph handling.\nIt is unclear how to solve this situation, so "
+                        + "fix this problem immediately to avoid shadow graphs or similar phenomena");
+                //throw new MalformedParametersException("Association shadows existing association");
+                poAssociations.remove(clsAssociation.findAssociationInList(poAssociation, poAssociations));
+                poAssociations.add(poAssociation);
+                bPerformed = true;
+            } else {
+                log.info("clsAssociation::connect() called to a target that already contains the specified association - now change performed");
+            }
+        } else {
+            poAssociations.add(poAssociation);
+            bPerformed = true;    
+        }
+        
+        return bPerformed;
+    }
+    
+    public static boolean connect(clsAssociation poAssociation, clsDataStructurePA poTarget, eConnectionType poConnectionType) {
+        boolean bPerformed = false;
+        ArrayList<clsAssociation> poAssociations = new ArrayList<>();
+        
+        switch(poConnectionType) {
+        case INTERNAL:
+            if(poTarget instanceof itfInternalAssociatedDataStructure) {
+                poAssociations = ((itfInternalAssociatedDataStructure)poTarget).getInternalAssociatedContent();
+                
+                bPerformed = performSafeConnect(poAssociation, poAssociations);
+            }
+            break;
+        case EXTERNAL:
+            if(poTarget instanceof itfExternalAssociatedDataStructure) {
+                poAssociations = ((itfExternalAssociatedDataStructure)poTarget).getExternalAssociatedContent();
+                
+                bPerformed = performSafeConnect(poAssociation, poAssociations);
+            }
+            break;
+        default:
+            log.error("Unknown root connection type '{}' provided for connection association {} to target {}", poConnectionType, poAssociation, poTarget);
+            break;
+        }
+        
+        return bPerformed;
+    }
+    
+    public clsPair<clsDataStructurePA, clsDataStructurePA> activate(eConnectionType poRootConnectionType, eConnectionType poLeafConnectionType) {
+        clsPair<clsDataStructurePA, clsDataStructurePA> oEnds = new clsPair<clsDataStructurePA, clsDataStructurePA>(null, null);
+        
+        oEnds.a = clsAssociation.connect(this, getRootElement(), poRootConnectionType) ? getRootElement() : null;
+        oEnds.b = clsAssociation.connect(this, getLeafElement(), poLeafConnectionType) ? getLeafElement() : null;
+        
+        return oEnds;
     }
 
     

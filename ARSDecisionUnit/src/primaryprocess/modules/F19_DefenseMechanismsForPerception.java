@@ -36,7 +36,6 @@ import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
-import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
@@ -1295,33 +1294,34 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
         for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {           
                     for(clsEmotion oOneEmotion : oEmotions_Output) { 
                         if(oOneEmotion.getContent()==oOneForbiddenEmotion){     //find the forbidden Emotion from Output
-                            try{
-                                clsAssociation oAssociation = new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType>(
-                                        -1, eDataType.ASSOCIATIONEMOTION, eContentType.UNDEFINED),          
-                                        oOneEmotion, oTargetTPM.get(targetNr));     // Build the Association between forbidden 
-                                                                                    //Emotion and the chosen random Target, reference from F14 line 1178
-                                oNewAssociation.add(oAssociation);          // add this Association to the List
-                                ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent().add(oAssociation); 
-                                // add the association to the agent's perception-memory                                
-                                oEmotions_Output.remove(oOneEmotion);              //remove the forbidden Emotions, since it has been projected to others
-                                
-                                //followed prompt output are used for software test  
-                                ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent();
-                                for(clsAssociation oAssociation1 : oInternalAssociations){  //look up the ARSIN in Sight, refer to line 698
-                                    if (oAssociation1==oAssociation){
-                                        System.out.println("######### Info for Projection, new Association added to the Perception ");
-                                        }
-                                    }
-                                //System.out.println("######### Info for Projection, added new Association: "+ oAssociation.toString());
-                                //System.out.println("######### Info for Projection, done "); 
-                                //System.out.println("##################################################################################################### ");
-                                //System.out.println("");
-                                
-                                break;                                             // current action done, jump to the next forbidden Emotion
-                            }catch(Exception e){
-                                e.printStackTrace();
-                                System.out.println("Unable to create the Association for Projection!");
-                            }                     
+                            throw new RuntimeException("Defense mechanism projection tried to create an emotion the wrong way. Use clsDataStructureGenerator.generateASSOCIATIONEMOTION to do it properly.");
+//                            try{
+//                                clsAssociation oAssociation = new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType>(
+//                                        -1, eDataType.ASSOCIATIONEMOTION, eContentType.UNDEFINED),          
+//                                        oOneEmotion, oTargetTPM.get(targetNr));     // Build the Association between forbidden 
+//                                                                                    //Emotion and the chosen random Target, reference from F14 line 1178
+//                                oNewAssociation.add(oAssociation);          // add this Association to the List
+//                                ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent().add(oAssociation); 
+//                                // add the association to the agent's perception-memory                                
+//                                oEmotions_Output.remove(oOneEmotion);              //remove the forbidden Emotions, since it has been projected to others
+//                                
+//                                //followed prompt output are used for software test  
+//                                ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent();
+//                                for(clsAssociation oAssociation1 : oInternalAssociations){  //look up the ARSIN in Sight, refer to line 698
+//                                    if (oAssociation1==oAssociation){
+//                                        System.out.println("######### Info for Projection, new Association added to the Perception ");
+//                                        }
+//                                    }
+//                                //System.out.println("######### Info for Projection, added new Association: "+ oAssociation.toString());
+//                                //System.out.println("######### Info for Projection, done "); 
+//                                //System.out.println("##################################################################################################### ");
+//                                //System.out.println("");
+//                                
+//                                break;                                             // current action done, jump to the next forbidden Emotion
+//                            }catch(Exception e){
+//                                e.printStackTrace();
+//                                System.out.println("Unable to create the Association for Projection!");
+//                            }                     
                         }
                     }                                           
         }       

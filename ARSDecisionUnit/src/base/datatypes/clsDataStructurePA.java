@@ -379,4 +379,30 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 	    
 	//};
 
+	/**
+     * DOCUMENT - Checks if the objects contains an associationEmotion 
+     *
+     * @author Kollmann
+     * @since 03.06.2015 16:35:03
+     *
+     * @return
+     */
+    public <T extends clsAssociation> boolean isAssociatedByType(Class<T> poAssociationType) {
+        if(this instanceof itfExternalAssociatedDataStructure) {
+            for(T oAssociation : clsAssociation.filterListByType(((itfExternalAssociatedDataStructure)this).getExternalAssociatedContent(), poAssociationType)) {
+                if(oAssociation.getAssociationElementA().equals(this) || oAssociation.getAssociationElementB().equals(this)) {
+                    return true;
+                }
+            }
+        }
+        
+        if(this instanceof itfInternalAssociatedDataStructure) {
+            for(T oAssociation : clsAssociation.filterListByType(((itfInternalAssociatedDataStructure)this).getInternalAssociatedContent(), poAssociationType)) {
+                if(oAssociation.getAssociationElementA().equals(this) || oAssociation.getAssociationElementB().equals(this)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -215,6 +215,11 @@ public class DataStructureConversionTools {
                     
                     if(oEmotion.getContentType().equals(eContentType.BASICEMOTION)) {
                         clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
+                        
+                        //Kollmann: small safety check to see if the emotion association is properly anchored in the emotion object
+                        if(!oEmotion.isAssociatedByType(clsAssociationEmotion.class)) {
+                            log.warn("Emotion {} is not properly associated", oEmotion);
+                        }
                     
                         oRetVal.addFeeling(oFeeling);
                     } else if(oEmotion.getContentType().equals(eContentType.ATTRIBUTEDEMOTION)) {
@@ -305,6 +310,11 @@ public class DataStructureConversionTools {
                         && poProcessedList.contains(((clsAssociationAttribute) oTPMInternalAss).getLeafElement()) == false) {
                     //Kollmann if the association points to an attributed emotion
                     clsEmotion oEmotion = (clsEmotion) oTPMInternalAss.getAssociationElementB();
+                    
+                    //Kollmann: small safety check to see if the emotion association is properly anchored in the emotion object
+                    if(!(oEmotion.isAssociatedByType(clsAssociationEmotion.class) || oEmotion.isAssociatedByType(clsAssociationAttribute.class))) {
+                        log.warn("Emotion {} is not properly associated", oEmotion);
+                    }
                     
                     if(oEmotion.getContentType().equals(eContentType.BASICEMOTION)) {
                         clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);

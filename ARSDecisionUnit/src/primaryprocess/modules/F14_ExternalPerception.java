@@ -9,7 +9,6 @@ package primaryprocess.modules;
 import inspector.interfaces.itfGraphCompareInterfaces;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -349,8 +348,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 void AddBodyExpressionTP(clsThingPresentationMesh poEntity, String poContentType, String poContent){ //attach a body expression to poEntity.
          eContentType poeContentType = eContentType.getContentType(poContentType);  
          clsThingPresentation poExpressionTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(poeContentType, poContent));
-         clsAssociation poAss = clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, poEntity, poExpressionTP, 1.0f);
-         poEntity.getInternalAssociatedContent().add(poAss);     
+         clsAssociation poAss = clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, poEntity, true, poExpressionTP, 1.0f);
 	 }
     
 	/* (non-Javadoc)
@@ -521,7 +519,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     //go through all received emotions and connect them to the self (internal connection == how the entity feels)
                     for(clsEmotion oEmotion : oCurrentEmotions) {
                         //generate a new association
-                        oOutputTPM.addInternalAssociations(new ArrayList<>(Arrays.asList(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oEmotion, oOutputTPM, 1.0))));
+                        clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oEmotion, oOutputTPM, true, 1.0);
                         log.debug("Emotion " + oEmotion.toString() + " added to self");
                     }
                 }
@@ -592,7 +590,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         if(rNumberOfExemplarsWithEmotion!=0) {
                             // mean & add result to oOutputTPM with help of clsEmotion
                             clsEmotion oResultEmotionObject = clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType,eEmotionType,Object>(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0), rResultP/rNumberOfExemplarsWithEmotion, rResultU/rNumberOfExemplarsWithEmotion, rResultL/rNumberOfExemplarsWithEmotion, rResultA/rNumberOfExemplarsWithEmotion);
-                            oOutputTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oResultEmotionObject, oOutputTPM, 1.0));
+                            clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, oResultEmotionObject, oOutputTPM, false, 1.0);
                         }
                         //################################################################
                         break;
@@ -619,7 +617,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         
                         moBodystateCreation += "into new emotion " + ((clsEmotion)oDMStimulusList.get(0)).toString() + "\n";
                         
-                        oOutputTPM.getInternalAssociatedContent().add(clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONEMOTION, oOutputTPM, oDMStimulusList.get(0), 1));
+                        clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONEMOTION, oOutputTPM, true, oDMStimulusList.get(0), 1);
                     }
                 }
 
@@ -645,7 +643,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     
                     if((boExpressionFound == true) && (boBodystateFound == false)){
                         moBodystateCreation += "for " + oTPM.toString() + "\n\n";
-                        oTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, oTPM, oOutputTPM, 1));
+                        clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, oTPM, false, oOutputTPM, 1);
                         break;
                     }
                 } 

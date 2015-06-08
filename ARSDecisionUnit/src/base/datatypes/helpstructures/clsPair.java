@@ -28,10 +28,7 @@ public class clsPair<A, B> implements Cloneable {
 	public B b;
  
     public clsPair(final A left, final B right) {
-    	if (left == null || right == null) {
-    		throw new java.lang.NullPointerException();
-    	}
-        this.a = left;
+    	this.a = left;
         this.b = right;
     }
     
@@ -74,18 +71,22 @@ public class clsPair<A, B> implements Cloneable {
 	       throw e; 
 	     }
 	     try { 
-	       Class<?> clzz = this.a.getClass();
-	       Method   meth = clzz.getMethod("clone", new Class[0]);
-	       Object   dupl = meth.invoke(this.a, new Object[0]);
-	       clon.a = (A) dupl; // unchecked warning
+	       if(a != null) {
+    	     Class<?> clzz = this.a.getClass();
+    	     Method   meth = clzz.getMethod("clone", new Class[0]);
+    	     Object   dupl = meth.invoke(this.a, new Object[0]);
+    	     clon.a = (A) dupl; // unchecked warning
+	       }
 	     } catch (Exception e) {
 	       //...
 	     }
 	     try {
-	       Class<?> clzz = this.b.getClass();
-	       Method   meth = clzz.getMethod("clone", new Class[0]);
-	       Object   dupl = meth.invoke(this.b, new Object[0]);
-	       clon.b = (B) dupl; // unchecked warning
+	       if(b != null) {
+	         Class<?> clzz = this.b.getClass();
+	         Method   meth = clzz.getMethod("clone", new Class[0]);
+	         Object   dupl = meth.invoke(this.b, new Object[0]);
+	         clon.b = (B) dupl; // unchecked warning
+	       }
 	     } catch (Exception e) {
 	       //...
 	     } 

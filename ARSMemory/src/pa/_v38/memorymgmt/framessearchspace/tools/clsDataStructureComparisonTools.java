@@ -33,6 +33,7 @@ import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.itfInternalAssociatedDataStructure;
+import base.datatypes.enums.eConnectionType;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import logger.clsLogger;
@@ -737,7 +738,8 @@ public abstract class clsDataStructureComparisonTools {
 										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
 									}
 									
-									oRetVal.getExternalAssociatedContent().add(oClonedAss);
+									//oRetVal.getExternalAssociatedContent().add(oClonedAss);
+									oClonedAss.activate(eConnectionType.EXTERNAL, eConnectionType.EXTERNAL);
 								}
 								
 							} else if ((oClonedAss instanceof clsAssociationTime)==false) {

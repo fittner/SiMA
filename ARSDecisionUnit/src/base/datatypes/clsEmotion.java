@@ -47,6 +47,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		mrSourceUnpleasure = prSourceUnpleasure;
 		mrSourceLibid = prSourceLibid;
 		mrSourceAggr = prSourceAggr ;
+		moExternalAssociatedContent = new ArrayList<>();
 	} 
 
 	//Copy constructor - THIS SHOULD ONLY CREATE A FLEET COPY - NO RECURSIONS!
@@ -602,4 +603,6 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    
 	    return oExtEmotions;
 	}
+	
+	
 }
