@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import base.datahandlertools.clsDataStructureGenerator;
@@ -689,39 +690,46 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	
 	public Object clone(HashMap<clsDataStructurePA, clsDataStructurePA> poClonedNodeMap) throws CloneNotSupportedException {
+	    clsDriveMesh  oClone = null;
+	    
         try {
-        	clsDriveMesh  oClone = (clsDriveMesh)super.clone();
-        	oClone.mrQuotaOfAffect = this.mrQuotaOfAffect;
-        	if (moInternalAssociatedContent != null) {
-        		oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
-        		
-        		for(clsAssociation oAssociation : moInternalAssociatedContent){
-        			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
-    					if(dupl!= null) oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
-    				} catch (Exception e) {
-    					return e;
-    				}
-        		}
-        	}
-        	
-        	if (moExternalAssociatedContent != null) {
-        		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
-        		
-        		for(clsAssociation oAssociation : moExternalAssociatedContent){
-        			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
-    					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
-    				} catch (Exception e) {
-    					return e;
-    				}
-        		}
-        	}
-        	
-          	return oClone;
+            if(!poClonedNodeMap.containsKey(this)) {
+            	oClone = (clsDriveMesh)super.clone();
+            	oClone.mrQuotaOfAffect = this.mrQuotaOfAffect;
+            	if (moInternalAssociatedContent != null) {
+            		oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
+            		
+            		for(clsAssociation oAssociation : moInternalAssociatedContent){
+            			try { 
+        					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
+        					if(dupl!= null) oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+        				} catch (Exception e) {
+        					return e;
+        				}
+            		}
+            	}
+            	
+            	if (moExternalAssociatedContent != null) {
+            		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
+            		
+            		for(clsAssociation oAssociation : moExternalAssociatedContent){
+            			try { 
+        					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
+        					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+        				} catch (Exception e) {
+        					return e;
+        				}
+            		}
+            	}
+            } else {
+                clsLogger.getLog("Cloning").info("Object already in list");
+                oClone = (clsDriveMesh) poClonedNodeMap.get(this);
+            }
         } catch (CloneNotSupportedException e) {
-           return e;
+            throw e;
         }
+        
+        return oClone;
 	}
 
 
@@ -903,6 +911,30 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
          return oAssociatedDriveMeshList; 
          
      }
+
+    /* (non-Javadoc)
+     *
+     * @since 09.06.2015 16:08:55
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object arg0) {
+        // TODO (Kollmann) - Auto-generated method stub
+        return super.equals(arg0);
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 09.06.2015 16:08:55
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        // TODO (Kollmann) - Auto-generated method stub
+        return moDS_ID;
+    }
 }
 
 

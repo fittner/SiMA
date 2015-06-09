@@ -321,8 +321,6 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	    } catch (Exception e) {
 	    	log.error("Clone error", e);
 	    }
-
-	    
 		
 		return oClone;
 

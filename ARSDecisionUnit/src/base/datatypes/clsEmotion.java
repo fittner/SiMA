@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
@@ -399,18 +400,25 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		
 		try {
         	oClone = (clsEmotion)super.clone();
-        	poClonedNodeMap.put(this, oClone);
-        	if (moExternalAssociatedContent != null) {
-        		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
-        		
-        		for(clsAssociation oAssociation : moExternalAssociatedContent){
-        			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
-    					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
-    				} catch (Exception e) {
-    					return e;
-    				}
-        		}
+        	
+        	if(!poClonedNodeMap.containsKey(this)) {
+            	poClonedNodeMap.put(this, oClone);
+            	
+            	if (moExternalAssociatedContent != null) {
+            		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
+            		
+            		for(clsAssociation oAssociation : moExternalAssociatedContent){
+            			try { 
+        					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
+        					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+        				} catch (Exception e) {
+        					return e;
+        				}
+            		}
+            	}
+        	} else {
+        	    clsLogger.getLog("Cloning").info("Object already in list");
+        	    oClone = (clsEmotion) poClonedNodeMap.get(this);
         	}
         	
         } catch (CloneNotSupportedException e) {
