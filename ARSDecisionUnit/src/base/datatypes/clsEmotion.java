@@ -8,12 +8,12 @@ package base.datatypes;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
 import base.datahandlertools.clsDataStructureGenerator;
-import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
 /**
@@ -390,22 +390,22 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
      */
     @Override
     public Object clone() throws CloneNotSupportedException {
-        return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+        return clone(new HashMap<clsDataStructurePA, clsDataStructurePA>());
     }
 	
 	
-	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+	public Object clone(HashMap<clsDataStructurePA, clsDataStructurePA> poClonedNodeMap) throws CloneNotSupportedException {
 		clsEmotion oClone = null;
 		
 		try {
         	oClone = (clsEmotion)super.clone();
-        	poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
+        	poClonedNodeMap.put(this, oClone);
         	if (moExternalAssociatedContent != null) {
         		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
         		
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
     					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;

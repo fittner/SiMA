@@ -346,10 +346,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsEmotion> clone(ArrayList<clsEmotion> oEmotions) {
 		// deep clone: oEmotions --> oClonedEmotions
 		ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
-		ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
+
 		for (clsEmotion oOneEmotion : oEmotions) {
 			try {
-				oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
+				oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(new HashMap<clsDataStructurePA, clsDataStructurePA>()));
 			} catch (CloneNotSupportedException e) {
 				// Auto-generated catch block
 				e.printStackTrace();

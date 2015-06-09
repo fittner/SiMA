@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import memorymgmt.enums.eContentType;
@@ -21,7 +22,6 @@ import base.datatypes.enums.eDriveComponent;
 import base.datatypes.enums.eOrgan;
 import base.datatypes.enums.eOrifice;
 import base.datatypes.enums.ePartialDrive;
-import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -684,11 +684,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      */
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-        return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+        return clone(new HashMap<clsDataStructurePA, clsDataStructurePA>());
     }
 	
 	
-	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+	public Object clone(HashMap<clsDataStructurePA, clsDataStructurePA> poClonedNodeMap) throws CloneNotSupportedException {
         try {
         	clsDriveMesh  oClone = (clsDriveMesh)super.clone();
         	oClone.mrQuotaOfAffect = this.mrQuotaOfAffect;
@@ -697,7 +697,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         		
         		for(clsAssociation oAssociation : moInternalAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
     					if(dupl!= null) oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
@@ -710,7 +710,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         		
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
     					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;

@@ -292,18 +292,18 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	//clone  Emotions -
 	private ArrayList<clsEmotion> clone(ArrayList<clsEmotion> oEmotions) {
 		// deep clone: oEmotions --> oClonedEmotions
-				ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
-				ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
-				for (clsEmotion oOneEmotion : oEmotions) {
-					try {
-						oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
-					} catch (CloneNotSupportedException e) {
-						// Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				return oClonedEmotions;
+		ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
+
+	    for (clsEmotion oOneEmotion : oEmotions) {
+			try {
+				oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(new HashMap<clsDataStructurePA, clsDataStructurePA>()));
+			} catch (CloneNotSupportedException e) {
+				// Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return oClonedEmotions;
 	}
 	
 	/* (non-Javadoc)

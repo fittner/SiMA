@@ -8,8 +8,7 @@ package base.datatypes;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
-import base.datatypes.helpstructures.clsPair;
+import java.util.HashMap;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -37,7 +36,7 @@ public class clsSecondaryDataStructureContainer extends clsDataStructureContaine
         		oClone.moAssociatedDataStructures = new ArrayList<clsAssociation>(); 
         		for(clsAssociation oAssociation : moAssociatedDataStructures){
         				try { 
-        					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
+        					Object dupl = oAssociation.clone(this, oClone, new HashMap<clsDataStructurePA, clsDataStructurePA>()); 
         					if (dupl!=null) oClone.moAssociatedDataStructures.add((clsAssociation)dupl); 
         				} catch (Exception e) {
         					return e;

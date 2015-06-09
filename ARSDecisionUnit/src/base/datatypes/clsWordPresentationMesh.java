@@ -221,7 +221,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	 * @throws CloneNotSupportedException
 	 */
 	public Object clone() throws CloneNotSupportedException {
-		return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+		return clone(new HashMap<clsDataStructurePA, clsDataStructurePA>());
 	}
 	
 	/**
@@ -236,19 +236,16 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	 * @return
 	 * @throws CloneNotSupportedException
 	 */
-	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
-		
+	public Object clone(HashMap<clsDataStructurePA, clsDataStructurePA> poClonedNodeMap) throws CloneNotSupportedException {
 		clsWordPresentationMesh oClone = null;
+		clsDataStructurePA oMyOldClone = null;
 		
 		try {
 			//Clone the data structure without associated content. They only exists as empty lists
 		    
 		    //Check if structure already exists in the list
-		    for (clsPair<clsDataStructurePA, clsDataStructurePA> pair : poClonedNodeList) {
-		        if (this.equals(pair.a)) {
-		            //Return clone if this data structure already exists
-		            return pair.b;
-		        }
+		    if(poClonedNodeMap.containsKey(this)) {
+		        return poClonedNodeMap.get(this);
 		    }
 		    
 			oClone = (clsWordPresentationMesh)super.clone();
@@ -258,14 +255,14 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			oClone.moAssociationMapping = new HashMap<ePredicate, ArrayList<clsSecondaryDataStructure>>();
 			
 			//Add this structure and the new clone to the list of cloned structures
-			poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
+			poClonedNodeMap.put(this, oClone);
 			
 			//Go through all associations
 			if (moInternalAssociatedContent != null) {
 				//Add internal associations to oClone 
         		for(clsAssociation oAssociation : moInternalAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
     					if(dupl!= null) {
     					    oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     					
@@ -296,7 +293,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 				//Add internal associations to oClone 
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
         			try {
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
     					if(dupl!= null) {
         					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
         					

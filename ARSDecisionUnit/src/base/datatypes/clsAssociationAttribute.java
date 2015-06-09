@@ -6,11 +6,10 @@
  */
 package base.datatypes;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
-import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
 /**
@@ -28,10 +27,10 @@ public class clsAssociationAttribute extends clsAssociation{
      * @see base.datatypes.clsAssociation#clone(java.lang.Object, java.lang.Object, java.util.ArrayList)
      */
     @Override
-    public Object clone(Object poOriginalObject, Object poClonedObject, ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList)
+    public Object clone(Object poOriginalObject, Object poClonedObject, HashMap<clsDataStructurePA, clsDataStructurePA> poClonedNodeMap)
             throws CloneNotSupportedException {
         
-        return super.clone(poOriginalObject, poClonedObject, poClonedNodeList);
+        return super.clone(poOriginalObject, poClonedObject, poClonedNodeMap);
     }
 
     /**
