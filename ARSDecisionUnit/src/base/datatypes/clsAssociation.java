@@ -265,21 +265,65 @@ public abstract class clsAssociation extends clsDataStructurePA{
 //			if(!isRoot) {
 //			    return null;
 //			}
-	        if (this.getRootElement().equals(poOriginalObject)==false && this.getLeafElement().equals(poOriginalObject)==false) {
-	            log.error("Association is orphan. The association has to be connected with one of its sources");
-	            log.error("Association: " + this.toString());
-	            log.error("\tRoot: " + getRootElement().toString());
-	            log.error("\tLeaf: " + getLeafElement().toString());
-	            log.error("OriginalObject: " + poOriginalObject.toString());
-	            log.error("ClonedObject: " + poClonedObject.toString());
-	            log.error("Stack: ", new Exception());
-	        }
+		
+		
+		
+		    //Kollmann: a very simple orphan check - if you suspect orphan associations, uncomment this
+//	        if (this.getRootElement().equals(poOriginalObject)==false && this.getLeafElement().equals(poOriginalObject)==false) {
+//	            log.error("Association is orphan. The association has to be connected with one of its sources");
+//	            log.error("Association: " + this.toString());
+//	            log.error("\tRoot: " + getRootElement().toString());
+//	            log.error("\tLeaf: " + getLeafElement().toString());
+//	            log.error("OriginalObject: " + poOriginalObject.toString());
+//	            log.error("ClonedObject: " + poClonedObject.toString());
+//	            log.error("Stack: ", new Exception());
+//	        }
 		    
     		//Clone the association itself
     	    try { 
     	    	//Clone the clsDataStructurePA for this association
     	    	oClone = (clsAssociation) super.clone(); 
     	    	//poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
+    	    	
+    	    	//Clone elementA
+                try {
+                    if (this.moAssociationElementA.equals(poOriginalObject)) {
+                        //If the element A is the origin element, set the clone as association for A
+                        oClone.moAssociationElementA = (clsDataStructurePA) poClonedObject;
+                    } else if (this.moAssociationElementB.equals(poOriginalObject)) {
+                        //Check if element B exists in the list
+                        boolean bElementFound = false;
+                        for (clsPair<clsDataStructurePA, clsDataStructurePA> oObjectPair : poClonedNodeList) {
+                            if (this.moAssociationElementA.equals(oObjectPair.a)==true) {
+                                oClone.moAssociationElementA = oObjectPair.b;
+                                bElementFound=true;
+                                break;
+                            }
+                        }
+                        
+                        //Check if structure was not found
+                        if (bElementFound==false) {
+                            
+                            if (moAssociationElementA instanceof clsThingPresentationMesh) {
+                                oClone.moAssociationElementA = (clsDataStructurePA) ((clsThingPresentationMesh)this.moAssociationElementA).clone(poClonedNodeList);                     
+                            } else if (moAssociationElementA instanceof clsThingPresentation) {
+                                oClone.moAssociationElementA = (clsDataStructurePA) ((clsThingPresentation)this.moAssociationElementA).clone(poClonedNodeList);
+                            } else if (moAssociationElementA instanceof clsDriveMesh) {
+                                oClone.moAssociationElementA = (clsDataStructurePA) ((clsDriveMesh)this.moAssociationElementA).clone(poClonedNodeList);
+                            } else if (moAssociationElementA instanceof clsEmotion) {
+                                oClone.moAssociationElementA = (clsDataStructurePA) ((clsEmotion)this.moAssociationElementA).clone(poClonedNodeList);
+                            } else if (moAssociationElementA instanceof clsWordPresentationMesh) {
+                                oClone.moAssociationElementA = (clsDataStructurePA) ((clsWordPresentationMesh)this.moAssociationElementA).clone(poClonedNodeList);
+                            } else if (moAssociationElementA instanceof clsWordPresentation) {
+                                oClone.moAssociationElementA = (clsDataStructurePA) ((clsWordPresentation)this.moAssociationElementA).clone();
+                            } else {
+                                throw new Exception("Datatype not found or is clonaeble. Data structure " + this.moAssociationElementA);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    log.error("Error in the cloning", e);
+                }
     	    } catch (CloneNotSupportedException e) { 
     	        log.error("Clone error", e);
     	        throw e; 
@@ -287,60 +331,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
     	    	log.error("Clone error", e);
     	    }
     	    
-    	    //Clone elementA
-    	    try {
-    	      	if (this.moAssociationElementA.equals(poOriginalObject)) {
-    	    		//If the element A is the origin element, set the clone as association for A
-    	    		oClone.moAssociationElementA = (clsDataStructurePA) poClonedObject;
-    	    	} else {
-    	    		//Check if element B exists in the list
-    	    		boolean bElementFound = false;
-    	    		for (clsPair<clsDataStructurePA, clsDataStructurePA> oObjectPair : poClonedNodeList) {
-    	    			if (this.moAssociationElementA.equals(oObjectPair.a)==true) {
-    	    				oClone.moAssociationElementA = oObjectPair.b;
-    	    				bElementFound=true;
-    	    				break;
-    	    			}
-    	    		}
-    	    		
-    	    		//Check if structure was not found
-    	    		if (bElementFound==false) {
-    	    			//if(isRoot){
-        	    		    if (moAssociationElementA instanceof clsThingPresentationMesh) {
-        	    		        oClone.moAssociationElementA = (clsDataStructurePA) ((clsThingPresentationMesh)this.moAssociationElementA).clone(poClonedNodeList);	    		        
-        	    		    } else if (moAssociationElementA instanceof clsThingPresentation) {
-        	    		        oClone.moAssociationElementA = (clsDataStructurePA) ((clsThingPresentation)this.moAssociationElementA).clone(poClonedNodeList);
-        	    		    } else if (moAssociationElementA instanceof clsDriveMesh) {
-        	    		        oClone.moAssociationElementA = (clsDataStructurePA) ((clsDriveMesh)this.moAssociationElementA).clone(poClonedNodeList);
-        	    		    } else if (moAssociationElementA instanceof clsEmotion) {
-        	    		        oClone.moAssociationElementA = (clsDataStructurePA) ((clsEmotion)this.moAssociationElementA).clone(poClonedNodeList);
-        	    		    } else if (moAssociationElementA instanceof clsWordPresentationMesh) {
-        	    		        oClone.moAssociationElementA = (clsDataStructurePA) ((clsWordPresentationMesh)this.moAssociationElementA).clone(poClonedNodeList);
-        	    		    } else if (moAssociationElementA instanceof clsWordPresentation) {
-        	    		        oClone.moAssociationElementA = (clsDataStructurePA) ((clsWordPresentation)this.moAssociationElementA).clone();
-        	    		    } else {
-        	    		        throw new Exception("Datatype not found or is clonaeble. Data structure " + this.moAssociationElementA);
-        	    		    }
-    	    			}
-    	    			//else{
-    	    			    
-    	    			//}
-    
-    //	    		    //super.clone();
-    //	    			//this.moAssociationElementA.clone();
-    //	    			
-    //	    		    //The element was found in the list, only add its clone then
-    //	    			Class<?> clzz = this.moAssociationElementA.getClass();
-    //	    			Class[] argTypes = {Class.forName("java.util.ArrayList")};
-    //	    			Method cloneGraphExtended = clzz.getDeclaredMethod("clone", argTypes);
-    //	    			Object newDuplicate = cloneGraphExtended.invoke(this.moAssociationElementA, poClonedNodeList);
-    //					//Object   dupl = meth.invoke(this.moAssociationElementA, new Object[0]);
-    //					oClone.moAssociationElementA = (clsDataStructurePA) newDuplicate; // unchecked warning
-    	    		}
-    	    	
-    	    } catch (Exception e) {
-    	    	log.error("Error in the cloning", e);
-    	    }
+    	    
     	    
     	    //Clone ElementB
     	    try {
