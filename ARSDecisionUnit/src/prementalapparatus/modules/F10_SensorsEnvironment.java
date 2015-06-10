@@ -58,7 +58,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
      */
     public F10_SensorsEnvironment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int uid) throws Exception {
-        super(poPrefix, poProp, poModuleList, poInterfaceData);
+        super(poPrefix, poProp, poModuleList, poInterfaceData, uid);
         this.uid = uid;
         applyProperties(poPrefix, poProp);
     }

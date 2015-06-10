@@ -58,8 +58,8 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	 * @throws Exception
 	 */
 	public F13_NeuroSymbolizationBody(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		applyProperties(poPrefix, poProp);
 	}
 	

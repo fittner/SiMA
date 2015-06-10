@@ -78,8 +78,8 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	 */
 	public F30_MotilityControl(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F30", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F30", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
@@ -202,7 +202,6 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	 * 
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2) {
 		moActionCommand_Input = poActionCommands; 

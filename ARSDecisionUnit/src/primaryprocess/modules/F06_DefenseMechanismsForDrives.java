@@ -227,9 +227,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
    public F06_DefenseMechanismsForDrives(String poPrefix, clsProperties poProp, HashMap<Integer,
 		   clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 		   DT2_BlockedContentStorage poBlockedContentStorage,
-		   clsPersonalityParameterContainer poPersonalityParameterContainer)
+		   clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 		   throws Exception {
-	    super(poPrefix, poProp, poModuleList, poInterfaceData);
+	    super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 	    moBlockedContentStorage = poBlockedContentStorage;
 
 	    applyProperties(poPrefix, poProp);

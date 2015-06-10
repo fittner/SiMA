@@ -120,9 +120,13 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	 * @throws Exception
 	 */
 	public F26_DecisionMaking(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine, DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory,
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory,
+			clsShortTermMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine,
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage,
+			clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 		
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F26", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F26", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();

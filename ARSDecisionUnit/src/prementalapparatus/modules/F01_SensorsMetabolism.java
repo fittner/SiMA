@@ -62,8 +62,8 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 * @throws Exception 
 	 */
 	public F01_SensorsMetabolism(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 
 		applyProperties(poPrefix, poProp);		
 	}
@@ -192,7 +192,6 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 * 
 	 * @see pa.interfaces.receive._v38.I0_3_receive#receive_I0_3(java.util.List)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I0_3(clsDataContainer poData) {
 		moHomeostasis_IN = poData; 

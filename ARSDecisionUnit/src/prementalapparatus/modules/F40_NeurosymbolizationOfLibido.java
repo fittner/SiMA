@@ -52,9 +52,9 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 * @throws Exception
 	 */
 	public F40_NeurosymbolizationOfLibido(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		
 		mrLibido = 0;
 		applyProperties(poPrefix, poProp);	

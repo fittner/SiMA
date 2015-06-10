@@ -84,8 +84,8 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
      * @throws Exception
      */
     public F67_BodilyReactionsOnEmotions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-        super(poPrefix, poProp, poModuleList, poInterfaceData);
+            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
+        super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
         
         
         // TODO (schaat) - Auto-generated constructor stub
@@ -148,7 +148,6 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
      *
      * @param moEmotions_Input2
      */
-    @SuppressWarnings("unchecked")
     private void FillInternalActions(ArrayList<clsEmotion> poEmotions_Input) {
 
         // create Values for Internal Action variables

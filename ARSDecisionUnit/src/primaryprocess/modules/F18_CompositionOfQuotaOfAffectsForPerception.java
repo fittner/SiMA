@@ -54,9 +54,9 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 	 * @throws Exception
 	 */
 	public F18_CompositionOfQuotaOfAffectsForPerception(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -234,7 +234,6 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 	 * 
 	 * @see pa.interfaces.receive._v38.I2_16_receive#receive_I2_16(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_9(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
 	    moWordingToContext =  moWordingToContext2;

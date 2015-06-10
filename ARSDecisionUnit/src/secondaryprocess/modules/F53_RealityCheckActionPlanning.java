@@ -85,8 +85,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			itfModuleMemoryAccess poLongTermMemory,
 			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTermMemory,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		// TODO (zeilinger) - Auto-generated constructor stub
 		
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F53", P_MODULE_STRENGTH).getParameterDouble();

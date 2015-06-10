@@ -97,8 +97,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      */
     public F71_CompositionOfExtendedEmotion(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsPersonalityParameterContainer poPersonalityParameterContainer,
-            DT3_PsychicIntensityStorage poPsychicEnergyStorage) throws Exception {        
-        super(poPrefix, poProp, poModuleList, poInterfaceData);
+            DT3_PsychicIntensityStorage poPsychicEnergyStorage, int pnUid) throws Exception {        
+        super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
         
         //Kollmann: this is a bit of a hack, I don't want to pass on the super ego rules so I load them again and for that I access F07s parameters
         //          for the filename and super-ego strength

@@ -105,10 +105,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 			clsShortTermMemory poShortTermMemory,
 			clsShortTermMemory poConceptMemory,
 			clsEnvironmentalImageMemory poTempLocalizationStorage,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData,
-				poLongTermMemory);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F21", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F21", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();

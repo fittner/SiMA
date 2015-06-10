@@ -70,9 +70,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	public F08_ConversionToSecondaryProcessForDriveWishes(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory, pnUid);
 		
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F08", P_MODULE_STRENGHT).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F08", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();

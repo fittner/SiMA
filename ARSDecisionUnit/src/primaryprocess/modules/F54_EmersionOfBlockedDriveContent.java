@@ -62,9 +62,9 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	public F54_EmersionOfBlockedDriveContent(String poPrefix,
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 
 		applyProperties(poPrefix, poProp); 
 	}

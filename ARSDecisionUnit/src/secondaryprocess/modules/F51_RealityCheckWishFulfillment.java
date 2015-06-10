@@ -112,9 +112,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F51", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F51", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();

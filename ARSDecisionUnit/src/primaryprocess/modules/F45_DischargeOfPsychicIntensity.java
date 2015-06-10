@@ -115,8 +115,8 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
      */
     public F45_DischargeOfPsychicIntensity(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT1_PsychicIntensityBuffer poLibidoBuffer,
-            itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-        super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+            itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+        super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
         moLibidoBuffer = poLibidoBuffer;
 
@@ -225,7 +225,6 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
      * 
      * @see pa.modules._v38.clsModuleBase#process_basic()
      */
-    @SuppressWarnings("unchecked")
     @Override
     protected void process_basic() {
         clsThingPresentationMesh oPerceivedAction = null;
@@ -581,7 +580,6 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
      * 
      * @see pa.interfaces.receive._v38.I2_8_receive#receive_I2_8(java.util.ArrayList)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void receive_I5_8(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
         // moMergedPrimaryInformation_Rcv = poMergedPrimaryInformation;

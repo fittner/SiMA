@@ -77,9 +77,9 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 */
 	public F35_EmersionOfBlockedContent(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			itfModuleMemoryAccess poLongTermMemory, DT2_BlockedContentStorage poBlockedContentStorage)
+			itfModuleMemoryAccess poLongTermMemory, DT2_BlockedContentStorage poBlockedContentStorage, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		
 		moBlockedContentStorage = poBlockedContentStorage;
 
@@ -128,7 +128,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 		//Test get protege content
@@ -303,7 +302,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 * 
 	 * @see pa.interfaces.receive._v38.I2_14_receive#receive_I2_14(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
 		//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();

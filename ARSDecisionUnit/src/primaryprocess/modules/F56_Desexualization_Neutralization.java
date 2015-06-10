@@ -93,9 +93,9 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT3_PsychicIntensityStorage poPsychicIntensityStorage , clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT3_PsychicIntensityStorage poPsychicIntensityStorage , clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 	throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		
 		this.moPsychicIntensityStorage = poPsychicIntensityStorage;
 		

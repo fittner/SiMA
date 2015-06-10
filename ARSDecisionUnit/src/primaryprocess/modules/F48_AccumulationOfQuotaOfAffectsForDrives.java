@@ -102,9 +102,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			DT4_PleasureStorage poPleasureStorage, DT1_PsychicIntensityBuffer poLibidoBuffer, 
-			clsPersonalityParameterContainer poPersonalityParameterContainer, DT3_PsychicIntensityStorage poDT3_IntensityStorage)
+			clsPersonalityParameterContainer poPersonalityParameterContainer, DT3_PsychicIntensityStorage poDT3_IntensityStorage, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 
 		moPleasureStorage = poPleasureStorage;
 		moLibidoBuffer = poLibidoBuffer;
@@ -558,7 +558,6 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	 * 
 	 * @see pa._v38.interfaces.modules.I3_3_receive#receive_I3_3(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I3_3(
 			ArrayList<clsDriveMesh> poSexualDriveRepresentations) {

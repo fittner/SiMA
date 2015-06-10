@@ -112,8 +112,8 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	public F20_CompositionOfFeelings(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory,
 			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer,
-			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory, pnUid);
 		
 	    mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F20", P_MODULE_STRENGTH).getParameterDouble();
 	    mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F20", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();

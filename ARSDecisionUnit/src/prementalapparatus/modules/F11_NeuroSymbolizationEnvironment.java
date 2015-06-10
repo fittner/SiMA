@@ -73,8 +73,8 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	 * @throws Exception 
 	 */
 	public F11_NeuroSymbolizationEnvironment(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -141,7 +141,6 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	 * 
 	 * @see pa.interfaces.I2_1#receive_I2_1(HashMap<eSensorExtType, clsDataBase>)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_3(clsDataContainer poData) {
 	    moEnvironmentalData = poData; 

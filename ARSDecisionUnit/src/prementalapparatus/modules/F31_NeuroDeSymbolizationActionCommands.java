@@ -71,9 +71,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 * @throws Exception
 	 */
 	public F31_NeuroDeSymbolizationActionCommands(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		applyProperties(poPrefix, poProp);		
 		
 		mnCounter = 0;

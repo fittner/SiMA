@@ -121,8 +121,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	public F07_SuperEgoReactive(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicIntensityStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicIntensityStorage poPsychicEnergyStorage,
+			clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F07", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F07", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();

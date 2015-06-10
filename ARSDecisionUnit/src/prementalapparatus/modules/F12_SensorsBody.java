@@ -58,8 +58,8 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	 * @throws Exception
 	 */
 	public F12_SensorsBody(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		applyProperties(poPrefix, poProp);	
 	}
 
@@ -207,7 +207,6 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	 * 
 	 * @see pa.interfaces.receive._v38.I0_5_receive#receive_I0_5(java.util.HashMap)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I0_5(clsDataContainer poData) {
 		

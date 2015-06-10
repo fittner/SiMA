@@ -83,8 +83,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public F57_MemoryTracesForDrives(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-			super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+			itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+			super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
 		applyProperties(poPrefix, poProp); 
 		

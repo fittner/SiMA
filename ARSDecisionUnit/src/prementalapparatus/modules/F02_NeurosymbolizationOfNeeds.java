@@ -71,8 +71,8 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 * @throws Exception 
 	 */
 	public F02_NeurosymbolizationOfNeeds(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		applyProperties(poPrefix, poProp);	
 		moChartColumnsCaptions = new ArrayList<String>();
 		//add data that should be displayed

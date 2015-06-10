@@ -474,7 +474,7 @@ public class clsSimplePropertyLoader extends clsLoader {
      * @param poPrefix
      * @param poProp
      */
-    private void createEntityGroup(String poPrefix, clsProperties poProp) {
+    private void createEntityGroup(String poPrefix, clsProperties poProp, int pnGroupId) {
     	String pre = clsProperties.addDot(poPrefix);
     	
     	clsProperties oPropMemory = poProp.getSubset(P_KNOWLEDGEBASE);
@@ -505,7 +505,9 @@ public class clsSimplePropertyLoader extends clsLoader {
     		System.out.print(".");
     		
     		//get unique id for this entity (used for entity and for decision unit)
-    		int uid = clsUniqueIdGenerator.getUniqueId();
+    		//int uid = clsUniqueIdGenerator.getUniqueId();
+    		//Kollmann: lets use the group id as unique identifier
+    		int uid = pnGroupId;
     		
     		//get entity default properties
     		clsProperties oEntityProperties = getEntityProperties(nEntityType);
@@ -550,7 +552,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		String pre = clsProperties.addDot( getPrefix() );
 		
 		for (int i=0;i<numentitygroups; i++) {
-			createEntityGroup(pre+P_ENTITYGROUPS+"."+i, getProperties() );
+			createEntityGroup(pre+P_ENTITYGROUPS+"."+i, getProperties(), i);
 		}	
 		if (getProperties().getPropertyBoolean(pre+P_WORLDBOUNDARYWALLS)) {
 			generateWorldBoundaries();

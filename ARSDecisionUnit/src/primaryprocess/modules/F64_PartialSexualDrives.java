@@ -112,9 +112,9 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			DT1_PsychicIntensityBuffer poLibidoBuffer,
 			clsPersonalityParameterContainer poPersonalityParameterContainer,
-			DT4_PleasureStorage poPleasureStorage)
+			DT4_PleasureStorage poPleasureStorage, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		
 		moLibidoBuffer = poLibidoBuffer;
 		moPleasureStorage = poPleasureStorage;

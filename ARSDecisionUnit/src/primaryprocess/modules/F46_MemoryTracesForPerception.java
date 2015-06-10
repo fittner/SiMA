@@ -116,9 +116,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F46_MemoryTracesForPerception(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-			itfModuleMemoryAccess poLongTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+	public F46_MemoryTracesForPerception(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+	        SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory,
+	        clsEnvironmentalImageMemory poTempLocalizationStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		
 		applyProperties(poPrefix, poProp);
 		

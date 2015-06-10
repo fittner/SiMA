@@ -74,7 +74,6 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	 * @param poPrefix
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		
@@ -112,7 +111,6 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	 * @param poProp
 	 * @param uid
 	 */
-	@SuppressWarnings("deprecation")
 	private void applyProperties(String poPrefix, clsProperties poProp, int uid,
             itfModuleMemoryAccess poMemory) {
 		String pre = clsProperties.addDot(poPrefix);

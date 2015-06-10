@@ -141,8 +141,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F14_ExternalPerception(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory, pnUid);
 		applyProperties(poPrefix, poProp);
 		
 		mrEmotionrecognitionPrimingPleasure =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_PLEASURE).getParameterDouble(); //koller
@@ -293,7 +293,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 * 
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_4(HashMap<String, Double> poBodyData) {
 		moBodyData = poBodyData; 

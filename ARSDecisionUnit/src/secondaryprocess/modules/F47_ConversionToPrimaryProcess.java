@@ -81,9 +81,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	public F47_ConversionToPrimaryProcess(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory)
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		
 		moShortTimeMemory = poShortTimeMemory;
 		

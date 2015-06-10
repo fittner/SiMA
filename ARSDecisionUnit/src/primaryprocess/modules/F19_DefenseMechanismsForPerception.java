@@ -161,9 +161,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces,
 			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage,
 			itfModuleMemoryAccess poMemory,
-			clsPersonalityParameterContainer poPersonalityParameterContainer)
+			clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory, pnUid);
 		
 		applyProperties(poPrefix, poProp);
 		
