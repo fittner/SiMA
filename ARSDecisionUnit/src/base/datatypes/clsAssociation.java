@@ -566,7 +566,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
     public boolean isEquivalentOrClone(clsDataStructurePA poOther) {
         boolean bIsClone = false; 
         
-        if(poOther instanceof clsAssociation && this.getClass().equals(poOther.getClass())) {
+        if(poOther instanceof clsAssociation && this.getClass().equals(poOther.getClass()) && this.getDS_ID() == poOther.getDS_ID()) {
             clsAssociation oOther = (clsAssociation)poOther;
             
             bIsClone = getAssociationElementA().isEquivalentOrClone(oOther.getAssociationElementA()) && 
@@ -600,8 +600,10 @@ public abstract class clsAssociation extends clsDataStructurePA{
     protected static boolean performSafeConnect(clsAssociation poAssociation, ArrayList<clsAssociation> poAssociations) {
         boolean bPerformed = false;
         
-        if(clsAssociation.findAssociationInList(poAssociation, poAssociations) != null) {
-            if(clsAssociation.findAssociationInList(poAssociation, poAssociations) != poAssociation) {
+        clsAssociation oFoundAssociation = clsAssociation.findAssociationInList(poAssociation, poAssociations);
+        
+        if(oFoundAssociation != null) {
+            if(oFoundAssociation != poAssociation) {
                 log.error("Trying to connect an association to a target that already contains a clone of that association - "
                         + "this is a sign for a serious flaw in graph handling.\nIt is unclear how to solve this situation, so "
                         + "fix this problem immediately to avoid shadow graphs or similar phenomena");

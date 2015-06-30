@@ -1050,7 +1050,14 @@ public class clsOntologyLoader {
 						poDataContainer.b);
 				clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(),
 						poDataContainer.b);
-				oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
+				
+				clsDataStructurePA oRawDataStructure = retrieveDataStructure(poAssociation.getName(), poDataContainer.b);
+				
+				if (oRawDataStructure == null) {
+				    oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
+		        } else {
+		            oDataStructure = (clsAssociation) oRawDataStructure;
+		        }
 			}
 		} else {
 			for (Object oElement : getSlotValues("element", poAssociation)) {
@@ -1061,7 +1068,14 @@ public class clsOntologyLoader {
 					initDataStructure(poRootElement, (Instance) oElement, poDataContainer); 
 					clsDataStructurePA oDS_a = retrieveDataStructure(oRootName, poDataContainer.b);
 					clsDataStructurePA oDS_b = retrieveDataStructure(oElementName, poDataContainer.b);
-					oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
+					
+					clsDataStructurePA oRawDataStructure = retrieveDataStructure(poAssociation.getName(), poDataContainer.b);
+	                
+	                if (oRawDataStructure == null) {
+	                    oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
+	                } else {
+	                    oDataStructure = (clsAssociation) oRawDataStructure;
+	                }
 				}
 			}
 		}
