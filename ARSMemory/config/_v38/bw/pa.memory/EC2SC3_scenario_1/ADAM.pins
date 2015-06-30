@@ -1,4 +1,4 @@
-; Tue Jun 09 13:16:49 CEST 2015
+; Tue Jun 30 11:38:25 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -649,6 +649,13 @@
 	(element
 		[DM%3ABITE%3ASTONE]
 		[TPM%3AACTION%3AL1_BITE])
+	(weight 1.0 1.0))
+
+([AD%3AAIM%3ASTONE%3AEAT] of  ASSOCIATIONDM
+
+	(element
+		[DM%3AEAT%3ASTONE]
+		[TPM%3AACTION%3AL1_EAT])
 	(weight 1.0 1.0))
 
 ([AD%3AAIM%3ASTONE%3AEXCREMENT] of  ASSOCIATIONDM
@@ -3183,7 +3190,9 @@
 
 	(class_association [TPM%3AORGANS%3ASTOMACH])
 	(drive_component "LIBIDINOUS")
-	(instance_association [AD%3ADRIVEOBJECT%3ASTONE%3AEAT])
+	(instance_association
+		[AD%3ADRIVEOBJECT%3ASTONE%3AEAT]
+		[AD%3AAIM%3ASTONE%3AEAT])
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:LIBIDINOUS")
