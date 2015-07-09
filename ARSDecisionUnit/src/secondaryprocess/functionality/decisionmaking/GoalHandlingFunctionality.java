@@ -69,8 +69,8 @@ public class GoalHandlingFunctionality {
      *
      * @since 29.09.2013 12:55:38
      */
-    public static void applyDriveDemandsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poDriveDemandList) {
-        GoalAlgorithmTools.applyDriveDemandsOnDriveGoal(selectableGoalList, poDriveDemandList);
+    public static void applyDriveDemandsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poDriveDemandList, double prDriveImpact) {
+        GoalAlgorithmTools.applyDriveDemandsOnDriveGoal(selectableGoalList, poDriveDemandList, prDriveImpact);
         
         //ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(selectableGoalList, poDriveDemandList, currentFeelingsList, affectThreashold);
     }

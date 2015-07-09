@@ -1172,16 +1172,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         
         switch(poLabel) {
         case "PLEASURE":
-            oData.addAll(getDimensionContributers(moEmotions_OUT.get(0).getSourcePleasure(), "Pleasure"));
+            oData.addAll(getDimensionContributers(moTargetEmotion.getSourcePleasure(), "Pleasure"));
             break;
         case "UNPLEASURE":
-            oData.addAll(getDimensionContributers(moEmotions_OUT.get(0).getSourceUnpleasure(), "Unpleasure"));
+            oData.addAll(getDimensionContributers(moTargetEmotion.getSourceUnpleasure(), "Unpleasure"));
             break;
         case "AGGRESSIVE":
-            oData.addAll(getDimensionContributers(moEmotions_OUT.get(0).getSourceAggr(), "Aggr"));
+            oData.addAll(getDimensionContributers(moTargetEmotion.getSourceAggr(), "Aggr"));
             break;
         case "LIBIDINOUS":
-            oData.addAll(getDimensionContributers(moEmotions_OUT.get(0).getSourceLibid(), "Libid"));
+            oData.addAll(getDimensionContributers(moTargetEmotion.getSourceLibid(), "Libid"));
             break;
         default:
             log.warn("Unknown label for StackedBarChartInspector in getData method");

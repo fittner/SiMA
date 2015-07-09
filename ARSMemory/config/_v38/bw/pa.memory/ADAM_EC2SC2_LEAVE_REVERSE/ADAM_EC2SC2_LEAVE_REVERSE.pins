@@ -1,7 +1,7 @@
-; Tue May 26 11:17:19 CEST 2015
+; Thu Jul 09 17:08:52 CEST 2015
 ; 
-;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (version "3.5")
+;+ (build "Build 663")
 
 ([AA%3AA06_BEAT_BODO_L01_I02%3ABODO%3ADISTANCE%3ANEAR] of  ASSOCIATIONATTRIBUTE
 
@@ -3607,7 +3607,7 @@
 
 ([EMOTION%3AA14_FLEE_BODO_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.11)
 	(sourceLibid 0.35)
@@ -3642,10 +3642,10 @@
 
 	(emotionIntensity 1.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 1.0)
+	(sourceAggr 0.3)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.5)
+	(sourceUnpleasure 0.8)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -3653,7 +3653,7 @@
 
 	(emotionIntensity 1.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.4)
+	(sourceAggr 0.2)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)

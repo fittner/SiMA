@@ -123,6 +123,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     private double mrEmotionrecognitionPrimingLibido;
     private double mrEmotionrecognitionPrimingIntensity;
     
+    //Kollmann: WORKAROUND: this is a helper instance that will hold a flat copy of the last used emotion state on the self
+    //          It is a workaround for a bug in priming where the bodystate recognized on the self is, for some reason, not associated with
+    //          an emotion - in that cases, use the last known emotion for priming
+    private clsEmotion moFormerSelfBodystateEmotion = null;
+    
     boolean boSelfHasExpressionVar = true; //true, if the self should have body expressions for bodystates
 	
     private String moBodystateCreation = "";
@@ -1385,22 +1390,28 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 //                                        rUnple = mrEmotionrecognitionPrimingUnpleasure * oFoundEmotion.getSourceUnpleasure() * oSelfBodystateEmotion.getSourceUnpleasure();
 //                                        rAggr = mrEmotionrecognitionPrimingAggression * oFoundEmotion.getSourceAggr() * oSelfBodystateEmotion.getSourceAggr();
 //                                        rLib = mrEmotionrecognitionPrimingLibido * oFoundEmotion.getSourceLibid() * oSelfBodystateEmotion.getSourceLibid();
-                                        //kollmann: alternative idea for priming calculation:
-                                        //          
-
-                                        rPle = primeCalc(oSelfBodystateEmotion.getSourcePleasure(), oFoundEmotion.getSourcePleasure(), mrEmotionrecognitionPrimingPleasure);
-                                        rUnple = primeCalc(oSelfBodystateEmotion.getSourceUnpleasure(), oFoundEmotion.getSourceUnpleasure(), mrEmotionrecognitionPrimingUnpleasure);
-                                        rAggr = primeCalc(oSelfBodystateEmotion.getSourceAggr(), oFoundEmotion.getSourceAggr(), mrEmotionrecognitionPrimingAggression);
-                                        rLib = primeCalc(oSelfBodystateEmotion.getSourceLibid(), oFoundEmotion.getSourceLibid(), mrEmotionrecognitionPrimingLibido);
+                                        
+                                        if(oSelfBodystateEmotion == null && moFormerSelfBodystateEmotion != null) {
+                                            oSelfBodystateEmotion = moFormerSelfBodystateEmotion;
+                                            log.error("Bodystate {} does not have any emotion associated with it - this should never happen, for now, we will use the last known emotion associated to the last bodystate. But this should be fixed!");
+                                        } else {
+                                            
+                                            moFormerSelfBodystateEmotion = oSelfBodystateEmotion.flatCopy();
+                                            
+                                            rPle = primeCalc(oSelfBodystateEmotion.getSourcePleasure(), oFoundEmotion.getSourcePleasure(), mrEmotionrecognitionPrimingPleasure);
+                                            rUnple = primeCalc(oSelfBodystateEmotion.getSourceUnpleasure(), oFoundEmotion.getSourceUnpleasure(), mrEmotionrecognitionPrimingUnpleasure);
+                                            rAggr = primeCalc(oSelfBodystateEmotion.getSourceAggr(), oFoundEmotion.getSourceAggr(), mrEmotionrecognitionPrimingAggression);
+                                            rLib = primeCalc(oSelfBodystateEmotion.getSourceLibid(), oFoundEmotion.getSourceLibid(), mrEmotionrecognitionPrimingLibido);
                                       
                                         //kollmann: intensity does not need to be primed as long as intensity does not have influence in PP
                                         //rIntensity = mrEmotionrecognitionPrimingIntensity * oFoundEmotion.getEmotionIntensity() * oSelfBodystateEmotion.getEmotionIntensity();
                                         //oFoundEmotion.setEmotionIntensity(rIntensity);
                                         
-                                        oFoundEmotion.setSourcePleasure(rPle);
-                                        oFoundEmotion.setSourceUnpleasure(rUnple);
-                                        oFoundEmotion.setSourceAggr(rAggr);
-                                        oFoundEmotion.setSourceLibid(rLib);   
+                                            oFoundEmotion.setSourcePleasure(rPle);
+                                            oFoundEmotion.setSourceUnpleasure(rUnple);
+                                            oFoundEmotion.setSourceAggr(rAggr);
+                                            oFoundEmotion.setSourceLibid(rLib);
+                                        }
                                     }
                                         
                                 }
