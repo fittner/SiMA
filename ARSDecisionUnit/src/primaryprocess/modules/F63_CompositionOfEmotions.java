@@ -9,6 +9,7 @@ package primaryprocess.modules;
 import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorCombinedTimeChart;
 import inspector.interfaces.itfInspectorGenericTimeChart;
+import inspector.interfaces.itfInspectorMultipleBarChart;
 import inspector.interfaces.itfInspectorStackedAreaChart;
 
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ import base.tools.toText;
  * 07.06.2012, 15:47:11
  */
 public class F63_CompositionOfEmotions extends clsModuleBase 
-					implements  itfInspectorGenericTimeChart, I5_3_receive, I5_10_receive, I5_21_send,itfInspectorCombinedTimeChart, itfInspectorStackedAreaChart {
+					implements  itfInspectorGenericTimeChart, I5_3_receive, I5_10_receive, I5_21_send,itfInspectorCombinedTimeChart, itfInspectorStackedAreaChart, itfInspectorMultipleBarChart{
 
 	//Statics for the module
 	public static final String P_MODULENUMBER = "63";
@@ -122,6 +123,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
     private double mrInfluenceRememberedImages;
     private double mrInfluenceDrivesOnPerceivedObjects;
     private double mrInfluenceCurrentDrives;
+    
+    private clsEmotion moAgentAttributedEmotion = null;
+    private clsEmotion moAgentEmotionValuation = null;
+    private clsEmotion moAgentTransferedEmotion = null;
     
 	// koller 
     private double mrEmotionrecognitionImpactFactor;
@@ -516,12 +521,24 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			    double rUnpleasureFactor = 0.0;
 			    
 			    if(oExperiencedEmotion != null) {
-                    //let the expierenced emotion have influence on the current emotion state
+			        
+			        //let the expierenced emotion have influence on the current emotion state
 			        rPerceptionPleasure_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourcePleasure(); 
                     rPerceptionUnpleasure_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceUnpleasure();
                     rPerceptionLibid_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceLibid();
                     rPerceptionAggr_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceAggr();
 			        
+                    if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
+                        moAgentEmotionValuation = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,
+                                rPerceptionPleasure_EXP,
+                                rPerceptionUnpleasure_EXP,
+                                rPerceptionLibid_EXP,
+                                rPerceptionAggr_EXP);
+                        //moAgentEmotionValuation = oExperiencedEmotion.flatCopy();
+                    }
+                    
+                    
+                    
                     //rPositiveInfluenceFactor = oExperiencedEmotion.getSourcePleasure() / (oExperiencedEmotion.getSourcePleasure() + oExperiencedEmotion.getSourceUnpleasure());
 
                     //calculate scaled transfer factors so their sum does not exceed 1.0
@@ -539,6 +556,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                     double rTransferAggressive = (mrPerceptionAggressiveImpactFactor*oEmotionFromBodystate.getSourceAggr()) * rPleasureFactor;
                     double rTransferLibidinous = (mrPerceptionLibidinousImpactFactor*oEmotionFromBodystate.getSourceLibid()) * rPleasureFactor;
                     
+                    if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
+//                        moAgentAttributedEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,
+//                                mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure(),
+//                                mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceUnpleasure(),
+//                                mrPerceptionAggressiveImpactFactor*oEmotionFromBodystate.getSourceAggr(),
+//                                mrPerceptionLibidinousImpactFactor*oEmotionFromBodystate.getSourceLibid());
+                        
+                        moAgentAttributedEmotion = oEmotionFromBodystate.flatCopy();
+                    }
+                    
                     //now the "reversed" transfers
                     rTransferPleasure += mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceUnpleasure() * rUnpleasureFactor;
                     rTransferUnpleasure += mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure() * rUnpleasureFactor;
@@ -548,7 +575,15 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                     rPerceptionPleasure_BS = mrEmotionrecognitionImpactFactor * rTransferPleasure;
                     rPerceptionUnpleasure_BS = mrEmotionrecognitionImpactFactor * rTransferUnpleasure;
                     rPerceptionLibid_BS = mrEmotionrecognitionImpactFactor * rTransferLibidinous; ;
-                    rPerceptionAggr_BS = mrEmotionrecognitionImpactFactor * rTransferAggressive;    
+                    rPerceptionAggr_BS = mrEmotionrecognitionImpactFactor * rTransferAggressive;
+                    
+                    if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
+                        moAgentTransferedEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,
+                                rPerceptionPleasure_BS,
+                                rPerceptionUnpleasure_BS,
+                                rPerceptionLibid_BS,
+                                rPerceptionAggr_BS);
+                    }
                 }
 			}
         }
@@ -1208,5 +1243,95 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         oData.add("Memorized Emotions - Situations");
 
         return oData;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 10.07.2015 11:40:16
+     * 
+     * @see inspector.interfaces.itfInspectorMultipleBarChart#getBarChartTitle(java.lang.String)
+     */
+    @Override
+    public String getBarChartTitle(String poLabel) {
+        return poLabel;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 10.07.2015 11:40:16
+     * 
+     * @see inspector.interfaces.itfInspectorMultipleBarChart#getBarChartData(java.lang.String)
+     */
+    @Override
+    public ArrayList<ArrayList<Double>> getBarChartData(String poLabel) {
+        ArrayList<ArrayList<Double>> oOuterData = new ArrayList<ArrayList<Double>>();
+        
+        if(moAgentAttributedEmotion != null && moAgentEmotionValuation != null && moAgentTransferedEmotion != null)
+        {
+            switch(poLabel) {
+            case "Perceived":
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourcePleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceUnpleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceAggr())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceLibid())));
+                break;
+            case "Evaluation":
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourcePleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceUnpleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceAggr())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceLibid())));
+                break;
+            case "Transfered":
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourcePleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceUnpleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceAggr())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceLibid())));
+                break;
+            }
+        } else {
+            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+        }
+        
+        return oOuterData;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 10.07.2015 11:40:16
+     * 
+     * @see inspector.interfaces.itfInspectorMultipleBarChart#getBarChartCategoryCaptions(java.lang.String)
+     */
+    @Override
+    public ArrayList<String> getBarChartCategoryCaptions(String poLabel) {
+        ArrayList<String> oCaptions = new ArrayList<String>();
+        
+        if(!poLabel.isEmpty()) {
+            oCaptions.add("Pleasure");
+            oCaptions.add("Unpleasure");
+            oCaptions.add("Aggressive");
+            oCaptions.add("Libidinous");
+        }
+        
+        return oCaptions;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 10.07.2015 11:40:16
+     * 
+     * @see inspector.interfaces.itfInspectorMultipleBarChart#getBarChartColumnCaptions(java.lang.String)
+     */
+    @Override
+    public ArrayList<String> getBarChartColumnCaptions(String poLabel) {
+        ArrayList<String> oCaptions = new ArrayList<String>();
+        
+        if(!poLabel.isEmpty()) {
+            oCaptions.add("Value");
+        }
+        
+        return oCaptions;
     }
 }
