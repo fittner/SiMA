@@ -573,6 +573,11 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	    defenseMechanism_Displacement(moForbiddenDrives_Input);
 	    
 	    if (conflictTension <= 0.5) {
+	        if(moEgoStrength >= 0.35) {
+	            defenseMechanism_Sublimation(moForbiddenDrives_Input);
+	        }
+	        else NoDefenseIsDone();
+	        /* normal calibration (for scenarios)
 	        if (moEgoStrength < 0.15) { 
 	            defenseMechanism_Turning_Against_Self (moForbiddenDrives_Input); 
 	                                
@@ -585,7 +590,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	             *    Since Drive Source in ARS is Organ we use projection to protect ARSIN From  Turning against self if drive aim such as EAT and Bite
 	             *  
 	             */
-	            ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
+	         /*   ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
 	                     
 	            for(clsDriveMesh Drive_After_Turning_Against_Self: oMatchingDrives){
 	                if(Drive_After_Turning_Against_Self.getActualDriveAim().getContent().equals("EAT") ||
@@ -593,9 +598,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	                    Projection(Drive_After_Turning_Against_Self);
 	            }
 	        }
-	        else if (moEgoStrength < 0.25) ;//Das ist nur für UC1 deaktiviert. Sollte man wieder aktivieren. Repression funktioniert einwandfrei. //defenseMechanism_Repression(moForbiddenDrives_Input);
+	        else if (moEgoStrength < 0.25) ; ///Das ist nur für UC1 deaktiviert. Sollte man wieder aktivieren. Repression funktioniert einwandfrei. //defenseMechanism_Repression(moForbiddenDrives_Input);
 	        else if (moEgoStrength < 0.35) defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
- 	        else                           defenseMechanism_Sublimation(moForbiddenDrives_Input);
+ 	        else                           defenseMechanism_Sublimation(moForbiddenDrives_Input); */
 	        
 	    }       
 	    else {
@@ -1275,8 +1280,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	        
 	        ArrayList<clsDriveMesh> oForbiddenDriveMeshes = findInDriveList(moForbiddenDrives_Input);
 	        // parameter 0.1 in expression moEgoStrength + 0.1 is for the calibration (arbitrary)
-	        double rTransfer = calculateConflictTension(moForbiddenDrives_Input)*(moEgoStrength - 0.1);
-	        
+	         //old conflict tention calculation 
+	        //double rTransfer = calculateConflictTension(moForbiddenDrives_Input)*(moEgoStrength-0.1);
+	        double rTransfer = calculateConflictTension(moForbiddenDrives_Input)*(moEgoStrength*1.5);
 	        if (!oForbiddenDriveMeshes.isEmpty()) {
 	            for (clsDriveMesh oForbiddenDriveMesh : oForbiddenDriveMeshes) {
 	                moDriveList_Output.remove(oForbiddenDriveMesh);
