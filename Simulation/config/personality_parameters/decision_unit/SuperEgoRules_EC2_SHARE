@@ -1,6 +1,6 @@
 -- Friedrich 2014-02-19
 -- Super Ego rule for UC1: "Du darfst nicht wütend sein!"
-SuperEgoStrength 0,8;eEmotionType ANGER;QoA 0.1 0.99#eEmotionType ANGER
+SuperEgoStrength 0,8;eEmotionType ANGER;QoA 0.01 0.99#eEmotionType ANGER
 
 -- Olga 2015-03-26
 -- Super Ego rule for UC2: "You have to share the schnitzel with your brother"
