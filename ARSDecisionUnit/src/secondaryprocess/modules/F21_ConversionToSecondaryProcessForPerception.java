@@ -55,12 +55,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	
     private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
     private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
-    private static final String P_INFLUENCE_FACTOR_DRIVEDEMAND = "INFLUENCE_FACTOR_DRIVEDEMAND";
-	            
+                
 	private double mrModuleStrength;
     private double mrInitialRequestIntensity;
-    private double mrDriveDemandImpact;
-	
+    
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	private ArrayList<String> Test = new ArrayList<String>();
@@ -117,8 +115,6 @@ public class F21_ConversionToSecondaryProcessForPerception extends
         
 		applyProperties(poPrefix, poProp);
 		
-		mrDriveDemandImpact=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_INFLUENCE_FACTOR_DRIVEDEMAND).getParameterDouble();
-        
 		this.moShortTermMemory = poShortTermMemory;
 		this.moEnvironmentalImageStorage = poTempLocalizationStorage;	
 	}
@@ -231,7 +227,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// 5. Within the WPM-Structure, the allocation of images to acts is
 		// already done. Each image except the PI
 	    //long start = System.currentTimeMillis();
-		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = DataStructureConversion.getWordPresentationsForImages(this.getLongTermMemory(), moPerceptionalMesh_IN, mrDriveDemandImpact);
+		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = DataStructureConversion.getWordPresentationsForImages(this.getLongTermMemory(), moPerceptionalMesh_IN);
 
 		//System.out.println("Time2: " + (System.currentTimeMillis()- start));
 		

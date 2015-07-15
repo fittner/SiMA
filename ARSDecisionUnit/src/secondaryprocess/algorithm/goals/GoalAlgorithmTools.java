@@ -391,7 +391,7 @@ public class GoalAlgorithmTools {
      * @param aimOfDrive
      * @return
      */
-    private static boolean applyAimOfDriveOnGoal(clsWordPresentationMeshPossibleGoal selectableGoal, clsWordPresentationMeshAimOfDrive aimOfDrive) {
+    private static boolean applyAimOfDriveOnGoal(clsWordPresentationMeshPossibleGoal selectableGoal, clsWordPresentationMeshAimOfDrive aimOfDrive, double prDriveImpact) {
         boolean goalMatch = false;
         
         //1. If the drive is the same
@@ -399,9 +399,9 @@ public class GoalAlgorithmTools {
             goalMatch=true;
             //2. use the quota of affect of as far as the selectable goal can fulfill it
             if (selectableGoal.getPotentialDriveFulfillmentImportance()<=aimOfDrive.getTotalImportance()) {
-                selectableGoal.setDriveDemandImportance(selectableGoal.getPotentialDriveFulfillmentImportance());
+                selectableGoal.setDriveDemandImportance(prDriveImpact * selectableGoal.getPotentialDriveFulfillmentImportance());
             } else {
-                selectableGoal.setDriveDemandImportance(aimOfDrive.getTotalImportance());
+                selectableGoal.setDriveDemandImportance(prDriveImpact * aimOfDrive.getTotalImportance());
             }
         }
         
@@ -436,7 +436,7 @@ public class GoalAlgorithmTools {
      * @param pnNumberOfGoalsToPass
      * @return
      */
-    public static void applyDriveDemandsOnDriveGoal (ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDriveListGoalList) {
+    public static void applyDriveDemandsOnDriveGoal (ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDriveListGoalList, double prDriveImpact) {
         
         //ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
         
@@ -446,7 +446,7 @@ public class GoalAlgorithmTools {
             
             //Apply effect of drive to selectable goal on each possible goal
             for (clsWordPresentationMeshPossibleGoal selectableGoal : poSelectableGoalList) {
-                boolean goalMatch = applyAimOfDriveOnGoal(selectableGoal, oAimOfDrive);
+                boolean goalMatch = applyAimOfDriveOnGoal(selectableGoal, oAimOfDrive, prDriveImpact);
                 
                 //If at least one goal was found, set true
                 if (goalMatch==true) {

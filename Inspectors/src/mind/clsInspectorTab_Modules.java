@@ -63,6 +63,7 @@ import mind.autocreated.cls_DescriptionInspector;
 import mind.autocreated.cls_GenericActivityTimeChartInspector;
 import mind.autocreated.cls_GenericDynamicTimeChartInspector;
 import mind.autocreated.cls_GenericTimeChartInspector;
+import mind.autocreated.cls_MultipleBarChartsInspector;
 import mind.autocreated.cls_SpiderWebChartInspector;
 import mind.autocreated.cls_StackedAreaChartInspector;
 import mind.autocreated.cls_StackedBarChartInspector;
@@ -294,7 +295,7 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 			
 			if (oModule instanceof itfInspectorSpiderWebChart) { 
 				poTI.addInspector(
-						new cls_SpiderWebChartInspector((itfInspectorSpiderWebChart) oModule),	
+						new cls_SpiderWebChartInspector((itfInspectorSpiderWebChart) oModule, ""),	
 						"Spider Chart");
 			}
 			
@@ -483,6 +484,12 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 			oContainer.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) poPA.moF63_CompositionOfEmotions,
 					"Libidinous", "Pleasure Development", "LIBIDINOUS"));
 			poTI.addInspector(oContainer, "Emotion Development");
+			oContainer = new cls_CombinedGenericChart();
+			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "Perceived"));
+			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "Evaluation"));
+			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "Transfered"));
+			oContainer.setLayout(new BoxLayout(oContainer, BoxLayout.X_AXIS));
+			poTI.addInspector(oContainer, "Emotion Transfer");
 		}
 	}
 	

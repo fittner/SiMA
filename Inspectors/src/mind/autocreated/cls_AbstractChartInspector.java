@@ -29,7 +29,8 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 	protected String moChartName;
 	protected ChartPanel moChartPanel;
 	
-
+	protected double moHeightRelation = 3.0;
+	protected double moWidthRelation = 2.0;
 	
 	
 	public cls_AbstractChartInspector(String poChartName){
@@ -37,14 +38,14 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 		ComponentListener compList = new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent arg0) {
-				double maxWidth= getSize().getHeight()*3/2;
-				double maxHeight= getSize().getWidth()*2/3;
+				double maxWidth= getSize().getHeight()*moHeightRelation/moWidthRelation;
+				double maxHeight= getSize().getWidth()*moWidthRelation/moHeightRelation;
 				Dimension iDimension = getSize();
 				if(iDimension.getHeight() >= maxHeight){
-					iDimension.setSize(maxHeight*3/2, maxHeight);
+					iDimension.setSize(maxHeight*moHeightRelation/moWidthRelation, maxHeight);
 				}
 				else if (iDimension.getWidth() >= maxWidth){
-					iDimension.setSize(maxWidth, maxWidth*2/3);
+					iDimension.setSize(maxWidth, maxWidth*moWidthRelation/moHeightRelation);
 				}
 				moChartPanel.setPreferredSize(iDimension);
 			}
