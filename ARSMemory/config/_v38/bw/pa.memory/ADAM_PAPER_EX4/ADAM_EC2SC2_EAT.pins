@@ -1,4 +1,4 @@
-; Wed Jul 15 16:08:02 GMT 2015
+; Thu Jul 16 16:48:32 CEST 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1923,13 +1923,6 @@
 		[EMOTION%3ABODO%3ADISLIKE])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AS01_BODO_CAKE] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AIMAGE%3AS01_BODO_CAKE]
-		[EMOTION%3ABODO_CAKE])
-	(weight 1.0 1.0))
-
 ([ASSOCIATIONEMOTION%3ASELF%3ALIKE] of  ASSOCIATIONEMOTION
 
 	(element
@@ -3602,7 +3595,7 @@
 	(sourceAggr 0.3)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.6)
+	(sourceUnpleasure 0.8)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -3617,25 +3610,14 @@
 	(value "JOY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3ABODO_CAKE] of  EMOTION
-
-	(emotionIntensity 1.0)
-	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.4)
-	(value "JOY")
-	(value_type "MEMORIZEDEMOTION"))
-
 ([EMOTION%3ASELF%3ABODYSTATE%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.8)
+	(emotionIntensity 0.2)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.7)
+	(sourceAggr 0.2)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.7)
+	(sourceUnpleasure 0.2)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
