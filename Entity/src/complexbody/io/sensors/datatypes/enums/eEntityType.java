@@ -20,7 +20,7 @@ public enum eEntityType {
 	CAKE,
 	APPLE,
 	TOMATO,
-	SCHNITZL,
+	SCHNITZEL, //MJ
 	STONE,
 	WALL,
 	FOOD,
