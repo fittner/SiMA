@@ -38,7 +38,7 @@ public enum eAction {
 	BEAT,
 	DIVIDE,
 	GIVE,
-	
+	WAIT,
 	//Actions with Objects
 	GOTO,
 	FLEE,

@@ -65,7 +65,7 @@ import testfunctions.clsTester;
 public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2_6_receive, I5_6_send, itfGraphInterface {
 	public static final String P_MODULENUMBER = "46";
 	public static final String P_MATCH_THRESHOLD = "MATCH_THRESHOLD";
-	
+	 
 	//FIXME: Connect to neutral drive energy
 	private static final double PSYCHICINTENSITYFORSPREADINGACTIVATION = 30.0;
 	private static final int MAXDIRECTACTIVATIONFORSPREADINGACTIVATION = 30;

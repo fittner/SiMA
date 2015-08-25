@@ -1,4 +1,4 @@
-; Wed Jul 22 16:50:50 GMT 2015
+; Tue Aug 18 16:22:31 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3751,6 +3751,14 @@
 ([HANDS] of  %3ASTANDARD-CLASS
 
 	(%3ASLOT-CONSTRAINTS [ARSi10_Class8]))
+
+([ISOWNED%3ACAKE] of  ISOWNED
+
+	(value "CAKE"))
+
+([ISOWNER%3ABODO] of  ISOWNER
+
+	(value "BODO"))
 
 ([PRI%3AA06_BEAT_BODO_L01%3ABODO] of  PRIMARYINSTANCEOBJECT
 

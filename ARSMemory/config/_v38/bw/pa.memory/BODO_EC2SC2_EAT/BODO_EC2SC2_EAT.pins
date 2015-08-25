@@ -1,4 +1,4 @@
-; Tue Jul 14 09:31:23 GMT 2015
+; Sun Aug 23 12:32:21 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -907,7 +907,7 @@
 		[PRI%3AACTION%3AA06_BEAT_ADAM_L01_I01%3AGOTO])
 	(weight 1.0 1.0))
 
-([AP%3AA06_BEAT_ADAM_L01_I01%3AACTION%3AGOTO%3ABODO] of  ASSOCIATIONPRI
+([AP%3AA06_BEAT_ADAM_L01_I01%3AACTION%3AGOTO%3AADAM] of  ASSOCIATIONPRI
 
 	(element
 		[PRI%3AACTION%3AA06_BEAT_ADAM_L01_I01%3AGOTO]
@@ -935,7 +935,7 @@
 		[PRI%3AACTION%3AA10_DIVIDE_CAKE_L01_I04%3AGOTO])
 	(weight 1.0 1.0))
 
-([AP%3AA10_DIVIDE_CAKE_L01_I04_ACTION%3AGOTO%3ABODO] of  ASSOCIATIONPRI
+([AP%3AA10_DIVIDE_CAKE_L01_I04_ACTION%3AGOTO%3AADAM] of  ASSOCIATIONPRI
 
 	(element
 		[PRI%3AACTION%3AA10_DIVIDE_CAKE_L01_I04%3AGOTO]
@@ -991,14 +991,14 @@
 		[PRI%3AACTION%3AA13_GIVE_CAKE_L01_I03%3AGOTO])
 	(weight 1.0 1.0))
 
-([AP%3AA13_GIVE_CAKE_L01_I03%3AACTION%3AGOTO%3ABODO] of  ASSOCIATIONPRI
+([AP%3AA13_GIVE_CAKE_L01_I03%3AACTION%3AGOTO%3AADAM] of  ASSOCIATIONPRI
 
 	(element
 		[PRI%3AACTION%3AA13_GIVE_CAKE_L01_I03%3AGOTO]
 		[PRI%3AA13_GIVE_CAKE_L01_I03%3AADAM])
 	(weight 1.0 1.0))
 
-([AP%3ABODO%3ACARL] of  ASSOCIATIONPRI
+([AP%3AADAM%3ACARL] of  ASSOCIATIONPRI
 
 	(element
 		[TPM%3AENTITY%3AARSIN%3AADAM]
@@ -1916,18 +1916,39 @@
 		[EMOTION%3AA14_FLEE_ADAM_L01_I02%3AANXIETY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AS01_ADAM_CAKE] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AADAM%3AELATION] of  ASSOCIATIONEMOTION
 
 	(element
-		[TPM%3AIMAGE%3AS01_ADAM_CAKE]
-		[EMOTION%3ABODO_CAKE])
+		[EMOTION%3AADAM%3AJOY]
+		[TPM%3AENTITY%3AARSIN%3AADAM])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3ASELF%3ALIKE] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AADAM%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AENTITY%3ASELF%3ASELF_BASIC]
-		[EMOTION%3ASELF%3ALIKE])
+		[EMOTION%3AADAM%3AJOY])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONEMOTION%3AS01_ADAM_CAKE_ANGER] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AS01_ADAM_CAKE]
+		[EMOTION%3AADAM_CAKE_JOY])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONEMOTION%3AS01_ADAM_CAKE_ELATION] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AS01_ADAM_CAKE]
+		[EMOTION%3AADAM_CAKE_ELATION])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONEMOTION%3AS01_ADAM_CAKE_JOY] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AS01_ADAM_CAKE]
+		[EMOTION%3AADAM_CAKE_JOY])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONPRI%3AA14_FLEE_ADAM_L01_I01%3AACTION%3AFLEE] of  ASSOCIATIONPRI
@@ -3249,7 +3270,7 @@
 
 ([EMOTION%3AA06_BEAT_ADAM_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.8)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3260,7 +3281,7 @@
 
 ([EMOTION%3AA06_BEAT_ADAM_L01_I01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.8)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3271,7 +3292,7 @@
 
 ([EMOTION%3AA06_BEAT_ADAM_L01_I02%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.8)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3282,7 +3303,7 @@
 
 ([EMOTION%3AA06_BEAT_ADAM_L01_I03%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.8)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3588,15 +3609,48 @@
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3ABODO_CAKE] of  EMOTION
+([EMOTION%3AADAM%3AELATION] of  EMOTION
 
-	(emotionIntensity 1.0)
+	(emotionIntensity 0.05)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.0)
+	(sourcePleasure 0.5)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3AADAM%3AJOY] of  EMOTION
+
+	(emotionIntensity 0.05)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.5)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3AADAM_CAKE_ELATION] of  EMOTION
+
+	(emotionIntensity 0.5)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.4)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.7)
+	(sourceUnpleasure 0.0)
+	(value "ELATION")
+	(value_type "MEMORIZEDEMOTION"))
+
+([EMOTION%3AADAM_CAKE_JOY] of  EMOTION
+
+	(emotionIntensity 0.5)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.8)
+	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)
-	(value "ANGER")
+	(value "ELATION")
 	(value_type "MEMORIZEDEMOTION"))
 
 ([EMOTION%3ASELF%3ABODYSTATE%3AANGER] of  EMOTION
@@ -3656,7 +3710,7 @@
 
 ([EMOTION%3ASELF%3ALIKE] of  EMOTION
 
-	(emotionIntensity 0.0)
+	(emotionIntensity 0.1)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -5470,5 +5524,5 @@
 
 ([WPM%3AIMAGE%3AS01_ADAM_CAKE] of  WPM%3AIMAGE
 
-	(value "S01_BODO_CAKE")
+	(value "S01_ADAM_CAKE")
 	(value_type "RI"))

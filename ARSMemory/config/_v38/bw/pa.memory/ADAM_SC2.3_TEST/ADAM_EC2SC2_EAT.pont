@@ -1,4 +1,4 @@
-; Sun Aug 23 12:32:21 GMT 2015
+; Tue Aug 18 16:22:30 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1255,6 +1255,36 @@
 (defclass NAME
 	(is-a ACTION_PROPERTIES)
 	(role concrete))
+
+(defclass OWNERSHIP
+	(is-a TP)
+	(role abstract))
+
+(defclass ISOWNER
+	(is-a OWNERSHIP)
+	(role concrete)
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(value "ISOWNER")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass ISOWNED
+	(is-a OWNERSHIP)
+	(role concrete)
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(value "ISOWNED")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
 
 (defclass WPM "Word presentation mesh"
 	(is-a USER)
