@@ -220,7 +220,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	
 	public String getBodystatesTextual() {
 	    String oText = "";
-	    
+	    String oOwnershipText = "";
 	    for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList) {
 	        if(oEntity.getContentType().equals(eContentType.ENTITY)) {
 	            //it's an entity, now check if it has a bodystate associated
@@ -234,12 +234,18 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	                    oText += "Bodystate at " + oEntity.getContent() + ": (WARN: might be associated on the wrong end of attribute association)\n";
                         oText += debugBodystate((clsThingPresentationMesh)oAssAttribute.getAssociationElementA());
                     }
+	                else if(oAssAttribute.getAssociationElementB().getContentType().equals(eContentType.ISOWNER)) {
+	                    oOwnershipText =   oEntity.getContent() +  " is owner of " + ((clsThingPresentation)(oAssAttribute.getAssociationElementB())).getContent() + "\n";
+                    }
+	                else if(oAssAttribute.getAssociationElementB().getContentType().equals(eContentType.ISOWNED)) {
+	                        oOwnershipText =   oEntity.getContent() +  " is owned by " + ((clsThingPresentation)(oAssAttribute.getAssociationElementB())).getContent() + "\n";
+	                }
 	            }
 	        }
 	    }
 	    
 	    oText += "\nBodystate emotion creation:\n" + moBodystateCreation;
-	    
+	    oText += oOwnershipText;
 	    return oText;
 	}
 	

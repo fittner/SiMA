@@ -75,6 +75,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	public static final String P_INFLUENCE_FACTOR_FEELINGS = "INFLUENCE_FACTOR_FEELINGS";
 	public static final String P_INFLUENCE_FACTOR_GOAL = "INFLUENCE_FACTOR_AIM";
 	public static final String P_INFLUENCE_FACTOR_DRIVEDEMAND = "INFLUENCE_FACTOR_DRIVEDEMAND";
+
 	
 	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_IN;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
@@ -136,15 +137,15 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
         
-        
+
 		applyProperties(poPrefix, poProp);	
 		
-		mnNumberOfGoalsToPass=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_GOAL_PASS).getParameterInt();
-		mrAffectThresold=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AFFECT_THRESHOLD).getParameterDouble();
-		mnAvoidIntensity=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AVOIC_INTENSITY).getParameterInt();
-		mrFeelingsImpact=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_INFLUENCE_FACTOR_FEELINGS).getParameterDouble();
-		mrAimImpact=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, P_INFLUENCE_FACTOR_GOAL).getParameterDouble();
-		mrDriveImpact=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, P_INFLUENCE_FACTOR_DRIVEDEMAND).getParameterDouble();
+		mnNumberOfGoalsToPass = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_GOAL_PASS).getParameterInt();
+		mrAffectThresold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AFFECT_THRESHOLD).getParameterDouble();
+		mnAvoidIntensity = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AVOIC_INTENSITY).getParameterInt();
+		mrFeelingsImpact = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_INFLUENCE_FACTOR_FEELINGS).getParameterDouble();
+		mrAimImpact = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, P_INFLUENCE_FACTOR_GOAL).getParameterDouble();
+		mrDriveImpact = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, P_INFLUENCE_FACTOR_DRIVEDEMAND).getParameterDouble();
 		
 		//Get short time memory
 		moShortTermMemory = poShortTimeMemory;

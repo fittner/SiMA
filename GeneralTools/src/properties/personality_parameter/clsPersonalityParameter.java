@@ -90,6 +90,7 @@ public class clsPersonalityParameter {
 		return Integer.parseInt(moValue);
 	}
 	
+	
 	/** 
 	 * Returns the value of the parameter parsed to boolean
 	 *
