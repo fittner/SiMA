@@ -120,7 +120,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         if(mbInteractionDebug)
             this.mrWaitThreshold = poPersonalityParameterContainer.getPersonalityParameter("F29", P_WAIT_THRESHOLD).getParameterDouble();
         else
-            this.mrWaitThreshold = 0;
+            this.mrWaitThreshold = 0.0;
         
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
