@@ -227,14 +227,14 @@ public class clsMeshTools {
 			}
 		}
 		
-		if (pbStopAtFirstMatch==false || poRetVal.isEmpty()==true) {	//=NOT Stopatfirstmatch=true AND oRetVal is not empty
+		if (pbStopAtFirstMatch == false || poRetVal.isEmpty() == true) {	//=NOT Stopatfirstmatch=true AND oRetVal is not empty
 			
 			//Add the substructures of the internal associations
-			if ((pnLevel>0) || (pnLevel==-1)) {
+			if ((pnLevel > 0) || (pnLevel == -1)) {
 				for (clsAssociation oAss : poMesh.getInternalAssociatedContent()) {
-					if (poAddedElements.contains(oAss.getLeafElement())==false && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
+					if (poAddedElements.contains(oAss.getLeafElement()) == false && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
 						searchDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeFilterList, pbStopAtFirstMatch, pnLevel-1);
-					} else if (poAddedElements.contains(oAss.getRootElement())==false && oAss.getRootElement() instanceof clsThingPresentationMesh) {
+					} else if (poAddedElements.contains(oAss.getRootElement()) == false && oAss.getRootElement() instanceof clsThingPresentationMesh) {
 						searchDataStructureInTPM((clsThingPresentationMesh) oAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentTypeFilterList, pbStopAtFirstMatch, pnLevel-1);
 					}
 				}

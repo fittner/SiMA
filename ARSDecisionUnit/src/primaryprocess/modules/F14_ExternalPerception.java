@@ -20,6 +20,7 @@ import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
 import testfunctions.clsTester;
 import memorymgmt.enums.PsychicSpreadingActivationMode;
+import memorymgmt.enums.eAction;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -136,6 +137,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     private String moBodystateCreation = "";
     ArrayList<clsThingPresentationMesh> moSearchPattern; //kollmann: store this globally to have access to the search pattern for inspection
     
+    private ArrayList<clsThingPresentationMesh> oCurrentActions = new ArrayList<clsThingPresentationMesh>();
     
 	/**
 	 * Constructor of F14, nothing unusual
@@ -158,7 +160,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         mrEmotionrecognitionPrimingAggression =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_AGGRESSION).getParameterDouble();
         mrEmotionrecognitionPrimingLibido =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_LIBIDO).getParameterDouble();
         mrEmotionrecognitionPrimingIntensity =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_INTENSITY).getParameterDouble();
-        
 	}
 
 	/* (non-Javadoc)
@@ -376,6 +377,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    // 0. reset datastructures for inspectors
 	    moBodystateCreation = "";
 	    moSearchPattern = new ArrayList<clsThingPresentationMesh>();
+	    
 	    
         // 1. Convert Neurosymbols to TPMs
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = convertSymbolToTPM(moEnvironmentalData);
@@ -670,8 +672,68 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         
         // zhukova attributed ownership
         oOutputTPMs = determineObjectsOwnership(oOutputTPMs);
+        determineActionsOfAnAgents(oOutputTPMs);
+        
         
         return oOutputTPMs;
+	}
+	/* Zhukova 
+	 *  Determine the actions of an agent (alive entity): if the new action occur then add it into array of actions
+	 *  if none of actions was done before then the action will be wait
+	 *  if the entity is non-alive then the entity action should be "none"
+	 */
+	
+	
+	private void determineActionsOfAnAgents(ArrayList<clsThingPresentationMesh> poOutputTPMs) {
+	       clsThingPresentationMesh oAssociatedAction = null;
+	       boolean bAddAction = false;
+	       for(int index = 0; index < poOutputTPMs.size(); index++) {
+                bAddAction = false;
+	            if(isAlive(poOutputTPMs.get(index))) { 
+	                ArrayList<clsAssociation> oExternalAssociatedContent = poOutputTPMs.get(index).getExternalAssociatedContent();
+	                for(clsAssociation oExtAss : oExternalAssociatedContent) {
+	                    if(oExtAss.getAssociationElementB() instanceof clsThingPresentationMesh) { 
+	                        clsThingPresentationMesh oAssociatedTPM = (clsThingPresentationMesh) oExtAss.getAssociationElementB();
+	                        if(oAssociatedTPM.getContentType().equals(eContentType.ACTION)) {
+	                            bAddAction = true;
+	                            oAssociatedAction = oAssociatedTPM;
+	                            oCurrentActions.set(index, oAssociatedAction);
+	                            break;
+	                        }
+	                    }
+	                }
+	                if(!bAddAction) { 
+	                    if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) { 
+	                        oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.WAIT.toString() ));
+	                        bAddAction = true;     
+	                    }
+	                }
+	            }
+	            else { 
+	                if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) {
+	                    oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.NONE.toString() ));
+	                    bAddAction = true;
+	                }
+	            }
+	            if(bAddAction)
+	                if(index >= oCurrentActions.size())
+	                    oCurrentActions.add(index, oAssociatedAction);
+	                else
+	                    oCurrentActions.set(index, oAssociatedAction);
+
+	       }
+	       
+	       
+	}
+	
+	private boolean isAlive(clsThingPresentationMesh poTPM)  {
+	    for(clsAssociation oIntAss : poTPM.getInternalAssociatedContent()) { 
+            if(oIntAss.getAssociationElementB().getContentType().toString().equals("Alive")) {
+                clsThingPresentation associatedProperty = (clsThingPresentation)oIntAss.getAssociationElementB();
+                return Boolean.parseBoolean(associatedProperty.getContent().toString());	      
+	    }
+	    }
+	    return false;
 	}
 	
     /**
@@ -690,19 +752,12 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    ArrayList<clsThingPresentationMesh> oOutputTMPs = new ArrayList<clsThingPresentationMesh>();
 	    
 	    for(clsThingPresentationMesh oEntity : poOutputTPMs) {
-	        ArrayList<clsAssociation> oInternalAssociatedContent = oEntity.getInternalAssociatedContent();
-	        for(clsAssociation oIntAss : oInternalAssociatedContent) {
-	            if(oIntAss.getAssociationElementB().getContentType().toString().equals("Alive")) {
-	                clsThingPresentation associatedProperty = (clsThingPresentation)oIntAss.getAssociationElementB();
-	                if(associatedProperty.getContent().toString().equals("true")) {
-	                    oAliveEntities.add(oEntity);
-	                }
-	                else {
-	                    oInanimateEntities.add(oEntity);
-	                }
-	                break;
-	            }
-	        }
+	        if(isAlive(oEntity)) {    
+	            oAliveEntities.add(oEntity);
+	         }
+	         else {
+	             oInanimateEntities.add(oEntity);
+	         }     
 	    }
 	    
 	    for(clsThingPresentationMesh oInanimateEntity : oInanimateEntities) {
@@ -1284,7 +1339,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         String oBSID = "BodystateKey"; //BodystateID. When bodystates are processed, the function only needs to return one array filled with relevant associations. A hashmap with one key is only used to get the correct return type. 
 
 	
-		for (int i=0; i<prK; i++) {
+		for (int i = 0; i < prK; i++) {
 			
 			// weight qoA with category appropriateness
 			for (clsAssociation oAssDM: poSpecificCandidates.get(i).getMoAssociatedDataStructures()){
