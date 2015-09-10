@@ -160,7 +160,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 		String pre = clsProperties.addDot(poPrefix);
 		
 		clsProperties oProp = new clsProperties();
-		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+		oProp.setProperty(pre + P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	

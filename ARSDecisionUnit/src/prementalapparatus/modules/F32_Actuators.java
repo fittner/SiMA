@@ -80,7 +80,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 		String pre = clsProperties.addDot(poPrefix);
 		
 		clsProperties oProp = new clsProperties();
-		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+		oProp.setProperty(pre + P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	

@@ -169,7 +169,6 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	@Override
 	protected void send() {
 		send_I2_3(moSymbolData);
-		
 	}
 
 	/* (non-Javadoc)

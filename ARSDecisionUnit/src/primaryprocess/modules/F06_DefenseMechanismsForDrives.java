@@ -573,11 +573,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	    defenseMechanism_Displacement(moForbiddenDrives_Input);
 	    
 	    if (conflictTension <= 0.5) {
+	        /* used for paper
 	        if(moEgoStrength >= 0.35) {
 	            defenseMechanism_Sublimation(moForbiddenDrives_Input);
 	        }
-	        else NoDefenseIsDone();
-	        /* normal calibration (for scenarios)
+	        else NoDefenseIsDone();*/
+ 	        // normal calibration (for scenarios)
 	        if (moEgoStrength < 0.15) { 
 	            defenseMechanism_Turning_Against_Self (moForbiddenDrives_Input); 
 	                                
@@ -590,7 +591,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	             *    Since Drive Source in ARS is Organ we use projection to protect ARSIN From  Turning against self if drive aim such as EAT and Bite
 	             *  
 	             */
-	         /*   ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
+	            ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
 	                     
 	            for(clsDriveMesh Drive_After_Turning_Against_Self: oMatchingDrives){
 	                if(Drive_After_Turning_Against_Self.getActualDriveAim().getContent().equals("EAT") ||
@@ -600,7 +601,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	        }
 	        else if (moEgoStrength < 0.25) ; ///Das ist nur für UC1 deaktiviert. Sollte man wieder aktivieren. Repression funktioniert einwandfrei. //defenseMechanism_Repression(moForbiddenDrives_Input);
 	        else if (moEgoStrength < 0.35) defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
- 	        else                           defenseMechanism_Sublimation(moForbiddenDrives_Input); */
+ 	        else                           defenseMechanism_Sublimation(moForbiddenDrives_Input); 
 	        
 	    }       
 	    else {
@@ -1189,10 +1190,11 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oOppositeTP.put("SEXUAL_AROUSAL","SLEEP");
 		oOppositeTP.put("AGGRESSION","RELAX");
 			
-		defenseMechanism_ReactionFormation_Sublimation_Intellectualization(oForbiddenDrives_Input);
-		
-		 TimeReactionFormation=1.0;
-		 ReactionFormation++;
+		//defenseMechanism_ReactionFormation_Sublimation_Intellectualization(oForbiddenDrives_Input);
+		// using the same function as in sublimation (gradually reduced the QoA for )
+		defenceMechanismGradualSublimation(oForbiddenDrives_Input);
+		TimeReactionFormation=1.0;
+		ReactionFormation++;
 	}
 	
 	private void defenseMechanism_Sublimation (ArrayList<clsSuperEgoConflictDrive> oForbiddenDrives_Input){
@@ -1243,7 +1245,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
 			
 			
-		if (!oMatchingDrives.isEmpty())
+		    if (!oMatchingDrives.isEmpty())
 					
 			 
 			   for (clsDriveMesh oOneMatchingDrive : oMatchingDrives) {

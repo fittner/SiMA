@@ -323,8 +323,14 @@ public enum eContentType {
     //Control
     HASPHANTASYFLAG,
 	
+ // Ownership
+    ISOWNER,
+    ISOWNED,
 	//Expression
     Expression; //koller
+	
+	
+	
 	
 	public static eContentType getContentType(String poContentType) {
         

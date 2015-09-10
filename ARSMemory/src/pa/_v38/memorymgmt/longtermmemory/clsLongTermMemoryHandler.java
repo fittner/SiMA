@@ -96,13 +96,13 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		
 		ArrayList<clsThingPresentation> oPropertyList = new ArrayList<clsThingPresentation>();
 		//Shape
-		if (poShape!="") {
+		if (poShape != "") {
 			clsThingPresentation oShapeTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.ShapeType, poShape));
 			oPropertyList.add(oShapeTP);
 		}
 		
 		//Color
-		if (poColor!="") {
+		if (poColor != "") {
 			clsThingPresentation oColorTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.COLOR, poColor));
 			oPropertyList.add(oColorTP);
 		}

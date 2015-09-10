@@ -62,7 +62,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 		
 		clsProperties oProp = clsSensorActuatorBaseExt.getDefaultProperties(pre);
 
-		oProp.setProperty(pre+P_ENERGYRELATION, 0.01);
+		oProp.setProperty(pre + P_ENERGYRELATION, 0.01);
 		
 		return oProp;
 	}	
