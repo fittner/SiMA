@@ -1,4 +1,4 @@
-; Thu Sep 17 14:09:44 GMT 2015
+; Tue Aug 25 20:07:21 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -39,15 +39,15 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot object
-		(type INSTANCE)
-;+		(allowed-classes WPM%3AENTITY)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(multislot consequence
 		(type INSTANCE)
 ;+		(allowed-classes WP _OBSOLETE_ACT)
 		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot object
+		(type INSTANCE)
+;+		(allowed-classes WPM%3AENTITY)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot feeling
 		(type STRING)
@@ -55,6 +55,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot drive_source
@@ -74,14 +75,14 @@
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot predicate
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot precondition
 		(type INSTANCE)
 ;+		(allowed-classes WP WPM)
 		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot predicate
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot emotionIntensity
 		(type FLOAT)
@@ -108,29 +109,29 @@
 		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot sourceAggr
-		(type FLOAT)
-		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot Value
 ;+		(comment "EmotionType")
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot sourceAggr
+		(type FLOAT)
+		(default 0.0)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot sourceLibid
 		(type FLOAT)
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
 	(single-slot emotion
 		(type INSTANCE)
 ;+		(allowed-classes EMOTION)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot instance_association
+		(type INSTANCE)
+;+		(allowed-classes)
 		(create-accessor read-write))
 	(single-slot psychic_satisfaction
 		(type FLOAT)
@@ -138,16 +139,16 @@
 		(default 1.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(multislot element
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
 	(single-slot cathegory%3Aphalic
 ;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
 		(type FLOAT)
 		(range 0.0 1.0)
 		(default 0.0)
 ;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot element
-		(type INSTANCE)
-;+		(allowed-classes)
 		(create-accessor read-write))
 	(multislot weight
 		(type FLOAT)
@@ -175,9 +176,11 @@
 ;+		(value "DRIVEREPRESENTATION")
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot FeelingIntensity
+	(single-slot cathegory%3Agenital
+;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
 		(type FLOAT)
 		(range 0.0 1.0)
+		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot sourcePleasure
@@ -185,11 +188,9 @@
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot cathegory%3Agenital
-;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
+	(single-slot FeelingIntensity
 		(type FLOAT)
 		(range 0.0 1.0)
-		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot intensityDeviation
@@ -236,6 +237,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -248,6 +250,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ENTITY")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -516,6 +519,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -524,6 +528,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "RELATION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -531,13 +536,9 @@
 (defclass _OBSOLETE_WP%3AACTION
 	(is-a WP)
 	(role concrete)
-	(single-slot type
-		(type STRING)
-;+		(value "WP")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ACTION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -547,6 +548,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "LOCATION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -556,6 +558,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ENTITY")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -565,6 +568,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "INTENSITY")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -574,6 +578,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "CONTENT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -587,6 +592,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "DISTANCE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -596,6 +602,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "POSITION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -605,6 +612,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "CONDITION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -612,28 +620,28 @@
 (defclass _OBSOLETE_ACT
 	(is-a USER)
 	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot precondition
 		(type INSTANCE)
 ;+		(allowed-classes WP WPM)
 		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot consequence
 		(type INSTANCE)
 ;+		(allowed-classes WP _OBSOLETE_ACT)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot action
 		(type INSTANCE)
 ;+		(allowed-classes WPM%3AACTION)
 ;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
@@ -642,6 +650,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -669,6 +678,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -682,7 +692,23 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ASSOCIATIONATTRIBUTE")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass ASSOCIATIONTEMP
+	(is-a ASSOCIATION)
+	(role concrete)
+	(single-slot type
+		(type STRING)
+;+		(value "ASSOCIATIONTEMP")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+		(default "OWNERSHIP")
+;+		(value "ASSOCIATIONTEMP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -696,6 +722,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ASSOCIATIONWP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -716,6 +743,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ASSOCIATIONDM")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -735,6 +763,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ASSOCIATIONPRI")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -758,6 +787,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ASSOCIATIONSEC")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -772,6 +802,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ASSOCIATIONEMOTION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -786,35 +817,8 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ASSOCIATIONFEELING")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass ASSOCIATIONSPATIAL
-	(is-a ASSOCIATION)
-	(role concrete)
-	(single-slot type
-		(type STRING)
-;+		(value "ASSOCIATIONSPATIAL")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "ASSOCIATIONSPATIAL")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass ASSOCIATIONTEMP
-	(is-a ASSOCIATION)
-	(role concrete)
-	(single-slot type
-		(type STRING)
-;+		(value "ASSOCIATIONTEMP")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "ASSOCIATIONTEMP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -841,15 +845,20 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
 	(single-slot psychic_satisfaction
 		(type FLOAT)
 		(range 0.0 1.0)
 		(default 1.0)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot type
+		(type STRING)
+;+		(value "DM")
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot quotaOfAffect
 		(type FLOAT)
@@ -857,13 +866,9 @@
 		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot type
-		(type STRING)
-;+		(value "DM")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -945,13 +950,14 @@
 ;+		(value "AFFECT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot value_max
 		(type FLOAT)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+		(default "OWNERSHIP")
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass %3AUNDEFINED
@@ -1020,6 +1026,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -1032,6 +1039,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ACTION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1073,6 +1081,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "INTENSITY")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1082,6 +1091,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "PositionChange")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1095,6 +1105,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "POSITION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1108,6 +1119,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "DISTANCE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1125,6 +1137,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "TASTE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1134,6 +1147,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "TACTILE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1148,6 +1162,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "BUMP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1161,6 +1176,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "OLFACTORIC")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1175,6 +1191,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "CONSUMEABLE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1184,6 +1201,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ACOUSTIC")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1201,6 +1219,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ShapeType")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1214,6 +1233,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "Color")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1236,6 +1256,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "ACCELERATION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1245,6 +1266,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "RADIATION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1259,6 +1281,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(value "Alive")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -1274,6 +1297,32 @@
 (defclass NAME
 	(is-a ACTION_PROPERTIES)
 	(role concrete))
+
+(defclass OWNERSHIP
+	(is-a TP)
+	(role concrete)
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass OWNERSHIP_OBJECT
+	(is-a OWNERSHIP)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+		(default "OWNERSHIP_OBJECT")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass OWNERSHIP_OWNER
+	(is-a OWNERSHIP)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+		(default "OWNERSHIP_OWNER")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
 
 (defclass WPM "Word presentation mesh"
 	(is-a USER)
@@ -1301,26 +1350,17 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass WPM%3AIMAGE
 	(is-a WPM)
-	(role concrete)
-	(single-slot type
-		(type STRING)
-;+		(value "WPM")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
+	(role concrete))
 
 (defclass WPM%3AENTITY
 	(is-a WPM)
-	(role concrete)
-	(single-slot type
-		(type STRING)
-;+		(value "WPM")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
+	(role concrete))
 
 (defclass WPM%3AACTION
 	(is-a WPM)
@@ -1392,43 +1432,44 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass DOMAIN
 	(is-a USER)
 	(role concrete)
-	(single-slot value
-;+		(type ANY)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot precondition
 		(type INSTANCE)
 ;+		(allowed-classes WP WPM)
 		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot value
+;+		(type ANY)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot consequence
 		(type INSTANCE)
 ;+		(allowed-classes WP _OBSOLETE_ACT)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot action
 		(type INSTANCE)
 ;+		(allowed-classes WPM%3AACTION)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
+	(multislot instance_association
+		(type INSTANCE)
+;+		(allowed-classes)
 		(create-accessor read-write))
 	(single-slot emotion
 		(type INSTANCE)
 ;+		(allowed-classes EMOTION)
 ;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes)
 		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
@@ -1437,6 +1478,7 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -1447,15 +1489,15 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot feelingIntensity
 		(type FLOAT)
 		(range 0.0 1.0)
 		(default 0.0)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot instance_association
 		(type INSTANCE)
@@ -1472,5 +1514,6 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+		(default "OWNERSHIP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))

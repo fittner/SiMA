@@ -1,4 +1,4 @@
-; Thu Sep 17 14:09:44 GMT 2015
+; Thu Sep 17 14:15:26 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -999,10 +999,6 @@
 	(element
 		[TPM%3AENTITY%3AARSIN%3AADAM]
 		[TPM%3AENTITY%3AARSIN%3ACARL])
-	(weight 1.0 1.0))
-
-([AP%3ABEAT_SELF%3AACTION%3ABEAT] of  ASSOCIATIONPRI
-
 	(weight 1.0 1.0))
 
 ([AP%3AMOTHERS_BREAST%3ACAKE] of  ASSOCIATIONPRI

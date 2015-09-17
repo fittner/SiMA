@@ -18,7 +18,7 @@ public enum eContentType {
 	NULLOBJECT,
 	NOTHING,
 	EMPTYSPACE,
-	
+	RI_ACTION,
 	//---Images---//
 	PI,			//Perceived Image
 	RI,			//Remembered Image

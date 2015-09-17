@@ -43,6 +43,7 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
 import base.datatypes.clsAssociationEmotion;
+import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsAssociationSpatial;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
@@ -683,13 +684,16 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 *  if the entity is non-alive then the entity action should be "none"
 	 */
 	
-	
+	// if we do not have any association primary in the current perceive input then we either will take it from the previous round or (in case if there was any before)
+	// generate a new one
 	private void determineActionsOfAnAgents(ArrayList<clsThingPresentationMesh> poOutputTPMs) {
 	       clsThingPresentationMesh oAssociatedAction = null;
 	       boolean bAddAction = false;
 	       for(int index = 0; index < poOutputTPMs.size(); index++) {
                 bAddAction = false;
-	            if(isAlive(poOutputTPMs.get(index))) { 
+                clsThingPresentationMesh oTPM = poOutputTPMs.get(index);
+                // we can 
+	            if(isAlive(oTPM)) { 
 	                ArrayList<clsAssociation> oExternalAssociatedContent = poOutputTPMs.get(index).getExternalAssociatedContent();
 	                for(clsAssociation oExtAss : oExternalAssociatedContent) {
 	                    if(oExtAss.getAssociationElementB() instanceof clsThingPresentationMesh) { 
@@ -704,26 +708,29 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	                }
 	                if(!bAddAction) { 
 	                    if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) { 
-	                        oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.WAIT.toString() ));
-	                        bAddAction = true;     
+	                        oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.WAIT.toString() ));   
+	                    }
+	                    else {
+	                        oAssociatedAction = oCurrentActions.get(index);
 	                    }
 	                }
-	            }
-	            else { 
+	                clsAssociationPrimary oAssPr = clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.ASSOCIATIONPRI, oTPM, oAssociatedAction , 1.0);
+	                poOutputTPMs.get(index).addExternalAssociation(oAssPr);
+	            } else { 
 	                if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) {
 	                    oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.NONE.toString() ));
 	                    bAddAction = true;
 	                }
 	            }
-	            if(bAddAction)
+	            
+	            // add new action 
+	            
 	                if(index >= oCurrentActions.size())
 	                    oCurrentActions.add(index, oAssociatedAction);
 	                else
 	                    oCurrentActions.set(index, oAssociatedAction);
-
-	       }
-	       
-	       
+	            
+	       } 
 	}
 	
 	private boolean isAlive(clsThingPresentationMesh poTPM)  {
