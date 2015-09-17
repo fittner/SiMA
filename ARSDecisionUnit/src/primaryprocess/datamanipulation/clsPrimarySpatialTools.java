@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsAssociationSpatial;
 import base.datatypes.clsAssociationTime;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsEmotion;
@@ -51,51 +52,65 @@ public class clsPrimarySpatialTools {
 	 * @return
 	 */
 	public static double getImageMatch(clsThingPresentationMesh poPI, clsThingPresentationMesh poRI) {
+	    // we need to distiguish between images where do they appear in the same time or in the same space 
+	    boolean bIsSpatialRI = isSpatial(poRI);
+	    boolean bIsSpatialPI = false;
+	    
+	    if(bIsSpatialRI)  { 
+	        bIsSpatialPI = isSpatial(poPI);
+	    }
+	    
+	    if(bIsSpatialRI != bIsSpatialPI) return 0;
+        double rRetVal = 0;
+        double rEmotionImpactFactor = 0.5; // this factor defines how much influence the emotion match between PI and RI has on the total image match
+        double rEmotionMatch = 0;
+	    if(bIsSpatialRI && bIsSpatialPI) {
+	        rRetVal =  calculateImageMatchSpatial(poPI, poRI);
+	    }
 		//Matching: All Objects in RI are searched for in PI, which means that RI is the more generalized image 
-		double rRetVal = 0;
-		double rEmotionImpactFactor = 0.5; // this factor defines how much influence the emotion match between PI and RI has on the total image match
-		double rEmotionMatch = 0;
-		//Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
-		//Only references in the array
-		
-		
-		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
-		
-		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
-		
-		//Create position array for the RI
-		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRIPositionArray = getImageEntityPositions(poRI);
-		
-		//Sort the RI array for generalization, the least generalized first
-		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
-		
-		//Create new modified position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them
-		//Compare the RI-Array with the PA-Array and search for the closest matches between them
-		//In RI and in PI position elements with null are allowed to occur
-		ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> oRIPIMatchList = findMatchingEntities(oPISortedPositionArray, oRISortedPositionArray);
-		
-		//Add matching associations to the objects in the RI
-		//Add distanceassociations
-		
-		//addRIAssociations(oRIPIMatchList);
-		
-		//=== Perform system tests ===//
-		if (clsTester.getTester().isActivated()) {
-			try {
-				clsTester.getTester().exeTestAssociationAssignment(poRI);
-			} catch (Exception e) {
-				log.error("Systemtester has an error in addRIAssociations(oRIPIMatchList), poRI", e);
-			}
-		}
-		
-		//if the RI contains no entities at all, set the match value to 1, otherwise calculate the match
-		if(oRIPositionArray.isEmpty()) {
-		    rRetVal = 1;
-		} else {
-		    //Calculate the image match
-		    rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
-		}
-		
+	    else  {
+
+    		//Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
+    		//Only references in the array
+    		
+    		
+    		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
+    		
+    		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
+    		
+    		//Create position array for the RI
+    		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRIPositionArray = getImageEntityPositions(poRI);
+    		
+    		//Sort the RI array for generalization, the least generalized first
+    		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
+    		
+    		//Create new modified position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them
+    		//Compare the RI-Array with the PA-Array and search for the closest matches between them
+    		//In RI and in PI position elements with null are allowed to occur
+    		ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> oRIPIMatchList = findMatchingEntities(oPISortedPositionArray, oRISortedPositionArray);
+	    
+    		//Add matching associations to the objects in the RI
+    		//Add distanceassociations
+    		
+    		//addRIAssociations(oRIPIMatchList);
+    		
+    		//=== Perform system tests ===//
+    		if (clsTester.getTester().isActivated()) {
+    			try {
+    				clsTester.getTester().exeTestAssociationAssignment(poRI);
+    			} catch (Exception e) {
+    				log.error("Systemtester has an error in addRIAssociations(oRIPIMatchList), poRI", e);
+    			}
+    		}
+    		
+    		//if the RI contains no entities at all, set the match value to 1, otherwise calculate the match
+    		if(oRIPositionArray.isEmpty()) {
+    		    rRetVal = 1;
+    		} else {
+    		    //Calculate the image match
+    		    rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
+    		}
+	    }
 		//calculate emotion match of images
 		//get emotions from first image
 		clsEmotion oEmotionPI = clsEmotion.fromTPM(poPI);
@@ -110,8 +125,53 @@ public class clsPrimarySpatialTools {
 		return (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
 	}
 	
+    private static ArrayList<clsAssociation> getSpatialAssociations(clsThingPresentationMesh moImage) {
+        ArrayList<clsAssociation> oSpatialAssociations = new ArrayList<clsAssociation>();
+         if(moImage.getContent().equals("PI")){
+                ArrayList<clsAssociation> internalAssociatedContent = new ArrayList<clsAssociation>();
+                for(clsAssociation oAssExt : moImage.getInternalAssociatedContent()) {
+                    clsThingPresentationMesh  oElementB = (clsThingPresentationMesh)oAssExt.getAssociationElementB();
+                    if(oElementB.getContent().equals("EMPTYSPACE")) continue;
+                    ArrayList<clsAssociation> externalAssociatedContentTMP = oElementB.getExternalAssociatedContent();
+                    for(clsAssociation oAssExtTMP : externalAssociatedContentTMP)  {
+                       if(oAssExtTMP instanceof clsAssociationSpatial) { 
+                           oSpatialAssociations.add(oAssExtTMP);
+                        }
+                    }
+                }
+            }
+            else  {
+                ArrayList<clsAssociation> externalAssociatedContent = new ArrayList<clsAssociation>();
+                for(clsAssociation oAssExt : moImage.getExternalAssociatedContent()) {
+                    if(oAssExt instanceof clsAssociationSpatial) { 
+                        oSpatialAssociations.add(oAssExt);
+                    }
+                }
+                
+            }
+         return oSpatialAssociations;
+     }
 	
-	
+    private static double calculateImageMatchSpatial(clsThingPresentationMesh moPI, clsThingPresentationMesh moRI) { 
+        ArrayList<clsAssociation> oSpatialAssociationsmoPI = getSpatialAssociations(moPI);
+        ArrayList<clsAssociation> oSpatialAssociationsmoRI = getSpatialAssociations(moRI);
+        int numberOfMatchingAssociation = 0;
+        
+        for(clsAssociation oAssRI : oSpatialAssociationsmoRI) {
+            String oAssociatedElementRI = ((clsThingPresentationMesh)oAssRI.getAssociationElementA()).getContent();
+            for(clsAssociation oAssPI :oSpatialAssociationsmoPI) {
+                String oAssociatedElementPIA = ((clsThingPresentationMesh)oAssPI.getAssociationElementA()).getContent();
+                String oAssociatedElementPIB = ((clsThingPresentationMesh)oAssPI.getAssociationElementB()).getContent();
+                if(oAssociatedElementRI.equals(oAssociatedElementPIA) || oAssociatedElementRI.equals(oAssociatedElementPIB)) { 
+                    numberOfMatchingAssociation += 1;
+                    break;
+                }
+            }
+        }
+        if(numberOfMatchingAssociation == oSpatialAssociationsmoRI.size()) { return 1; }         
+        else {  return 0; } 
+    }
+    
 //	/**
 //	 * Get the position coordinates in X, Y intergers from thing presentations of a data structure in a container
 //	 * (wendt)
@@ -233,6 +293,34 @@ public class clsPrimarySpatialTools {
 		}
 		
 		return oRetVal;
+	}
+	// distinguish between spatial and temporable image 
+	public static boolean isSpatial(clsThingPresentationMesh moImage) {
+	    //return getSpatialAssociations(moImage) != null;
+	    
+	    if(moImage.getContent().equals("PI")){
+            ArrayList<clsAssociation> internalAssociatedContent = new ArrayList<clsAssociation>();
+            for(clsAssociation oAssExt : moImage.getInternalAssociatedContent()) {
+                clsThingPresentationMesh  oElementB = (clsThingPresentationMesh)oAssExt.getAssociationElementB();
+                if(oElementB.getContent().equals("EMPTYSPACE")) continue;
+                ArrayList<clsAssociation> externalAssociatedContentTMP = oElementB.getExternalAssociatedContent();
+                for(clsAssociation oAssExtTMP : externalAssociatedContentTMP)  {
+                   if(oAssExtTMP instanceof clsAssociationSpatial) { 
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+	    else  {
+	        ArrayList<clsAssociation> externalAssociatedContent = new ArrayList<clsAssociation>();
+	        for(clsAssociation oAssExt : moImage.getExternalAssociatedContent()) {
+	            if(oAssExt instanceof clsAssociationSpatial) { 
+	                return true;
+	            }
+	        }
+	        return false;
+	    }
 	}
 	
 //	/**

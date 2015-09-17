@@ -29,6 +29,7 @@ import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsAssociationFeeling;
 import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsAssociationSpatial;
 import base.datatypes.clsAssociationTime;
 import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsDataStructurePA;
@@ -167,7 +168,8 @@ public class clsOntologyLoader {
 				eDataType.EMOTION, 
 				eDataType.DOMAIN,
 				eDataType.ASSOCIATIONTEMP, 
-				eDataType.FEELING
+				eDataType.FEELING,
+				eDataType.ASSOCIATIONSPATIAL
 			};
 
 		/*
@@ -250,6 +252,9 @@ public class clsOntologyLoader {
 			createAssociation(poRootElement, poElement, poDataContainer);
 			break;
 		case ASSOCIATIONTEMP:
+			createAssociation(poRootElement, poElement, poDataContainer);
+			break;
+		case ASSOCIATIONSPATIAL:
 			createAssociation(poRootElement, poElement, poDataContainer);
 			break;
 		case ASSOCIATIONATTRIBUTE:
@@ -1213,6 +1218,13 @@ public class clsOntologyLoader {
 					(clsThingPresentationMesh) poElementA,
 					(clsThingPresentationMesh) poElementB);
 
+			
+		case ASSOCIATIONSPATIAL:
+			return new clsAssociationSpatial(
+					new clsTriple<Integer, eDataType, eContentType>(oID,
+							peElementType, peContentType),
+					(clsThingPresentationMesh) poElementA,
+					(clsThingPresentationMesh) poElementB);
 		case ASSOCIATIONDM:
 			oAssociationElements = evaluateElementOrder(poElementA, poElementB,
 					eDataType.DM);

@@ -349,7 +349,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		
 		//Get all objects from the localization
 		ArrayList<clsThingPresentationMesh> oPTPMList = poEnvironmentalImageStorage.getAllTPMFromEnhancedEnvironmentalImage();
-		ArrayList<clsThingPresentationMesh> oExtendEntityList = new ArrayList<clsThingPresentationMesh>();
+ 		ArrayList<clsThingPresentationMesh> oExtendEntityList = new ArrayList<clsThingPresentationMesh>();
 		
 		for(clsThingPresentationMesh oTPM : oPTPMList) {
 			//Check if the PI contains this type of object
@@ -511,7 +511,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
             }
         }
         
-        this.getLongTermMemory().executePsychicSpreadActivation(perceivedImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION, true, RECOGNIZEDIMAGEMULTIPLICATIONFACTOR, returnedPhantasyImageList);
+         this.getLongTermMemory().executePsychicSpreadActivation(perceivedImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION, true, RECOGNIZEDIMAGEMULTIPLICATIONFACTOR, returnedPhantasyImageList);
         
         //=== Perform system tests ===//
         if (clsTester.getTester().isActivated()) {

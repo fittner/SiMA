@@ -43,6 +43,7 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
 import base.datatypes.clsAssociationEmotion;
+import base.datatypes.clsAssociationSpatial;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
@@ -669,7 +670,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         }
         
         oOutputTPMs = PrimingBodystates(oOutputTPMs); //koller
-        
         // zhukova attributed ownership
         oOutputTPMs = determineObjectsOwnership(oOutputTPMs);
         determineActionsOfAnAgents(oOutputTPMs);
@@ -773,6 +773,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	        // the minimum distance to compare, initially equals to minimum 
 	        double minDistance = N_PROXIMITY_DISTANCE;
 	        
+	        clsThingPresentationMesh owner = null, owned = null ;
+	        int indexOwner = 0, indexOwned = 0;
+	        
 	        ArrayList<clsAssociation> oExternalAssociatedContent = oInanimateEntity.getExternalAssociatedContent();
             for(clsAssociation oAss : oExternalAssociatedContent) {
                 String contentType = oAss.getAssociationElementB().getContentType().toString();
@@ -800,6 +803,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                  if(distance <= minDistance) {
                      isOwned = true;
                      OwnerName = oAliveEntity.getContent();
+                     minDistance = distance;
                  }
             }
             
@@ -807,22 +811,20 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 for(int index = 0; index < poOutputTPMs.size(); index ++) {
                     clsThingPresentationMesh entity = poOutputTPMs.get(index);
                     if(entity.getContent().equals(OwnerName)) {
-                        clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.ISOWNER, ObjectName));
-                        clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
-                                -1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
-                                entity, oTP);
-                        
-                        poOutputTPMs.get(index).addExternalAssociation(oAssociation);
+                        indexOwner = index;
                     }
                     if(entity.getContent().equals(ObjectName)) {
-                        clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.ISOWNED, OwnerName));
-                        clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
-                                -1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
-                                entity, oTP);
-                        poOutputTPMs.get(index).addExternalAssociation(oAssociation);
+                        indexOwned = index;    
                     }
                 }
+                clsAssociation oAssociation = new clsAssociationSpatial(new clsTriple<Integer, eDataType, eContentType>(
+                        -1, eDataType.ASSOCIATIONSPATIAL, eContentType.ASSOCIATIONSPATIAL), 
+                        poOutputTPMs.get(indexOwner), poOutputTPMs.get(indexOwned));
+                
+                poOutputTPMs.get(indexOwner).addExternalAssociation(oAssociation);
+                poOutputTPMs.get(indexOwned).addExternalAssociation(oAssociation);
             }
+
 	    }
 	    return poOutputTPMs;
 	}
@@ -1081,13 +1083,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				}
 				
 
+
 				//zhukova update: save the body state values into the   array
                 boolean boCheckForBodystate = false;
                 clsThingPresentationMesh tpm = null;
                 //which variables should we search for defining which emotion it is (shaking, cheeks_redning and so on )
                 ArrayList<clsThingPresentation> oArrayListExpressionVarTPForSearch = null;
                 clsThingPresentationMesh oTPMForSearch = null;
-                int rTPMCount = 0;
+                int rTPMCount = 0; 
                 
                 for(clsPrimaryDataStructureContainer pdsc : poEnvironmentalTP){
                     if(pdsc.getMoDataStructure().getContentType() == eContentType.ENTITY){
@@ -1116,13 +1119,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 }
 								
                 oSearchResultsEnviromentalTP = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternEnviromentalTP); //koller Suchaufruf mit neuem DMTPM eDataType
-				
+                
                 poRankingResultsEnviromentalTP = rankCandidatesTPM(oSearchResultsEnviromentalTP);
                 
                 // Zhukova
                 // Searching the body state for the entity
                 
                 oSearchResultsBodyState = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternBodyState);
+
                 
                 //koller remove TPM-Associations that contain no Bodystates (because the search function cannot distinguish)
                 ArrayList<clsAssociation> oAssToRemove = null;
