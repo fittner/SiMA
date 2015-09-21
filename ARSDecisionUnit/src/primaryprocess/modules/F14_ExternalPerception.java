@@ -713,14 +713,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	                    else {
 	                        oAssociatedAction = oCurrentActions.get(index);
 	                    }
-	                }
+	                
 	                clsAssociationPrimary oAssPr = clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.ASSOCIATIONPRI, oTPM, oAssociatedAction , 1.0);
 	                poOutputTPMs.get(index).addExternalAssociation(oAssPr);
-	            } else { 
-	                if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) {
-	                    oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.NONE.toString() ));
-	                    bAddAction = true;
 	                }
+	            } else { 
+	                //if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) {
+	                    oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.NONE.toString() ));
+	                    //bAddAction = true;
+	                //}
 	            }
 	            
 	            // add new action 

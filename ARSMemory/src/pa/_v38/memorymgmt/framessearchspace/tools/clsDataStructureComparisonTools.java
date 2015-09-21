@@ -708,9 +708,8 @@ public abstract class clsDataStructureComparisonTools {
 					if (bFound==false) {
 						try {
 							clsAssociation oClonedAss = (clsAssociation) oAss.clone();
-							
-							if (oClonedAss instanceof clsAssociationPrimary || 
-									oClonedAss instanceof clsAssociationPrimaryDM) {
+						
+							if (oClonedAss instanceof clsAssociationPrimaryDM) {
 								//If pnLevel is at least 1 and this association does not exist in the list
 								if (pnLevel>=1 && oRetVal.getExternalAssociatedContent().contains(oClonedAss)==false) {
 									//Replace the erroneous associations
@@ -724,7 +723,24 @@ public abstract class clsDataStructureComparisonTools {
 									
 									oRetVal.getExternalAssociatedContent().add(oClonedAss);
 								}
-							} else if (oClonedAss instanceof clsAssociationAttribute || 
+							}
+							 // Association primary  should be loaded before the image match because of action image comparision (we are require the action which is associated via primary association)
+							else if (oClonedAss instanceof clsAssociationPrimary) {
+	                                //If pnLevel is at least 1 and this association does not exist in the list
+	                                if (pnLevel>=0 && oRetVal.getExternalAssociatedContent().contains(oClonedAss)==false) {
+	                                    //Replace the erroneous associations
+	                                    if (oRetVal.getDS_ID()==oClonedAss.getRootElement().getDS_ID()) {
+	                                        oClonedAss.setRootElement(oRetVal);
+	                                    } else if (oRetVal.getDS_ID()==oClonedAss.getLeafElement().getDS_ID()) {
+	                                        oClonedAss.setLeafElement(oRetVal);
+	                                    } else {
+	                                        throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
+	                                    }
+	                                    
+	                                    oRetVal.getExternalAssociatedContent().add(oClonedAss);
+	                                }
+	                            }
+							else if (oClonedAss instanceof clsAssociationAttribute || 
 									oClonedAss instanceof clsAssociationDriveMesh || 
 									oClonedAss instanceof clsAssociationEmotion) {
 								//If pnLevel is at least 1 and this association does not exist in the list
