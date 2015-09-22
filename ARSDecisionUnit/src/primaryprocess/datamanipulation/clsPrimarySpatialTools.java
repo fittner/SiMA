@@ -60,6 +60,10 @@ public class clsPrimarySpatialTools {
 	    boolean bIsSpatialRI = isSpatialImage(poRI);
 	    boolean bIsActionRI = isActionImage(poRI);
 	    
+	    if(bIsActionRI) {
+	        bIsActionRI = isActionImage(poRI);
+	    }
+	    
 	    if(bIsActionRI) { 
 	        bIsActionPI = isActionImage(poPI);
 	    }
@@ -80,7 +84,8 @@ public class clsPrimarySpatialTools {
 	    }
 	    
 	    else if(bIsActionPI && bIsActionRI) { 
-	        rRetVal = calculateImageMatchAction(poPI, poRI);
+	       // rRetVal = calculateImageMatchAction(poPI, poRI);
+	        rRetVal =  calculateImageMatchAction(poPI, poRI);
 	    }
 		//Matching: All Objects in RI are searched for in PI, which means that RI is the more generalized image 
 	    else  {
@@ -143,7 +148,7 @@ public class clsPrimarySpatialTools {
 	public static boolean isActionImage(clsThingPresentationMesh moImage) { 
 	    if(moImage.getContentType().equals(eContentType.RI)  && moImage.getContent().contains("ACTION_IMAGE"))
 	        return true;
-	    else { 
+	    else if(moImage.getContentType().equals(eContentType.PI)) { 
 	        ArrayList<clsAssociation> internalAssociatedContent = new ArrayList<clsAssociation>();
             for(clsAssociation oAssExt : moImage.getInternalAssociatedContent()) {
                 clsThingPresentationMesh  oElementB = (clsThingPresentationMesh)oAssExt.getAssociationElementB();
@@ -157,6 +162,8 @@ public class clsPrimarySpatialTools {
             }
             return false;
 	    }
+	    else 
+	        return false;
 	        
 	}
 	

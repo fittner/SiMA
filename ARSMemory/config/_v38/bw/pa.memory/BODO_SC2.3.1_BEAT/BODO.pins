@@ -1,4 +1,4 @@
-; Sun Sep 20 19:29:18 GMT 2015
+; Mon Sep 21 16:26:03 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2054,13 +2054,6 @@
 		[EMOTION%3AADAM_CAKE%3AANGER])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AS01_ADAM_CAKE%3AANGER2] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AIMAGE%3AS01_ADAM_CAKE]
-		[EMOTION%3AADAM_BEAT_SELF%3AANGER])
-	(weight 1.0 1.0))
-
 ([ASSOCIATIONEMOTION%3AS01_ADAM_CAKE%3AELATION] of  ASSOCIATIONEMOTION
 
 	(element
@@ -3456,9 +3449,9 @@
 
 ([EMOTION%3AA06_BEAT_ADAM_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.8)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.8)
+	(sourceAggr 0.7)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.6)
@@ -3467,9 +3460,9 @@
 
 ([EMOTION%3AA06_BEAT_ADAM_L01_I01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.8)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.8)
+	(sourceAggr 0.7)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.6)
@@ -3478,9 +3471,9 @@
 
 ([EMOTION%3AA06_BEAT_ADAM_L01_I02%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.8)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.8)
+	(sourceAggr 0.7)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.6)
@@ -3489,9 +3482,9 @@
 
 ([EMOTION%3AA06_BEAT_ADAM_L01_I03%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.8)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.8)
+	(sourceAggr 0.7)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.6)
@@ -3896,12 +3889,12 @@
 
 ([EMOTION%3AADAM_CAKE%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.9)
+	(emotionIntensity 0.3)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.9)
+	(sourceAggr 0.6)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.0)
+	(sourceUnpleasure 0.3)
 	(value "ANGER")
 	(value_type "MEMORIZEDEMOTION"))
 
@@ -3931,7 +3924,7 @@
 
 	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.9)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)
