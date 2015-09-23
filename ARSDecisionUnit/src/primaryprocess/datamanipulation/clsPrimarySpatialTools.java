@@ -148,7 +148,7 @@ public class clsPrimarySpatialTools {
 	public static boolean isActionImage(clsThingPresentationMesh moImage) { 
 	    if(moImage.getContentType().equals(eContentType.RI)  && moImage.getContent().contains("ACTION_IMAGE"))
 	        return true;
-	    else if(moImage.getContentType().equals(eContentType.PI)) { 
+	    else if(moImage.getContent().equals("PI")) { 
 	        ArrayList<clsAssociation> internalAssociatedContent = new ArrayList<clsAssociation>();
             for(clsAssociation oAssExt : moImage.getInternalAssociatedContent()) {
                 clsThingPresentationMesh  oElementB = (clsThingPresentationMesh)oAssExt.getAssociationElementB();
@@ -215,7 +215,7 @@ public class clsPrimarySpatialTools {
                 for(clsAssociation oAssExt : moImage.getInternalAssociatedContent()) {
                     if(oAssExt.getAssociationElementB() instanceof clsThingPresentationMesh) { 
                         for(clsAssociation oAssExt2 : ((clsThingPresentationMesh)(oAssExt.getAssociationElementB())).getExternalAssociatedContent()) { 
-                            if(oAssExt2 instanceof clsAssociationPrimary) { 
+                            if(oAssExt2 instanceof clsAssociationPrimary && !((clsThingPresentationMesh)(oAssExt2.getAssociationElementA())).getContent().equals("SELF")) { 
                                 oPrimaryAssociations.add(oAssExt2);
                             }
                         }
@@ -252,11 +252,11 @@ public class clsPrimarySpatialTools {
         ArrayList<clsAssociation> oActionAssociationsmoRI = getPrimaryAssociations(moRI);
         String moObject = "",  moAction = "";
         for(clsAssociation oAss : oActionAssociationsmoRI) {
-            if(oAss.getAssociationElementA().getContentType().equals(eContentType.ENTITY)) {
-                moAction = ((clsThingPresentationMesh)(oAss.getAssociationElementA())).getContent();
+            if(oAss.getAssociationElementA().getContentType().equals(eContentType.ENTITY)){
+                moObject = ((clsThingPresentationMesh)(oAss.getAssociationElementA())).getContent();
             }
             if(oAss.getAssociationElementB().getContentType().equals((eContentType.ACTION))) { 
-                moObject = ((clsThingPresentationMesh)(oAss.getAssociationElementB())).getContent();
+                moAction = ((clsThingPresentationMesh)(oAss.getAssociationElementB())).getContent();
             }
         }
         

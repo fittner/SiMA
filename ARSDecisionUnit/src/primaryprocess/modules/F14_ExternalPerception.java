@@ -706,30 +706,33 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	                        }
 	                    }
 	                }
-	                if(!bAddAction) { 
+	                if(!bAddAction) {
+	                    bAddAction = true;
+
 	                    if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) { 
 	                        oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.WAIT.toString() ));   
 	                    }
 	                    else {
 	                        oAssociatedAction = oCurrentActions.get(index);
 	                    }
-	                
+	                }
 	                clsAssociationPrimary oAssPr = clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.ASSOCIATIONPRI, oTPM, oAssociatedAction , 1.0);
 	                poOutputTPMs.get(index).addExternalAssociation(oAssPr);
-	                }
-	            } else { 
+	                
+	            } else if(!oTPM.getContentType().equals(eContentType.ACTION)){ 
 	                //if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) {
 	                    oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.NONE.toString() ));
-	                    //bAddAction = true;
+	                    bAddAction = true;
 	                //}
 	            }
 	            
 	            // add new action 
-	            
+	            if(bAddAction) { 
 	                if(index >= oCurrentActions.size())
 	                    oCurrentActions.add(index, oAssociatedAction);
 	                else
 	                    oCurrentActions.set(index, oAssociatedAction);
+	            }
 	            
 	       } 
 	}
@@ -763,7 +766,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	        if(isAlive(oEntity)) {    
 	            oAliveEntities.add(oEntity);
 	         }
-	         else {
+	         else if(!oEntity.getContentType().equals(eContentType.ACTION)) {
 	             oInanimateEntities.add(oEntity);
 	         }     
 	    }

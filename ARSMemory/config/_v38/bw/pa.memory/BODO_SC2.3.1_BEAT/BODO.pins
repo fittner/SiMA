@@ -1,4 +1,4 @@
-; Mon Sep 21 16:26:03 GMT 2015
+; Wed Sep 23 12:50:21 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3891,16 +3891,16 @@
 
 	(emotionIntensity 0.3)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
+	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.3)
+	(sourceUnpleasure 0.5)
 	(value "ANGER")
 	(value_type "MEMORIZEDEMOTION"))
 
 ([EMOTION%3AADAM_CAKE%3AELATION] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.1)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.0)
@@ -3911,7 +3911,7 @@
 
 ([EMOTION%3AADAM_CAKE%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.1)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -4832,7 +4832,7 @@
 	(instance_association
 		[AA%3AADAM%3AALIVE]
 		[AA%3AADAM%3ACOLOR_GREEN])
-	(value "BODO"))
+	(value "ADAM"))
 
 ([TPM%3AENTITY%3AARSIN%3ACARL] of  ARSIN
 
