@@ -1,0 +1,12 @@
+from java.util import Vector
+vect = Vector()
+vect.add(kb.getCls(":ASSOCIATION"))
+kb.createCls("Foo",vect)
+vect.add(kb.getCls("ASSOCIATIONPRIPRI"))
+kb.getCls("ASSOCIATIONPRI").addDirectTemplateSlot(kb.getSlot("element"))
+
+
+from java.util import Vector
+vect3 = Vector()
+vect3.add(kb.getCls("ASSOCIATION"))
+kb.createCls("ASSOCIATIONSPATIAL",vect3)

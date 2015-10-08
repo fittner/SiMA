@@ -1,4 +1,4 @@
-; Sun Sep 20 14:51:46 GMT 2015
+; Thu Oct 01 15:03:40 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -4408,7 +4408,7 @@
 ([TPM%3AACTION%3ABODO_BEAT_SELF] of  TPM%3AACTION%3AL1
 
 	(value "BEAT")
-	(value_type "ACTION"))
+	(value_type "RECOGNIZEDACTION"))
 
 ([TPM%3AACTION%3AL1_BEAT] of  TPM%3AACTION%3AL1
 

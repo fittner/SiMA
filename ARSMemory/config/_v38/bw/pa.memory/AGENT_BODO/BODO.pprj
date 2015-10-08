@@ -1,4 +1,4 @@
-; Wed Jul 08 12:57:37 GMT 2015
+; Tue Oct 06 13:17:23 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -47,8 +47,8 @@
 
 ([BODO_ProjectKB_Class10] of  String
 
-	(name "DOMAIN")
-	(string_value "value_type"))
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
 
 ([BODO_ProjectKB_Class11] of  Map_Entry
 
@@ -98,8 +98,8 @@
 
 ([BODO_ProjectKB_Class9] of  String
 
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
+	(name "DOMAIN")
+	(string_value "value_type"))
 
 ([BROWSER_SLOT_NAMES] of  Property_List
 
@@ -152,6 +152,9 @@
 
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
+
+([KB_498603_Class5] of  Map
+)
 
 ([KB_610615_Class0] of  String
 
@@ -617,9 +620,6 @@
 )
 
 ([KB_610615_Class99] of  Property_List
-)
-
-([KB_681744_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List

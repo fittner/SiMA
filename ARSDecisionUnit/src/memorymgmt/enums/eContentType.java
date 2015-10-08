@@ -25,7 +25,7 @@ public enum eContentType {
 	PHI,		//Phantasized image
 	RIREPRESSED,
 	RILIBIDO,
-	
+	RECOGNIZEDACTION,
 	PIMATCH, 		//Content type of perception
 	
 	//--- Entities --- //

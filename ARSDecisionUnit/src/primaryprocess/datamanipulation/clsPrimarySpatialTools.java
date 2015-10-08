@@ -52,88 +52,61 @@ public class clsPrimarySpatialTools {
 	 * @param poRI
 	 * @return
 	 */
-	public static double getImageMatch(clsThingPresentationMesh poPI, clsThingPresentationMesh poRI) {
-	    // we need to distiguish between images where do they appear in the same time or in the same space 
-	    
+	//public static double getImageMatch(clsThingPresentationMesh poPI, clsThingPresentationMesh poRI) {
 	    /*
-	    boolean bIsSpatialPI = false;
-	    boolean bIsActionPI = false;
-	    boolean bIsSpatialRI = isSpatialImage(poRI);
-	    //boolean bIsActionRI = isActionImage(poRI);
-	    /*
-	    if(bIsActionRI) {
-	        bIsActionRI = isActionImage(poRI);
-	    }
-	    
-	    if(bIsActionRI) { 
-	        bIsActionPI = isActionImage(poPI);
-	    }
-	    
-	    if(bIsActionRI != bIsActionPI) return 0;
-	    
-	    if(bIsSpatialRI)  { 
-	        bIsSpatialPI = isSpatialImage(poPI);
-	    }
-	    
-	    if(bIsSpatialRI != bIsSpatialPI) return 0; */
-	    
         double rRetVal = 0;
         double rEmotionImpactFactor = 0.5; // this factor defines how much influence the emotion match between PI and RI has on the total image match
         double rEmotionMatch = 0;
-	    /*if(bIsSpatialRI && bIsSpatialPI) {
-	        rRetVal =  calculateImageMatchSpatial(poPI, poRI);
-	    } */
-	    
-	   // else if(bIsActionPI && bIsActionRI) { 
-	    //    rRetVal = calculateImageMatchAction(poPI, poRI);	    }
-		//Matching: All Objects in RI are searched for in PI, which means that RI is the more generalized image 
-	    //else  {
-
-    		//Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
-    		//Only references in the array
+	   
+    	//Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
+    	//Only references in the array
     		
-    		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
+         ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
     		
-    		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
+    	 ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
     		
     		//Create position array for the RI
-    		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRIPositionArray = getImageEntityPositions(poRI);
+    	 ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRIPositionArray = getImageEntityPositions(poRI);
     		
     		//Sort the RI array for generalization, the least generalized first
-    		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
+    	 ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
     		
     		//Create new modified position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them
     		//Compare the RI-Array with the PA-Array and search for the closest matches between them
     		//In RI and in PI position elements with null are allowed to occur
-    		ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> oRIPIMatchList = findMatchingEntities(oPISortedPositionArray, oRISortedPositionArray);
+    	 ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> oRIPIMatchList = findMatchingEntities(oPISortedPositionArray, oRISortedPositionArray);
 	    
 
     		// Create 
-    		ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPIActionsArray = getImageEntityActions(poPI);
-    		ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRIActionsArray = getImageEntityActions(poRI);
+    	 ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPIActionsArray = getImageEntityActions(poPI);
+    	 ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRIActionsArray = getImageEntityActions(poRI);
     		
-            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPISpatialArray = getImageEntitySpatial(poPI);
-            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRISpatialArray = getImageEntitySpatial(poRI);
-            
-            ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchActionList = findMatchingActionOrSpatial(oRIActionsArray, oPIActionsArray);  
-            ArrayList<clsPair<clsPair<clsThingPresentationMesh,clsThingPresentationMesh>, Double>> oRIPIMatchSpatialContentList = findMatchingActionOrSpatial(oRISpatialArray, oPISpatialArray);  
-            
+         ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPISpatialArray = getImageEntitySpatial(poPI);
+         ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRISpatialArray = getImageEntitySpatial(poRI);
+         /*   
+         ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchActionList = findMatchingActionOrSpatial(oRIActionsArray, oPIActionsArray);  
+         ArrayList<clsPair<clsPair<clsThingPresentationMesh,clsThingPresentationMesh>, Double>> oRIPIMatchSpatialContentList = findMatchingActionOrSpatial(oRISpatialArray, oPISpatialArray);  
+          
+         
+         ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchActionList = new ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>>();  
+         ArrayList<clsPair<clsPair<clsThingPresentationMesh,clsThingPresentationMesh>, Double>> oRIPIMatchSpatialContentList = new ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>>();  
+         
     		//=== Perform system tests ===//oPISpatialArray
-    		if (clsTester.getTester().isActivated()) {
+    	if (clsTester.getTester().isActivated()) {
     			try {
     				clsTester.getTester().exeTestAssociationAssignment(poRI);
     			} catch (Exception e) {
     				log.error("Systemtester has an error in addRIAssociations(oRIPIMatchList), poRI", e);
     			}
-    		}
+    	}
     		
     		//if the RI contains no entities at all, set the match value to 1, otherwise calculate the match
-    		if(oRIPositionArray.isEmpty() && oRIActionsArray.isEmpty() && oRISpatialArray.isEmpty()) {
+    	if(oRIPositionArray.isEmpty() && oRIActionsArray.isEmpty() && oRISpatialArray.isEmpty()) {
     		    rRetVal = 1;
     		} else {
     		    //Calculate the image match
-    		    rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray, oPISpatialArray, oRIActionsArray, oPISpatialArray, oRISpatialArray);
-    		}
+    		    rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray, oRIPIMatchActionList, oRIPIMatchSpatialContentList);
+    	} 
 	    //}
 		//calculate emotion match of images
 		//get emotions from first image
@@ -147,25 +120,73 @@ public class clsPrimarySpatialTools {
 		    rEmotionMatch = oEmotionPI.compareTo(oEmotionRI);
 		}
 		return (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
-	}
+	} */
 	
 	
-	/**
-     * DOCUMENT - insert description
-     *
-     * @author zhukova
-     * @since Sep 28, 2015 5:06:08 PM
-     *
-     * @param oRISpatialArray
-     * @param oPISpatialArray
-     * @return
-     */
-    private static ArrayList<clsPair<clsThingPresentationMesh, Double>> findSpatialMatch(
-            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRISpatialArray,
-            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPISpatialArray) {
-        // TODO (zhukova) - Auto-generated method stub
-        return null;
+
+    public static double getImageMatch(clsThingPresentationMesh poPI, clsThingPresentationMesh poRI) {
+        //Matching: All Objects in RI are searched for in PI, which means that RI is the more generalized image 
+        double rRetVal = 0;
+        double rEmotionImpactFactor = 0.5; // this factor defines how much influence the emotion match between PI and RI has on the total image match
+        double rEmotionMatch = 0;
+        //Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
+        //Only references in the array
+        
+        
+        ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
+        
+        ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
+        
+        //Create position array for the RI
+        ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRIPositionArray = getImageEntityPositions(poRI);
+        
+        //Sort the RI array for generalization, the least generalized first
+        ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
+        
+        //Create new modified position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them
+        //Compare the RI-Array with the PA-Array and search for the closest matches between them
+        //In RI and in PI position elements with null are allowed to occur
+        ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> oRIPIMatchList = findMatchingEntities(oPISortedPositionArray, oRISortedPositionArray);
+        
+        //Add matching associations to the objects in the RI
+        //Add distanceassociations
+        
+        //addRIAssociations(oRIPIMatchList);
+        
+        //=== Perform system tests ===//
+        if (clsTester.getTester().isActivated()) {
+            try {
+                clsTester.getTester().exeTestAssociationAssignment(poRI);
+            } catch (Exception e) {
+                log.error("Systemtester has an error in addRIAssociations(oRIPIMatchList), poRI", e);
+            }
+        }
+        
+        //if the RI contains no entities at all, set the match value to 1, otherwise calculate the match
+        if(oRIPositionArray.isEmpty()) {
+            rRetVal = 1;
+        } else {
+            //Calculate the image match
+            rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
+        }
+        
+        //calculate emotion match of images
+        //get emotions from first image
+        clsEmotion oEmotionPI = clsEmotion.fromTPM(poPI);
+        
+        //get emotions from second image
+        clsEmotion oEmotionRI = clsEmotion.fromTPM(poRI);
+        
+        //get match value for the two emotions
+        if(oEmotionPI != null && oEmotionRI != null) {
+            rEmotionMatch = oEmotionPI.compareTo(oEmotionRI);
+        }
+        return (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
     }
+    
+    
+	
+
 
 
     /**
@@ -293,7 +314,8 @@ public class clsPrimarySpatialTools {
             for(clsAssociation oAssExt : moImage.getInternalAssociatedContent()) {
                 if(oAssExt.getAssociationElementB() instanceof clsThingPresentationMesh) { 
                     for(clsAssociation oAssExt2 : ((clsThingPresentationMesh)(oAssExt.getAssociationElementB())).getExternalAssociatedContent()) { 
-                        if(oAssExt2 instanceof clsAssociationPrimary && !((clsThingPresentationMesh)(oAssExt2.getAssociationElementA())).getContent().equals("SELF")) { 
+                        if(oAssExt2 instanceof clsAssociationPrimary && !((clsThingPresentationMesh)(oAssExt2.getAssociationElementA())).getContent().equals("SELF") && 
+                           !((clsThingPresentationMesh)(oAssExt2.getAssociationElementA())).getContent().equals("GOTO")) { 
                             clsPair<clsThingPresentationMesh, clsThingPresentationMesh> oAction = new clsPair(oAssExt2.getAssociationElementA(), oAssExt2.getAssociationElementB());
                             associatedActions.add(oAction);
                         }
@@ -603,10 +625,10 @@ public class clsPrimarySpatialTools {
 //		
 //		return oRetVal;
 //	}
-	
+	/*
 	private static double calculateImageMatch(ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> poRIPIMatchList, ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> poRIPositionList,
-	                                           ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> poPIActionArray, ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> poRIActionArray,
-	                                           ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> poPISpatialArray, ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> poRISpatialArray) 
+	                                           ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> poRIPIActionArray,
+	                                           ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchSpatialContentList) 
 	{
 		double rRetVal = 0;
 		
@@ -615,26 +637,49 @@ public class clsPrimarySpatialTools {
 		if (poRIPositionList.size() > 0) {
 			rNormalizefactor = poRIPositionList.size();
 		}
-	    if(!poRIActionArray.isEmpty()) {
-	        rNormalizefactor += poRIActionArray.size();
+	    if(!poRIPIActionArray.isEmpty()) {
+	        rNormalizefactor += poRIPIActionArray.size();
 		}
-	      if(!poRISpatialArray.isEmpty()) {
-	            rNormalizefactor += poRISpatialArray.size();
+	      if(!oRIPIMatchSpatialContentList.isEmpty()) {
+	            rNormalizefactor += oRIPIMatchSpatialContentList.size();
 	        }
 		//Get the sum of distance associations in the RIPI Match list
 		double rWeightSum = 0;
         for (clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>> oRIPIMatch : poRIPIMatchList) {
-            rWeightSum = rWeightSum + calculateAssociationWeightFromDistance(oRIPIMatch.b.b);
+            rWeightSum += calculateAssociationWeightFromDistance(oRIPIMatch.b.b);
         }
 		
-        for (clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>> oRIPIMatch : poRIPIMatchList) {
-            rWeightSum = rWeightSum + calculateAssociationWeightFromDistance(oRIPIMatch.b.b);
+        for (clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double> oRIPIMatch : poRIPIActionArray) {
+            rWeightSum += oRIPIMatch.b;
         }
         
+        for (clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double> oRIPIMatch : oRIPIMatchSpatialContentList) {
+            rWeightSum += oRIPIMatch.b;
+        }
 		rRetVal = rWeightSum/rNormalizefactor;
 		
 		return rRetVal;
-	}
+	} */
+	
+	   private static double calculateImageMatch(ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> poRIPIMatchList, ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> poRIPositionList) {
+	        double rRetVal = 0;
+	        
+	        //Get the number of elements in the RI position list
+	        double rNormalizefactor = 1;
+	        if (poRIPositionList.size()>0) {
+	            rNormalizefactor = poRIPositionList.size();
+	        }
+	        
+	        //Get the sum of distance associations in the RIPI Match list
+	        double rWeightSum = 0;
+	        for (clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>> oRIPIMatch : poRIPIMatchList) {
+	            rWeightSum = rWeightSum + calculateAssociationWeightFromDistance(oRIPIMatch.b.b);
+	        }
+	        
+	        rRetVal = rWeightSum/rNormalizefactor;
+	        
+	        return rRetVal;
+	    }
 	
 	/**
 	 * With a data structure of the match between PI and RI, convert this data structure to an association, which is added to the RI container. With this function, each match is added as an
