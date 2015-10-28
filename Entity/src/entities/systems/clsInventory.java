@@ -103,6 +103,7 @@ public class clsInventory {
 			moInventory.remove(poEntity);
 			moCarriedEntity = poEntity;
 			moEntity.setCarriedItem(((clsCircleImage)moCarriedEntity.getMobileObject2D().getShape()).getImage());
+			//moEntity.getInventory()
 		}
 		//Pick up from environment
 		else{
@@ -150,7 +151,7 @@ public class clsInventory {
 		//clsRegisterEntity.registerMobileObject2D(moCarriedEntity.getMobileObject2D());
 		clsRegisterEntity.addEntity(moCarriedEntity.getMobileObject2D());
 		//drop entity in front of arsin
-		moCarriedEntity.setPose(calculateNewPose(moEntity,moCarriedEntity));
+		moCarriedEntity.setPose(calculateNewPose(moEntity, moCarriedEntity));
 		moCarriedEntity.setVelocity(new Double2D(0.0,0.0));
 
 		moCarriedEntity.setRegistered(true);
