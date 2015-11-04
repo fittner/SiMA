@@ -195,6 +195,10 @@ public class clsDataStructureConverter {
 				oContentTypeTP = eContentType.DISTANCE;
 			}
 			
+	         if(oContentTypeTP.equals(eContentType.CarringVariable)) {
+	                oContentTypeTP = eContentType.CARRYING; 
+	            }
+			
 			//          if (oContentTypeTP.equals(eContentType.Brightness)) {
 			//             oContentTypeTP = eContentType.BRIGHTNESS;
 			//         }

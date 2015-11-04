@@ -172,6 +172,18 @@ public class GoalAlgorithmTools {
         case DROP:
             oActionCondition = eCondition.EXECUTED_DROP;
             break;
+        case REQUEST:
+            oActionCondition = eCondition.EXECUTED_REQUEST;
+            break;
+        case AGREE:
+            oActionCondition = eCondition.EXECUTED_AGREE;
+            break;      
+        case DISAGREE:
+            oActionCondition = eCondition.EXECUTED_DISAGREE;
+            break;
+        case OBJECT_TRANSFER:
+            oActionCondition = eCondition.EXECUTED_OBJECT_TRANSFER;
+            break;    
         case NULLOBJECT:
             oActionCondition = eCondition.NULLOBJECT;
             break;

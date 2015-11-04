@@ -413,6 +413,14 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	        case "GOTO":
                 throw new UnknownError("Action " + oAction + " is a complex action that has not been translated into basic actions");
 
+            case "REQUEST":
+                oNewAction = createAction("REQUEST", null);
+                break;    
+            
+            case "OBJECT_TRANSFER":
+                oNewAction = createAction("REQUEST", null);
+                break;       
+                
 	        default: 
 	            throw new UnknownError("Action " + oAction + " not known");
 	            

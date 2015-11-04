@@ -1,4 +1,4 @@
-; Wed Nov 04 16:22:20 GMT 2015
+; Wed Nov 04 15:21:43 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -5106,7 +5106,7 @@
 		[ASSOCIATIONTEMP%3AADAM_BEAT_SELF%3AADAM]
 		[ASSOCIATIONTEMP%3AADAM_BEAT_SELF%3ASELF])
 	(value "ACTION_IMAGE_ADAM_BEAT_SELF")
-	(value_type "RPI"))
+	(value_type "RI"))
 
 ([TPM%3AIMAGE%3AADAM_OWNED_CAKE] of  TPM%3AIMAGE
 

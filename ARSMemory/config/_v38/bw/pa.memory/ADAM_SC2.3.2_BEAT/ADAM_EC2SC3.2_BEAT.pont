@@ -1,4 +1,4 @@
-; Wed Nov 04 16:22:19 GMT 2015
+; Wed Nov 04 16:13:26 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -531,11 +531,6 @@
 (defclass _OBSOLETE_WP%3AACTION
 	(is-a WP)
 	(role concrete)
-	(single-slot type
-		(type STRING)
-;+		(value "WP")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
 ;+		(value "ACTION")
@@ -686,6 +681,20 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
+(defclass ASSOCIATIONTEMP
+	(is-a ASSOCIATION)
+	(role concrete)
+	(single-slot type
+		(type STRING)
+;+		(value "ASSOCIATIONTEMP")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(value "ASSOCIATIONTEMP")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
 (defclass ASSOCIATIONWP
 	(is-a ASSOCIATION)
 	(role concrete)
@@ -801,20 +810,6 @@
 	(single-slot value_type
 		(type STRING)
 ;+		(value "ASSOCIATIONSPATIAL")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass ASSOCIATIONTEMP
-	(is-a ASSOCIATION)
-	(role concrete)
-	(single-slot type
-		(type STRING)
-;+		(value "ASSOCIATIONTEMP")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "ASSOCIATIONTEMP")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -1306,21 +1301,11 @@
 
 (defclass WPM%3AIMAGE
 	(is-a WPM)
-	(role concrete)
-	(single-slot type
-		(type STRING)
-;+		(value "WPM")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
+	(role concrete))
 
 (defclass WPM%3AENTITY
 	(is-a WPM)
-	(role concrete)
-	(single-slot type
-		(type STRING)
-;+		(value "WPM")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
+	(role concrete))
 
 (defclass WPM%3AACTION
 	(is-a WPM)

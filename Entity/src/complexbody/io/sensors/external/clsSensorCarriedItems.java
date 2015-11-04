@@ -77,6 +77,7 @@ public class clsSensorCarriedItems extends clsSensorExt {
 		if(oCarriedEntity !=null){
 			clsCollidingObject oCollidingObject = new clsCollidingObject(oCarriedEntity.getMobileObject2D(),new clsPolarcoordinate(0.0,0.0),eSide.CENTER);
 			moCollidingObjects.add(oCollidingObject);
+			moEntity.setCarringAction(true);
 		}
 		moSensorData.setMeDetectedObjectList(0.0, moCollidingObjects);
 

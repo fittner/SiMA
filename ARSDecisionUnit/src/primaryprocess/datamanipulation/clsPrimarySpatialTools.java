@@ -153,6 +153,17 @@ public class clsPrimarySpatialTools {
         
         //addRIAssociations(oRIPIMatchList);
         
+        // Action and intention images which you get from another agent 
+        if(poRI.getContentType() == eContentType.RPI)  { 
+            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPIActionsArray = getImageEntityActions(poPI);
+            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRIActionsArray = getImageEntityActions(poRI);
+               
+            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPISpatialArray = getImageEntitySpatial(poPI);
+            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRISpatialArray = getImageEntitySpatial(poRI);        
+            
+            ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchActionList = findMatchingActionOrSpatial(oRIActionsArray, oPIActionsArray);  
+            ArrayList<clsPair<clsPair<clsThingPresentationMesh,clsThingPresentationMesh>, Double>> oRIPIMatchSpatialContentList = findMatchingActionOrSpatial(oRISpatialArray, oPISpatialArray);  
+        }
         //=== Perform system tests ===//
         if (clsTester.getTester().isActivated()) {
             try {
@@ -209,21 +220,21 @@ public class clsPrimarySpatialTools {
         boolean bMatch = false;
         
         for(clsPair<clsThingPresentationMesh, clsThingPresentationMesh> oTPMPairRI : oRIActionsArray) {
-                if(oTPMPairRI.a.getContentType().equals(eContentType.ENTITY)) { 
+                if(oTPMPairRI.a.getContentType().equals(eContentType.ENTITY) && !oTPMPairRI.a.getContent().equals("SELF")) { 
                     RIObject  = oTPMPairRI.a.getContent();
                     RIAction = oTPMPairRI.b.getContent();
                 }
-                else {
+                else if(!oTPMPairRI.b.getContent().equals("SELF")){
                     RIObject  = oTPMPairRI.b.getContent();
                     RIAction = oTPMPairRI.a.getContent();
                 }
                 
                 for(clsPair<clsThingPresentationMesh, clsThingPresentationMesh> oTPMPairPI : oPIActionsArray) { 
-                    if(oTPMPairPI.a.getContentType().equals(eContentType.ENTITY)) { 
+                    if(oTPMPairPI.a.getContentType().equals(eContentType.ENTITY)&& !oTPMPairRI.a.getContent().equals("SELF")) { 
                         PIObject  = oTPMPairPI.a.getContent();
                         PIAction = oTPMPairPI.b.getContent();
                     }
-                    else {
+                    else if(!oTPMPairPI.b.getContent().equals("SELF")){
                         PIObject  = oTPMPairPI.b.getContent();
                         PIAction = oTPMPairPI.a.getContent();
                     }

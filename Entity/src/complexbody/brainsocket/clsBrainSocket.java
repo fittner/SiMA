@@ -44,11 +44,8 @@ import complexbody.io.sensors.internal.clsEnergySensor;
 import complexbody.io.sensors.internal.clsFastMessengerSensor;
 import complexbody.io.sensors.internal.clsHealthSensor;
 import complexbody.io.sensors.internal.clsHeartbeatSensor;
-
 import complexbody.io.sensors.internal.clsCryingSensor;
-
 import complexbody.io.sensors.internal.clsSweatSensor;
-
 import complexbody.io.sensors.internal.clsMuscleTensionSensor;
 import complexbody.io.sensors.internal.clsIntestinePressureSensor;
 import complexbody.io.sensors.internal.clsSensorInt;
@@ -58,13 +55,11 @@ import complexbody.io.sensors.internal.clsStomachTensionSensor;
 import complexbody.io.sensors.internal.clsTemperatureSensor;
 import control.interfaces.itfDecisionUnit;
 import control.interfaces.itfProcessKeyPressed;
-
 import physical2d.physicalObject.datatypes.eCount;
 import physics2D.physicalObject.clsCollidingObject;
 import physics2D.physicalObject.clsMobileObject2D;
 import physics2D.physicalObject.clsStationaryObject2D;
 import properties.clsProperties;
-
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.shape.Rectangle;
@@ -72,6 +67,7 @@ import base.clsCommunicationInterface;
 import body.clsComplexBody;
 import body.itfStepProcessing;
 import entities.abstractEntities.clsEntity;
+
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
@@ -421,6 +417,15 @@ public class clsBrainSocket implements itfStepProcessing {
 		   oRetVal.addAssociation(new clsDataPoint("OBJECT_POSITION",collidingObj.meColPos.toString()));
 		   oRetVal.addAssociation(new clsDataPoint("DEBUG_AROUSAL_VALUE",""+oEntity.getVisionBrightness()));
 		   oRetVal.addAssociation(new clsDataPoint("DISTANCE",""+poDistance));
+		   
+		   if(oEntity.isCarring()) { 
+			   oRetVal.addAssociation(new clsDataPoint("CARRYING", "true"));
+		   }
+		   
+
+		   //if(oEntity instanceof clsMobile)
+		   //oRetVal.addAssociation(new clsDataPoint());
+		   //oEntity.ge
 		   oRetVal.addAssociation(convertExpressionVariables(oEntity));
 		   
 

@@ -90,7 +90,7 @@ public class clsInventory {
 		return moCarriedEntity;
 	}
 
-		public void setCarriedEntity(clsMobile poEntity) {		
+	public void setCarriedEntity(clsMobile poEntity) {		
 		//Can I carry anything?
 		if (getMaxItems()<0) return;
 		
@@ -111,8 +111,8 @@ public class clsInventory {
 			((clsMobile)moCarriedEntity).incHolders();
 
 			moEntity.setCarriedItem(((clsCircleImage)moCarriedEntity.getMobileObject2D().getShape()).getImage());
-			clsRegisterEntity.unRegisterPhysicalObject2D(moCarriedEntity.getMobileObject2D());
-			moCarriedEntity.setRegistered(false);
+			//clsRegisterEntity.unRegisterPhysicalObject2D(moCarriedEntity.getMobileObject2D());
+			//moCarriedEntity.setRegistered(false);
 			((itfAPCarryable)moCarriedEntity).setCarriedBindingState(eBindingState.CARRIED);
 
 		}

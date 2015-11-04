@@ -23,6 +23,7 @@ public enum eContentType {
 	PI,			//Perceived Image
 	RI,			//Remembered Image
 	PHI,		//Phantasized image
+	RPI,
 	RIREPRESSED,
 	RILIBIDO,
 	RECOGNIZEDACTION,
@@ -319,7 +320,7 @@ public enum eContentType {
     MEDIUMOF,
     FAROF,
     OUT_OF_SIGHT_OF,
-    
+    CARRYING,
     
     //Control
     HASPHANTASYFLAG,
@@ -327,6 +328,7 @@ public enum eContentType {
  // Ownership
     ISOWNER,
     ISOWNED,
+    CarringVariable,
 	//Expression
     Expression; //koller
 	
