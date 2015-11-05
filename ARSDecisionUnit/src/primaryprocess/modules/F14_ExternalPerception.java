@@ -106,6 +106,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private boolean useAttentionMechanism = false;
 	
+	private HashMap<String, String> composedActions = new HashMap<String, String>();
+	
 	ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();
 	List<clsEmotion> moCurrentEmotions = new ArrayList<>(); 
 	
@@ -121,7 +123,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     public static final String P_EMOTIONRECOGNITION_PRIMING_LIBIDO = "EMOTIONRECOGNITION_PRIMING_LIBIDO";
     public static final String P_EMOTIONRECOGNITION_PRIMING_INTENSITY = "EMOTIONRECOGNITION_PRIMING_INTENSITY";
     
-    public static final int N_PROXIMITY_DISTANCE = 15; 
+    public static final int N_PROXIMITY_DISTANCE = 17; 
     
     private double mrEmotionrecognitionPrimingPleasure;
     private double mrEmotionrecognitionPrimingUnpleasure;
@@ -192,6 +194,18 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}
 		
 		return text;
+	}
+	
+	private void setGoToComposition() {
+	    composedActions.put("TURN_LEFT", "GOTO");
+	    composedActions.put("TURN_RIGHT", "GOTO");
+	    composedActions.put("MOVE_FOREWARD", "GOTO");
+	    composedActions.put("MOVE_FORWARD", "GOTO");
+	    composedActions.put("MOVE_BACKWARD", "GOTO");
+
+	    //composedActions.put("TURN_LEFT", "GOTO");
+	    //composedActions.put("TURN_LEFT", "GOTO");
+	    
 	}
 	
 	public String debugBodystate(clsThingPresentationMesh poBodystate) {
@@ -379,7 +393,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    // 0. reset datastructures for inspectors
 	    moBodystateCreation = "";
 	    moSearchPattern = new ArrayList<clsThingPresentationMesh>();
-	    
+        setGoToComposition();
+
 	    
         // 1. Convert Neurosymbols to TPMs
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = convertSymbolToTPM(moEnvironmentalData);
@@ -700,6 +715,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	                        clsThingPresentationMesh oAssociatedTPM = (clsThingPresentationMesh) oExtAss.getAssociationElementB();
 	                        if(oAssociatedTPM.getContentType().equals(eContentType.ACTION)) {
 	                            bAddAction = true;
+	                            if(composedActions.containsKey(oAssociatedTPM.getContent())) { 
+	                                oAssociatedTPM.setMoContent(composedActions.get(oAssociatedTPM.getContent()));
+	                            }
 	                            oAssociatedAction = oAssociatedTPM;
 	                            oCurrentActions.set(index, oAssociatedAction);
 	                            break;
@@ -799,6 +817,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 }
             }
             for(clsThingPresentationMesh oAliveEntity : oAliveEntities) {
+                if(oAliveEntity.getContent().contains("SELF")) continue;
                 oExternalAssociatedContent = oAliveEntity.getExternalAssociatedContent();
                 for(clsAssociation oAss : oExternalAssociatedContent) {
                     String contentType = oAss.getAssociationElementB().getContentType().toString();

@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsAssociationSpatial;
 import base.datatypes.clsAssociationTime;
@@ -148,21 +149,42 @@ public class clsPrimarySpatialTools {
         //In RI and in PI position elements with null are allowed to occur
         ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> oRIPIMatchList = findMatchingEntities(oPISortedPositionArray, oRISortedPositionArray);
         
+
         //Add matching associations to the objects in the RI
         //Add distanceassociations
         
         //addRIAssociations(oRIPIMatchList);
         
         // Action and intention images which you get from another agent 
-        if(poRI.getContentType() == eContentType.RPI)  { 
+        
+        if(poRI.getContentType() == eContentType.RPI || poRI.getContentType() == eContentType.RPA)  { 
             ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPIActionsArray = getImageEntityActions(poPI);
             ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRIActionsArray = getImageEntityActions(poRI);
                
-            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPISpatialArray = getImageEntitySpatial(poPI);
+            //ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPISpatialArray = getImageEntitySpatial(poPI);
             ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRISpatialArray = getImageEntitySpatial(poRI);        
-            
-            ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchActionList = findMatchingActionOrSpatial(oRIActionsArray, oPIActionsArray);  
-            ArrayList<clsPair<clsPair<clsThingPresentationMesh,clsThingPresentationMesh>, Double>> oRIPIMatchSpatialContentList = findMatchingActionOrSpatial(oRISpatialArray, oPISpatialArray);  
+            //ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRISpatialArray = getImageEntitySpatial(poRI);
+            if(!oRISpatialArray.isEmpty() || !oRIActionsArray.isEmpty()) {
+                double rRetValSp = calculateImageMatchSpatial(poPI, poRI);
+                ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchActionList = findMatchingActionOrSpatial(oRIActionsArray, oPIActionsArray);  
+                double rRetValAc =  calculateImageMatchAction(oRIPIMatchActionList);
+                if(!oRIPIMatchActionList.isEmpty() || !oRISpatialArray.isEmpty()) { 
+                    rRetVal = (rRetValSp + rRetValAc)/(oRIPIMatchActionList.size() + oRISpatialArray.size()/2);
+                }
+                else { rRetVal = 0; }
+            }
+            else { 
+                rRetVal = 0;
+            } 
+            // ArrayList<clsPair<clsPair<clsThingPresentationMesh,clsThingPresentationMesh>, Double>> oRIPIMatchSpatialContentList = findMatchingActionOrSpatial(oRISpatialArray, oPISpatialArray);  
+        }
+        else {
+            if(oRIPositionArray.isEmpty()) {
+                rRetVal = 1;
+            } else {
+                //Calculate the image match
+                rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
+            }
         }
         //=== Perform system tests ===//
         if (clsTester.getTester().isActivated()) {
@@ -174,20 +196,21 @@ public class clsPrimarySpatialTools {
         }
         
         //if the RI contains no entities at all, set the match value to 1, otherwise calculate the match
-        if(oRIPositionArray.isEmpty()) {
-            rRetVal = 1;
-        } else {
-            //Calculate the image match
-            rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
-        }
-        
+
+        clsEmotion oEmotionPI = null,  oEmotionRI = null; 
         //calculate emotion match of images
         //get emotions from first image
-        clsEmotion oEmotionPI = clsEmotion.fromTPM(poPI);
+        if(poRI.getContentType() != eContentType.RPI) { 
+            oEmotionPI = clsEmotion.fromTPM(poPI);
         
         //get emotions from second image
-        clsEmotion oEmotionRI = clsEmotion.fromTPM(poRI);
-        
+            oEmotionRI = clsEmotion.fromTPM(poRI);
+            
+        }
+        else {
+            oEmotionPI =  getEmotionFromAnotherEntity(poPI);
+            oEmotionRI = getRecognizedEmotionFromMemorizedImage(poRI);
+        }
         //get match value for the two emotions
         if(oEmotionPI != null && oEmotionRI != null) {
             rEmotionMatch = oEmotionPI.compareTo(oEmotionRI);
@@ -195,11 +218,54 @@ public class clsPrimarySpatialTools {
         return (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
     }
     
+    private static clsEmotion getRecognizedEmotionFromMemorizedImage(clsThingPresentationMesh poImage) {
+        for(clsAssociation oAss : poImage.getExternalAssociatedContent()) { 
+            if(oAss instanceof clsAssociationEmotion) {
+                if(((clsEmotion)oAss.getAssociationElementA()).getContentType().equals(eContentType.BASICEMOTION))
+                    return (clsEmotion)oAss.getAssociationElementA();
+            }
+        }
+        return null;
+    }
     
+    
+	private static clsEmotion getEmotionFromAnotherEntity(clsThingPresentationMesh poImage) { 
+	    clsThingPresentationMesh oEntity = getAliveEntity(poImage);
+	    for(clsAssociation oAss : oEntity.getExternalAssociatedContent()) { 
+	        if(oAss instanceof clsAssociationEmotion) { 
+	            return (clsEmotion)oAss.getAssociationElementA();
+	        }
+	    }
+	    return null;
+	    
+	}
+
+
+	private static clsThingPresentationMesh getAliveEntity(clsThingPresentationMesh poImage) {
+	    
+	    for(clsAssociation oAss : poImage.getInternalAssociatedContent()) { 
+	        clsThingPresentationMesh oElement = (clsThingPresentationMesh)oAss.getAssociationElementB();
+	        if(oElement.getContent().equals("SELF") || oElement.getContent().equals("EMPTYSPACE")) {
+	            continue;
+	        }
+	        if(!isAlive(oElement)) {
+	            continue;
+	        }
+	        else return oElement;
+	    }
+	    return null;  
+	}
+
+	private static boolean isAlive(clsThingPresentationMesh poTPM)  {
+	    for(clsAssociation oIntAss : poTPM.getInternalAssociatedContent()) { 
+	        if(oIntAss.getAssociationElementB().getContentType().toString().equals("Alive")) {
+	                clsThingPresentation associatedProperty = (clsThingPresentation)oIntAss.getAssociationElementB();
+	                return Boolean.parseBoolean(associatedProperty.getContent().toString());          
+	          }
+	        }
+	        return false;
+	    }
 	
-
-
-
     /**
      * DOCUMENT - insert description
      *
@@ -216,25 +282,33 @@ public class clsPrimarySpatialTools {
         
         ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oMatchArray = new ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>>();
         
-        String RIAction, RIObject, PIAction, PIObject  = "";
+        String RIAction = null, RIObject = null, PIAction = null, PIObject  = "";
         boolean bMatch = false;
-        
         for(clsPair<clsThingPresentationMesh, clsThingPresentationMesh> oTPMPairRI : oRIActionsArray) {
-                if(oTPMPairRI.a.getContentType().equals(eContentType.ENTITY) && !oTPMPairRI.a.getContent().equals("SELF")) { 
+            //if(oTPMPairRI.a.getContent().equals("SELF") || oTPMPairRI.b.getContent().equals("SELF")) { 
+            //    return oMatchArray; 
+            //}
+        }
+        for(clsPair<clsThingPresentationMesh, clsThingPresentationMesh> oTPMPairRI : oRIActionsArray) {
+                if(oTPMPairRI.a.getContent().equals("SELF") || oTPMPairRI.b.getContent().equals("SELF")) { 
+                    continue; 
+                }
+                if(oTPMPairRI.a.getContentType().equals(eContentType.ENTITY)) { 
                     RIObject  = oTPMPairRI.a.getContent();
                     RIAction = oTPMPairRI.b.getContent();
                 }
-                else if(!oTPMPairRI.b.getContent().equals("SELF")){
+                else {
                     RIObject  = oTPMPairRI.b.getContent();
                     RIAction = oTPMPairRI.a.getContent();
                 }
                 
-                for(clsPair<clsThingPresentationMesh, clsThingPresentationMesh> oTPMPairPI : oPIActionsArray) { 
-                    if(oTPMPairPI.a.getContentType().equals(eContentType.ENTITY)&& !oTPMPairRI.a.getContent().equals("SELF")) { 
+                for(clsPair<clsThingPresentationMesh, clsThingPresentationMesh> oTPMPairPI : oPIActionsArray) {
+                    if(oTPMPairPI.a.getContent().equals("SELF") || oTPMPairPI.b.getContent().equals("SELF")) { continue; } 
+                    if(oTPMPairPI.a.getContentType().equals(eContentType.ENTITY)) { 
                         PIObject  = oTPMPairPI.a.getContent();
                         PIAction = oTPMPairPI.b.getContent();
                     }
-                    else if(!oTPMPairPI.b.getContent().equals("SELF")){
+                    else {
                         PIObject  = oTPMPairPI.b.getContent();
                         PIAction = oTPMPairPI.a.getContent();
                     }
@@ -325,8 +399,8 @@ public class clsPrimarySpatialTools {
             for(clsAssociation oAssExt : moImage.getInternalAssociatedContent()) {
                 if(oAssExt.getAssociationElementB() instanceof clsThingPresentationMesh) { 
                     for(clsAssociation oAssExt2 : ((clsThingPresentationMesh)(oAssExt.getAssociationElementB())).getExternalAssociatedContent()) { 
-                        if(oAssExt2 instanceof clsAssociationPrimary && !((clsThingPresentationMesh)(oAssExt2.getAssociationElementA())).getContent().equals("SELF") && 
-                           !((clsThingPresentationMesh)(oAssExt2.getAssociationElementA())).getContent().equals("GOTO")) { 
+                        if(oAssExt2 instanceof clsAssociationPrimary && !((clsThingPresentationMesh)(oAssExt2.getAssociationElementA())).getContent().equals("SELF")) { 
+                          // !((clsThingPresentationMesh)(oAssExt2.getAssociationElementA())).getContent().equals("GOTO")) { 
                             clsPair<clsThingPresentationMesh, clsThingPresentationMesh> oAction = new clsPair(oAssExt2.getAssociationElementA(), oAssExt2.getAssociationElementB());
                             associatedActions.add(oAction);
                         }
@@ -405,19 +479,33 @@ public class clsPrimarySpatialTools {
         int numberOfMatchingAssociation = 0;
         
         for(clsAssociation oAssRI : oSpatialAssociationsmoRI) {
-            String oAssociatedElementRI = ((clsThingPresentationMesh)oAssRI.getAssociationElementA()).getContent();
+            String oAssociatedElementRIA = ((clsThingPresentationMesh)oAssRI.getAssociationElementB()).getContent();
+            String oAssociatedElementRIB = ((clsThingPresentationMesh)oAssRI.getAssociationElementA()).getContent();
+
             for(clsAssociation oAssPI :oSpatialAssociationsmoPI) {
                 String oAssociatedElementPIA = ((clsThingPresentationMesh)oAssPI.getAssociationElementA()).getContent();
                 String oAssociatedElementPIB = ((clsThingPresentationMesh)oAssPI.getAssociationElementB()).getContent();
-                if(oAssociatedElementRI.equals(oAssociatedElementPIA) || oAssociatedElementRI.equals(oAssociatedElementPIB)) { 
-                    numberOfMatchingAssociation += 1;
-                    break;
+                if(oAssociatedElementRIA.equals(oAssociatedElementPIA) || oAssociatedElementRIA.equals(oAssociatedElementPIB) ||
+                   oAssociatedElementRIB.equals(oAssociatedElementPIA) || oAssociatedElementRIB.equals(oAssociatedElementPIB)) { 
+                        numberOfMatchingAssociation += 1;
+                        break;
                 }
             }
         }
-        if(numberOfMatchingAssociation == oSpatialAssociationsmoRI.size()) { return 1; }         
+        if(oSpatialAssociationsmoRI.size()!=0) { 
+            return numberOfMatchingAssociation/2;
+        }       
         else {  return 0; } 
     }
+    
+   private static double calculateImageMatchAction(ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> poActionMatch) {
+       double mrMatch = 0;
+       for(clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double> pair :   poActionMatch) {
+           mrMatch += pair.b;
+       }
+       
+       return mrMatch ;
+   }
     
     
     private static double calculateImageMatchAction(clsThingPresentationMesh moPI, clsThingPresentationMesh moRI) {

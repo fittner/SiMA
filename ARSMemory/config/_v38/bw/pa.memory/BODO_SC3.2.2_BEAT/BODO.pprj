@@ -1,4 +1,4 @@
-; Wed Nov 04 15:21:44 GMT 2015
+; Thu Nov 05 00:48:22 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,70 +45,70 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BODO_ProjectKB_Class10] of  String
+([BODO_ProjectKB_Class100] of  Map_Entry
+
+	(key "InstanceDisplay.yellow_stickies")
+	(key_class "java.lang.String")
+	(value "BODO_ProjectKB_Class99")
+	(value_class "java.util.Map"))
+
+([BODO_ProjectKB_Class91] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([BODO_ProjectKB_Class92] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([BODO_ProjectKB_Class93] of  String
+
+	(name "ANTENNA_LEFT")
+	(string_value "instance_association"))
+
+([BODO_ProjectKB_Class94] of  String
+
+	(name "DOMAIN")
+	(string_value "value_type"))
+
+([BODO_ProjectKB_Class95] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([BODO_ProjectKB_Class11] of  Map_Entry
+([BODO_ProjectKB_Class96] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_ProjectKB_Class12] of  Map_Entry
+([BODO_ProjectKB_Class97] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_ProjectKB_Class13] of  Map_Entry
+([BODO_ProjectKB_Class98] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_ProjectKB_Class14] of  Map
+([BODO_ProjectKB_Class99] of  Map
 )
-
-([BODO_ProjectKB_Class15] of  Map_Entry
-
-	(key "InstanceDisplay.yellow_stickies")
-	(key_class "java.lang.String")
-	(value "BODO_ProjectKB_Class14")
-	(value_class "java.util.Map"))
-
-([BODO_ProjectKB_Class6] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([BODO_ProjectKB_Class7] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([BODO_ProjectKB_Class8] of  String
-
-	(name "ANTENNA_LEFT")
-	(string_value "instance_association"))
-
-([BODO_ProjectKB_Class9] of  String
-
-	(name "DOMAIN")
-	(string_value "value_type"))
 
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BODO_ProjectKB_Class6]
-		[BODO_ProjectKB_Class7]
-		[BODO_ProjectKB_Class8]
-		[BODO_ProjectKB_Class9]
-		[BODO_ProjectKB_Class10]))
+		[BODO_ProjectKB_Class91]
+		[BODO_ProjectKB_Class92]
+		[BODO_ProjectKB_Class93]
+		[BODO_ProjectKB_Class94]
+		[BODO_ProjectKB_Class95]))
 
 ([CLSES_TAB] of  Widget
 
@@ -153,7 +153,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_445053_Class5] of  Map
+([KB_205150_Class5] of  Map
 )
 
 ([KB_610615_Class0] of  String
@@ -164,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BODO_ProjectKB_Class11]
-		[BODO_ProjectKB_Class12]
-		[BODO_ProjectKB_Class13]
-		[BODO_ProjectKB_Class15])
-	(referenced_maps [BODO_ProjectKB_Class14]))
+		[BODO_ProjectKB_Class96]
+		[BODO_ProjectKB_Class97]
+		[BODO_ProjectKB_Class98]
+		[BODO_ProjectKB_Class100])
+	(referenced_maps [BODO_ProjectKB_Class99]))
 
 ([KB_610615_Class10] of  Property_List
 )

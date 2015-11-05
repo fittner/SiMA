@@ -138,6 +138,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 		//moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, prThreshold, 1);
 		oSearchResultMesh = moModuleBase.searchMesh(poOriginImage, eContentType.RI, prThreshold, 1);
 		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPI, prThreshold, 1));
+		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPA, prThreshold, 1));
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {

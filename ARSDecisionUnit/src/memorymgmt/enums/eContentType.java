@@ -23,7 +23,8 @@ public enum eContentType {
 	PI,			//Perceived Image
 	RI,			//Remembered Image
 	PHI,		//Phantasized image
-	RPI,
+	RPA, // recognized actions or 
+	RPI, // recognized intention
 	RIREPRESSED,
 	RILIBIDO,
 	RECOGNIZEDACTION,

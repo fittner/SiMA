@@ -1,4 +1,4 @@
-; Wed Nov 04 16:13:26 GMT 2015
+; Thu Nov 05 03:19:10 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3722,7 +3722,7 @@
 
 	(emotionIntensity 1.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
+	(sourceAggr 0.99)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)
@@ -3742,9 +3742,9 @@
 
 ([EMOTION%3ABODO_CAKE] of  EMOTION
 
-	(emotionIntensity 1.0)
+	(emotionIntensity 0.2)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
+	(sourceAggr 0.3)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)
@@ -4931,12 +4931,12 @@
 		[ASSOCIATIONTEMP%3ABODO_BEAT_SELF%3ABODO]
 		[ASSOCIATIONTEMP%3ABODO_BEAT_SELF%3ASELF])
 	(value "ACTION_IMAGE_BODO_BEAT_SELF")
-	(value_type "RI"))
+	(value_type "RPA"))
 
 ([TPM%3AIMAGE%3ABODO_OWNED_CAKE] of  TPM%3AIMAGE
 
 	(value "BODO_OWNED_CAKE")
-	(value_type "RI"))
+	(value_type "RPA"))
 
 ([TPM%3AIMAGE%3ALIBIDOIMAGE%3ACAKE_FAR] of  LIBIDOIMAGE
 
