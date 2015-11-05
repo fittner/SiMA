@@ -834,6 +834,13 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                      isOwned = true;
                      OwnerName = oAliveEntity.getContent();
                      minDistance = distance;
+                     for (clsAssociation oAss : oInanimateEntity.getExternalAssociatedContent()) {
+                             if (oAss instanceof clsAssociationAttribute) {
+                                 if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)) {
+                                     ((clsThingPresentation)oAss.getLeafElement()).setMoContent("CARRYING");
+                                 }
+                             }
+                     }
                  }
             }
             
