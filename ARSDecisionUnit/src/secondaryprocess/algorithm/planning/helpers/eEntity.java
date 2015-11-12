@@ -31,6 +31,7 @@ public enum eEntity {
 	WALL,
 	SMARTEXCREMENT,
 	TOILET,
-	EAT;
+	EAT,
+	SCHNITZEL;
 
 }
