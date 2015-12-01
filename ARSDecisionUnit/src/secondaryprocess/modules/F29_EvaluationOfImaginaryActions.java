@@ -265,7 +265,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         try {
             this.moDecisionEngine.declareGoalAsPlanGoal(planGoal);
         } catch (Exception e1) {
-            log.error("Cannot declare goal as plan goal", e1);
+            //log.error("Cannot declare goal as plan goal", e1);
         }
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
         log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: "
