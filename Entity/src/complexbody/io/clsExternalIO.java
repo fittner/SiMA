@@ -46,6 +46,7 @@ import complexbody.io.actuators.actionCommands.clsActionSpeech;
 import complexbody.io.actuators.actionCommands.clsActionToInventory;
 import complexbody.io.actuators.actionCommands.clsActionTurn;
 import complexbody.io.actuators.actionCommands.clsActionTurnVision;
+import complexbody.io.actuators.actionCommands.clsActionWait;
 import complexbody.io.actuators.actionExecutors.clsExecutorAgree;
 //import complexbody.io.actuators.actionExecutors.clsExecutorAgree;
 import complexbody.io.actuators.actionExecutors.clsExecutorAttackBite;
@@ -73,6 +74,7 @@ import complexbody.io.actuators.actionExecutors.clsExecutorSpeechExpression;
 import complexbody.io.actuators.actionExecutors.clsExecutorToInventory;
 import complexbody.io.actuators.actionExecutors.clsExecutorTurn;
 import complexbody.io.actuators.actionExecutors.clsExecutorTurnVision;
+import complexbody.io.actuators.actionExecutors.clsExecutorWait;
 import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import complexbody.io.sensors.external.clsSensorAcceleration;
 import complexbody.io.sensors.external.clsSensorBump;
@@ -364,6 +366,9 @@ public class clsExternalIO extends clsBaseIO {
 		
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+entities.enums.eBodyParts.ACTIONEX_SLEEP,1);
 		oProp.putAll( clsExecutorSleep.getDefaultProperties( pre+P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_SLEEP) );
+		
+		oProp.setProperty(pre + P_ACTIONAVAILABLE	+"."+ entities.enums.eBodyParts.ACTIONEX_WAIT, 1);
+		oProp.putAll(clsExecutorRequest.getDefaultProperties( pre + P_ACTIONEX	+"."+ entities.enums.eBodyParts.ACTIONEX_WAIT));
 
 		return oProp;		
 	}
@@ -456,11 +461,10 @@ public class clsExternalIO extends clsBaseIO {
 
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+entities.enums.eBodyParts.ACTIONEX_SPEECH)==1) moProcessor.addCommand(clsActionSpeech.class, new clsExecutorSpeech(poPrefix+"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_SPEECH,poProp,(clsMobile) moEntity)); // MW 
 		
-		if (poProp.getPropertyInt( pre + P_ACTIONAVAILABLE	+ "."+entities.enums.eBodyParts.ACTIONEX_REQUEST) == 1) moProcessor.addCommand(clsActionRequest.class, new clsExecutorRequest(poPrefix +"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_AGREE, poProp)); // MW 
+		if (poProp.getPropertyInt( pre + P_ACTIONAVAILABLE	+ "."+entities.enums.eBodyParts.ACTIONEX_REQUEST) == 1) moProcessor.addCommand(clsActionRequest.class, new clsExecutorRequest(poPrefix +"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_AGREE, poProp, (clsMobile) moEntity)); // MW 
 		if (poProp.getPropertyInt( pre + P_ACTIONAVAILABLE	+ "."+entities.enums.eBodyParts.ACTIONEX_OBJECTTRANSFER) == 1) moProcessor.addCommand(clsActionObjectTransfer.class, new clsExecutorObjectTransfer(poPrefix+"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_OBJECTTRANSFER, poProp, (clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre + P_ACTIONAVAILABLE	+ "."+entities.enums.eBodyParts.ACTIONEX_AGREE) == 1) moProcessor.addCommand(clsActionAgree.class, new clsExecutorAgree(poPrefix +"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_AGREE, poProp)); // MW 
-
-		
+		if (poProp.getPropertyInt( pre + P_ACTIONAVAILABLE	+ "."+entities.enums.eBodyParts.ACTIONEX_WAIT) == 1) moProcessor.addCommand(clsActionWait.class, new clsExecutorWait(poPrefix +"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_AGREE, poProp, (clsMobile) moEntity));
 		
 		//TODO: Add itfAPSleep - objects to inform when sleeping!		
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+entities.enums.eBodyParts.ACTIONEX_SLEEP)==1) {

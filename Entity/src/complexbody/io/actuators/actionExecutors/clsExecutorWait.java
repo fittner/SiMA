@@ -1,16 +1,10 @@
 /**
  * CHANGELOG
  *
- * Oct 29, 2015 zhukova - File created
+ * 01.12.2015 Kollmann - File created
  *
  */
 package complexbody.io.actuators.actionExecutors;
-
-import java.util.ArrayList;
-
-
-
-
 
 import properties.clsProperties;
 import singeltons.eImages;
@@ -18,93 +12,103 @@ import complexbody.io.actuators.clsActionExecutor;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
 import entities.abstractEntities.clsEntity;
 
-
 /**
- * DOCUMENT (zhukova) - insert description 
+ * DOCUMENT (Kollmann) - insert description 
  * 
- * Class for execution of Request action 
- * 
- * @author zhukova
- * Oct 29, 2015, 3:52:29 PM
+ * @author Kollmann
+ * 01.12.2015, 16:56:20
  * 
  */
-public class clsExecutorRequest extends clsActionExecutor{
+public class clsExecutorWait extends clsActionExecutor {
 
+	clsEntity moEntity;
+	
 	/**
-	 * DOCUMENT (zhukova) - insert description 
+	 * DOCUMENT (Kollmann) - Base constructor 
 	 *
-	 * @since Oct 29, 2015 3:52:52 PM
+	 * @since 01.12.2015 16:57:00
 	 *
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	 
-	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
-	private clsEntity moEntity;
-	
-	public clsExecutorRequest(String poPrefix, clsProperties poProp, clsEntity poSelf) {
+	public clsExecutorWait(String poPrefix, clsProperties poProp, clsEntity poSelf) {
 		super(poPrefix, poProp);
 		moEntity = poSelf;
-		
 	}
 
-	
+	/**
+	 * DOCUMENT (Kollmann) - Return the default properties
+	 * Currently uses the action executors implementation to set the energy<->stamina relation to a fixed value
+	 *
+	 * @since 01.12.2015 16:59:13
+	 *
+	 * @param poPrefix
+	 * @return
+	 */
 	public static clsProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsProperties.addDot(poPrefix);
 		clsProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
 
 		return oProp;
 	}
+	
 	/* (non-Javadoc)
 	 *
-	 * @since Oct 29, 2015 3:52:57 PM
+	 * @since 01.12.2015 16:56:20
 	 * 
 	 * @see complexbody.io.actuators.clsActionExecutor#setBodyPartId()
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = entities.enums.eBodyParts.ACTIONEX_REQUEST;
-		
+		mePartId = entities.enums.eBodyParts.ACTIONEX_WAIT;
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since Oct 29, 2015 3:52:57 PM
+	 * @since 01.12.2015 16:56:20
 	 * 
 	 * @see complexbody.io.actuators.clsActionExecutor#setName()
 	 */
 	@Override
 	protected void setName() {
-		moName="Request executor";
-		
+		moName="Wait executor";
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since Oct 29, 2015 3:52:57 PM
+	 * @since 01.12.2015 17:04:36
+	 * 
+	 * @see complexbody.io.actuators.clsActionExecutor#getEnergyDemand(complexbody.io.actuators.actionCommands.clsActionCommand)
+	 */
+	@Override
+	public double getEnergyDemand(clsActionCommand poCommand) {
+		return getStaminaDemand(poCommand)*srEnergyRelation;
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 01.12.2015 17:04:24
 	 * 
 	 * @see complexbody.io.actuators.clsActionExecutor#getStaminaDemand(complexbody.io.actuators.actionCommands.clsActionCommand)
 	 */
 	@Override
 	public double getStaminaDemand(clsActionCommand poCommand) {
-		// TODO (zhukova) - Auto-generated method stub
-		return 0;
+		return 0; 
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since Oct 29, 2015 3:52:57 PM
+	 * @since 01.12.2015 16:56:20
 	 * 
 	 * @see complexbody.io.actuators.clsActionExecutor#execute(complexbody.io.actuators.actionCommands.clsActionCommand)
 	 */
 	@Override
 	public boolean execute(clsActionCommand poCommand) {
-		moEntity.setOverlayImage(eImages.Overlay_Action_Request);
+		moEntity.setOverlayImage(eImages.Overlay_Action_Wait);
 		
-		//3) attach request to the self 
+		//3) attach wait to the self 
         
         clsAction oAction = new clsAction(1);
-        oAction.setActionName("REQUEST");
+        oAction.setActionName("WAIT");
         moEntity.addAction(oAction);
 		
 		return true;

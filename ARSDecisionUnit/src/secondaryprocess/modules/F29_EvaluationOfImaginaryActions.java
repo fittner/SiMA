@@ -244,6 +244,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      */
     @Override
     protected void process_basic() {
+        clsWordPresentationMesh oWaitAction = null;
+        
         log.debug("=== module {} start ===", this.getClass().getName());
 
         // Select the best goal
@@ -257,7 +259,17 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         clsWordPresentationMeshPossibleGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
 
         if(planGoal.getTotalImportance() < mrWaitThreshold) { 
+            //Create WAIT goal
             planGoal = clsGoalManipulationTools.createSelectableGoal("WAIT", eGoalType.NULLOBJECT, -1,clsMeshTools.getNullObjectWPM());
+            
+            //Create WAIT action
+            oWaitAction = clsActionTools.createAction(eAction.WAIT);
+            
+            //Set WAIT action as plan action
+            planGoal.setAssociatedPlanAction(oWaitAction);
+            
+            //Select the WAIT goal
+            planGoal.setCondition(eCondition.IS_CONTINUED_GOAL);
         } 
             
         logger.clsLogger.getLog("EmotionRange").info("Emotion Match on plangoal: {}", planGoal.getFeelingsMatchImportance());
@@ -265,7 +277,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         try {
             this.moDecisionEngine.declareGoalAsPlanGoal(planGoal);
         } catch (Exception e1) {
-            //log.error("Cannot declare goal as plan goal", e1);
+            log.error("Cannot declare goal as plan goal", e1);
         }
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
         log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: "
