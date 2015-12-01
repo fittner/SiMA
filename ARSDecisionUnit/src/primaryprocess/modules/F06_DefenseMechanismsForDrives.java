@@ -1283,8 +1283,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	        ArrayList<clsDriveMesh> oForbiddenDriveMeshes = findInDriveList(moForbiddenDrives_Input);
 	        // parameter 0.1 in expression moEgoStrength + 0.1 is for the calibration (arbitrary)
 	         //old conflict tention calculation 
-	        //double rTransfer = calculateConflictTension(moForbiddenDrives_Input)*(moEgoStrength-0.1);
-	        double rTransfer = calculateConflictTension(moForbiddenDrives_Input)*(moEgoStrength*1.5);
+	        double rTransfer = calculateConflictTension(moForbiddenDrives_Input)*(moEgoStrength-0.1);
+	        //double rTransfer = calculateConflictTension(moForbiddenDrives_Input)*(moEgoStrength*1.5);
 	        if (!oForbiddenDriveMeshes.isEmpty()) {
 	            for (clsDriveMesh oForbiddenDriveMesh : oForbiddenDriveMeshes) {
 	                moDriveList_Output.remove(oForbiddenDriveMesh);

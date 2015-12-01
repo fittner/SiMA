@@ -1,4 +1,4 @@
-; Tue Jun 30 14:16:55 CEST 2015
+; Wed Oct 07 15:03:43 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3222,7 +3222,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3233,7 +3233,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3244,7 +3244,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I02%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3255,7 +3255,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I03%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3266,7 +3266,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I04%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3277,7 +3277,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01_I05%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)

@@ -133,10 +133,12 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	 */
 	private void getAssociatedImagesPerception(clsThingPresentationMesh poOriginImage, double prThreshold) {
 		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsPair<Double,clsDataStructurePA>>();
-		
+	    ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh2 = new ArrayList<clsPair<Double,clsDataStructurePA>>();
+
 		//moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, prThreshold, 1);
 		oSearchResultMesh = moModuleBase.searchMesh(poOriginImage, eContentType.RI, prThreshold, 1);
-		
+		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPI, prThreshold, 1));
+		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPA, prThreshold, 1));
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {

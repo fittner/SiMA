@@ -43,6 +43,8 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
 import base.datatypes.clsAssociationEmotion;
+import base.datatypes.clsAssociationPrimary;
+import base.datatypes.clsAssociationSpatial;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
@@ -104,6 +106,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private boolean useAttentionMechanism = false;
 	
+	private HashMap<String, String> composedActions = new HashMap<String, String>();
+	
 	ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();
 	List<clsEmotion> moCurrentEmotions = new ArrayList<>(); 
 	
@@ -119,7 +123,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     public static final String P_EMOTIONRECOGNITION_PRIMING_LIBIDO = "EMOTIONRECOGNITION_PRIMING_LIBIDO";
     public static final String P_EMOTIONRECOGNITION_PRIMING_INTENSITY = "EMOTIONRECOGNITION_PRIMING_INTENSITY";
     
-    public static final int N_PROXIMITY_DISTANCE = 15; 
+    public static final int N_PROXIMITY_DISTANCE = 17; 
     
     private double mrEmotionrecognitionPrimingPleasure;
     private double mrEmotionrecognitionPrimingUnpleasure;
@@ -190,6 +194,18 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}
 		
 		return text;
+	}
+	
+	private void setGoToComposition() {
+	    composedActions.put("TURN_LEFT", "GOTO");
+	    composedActions.put("TURN_RIGHT", "GOTO");
+	    composedActions.put("MOVE_FOREWARD", "GOTO");
+	    composedActions.put("MOVE_FORWARD", "GOTO");
+	    composedActions.put("MOVE_BACKWARD", "GOTO");
+
+	    //composedActions.put("TURN_LEFT", "GOTO");
+	    //composedActions.put("TURN_LEFT", "GOTO");
+	    
 	}
 	
 	public String debugBodystate(clsThingPresentationMesh poBodystate) {
@@ -377,7 +393,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    // 0. reset datastructures for inspectors
 	    moBodystateCreation = "";
 	    moSearchPattern = new ArrayList<clsThingPresentationMesh>();
-	    
+        setGoToComposition();
+
 	    
         // 1. Convert Neurosymbols to TPMs
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = convertSymbolToTPM(moEnvironmentalData);
@@ -669,7 +686,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         }
         
         oOutputTPMs = PrimingBodystates(oOutputTPMs); //koller
-        
         // zhukova attributed ownership
         oOutputTPMs = determineObjectsOwnership(oOutputTPMs);
         determineActionsOfAnAgents(oOutputTPMs);
@@ -683,47 +699,60 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 *  if the entity is non-alive then the entity action should be "none"
 	 */
 	
-	
+	// if we do not have any association primary in the current perceive input then we either will take it from the previous round or (in case if there was any before)
+	// generate a new one
 	private void determineActionsOfAnAgents(ArrayList<clsThingPresentationMesh> poOutputTPMs) {
 	       clsThingPresentationMesh oAssociatedAction = null;
 	       boolean bAddAction = false;
 	       for(int index = 0; index < poOutputTPMs.size(); index++) {
                 bAddAction = false;
-	            if(isAlive(poOutputTPMs.get(index))) { 
+                clsThingPresentationMesh oTPM = poOutputTPMs.get(index);
+                // we can 
+	            if(isAlive(oTPM)) { 
 	                ArrayList<clsAssociation> oExternalAssociatedContent = poOutputTPMs.get(index).getExternalAssociatedContent();
 	                for(clsAssociation oExtAss : oExternalAssociatedContent) {
 	                    if(oExtAss.getAssociationElementB() instanceof clsThingPresentationMesh) { 
 	                        clsThingPresentationMesh oAssociatedTPM = (clsThingPresentationMesh) oExtAss.getAssociationElementB();
 	                        if(oAssociatedTPM.getContentType().equals(eContentType.ACTION)) {
 	                            bAddAction = true;
+	                            if(composedActions.containsKey(oAssociatedTPM.getContent())) { 
+	                                oAssociatedTPM.setMoContent(composedActions.get(oAssociatedTPM.getContent()));
+	                            }
 	                            oAssociatedAction = oAssociatedTPM;
 	                            oCurrentActions.set(index, oAssociatedAction);
 	                            break;
 	                        }
 	                    }
 	                }
-	                if(!bAddAction) { 
+	                if(!bAddAction) {
+	                    bAddAction = true;
+
 	                    if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) { 
-	                        oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.WAIT.toString() ));
-	                        bAddAction = true;     
+	                        oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.WAIT.toString() ));   
+	                    }
+	                    else {
+	                        oAssociatedAction = oCurrentActions.get(index);
 	                    }
 	                }
-	            }
-	            else { 
-	                if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) {
+	                clsAssociationPrimary oAssPr = clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.ASSOCIATIONPRI, oTPM, oAssociatedAction , 1.0);
+	                poOutputTPMs.get(index).addExternalAssociation(oAssPr);
+	                
+	            } else if(!oTPM.getContentType().equals(eContentType.ACTION)){ 
+	                //if(index >= oCurrentActions.size() || oCurrentActions.get(index).isNullObject()) {
 	                    oAssociatedAction = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<clsThingPresentation>(),  eAction.NONE.toString() ));
 	                    bAddAction = true;
-	                }
+	                //}
 	            }
-	            if(bAddAction)
+	            
+	            // add new action 
+	            if(bAddAction) { 
 	                if(index >= oCurrentActions.size())
 	                    oCurrentActions.add(index, oAssociatedAction);
 	                else
 	                    oCurrentActions.set(index, oAssociatedAction);
-
-	       }
-	       
-	       
+	            }
+	            
+	       } 
 	}
 	
 	private boolean isAlive(clsThingPresentationMesh poTPM)  {
@@ -755,7 +784,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	        if(isAlive(oEntity)) {    
 	            oAliveEntities.add(oEntity);
 	         }
-	         else {
+	         else if(!oEntity.getContentType().equals(eContentType.ACTION)) {
 	             oInanimateEntities.add(oEntity);
 	         }     
 	    }
@@ -773,6 +802,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	        // the minimum distance to compare, initially equals to minimum 
 	        double minDistance = N_PROXIMITY_DISTANCE;
 	        
+	        clsThingPresentationMesh owner = null, owned = null ;
+	        int indexOwner = 0, indexOwned = 0;
+	        
 	        ArrayList<clsAssociation> oExternalAssociatedContent = oInanimateEntity.getExternalAssociatedContent();
             for(clsAssociation oAss : oExternalAssociatedContent) {
                 String contentType = oAss.getAssociationElementB().getContentType().toString();
@@ -785,6 +817,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 }
             }
             for(clsThingPresentationMesh oAliveEntity : oAliveEntities) {
+                if(oAliveEntity.getContent().contains("SELF")) continue;
                 oExternalAssociatedContent = oAliveEntity.getExternalAssociatedContent();
                 for(clsAssociation oAss : oExternalAssociatedContent) {
                     String contentType = oAss.getAssociationElementB().getContentType().toString();
@@ -800,6 +833,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                  if(distance <= minDistance) {
                      isOwned = true;
                      OwnerName = oAliveEntity.getContent();
+                     minDistance = distance;
+                     for (clsAssociation oAss : oInanimateEntity.getExternalAssociatedContent()) {
+                             if (oAss instanceof clsAssociationAttribute) {
+                                 if (oAss.getLeafElement().getContentType().equals(eContentType.DISTANCE)) {
+                                     ((clsThingPresentation)oAss.getLeafElement()).setMoContent("CARRYING");
+                                 }
+                             }
+                     }
                  }
             }
             
@@ -807,22 +848,20 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 for(int index = 0; index < poOutputTPMs.size(); index ++) {
                     clsThingPresentationMesh entity = poOutputTPMs.get(index);
                     if(entity.getContent().equals(OwnerName)) {
-                        clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.ISOWNER, ObjectName));
-                        clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
-                                -1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
-                                entity, oTP);
-                        
-                        poOutputTPMs.get(index).addExternalAssociation(oAssociation);
+                        indexOwner = index;
                     }
                     if(entity.getContent().equals(ObjectName)) {
-                        clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.ISOWNED, OwnerName));
-                        clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
-                                -1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
-                                entity, oTP);
-                        poOutputTPMs.get(index).addExternalAssociation(oAssociation);
+                        indexOwned = index;    
                     }
                 }
+                clsAssociation oAssociation = new clsAssociationSpatial(new clsTriple<Integer, eDataType, eContentType>(
+                        -1, eDataType.ASSOCIATIONSPATIAL, eContentType.ASSOCIATIONSPATIAL), 
+                        poOutputTPMs.get(indexOwner), poOutputTPMs.get(indexOwned));
+                
+                poOutputTPMs.get(indexOwner).addExternalAssociation(oAssociation);
+                poOutputTPMs.get(indexOwned).addExternalAssociation(oAssociation);
             }
+
 	    }
 	    return poOutputTPMs;
 	}
@@ -1081,13 +1120,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				}
 				
 
+
 				//zhukova update: save the body state values into the   array
                 boolean boCheckForBodystate = false;
                 clsThingPresentationMesh tpm = null;
                 //which variables should we search for defining which emotion it is (shaking, cheeks_redning and so on )
                 ArrayList<clsThingPresentation> oArrayListExpressionVarTPForSearch = null;
                 clsThingPresentationMesh oTPMForSearch = null;
-                int rTPMCount = 0;
+                int rTPMCount = 0; 
                 
                 for(clsPrimaryDataStructureContainer pdsc : poEnvironmentalTP){
                     if(pdsc.getMoDataStructure().getContentType() == eContentType.ENTITY){
@@ -1116,13 +1156,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 }
 								
                 oSearchResultsEnviromentalTP = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternEnviromentalTP); //koller Suchaufruf mit neuem DMTPM eDataType
-				
+                
                 poRankingResultsEnviromentalTP = rankCandidatesTPM(oSearchResultsEnviromentalTP);
                 
                 // Zhukova
                 // Searching the body state for the entity
                 
                 oSearchResultsBodyState = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternBodyState);
+
                 
                 //koller remove TPM-Associations that contain no Bodystates (because the search function cannot distinguish)
                 ArrayList<clsAssociation> oAssToRemove = null;

@@ -48,8 +48,7 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
     protected void processGoal() {
      // --- Check the conditions in the intention --- //
         //Get the intention
-        clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(moGoal.getSupportiveDataStructure());
-           
+        clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(moGoal.getSupportiveDataStructure()); 
         ArrayList<eCondition> conditionList = clsActPreparationTools.initActInGoal(oIntention);
         
         for (eCondition c: conditionList) {

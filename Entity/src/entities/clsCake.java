@@ -50,7 +50,6 @@ public class clsCake extends clsOrganic implements itfGetFlesh, itfAPEatable, it
 	
 	private boolean mnDestroyed = false;
 	
-	
 	public final clsProperties moCreationProperties;
 	
 	public clsCake(String poPrefix, clsProperties poProp, int uid)

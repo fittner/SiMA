@@ -632,7 +632,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
        // use  assoc. emotions from PI's RIs for emotion-generation        
        for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalAssociatedContent()){
            if(oPIExtAss.getContentType() == eContentType.ASSOCIATIONPRI){
-               if(oPIExtAss.getAssociationElementB().getContentType() == eContentType.RI) {
+               if(oPIExtAss.getAssociationElementB().getContentType() == eContentType.RI ||
+                  oPIExtAss.getAssociationElementB().getContentType() == eContentType.RPI ||
+                  oPIExtAss.getAssociationElementB().getContentType() == eContentType.RPA) {
                    oRI = (clsThingPresentationMesh)oPIExtAss.getAssociationElementB();
                    
                    for (clsAssociation oRIAss: oRI.getExternalAssociatedContent()) {

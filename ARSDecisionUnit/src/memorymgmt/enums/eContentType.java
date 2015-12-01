@@ -18,14 +18,16 @@ public enum eContentType {
 	NULLOBJECT,
 	NOTHING,
 	EMPTYSPACE,
-	
+	RI_ACTION,
 	//---Images---//
 	PI,			//Perceived Image
 	RI,			//Remembered Image
 	PHI,		//Phantasized image
+	RPA, // recognized actions or 
+	RPI, // recognized intention
 	RIREPRESSED,
 	RILIBIDO,
-	
+	RECOGNIZEDACTION,
 	PIMATCH, 		//Content type of perception
 	
 	//--- Entities --- //
@@ -78,7 +80,7 @@ public enum eContentType {
 	DRIVEAIMIMPORTANCE,
 	ENTITYVALUATIONMATCHIMPORTANCE,
 	ENTITYBODYSTATEMATCHIMPORTANCE,
-	
+	REQUEST,
 	Expressions,
 	
 	
@@ -146,6 +148,7 @@ public enum eContentType {
 	ASSOCIATIONPRI,
 	ASSOCIATIONPRIDM,
 	ASSOCIATIONSEC,
+	ASSOCIATIONSPATIAL,
 	ASSOCIATIONEMOTION,
 	ASSOCIATIONFEELING,
 	DRIVEDEMAND,
@@ -318,7 +321,7 @@ public enum eContentType {
     MEDIUMOF,
     FAROF,
     OUT_OF_SIGHT_OF,
-    
+    CARRYING,
     
     //Control
     HASPHANTASYFLAG,
@@ -326,6 +329,7 @@ public enum eContentType {
  // Ownership
     ISOWNER,
     ISOWNED,
+    CarringVariable,
 	//Expression
     Expression; //koller
 	

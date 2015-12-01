@@ -10,12 +10,11 @@ package complexbody.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
-import properties.clsProperties;
 
+import properties.clsProperties;
 import complexbody.io.actuators.clsActionExecutor;
 import complexbody.io.actuators.actionCommands.*;
-
-
+import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import entities.abstractEntities.clsMobile;
 
 
@@ -31,7 +30,10 @@ public class clsExecutorDrop  extends clsActionExecutor{
 	private clsMobile moEntity;
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
-
+	private eSensorExtType moRangeSensor;
+	public static final String P_RANGESENSOR = "rangesensor";
+	
+	
 	public clsExecutorDrop(String poPrefix, clsProperties poProp, clsMobile poEntity) {
 		super(poPrefix, poProp);
 		
@@ -40,15 +42,18 @@ public class clsExecutorDrop  extends clsActionExecutor{
 		moMutEx.add(clsActionPickUp.class);
 		moMutEx.add(clsActionFromInventory.class);
 		moMutEx.add(clsActionToInventory.class);
+
 	}
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsProperties.addDot(poPrefix);
+		String pre = clsProperties.addDot(poPrefix);
 		clsProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
-
+		oProp.setProperty(pre + P_RANGESENSOR, eSensorExtType.MANIPULATE_AREA.toString());
 		return oProp;
 	}
 	
+
+
 	/*
 	 * Set values for SensorActuator base-class
 	 */
@@ -99,11 +104,13 @@ public class clsExecutorDrop  extends clsActionExecutor{
 			return false;			
 		}
 		
-		
 		//Attach action to entity
         clsAction oAction = new clsAction(1);
         oAction.setActionName("DROP");
         moEntity.addAction(oAction);
 		return true;
+		
+		 
+		
 	}
 }

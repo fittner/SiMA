@@ -62,6 +62,11 @@ public enum eAction {
 	FOCUS_TURN_RIGHT,
 	FOCUS_TURN_LEFT,
 	
+	REQUEST,
+	OBJECT_TRANSFER,
+	AGREE,
+	DISAGREE,
+	
 	FOCUS_SEARCH1,
 	
 	//Composed actions

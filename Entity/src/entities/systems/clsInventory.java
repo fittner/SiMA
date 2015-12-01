@@ -90,7 +90,7 @@ public class clsInventory {
 		return moCarriedEntity;
 	}
 
-		public void setCarriedEntity(clsMobile poEntity) {		
+	public void setCarriedEntity(clsMobile poEntity) {		
 		//Can I carry anything?
 		if (getMaxItems()<0) return;
 		
@@ -103,6 +103,7 @@ public class clsInventory {
 			moInventory.remove(poEntity);
 			moCarriedEntity = poEntity;
 			moEntity.setCarriedItem(((clsCircleImage)moCarriedEntity.getMobileObject2D().getShape()).getImage());
+			//moEntity.getInventory()
 		}
 		//Pick up from environment
 		else{
@@ -110,8 +111,8 @@ public class clsInventory {
 			((clsMobile)moCarriedEntity).incHolders();
 
 			moEntity.setCarriedItem(((clsCircleImage)moCarriedEntity.getMobileObject2D().getShape()).getImage());
-			clsRegisterEntity.unRegisterPhysicalObject2D(moCarriedEntity.getMobileObject2D());
-			moCarriedEntity.setRegistered(false);
+			//clsRegisterEntity.unRegisterPhysicalObject2D(moCarriedEntity.getMobileObject2D());
+			//moCarriedEntity.setRegistered(false);
 			((itfAPCarryable)moCarriedEntity).setCarriedBindingState(eBindingState.CARRIED);
 
 		}
@@ -150,7 +151,7 @@ public class clsInventory {
 		//clsRegisterEntity.registerMobileObject2D(moCarriedEntity.getMobileObject2D());
 		clsRegisterEntity.addEntity(moCarriedEntity.getMobileObject2D());
 		//drop entity in front of arsin
-		moCarriedEntity.setPose(calculateNewPose(moEntity,moCarriedEntity));
+		moCarriedEntity.setPose(calculateNewPose(moEntity, moCarriedEntity));
 		moCarriedEntity.setVelocity(new Double2D(0.0,0.0));
 
 		moCarriedEntity.setRegistered(true);

@@ -226,7 +226,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			oResult = this.searchMesh(oSearchPattern, prThreshold, pnLevel);
 			//accessKnowledgeBaseMesh(poSearchResult, oSearchPattern, prThreshold, pnLevel); 
 			
-			//Set the old content type again...this is hack dirty bastard shit
+			//Set the old content type again...this is hack dirty bastatkrd shit
 			poPattern.setMoContentType(oInputContentType);
 			
 		} else {

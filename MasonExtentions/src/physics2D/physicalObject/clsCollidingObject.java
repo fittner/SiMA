@@ -22,7 +22,10 @@ import tools.clsPolarcoordinate;
 public class clsCollidingObject {
 	public PhysicalObject2D moCollider;
 	public clsPolarcoordinate mrColPoint;
-	public eSide meColPos; 	
+	public eSide meColPos;
+	// Zhukova
+	// for fixing the name of the entity who is holding the object
+	private String moEntityHolderName;
 	public itfEntity moEntity;
 	
 	/**
@@ -35,6 +38,16 @@ public class clsCollidingObject {
 		mrColPoint = prColPoint;
 		meColPos = peColPos; 
 		moEntity = getEntity(moCollider);
+	}
+	
+	// Zhukova store the name of entity holder for curried objects 
+	
+	public void setEntityHolderName(String poName) {
+		moEntityHolderName = poName;
+	}
+	
+	public String getEntityHolderName(String poName) {
+		return moEntityHolderName;
 	}
 	
 	private itfEntity getEntity(PhysicalObject2D poObject) {

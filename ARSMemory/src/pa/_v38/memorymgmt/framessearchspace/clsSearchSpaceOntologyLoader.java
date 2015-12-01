@@ -61,7 +61,6 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 		for(Map.Entry<String, clsDataStructurePA> oEntry : moDataStructureTable.entrySet()){
 			clsDataStructurePA oDS = oEntry.getValue();
 			try {
-				
 				if(!moSearchSpaceContent.containsKey(oDS.getMoDataStructureType())){
 					moSearchSpaceContent.put(oDS.getMoDataStructureType(), new HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>()); 
 				}
