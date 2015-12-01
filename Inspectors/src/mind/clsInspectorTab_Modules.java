@@ -485,9 +485,9 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 					"Libidinous", "Pleasure Development", "LIBIDINOUS"));
 			poTI.addInspector(oContainer, "Emotion Development");
 			oContainer = new cls_CombinedGenericChart();
-			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "Perceived"));
-			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "Evaluation"));
-			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "Transfered"));
+			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "Associated Emotion"));
+			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "(weighted) Valuation"));
+			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "Transfered Emotion"));
 			oContainer.setLayout(new BoxLayout(oContainer, BoxLayout.X_AXIS));
 			poTI.addInspector(oContainer, "Emotion Transfer");
 		}

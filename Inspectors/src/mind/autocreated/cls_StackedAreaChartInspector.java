@@ -127,8 +127,8 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	        
 	        // change the auto tick unit selection to integer units only...
 	        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-	        rangeAxis.setRange(0.0, 1.0);
-	        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+	        rangeAxis.setRange(0.0, 0.75);
+	        rangeAxis.setStandardTickUnits(NumberAxis.createStandardTickUnits());
 
 	        final CategoryItemRenderer renderer = plot.getRenderer();
 	        renderer.setBaseItemLabelsVisible(true);

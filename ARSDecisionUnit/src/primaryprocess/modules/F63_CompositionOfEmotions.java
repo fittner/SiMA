@@ -477,7 +477,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                              *  getting happier while being angry - the result will probably stabilize somewhere between these two emotions.
                              */
                             
-                            //if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
+                            if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
                                 if(oEntityAss.getAssociationElementB().getContentType() == eContentType.ENTITY){
                             
                                     clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oEntityAss.getAssociationElementB();
@@ -493,7 +493,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                                         }
                                     }
                                 }
-                            //}
+                            }
                         }  
                     }//end koller  
                     
@@ -1266,33 +1266,49 @@ public class F63_CompositionOfEmotions extends clsModuleBase
     public ArrayList<ArrayList<Double>> getBarChartData(String poLabel) {
         ArrayList<ArrayList<Double>> oOuterData = new ArrayList<ArrayList<Double>>();
         
-        if(moAgentAttributedEmotion != null && moAgentEmotionValuation != null && moAgentTransferedEmotion != null)
-        {
-            switch(poLabel) {
-            case "Perceived":
+        switch(poLabel) {
+        case "Associated Emotion":
+            if(moAgentAttributedEmotion != null) {
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourcePleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceUnpleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceAggr())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceLibid())));
-                break;
-            case "Evaluation":
+            } else {
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            }
+            break;
+        case "(weighted) Valuation":
+            if(moAgentEmotionValuation != null) {
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourcePleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceUnpleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceAggr())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceLibid())));
-                break;
-            case "Transfered":
+            } else {
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            }
+            break;
+        case "Transfered Emotion":
+            if(moAgentTransferedEmotion != null) {
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourcePleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceUnpleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceAggr())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceLibid())));
-                break;
+            } else {
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
             }
-        } else {
-            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
-            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
-            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
-            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            break;
+        default:
+            log.warn("Trying to generate bar chart data for non-existant label {}", poLabel);
+            break;
         }
         
         return oOuterData;
