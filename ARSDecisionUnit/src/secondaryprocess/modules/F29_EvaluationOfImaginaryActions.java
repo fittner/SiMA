@@ -8,8 +8,8 @@ package secondaryprocess.modules;
 
 import inspector.interfaces.clsTimeChartPropeties;
 import general.datamanipulation.PrintTools;
+import inspector.interfaces.itfInspectorAdvancedStackedBarChart;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
-import inspector.interfaces.itfInspectorStackedBarChart;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionali
  * 
  */
 public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements I6_2_receive, I6_10_receive, I6_11_send,
-        itfInspectorGenericActivityTimeChart, itfInspectorStackedBarChart {
+        itfInspectorGenericActivityTimeChart, itfInspectorAdvancedStackedBarChart {
     public static final String P_MODULENUMBER = "29";
 
     private static final String P_MODULE_STRENGTH = "MODULE_STRENGTH";
