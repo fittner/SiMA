@@ -334,6 +334,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         oBaseEmotion.setThresholdRange(mrThresholdRange);
         moEmotions_OUT.add(oBaseEmotion);
         
+        moTargetEmotion.setRelativeThreshold(mrRelativeThreshold);
+        moTargetEmotion.setThresholdRange(mrThresholdRange);
+        
 	    double rRequestedPsychicIntensity = 0.0;
 	                
 	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
@@ -523,10 +526,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			    if(oExperiencedEmotion != null) {
 			        
 			        //let the expierenced emotion have influence on the current emotion state
-			        rPerceptionPleasure_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourcePleasure(); 
-                    rPerceptionUnpleasure_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceUnpleasure();
-                    rPerceptionLibid_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceLibid();
-                    rPerceptionAggr_EXP = mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceAggr();
+			        rPerceptionPleasure_EXP = nonProportionalAggregation(rPerceptionPleasure_EXP, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourcePleasure()); 
+			        rPerceptionUnpleasure_EXP = nonProportionalAggregation(rPerceptionUnpleasure_EXP, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceUnpleasure());
+			        rPerceptionLibid_EXP = nonProportionalAggregation(rPerceptionLibid_EXP, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceLibid());
+			        rPerceptionAggr_EXP = nonProportionalAggregation(rPerceptionAggr_EXP, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceAggr());
 			        
                     if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
                         moAgentEmotionValuation = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,
@@ -572,10 +575,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                     rTransferAggressive += mrPerceptionLibidinousImpactFactor*oEmotionFromBodystate.getSourceLibid() * rUnpleasureFactor;
                     rTransferLibidinous += mrPerceptionAggressiveImpactFactor*oEmotionFromBodystate.getSourceAggr() * rUnpleasureFactor;
                     
-                    rPerceptionPleasure_BS = mrEmotionrecognitionImpactFactor * rTransferPleasure;
-                    rPerceptionUnpleasure_BS = mrEmotionrecognitionImpactFactor * rTransferUnpleasure;
-                    rPerceptionLibid_BS = mrEmotionrecognitionImpactFactor * rTransferLibidinous; ;
-                    rPerceptionAggr_BS = mrEmotionrecognitionImpactFactor * rTransferAggressive;
+                    rPerceptionPleasure_BS = nonProportionalAggregation(rPerceptionPleasure_BS, mrEmotionrecognitionImpactFactor * rTransferPleasure);
+                    rPerceptionUnpleasure_BS = nonProportionalAggregation(rPerceptionUnpleasure_BS, mrEmotionrecognitionImpactFactor * rTransferUnpleasure);
+                    rPerceptionLibid_BS = nonProportionalAggregation(rPerceptionLibid_BS, mrEmotionrecognitionImpactFactor * rTransferLibidinous);
+                    rPerceptionAggr_BS = nonProportionalAggregation(rPerceptionAggr_BS, mrEmotionrecognitionImpactFactor * rTransferAggressive);
                     
                     if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
                         moAgentTransferedEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,
