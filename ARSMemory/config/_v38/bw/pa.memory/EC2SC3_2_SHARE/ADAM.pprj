@@ -1,62 +1,62 @@
-; Wed Dec 09 13:01:24 GMT 2015
+; Wed Dec 09 14:25:49 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
 
-([ADAM_ProjectKB_Class212] of  String
+([ADAM_ProjectKB_Class282] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ADAM_ProjectKB_Class213] of  String
+([ADAM_ProjectKB_Class283] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_ProjectKB_Class214] of  String
+([ADAM_ProjectKB_Class284] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([ADAM_ProjectKB_Class215] of  String
+([ADAM_ProjectKB_Class285] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([ADAM_ProjectKB_Class216] of  String
+([ADAM_ProjectKB_Class286] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ADAM_ProjectKB_Class217] of  Map_Entry
+([ADAM_ProjectKB_Class287] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_ProjectKB_Class218] of  Map_Entry
+([ADAM_ProjectKB_Class288] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_ProjectKB_Class219] of  Map_Entry
+([ADAM_ProjectKB_Class289] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_ProjectKB_Class220] of  Map
+([ADAM_ProjectKB_Class290] of  Map
 )
 
-([ADAM_ProjectKB_Class221] of  Map_Entry
+([ADAM_ProjectKB_Class291] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_ProjectKB_Class220")
+	(value "ADAM_ProjectKB_Class290")
 	(value_class "java.util.Map"))
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_ProjectKB_Class212]
-		[ADAM_ProjectKB_Class213]
-		[ADAM_ProjectKB_Class214]
-		[ADAM_ProjectKB_Class215]
-		[ADAM_ProjectKB_Class216]))
+		[ADAM_ProjectKB_Class282]
+		[ADAM_ProjectKB_Class283]
+		[ADAM_ProjectKB_Class284]
+		[ADAM_ProjectKB_Class285]
+		[ADAM_ProjectKB_Class286]))
 
 ([CLSES_TAB] of  Widget
 
@@ -164,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_ProjectKB_Class217]
-		[ADAM_ProjectKB_Class218]
-		[ADAM_ProjectKB_Class219]
-		[ADAM_ProjectKB_Class221])
-	(referenced_maps [ADAM_ProjectKB_Class220]))
+		[ADAM_ProjectKB_Class287]
+		[ADAM_ProjectKB_Class288]
+		[ADAM_ProjectKB_Class289]
+		[ADAM_ProjectKB_Class291])
+	(referenced_maps [ADAM_ProjectKB_Class290]))
 
 ([KB_610615_Class10] of  Property_List
 )

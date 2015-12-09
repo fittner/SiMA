@@ -1,4 +1,4 @@
-; Wed Dec 09 13:01:23 GMT 2015
+; Wed Dec 09 14:25:48 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3587,7 +3587,7 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.5)
+	(sourcePleasure 0.7)
 	(sourceUnpleasure 0.0)
 	(value "ANGER")
 	(value_type "MEMORIZEDEMOTION"))
@@ -3649,11 +3649,11 @@
 
 ([EMOTION%3ASELF%3ALIKE] of  EMOTION
 
-	(emotionIntensity 0.0)
+	(emotionIntensity 1.0)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.3)
+	(sourcePleasure 0.9)
 	(sourceUnpleasure 0.0)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
