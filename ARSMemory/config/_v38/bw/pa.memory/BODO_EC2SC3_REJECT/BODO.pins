@@ -1,4 +1,4 @@
-; Thu Dec 03 16:03:37 GMT 2015
+; Wed Dec 02 15:45:23 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3931,12 +3931,12 @@
 
 ([EMOTION%3AADAM_CAKE%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.1)
+	(emotionIntensity 0.3)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.2)
+	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.3)
+	(sourceUnpleasure 0.5)
 	(value "ANGER")
 	(value_type "MEMORIZEDEMOTION"))
 
@@ -3944,9 +3944,9 @@
 
 	(emotionIntensity 0.1)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.2)
+	(sourceAggr 0.3)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.2)
+	(sourcePleasure 0.3)
 	(sourceUnpleasure 0.0)
 	(value "ELATION")
 	(value_type "MEMORIZEDEMOTION"))
