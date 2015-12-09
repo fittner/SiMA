@@ -719,7 +719,12 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	                                oAssociatedTPM.setMoContent(composedActions.get(oAssociatedTPM.getContent()));
 	                            }
 	                            oAssociatedAction = oAssociatedTPM;
-	                            oCurrentActions.set(index, oAssociatedAction);
+	                            
+	                            if(index >= oCurrentActions.size()) {
+	                                log.error("Attempting to set current action for Arraylist of insufficient size. List size: " + oCurrentActions.size() + " with index: " + index);
+	                            } else {
+	                                oCurrentActions.set(index, oAssociatedAction);
+	                            }
 	                            break;
 	                        }
 	                    }

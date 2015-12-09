@@ -1,4 +1,4 @@
-; Wed Dec 09 15:24:34 GMT 2015
+; Wed Dec 09 16:45:21 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3409,7 +3409,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3420,7 +3420,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3431,7 +3431,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3442,7 +3442,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3453,7 +3453,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3464,7 +3464,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3475,7 +3475,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3486,7 +3486,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3497,7 +3497,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3508,7 +3508,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.6)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
