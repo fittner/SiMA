@@ -10,8 +10,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -48,7 +47,7 @@ public class cls_AdvancedStackedBarChartInspector extends cls_StackedBarChartIns
 
 	/** DOCUMENT (Kollmann) - insert description; @since 02.12.2015 08:06:13 */
 	private static final long serialVersionUID = -4620765010107072601L;
-	private Map<String, String> moCategoryIndex = new HashMap<String, String>();
+	private List<String> moCategoryIndex = new ArrayList<String>();
 	
 	/**
 	 * DOCUMENT (Kollmann) - insert description 
@@ -115,12 +114,11 @@ public class cls_AdvancedStackedBarChartInspector extends cls_StackedBarChartIns
 			@Override
 			public LegendItemCollection getLegendItems() {
 				LegendItemCollection collection = new LegendItemCollection();
-				int i = 1;
 				
 				Shape shape = new Rectangle(10, 10);
 				
 				for(Object key : moDataset.getColumnKeys()) {
-					collection.add(new LegendItem("Category " + Integer.toString(i++) + " ... " + lookupCategoryLabel(key.toString()), null, null, null, shape, Color.white));
+					collection.add(new LegendItem("Category " + key.toString() + " ... " + lookupCategoryLabel(key.toString()), null, null, null, shape, Color.white));
 				}
 				
 				return collection;
@@ -145,15 +143,20 @@ public class cls_AdvancedStackedBarChartInspector extends cls_StackedBarChartIns
 	 * @return The string representing the shortened version of the given caption (the mapping has to be unique)
 	 */
 	protected String indexCategoryLabel(String poCaption) {
+		int index = -1;
+		
 		if(moCategoryIndex == null) {
-			moCategoryIndex = new HashMap<String, String>();
+			moCategoryIndex = new ArrayList<>();
 		}
 
-		String index = Integer.toString(moCategoryIndex.size() + 1);
+		index = moCategoryIndex.indexOf(poCaption);
 		
-		moCategoryIndex.put(index, poCaption);
+		if(index == -1) {
+			moCategoryIndex.add(poCaption);
+			index = moCategoryIndex.indexOf(poCaption);
+		}
 		
-		return index;
+		return Integer.toString(index);
 	}
 	
 	/**
@@ -169,11 +172,20 @@ public class cls_AdvancedStackedBarChartInspector extends cls_StackedBarChartIns
 			throw new IllegalArgumentException("Internal error: attempting to access category index for index " + index + " before it has been created");
 		}
 		
-		if(!moCategoryIndex.containsKey(index)) {
-			throw new IllegalArgumentException("Internal error: Category index of advanced bar chart does not contain index " + index);
+		try {
+			int position = Integer.parseInt(index);
+			if(position < 0) {
+				throw new IllegalArgumentException("Internal error: index provided to category label lookup is < 0");
+			}
+			
+			if(position >= moCategoryIndex.size()) {
+				throw new IllegalArgumentException("Internal error: index provided to category label lookup is > index size");
+			}
+			
+			return moCategoryIndex.get(position);
+		} catch(NumberFormatException e) {
+			throw new IllegalArgumentException("Internal error: index provided to category label lookup can not be parsed into an index position");
 		}
-		
-		return moCategoryIndex.get(index);
 	}
 	
 	/* (non-Javadoc)
@@ -184,6 +196,8 @@ public class cls_AdvancedStackedBarChartInspector extends cls_StackedBarChartIns
 	 */
 	@Override
 	protected DefaultCategoryDataset createDataset() {
+		moCategoryIndex = new ArrayList<>();
+		
 		ArrayList<ArrayList<Double>> iContainer = moContainer.getStackedBarChartData();
 		double[][] data = new double[iContainer.size()][iContainer.get(0).size()];
 		for(int i =0 ;i< iContainer.size();i++){

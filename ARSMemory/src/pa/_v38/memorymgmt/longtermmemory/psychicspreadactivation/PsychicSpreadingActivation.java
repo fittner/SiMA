@@ -45,7 +45,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	private final double mrActivationThreshold;
 	private itfSearchSpaceAccess moModuleBase;
 	
-	private Logger log = clsLogger.getLog("memory");
+	private Logger log = clsLogger.getLog("Memory");
 	
 	public PsychicSpreadingActivation(itfSearchSpaceAccess poModuleBase, double prConsumeValue, double prActivationThreshold) {
 		moDefaultConsumeValue = prConsumeValue;
