@@ -1,4 +1,4 @@
-; Wed Dec 09 12:18:55 GMT 2015
+; Wed Dec 09 15:24:34 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,70 +45,70 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BODO_ProjectKB_Class10] of  String
+([BODO_ProjectKB_Class10067] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([BODO_ProjectKB_Class10068] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([BODO_ProjectKB_Class10069] of  String
+
+	(name "ANTENNA_LEFT")
+	(string_value "instance_association"))
+
+([BODO_ProjectKB_Class10070] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([BODO_ProjectKB_Class11] of  Map_Entry
+([BODO_ProjectKB_Class10071] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([BODO_ProjectKB_Class10072] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_ProjectKB_Class12] of  Map_Entry
+([BODO_ProjectKB_Class10073] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_ProjectKB_Class13] of  Map_Entry
+([BODO_ProjectKB_Class10074] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_ProjectKB_Class14] of  Map
+([BODO_ProjectKB_Class10075] of  Map
 )
 
-([BODO_ProjectKB_Class15] of  Map_Entry
+([BODO_ProjectKB_Class10076] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BODO_ProjectKB_Class14")
+	(value "BODO_ProjectKB_Class10075")
 	(value_class "java.util.Map"))
-
-([BODO_ProjectKB_Class6] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([BODO_ProjectKB_Class7] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([BODO_ProjectKB_Class8] of  String
-
-	(name "ANTENNA_LEFT")
-	(string_value "instance_association"))
-
-([BODO_ProjectKB_Class9] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
 
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BODO_ProjectKB_Class6]
-		[BODO_ProjectKB_Class7]
-		[BODO_ProjectKB_Class8]
-		[BODO_ProjectKB_Class9]
-		[BODO_ProjectKB_Class10]))
+		[BODO_ProjectKB_Class10067]
+		[BODO_ProjectKB_Class10068]
+		[BODO_ProjectKB_Class10069]
+		[BODO_ProjectKB_Class10070]
+		[BODO_ProjectKB_Class10071]))
 
 ([CLSES_TAB] of  Widget
 
@@ -161,11 +161,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BODO_ProjectKB_Class11]
-		[BODO_ProjectKB_Class12]
-		[BODO_ProjectKB_Class13]
-		[BODO_ProjectKB_Class15])
-	(referenced_maps [BODO_ProjectKB_Class14]))
+		[BODO_ProjectKB_Class10072]
+		[BODO_ProjectKB_Class10073]
+		[BODO_ProjectKB_Class10074]
+		[BODO_ProjectKB_Class10076])
+	(referenced_maps [BODO_ProjectKB_Class10075]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -619,7 +619,7 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_637525_Class5] of  Map
+([KB_916829_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List

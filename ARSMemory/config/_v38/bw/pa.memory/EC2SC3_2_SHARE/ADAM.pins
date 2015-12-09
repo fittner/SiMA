@@ -1,4 +1,4 @@
-; Wed Dec 09 14:25:48 GMT 2015
+; Wed Dec 09 16:25:48 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1933,7 +1933,7 @@
 ([ASSOCIATIONEMOTION%3ACAKE%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
-		[TPM%3AENTITY%3ACAKE%3ABASIC]
+		[TPM%3AIMAGE%3AS01_CAKE]
 		[EMOTION%3ACAKE%3AJOY])
 	(weight 1.0 1.0))
 
@@ -1956,6 +1956,13 @@
 	(element
 		[PRI%3AACTION%3AA14_FLEE_BODO_L01_I01%3AFLEE]
 		[PRI%3AA14_FLEE_BODO_L01_I01%3ABODO])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONTEMP%3AS01_CAKE%3ACAKE] of  ASSOCIATIONTEMP
+
+	(element
+		[TPM%3AIMAGE%3AS01_CAKE]
+		[PRIMARYINSTANCEOBJECT%3AS01_BODO_CAKE%3ACAKE])
 	(weight 1.0 1.0))
 
 ([AT%3AA06_BEAT_BODO_L01%3ABODO] of  ASSOCIATIONTEMP
@@ -2868,6 +2875,13 @@
 		[TPM%3AIMAGE%3AA14_FLEE_BODO_L01_I02])
 	(weight 1.0 1.0))
 
+([AW%3AWPM2TPM%3AS01_CAKE] of  ASSOCIATIONWP
+
+	(element
+		[WPM%3AIMAGE%3AS01_CAKE]
+		[TPM%3AIMAGE%3AS01_CAKE])
+	(weight 1.0 1.0))
+
 ([BASIC_Class1] of  DOMAIN
 
 	(action [WPM%3AACTION%3AL1_SPEAK_EAT])
@@ -3587,9 +3601,9 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.7)
+	(sourcePleasure 0.4)
 	(sourceUnpleasure 0.0)
-	(value "ANGER")
+	(value "JOY")
 	(value_type "MEMORIZEDEMOTION"))
 
 ([EMOTION%3ASELF%3ABODYSTATE%3AANGER] of  EMOTION
@@ -3653,7 +3667,7 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.9)
+	(sourcePleasure 0.3)
 	(sourceUnpleasure 0.0)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
@@ -3940,10 +3954,6 @@
 ([PRIMARYINSTANCEOBJECT%3ABODO_OWNED_CAKE%3ACAKE] of  PRIMARYINSTANCEOBJECT
 
 	(instance_type [TPM%3AENTITY%3ACAKE%3ABASIC]))
-
-([PRIMARYINSTANCEOBJECT%3AS01_BODO_CAKE%3ABODO] of  PRIMARYINSTANCEOBJECT
-
-	(instance_type [TPM%3AENTITY%3AARSIN%3ABODO]))
 
 ([PRIMARYINSTANCEOBJECT%3AS01_BODO_CAKE%3ACAKE] of  PRIMARYINSTANCEOBJECT
 
@@ -4771,6 +4781,12 @@
 	(value "REPRESSEDA02I01")
 	(value_type "RIREPRESSED"))
 
+([TPM%3AIMAGE%3AS01_CAKE] of  TPM%3AIMAGE
+
+	(instance_association [ASSOCIATIONTEMP%3AS01_CAKE%3ACAKE])
+	(value "S01_CAKE")
+	(value_type "RI"))
+
 ([TPM%3AORGANS%3ABLADDER] of  ORGANS
 
 	(value "BLADDER")
@@ -5476,4 +5492,9 @@
 ([WPM%3AIMAGE%3AA14_FLEE_BODO_L01_I02] of  WPM%3AIMAGE
 
 	(value "A14_FLEE_BODO_L01_I02")
+	(value_type "RI"))
+
+([WPM%3AIMAGE%3AS01_CAKE] of  WPM%3AIMAGE
+
+	(value "S01_CAKE")
 	(value_type "RI"))
