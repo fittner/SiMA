@@ -480,7 +480,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                              *  getting happier while being angry - the result will probably stabilize somewhere between these two emotions.
                              */
                             
-                            //if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
+                            if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
                                 if(oEntityAss.getAssociationElementB().getContentType() == eContentType.ENTITY){
                             
                                     clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oEntityAss.getAssociationElementB();
@@ -496,7 +496,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                                         }
                                     }
                                 }
-                            //}
+                            }
                         }  
                     }//end koller  
                     
