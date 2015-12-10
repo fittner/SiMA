@@ -489,6 +489,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public ArrayList<clsThingPresentationMesh> searchTPMList(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP){
         ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
         ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
+        boolean bRemoved = false;
                      
         double rImpactFactorOfCurrentEmotion = 0.5; // Personality Factor for the impact of current emotions on emotional valuation of perceived agents
         ArrayList<clsEmotion> oCurrentEmotions = getCurrentEmotions(moDrives_IN);
@@ -650,6 +651,16 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         }
                         
                         moBodystateCreation += "into new emotion " + ((clsEmotion)oDMStimulusList.get(0)).toString() + "\n";
+                        
+                        //check if there is already an emotion associated - THIS SHOULD NOT HAPPEN - if there is, give an error to inform developers
+                        //but remove the faulty association before attached the correct one (to enable the system to keep running)
+                        for(clsAssociationAttribute oAttribute : clsAssociation.filterListByType(oOutputTPM.getInternalAssociatedContent(), clsAssociationAttribute.class)) {
+                            if(oAttribute.getTheOtherElement(oOutputTPM) instanceof clsEmotion) {
+                                log.error("Bodystate {} seems to have an emotion associated even though it is a search result. This should not happen.", oOutputTPM);
+                                log.error("The association will be removed to allow the application to continue, but check if this is a possible problem");
+                                clsAssociation.removeAssociationCompletely(oAttribute);
+                            }
+                        }
                         
                         clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONEMOTION, oOutputTPM, true, oDMStimulusList.get(0), 1);
                     }
