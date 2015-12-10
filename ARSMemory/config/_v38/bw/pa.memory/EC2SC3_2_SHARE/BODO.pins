@@ -1,4 +1,4 @@
-; Wed Dec 09 16:45:21 GMT 2015
+; Thu Dec 10 09:49:38 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3409,7 +3409,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3618,7 +3618,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.5)
+	(emotionIntensity 0.2)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
