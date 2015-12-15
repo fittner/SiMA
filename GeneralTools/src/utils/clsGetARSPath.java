@@ -103,6 +103,9 @@ public class clsGetARSPath {
 		return getArsPath()+System.getProperty("file.separator")+"log";
 	}
 	
+	public static String getMemoryPath() {
+		return getArsPath() + getSeperator() + "ARSMemory" + getSeperator() + "config" + getSeperator() + "_v38" + getSeperator() + "bw" + getSeperator() + "pa.memory";
+	}
 	
 	public static String getXMLPathMemory()
 	{

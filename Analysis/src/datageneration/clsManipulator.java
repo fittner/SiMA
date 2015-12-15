@@ -25,18 +25,18 @@ public class clsManipulator implements itfDataManipulation{
 	private File moScenarioFile = null;
 	
 	public void prepareConfig(String configName) throws IOException {
-		Path oSourcePath = Paths.get(clsGetARSPath.getAnalysisRunConfigPath(), "origin");
+//		Path oSourcePath = Paths.get(clsGetARSPath.getAnalysisRunConfigPath(), "origin");
 		moScenarioFile = new File(clsGetARSPath.getScenarioPath() + clsGetARSPath.getSeperator() + "analysis_scenario.properties");
-		Files.createDirectories(Paths.get(clsGetARSPath.getAnalysisRunConfigPath(), configName));
-		Files.walkFileTree(oSourcePath, new SimpleFileVisitor<Path>() { 
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
-            {
-            	Path oTargetPath = Paths.get(clsGetARSPath.getAnalysisRunConfigPath(), configName, file.getFileName().toString());
-            	Files.copy(file, oTargetPath);
-                return FileVisitResult.CONTINUE;
-            }
-        });
+//		Files.createDirectories(Paths.get(clsGetARSPath.getAnalysisRunConfigPath(), configName));
+//		Files.walkFileTree(oSourcePath, new SimpleFileVisitor<Path>() { 
+//            @Override
+//            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
+//            {
+//            	Path oTargetPath = Paths.get(clsGetARSPath.getAnalysisRunConfigPath(), configName, file.getFileName().toString());
+//            	Files.copy(file, oTargetPath);
+//                return FileVisitResult.CONTINUE;
+//            }
+//        });
 	}
 	
 	public File getScenarioFile() {
