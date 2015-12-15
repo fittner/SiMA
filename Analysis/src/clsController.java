@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 
 import logger.clsLogger;
@@ -50,8 +51,29 @@ public class clsController extends Thread {
 
 	public void run() {
 		log.info("starting controller execution");
-		moExperimentEngine.run();
-		moRemoteController.runSiMA();
+		try {
+			moDataManipulator.prepareConfig("sim_run_1");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+//		moExperimentEngine.run();
+		
+//		try {
+//			moDataManipulator.put("text://personality.properties/F26.INITIAL_REQUEST_INTENSITY.value", "0.0");
+//			moDataManipulator.put("frames://ADAM.pprj/EMOTION:A10_DIVIDE_CAKE_L01_I07:GUILT#SourceAggr", "1.0");
+//		} catch (URISyntaxException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		try {
+			moRemoteController.runSiMA(moDataManipulator.getScenarioFile());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void shutdown() {

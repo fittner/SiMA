@@ -55,6 +55,9 @@ public class clsGetARSPath {
 	public static String getDecisionUnitPeronalityParameterConfigPath(){
 		return getConfigPath()+System.getProperty("file.separator")+"personality_parameters"+System.getProperty("file.separator")+"decision_unit";
 	}
+	public static String getAnalysisRunConfigPath() {
+		return getArsPath() + getSeperator() + "Analysis" + getSeperator() + "config";
+	}
 	public static String getBodyPeronalityParameterConfigPath(){
 		return getConfigPath()+System.getProperty("file.separator")+"personality_parameters"+System.getProperty("file.separator")+"body";
 	}
