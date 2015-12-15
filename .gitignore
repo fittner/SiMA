@@ -17,3 +17,4 @@
 /Simulation/config/config.save
 /log/*.log
 /log
+/Analysis/logs
