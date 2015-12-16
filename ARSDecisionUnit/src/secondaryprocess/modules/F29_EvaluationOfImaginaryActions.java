@@ -31,6 +31,7 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.ElementNotFoundException;
+import base.tools.clsSingletonAnalysisAccessor;
 import base.tools.toText;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
@@ -308,6 +309,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             log.warn("Erroneous action taken. Action cannot be NONE. This must be an error in the codelets");
         }
 
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putAction(selectedAction.toString());
 
         double rRequestedPsychicIntensity = 0.0;
 

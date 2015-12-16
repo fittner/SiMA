@@ -8,14 +8,14 @@ package loader;
 import java.awt.Color;
 
 
+
+
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.interfaces.itfSearchSpaceAccess;
-
 import communication.layer1.implementations.clsLayer1ProcedureCall;
 import complexbody.internalSystems.clsFlesh;
 import complexbody.internalSystems.clsInternalSystem;
 import complexbody.io.sensors.datatypes.enums.eEntityType;
-
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
 import properties.clsProperties;
@@ -455,6 +455,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 			((clsLayer1ProcedureCall) oDUBodyControl.getLayer1()).setCommunicationPartner((clsLayer1ProcedureCall) oBodyDUControl.getLayer1());
 			((clsLayer1ProcedureCall) oBodyDUControl.getLayer1()).setCommunicationPartner((clsLayer1ProcedureCall) oDUBodyControl.getLayer1());
 
+			//Register the agent at analysis
+//			clsAnalyzer.getInstance().registerActiveAgent(temp);
 		}
     	
     	

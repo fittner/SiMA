@@ -52,14 +52,16 @@ public class clsController extends Thread {
 	public void run() {
 		log.info("starting controller execution");
 		
+		try {
+			moDataManipulator.prepareConfig("sim_run_1");
+		} catch (IOException e) {
+			log.error("Could not prepare config for simulation run: " + e);
+		}
+		
 		moExperimentEngine.run();
 		
-		try {
-			moRemoteController.runSiMA(moDataManipulator.getScenarioFile());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		moRemoteController.runSiMA(moDataManipulator.getScenarioFile());
+		
 	}
 	
 	public void shutdown() {
