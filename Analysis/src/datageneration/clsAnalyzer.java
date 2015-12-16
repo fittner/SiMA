@@ -26,7 +26,7 @@ public class clsAnalyzer implements itfAnalysis {
 	}
 	
 	protected void analysisFinished() {
-		clsSingletonMasonGetter.getConsole().pressStop();
+		moRemote.stopSiMA();
 	}
 	
 	protected void setDecided(int pnEntityGroupId) {

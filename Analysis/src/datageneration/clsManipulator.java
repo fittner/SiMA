@@ -24,6 +24,7 @@ public class clsManipulator implements itfDataManipulation{
 	protected static final Logger log = clsLogger.getLog("analysis.manipulator");
 	private File moScenarioFile = null;
 	
+	@Override
 	public void prepareConfig(String configName) throws IOException {
 //		Path oSourcePath = Paths.get(clsGetARSPath.getAnalysisRunConfigPath(), "origin");
 		moScenarioFile = new File(clsGetARSPath.getScenarioPath() + clsGetARSPath.getSeperator() + "analysis_scenario.properties");
@@ -39,6 +40,7 @@ public class clsManipulator implements itfDataManipulation{
 //        });
 	}
 	
+	@Override
 	public File getScenarioFile() {
 		return moScenarioFile;
 	}

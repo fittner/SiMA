@@ -1,5 +1,7 @@
 package datageneration;
 
+import interfaces.itfRemoteControl;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
@@ -16,7 +18,7 @@ import properties.clsProperties;
 import sim.SimulatorMain;
 import singeltons.clsSingletonMasonGetter;
 
-public class clsRemoter {
+public class clsRemoter implements itfRemoteControl {
 	protected static final Logger log = clsLogger.getLog("analysis.remoter");
 	private boolean moStop = false;
 	private final Lock moLock = new ReentrantLock();
@@ -28,6 +30,11 @@ public class clsRemoter {
 		}
 	}
 	
+	protected void shutdownSiMA() {
+		
+	}
+	
+	@Override
 	public void runSiMA(File oScenarioFile) {
 		log.info("Preparing to run SiMA");
 		String[] args = new String[4];
@@ -59,7 +66,8 @@ public class clsRemoter {
 				while(true) {
 					moLock.wait();
 					if(moStop) {
-						
+						log.info("Stop signal received and stop condition set - ending simulation");
+						clsSingletonMasonGetter.getConsole().pressStop();
 						break;
 					} else {
 						log.warn("SiMA stop signal notified but stop condition is not set - we keep waiting");
@@ -70,6 +78,8 @@ public class clsRemoter {
 				e.printStackTrace();
 			}
 		}
-		log.info("Stop signal received and stop condition set - ending simulation");
+		log.info("Simulation run finished - mason stoped - shutting down simulation run");
+		shutdownSiMA();
+		log.info("Simulation run shut down - returning control to experiment engine");
     }
 }

@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -24,5 +25,7 @@ import java.net.URISyntaxException;
  */
 
 public interface itfDataManipulation {
+	public void prepareConfig(String configName) throws IOException;
 	public void put(String oUniqueResourceIdentifier, String oValue)  throws URISyntaxException;
+	public File getScenarioFile();
 }
