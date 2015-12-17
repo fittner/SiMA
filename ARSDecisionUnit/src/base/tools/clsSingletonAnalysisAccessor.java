@@ -6,6 +6,10 @@
  */
 package base.tools;
 
+import logger.clsLogger;
+
+import org.slf4j.Logger;
+
 import control.interfaces.itfAnalysis;
 import control.interfaces.itfDuAnalysis;
 
@@ -17,6 +21,7 @@ import control.interfaces.itfDuAnalysis;
  * 
  */
 public class clsSingletonAnalysisAccessor {
+    protected static final Logger log = clsLogger.getLog("analysis.analyzer.singleton");
     private static itfAnalysis moAnalyzer = null;
     
     public static void setAnalyzer(itfAnalysis oAnalyzer) {
@@ -27,6 +32,10 @@ public class clsSingletonAnalysisAccessor {
     }
     
     public static itfAnalysis getAnalyzer() {
+        if(moAnalyzer == null) {
+            log.warn("Trying to access analyzer before it has been initialized - using dummy analyzer clsAnalyzerDummy");
+            moAnalyzer = new clsAnalyzerDummy();
+        }
         return moAnalyzer;
     }
     
