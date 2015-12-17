@@ -52,8 +52,6 @@ public class clsController extends Thread {
 	public void run() {
 		log.info("starting controller execution");
 		
-		
-		
 		moExperimentEngine.run();
 	}
 	
@@ -62,19 +60,21 @@ public class clsController extends Thread {
 	}
 	
 	public static void main(String[] args) {
-		clsController controller = new clsController("SiMA Automated Analysis");
-		
-		controller.initialize();
-		
-		controller.start();
-		
-		try {
-			controller.join();
-		} catch(InterruptedException e) {
-			log.error("Thread " + controller.getName() + " interrupted!");
+		for(int i = 0; i < 1000; ++i) {
+			clsController controller = new clsController("SiMA Automated Analysis " + Integer.toString(i));
+			
+			controller.initialize();
+			
+			controller.start();
+			
+			try {
+				controller.join();
+			} catch(InterruptedException e) {
+				log.error("Thread " + controller.getName() + " interrupted!");
+			}
+			
+			controller.shutdown();
 		}
-		
-		controller.shutdown();
 	}
 
 }

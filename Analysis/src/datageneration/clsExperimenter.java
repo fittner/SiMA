@@ -34,9 +34,9 @@ public class clsExperimenter implements itfLogDataTransfer {
 				//this will later reset the config before specific values are manipulated
 				moManipulator.prepareConfig("sim_run_" + Double.toString(i));
 				
-				moRemote.runSiMA(moManipulator.getScenarioFile());
-				
 				moManipulator.put("text://personality/analysis_personality_adam.properties/F26.INITIAL_REQUEST_INTENSITY.value", Double.toString(i));
+				
+				moRemote.runSiMA(moManipulator.getScenarioFile());
 			} catch (IOException e) {
 				log.error("Could not prepare config for simulation run: " + e);
 			} catch (URISyntaxException e) {
