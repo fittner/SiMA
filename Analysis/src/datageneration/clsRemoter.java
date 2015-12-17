@@ -2,6 +2,7 @@ package datageneration;
 
 import interfaces.itfRemoteControl;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
@@ -16,7 +17,12 @@ import org.slf4j.Logger;
 import base.tools.clsSingletonAnalysisAccessor;
 import properties.clsProperties;
 import sim.SimulatorMain;
+import sim.clsMain;
+import sim.display.Console;
+import sim.engine.Schedule;
 import singeltons.clsSingletonMasonGetter;
+import singeltons.clsSingletonProperties;
+import utils.clsGetARSPath;
 
 public class clsRemoter implements itfRemoteControl {
 	protected static final Logger log = clsLogger.getLog("analysis.remoter");
@@ -30,8 +36,29 @@ public class clsRemoter implements itfRemoteControl {
 		}
 	}
 	
-	protected void shutdownSiMA() {
+	private class ConsoleCloser extends TimerTask {
+		private Console moConsole = null;
 		
+		public ConsoleCloser(Console poConsole) {
+			if(poConsole == null) {
+				throw new IllegalArgumentException("Console provided to console closer must not be null");
+			}
+			moConsole = poConsole;
+		}
+		
+		@Override
+		public void run() {
+			moConsole.doClose();
+		}
+	}
+	
+	protected void shutdownSiMA() {
+		Timer x = new Timer("CloseLastWindow",true);
+		ConsoleCloser task = new ConsoleCloser(clsSingletonMasonGetter.getConsole());
+		
+		x.schedule(task, 3000);
+
+		log.debug("Shutdown procedure complete");
 	}
 	
 	@Override
@@ -48,18 +75,8 @@ public class clsRemoter implements itfRemoteControl {
 		
 		clsSingletonAnalysisAccessor.setAnalyzer(clsAnalyzer.getInstance());
 		
-    	//load the scenario
+		//load the scenario
 		SimulatorMain.main(args);
-		
-		Timer x = new Timer("test",true);
-		TimerTask task = new TimerTask(){
-			@Override
-			public void run() {
-				clsSingletonMasonGetter.getConsole().pressPause();
-			}
-		};
-		
-		x.schedule(task, 1);
 		
 		synchronized (moLock) {
 			try {
