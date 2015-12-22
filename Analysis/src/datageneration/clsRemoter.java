@@ -61,7 +61,7 @@ public class clsRemoter implements itfRemoteControl {
 		Timer x = new Timer("CloseLastWindow",true);
 		ConsoleCloser task = new ConsoleCloser(clsSingletonMasonGetter.getConsole());
 		
-//		x.schedule(task, 3000);
+		x.schedule(task, 3000);
 
 		log.debug("Shutdown procedure complete");
 	}

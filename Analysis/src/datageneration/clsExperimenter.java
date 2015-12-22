@@ -47,9 +47,9 @@ public class clsExperimenter implements itfLogDataTransfer {
 			//Example of a single simulation run
 			try {
 				//this will later reset the config before specific values are manipulated
-				moManipulator.prepareConfig("sim_run_" + Double.toString(nSimRunCounter));
+				moManipulator.prepareConfig("sim_run_" + Integer.toString(nSimRunCounter));
 				
-				File oLogFile = new File("sim_run_" + Double.toString(nSimRunCounter) + ".csv");
+				File oLogFile = new File("sim_run_" + Integer.toString(nSimRunCounter) + ".csv");
 				moLogger.setTarget(oLogFile.toURI());
 
 				moManipulator.put("text://personality/analysis_personality_adam.properties/F26.INITIAL_REQUEST_INTENSITY.value", Double.toString(i));
