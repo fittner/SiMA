@@ -1,5 +1,6 @@
 package datageneration;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,19 +9,13 @@ import control.interfaces.itfAnalysis;
 import control.interfaces.itfDuAnalysis;
 
 public class clsAnalyzer implements itfAnalysis {
-    private static clsAnalyzer moInstance = null;
-	Map<Integer, clsDuAnalyzer> moDus= new HashMap<>();
+    Map<Integer, clsDuAnalyzer> moDus= new HashMap<>();
 	clsRemoter moRemote = null;
 	
-	private clsAnalyzer() {}
-	public static clsAnalyzer getInstance() {
-	    if(moInstance == null) {
-	        moInstance = new clsAnalyzer();
-	    }
-	    
-	    return moInstance;
+	public clsAnalyzer(clsRemoter poRemote) {
+		registerRemote(poRemote);
 	}
-	
+
 	public void registerRemote(clsRemoter poRemote) {
 		moRemote = notNull(poRemote, "clsRemoter implementation provided to clsAnalyzer must not be null");
 	}
@@ -57,6 +52,10 @@ public class clsAnalyzer implements itfAnalysis {
         
         return value;
     }
+	
+	public Collection<clsDuAnalyzer> getAllDuAnalyzers() {
+		return moDus.values();
+	}
 	
 	@Override
 	public itfDuAnalysis getDu(int pnEntityGroupId) {

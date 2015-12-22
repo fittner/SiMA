@@ -46,6 +46,8 @@ public class clsController extends Thread {
 		moExperimentEngine = new clsExperimenter(moDataManipulator, moLogger, moRemoteController);
 		log.info("Experimentation engine instance created");
 		log.debug(moExperimentEngine.toString());
+		moRemoteController.registerLogDataHandler(moExperimentEngine);
+		log.info("Experimantation engine registered at remote controller as log data handler");
 		log.debug("controller initialized");
 	}
 
@@ -60,21 +62,19 @@ public class clsController extends Thread {
 	}
 	
 	public static void main(String[] args) {
-		for(int i = 0; i < 1000; ++i) {
-			clsController controller = new clsController("SiMA Automated Analysis " + Integer.toString(i));
+		clsController controller = new clsController("SiMA Automated Analysis");
 			
-			controller.initialize();
-			
-			controller.start();
-			
-			try {
-				controller.join();
-			} catch(InterruptedException e) {
-				log.error("Thread " + controller.getName() + " interrupted!");
-			}
-			
-			controller.shutdown();
+		controller.initialize();
+		
+		controller.start();
+		
+		try {
+			controller.join();
+		} catch(InterruptedException e) {
+			log.error("Thread " + controller.getName() + " interrupted!");
 		}
+		
+		controller.shutdown();
 	}
 
 }
