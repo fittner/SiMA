@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 
 import interfaces.itfAnalysisLogger;
 import interfaces.itfDataManipulation;
+import interfaces.itfFileManipulation;
 import interfaces.itfLogDataTransfer;
 import interfaces.itfRemoteControl;
 
@@ -17,14 +18,17 @@ public class clsExperimenter implements itfLogDataTransfer {
 	private itfDataManipulation moManipulator = null;
 	private itfAnalysisLogger moLogger = null;
 	private itfRemoteControl moRemote = null;
+	private itfFileManipulation moFileReader = null;
 	
-	public clsExperimenter(itfDataManipulation poManipulator, itfAnalysisLogger poLogger, itfRemoteControl poRemote) {
+	public clsExperimenter(itfDataManipulation poManipulator, itfAnalysisLogger poLogger, itfRemoteControl poRemote, itfFileManipulation poFileReader) {
 		setManipulator(poManipulator);
 		setLogger(poLogger);
 		setRemote(poRemote);
+		setFileManipulation(poFileReader);
 	}
-	
+
 	public void run() {
+		String fileName = "";
 		log.info("Preparing to run simulation experiments");
 
 		//Replace with proper loop condition and variable development
@@ -95,4 +99,15 @@ public class clsExperimenter implements itfLogDataTransfer {
 	public void setRemote(itfRemoteControl moRemote) {
 		this.moRemote = notNull(moRemote, "itfRemoteControl implementation provided to clsExperimenter must not be null");
 	}
+	
+	
+	private void setFileManipulation(itfFileManipulation moFileReader) {
+		this.moFileReader = notNull(moFileReader, "itfFileManipulation implementation provided to clsExperimenter must not be null");
+	}
+	
+	public itfFileManipulation getFileReader() {
+		return moFileReader;
+	}
+
+
 }
