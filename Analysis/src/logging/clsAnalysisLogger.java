@@ -88,11 +88,16 @@ public class clsAnalysisLogger implements itfAnalysisLogger {
 			match = moMatcher.group("name");
 			log.debug("Matching group " + moMatcher.group());
 			value = oValues.get(match);
-			log.info("Setting value of " + match + " to " + value);
-			moMatcher.appendReplacement(oStringBuffer, value);
-			log.debug("Replacement successfully appended");
+			if(value != null) {
+				log.info("Setting value of " + match + " to " + value);
+				moMatcher.appendReplacement(oStringBuffer, value);
+				log.debug("Replacement successfully appended");
+			} else {
+				throw new RuntimeException("No value provided for " + match + " in clsAnalysisLogger");
+			}
 		}
 		log.debug("No more matches");
+		moMatcher.reset(moFormat);
 		oStringBuffer.append("\n");
 		log.debug("Newline appended to entry");
 		try {

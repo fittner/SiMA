@@ -1,4 +1,4 @@
-; Wed Dec 02 15:45:23 GMT 2015
+; Thu Dec 24 18:01:42 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -4839,7 +4839,7 @@
 ([TPM%3AACTION%3AL1_REQUEST] of  TPM%3AACTION%3AL1
 
 	(value "REQUEST")
-	(value_type "ACTION"))
+	(value_type "RECOGNIZEDACTION"))
 
 ([TPM%3AACTION%3AL1_SHARE_FOOD] of  TPM%3AACTION%3AL1
 

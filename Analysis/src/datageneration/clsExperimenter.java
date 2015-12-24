@@ -1,7 +1,10 @@
 package datageneration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import logger.clsLogger;
 
@@ -19,16 +22,28 @@ public class clsExperimenter implements itfLogDataTransfer {
 	private itfAnalysisLogger moLogger = null;
 	private itfRemoteControl moRemote = null;
 	private itfFileManipulation moFileReader = null;
+	private Map<String, String> moSimLog = new HashMap<>();
 	
 	public clsExperimenter(itfDataManipulation poManipulator, itfAnalysisLogger poLogger, itfRemoteControl poRemote, itfFileManipulation poFileReader) {
 		setManipulator(poManipulator);
 		setLogger(poLogger);
 		setRemote(poRemote);
+		
+		//initialize logger
+		moLogger.setFormat("$(Agent_0.GuiltValue), $(Agent_0.Outcome)");
 		setFileManipulation(poFileReader);
 	}
 
+	protected void writeLogs() throws IOException {
+		//write initial values
+		
+		//write sim factors and outcomes
+		
+	}
+	
 	public void run() {
 		String fileName = "";
+		int nSimRunCounter = 0;
 		log.info("Preparing to run simulation experiments");
 
 		//Replace with proper loop condition and variable development
@@ -36,11 +51,18 @@ public class clsExperimenter implements itfLogDataTransfer {
 			//Example of a single simulation run
 			try {
 				//this will later reset the config before specific values are manipulated
-				moManipulator.prepareConfig("sim_run_" + Double.toString(i));
+				moManipulator.prepareConfig("sim_run_" + Integer.toString(nSimRunCounter));
+				
+				File oLogFile = new File("sim_run_" + Integer.toString(nSimRunCounter) + ".csv");
+				moLogger.setTarget(oLogFile.toURI());
+
+				moManipulator.put("text://personality/analysis_personality_adam.properties/F26.INITIAL_REQUEST_INTENSITY.value", Double.toString(i));
 				
 				moRemote.runSiMA(moManipulator.getScenarioFile());
 				
-				moManipulator.put("text://personality/analysis_personality_adam.properties/F26.INITIAL_REQUEST_INTENSITY.value", Double.toString(i));
+				writeLogs();
+				
+				nSimRunCounter++;
 			} catch (IOException e) {
 				log.error("Could not prepare config for simulation run: " + e);
 			} catch (URISyntaxException e) {
@@ -102,7 +124,7 @@ public class clsExperimenter implements itfLogDataTransfer {
 	
 	
 	private void setFileManipulation(itfFileManipulation moFileReader) {
-		this.moFileReader = notNull(moFileReader, "itfFileManipulation implementation provided to clsExperimenter must not be null");
+		//this.moFileReader = notNull(moFileReader, "itfFileManipulation implementation provided to clsExperimenter must not be null");
 	}
 	
 	public itfFileManipulation getFileReader() {
@@ -110,4 +132,9 @@ public class clsExperimenter implements itfLogDataTransfer {
 	}
 
 
+
+	@Override
+	public void put(Map<String, String> poStepLogEntries) throws IOException {
+		moLogger.write(poStepLogEntries);
+	}
 }

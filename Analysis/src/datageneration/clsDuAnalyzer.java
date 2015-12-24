@@ -15,7 +15,8 @@ import control.interfaces.itfDuAnalysis;
 
 public class clsDuAnalyzer implements itfDuAnalysis {
 	protected static final Logger log = clsLogger.getLog("analysis.analyzer.du");
-	Map<String, String> moFactors = new HashMap<>();
+	Map<String, String> moCurrentStepFactors = new HashMap<>();
+	List<Map<String, String>> moFactors = new ArrayList<>();
 	List<String> moActions = new ArrayList<>();
 	clsAnalyzer moParent = null;
 	int mnEntityGroupId;
@@ -23,6 +24,10 @@ public class clsDuAnalyzer implements itfDuAnalysis {
 	clsDuAnalyzer(clsAnalyzer poParent, int pnEntityGroupId) {
 		this.moParent = poParent;
 		this.mnEntityGroupId = pnEntityGroupId;
+	}
+	
+	public String getId() {
+		return "Agent_" + Integer.toString(mnEntityGroupId);
 	}
 	
 	protected boolean isDecided() {
@@ -41,18 +46,32 @@ public class clsDuAnalyzer implements itfDuAnalysis {
 		}
 	}
 	
+	protected void nextStep() {
+		moFactors.add(moCurrentStepFactors);
+		moCurrentStepFactors = new HashMap<>();
+	}
+	
 	@Override
 	public void putFactor(String oFactorId, String oFactorValue) {
-		moFactors.put(notNull(oFactorId, "Factor id provided to putFactor of clsDuAnalyzer " + this + " must not be null"),
+		moCurrentStepFactors.put(notNull(oFactorId, "Factor id provided to putFactor of clsDuAnalyzer " + this + " must not be null"),
 				notNull(oFactorValue, "Factor value provided to putFactor of clsDuAnalyzer " + this + " must not be null"));
 	}
 	
 	@Override
 	public void putAction(String oActionValue) {
 		moActions.add(notNull(oActionValue, "Action provided to putAction method of clsDuAnalyzer " + this + " must not be null"));
+		nextStep();
 		if(isDecided()) {
 			moParent.setDecided(mnEntityGroupId);
 		}
+	}
+	
+	public List<String> getActions() {
+		return moActions;
+	}
+	
+	public List<Map<String, String>> getFactors() {
+		return moFactors;
 	}
 	
 	protected <T> T notNull(T value, String message) {
