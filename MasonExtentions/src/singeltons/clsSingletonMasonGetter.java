@@ -79,5 +79,4 @@ public class clsSingletonMasonGetter {
 	public static sim.display.Console getConsole() {
 		return clsSingletonConsole.getDisplay2D();
 	}
-
 }

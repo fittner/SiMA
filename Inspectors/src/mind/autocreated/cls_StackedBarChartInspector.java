@@ -32,10 +32,8 @@ public class cls_StackedBarChartInspector extends cls_AbstractChartInspector {
 
 	private static final long serialVersionUID = 5401441807093048593L;
 	
-	private itfInspectorStackedBarChart moContainer;
-	private DefaultCategoryDataset moDataset;
-
-
+	protected itfInspectorStackedBarChart moContainer;
+	protected DefaultCategoryDataset moDataset;
 	
 	public cls_StackedBarChartInspector(itfInspectorStackedBarChart poContainer){
 		super(poContainer.getStackedBarChartTitle());
@@ -82,7 +80,7 @@ public class cls_StackedBarChartInspector extends cls_AbstractChartInspector {
     	return oChartPanel;
 	}
 	
-	private DefaultCategoryDataset createDataset(){
+	protected DefaultCategoryDataset createDataset(){
 		ArrayList<ArrayList<Double>> iContainer = moContainer.getStackedBarChartData();
 		double[][] data = new double[iContainer.size()][iContainer.get(0).size()];
 		   for(int i =0 ;i< iContainer.size();i++){

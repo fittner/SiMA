@@ -467,4 +467,8 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 	public ArrayList<eInterfaces> getInterfaces() {
 		return moInterfaces;
 	}
+	
+	protected int getAgentIndex() {
+	    return mnAgentIndex;
+	}
 }

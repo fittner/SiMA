@@ -21,8 +21,10 @@ import complexbody.io.actuators.actionCommands.clsActionEat;
 import complexbody.io.actuators.actionCommands.clsActionExcrement;
 import complexbody.io.actuators.actionCommands.clsActionMove;
 import complexbody.io.actuators.actionCommands.clsActionPickUp;
+import complexbody.io.actuators.actionCommands.clsActionRequest;
 import complexbody.io.actuators.actionCommands.clsActionSleep;
 import complexbody.io.actuators.actionCommands.clsActionTurn;
+import complexbody.io.actuators.actionCommands.clsActionWait;
 import complexbody.io.actuators.actionCommands.clsInternalActionAffectEyesForCrying;
 import complexbody.io.actuators.actionCommands.clsInternalActionAffectHeartBloodPressureDiastolic;
 import complexbody.io.actuators.actionCommands.clsInternalActionAffectHeartBloodPressureSystolic;
@@ -38,7 +40,6 @@ import complexbody.io.actuators.actionCommands.clsInternalActionTenseMuscles;
 import complexbody.io.sensors.datatypes.enums.eActionMoveDirection;
 import complexbody.io.sensors.datatypes.enums.eActionSleepIntensity;
 import complexbody.io.sensors.datatypes.enums.eActionTurnDirection;
-
 import base.clsCommunicationInterface;
 
 /**
@@ -158,8 +159,12 @@ public class clsCommunicationPortDUData implements itfCommunicationPartner{
     				clsActionExcrement oNewAction = new clsActionExcrement(force);
     				oRetVal.add(oNewAction);
     			}
-    			
-    			
+    			else if(oAction.getValue().equals("REQUEST")) {
+    				oRetVal.add(new clsActionRequest());
+    			}
+    			else if(oAction.getValue().equals("WAIT")) {
+    				oRetVal.add(new clsActionWait());
+    			}
     		}
     	}
     	

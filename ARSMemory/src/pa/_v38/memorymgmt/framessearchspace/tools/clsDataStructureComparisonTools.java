@@ -184,6 +184,11 @@ public abstract class clsDataStructureComparisonTools {
 		//Get Searchspace for a certain datatype
 		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poDSUnknown.getContentType().toString());
 		
+		if(oMapWithType == null) {
+			log.error("Could not get searchspace for content type " + poDSUnknown.getContentType().toString());
+			return oRetVal;
+		}
+		
 		//Check, which search depth is used. 
 		//pnLevel 0: Nothing is done with the image
 		//pnLevel 1: Load only indirect associations

@@ -2219,6 +2219,16 @@ public class clsMeshTools {
 		oContentTypeRI.add(eContentType.RI);
 		oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeRI, false, pnLevel));
 		
+//		//Add all RPI. 
+//        ArrayList<eContentType> oContentTypeRPI = new ArrayList<eContentType>();
+//        oContentTypeRI.add(eContentType.RPI);
+//        oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeRPI, false, pnLevel));
+//        
+//        //Add all RPA. 
+//        ArrayList<eContentType> oContentTypeRPA = new ArrayList<eContentType>();
+//        oContentTypeRI.add(eContentType.RPA);
+//        oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeRPA, false, pnLevel));
+		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);
 		}

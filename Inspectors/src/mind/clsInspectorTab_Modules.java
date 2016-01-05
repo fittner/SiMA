@@ -12,6 +12,7 @@ import graph.clsGraphInterface;
 import graph.clsMeshInterface;
 import inspector.interfaces.itfGraphCompareInterfaces;
 import inspector.interfaces.itfGraphInterface;
+import inspector.interfaces.itfInspectorAdvancedStackedBarChart;
 import inspector.interfaces.itfInspectorAreaChart;
 import inspector.interfaces.itfInspectorBarChart;
 import inspector.interfaces.itfInspectorBarChartF06;
@@ -53,6 +54,7 @@ import control.clsProcessor;
 import control.clsPsychoAnalysis;
 import mind.autocreated.clsE_SimpleInterfaceDataInspector;
 import mind.autocreated.clsI_SimpleInterfaceDataInspector;
+import mind.autocreated.cls_AdvancedStackedBarChartInspector;
 import mind.autocreated.cls_AreaChartInspector;
 import mind.autocreated.cls_BarChartInspector;
 import mind.autocreated.cls_BarChartInspectorF06;
@@ -319,6 +321,11 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 			if (oModule instanceof itfInspectorStackedBarChart) {
 				poTI.addInspector(
 						new cls_StackedBarChartInspector((itfInspectorStackedBarChart) oModule),	
+						"StackedBarChart");				
+			}
+			if (oModule instanceof itfInspectorAdvancedStackedBarChart) {
+				poTI.addInspector(
+						new cls_AdvancedStackedBarChartInspector((itfInspectorAdvancedStackedBarChart) oModule),	
 						"StackedBarChart");				
 			}
 			/*-------------------------BarChart For F06------------------------*/

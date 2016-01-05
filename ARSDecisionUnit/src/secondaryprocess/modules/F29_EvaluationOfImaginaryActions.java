@@ -8,8 +8,8 @@ package secondaryprocess.modules;
 
 import inspector.interfaces.clsTimeChartPropeties;
 import general.datamanipulation.PrintTools;
+import inspector.interfaces.itfInspectorAdvancedStackedBarChart;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
-import inspector.interfaces.itfInspectorStackedBarChart;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +31,7 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.ElementNotFoundException;
+import base.tools.clsSingletonAnalysisAccessor;
 import base.tools.toText;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
@@ -60,7 +61,7 @@ import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionali
  * 
  */
 public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements I6_2_receive, I6_10_receive, I6_11_send,
-        itfInspectorGenericActivityTimeChart, itfInspectorStackedBarChart {
+        itfInspectorGenericActivityTimeChart, itfInspectorAdvancedStackedBarChart {
     public static final String P_MODULENUMBER = "29";
 
     private static final String P_MODULE_STRENGTH = "MODULE_STRENGTH";
@@ -244,6 +245,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      */
     @Override
     protected void process_basic() {
+        clsWordPresentationMesh oWaitAction = null;
+        
         log.debug("=== module {} start ===", this.getClass().getName());
 
         // Select the best goal
@@ -257,7 +260,17 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         clsWordPresentationMeshPossibleGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
 
         if(planGoal.getTotalImportance() < mrWaitThreshold) { 
+            //Create WAIT goal
             planGoal = clsGoalManipulationTools.createSelectableGoal("WAIT", eGoalType.NULLOBJECT, -1,clsMeshTools.getNullObjectWPM());
+            
+            //Create WAIT action
+            oWaitAction = clsActionTools.createAction(eAction.WAIT);
+            
+            //Set WAIT action as plan action
+            planGoal.setAssociatedPlanAction(oWaitAction);
+            
+            //Select the WAIT goal
+            planGoal.setCondition(eCondition.IS_CONTINUED_GOAL);
         } 
             
         logger.clsLogger.getLog("EmotionRange").info("Emotion Match on plangoal: {}", planGoal.getFeelingsMatchImportance());
@@ -296,6 +309,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             log.warn("Erroneous action taken. Action cannot be NONE. This must be an error in the codelets");
         }
 
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putAction(selectedAction.toString());
 
         double rRequestedPsychicIntensity = 0.0;
 

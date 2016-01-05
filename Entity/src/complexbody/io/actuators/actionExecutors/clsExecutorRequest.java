@@ -9,9 +9,14 @@ package complexbody.io.actuators.actionExecutors;
 import java.util.ArrayList;
 
 
+
+
+
 import properties.clsProperties;
+import singeltons.eImages;
 import complexbody.io.actuators.clsActionExecutor;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
+import entities.abstractEntities.clsEntity;
 
 
 /**
@@ -35,9 +40,11 @@ public class clsExecutorRequest extends clsActionExecutor{
 	 */
 	 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
+	private clsEntity moEntity;
 	
-	public clsExecutorRequest(String poPrefix, clsProperties poProp) {
+	public clsExecutorRequest(String poPrefix, clsProperties poProp, clsEntity poSelf) {
 		super(poPrefix, poProp);
+		moEntity = poSelf;
 		
 	}
 
@@ -92,6 +99,14 @@ public class clsExecutorRequest extends clsActionExecutor{
 	 */
 	@Override
 	public boolean execute(clsActionCommand poCommand) {
+		moEntity.setOverlayImage(eImages.Overlay_Action_Request);
+		
+		//3) attach request to the self 
+        
+        clsAction oAction = new clsAction(1);
+        oAction.setActionName("REQUEST");
+        moEntity.addAction(oAction);
+		
 		return true;
 	}
 

@@ -1,4 +1,4 @@
-; Thu Nov 05 01:48:54 GMT 2015
+; Wed Sep 23 12:50:21 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3924,7 +3924,7 @@
 
 	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.9)
+	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.0)
@@ -4103,11 +4103,6 @@
 ([HANDS] of  %3ASTANDARD-CLASS
 
 	(%3ASLOT-CONSTRAINTS [ARSi10_Class8]))
-
-([INTENTION] of  TPM%3AIMAGE
-
-	(value "INTENTION")
-	(value_type "RPI"))
 
 ([PRI%3A%3AADAM_BEAT_SELF%3ABEAT] of  PRIMARYINSTANCEACTION
 
@@ -5111,12 +5106,12 @@
 		[ASSOCIATIONTEMP%3AADAM_BEAT_SELF%3AADAM]
 		[ASSOCIATIONTEMP%3AADAM_BEAT_SELF%3ASELF])
 	(value "ACTION_IMAGE_ADAM_BEAT_SELF")
-	(value_type "RPA"))
+	(value_type "RI"))
 
 ([TPM%3AIMAGE%3AADAM_OWNED_CAKE] of  TPM%3AIMAGE
 
 	(value "ADAM_OWNED_CAKE")
-	(value_type "RPA"))
+	(value_type "RI"))
 
 ([TPM%3AIMAGE%3ALIBIDOIMAGE%3ACAKE_FAR] of  LIBIDOIMAGE
 
