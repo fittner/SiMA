@@ -1,11 +1,3 @@
-import interfaces.itfFileManipulation;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-
 import logger.clsLogger;
 import logging.clsAnalysisLogger;
 
@@ -14,7 +6,6 @@ import org.slf4j.Logger;
 import datageneration.clsExperimenter;
 import datageneration.clsManipulator;
 import datageneration.clsRemoter;
-import fileManipulation.clsFileManipulation;
 
 public class clsController extends Thread {
 	protected static final Logger log = clsLogger.getLog("analysis.controller");
@@ -22,7 +13,6 @@ public class clsController extends Thread {
 	private clsManipulator moDataManipulator = null; 
 	private clsAnalysisLogger moLogger = null;
 	private clsRemoter moRemoteController = null;
-	private clsFileManipulation moFileReader = null;
 
 	
 	public clsController() {
@@ -48,7 +38,7 @@ public class clsController extends Thread {
 		moRemoteController = new clsRemoter();
 		log.info("Remote controller instance created");
 		log.debug(moRemoteController.toString());
-		moExperimentEngine = new clsExperimenter(moDataManipulator, moLogger, moRemoteController, moFileReader);
+		moExperimentEngine = new clsExperimenter(moDataManipulator, moLogger, moRemoteController);
 		log.info("Experimentation engine instance created");
 		log.debug(moExperimentEngine.toString());
 		moRemoteController.registerLogDataHandler(moExperimentEngine);
