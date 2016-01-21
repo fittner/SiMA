@@ -16,7 +16,7 @@ import utils.clsGetARSPath;
 
 public class clsTextManipulation extends clsManipulation {
 	protected static final Logger log = clsLogger.getLog("analysis.manipulator.manipulation.text");
-	protected final String moValueMatcherRegEx = ")=(?<value>.*)";
+	protected final String moValueMatcherRegEx = ") = (?<value>.*)";
 
 	public clsTextManipulation(URI oTarget) {
 		super(oTarget);
@@ -26,9 +26,10 @@ public class clsTextManipulation extends clsManipulation {
 		StringBuffer oStringBuffer = new StringBuffer();
 		Pattern oPattern = Pattern.compile("(?<name>" + oItemId + moValueMatcherRegEx);
 		try {
-			Matcher oResult = oPattern.matcher(new String(Files.readAllBytes(oFile.toPath())));
+			String text = new String(Files.readAllBytes(oFile.toPath()));
+			Matcher oResult = oPattern.matcher(text);
 			if(oResult.find()) {
-				oResult.appendReplacement(oStringBuffer, oResult.group("name") + "=" + oValue);
+				oResult.appendReplacement(oStringBuffer, oResult.group("name") + " = " + oValue);
 				if(oResult.find()) {
 					throw new RuntimeException("Item " + oItemId + " not unique in file " + oFile);
 				}

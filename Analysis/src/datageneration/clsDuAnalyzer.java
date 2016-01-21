@@ -7,9 +7,13 @@ import java.util.Map;
 
 import logger.clsLogger;
 import memorymgmt.enums.eAction;
+import memorymgmt.enums.eEmotionType;
 
 import org.slf4j.Logger;
 
+import secondaryprocess.modules.F29_EvaluationOfImaginaryActions;
+import base.datatypes.clsEmotion;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import control.interfaces.clsBaseDecisionUnit;
 import control.interfaces.itfDuAnalysis;
 
@@ -70,8 +74,38 @@ public class clsDuAnalyzer implements itfDuAnalysis {
 		return moActions;
 	}
 	
-	public List<Map<String, String>> getFactors() {
-		return moFactors;
+	public String getAction() {
+		return moActions.get(moActions.size() - 1);
+	}
+	
+	protected Map<String, String> finalizeFactors() {
+		//finalize_F71_emotionValues_Factors();
+		finalizeGoals();
+		
+		return moCurrentStepFactors;
+	}
+
+	protected void finalize_F71_emotionValues_Factors() {
+		//check for consistency
+		if(moInitialValues.keySet().equals(moLastValues.keySet())) {
+			for(eEmotionType oKey : moInitialValues.keySet()) {
+				putFactor(oKey.toString() + "_INIT", Double.toString(moInitialValues.get(oKey)));
+				putFactor(oKey.toString() + "_FINAL", Double.toString(moLastValues.get(oKey)));
+			}
+		} else {
+			log.error("Initial value and last value map contains different keys:");
+			log.error("Initial values: {}\nLast values: {}", moInitialValues.keySet(), moLastValues.keySet());
+		}
+	}
+	
+	protected void finalizeGoals() {
+		
+	}
+	
+	public Map<String, String> getFactors() {
+		Map<String, String> finalizedFactors = finalizeFactors(); 
+		
+		return finalizedFactors;
 	}
 	
 	protected <T> T notNull(T value, String message) {
@@ -81,4 +115,58 @@ public class clsDuAnalyzer implements itfDuAnalysis {
         
         return value;
     }
+
+	private Map<eEmotionType, Double> moInitialValues = new HashMap<>();
+    private Map<eEmotionType, Double> moLastValues = new HashMap<>();
+    
+	@Override
+	public void put_F71_emotionValues(List<clsEmotion> poEmotions) {
+		for(clsEmotion oEmotion : poEmotions) {
+            if(moInitialValues.containsKey(oEmotion.getContent())) {
+                moLastValues.put(oEmotion.getContent(), oEmotion.getEmotionIntensity());
+            } else {
+                moInitialValues.put(oEmotion.getContent(), oEmotion.getEmotionIntensity());
+            }
+        }
+	}
+	
+	@Override
+	public void putFinalGoals(ArrayList<clsWordPresentationMeshPossibleGoal> poGoals) {
+		String oIdentifier = new String();
+		String oGoalBaseKeyString = new String();
+		int rGoalCount = 0;
+		double rTempDriveDemandImportance = 0;
+        double rTempFeelingMatchImportance = 0;
+        double rTempFeelingExpectationImportance = 0;
+        double rTempImportanceSum = 0;
+		
+		for(clsWordPresentationMeshPossibleGoal oGoal : poGoals) {
+			oGoalBaseKeyString = "GOAL" + Integer.toString(rGoalCount++);
+			//Store the goal id
+			oIdentifier = oGoal.getSupportiveDataStructure().getContent() + ":" + oGoal.getGoalContentIdentifier();
+			putFactor(oGoalBaseKeyString + "_ID", oIdentifier);
+			
+			//Store the goal total importance
+			putFactor(oGoalBaseKeyString + "_IMPORTANCE", Double.toString(oGoal.getTotalImportance()));
+			
+			//Drive demand and feelings importance are combined via non-proportional aggregation, therefore we divide the
+            //PP impact factor, according to the relation between drive demand impact and feelings impact
+            rTempImportanceSum = oGoal.getDriveDemandImportance() +  oGoal.getFeelingsMatchImportance() + oGoal.getFeelingsExcpactationImportance();
+            rTempDriveDemandImportance = oGoal.getPPImportance() * (oGoal.getDriveDemandImportance() / rTempImportanceSum);
+            rTempFeelingMatchImportance = oGoal.getPPImportance() * (oGoal.getFeelingsMatchImportance() / rTempImportanceSum);
+            rTempFeelingExpectationImportance = oGoal.getPPImportance() * (oGoal.getFeelingsExcpactationImportance() / rTempImportanceSum);
+			
+			//Store the goals drive demand importance
+			putFactor(oGoalBaseKeyString + "_IMPORTANCE_DRIVE", Double.toString(rTempDriveDemandImportance));
+			
+			//Store the goals feelings match importance
+			putFactor(oGoalBaseKeyString + "_IMPORTANCE_FEELINGMATCH", Double.toString(rTempFeelingMatchImportance));
+			
+			//Store the goals feelings expectation match importance			
+			putFactor(oGoalBaseKeyString + "_IMPORTANCE_FEELINGEXPECTATION", Double.toString(rTempFeelingExpectationImportance));
+			
+			//Store the goals effort impact importance
+			putFactor(oGoalBaseKeyString + "_IMPORTANCE_EFFORT", Double.toString(oGoal.getEffortImpactImportance()));
+		}
+	}
 }

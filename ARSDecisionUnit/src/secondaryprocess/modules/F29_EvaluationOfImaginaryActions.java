@@ -310,6 +310,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
 
         clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putAction(selectedAction.toString());
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putFinalGoals(moSelectableGoals);
 
         double rRequestedPsychicIntensity = 0.0;
 

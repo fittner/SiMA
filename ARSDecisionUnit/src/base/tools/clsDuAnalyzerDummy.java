@@ -6,6 +6,11 @@
  */
 package base.tools;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import base.datatypes.clsEmotion;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import control.interfaces.itfDuAnalysis;
 
 /**
@@ -31,6 +36,30 @@ public class clsDuAnalyzerDummy implements itfDuAnalysis {
     @Override
     public void putAction(String oActionValue) {
         //do nothing
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 22.12.2015 18:14:48
+     * 
+     * @see control.interfaces.itfDuAnalysis#put_F71_emotionValues(java.util.List)
+     */
+    @Override
+    public void put_F71_emotionValues(List<clsEmotion> poEmotions) {
+        // TODO (Kollmann) - Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 20.01.2016 18:27:45
+     * 
+     * @see control.interfaces.itfDuAnalysis#putFinalGoals(java.util.ArrayList)
+     */
+    @Override
+    public void putFinalGoals(ArrayList<clsWordPresentationMeshPossibleGoal> goals) {
+        // TODO (Kollmann) - Auto-generated method stub
+        
     }
 
 }

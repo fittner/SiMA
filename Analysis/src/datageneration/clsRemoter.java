@@ -107,28 +107,21 @@ public class clsRemoter implements itfRemoteControl {
 		log.info("Simulation run finished - mason stoped - reading factor and outcome logs");
 		for(clsDuAnalyzer oDu : oCurrentAnalyzer.getAllDuAnalyzers()) {
 			//check if data is consistent (currently: the factors and actions collections have same size)
-			if(oDu.getFactors().size() != oDu.getActions().size()) {
-				log.error("Data for simulation run might be inconsistent - the number of stored factors and stored actions differ");
-			} else {
-				//loop through steps
-				for(int i = 0; i < oDu.getFactors().size(); ++i) {
-					//handle factors
-					Map<String, String> oFactors = oDu.getFactors().get(i);
-					Map<String, String> oLogData = new HashMap<>(); 
-					
-					//log post processing - introducing the agent id into the key strings
-					for(String oKey : oFactors.keySet()) {
-						oLogData.put(oDu.getId() + "." + oKey, oFactors.get(oKey));
-					}
-					try {
-						//handle actions
-						oLogData.put(oDu.getId() + ".Outcome", oDu.getActions().get(i));
-						moLogDataHandler.put(oLogData);
-					} catch (IOException e) {
-						log.error("Could not write data for step " + Integer.toString(i) + "IO Exception:");
-						e.printStackTrace();
-					}
-				}
+			//loop through steps
+			Map<String, String> oFactors = oDu.getFactors();
+			Map<String, String> oLogData = new HashMap<>();
+			
+			//log post processing - introducing the agent id into the key strings
+			for(String oKey : oFactors.keySet()) {
+				oLogData.put(oDu.getId() + "." + oKey, oFactors.get(oKey));
+			}
+			try {
+				//handle actions
+				oLogData.put(oDu.getId() + ".Outcome", oDu.getAction());
+				moLogDataHandler.put(oLogData);
+			} catch (IOException e) {
+				log.error("Could not write data after simulation");
+				e.printStackTrace();
 			}
 		}
 		shutdownSiMA();
