@@ -44,6 +44,7 @@ public class clsDuAnalyzer implements itfDuAnalysis {
 		case EAT:
 		case DIVIDE:
 		case MOVE_BACKWARD:
+		case PERFORM_BASIC_ACT_ANALYSIS:
 			return true;
 		default:
 			return false;

@@ -8,5 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSDecisionUnit"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Simulation"/>
 	<classpathentry kind="src" path="/MasonExtentions"/>
+	<classpathentry kind="lib" path="/GeneralTools/lib/protegeAPI.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

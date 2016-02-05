@@ -3,7 +3,6 @@ package datageneration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,7 +15,6 @@ import org.slf4j.Logger;
 
 import interfaces.itfAnalysisLogger;
 import interfaces.itfDataManipulation;
-import interfaces.itfFileManipulation;
 import interfaces.itfLogDataTransfer;
 import interfaces.itfRemoteControl;
 
@@ -25,10 +23,9 @@ public class clsExperimenter implements itfLogDataTransfer {
 	private itfDataManipulation moManipulator = null;
 	private itfAnalysisLogger moLogger = null;
 	private itfRemoteControl moRemote = null;
-	private itfFileManipulation moFileReader = null;
 	private Map<String, String> moSimLog = new HashMap<>();
 	
-	public clsExperimenter(itfDataManipulation poManipulator, itfAnalysisLogger poLogger, itfRemoteControl poRemote, itfFileManipulation poFileReader) {
+	public clsExperimenter(itfDataManipulation poManipulator, itfAnalysisLogger poLogger, itfRemoteControl poRemote) {
 		setManipulator(poManipulator);
 		setLogger(poLogger);
 		setRemote(poRemote);
@@ -96,7 +93,6 @@ public class clsExperimenter implements itfLogDataTransfer {
 				", $(Agent_0.GOAL9_IMPORTANCE_FEELINGEXPECTATION)" +
 				", $(Agent_0.GOAL9_IMPORTANCE_EFFORT)" +
 				", $(Agent_0.Outcome)");
-		setFileManipulation(poFileReader);
 	}
 
 	protected void writeLogs() throws IOException {
@@ -133,13 +129,15 @@ public class clsExperimenter implements itfLogDataTransfer {
 		for(double i = 0; i <= 1.0; i += 0.1) {
 			//Example of a single simulation run
 			try {
-				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_STOMACH.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_RECTUM.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_STAMINA.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_ORAL.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_ANAL.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_PHALLIC.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_GENITAL.value", Double.toString(i));
+				moManipulator.put("frames://memory/ADAM.pprj/EMOTION:BODO_CAKE/sourcePleasure", Double.toString(i));
+				
+//				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_STOMACH.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_RECTUM.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_STAMINA.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_ORAL.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_ANAL.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_PHALLIC.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_GENITAL.value", Double.toString(i));
 				
 				moRemote.runSiMA(moManipulator.getScenarioFile());
 				
@@ -205,17 +203,6 @@ public class clsExperimenter implements itfLogDataTransfer {
 		this.moRemote = notNull(moRemote, "itfRemoteControl implementation provided to clsExperimenter must not be null");
 	}
 	
-	
-	private void setFileManipulation(itfFileManipulation moFileReader) {
-		//this.moFileReader = notNull(moFileReader, "itfFileManipulation implementation provided to clsExperimenter must not be null");
-	}
-	
-	public itfFileManipulation getFileReader() {
-		return moFileReader;
-	}
-
-
-
 	@Override
 	public void put(Map<String, String> poStepLogEntries) throws IOException {
 		moLogger.write(poStepLogEntries);
