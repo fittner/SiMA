@@ -62,4 +62,29 @@ public class clsDuAnalyzerDummy implements itfDuAnalysis {
         
     }
 
+    /* (non-Javadoc)
+     *
+     * @since 06. Feb. 2016 16:38:17
+     * 
+     * @see control.interfaces.itfDuAnalysis#put_F63_emotionContributors(base.datatypes.clsEmotion, base.datatypes.clsEmotion, base.datatypes.clsEmotion, base.datatypes.clsEmotion, base.datatypes.clsEmotion)
+     */
+    @Override
+    public void put_F63_emotionContributors(clsEmotion poFromDrives, clsEmotion poFromPerceptionDrive, clsEmotion poFromPerceptionExperiences,
+            clsEmotion poFromPerceptionBodystates, clsEmotion poFromMemorizedValuations) {
+        // TODO (Heinrich Kemmler) - Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 06. Feb. 2016 16:38:17
+     * 
+     * @see control.interfaces.itfDuAnalysis#put_F63_basicEmotion(base.datatypes.clsEmotion)
+     */
+    @Override
+    public void put_F63_basicEmotion(clsEmotion poBasicEmotion) {
+        // TODO (Heinrich Kemmler) - Auto-generated method stub
+        
+    }
+
 }
