@@ -385,7 +385,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	    	if(id.length()<3){
 	    		id = id.charAt(0) +"0"+id.charAt(1);
 	    	}
-	    	moContentWindow.setTitle("Module" + id);
+	    	moContentWindow.setTitle("Module" + id + " - Agent " + moPA.getUid());
 	    	TabbedInspector moContent = new TabbedInspector();
 	    	moContents.add(moContent);
 	    	
