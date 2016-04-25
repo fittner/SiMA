@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="lib/mason.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-all-1.9.5-rc1.jar"/>
+	<classpathentry kind="lib" path="lib/java-json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

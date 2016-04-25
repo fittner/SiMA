@@ -1,4 +1,4 @@
-; Tue Oct 06 13:19:41 GMT 2015
+; Tue Feb 09 16:29:04 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2965,6 +2965,7 @@
 ([EMOTION%3AAE%3AA10_DIVIDE_CAKE_L01%3AANGER%3AMIDDLE_LOW] of  EMOTION
 
 	(emotionIntensity 0.0)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -2975,6 +2976,7 @@
 ([EMOTION%3AAE%3AA10_DIVIDE_CAKE_L01%3AANXIETY%3AMIDDLE_LOW] of  EMOTION
 
 	(emotionIntensity 0.0)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -2985,6 +2987,7 @@
 ([EMOTION%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -2995,6 +2998,7 @@
 ([EMOTION%3AANGER%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.6)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3005,6 +3009,7 @@
 ([EMOTION%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3015,6 +3020,7 @@
 ([EMOTION%3AANXIETY%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.6)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.3)
 	(sourcePleasure 0.0)
@@ -3025,6 +3031,7 @@
 ([EMOTION%3AELATION] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.7)
@@ -3035,6 +3042,7 @@
 ([EMOTION%3AELATION%3ALOW] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.6)
@@ -3045,6 +3053,7 @@
 ([EMOTION%3AGUILT%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.4)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.6)
 	(sourcePleasure 0.0)
@@ -3055,6 +3064,7 @@
 ([EMOTION%3AJOY] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.7)
@@ -3065,6 +3075,7 @@
 ([EMOTION%3AJOY%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.6)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.4)
 	(sourceLibid 0.5)
 	(sourcePleasure 0.6)
@@ -3075,6 +3086,7 @@
 ([EMOTION%3AMOURNING] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.7)
 	(sourcePleasure 0.0)
@@ -3085,6 +3097,7 @@
 ([EMOTION%3AMOURNING%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.7)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.6)
 	(sourcePleasure 0.0)
@@ -3095,6 +3108,7 @@
 ([EMOTION%3ARE%3AANGER%3AHIGH] of  EMOTION
 
 	(emotionIntensity 0.9)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3105,6 +3119,7 @@
 ([EMOTION%3ARE%3AANGER%3ALOW] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3115,6 +3130,7 @@
 ([EMOTION%3ARE%3AANGER%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.5)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3125,6 +3141,7 @@
 ([EMOTION%3ARE%3AANGER%3AMIDDLE_HIGH] of  EMOTION
 
 	(emotionIntensity 0.7)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3135,6 +3152,7 @@
 ([EMOTION%3ARE%3AANGER%3AMIDDLE_LOW] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3145,6 +3163,7 @@
 ([EMOTION%3ARE%3AANXIETY%3AHIGH] of  EMOTION
 
 	(emotionIntensity 0.9)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3155,6 +3174,7 @@
 ([EMOTION%3ARE%3AANXIETY%3ALOW] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3165,6 +3185,7 @@
 ([EMOTION%3ARE%3AANXIETY%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.5)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3175,6 +3196,7 @@
 ([EMOTION%3ARE%3AANXIETY%3AMIDDLE_HIGH] of  EMOTION
 
 	(emotionIntensity 0.7)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3185,6 +3207,7 @@
 ([EMOTION%3ARE%3AANXIETY%3AMIDDLE_LOW] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3195,6 +3218,7 @@
 ([EMOTION%3ARE%3AELATION%3AHIGH] of  EMOTION
 
 	(emotionIntensity 0.9)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3205,6 +3229,7 @@
 ([EMOTION%3ARE%3AELATION%3ALOW] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3215,6 +3240,7 @@
 ([EMOTION%3ARE%3AELATION%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.5)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3225,6 +3251,7 @@
 ([EMOTION%3ARE%3AELATION%3AMIDDLE_HIGH] of  EMOTION
 
 	(emotionIntensity 0.7)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3235,6 +3262,7 @@
 ([EMOTION%3ARE%3AELATION%3AMIDDLE_LOW] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3245,6 +3273,7 @@
 ([EMOTION%3ARE%3AGUILT%3AHIGH] of  EMOTION
 
 	(emotionIntensity 0.9)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3255,6 +3284,7 @@
 ([EMOTION%3ARE%3AGUILT%3ALOW] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3265,6 +3295,7 @@
 ([EMOTION%3ARE%3AGUILT%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.5)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3275,6 +3306,7 @@
 ([EMOTION%3ARE%3AGUILT%3AMIDDLE_HIGH] of  EMOTION
 
 	(emotionIntensity 0.7)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3285,6 +3317,7 @@
 ([EMOTION%3ARE%3AGUILT%3AMIDDLE_LOW] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3295,6 +3328,7 @@
 ([EMOTION%3ARE%3AJOY%3AHIGH] of  EMOTION
 
 	(emotionIntensity 0.9)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3305,6 +3339,7 @@
 ([EMOTION%3ARE%3AJOY%3ALOW] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3315,6 +3350,7 @@
 ([EMOTION%3ARE%3AJOY%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.5)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3325,6 +3361,7 @@
 ([EMOTION%3ARE%3AJOY%3AMIDDLE_HIGH] of  EMOTION
 
 	(emotionIntensity 0.7)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3335,6 +3372,7 @@
 ([EMOTION%3ARE%3AJOY%3AMIDDLE_LOW] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3345,6 +3383,7 @@
 ([EMOTION%3ARE%3AMOURNING%3AHIGH] of  EMOTION
 
 	(emotionIntensity 0.9)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3355,6 +3394,7 @@
 ([EMOTION%3ARE%3AMOURNING%3ALOW] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3365,6 +3405,7 @@
 ([EMOTION%3ARE%3AMOURNING%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.5)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3375,6 +3416,7 @@
 ([EMOTION%3ARE%3AMOURNING%3AMIDDLE_HIGH] of  EMOTION
 
 	(emotionIntensity 0.7)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3385,6 +3427,7 @@
 ([EMOTION%3ARE%3AMOURNING%3AMIDDLE_LOW] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3395,6 +3438,7 @@
 ([EMOTION%3ARE%3ASATURATION%3AHIGH] of  EMOTION
 
 	(emotionIntensity 0.9)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3405,6 +3449,7 @@
 ([EMOTION%3ARE%3ASATURATION%3ALOW] of  EMOTION
 
 	(emotionIntensity 0.1)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3415,6 +3460,7 @@
 ([EMOTION%3ARE%3ASATURATION%3AMIDDLE] of  EMOTION
 
 	(emotionIntensity 0.5)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3425,6 +3471,7 @@
 ([EMOTION%3ARE%3ASATURATION%3AMIDDLE_HIGH] of  EMOTION
 
 	(emotionIntensity 0.7)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3435,6 +3482,7 @@
 ([EMOTION%3ARE%3ASATURATION%3AMIDDLE_LOW] of  EMOTION
 
 	(emotionIntensity 0.3)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3445,6 +3493,7 @@
 ([EMOTION%3ASATURATION] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.7)
 	(sourcePleasure 0.7)
