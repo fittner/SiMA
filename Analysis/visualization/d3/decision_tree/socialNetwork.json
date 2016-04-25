@@ -1,0 +1,58 @@
+{
+	"level": "GREEN",
+	"children": 
+	[
+		{
+			"level": "GREEN",
+			"children": 
+			[
+				{
+					"level": "GREY",
+					"children": 
+					[
+						
+					],
+
+					"nameColor": "green",
+					"name": "FactoryAgent 2",
+					"position": 4,
+					"type": "GREY",
+					"message": "GREEN",
+					"groupname": "Hard to change - high connectivity",
+					"value": 10
+				},
+				{
+					"level": "BLACK",
+					"children": 
+					[
+						
+					],
+
+					"nameColor": "yellow",
+					"name": "Testi",
+					"position": 6,
+					"type": "ORANGE",
+					"message": "RED",
+					"groupname": "Subtitle",
+					"value": 20
+				}
+			],
+
+			"nameColor": "red",
+			"name": "FactoryAgent 1",
+			"position": 2,
+			"type": "GREY",
+			"message": "GREEN",
+			"groupname": "Easy to change - low connectivity",
+			"value": 10
+		}
+	],
+
+	"nameColor": "red",
+	"name": "FactoryAgent 0",
+	"position": 0,
+	"type": "GREY",
+	"message": "GREEN",
+	"groupname": "Easy to change - low connectivity",
+	"value": 10
+}
