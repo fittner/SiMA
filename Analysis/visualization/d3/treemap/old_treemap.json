@@ -1,0 +1,69 @@
+{
+  "id": "Ebene 1",
+  "name": "Ebene 1 namespace",
+  "color": "#FF0000",
+  "children": [
+    {
+      "color": "#aaaaaa",
+	       "name": "Ebene 1 Child namespace",
+      "id": "Ebene 1 Child",
+      "size": 983
+    },
+    {
+	     "name": "Ebene 2 namespace",
+      "id": "Ebene 2",
+	    "color": "#F0aFF0",
+      "children": [
+        {
+          "color": "#aaaa00",
+		       "name": "Ebene 2 Child namespace",
+          "id": "Ebene 2 Child",
+          "size": 1823
+        },
+        {
+		     "name": "Ebene 3 namespace",
+          "id": "Ebene 3",
+          "children": [
+            {
+              "color": "#FFFFFF",
+			       "name": "Ebene 3 Child namespace",
+              "id": "Ebene 3 Child",
+              "size": 1983
+            },
+            {
+			     "name": "Ebene 4 namespace",
+              "id": "Ebene 4",
+              "children": [
+                {
+                  "color": "#00F0F0",
+				       "name": "Ebene 4 Child namespace",
+                  "id": "Ebene 4 Child",
+                  "size": 183
+                },
+                {
+				     "name": "Ebene 5 namespace",
+					 "color": "#aa0ed0",
+                  "id": "Ebene 5",
+                  "children": [
+                    {
+					  "name": "Ebene 5 Child namespace",
+                      "color": "#FF0000",
+                      "id": "Ebene 5 Child",
+                      "size": 983
+                    },
+					  {
+					  "name": "Ebene 5 Child namespace",
+                      "color": "#FFF000",
+                      "id": "Ebene 5 Child 2",
+                      "size": 983
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
