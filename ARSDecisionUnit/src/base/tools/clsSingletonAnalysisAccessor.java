@@ -6,10 +6,16 @@
  */
 package base.tools;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import logger.clsLogger;
+import memorymgmt.enums.eEmotionType;
 
 import org.slf4j.Logger;
 
+import base.datatypes.clsEmotion;
 import control.interfaces.itfAnalysis;
 import control.interfaces.itfDuAnalysis;
 
@@ -41,5 +47,27 @@ public class clsSingletonAnalysisAccessor {
     
     public static itfDuAnalysis getAnalyzerForGroupId(int nEntityGroupId) {
         return moAnalyzer.getDu(nEntityGroupId);
+    }
+    
+    private static Map<eEmotionType, Double> moInitialValues;
+    private static Map<eEmotionType, Double> moLastValues;
+    
+    public static void log_F71_emotions(List<clsEmotion> poEmotions) {
+        Map<String, String> oEmotionVariableMapping = new HashMap<>();
+        oEmotionVariableMapping.put(eEmotionType.ANGER.toString(), "ANGER");
+        oEmotionVariableMapping.put(eEmotionType.ANXIETY.toString(), "ANXIETY");
+        oEmotionVariableMapping.put(eEmotionType.MOURNING.toString(), "MOURNING");
+        oEmotionVariableMapping.put(eEmotionType.SATURATION.toString(), "SATURATION");
+        oEmotionVariableMapping.put(eEmotionType.ELATION.toString(), "ELATION");
+        oEmotionVariableMapping.put(eEmotionType.JOY.toString(), "JOY");
+        oEmotionVariableMapping.put(eEmotionType.GUILT.toString(), "GUILT");
+        
+        for(clsEmotion oEmotion : poEmotions) {
+            if(moInitialValues.containsKey(oEmotion.getContent())) {
+                moLastValues.put(oEmotion.getContent(), oEmotion.getEmotionIntensity());
+            } else {
+                moInitialValues.put(oEmotion.getContent(), oEmotion.getEmotionIntensity());
+            }
+        }
     }
 }

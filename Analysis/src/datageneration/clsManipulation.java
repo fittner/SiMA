@@ -52,12 +52,20 @@ public abstract class clsManipulation {
 		return oDirectory;
 	}
 	
-	protected String getFileName(URI oTarget) {
+	protected String getFileName(URI oTarget, int nPostfixPartCount) {
 		String oFullPath = getTarget().getPath();
+		String oFileName = new String("");
 		
 		List<String> oParts = new ArrayList<String>(Arrays.asList(oFullPath.substring(1, oFullPath.length()).split("/")));
-		if(oParts.size() > 0) {
-			return oParts.get(0);
+		if(oParts.size() > nPostfixPartCount) {
+			for(int i = 0; i < (oParts.size() - nPostfixPartCount); ++i) {
+				oFileName += oParts.get(i);
+				if((i + 1) < (oParts.size() - nPostfixPartCount)) {
+					//There will be more - add a slash
+					oFileName += "/";
+				}
+			}
+			return oFileName;
 		} else {
 			throw new IllegalArgumentException("Cannot extract filename from URI " + oTarget + ". Path element of URI has not enough parts.");
 		}
@@ -75,7 +83,7 @@ public abstract class clsManipulation {
 	
 	protected File openFile() {
 		String oDirectory = getDirectory(getTarget());
-		String oFileName = getFileName(getTarget());
+		String oFileName = getFileName(getTarget(), 2);
 		
 		File newFile = new File(oDirectory + clsGetARSPath.getSeperator() + oFileName);
 		if(!newFile.exists()) {

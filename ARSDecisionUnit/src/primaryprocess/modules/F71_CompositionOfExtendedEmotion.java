@@ -37,7 +37,7 @@ import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
-import base.tools.clsSingletonAnalysisAccessor;
+//import base.tools.clsSingletonAnalysisAccessor;
 import base.tools.toText;
 
 /**
@@ -228,14 +228,12 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
             if(mrRemainingConflict > 0) {
                 oNewGuilt = generateGuilt(mrRemainingConflict);
                 moEmotions_Output.add(oNewGuilt);
-                clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putFactor("GuiltValue", Double.toString(oNewGuilt.getEmotionIntensity()));
-            } else {
-                clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putFactor("GuiltValue", "no_conflict");
             }
-        } else {
-            clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putFactor("GuiltValue", "no_energy");
         }
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, mrInitialRequestIntensity, rConsumedPsychicIntensity);
+        
+        //Log all emotions
+//        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F71_emotionValues(moEmotions_Output);
     }
     
     private clsEmotion generateGuilt(double prConflictIntensity) {

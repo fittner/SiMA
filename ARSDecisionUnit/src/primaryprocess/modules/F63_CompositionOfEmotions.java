@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 
 import org.slf4j.Logger;
@@ -45,6 +46,7 @@ import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
+import base.tools.clsSingletonAnalysisAccessor;
 import base.tools.toText;
 
 /**
@@ -350,8 +352,35 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         for(clsEmotion oEmotion: moEmotions_OUT) {
             log.debug(oEmotion.toString());
         }
+        
+        clsEmotion oFromDrives = getEmotionFromMap(oDrivesExtractedValues, "rDrive");
+        clsEmotion oFromPerceptionDrive = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionDriveMesh");
+        clsEmotion oFromPerceptionExperiences = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionExperience");
+        clsEmotion oFromPerceptionBodystates = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionBodystate");
+        clsEmotion oFromMemorizedValuations = getEmotionFromMap(oMemoryExtractedValues, "rPerception");
+        
+        //Analysis logging
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F63_emotionContributors(oFromDrives, oFromPerceptionDrive, oFromPerceptionExperiences, oFromPerceptionBodystates, oFromMemorizedValuations);
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F63_basicEmotion(moTargetEmotion);
 	}
 	
+	/**
+	 * DOCUMENT - 
+	 *
+	 * @author Kollmann
+	 * @since 06. Feb. 2016 16:28:08
+	 *
+	 * @return
+	 */
+	private clsEmotion getEmotionFromMap(Map<String, Double> map, String prefix) {
+	    clsEmotion oEmotion = clsEmotion.zeroEmotion(eContentType.EMOTION,  eEmotionType.UNDEFINED);
+	    oEmotion.setSourceUnpleasure(map.get(prefix + "Unpleasure"));
+	    oEmotion.setSourcePleasure(map.get(prefix + "Pleasure"));
+	    oEmotion.setSourceLibid(map.get(prefix + "Libid"));
+	    oEmotion.setSourceAggr(map.get(prefix + "Aggr"));
+	    
+	    return oEmotion;
+	}
 	
 	/* (non-Javadoc)
 	 *
@@ -460,7 +489,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						
 					}
 					
-					//koller Emotionsübertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
+					//koller Emotionsuebertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
 
                     if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONATTRIBUTE && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
                         if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){

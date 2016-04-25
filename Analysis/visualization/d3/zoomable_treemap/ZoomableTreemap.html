@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="ocks-org do-not-copy">
+<meta charset="utf-8">
+<title>Zoomable Treemaps</title>
+<style>
+
+@import url(./zoomableTreemap.css);
+
+#chart {
+  width: 960px;
+  height: 500px;
+  background: #ddd;
+}
+
+text {
+  pointer-events: none;
+}
+
+.grandparent text {
+  font-weight: bold;
+}
+
+rect {
+  fill:none;
+  stroke: #fff;
+}
+
+rect.parent,
+.grandparent rect {
+  stroke-width: 2px;
+}
+
+.grandparent rect {
+  fill: orange;
+}
+
+.grandparent:hover rect {
+  fill: #ee9700;
+}
+
+.children rect.parent,
+.grandparent rect {
+  cursor: pointer;
+}
+
+
+
+.children:hover rect.child {
+  fill: #bbb;
+}
+
+</style>
+
+
+<h1>Sima-Choices</h1>
+
+<p id="chart">
+
+<script src="d3.v3.min.js" charset="utf-8"></script>
+<script src="zoomableTreemap.js"></script>
+</html>

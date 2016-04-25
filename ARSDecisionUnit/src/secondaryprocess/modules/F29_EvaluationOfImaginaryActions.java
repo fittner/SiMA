@@ -309,6 +309,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             log.warn("Erroneous action taken. Action cannot be NONE. This must be an error in the codelets");
         }
 
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putFinalGoals(moSelectableGoals);
         clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putAction(selectedAction.toString());
 
         double rRequestedPsychicIntensity = 0.0;

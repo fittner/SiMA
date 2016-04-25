@@ -270,6 +270,10 @@ public class clsPsychicApparatus {
 		fillInterfaces_Recv_Send();
 	}
 	
+	public int getUid() {
+	    return this.uid;
+	}
+	
 	/**
 	 * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface. 
 	 *
