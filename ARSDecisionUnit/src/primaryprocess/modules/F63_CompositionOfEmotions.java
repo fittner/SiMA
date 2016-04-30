@@ -41,6 +41,7 @@ import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
+import base.logging.DataCollector;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
@@ -350,6 +351,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         for(clsEmotion oEmotion: moEmotions_OUT) {
             log.debug(oEmotion.toString());
         }
+        
+        DataCollector.all().putBasicEmotionF63(moEmotions_OUT.get(0));
 	}
 	
 	

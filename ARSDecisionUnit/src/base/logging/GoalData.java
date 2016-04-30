@@ -6,9 +6,16 @@
  */
 package base.logging;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 import base.datatypes.clsDecisionTreeData;
+import base.datatypes.clsEmotion;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.interfaces.itfMapTreeNode;
 import base.tools.SimaJSONHandler;
@@ -23,6 +30,12 @@ import secondaryprocess.modules.F29_EvaluationOfImaginaryActions;
  */
 public class GoalData {
         private clsDecisionTreeData data = new clsDecisionTreeData();
+        private clsEmotion undefendedBasicEmotion = null;
+        private clsEmotion defendedBasicEmotion = null;
+        private List<clsEmotion> defendedExtendedEmotion = new ArrayList<>();
+        private Map<String, Double> driveBaseEmotionValues = new HashMap<>();
+        private Map<String, Double> perceptionBaseEmotionValues = new HashMap<>();
+        private Map<String, Double> memoryBaseEmotionValues = new HashMap<>();
         
         private static boolean collect = true;
         
@@ -30,7 +43,7 @@ public class GoalData {
         public static String EmotionEvaluation = "EmotionEvaluation";
         public static String EmotionMatching = "EmotionMatching";
         public static String MemorizedEmotion = "MemorizedEmotion";
-        public static String CurrentEmotion = "CurrentEmotion";
+        public static String CurrentEmotion = "CurrentExtendedEmotion";
         public static String EmotionDefenseImpact = "EmotionDefenseImpact";
         public static String EmotionRuleImpact = "EmotionRuleImpact";
         public static String BasicEmotion = "BasicEmotion";
@@ -71,9 +84,64 @@ public class GoalData {
             
             driveDistributionRatio = totalSetDriveImportance / currentDriveDemands;
         }
+        public void putBasicEmotionF63(clsEmotion basicEmotion) {
+            this.undefendedBasicEmotion = basicEmotion;
+        }
+        
+        public void putDefendedBasicEmotionF71(clsEmotion basicEmotion) {
+            this.defendedBasicEmotion = basicEmotion;
+        }
+        
+        public void putDefendedExtendedEmotionF71(List<clsEmotion> extendedEmotions) {
+            for(clsEmotion emotion : extendedEmotions) {
+                this.defendedExtendedEmotion.add(emotion.flatCopy());
+            }
+        }
+        
+        public double emotionDifference(clsEmotion firstEmotion, clsEmotion secondEmotion) {
+            double difference = 0.0f;
+            
+            difference = (1 - firstEmotion.compareTo(secondEmotion)); //compareTo delivers the match value
+            
+            return difference;
+        }
+        
+        public double emotionDifference(clsEmotion basicEmotion, List<clsEmotion> extendedEmotion) {
+            double difference = 0.0f;
+            
+            
+            
+            return difference;
+        }
+        
+        public void putEmotionVectorsF63(Map<String, Double> driveBaseEmotionVector, Map<String, Double> perceptionBaseEmotionVector, Map<String, Double> memoryBaseEmotionVector) {
+            driveBaseEmotionValues = driveBaseEmotionVector;
+            perceptionBaseEmotionValues = perceptionBaseEmotionVector;
+            memoryBaseEmotionValues = memoryBaseEmotionVector;
+        }
+        
+        public List<Double> extractImpact(double emotionValue, double driveValue, double perceptionValue, double memoryValue) {
+            double importanceSum = driveValue + perceptionValue + memoryValue;
+            double driveImpact = driveValue / importanceSum;
+            double perceptionImpact = perceptionValue / importanceSum;
+            double memoryImpact = memoryValue / importanceSum;
+
+            return Arrays.asList(driveImpact * emotionValue, perceptionImpact * emotionValue, memoryImpact * emotionValue);
+        }
+        
+        public List<Double> extractImpact(clsEmotion emotion, Map<String, Double> driveVector, Map<String, Double> perceptionVector, Map<String, Double> memoryVector) {
+            driveVector.get("rPerceptionUnpleasure"));
+            driveVector.get("rPerceptionPleasure"));
+            driveVector.get("rPerceptionLibid"));
+            driveVector.get("rPerceptionAggr"));
+            
+            List<Double> pleasureImpacts = extractImpact(emotion.getSourcePleasure(), driveVector.get("))
+        }
         
         public void putGoalF29(clsWordPresentationMeshPossibleGoal oGoal) {
             if(!collect) return;
+            
+            DataCollector.all().transferEmotionData(this); //means: ALL transfers emotion data to THIS
             
             double scalingFactor = 1.0;
             
@@ -97,8 +165,16 @@ public class GoalData {
             data.getById(InitialDrives).setData("value", Double.toString(rDriveImpact - rTempValue));
             
             data.getById(EmotionEvaluation).setData("value", Double.toString((rTempFeelingMatchImportance + rTempFeelingExpectationImportance) * scalingFactor));
-            data.getById(EmotionMatching).setData("value", Double.toString(rTempFeelingMatchImportance * scalingFactor));
-            data.getById(CurrentEmotion).setData("value", Double.toString(rTempFeelingMatchImportance * scalingFactor));
+            double emotionImpact = rTempFeelingMatchImportance * scalingFactor;
+            data.getById(EmotionMatching).setData("value", Double.toString(emotionImpact));
+            data.getById(CurrentEmotion).setData("value", Double.toString(emotionImpact));
+            double changeDuringExtendedEmotionGeneration = emotionDifference(defendedBasicEmotion, defendedExtendedEmotion);
+            data.getById(EmotionRuleImpact).setData("value", Double.toString(emotionImpact * changeDuringExtendedEmotionGeneration));
+            emotionImpact = emotionImpact * (1 - changeDuringExtendedEmotionGeneration);
+            double emotionDiffAfterDefense = emotionDifference(undefendedBasicEmotion, defendedBasicEmotion);
+            data.getById(EmotionDefenseImpact).setData("value", Double.toString(emotionImpact * emotionDiffAfterDefense));
+            data.getById(BasicEmotion).setData("value", Double.toString(emotionImpact * (1 - emotionDiffAfterDefense)));
+            
             data.getById(MemorizedEmotion).setData("value", Double.toString(rTempFeelingMatchImportance * scalingFactor));
             rTotalImportance += rTempFeelingMatchImportance;
             data.getById(EmotionExpectation).setData("value", Double.toString(rTempFeelingExpectationImportance * scalingFactor));
@@ -142,6 +218,14 @@ public class GoalData {
             for(itfMapTreeNode child : node.getChildren()) {
                 printTree(child);
             }
+        }
+        
+        protected void transferEmotionData(GoalData targetGoal) {
+            targetGoal.putBasicEmotionF63(undefendedBasicEmotion);
+            targetGoal.putDefendedBasicEmotionF71(defendedBasicEmotion);
+            targetGoal.putDefendedExtendedEmotionF71(defendedExtendedEmotion);
+            
+            targetGoal.putEmotionVectorsF63(driveBaseEmotionValues, perceptionBaseEmotionValues, memoryBaseEmotionValues);
         }
         
         public void finish() {

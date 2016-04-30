@@ -111,7 +111,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    return rMatch / 4;
 	}
 	
-	/* (non-Javadoc) Kollmann: calculates difference of two emotions as single value
+	/* (non-Javadoc) Kollmann: calculates match between two emotions as single value
 	 * 
 	 * @since 27.02.2015 17:50:53
 	 * 

@@ -20,11 +20,16 @@ import base.datatypes.clsWordPresentationMeshPossibleGoal;
  */
 public class DataCollector {
     private static Map<String, GoalData> dtData = new HashMap<>();
+    private static GoalData forAll = new GoalData();
     
     public static GoalData goal(clsWordPresentationMeshPossibleGoal oGoal) {
         String oIdentifier = oGoal.getSupportiveDataStructure().getContent() + ":" + oGoal.getGoalContentIdentifier();
         
         return goal(oIdentifier);
+    }
+    
+    public static GoalData all() {
+        return forAll;
     }
     
     public static GoalData goal(String name) {

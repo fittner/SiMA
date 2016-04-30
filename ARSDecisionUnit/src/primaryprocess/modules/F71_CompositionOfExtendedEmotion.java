@@ -34,6 +34,7 @@ import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsTriple;
+import base.logging.DataCollector;
 import base.modules.clsModuleBase;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
@@ -197,6 +198,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         
         log.debug("neutralized intensity F71: " + Double.toString(rReceivedPsychicEnergy));
 
+        DataCollector.all().putDefendedBasicEmotionF71(moEmotions_Input.get(0));
+        
         moEmotions_Output = moEmotions_Input.get(0).generateExtendedEmotions();
         
         if (rReceivedPsychicEnergy > mrPsychicEnergyThreshold) {
@@ -231,6 +234,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
             }
         }
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, mrInitialRequestIntensity, rConsumedPsychicIntensity);
+        
+        DataCollector.all().putDefendedExtendedEmotionF71(moEmotions_Output);
         
         //Log all emotions
 //        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F71_emotionValues(moEmotions_Output);
