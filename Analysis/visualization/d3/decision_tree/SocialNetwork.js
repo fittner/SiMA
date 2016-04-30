@@ -50,7 +50,7 @@ d3.json("socialNetwork.json", function update(source) {
 		
 
   nodeEnter.append("circle")
-	  .attr("r", function(d) { return d.value; })
+	  .attr("r", function(d) { return d.value * 50; })
 	  .style("stroke", function(d) { return d.type; })
 	  .style("fill", function(d) { return d.level; })
 	  ;
@@ -102,7 +102,7 @@ d3.json("socialNetwork.json", function update(source) {
 	 ;
 	 
     nodeEnter.append("text")
-	 					.text(function(d) { return (d.groupname); })
+	 					.text(function(d) { return (d.value); })
                             .attr("dx", 0)	
                             .attr("dy", "3.5em")
                             .style("font-size","5px")

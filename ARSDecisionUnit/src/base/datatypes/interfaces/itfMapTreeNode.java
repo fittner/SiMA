@@ -21,6 +21,7 @@ public interface itfMapTreeNode {
     public itfMapTreeNode addChild(itfMapTreeNode child);
     public Set<itfMapTreeNode> getChildren();
     public String getData(String key);
+    public void setData(String key, String value);
     public JSONObject toJson();
     public itfMapTree getTree();
 }

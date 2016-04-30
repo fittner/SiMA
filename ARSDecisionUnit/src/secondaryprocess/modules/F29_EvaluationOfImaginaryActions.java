@@ -25,6 +25,7 @@ import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshGoal;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.logging.DataCollector;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
@@ -320,6 +321,12 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 
+        for (clsWordPresentationMeshPossibleGoal oGoal : moSelectableGoals) {
+            DataCollector.goal(oGoal).putGoalF29(oGoal);
+        }
+        
+        DataCollector.goal(moSelectableGoals.get(0)).finish();
+        
         // //=== TEST ONLY ONE ACTION === //
         // if (clsTester.getTester().isActivated()) {
         // try {

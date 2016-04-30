@@ -70,7 +70,8 @@ public class clsMapTreeNode implements itfMapTreeNode, Comparable<itfMapTreeNode
      * 
      * @see base.datatypes.interfaces.itfMapTreeNode#setData(java.lang.String, java.lang.String)
      */
-    void setData(String key, String value) {
+    @Override
+    public void setData(String key, String value) {
         data.put(key, value);
     }
 

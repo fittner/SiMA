@@ -17,6 +17,7 @@ import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
+import base.logging.DataCollector;
 import logger.clsLogger;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
@@ -412,8 +413,10 @@ public class GoalAlgorithmTools {
             //2. use the quota of affect of as far as the selectable goal can fulfill it
             if (selectableGoal.getPotentialDriveFulfillmentImportance()<=aimOfDrive.getTotalImportance()) {
                 selectableGoal.setDriveDemandImportance(prDriveImpact * selectableGoal.getPotentialDriveFulfillmentImportance());
+                DataCollector.goal(selectableGoal).putDriveFulfillmentImportance_F26(prDriveImpact * selectableGoal.getPotentialDriveFulfillmentImportance(), prDriveImpact * aimOfDrive.getTotalImportance());
             } else {
                 selectableGoal.setDriveDemandImportance(prDriveImpact * aimOfDrive.getTotalImportance());
+                DataCollector.goal(selectableGoal).putDriveFulfillmentImportance_F26(prDriveImpact * aimOfDrive.getTotalImportance(), prDriveImpact * aimOfDrive.getTotalImportance());
             }
         }
         
