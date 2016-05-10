@@ -117,6 +117,12 @@ public class GoalData {
         public void putEmotionVectorsF63(Map<String, Double> driveBaseEmotionVector, Map<String, Double> perceptionBaseEmotionVector, Map<String, Double> memoryBaseEmotionVector) {
             driveBaseEmotionValues = driveBaseEmotionVector;
             perceptionBaseEmotionValues = perceptionBaseEmotionVector;
+            //the perception base emotion values vector contains the values further split on how the perception influenced the emotion: by associated drivemeshes, by past experience or by body state
+            perceptionBaseEmotionValues.put("rPerceptionUnpleasure", perceptionBaseEmotionValues.get("rPerceptionDriveMeshUnpleasure") + perceptionBaseEmotionValues.get("rPerceptionExperienceUnpleasure") + perceptionBaseEmotionValues.get("rPerceptionBodystateUnpleasure"));
+            perceptionBaseEmotionValues.put("rPerceptionPleasure", perceptionBaseEmotionValues.get("rPerceptionDriveMeshPleasure") + perceptionBaseEmotionValues.get("rPerceptionExperiencePleasure") + perceptionBaseEmotionValues.get("rPerceptionBodystatePleasure"));
+            perceptionBaseEmotionValues.put("rPerceptionLibid", perceptionBaseEmotionValues.get("rPerceptionDriveMeshLibid") + perceptionBaseEmotionValues.get("rPerceptionExperienceLibid") + perceptionBaseEmotionValues.get("rPerceptionBodystateLibid"));
+            perceptionBaseEmotionValues.put("rPerceptionAggr", perceptionBaseEmotionValues.get("rPerceptionDriveMeshAggr") + perceptionBaseEmotionValues.get("rPerceptionExperienceAggr") + perceptionBaseEmotionValues.get("rPerceptionBodystateAggr"));
+            
             memoryBaseEmotionValues = memoryBaseEmotionVector;
         }
         
@@ -130,12 +136,29 @@ public class GoalData {
         }
         
         public List<Double> extractImpact(clsEmotion emotion, Map<String, Double> driveVector, Map<String, Double> perceptionVector, Map<String, Double> memoryVector) {
-            driveVector.get("rPerceptionUnpleasure"));
-            driveVector.get("rPerceptionPleasure"));
-            driveVector.get("rPerceptionLibid"));
-            driveVector.get("rPerceptionAggr"));
+            List<Double> unpleasureImpacts = extractImpact(emotion.getSourceUnpleasure(), driveVector.get("rDriveUnpleasure"), perceptionVector.get("rPerceptionUnpleasure"), memoryVector.get("rPerceptionUnpleasure"));
+            List<Double> pleasureImpacts = extractImpact(emotion.getSourcePleasure(), driveVector.get("rDrivePleasure"), perceptionVector.get("rPerceptionPleasure"), memoryVector.get("rPerceptionPleasure"));
+            List<Double> libidImpacts = extractImpact(emotion.getSourceLibid(), driveVector.get("rDriveLibid"), perceptionVector.get("rPerceptionLibid"), memoryVector.get("rPerceptionLibid"));
+            List<Double> aggrImpacts = extractImpact(emotion.getSourceAggr(), driveVector.get("rDriveAggr"), perceptionVector.get("rPerceptionAggr"), memoryVector.get("rPerceptionAggr"));
             
-            List<Double> pleasureImpacts = extractImpact(emotion.getSourcePleasure(), driveVector.get("))
+            List<Double> results = new ArrayList<>();
+            
+            //safety check
+            if(unpleasureImpacts.size() != 3 || pleasureImpacts.size() != 3 || libidImpacts.size() != 3 || aggrImpacts.size() != 3) {
+                throw new IllegalArgumentException("One of the emotion impect vectors calculated for the current emotion has an invalid length != 3.\n" + unpleasureImpacts + "\n" + pleasureImpacts + "\n" + libidImpacts + "\n" + aggrImpacts);
+            }
+            
+            for(int i = 0; i < 3; ++i) {
+                double value = 0;
+                value += unpleasureImpacts.get(i) / emotion.getSourceUnpleasure();
+                value += pleasureImpacts.get(i) / emotion.getSourcePleasure();
+                value += libidImpacts.get(i) / emotion.getSourceLibid();
+                value += aggrImpacts.get(i) / emotion.getSourceAggr();
+                
+                results.add(value / 4.0f);
+            }
+            
+            return results;
         }
         
         public void putGoalF29(clsWordPresentationMeshPossibleGoal oGoal) {
@@ -174,6 +197,12 @@ public class GoalData {
             double emotionDiffAfterDefense = emotionDifference(undefendedBasicEmotion, defendedBasicEmotion);
             data.getById(EmotionDefenseImpact).setData("value", Double.toString(emotionImpact * emotionDiffAfterDefense));
             data.getById(BasicEmotion).setData("value", Double.toString(emotionImpact * (1 - emotionDiffAfterDefense)));
+            
+            List<Double> emotionImpacts = extractImpact(undefendedBasicEmotion, driveBaseEmotionValues, perceptionBaseEmotionValues, memoryBaseEmotionValues);
+            
+            data.getById(InitialDrives2).setData("value", Double.toString((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(0)));
+            data.getById(ExternalWorld2).setData("value", Double.toString((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(1)));
+            data.getById(Memories).setData("value", Double.toString((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(2)));
             
             data.getById(MemorizedEmotion).setData("value", Double.toString(rTempFeelingMatchImportance * scalingFactor));
             rTotalImportance += rTempFeelingMatchImportance;

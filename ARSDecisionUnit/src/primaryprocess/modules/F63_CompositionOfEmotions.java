@@ -352,6 +352,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
             log.debug(oEmotion.toString());
         }
         
+        DataCollector.all().putEmotionVectorsF63(oDrivesExtractedValues, oPerceptionExtractedValues, oMemoryExtractedValues);
         DataCollector.all().putBasicEmotionF63(moEmotions_OUT.get(0));
 	}
 	
@@ -463,7 +464,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						
 					}
 					
-					//koller Emotionsübertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
+					//koller Emotionsbertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
 
                     if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONATTRIBUTE && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
                         if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){
