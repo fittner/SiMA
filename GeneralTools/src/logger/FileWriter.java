@@ -17,7 +17,8 @@ import org.json.JSONObject;
 
 public class FileWriter {
 
-	String fileDestination = "/../Analysis/visualization/d3/decision_tree/socialNetwork.json";
+	String decisionTreeDestination = "/../Analysis/visualization/d3/decision_tree/socialNetwork.json";
+	String treeMapDestination = "/../Analysis/visualization/d3/treemap/treemap.json";
 	/**
 	 * Constructor: will clean the file complete JSON-file, where data shall be
 	 * written
@@ -26,8 +27,9 @@ public class FileWriter {
 
 		File tempFile = new File("");
 		tempFile.getAbsolutePath();
-		this.fileDestination = tempFile.getAbsolutePath() + fileDestination;	
-		deleteFileContent(fileDestination);
+		this.decisionTreeDestination = tempFile.getAbsolutePath() + decisionTreeDestination;
+		this.treeMapDestination = tempFile.getAbsolutePath() + treeMapDestination;
+		deleteFileContent(decisionTreeDestination);
 
 	}
 
@@ -46,7 +48,7 @@ public class FileWriter {
 
 		try {
 			RandomAccessFile raf = new RandomAccessFile(fileDestination, "rw");
-
+			
 			// sets up the basic layout of the file and fills it with
 			// the basic term , needed for JavaScript
 			raf.setLength(0);
@@ -58,17 +60,43 @@ public class FileWriter {
 
 	}
 
-
 	public void writeTreemapData(JSONArray treemapFull ) {
 		
-		deleteFileContent(fileDestination);
+		deleteFileContent(treeMapDestination);
 	
 		try {
-			RandomAccessFile raf = new RandomAccessFile(fileDestination, "rw");
+			RandomAccessFile raf = new RandomAccessFile(treeMapDestination, "rw");
 		
 		
 		
-			raf.writeBytes(treemapFull.toString() );
+			raf.writeBytes(treemapFull.toString(3) );
+		 
+			/* for easier use, we initially use a JSONArray as carrier.
+			 *  but the array may not maintain, so we delete the "[" and "]" at beginning and end of the file 
+			 */
+			raf.seek(0);
+			raf.writeBytes(" ");
+			raf.seek(raf.length() - 1); //
+			raf.writeBytes(" ");
+			//now the correct format
+			raf.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void writeDecisionTreeData(JSONArray treemapFull ) {
+		
+		deleteFileContent(decisionTreeDestination);
+	
+		try {
+			RandomAccessFile raf = new RandomAccessFile(decisionTreeDestination, "rw");
+		
+		
+		
+			raf.writeBytes(treemapFull.toString(3) );
 		 
 			/* for easier use, we initially use a JSONArray as carrier.
 			 *  but the array may not maintain, so we delete the "[" and "]" at beginning and end of the file 

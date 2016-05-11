@@ -1,1 +1,205 @@
- {"color":"#000000","size":0.629704438688489,"name":"Name 0","id":"id 0","darkeningFactor":0} 
+ {
+   "color": "#000000",
+   "level": "BLUE",
+   "children": [
+      {
+         "color": "#ff0000",
+         "level": "BLUE",
+         "children": [
+            {
+               "color": "#ff0000",
+               "level": "BLUE",
+               "nameColor": "BLACK",
+               "name": "InitialDrives",
+               "id": "InitialDrives",
+               "position": "4",
+               "type": "BLUE",
+               "message": "BLACK",
+               "darkeningFactor": "0.0",
+               "groupname": "(0)",
+               "value": "0.04793678283991385"
+            },
+            {
+               "color": "#ff0000",
+               "level": "BLUE",
+               "nameColor": "BLACK",
+               "name": "MemorizedDriveSatisfactions",
+               "id": "MemorizedDriveSatisfactions",
+               "position": "4",
+               "type": "BLUE",
+               "message": "BLACK",
+               "darkeningFactor": "0.5",
+               "groupname": "(0)",
+               "value": "0.04377240028860937"
+            }
+         ],
+         "nameColor": "BLACK",
+         "name": "DriveEvaluation",
+         "id": "DriveEvaluation",
+         "position": "2",
+         "type": "BLUE",
+         "message": "BLACK",
+         "darkeningFactor": "0.9",
+         "groupname": "(0)",
+         "value": "0.09170918312852322"
+      },
+      {
+         "color": "#00ff00",
+         "level": "BLUE",
+         "children": [{
+            "color": "#00ff00",
+            "level": "BLUE",
+            "nameColor": "BLACK",
+            "name": "ExternalWorld",
+            "id": "ExternalWorld",
+            "position": "4",
+            "type": "BLUE",
+            "message": "BLACK",
+            "darkeningFactor": "0.0",
+            "groupname": "(0)",
+            "value": "0.11"
+         }],
+         "nameColor": "BLACK",
+         "name": "EffortEvaluation",
+         "id": "EffortEvaluation",
+         "position": "2",
+         "type": "BLUE",
+         "message": "BLACK",
+         "darkeningFactor": "0.9",
+         "groupname": "(0)",
+         "value": "0.11"
+      },
+      {
+         "color": "#000000",
+         "level": "BLUE",
+         "children": [
+            {
+               "color": "#ffc800",
+               "level": "BLUE",
+               "nameColor": "BLACK",
+               "name": "EmotionExpectation",
+               "id": "EmotionExpectation",
+               "position": "4",
+               "type": "BLUE",
+               "message": "BLACK",
+               "darkeningFactor": "0.0",
+               "groupname": "(0)",
+               "value": "0.0"
+            },
+            {
+               "color": "#000000",
+               "level": "BLUE",
+               "children": [
+                  {
+                     "color": "#0000ff",
+                     "level": "BLUE",
+                     "children": [
+                        {
+                           "color": "#0000ff",
+                           "level": "BLUE",
+                           "nameColor": "BLACK",
+                           "name": "ExternalWorld2",
+                           "id": "ExternalWorld2",
+                           "position": "8",
+                           "type": "BLUE",
+                           "message": "BLACK",
+                           "darkeningFactor": "1.5",
+                           "groupname": "(0)",
+                           "value": "0.12325368378276824"
+                        },
+                        {
+                           "color": "#0000ff",
+                           "level": "BLUE",
+                           "nameColor": "BLACK",
+                           "name": "InitialDrives2",
+                           "id": "InitialDrives2",
+                           "position": "8",
+                           "type": "BLUE",
+                           "message": "BLACK",
+                           "darkeningFactor": "0.5",
+                           "groupname": "(0)",
+                           "value": "0.22185977226757608"
+                        },
+                        {
+                           "color": "#0000ff",
+                           "level": "BLUE",
+                           "nameColor": "BLACK",
+                           "name": "Memories",
+                           "id": "Memories",
+                           "position": "8",
+                           "type": "BLUE",
+                           "message": "BLACK",
+                           "darkeningFactor": "0.0",
+                           "groupname": "(0)",
+                           "value": "0.09974508311526425"
+                        }
+                     ],
+                     "nameColor": "BLACK",
+                     "name": "BasicEmotion",
+                     "id": "BasicEmotion",
+                     "position": "6",
+                     "type": "BLUE",
+                     "message": "BLACK",
+                     "darkeningFactor": "0.9",
+                     "groupname": "(0)",
+                     "value": "0.4448585391656086"
+                  },
+                  {
+                     "color": "#ffff00",
+                     "level": "BLUE",
+                     "nameColor": "BLACK",
+                     "name": "EmotionDefenseImpact",
+                     "id": "EmotionDefenseImpact",
+                     "position": "6",
+                     "type": "BLUE",
+                     "message": "BLACK",
+                     "darkeningFactor": "0.5",
+                     "groupname": "(0)",
+                     "value": "0.0"
+                  },
+                  {
+                     "color": "#ffff00",
+                     "level": "BLUE",
+                     "nameColor": "BLACK",
+                     "name": "EmotionRuleImpact",
+                     "id": "EmotionRuleImpact",
+                     "position": "6",
+                     "type": "BLUE",
+                     "message": "BLACK",
+                     "darkeningFactor": "0.9",
+                     "groupname": "(0)",
+                     "value": "0.0"
+                  }
+               ],
+               "nameColor": "BLACK",
+               "name": "EmotionMatching",
+               "id": "EmotionMatching",
+               "position": "4",
+               "type": "BLUE",
+               "message": "BLACK",
+               "darkeningFactor": "0.0",
+               "groupname": "(0)",
+               "value": "0.4448585391656086"
+            }
+         ],
+         "nameColor": "BLACK",
+         "name": "EmotionEvaluation",
+         "id": "EmotionEvaluation",
+         "position": "2",
+         "type": "BLUE",
+         "message": "BLACK",
+         "darkeningFactor": "0.0",
+         "groupname": "(0)",
+         "value": "0.4448585391656086"
+      }
+   ],
+   "nameColor": "BLACK",
+   "name": "FinalEvaluation",
+   "id": "FinalEvaluation",
+   "position": "0",
+   "type": "BLUE",
+   "message": "BLACK",
+   "darkeningFactor": "0.0",
+   "groupname": "(0)",
+   "value": "0.6465677222941318"
+} 

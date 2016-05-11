@@ -6,6 +6,7 @@
  */
 package base.logging;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,8 +43,8 @@ public class GoalData {
         public static String FinalEvaluation = "FinalEvaluation";
         public static String EmotionEvaluation = "EmotionEvaluation";
         public static String EmotionMatching = "EmotionMatching";
-        public static String MemorizedEmotion = "MemorizedEmotion";
-        public static String CurrentEmotion = "CurrentExtendedEmotion";
+//        public static String MemorizedEmotion = "MemorizedEmotion";
+//        public static String CurrentEmotion = "CurrentExtendedEmotion";
         public static String EmotionDefenseImpact = "EmotionDefenseImpact";
         public static String EmotionRuleImpact = "EmotionRuleImpact";
         public static String BasicEmotion = "BasicEmotion";
@@ -59,22 +60,22 @@ public class GoalData {
         
         public GoalData() {         
             data.createNode(null, FinalEvaluation, 0, 0);
-            data.createNode(data.getById(FinalEvaluation), EmotionEvaluation, 0, 2);
-            data.createNode(data.getById(EmotionEvaluation), EmotionMatching, 0, 4);
-            data.createNode(data.getById(EmotionMatching), MemorizedEmotion, 0, 6);
-            data.createNode(data.getById(EmotionMatching), CurrentEmotion, 0, 6);
-            data.createNode(data.getById(CurrentEmotion), EmotionDefenseImpact, 0, 8);
-            data.createNode(data.getById(CurrentEmotion), EmotionRuleImpact, 0, 8);
-            data.createNode(data.getById(CurrentEmotion), BasicEmotion, 0, 8);
-            data.createNode(data.getById(BasicEmotion), Memories, 0, 10);
-            data.createNode(data.getById(BasicEmotion), InitialDrives2, 0, 10);
-            data.createNode(data.getById(BasicEmotion), ExternalWorld2, 0, 10);
-            data.createNode(data.getById(EmotionEvaluation), EmotionExpectation, 0, 4);
-            data.createNode(data.getById(FinalEvaluation), DriveEvaluation, 0, 2);
-            data.createNode(data.getById(DriveEvaluation), InitialDrives, 0, 4);
-            data.createNode(data.getById(DriveEvaluation), MemorizedDriveSatisfactions, 0, 4);
-            data.createNode(data.getById(FinalEvaluation), EffortEvaluation, 0, 2);
-            data.createNode(data.getById(EffortEvaluation), ExternalWorld, 0, 4);
+            data.createNode(data.getById(FinalEvaluation), EmotionEvaluation, 0, 2, Color.BLACK, 0.0);
+            data.createNode(data.getById(EmotionEvaluation), EmotionMatching, 0, 4, Color.BLACK, 0.0);
+//            data.createNode(data.getById(EmotionMatching), MemorizedEmotion, 0, 6);
+//            data.createNode(data.getById(EmotionMatching), CurrentEmotion, 0, 6);
+            data.createNode(data.getById(EmotionMatching), EmotionDefenseImpact, 0, 6, Color.YELLOW, 0.5);
+            data.createNode(data.getById(EmotionMatching), EmotionRuleImpact, 0, 6, Color.YELLOW, 0.9);
+            data.createNode(data.getById(EmotionMatching), BasicEmotion, 0, 6, Color.BLUE, 0.9);
+            data.createNode(data.getById(BasicEmotion), Memories, 0, 8, Color.BLUE, 0.0);
+            data.createNode(data.getById(BasicEmotion), InitialDrives2, 0, 8, Color.BLUE, 0.5);
+            data.createNode(data.getById(BasicEmotion), ExternalWorld2, 0, 8, Color.BLUE, 1.5);
+            data.createNode(data.getById(EmotionEvaluation), EmotionExpectation, 0, 4, Color.ORANGE, 0.0);
+            data.createNode(data.getById(FinalEvaluation), DriveEvaluation, 0, 2, Color.RED, 0.9);
+            data.createNode(data.getById(DriveEvaluation), InitialDrives, 0, 4, Color.RED, 0.0);
+            data.createNode(data.getById(DriveEvaluation), MemorizedDriveSatisfactions, 0, 4, Color.RED, 0.5);
+            data.createNode(data.getById(FinalEvaluation), EffortEvaluation, 0, 2, Color.GREEN, 0.9);
+            data.createNode(data.getById(EffortEvaluation), ExternalWorld, 0, 4, Color.GREEN, 0.0);
         }
         
         private double driveDistributionRatio = 0.0f;
@@ -190,7 +191,7 @@ public class GoalData {
             data.getById(EmotionEvaluation).setData("value", Double.toString((rTempFeelingMatchImportance + rTempFeelingExpectationImportance) * scalingFactor));
             double emotionImpact = rTempFeelingMatchImportance * scalingFactor;
             data.getById(EmotionMatching).setData("value", Double.toString(emotionImpact));
-            data.getById(CurrentEmotion).setData("value", Double.toString(emotionImpact));
+//            data.getById(CurrentEmotion).setData("value", Double.toString(emotionImpact));
             double changeDuringExtendedEmotionGeneration = emotionDifference(defendedBasicEmotion, defendedExtendedEmotion);
             data.getById(EmotionRuleImpact).setData("value", Double.toString(emotionImpact * changeDuringExtendedEmotionGeneration));
             emotionImpact = emotionImpact * (1 - changeDuringExtendedEmotionGeneration);
@@ -204,7 +205,7 @@ public class GoalData {
             data.getById(ExternalWorld2).setData("value", Double.toString((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(1)));
             data.getById(Memories).setData("value", Double.toString((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(2)));
             
-            data.getById(MemorizedEmotion).setData("value", Double.toString(rTempFeelingMatchImportance * scalingFactor));
+//            data.getById(MemorizedEmotion).setData("value", Double.toString(rTempFeelingMatchImportance * scalingFactor));
             rTotalImportance += rTempFeelingMatchImportance;
             data.getById(EmotionExpectation).setData("value", Double.toString(rTempFeelingExpectationImportance * scalingFactor));
             rTotalImportance += rTempFeelingExpectationImportance;
@@ -260,7 +261,8 @@ public class GoalData {
         public void finish() {
             SimaJSONHandler handler = new SimaJSONHandler();
             
-            handler.writeData(data.getRoot());
+            handler.writeDecisionTreeData(data.getRoot());
+            handler.writeTreeMapData(data.getRoot());
             
             //go through the tree
             printTree(data.getRoot());

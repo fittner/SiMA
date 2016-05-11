@@ -110,7 +110,7 @@ public class VisualizationTest {
 		
 		SimaJSONHandler handler = new SimaJSONHandler();
 		
-		handler.writeData(tree.getRoot());
+		handler.writeDecisionTreeData(tree.getRoot());
 		
 		//go through the tree
 		printTree(tree.getRoot());

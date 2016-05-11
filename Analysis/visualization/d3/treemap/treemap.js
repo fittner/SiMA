@@ -15,7 +15,7 @@
         .size([chartWidth, chartHeight])
         .sticky(true)
         .value(function(d) {
-            return d.size;
+            return d.value;
         });
 
     var chart = d3.select("#body")
@@ -99,7 +99,7 @@
             .classed("background", true)
             .style("fill", function(d) {
                 return color(d.parent.id);
-				//return d.color;
+				//return d.color;			
             });
         childEnterTransition.append('foreignObject')
             .attr("class", "foreignObject")
@@ -140,8 +140,10 @@
             })
             .style("fill", function(d) {
                // return color(d.parent.id);
-			   return d.color;
-            });
+			  return d3.rgb(d.color).darker(d.darkeningFactor);
+            })
+			;
+			
         childUpdateTransition.select(".foreignObject")
             .attr("width", function(d) {
                 return Math.max(0.01, d.dx);
@@ -159,7 +161,7 @@
 
         d3.select("select").on("change", function() {
             console.log("select zoom(node)");
-            treemap.value(this.value == "size" ? size : count)
+            treemap.value(this.value == "value" ? value : count)
                 .nodes(root);
             zoom(node);
         });
@@ -169,7 +171,7 @@
 
 
     function size(d) {
-        return d.size;
+        return d.value;
     }
 
 
@@ -201,7 +203,8 @@
   */
     function idealTextColor (bgColor) {
       //  var nThreshold = 105;
-	    var nThreshold = 165; //setting threshold higher results in a good automatic distinction 
+	//    var nThreshold = 165; //setting threshold higher results in a good automatic distinction 
+	    var nThreshold = 85; //setting threshold higher results in a good automatic distinction 
         var components = getRGBComponents(bgColor);
 		//console.log(components);
         var bgDelta = (components.R * 0.299) + (components.G * 0.587) + (components.B * 0.114);
@@ -302,8 +305,13 @@
             .style("fill", function(d) {
               //  return d.children ? headerColor : color(d.parent.id);
 	     	 //	 return d.children ? headerColor : d.color;
-			 return d.color;
-			});
+			 //return d.color;
+			 return d3.rgb(d.color).darker(d.darkeningFactor);
+			 
+			})
+			
+			
+			;
 
         node = d;
 

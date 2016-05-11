@@ -6,6 +6,7 @@
  */
 package base.datatypes;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ import base.datatypes.interfaces.itfMapTreeNode;
 public class clsDecisionTreeData extends clsMapTree {
     private Map<String, itfMapTreeNode> index = new HashMap<>();
     
-    public itfMapTreeNode createNode(itfMapTreeNode parent, String id, String name, int value, int position) {
+    public itfMapTreeNode createNode(itfMapTreeNode parent, String id, String name, int value, int position, Color color, double darkening) {
         clsMapTreeNode node = new clsMapTreeNode(this);
         
         node.setData("id", id);
@@ -32,6 +33,9 @@ public class clsDecisionTreeData extends clsMapTree {
         node.setData("message", "BLACK");
         node.setData("groupname", "(" + value + ")");
         node.setData("value", Double.toString(value));
+        node.setData("color", String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
+        node.setData("darkeningFactor", Double.toString(darkening));
+            
         
         index.put(id, node);
         
@@ -45,7 +49,11 @@ public class clsDecisionTreeData extends clsMapTree {
     }
 
     public itfMapTreeNode createNode(itfMapTreeNode parent, String id, int value, int position) {
-        return createNode(parent, id, id, value, position);
+        return createNode(parent, id, id, value, position, Color.BLACK, 0.0);
+    }
+    
+    public itfMapTreeNode createNode(itfMapTreeNode parent, String id, int value, int position, Color color, double darkening) {
+        return createNode(parent, id, id, value, position, color, darkening);
     }
     
     public itfMapTreeNode getById(String id) {

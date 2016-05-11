@@ -109,11 +109,23 @@ public class SimaJSONHandler {
 //        }
 //	}
 	
-	public void writeData(itfMapTreeNode root) {
-	    treemapFull.put(root.toJson());
-	    
-	    fileWriter.writeTreemapData(treemapFull);
+	protected void datapreperationMapTree(itfMapTreeNode root) {
+	    //remove the 
 	}
+	
+	public void writeDecisionTreeData(itfMapTreeNode root) {
+	    JSONArray data = new JSONArray();
+	    data.put(root.toJson());
+	    
+	    fileWriter.writeDecisionTreeData(data);
+	}
+	
+	public void writeTreeMapData(itfMapTreeNode root) {
+	    JSONArray data = new JSONArray();
+        data.put(root.toJson());
+        
+        fileWriter.writeTreemapData(data);
+    }
 	
 	/**
 	 * Sends the JSONObject with the data to the filewriter.
@@ -122,7 +134,7 @@ public class SimaJSONHandler {
 	public void sendTreeMapData(itfMapTreeNode root){
 		treemapFull.put(generateTreeMapNode(root));
 		
-		fileWriter.writeTreemapData(treemapFull);
+		fileWriter.writeDecisionTreeData(treemapFull);
 	}
 	
 }
