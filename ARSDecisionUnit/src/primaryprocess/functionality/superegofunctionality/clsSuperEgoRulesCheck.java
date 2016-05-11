@@ -727,6 +727,7 @@ public class clsSuperEgoRulesCheck {
                                //for sublimation  rConflictTension = quotaOfAffect_of_ForbiddenDrives + moRules.get(i).getSuperEgoRuleStrength();
                                
                                rConflictTension = Math.min(quotaOfAffect_of_ForbiddenDrives + moRules.get(i).getSuperEgoRuleStrength(), 0.5);
+                               //rConflictTension = (moRules.get(i).getSuperEgoRuleStrength() * Math.min(Math.pow(prReceivedPsychicEnergy, 0.3), 1)) + (quotaOfAffect_of_ForbiddenDrives * /*arbitrary->*/0.5);
                                
                                // hier ist noch ein Fehler drinnen: am 18.03.2014 war
                                // der Datentyp von moForbiddenDrives: ArrayList<clsSuperEgoConflict>

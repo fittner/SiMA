@@ -97,6 +97,7 @@ public class cls_CombinedTimeChart extends Inspector{
 			DataContainer iData = new DataContainer(moContainer.getChartTitles().get(i),moContainer.getCombinedTimeChartAxis(),moContainer.getCombinedTimeChartData().get(i),moContainer.getValueCaptions().get(i));
 			cls_GenericTimeChartInspector iContainer = new cls_GenericTimeChartInspector(iData,200,(750/nColumns),(550/nColumns));
 			iContainer.setShowRangeLabel(true);
+			iContainer.setShowLegend(true);
 			moCharts.add(iContainer);
 			moData.add(iData);
 			add(iContainer);

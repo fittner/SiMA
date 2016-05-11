@@ -24,4 +24,11 @@ public interface itfDuAnalysis {
     public void putAction(String oActionValue);
     public void put_F71_emotionValues(List<clsEmotion> poEmotions);
     public void putFinalGoals(ArrayList<clsWordPresentationMeshPossibleGoal> goals);
+    public void put_F63_emotionContributors(
+            clsEmotion poFromDrives,
+            clsEmotion poFromPerceptionDrive,
+            clsEmotion poFromPerceptionExperiences,
+            clsEmotion poFromPerceptionBodystates,
+            clsEmotion poFromMemorizedValuations);
+    public void put_F63_basicEmotion(clsEmotion poBasicEmotion);
 }

@@ -231,13 +231,15 @@ public class clsPrimarySpatialTools {
     
 	private static clsEmotion getEmotionFromAnotherEntity(clsThingPresentationMesh poImage) { 
 	    clsThingPresentationMesh oEntity = getAliveEntity(poImage);
-	    for(clsAssociation oAss : oEntity.getExternalAssociatedContent()) { 
-	        if(oAss instanceof clsAssociationEmotion) { 
-	            return (clsEmotion)oAss.getAssociationElementA();
-	        }
+	    if(oEntity != null) {
+    	    for(clsAssociation oAss : oEntity.getExternalAssociatedContent()) { 
+    	        if(oAss instanceof clsAssociationEmotion) { 
+    	            return (clsEmotion)oAss.getAssociationElementA();
+    	        }
+    	    }
 	    }
-	    return null;
 	    
+	    return null;
 	}
 
 
@@ -248,10 +250,12 @@ public class clsPrimarySpatialTools {
 	        if(oElement.getContent().equals("SELF") || oElement.getContent().equals("EMPTYSPACE")) {
 	            continue;
 	        }
+	        
 	        if(!isAlive(oElement)) {
 	            continue;
+	        } else {
+	           return oElement;
 	        }
-	        else return oElement;
 	    }
 	    return null;  
 	}

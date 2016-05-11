@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 
 import org.slf4j.Logger;
@@ -45,6 +46,7 @@ import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
+import base.tools.clsSingletonAnalysisAccessor;
 import base.tools.toText;
 
 /**
@@ -350,8 +352,35 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         for(clsEmotion oEmotion: moEmotions_OUT) {
             log.debug(oEmotion.toString());
         }
+        
+        clsEmotion oFromDrives = getEmotionFromMap(oDrivesExtractedValues, "rDrive");
+        clsEmotion oFromPerceptionDrive = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionDriveMesh");
+        clsEmotion oFromPerceptionExperiences = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionExperience");
+        clsEmotion oFromPerceptionBodystates = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionBodystate");
+        clsEmotion oFromMemorizedValuations = getEmotionFromMap(oMemoryExtractedValues, "rPerception");
+        
+        //Analysis logging
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F63_emotionContributors(oFromDrives, oFromPerceptionDrive, oFromPerceptionExperiences, oFromPerceptionBodystates, oFromMemorizedValuations);
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F63_basicEmotion(moTargetEmotion);
 	}
 	
+	/**
+	 * DOCUMENT - 
+	 *
+	 * @author Kollmann
+	 * @since 06. Feb. 2016 16:28:08
+	 *
+	 * @return
+	 */
+	private clsEmotion getEmotionFromMap(Map<String, Double> map, String prefix) {
+	    clsEmotion oEmotion = clsEmotion.zeroEmotion(eContentType.EMOTION,  eEmotionType.UNDEFINED);
+	    oEmotion.setSourceUnpleasure(map.get(prefix + "Unpleasure"));
+	    oEmotion.setSourcePleasure(map.get(prefix + "Pleasure"));
+	    oEmotion.setSourceLibid(map.get(prefix + "Libid"));
+	    oEmotion.setSourceAggr(map.get(prefix + "Aggr"));
+	    
+	    return oEmotion;
+	}
 	
 	/* (non-Javadoc)
 	 *
@@ -460,7 +489,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						
 					}
 					
-					//koller Emotionsübertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
+					//koller Emotionsuebertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
 
                     if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONATTRIBUTE && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
                         if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){
@@ -1271,33 +1300,49 @@ public class F63_CompositionOfEmotions extends clsModuleBase
     public ArrayList<ArrayList<Double>> getBarChartData(String poLabel) {
         ArrayList<ArrayList<Double>> oOuterData = new ArrayList<ArrayList<Double>>();
         
-        if(moAgentAttributedEmotion != null && moAgentEmotionValuation != null && moAgentTransferedEmotion != null)
-        {
-            switch(poLabel) {
-            case "Perceived":
+        switch(poLabel) {
+        case "Associated Emotion":
+            if(moAgentAttributedEmotion != null) {
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourcePleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceUnpleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceAggr())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceLibid())));
-                break;
-            case "Evaluation":
+            } else {
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            }
+            break;
+        case "(weighted) Valuation":
+            if(moAgentEmotionValuation != null) {
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourcePleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceUnpleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceAggr())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceLibid())));
-                break;
-            case "Transfered":
+            } else {
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            }
+            break;
+        case "Transfered Emotion":
+            if(moAgentTransferedEmotion != null) {
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourcePleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceUnpleasure())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceAggr())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceLibid())));
-                break;
+            } else {
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
             }
-        } else {
-            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
-            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
-            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
-            oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            break;
+        default:
+            log.warn("Trying to generate bar chart data for non-existant label {}", poLabel);
+            break;
         }
         
         return oOuterData;

@@ -1,4 +1,4 @@
-; Thu Dec 10 11:11:24 GMT 2015
+; Tue Jan 05 15:04:19 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3806,8 +3806,8 @@
 
 ([EMOTION%3AI01_BODO_EAT_CAKE%3ABODO] of  EMOTION
 
-	(emotionIntensity 0.6)
-	(intensityDeviation 0.0)
+	(emotionIntensity 0.8)
+	(intensityDeviation 0.2)
 	(sourceAggr 0.6)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -3819,7 +3819,7 @@
 
 	(emotionIntensity 0.4)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.8)
+	(sourceAggr 1.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 0.2)
