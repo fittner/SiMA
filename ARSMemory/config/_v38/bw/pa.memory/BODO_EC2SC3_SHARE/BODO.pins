@@ -1,4 +1,4 @@
-; Thu Dec 10 11:16:40 GMT 2015
+; Wed May 11 18:05:52 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -232,6 +232,13 @@
 	(element
 		[TPM%3AACTION%3AL1_PICK_UP]
 		[TP%3ANAME%3APICK_UP])
+	(weight 1.0 1.0))
+
+([AA%3AL1_REQUEST%3AREQUEST] of  ASSOCIATIONATTRIBUTE
+
+	(element
+		[TPM%3AACTION%3AL1_REQUEST]
+		[TP%3ANAME%3AREQUEST])
 	(weight 1.0 1.0))
 
 ([AA%3AL1_SHARE_FOOD%3ASHARE_FOOD] of  ASSOCIATIONATTRIBUTE
@@ -3977,10 +3984,10 @@
 
 	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 1.0)
 	(value "GUILT")
 	(value_type "MEMORIZEDEMOTION"))
 
@@ -4535,6 +4542,11 @@
 	(value "PICK_UP")
 	(value_type "Name"))
 
+([TP%3ANAME%3AREQUEST] of  NAME
+
+	(value "REQUEST")
+	(value_type "Name"))
+
 ([TP%3ANAME%3ASHARE_FOOD] of  NAME
 
 	(value "SHARE_FOOD")
@@ -4838,6 +4850,7 @@
 
 ([TPM%3AACTION%3AL1_REQUEST] of  TPM%3AACTION%3AL1
 
+	(instance_association [AA%3AL1_REQUEST%3AREQUEST])
 	(value "REQUEST")
 	(value_type "ACTION"))
 

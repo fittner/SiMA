@@ -3,7 +3,6 @@ package datageneration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,8 +31,72 @@ public class clsExperimenter implements itfLogDataTransfer {
 		setRemote(poRemote);
 		
 		//initialize logger
+//		moLogger.setFormat("$(Agent_0.MEMORIZEDVALUATIONIMPACT_SOURCEPLEASURE_INIT)" +
+//				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_SOURCEPLEASURE_FINAL)" +
+//				", $(Agent_0.Outcome)");
+		
 		moLogger.setFormat(
-				"$(Agent_0.GOAL0_ID)" +
+				"$(Agent_0.BASICEMOTION_INTENSITY_INIT)" +
+				", $(Agent_0.BASICEMOTION_SOURCEPLEASURE_INIT)" +
+				", $(Agent_0.BASICEMOTION_SOURCEUNPLEASURE_INIT)" +
+				", $(Agent_0.BASICEMOTION_SOURCEAGGR_INIT)" +
+				", $(Agent_0.BASICEMOTION_SOURCELIBID_INIT)" +
+				", $(Agent_0.DRIVEIMPACT_INTENSITY_INIT)" +
+				", $(Agent_0.DRIVEIMPACT_SOURCEPLEASURE_INIT)" +
+				", $(Agent_0.DRIVEIMPACT_SOURCEUNPLEASURE_INIT)" +
+				", $(Agent_0.DRIVEIMPACT_SOURCEAGGR_INIT)" +
+				", $(Agent_0.DRIVEIMPACT_SOURCELIBID_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMDRIVES_INTENSITY_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMDRIVES_SOURCEPLEASURE_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMDRIVES_SOURCEUNPLEASURE_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMDRIVES_SOURCEAGGR_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMDRIVES_SOURCELIBID_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMEXPERIENCE_INTENSITY_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMEXPERIENCE_SOURCEPLEASURE_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMEXPERIENCE_SOURCEUNPLEASURE_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMEXPERIENCE_SOURCEAGGR_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMEXPERIENCE_SOURCELIBID_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMBODYSTATES_INTENSITY_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMBODYSTATES_SOURCEPLEASURE_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMBODYSTATES_SOURCEUNPLEASURE_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMBODYSTATES_SOURCEAGGR_INIT)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMBODYSTATES_SOURCELIBID_INIT)" +
+				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_INTENSITY_INIT)" +
+				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_SOURCEPLEASURE_INIT)" +
+				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_SOURCEUNPLEASURE_INIT)" +
+				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_SOURCEAGGR_INIT)" +
+				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_SOURCELIBID_INIT)" +
+				", $(Agent_0.BASICEMOTION_INTENSITY_FINAL)" +
+				", $(Agent_0.BASICEMOTION_SOURCEPLEASURE_FINAL)" +
+				", $(Agent_0.BASICEMOTION_SOURCEUNPLEASURE_FINAL)" +
+				", $(Agent_0.BASICEMOTION_SOURCEAGGR_FINAL)" +
+				", $(Agent_0.BASICEMOTION_SOURCELIBID_FINAL)" +
+				", $(Agent_0.DRIVEIMPACT_INTENSITY_FINAL)" +
+				", $(Agent_0.DRIVEIMPACT_SOURCEPLEASURE_FINAL)" +
+				", $(Agent_0.DRIVEIMPACT_SOURCEUNPLEASURE_FINAL)" +
+				", $(Agent_0.DRIVEIMPACT_SOURCEAGGR_FINAL)" +
+				", $(Agent_0.DRIVEIMPACT_SOURCELIBID_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMDRIVES_INTENSITY_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMDRIVES_SOURCEPLEASURE_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMDRIVES_SOURCEUNPLEASURE_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMDRIVES_SOURCEAGGR_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMDRIVES_SOURCELIBID_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMEXPERIENCE_INTENSITY_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMEXPERIENCE_SOURCEPLEASURE_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMEXPERIENCE_SOURCEUNPLEASURE_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMEXPERIENCE_SOURCEAGGR_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMEXPERIENCE_SOURCELIBID_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMBODYSTATES_INTENSITY_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMBODYSTATES_SOURCEPLEASURE_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMBODYSTATES_SOURCEUNPLEASURE_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMBODYSTATES_SOURCEAGGR_FINAL)" +
+				", $(Agent_0.PERCEPTIONIMPACT_FROMBODYSTATES_SOURCELIBID_FINAL)" +
+				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_INTENSITY_FINAL)" +
+				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_SOURCEPLEASURE_FINAL)" +
+				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_SOURCEUNPLEASURE_FINAL)" +
+				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_SOURCEAGGR_FINAL)" +
+				", $(Agent_0.MEMORIZEDVALUATIONIMPACT_SOURCELIBID_FINAL)" +
+				", $(Agent_0.GOAL0_ID)" +
 				", $(Agent_0.GOAL0_IMPORTANCE)" +
 				", $(Agent_0.GOAL0_IMPORTANCE_DRIVE)" +
 				", $(Agent_0.GOAL0_IMPORTANCE_FEELINGMATCH)" +
@@ -130,13 +193,15 @@ public class clsExperimenter implements itfLogDataTransfer {
 		for(double i = 0; i <= 1.0; i += 0.1) {
 			//Example of a single simulation run
 			try {
-				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_STOMACH.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_RECTUM.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_STAMINA.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_ORAL.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_ANAL.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_PHALLIC.value", Double.toString(i));
-				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_GENITAL.value", Double.toString(i));
+				moManipulator.put("frames://memory/ADAM.pprj/EMOTION:BODO_CAKE/sourcePleasure", Double.toString(i));
+				
+//				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_STOMACH.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_RECTUM.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F65.PERSONALITY_SPLIT_STAMINA.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_ORAL.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_ANAL.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_PHALLIC.value", Double.toString(i));
+//				moManipulator.put("text://personality/EC2_default.properties/F64.PERSONALITY_SPLIT_GENITAL.value", Double.toString(i));
 				
 				moRemote.runSiMA(moManipulator.getScenarioFile());
 				

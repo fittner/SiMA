@@ -696,7 +696,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         
         }
         
-        oOutputTPMs = PrimingBodystates(oOutputTPMs); //koller
+        //Kollmann: deactivate bodystate priming for now
+//        oOutputTPMs = PrimingBodystates(oOutputTPMs); //koller
         // zhukova attributed ownership
         oOutputTPMs = determineObjectsOwnership(oOutputTPMs);
         determineActionsOfAnAgents(oOutputTPMs);
