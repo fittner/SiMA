@@ -1,4 +1,4 @@
-; Tue Oct 06 13:12:23 GMT 2015
+; Mon Jun 06 10:20:48 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3013,7 +3013,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
@@ -3211,7 +3211,7 @@
 
 ([EMOTION%3AA13_GIVE_CAKE_L01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.75)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.6)
 	(sourceLibid 0.2)
@@ -3315,7 +3315,7 @@
 	(sourceAggr 1.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.6)
+	(sourceUnpleasure 0.8)
 	(value "ANGER")
 	(value_type "MEMORIZEDEMOTION"))
 

@@ -17,7 +17,7 @@
                "message": "BLACK",
                "darkeningFactor": "0.0",
                "groupname": "(0)",
-               "value": "0.04793678283991385"
+               "value": "0.2491439916727325"
             },
             {
                "color": "#ff0000",
@@ -30,7 +30,7 @@
                "message": "BLACK",
                "darkeningFactor": "0.5",
                "groupname": "(0)",
-               "value": "0.04377240028860937"
+               "value": "0.2491439916727325"
             }
          ],
          "nameColor": "BLACK",
@@ -41,7 +41,7 @@
          "message": "BLACK",
          "darkeningFactor": "0.9",
          "groupname": "(0)",
-         "value": "0.09170918312852322"
+         "value": "0.498287983345465"
       },
       {
          "color": "#00ff00",
@@ -57,7 +57,7 @@
             "message": "BLACK",
             "darkeningFactor": "0.0",
             "groupname": "(0)",
-            "value": "0.11"
+            "value": "0.13"
          }],
          "nameColor": "BLACK",
          "name": "EffortEvaluation",
@@ -67,7 +67,7 @@
          "message": "BLACK",
          "darkeningFactor": "0.9",
          "groupname": "(0)",
-         "value": "0.11"
+         "value": "0.13"
       },
       {
          "color": "#000000",
@@ -105,7 +105,7 @@
                            "message": "BLACK",
                            "darkeningFactor": "1.5",
                            "groupname": "(0)",
-                           "value": "0.12325368378276824"
+                           "value": "0.04434319842627559"
                         },
                         {
                            "color": "#0000ff",
@@ -118,7 +118,7 @@
                            "message": "BLACK",
                            "darkeningFactor": "0.5",
                            "groupname": "(0)",
-                           "value": "0.22185977226757608"
+                           "value": "0.03140470328104457"
                         },
                         {
                            "color": "#0000ff",
@@ -131,7 +131,7 @@
                            "message": "BLACK",
                            "darkeningFactor": "0.0",
                            "groupname": "(0)",
-                           "value": "0.09974508311526425"
+                           "value": "0.04902310433961818"
                         }
                      ],
                      "nameColor": "BLACK",
@@ -142,7 +142,7 @@
                      "message": "BLACK",
                      "darkeningFactor": "0.9",
                      "groupname": "(0)",
-                     "value": "0.4448585391656086"
+                     "value": "0.12477100604693835"
                   },
                   {
                      "color": "#ffff00",
@@ -179,7 +179,7 @@
                "message": "BLACK",
                "darkeningFactor": "0.0",
                "groupname": "(0)",
-               "value": "0.4448585391656086"
+               "value": "0.12477100604693835"
             }
          ],
          "nameColor": "BLACK",
@@ -190,7 +190,7 @@
          "message": "BLACK",
          "darkeningFactor": "0.0",
          "groupname": "(0)",
-         "value": "0.4448585391656086"
+         "value": "0.12477100604693835"
       }
    ],
    "nameColor": "BLACK",
@@ -201,5 +201,5 @@
    "message": "BLACK",
    "darkeningFactor": "0.0",
    "groupname": "(0)",
-   "value": "0.6465677222941318"
+   "value": "0.7530589893924033"
 } 

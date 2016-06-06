@@ -83,10 +83,10 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     double mrRemainingConflict = 0;
     
     /**
-     * DOCUMENT - In F71 (Zusammenstellung von erweiterter Emotion) führen Abwehrmechanismen eine Färbung/Akzentuierung der Basisemotionen
+     * DOCUMENT - In F71 (Zusammenstellung von erweiterter Emotion) fuehren Abwehrmechanismen eine Färbung/Akzentuierung der Basisemotionen
      * durch oder assoziieren ein Zusatzattribut. Die konkrete Verarbeitung der Basisemotionen ist bei den spezifischen erweiterten Emotionen
      * unterschiedlich und abhängig von der Situation, der Über-Ich Regeln und der Basisemotionen.
-     * Beispiele für erweiterte Emotionen sind Scham, Mitleid, Neid, Schuld.
+     * Beispiele fuer erweiterte Emotionen sind Scham, Mitleid, Neid, Schuld.
      *
      * @author Kollmann
      * @since 23.02.2015 18:33:41
@@ -195,6 +195,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         double rConsumedPsychicIntensity = 0;
         clsEmotion oNewGuilt = null;
         mrRemainingConflict = 0;
+        double mrConflictImpactOnGuilt = 0.75;
         
         log.debug("neutralized intensity F71: " + Double.toString(rReceivedPsychicEnergy));
 
@@ -229,7 +230,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
             }
             
             if(mrRemainingConflict > 0) {
-                oNewGuilt = generateGuilt(mrRemainingConflict);
+                oNewGuilt = generateGuilt(mrRemainingConflict * mrConflictImpactOnGuilt);
                 moEmotions_Output.add(oNewGuilt);
             }
         }
@@ -323,10 +324,10 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      */
     @Override
     public void setDescription() {
-        moDescription = "In F71 (Zusammenstellung von erweiterter Emotion) führen Abwehrmechanismen eine Färbung/Akzentuierung der Basisemotionen "
+        moDescription = "In F71 (Zusammenstellung von erweiterter Emotion) fuehren Abwehrmechanismen eine Färbung/Akzentuierung der Basisemotionen "
                 + "durch oder assoziieren ein Zusatzattribut. Die konkrete Verarbeitung der Basisemotionen ist bei den spezifischen erweiterten Emotionen "
                 + "unterschiedlich und abhängig von der Situation, der Über-Ich Regeln und der Basisemotionen.\n"
-                + "Beispiele für erweiterte Emotionen sind Scham, Mitleid, Neid, Schuld.";
+                + "Beispiele fuer erweiterte Emotionen sind Scham, Mitleid, Neid, Schuld.";
     }
 
     /*************************************************************/
