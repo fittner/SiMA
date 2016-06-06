@@ -31,8 +31,10 @@ import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
+import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.TextAnchor;
+import org.jfree.ui.VerticalAlignment;
 
 import inspector.interfaces.itfInspectorAdvancedStackedBarChart;
 
@@ -109,6 +111,8 @@ public class cls_AdvancedStackedBarChartInspector extends cls_StackedBarChartIns
         
         LegendTitle legend = chart.getLegend();
         legend.setPosition(RectangleEdge.RIGHT);
+        legend.setVerticalAlignment(VerticalAlignment.TOP);
+        legend.setHorizontalAlignment(HorizontalAlignment.RIGHT);
         
         LegendTitle legend2 = new LegendTitle(new LegendItemSource() {
 			@Override

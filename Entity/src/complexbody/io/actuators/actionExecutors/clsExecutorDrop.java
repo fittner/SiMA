@@ -12,14 +12,11 @@ import java.util.ArrayList;
 
 
 
-import body.clsComplexBody;
-import body.itfget.itfGetBody;
 import properties.clsProperties;
 import complexbody.io.actuators.clsActionExecutor;
 import complexbody.io.actuators.actionCommands.*;
 import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import entities.abstractEntities.clsMobile;
-import entities.actionProxies.itfTransferable;
 
 
 /**
@@ -96,8 +93,8 @@ public class clsExecutorDrop  extends clsActionExecutor {
 	@Override
 	public boolean execute(clsActionCommand poCommand) {
 		if (!(moEntity instanceof clsMobile)) return false;
-		//clsMobile oMEntity = (clsMobile) moEntity;
-		/*
+		
+		clsMobile oMEntity = (clsMobile) moEntity;
 		if (oMEntity.getInventory().getCarriedEntity()==null) return false;
 		
 		//try to drop
@@ -106,30 +103,12 @@ public class clsExecutorDrop  extends clsActionExecutor {
 			oMEntity.getInventory().dropCarriedItem();
 		} catch(Throwable e) {
 			return false;			
-		} */
-		clsActionObjectTransfer oCommand = (clsActionObjectTransfer) poCommand; 
-		clsMobile oMEntity = (clsMobile) moEntity;		
-		clsMobile carriedEntity = oMEntity.getInventory().getCarriedEntity();
-		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		if (carriedEntity == null) { return false; } 
-		try {
-			itfTransferable oATransferedEntity = (itfTransferable) findEntityInRange(moEntity, oBody, moRangeSensor ,itfTransferable.class);
-			if (oATransferedEntity == null) {
-				return false;
-			}
-			clsMobile oTransferedEntity = oATransferedEntity.getTransferedEntity();
-			oMEntity.getInventory().dropCarriedItem();
-			oTransferedEntity.getInventory().setCarriedEntity(carriedEntity);
-		} catch(Throwable e) {
-			return false;			
-		}	
+		}
+		
 		//Attach action to entity
         clsAction oAction = new clsAction(1);
         oAction.setActionName("DROP");
         moEntity.addAction(oAction);
 		return true;
-		
-		 
-		
 	}
 }
