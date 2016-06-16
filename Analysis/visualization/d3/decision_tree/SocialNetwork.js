@@ -36,7 +36,7 @@ d3.json("socialNetwork.json", function update(source) {
 	  links = tree.links(nodes);
   
   // Normalize for fixed-depth.
-  nodes.forEach(function(d) { d.y = (110 * d.position ); /*console.log(d.depth);*/});  // took out d.depth
+  nodes.forEach(function(d) { d.y = (75 * d.position ); /*console.log(d.depth);*/});  // took out d.depth
 
   // Declare the nodes�
   var node = svg.selectAll("g.node")
@@ -49,6 +49,27 @@ d3.json("socialNetwork.json", function update(source) {
 		  return "translate(" + d.y + "," + d.x + ")"; });
 		
 
+  console.log("hallo");
+  console.log(node);
+  console.log(function(d) { return d.raw_value == 0; });
+  
+//  node.each(function(d) { 
+//	  if(d.raw_value > 0) {
+//		  nodeEnter.append("circle")
+//		  .attr("r", d.raw_value * 50)
+//		  .style("stroke", d.type)
+//		  .style("fill", d.level);  
+//	  } else {
+//		  nodeEnter.append("line").attr("x1", -5).attr("y1", -5).attr("x2", 5).attr("y2", 5).style("stroke-width", 2).style("stroke", "blue");
+//		  nodeEnter.append("line").attr("x1", -5).attr("y1", 5).attr("x2", 5).attr("y2", -5).style("stroke-width", 2).style("stroke", "blue");
+//	  }
+//	  });
+  
+  if(function(d) { console.log("d="); console.log(d); return d.raw_value == 0; }) {
+	  nodeEnter.append("line").attr("x1", -5).attr("y1", -5).attr("x2", 5).attr("y2", 5).style("stroke-width", function(d) { return (d.raw_value > 0)?(0):(2); }).style("stroke", "blue");
+	  nodeEnter.append("line").attr("x1", -5).attr("y1", 5).attr("x2", 5).attr("y2", -5).style("stroke-width", function(d) { return (d.raw_value > 0)?(0):(2); }).style("stroke", "blue");
+  }
+  
   nodeEnter.append("circle")
 	  .attr("r", function(d) { return d.raw_value * 50; })
 	  .style("stroke", function(d) { return d.type; })
