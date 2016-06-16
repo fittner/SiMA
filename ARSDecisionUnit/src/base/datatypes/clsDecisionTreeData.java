@@ -21,7 +21,7 @@ import base.datatypes.interfaces.itfMapTreeNode;
 public class clsDecisionTreeData extends clsMapTree {
     private Map<String, itfMapTreeNode> index = new HashMap<>();
     
-    public itfMapTreeNode createNode(itfMapTreeNode parent, String id, String name, int value, int position, Color color, double darkening) {
+    public itfMapTreeNode createNode(itfMapTreeNode parent, String id, String name, int value, int position, Color color, double darkening, int order) {
         clsMapTreeNode node = new clsMapTreeNode(this);
         
         node.setData("id", id);
@@ -35,12 +35,13 @@ public class clsDecisionTreeData extends clsMapTree {
         node.setData("value", Double.toString(value));
         node.setData("color", String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
         node.setData("darkeningFactor", Double.toString(darkening));
-            
+        node.setData("childOrder", Integer.toString(order));
         
         index.put(id, node);
         
         if(parent != null) {
             parent.addChild(node);
+            node.setData("parent", parent.getData("id"));
         } else {
             setRoot(node);
         }
@@ -48,12 +49,12 @@ public class clsDecisionTreeData extends clsMapTree {
         return node;
     }
 
-    public itfMapTreeNode createNode(itfMapTreeNode parent, String id, int value, int position) {
-        return createNode(parent, id, id, value, position, Color.BLACK, 0.0);
+    public itfMapTreeNode createNode(itfMapTreeNode parent, String id, int value, int position, int order) {
+        return createNode(parent, id, id, value, position, Color.BLACK, 0.0, order);
     }
     
-    public itfMapTreeNode createNode(itfMapTreeNode parent, String id, int value, int position, Color color, double darkening) {
-        return createNode(parent, id, id, value, position, color, darkening);
+    public itfMapTreeNode createNode(itfMapTreeNode parent, String id, int value, int position, Color color, double darkening, int order) {
+        return createNode(parent, id, id, value, position, color, darkening, order);
     }
     
     public itfMapTreeNode getById(String id) {

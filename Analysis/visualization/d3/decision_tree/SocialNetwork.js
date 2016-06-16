@@ -32,9 +32,9 @@ var svg = d3.select("body").append("svg")
 d3.json("socialNetwork.json", function update(source) {
 
   // Compute the new tree layout.
-  var nodes = tree.nodes(source).reverse(),
+  var nodes = tree.nodes(source),
 	  links = tree.links(nodes);
-
+  
   // Normalize for fixed-depth.
   nodes.forEach(function(d) { d.y = (110 * d.position ); /*console.log(d.depth);*/});  // took out d.depth
 
@@ -50,7 +50,7 @@ d3.json("socialNetwork.json", function update(source) {
 		
 
   nodeEnter.append("circle")
-	  .attr("r", function(d) { return d.value * 50; })
+	  .attr("r", function(d) { return d.raw_value * 50; })
 	  .style("stroke", function(d) { return d.type; })
 	  .style("fill", function(d) { return d.level; })
 	  ;
@@ -93,7 +93,7 @@ d3.json("socialNetwork.json", function update(source) {
 	              .attr("class","nodetext")
 							.text(function(d) { return (d.name); })
                             .attr("dx", 0)	
-                            .attr("dy", "2em")
+                            .attr("dy", function(d) { return 16 + (d.raw_value * 50); })
                             .style("font-size","5px")
                             .attr("text-anchor", "middle")
 							.style("fill", function(d) { return d.nameColor;})            
@@ -104,7 +104,7 @@ d3.json("socialNetwork.json", function update(source) {
     nodeEnter.append("text")
 	 					.text(function(d) { return (d.value); })
                             .attr("dx", 0)	
-                            .attr("dy", "3.5em")
+                            .attr("dy", function(d) { return 32 + (d.raw_value * 50); })
                             .style("font-size","5px")
                             .attr("text-anchor", "middle")
 							.style("fill", function(d) { return d.nameColor;})            

@@ -113,8 +113,35 @@ public class SimaJSONHandler {
 	    //remove the 
 	}
 	
+	protected void decisionTreeDataPercentageRecursion(itfMapTreeNode node, double parentValue) {
+	    double value = Double.parseDouble(node.getData("value"));
+        node.setData("raw_value", Double.toString(value));
+        
+        if(parentValue == 0) {
+            node.setData("value", "-");
+        } else {
+            node.setData("value", String.format("%,.2f %%",(value / parentValue) * 100));
+        }
+        
+        for(itfMapTreeNode child : node.getChildren()) {
+            decisionTreeDataPercentageRecursion(child, value);
+        }
+	}
+	
+	protected void decisionTreeDataPreperation(itfMapTreeNode root) {
+	    double value = Double.parseDouble(root.getData("value"));
+	    root.setData("raw_value", Double.toString(value));
+	    
+	    for(itfMapTreeNode child : root.getChildren()) {
+	        decisionTreeDataPercentageRecursion(child, value);
+	    }
+	}
+	
 	public void writeDecisionTreeData(itfMapTreeNode root) {
 	    JSONArray data = new JSONArray();
+	    
+	    decisionTreeDataPreperation(root);
+	    
 	    data.put(root.toJson());
 	    
 	    fileWriter.writeDecisionTreeData(data);

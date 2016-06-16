@@ -66,28 +66,28 @@ public class VisualizationTest {
 		Random rand = new Random();
 		int level = 0;
 		
-		itfMapTreeNode root = tree.createNode(null, "root", rand.nextInt(20), level);
+		itfMapTreeNode root = tree.createNode(null, "root", rand.nextInt(20), level, 0);
 		level++;
-		itfMapTreeNode n1 = root.addChild(tree.createNode(root, "1.1", rand.nextInt(20), level));
-		itfMapTreeNode n2 = root.addChild(tree.createNode(root, "1.2", rand.nextInt(20), level));
-		itfMapTreeNode n3 = root.addChild(tree.createNode(root, "1.3", rand.nextInt(20), level));
-		
-		level++;
-		itfMapTreeNode n1_1 = n1.addChild(tree.createNode(n1, "1.1.1", rand.nextInt(20), level));
-		itfMapTreeNode n1_2 = n1.addChild(tree.createNode(n1, "1.1.2", rand.nextInt(20), level));
-		itfMapTreeNode n1_3 = n1.addChild(tree.createNode(n1, "1.1.3", rand.nextInt(20), level));
-		
-		itfMapTreeNode n2_1 = n2.addChild(tree.createNode(n2, "1.2.1", rand.nextInt(20), level));
-		itfMapTreeNode n2_2 = n2.addChild(tree.createNode(n2, "1.2.2", rand.nextInt(20), level));
+		itfMapTreeNode n1 = root.addChild(tree.createNode(root, "1.1", rand.nextInt(20), level, 0));
+		itfMapTreeNode n2 = root.addChild(tree.createNode(root, "1.2", rand.nextInt(20), level, 0));
+		itfMapTreeNode n3 = root.addChild(tree.createNode(root, "1.3", rand.nextInt(20), level, 0));
 		
 		level++;
-		itfMapTreeNode n2_1_1 = n2_1.addChild(tree.createNode(n2_1, "1.2.1.1", rand.nextInt(20), level));
-		itfMapTreeNode n2_1_2 = n2_1.addChild(tree.createNode(n2_1, "1.2.1.2", rand.nextInt(20), level));
-		itfMapTreeNode n2_1_3 = n2_1.addChild(tree.createNode(n2_1, "1.2.1.3", rand.nextInt(20), level));
+		itfMapTreeNode n1_1 = n1.addChild(tree.createNode(n1, "1.1.1", rand.nextInt(20), level, 0));
+		itfMapTreeNode n1_2 = n1.addChild(tree.createNode(n1, "1.1.2", rand.nextInt(20), level, 0));
+		itfMapTreeNode n1_3 = n1.addChild(tree.createNode(n1, "1.1.3", rand.nextInt(20), level, 0));
 		
-		itfMapTreeNode n2_2_1 = n2_2.addChild(tree.createNode(n2_2, "1.2.2.1", rand.nextInt(20), level));
-		itfMapTreeNode n2_2_2 = n2_2.addChild(tree.createNode(n2_2, "1.2.2.2", rand.nextInt(20), level));
-		itfMapTreeNode n2_2_3 = n2_2.addChild(tree.createNode(n2_2, "1.2.2.3", rand.nextInt(20), level));
+		itfMapTreeNode n2_1 = n2.addChild(tree.createNode(n2, "1.2.1", rand.nextInt(20), level, 0));
+		itfMapTreeNode n2_2 = n2.addChild(tree.createNode(n2, "1.2.2", rand.nextInt(20), level, 0));
+		
+		level++;
+		itfMapTreeNode n2_1_1 = n2_1.addChild(tree.createNode(n2_1, "1.2.1.1", rand.nextInt(20), level, 0));
+		itfMapTreeNode n2_1_2 = n2_1.addChild(tree.createNode(n2_1, "1.2.1.2", rand.nextInt(20), level, 0));
+		itfMapTreeNode n2_1_3 = n2_1.addChild(tree.createNode(n2_1, "1.2.1.3", rand.nextInt(20), level, 0));
+		
+		itfMapTreeNode n2_2_1 = n2_2.addChild(tree.createNode(n2_2, "1.2.2.1", rand.nextInt(20), level, 0));
+		itfMapTreeNode n2_2_2 = n2_2.addChild(tree.createNode(n2_2, "1.2.2.2", rand.nextInt(20), level, 0));
+		itfMapTreeNode n2_2_3 = n2_2.addChild(tree.createNode(n2_2, "1.2.2.3", rand.nextInt(20), level, 0));
 		
 		tree.setRoot(root);
 	}

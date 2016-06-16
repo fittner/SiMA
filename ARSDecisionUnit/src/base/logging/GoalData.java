@@ -40,42 +40,44 @@ public class GoalData {
         
         private static boolean collect = true;
         
-        public static String FinalEvaluation = "FinalEvaluation";
-        public static String EmotionEvaluation = "EmotionEvaluation";
-        public static String EmotionMatching = "EmotionMatching";
+        public static String FinalEvaluation = "Final Evaluation";
+        public static String EmotionEvaluation = "Emotion Valuation";
+        public static String EmotionMatching = "Reactive Valuation";
 //        public static String MemorizedEmotion = "MemorizedEmotion";
 //        public static String CurrentEmotion = "CurrentExtendedEmotion";
-        public static String EmotionDefenseImpact = "EmotionDefenseImpact";
-        public static String EmotionRuleImpact = "EmotionRuleImpact";
-        public static String BasicEmotion = "BasicEmotion";
-        public static String Memories = "Memories";
-        public static String InitialDrives2 = "InitialDrives2";
-        public static String ExternalWorld2 = "ExternalWorld2";
-        public static String EmotionExpectation = "EmotionExpectation";
-        public static String DriveEvaluation = "DriveEvaluation";
-        public static String InitialDrives = "InitialDrives";
-        public static String MemorizedDriveSatisfactions = "MemorizedDriveSatisfactions";
-        public static String EffortEvaluation = "EffortEvaluation";
-        public static String ExternalWorld = "ExternalWorld";
+        public static String EmotionDefenseImpact = "Emotion Defense Impact";
+        public static String EmotionRuleImpact = "Emotion Rule Impact";
+        public static String BasicEmotion = "Extended Emotion";
+        public static String ObjectivePerception = "Objective Perception";
+        public static String Transference = "Transference";
+        public static String InitialDrives2 = "Drives";
+        public static String ExternalWorld2 = "External Perception";
+        public static String EmotionExpectation = "Reflective Valuation";
+        public static String DriveEvaluation = "Drive Valuation";
+        public static String InitialDrives = "Initial Drives";
+        public static String MemorizedDriveSatisfactions = "Memorized Drive\nSatisfactions";
+        public static String EffortEvaluation = "Effort Valuation";
+        public static String ExternalWorld = "External World";
         
         public GoalData() {         
-            data.createNode(null, FinalEvaluation, 0, 0);
-            data.createNode(data.getById(FinalEvaluation), EmotionEvaluation, 0, 2, Color.BLACK, 0.0);
-            data.createNode(data.getById(EmotionEvaluation), EmotionMatching, 0, 4, Color.BLACK, 0.0);
+            data.createNode(null, FinalEvaluation, 0, 0, 0);
+            data.createNode(data.getById(FinalEvaluation), EmotionEvaluation, 0, 2, Color.BLACK, 0.0, 1);
+            data.createNode(data.getById(EmotionEvaluation), EmotionMatching, 0, 4, Color.BLACK, 0.0, 1);
 //            data.createNode(data.getById(EmotionMatching), MemorizedEmotion, 0, 6);
 //            data.createNode(data.getById(EmotionMatching), CurrentEmotion, 0, 6);
-            data.createNode(data.getById(EmotionMatching), EmotionDefenseImpact, 0, 6, Color.YELLOW, 0.5);
-            data.createNode(data.getById(EmotionMatching), EmotionRuleImpact, 0, 6, Color.YELLOW, 0.9);
-            data.createNode(data.getById(EmotionMatching), BasicEmotion, 0, 6, Color.BLUE, 0.9);
-            data.createNode(data.getById(BasicEmotion), Memories, 0, 8, Color.BLUE, 0.0);
-            data.createNode(data.getById(BasicEmotion), InitialDrives2, 0, 8, Color.BLUE, 0.5);
-            data.createNode(data.getById(BasicEmotion), ExternalWorld2, 0, 8, Color.BLUE, 1.5);
-            data.createNode(data.getById(EmotionEvaluation), EmotionExpectation, 0, 4, Color.ORANGE, 0.0);
-            data.createNode(data.getById(FinalEvaluation), DriveEvaluation, 0, 2, Color.RED, 0.9);
-            data.createNode(data.getById(DriveEvaluation), InitialDrives, 0, 4, Color.RED, 0.0);
-            data.createNode(data.getById(DriveEvaluation), MemorizedDriveSatisfactions, 0, 4, Color.RED, 0.5);
-            data.createNode(data.getById(FinalEvaluation), EffortEvaluation, 0, 2, Color.GREEN, 0.9);
-            data.createNode(data.getById(EffortEvaluation), ExternalWorld, 0, 4, Color.GREEN, 0.0);
+            data.createNode(data.getById(EmotionMatching), EmotionDefenseImpact, 0, 6, Color.YELLOW, 0.5, 0);
+            data.createNode(data.getById(EmotionMatching), EmotionRuleImpact, 0, 6, Color.YELLOW, 0.9, 2);
+            data.createNode(data.getById(EmotionMatching), BasicEmotion, 0, 6, Color.BLUE, 0.9, 1);
+            data.createNode(data.getById(BasicEmotion), InitialDrives2, 0, 8, Color.BLUE, 0.5, 0);
+            data.createNode(data.getById(BasicEmotion), ExternalWorld2, 0, 8, Color.BLUE, 1.5, 1);
+            data.createNode(data.getById(ExternalWorld2), Transference, 0, 10, Color.BLUE, 0.0, 2);
+            data.createNode(data.getById(ExternalWorld2), ObjectivePerception, 0, 10, Color.BLUE, 0.0, 2);
+            data.createNode(data.getById(EmotionEvaluation), EmotionExpectation, 0, 4, Color.ORANGE, 0.0, 0);
+            data.createNode(data.getById(FinalEvaluation), DriveEvaluation, 0, 2, Color.RED, 0.9, 0);
+            data.createNode(data.getById(DriveEvaluation), InitialDrives, 0, 4, Color.RED, 0.0, 0);
+            data.createNode(data.getById(DriveEvaluation), MemorizedDriveSatisfactions, 0, 4, Color.RED, 0.5, 1);
+            data.createNode(data.getById(FinalEvaluation), EffortEvaluation, 0, 2, Color.GREEN, 0.9, 2);
+            data.createNode(data.getById(EffortEvaluation), ExternalWorld, 0, 4, Color.GREEN, 0.0, 0);
         }
         
         private double driveDistributionRatio = 0.0f;
@@ -202,8 +204,10 @@ public class GoalData {
             List<Double> emotionImpacts = extractImpact(undefendedBasicEmotion, driveBaseEmotionValues, perceptionBaseEmotionValues, memoryBaseEmotionValues);
             
             data.getById(InitialDrives2).setData("value", Double.toString((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(0)));
-            data.getById(ExternalWorld2).setData("value", Double.toString((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(1)));
-            data.getById(Memories).setData("value", Double.toString((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(2)));
+            data.getById(ExternalWorld2).setData("value", Double.toString(((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(1)) + ((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(2))));
+            
+            data.getById(Transference).setData("value", Double.toString((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(1)));
+            data.getById(ObjectivePerception).setData("value", Double.toString((emotionImpact * (1 - emotionDiffAfterDefense)) * emotionImpacts.get(2)));
             
 //            data.getById(MemorizedEmotion).setData("value", Double.toString(rTempFeelingMatchImportance * scalingFactor));
             rTotalImportance += rTempFeelingMatchImportance;
