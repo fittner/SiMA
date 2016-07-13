@@ -100,7 +100,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	private clsEmotion moLastEmotion = null;         /*ATTENTION: this is a local emotion that MUST NEVER be linked to ANYTHING*/
 	private clsEmotion moTargetEmotion = null;       /*This is stored for visualization purposes only*/
 	private double mrEmotionChangeFactor = 0.1;
-	private static final boolean mbShowTargetEmotionInChart = true;
+	private static final boolean mbShowTargetEmotionInChart = false;
 	
 	// threshold to determine in which case domination of a emotion occurs
 	private double mrRelativeThreshold;
