@@ -130,6 +130,7 @@ public class clsPrimarySpatialTools {
         double rRetVal = 0;
         double rEmotionImpactFactor = 0.5; // this factor defines how much influence the emotion match between PI and RI has on the total image match
         double rEmotionMatch = 0;
+        double rRetValAc = 0;
         //Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
         //Only references in the array
         
@@ -167,7 +168,7 @@ public class clsPrimarySpatialTools {
             if(!oRISpatialArray.isEmpty() || !oRIActionsArray.isEmpty()) {
                 double rRetValSp = calculateImageMatchSpatial(poPI, poRI);
                 ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchActionList = findMatchingActionOrSpatial(oRIActionsArray, oPIActionsArray);  
-                double rRetValAc =  calculateImageMatchAction(oRIPIMatchActionList);
+                rRetValAc =  calculateImageMatchAction(oRIPIMatchActionList);
                 if(!oRIPIMatchActionList.isEmpty() || !oRISpatialArray.isEmpty()) { 
                     rRetVal = (rRetValSp + rRetValAc)/(oRIPIMatchActionList.size() + oRISpatialArray.size()/2);
                 }
@@ -200,7 +201,7 @@ public class clsPrimarySpatialTools {
         clsEmotion oEmotionPI = null,  oEmotionRI = null; 
         //calculate emotion match of images
         //get emotions from first image
-        if(poRI.getContentType() != eContentType.RPI) { 
+        if(poRI.getContentType() != eContentType.RPI && poRI.getContentType() != eContentType.RPA) { 
             oEmotionPI = clsEmotion.fromTPM(poPI);
         
         //get emotions from second image
@@ -210,6 +211,13 @@ public class clsPrimarySpatialTools {
         else {
             oEmotionPI =  getEmotionFromAnotherEntity(poPI);
             oEmotionRI = getRecognizedEmotionFromMemorizedImage(poRI);
+            
+            //If the RPA is not provided with any basicemotion, then assume the emotion match is 1.0 as long as the action matches 
+            if(poRI.getContentType() == eContentType.RPA) {
+            	if(oEmotionRI == null && rRetValAc > 0) {
+            		rEmotionMatch = 1.0;
+            	}
+            }
         }
         //get match value for the two emotions
         if(oEmotionPI != null && oEmotionRI != null) {

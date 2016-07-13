@@ -1,4 +1,4 @@
-; Wed May 11 18:05:52 GMT 2016
+; Wed Jul 13 17:44:19 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1557,6 +1557,20 @@
 		[EXPRESSION%3AMOUTH_STRECHINESS%3ASTRETCHED])
 	(weight 1.0 1.0))
 
+([ASSOCIATIONATTRIBUTE%3AADAM_BEAT_SELF%3AADAM%3ADISTANCE%3ANEAR] of  ASSOCIATIONATTRIBUTE
+
+	(element
+		[PRIMARYINSTANCEOBJECT%3AADAM_BEAT_SELF%3AADAM]
+		[TP%3ADISTANCE%3ANEAR])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONATTRIBUTE%3AADAM_REQUEST_CAKE%3AADAM%3ADISTANCE%3ANEAR] of  ASSOCIATIONATTRIBUTE
+
+	(element
+		[PRIMARYINSTANCEOBJECT%3AREQUEST_CAKE%3AADAM]
+		[TP%3ADISTANCE%3ANEAR])
+	(weight 1.0 1.0))
+
 ([ASSOCIATIONATTRIBUTE%3ASELF_ANGER%3AEMOTION] of  ASSOCIATIONATTRIBUTE
 
 	(element
@@ -2068,11 +2082,11 @@
 		[EMOTION%3AADAM_OWNED_CAKE%3AANGER])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AREQUEST_CAKE%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AREQUEST_CAKE%3AANGER] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AREQUEST_CAKE]
-		[EMOTION%3AREQUEST_CAKE%3AGUILT])
+		[EMOTION%3AREQUEST_CAKE%3AJOY])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONEMOTION%3AS01_ADAM_CAKE%3AANGER] of  ASSOCIATIONEMOTION
@@ -3117,6 +3131,17 @@
 	(consequence [WP%3AACTION%3AFLEE])
 	(value_type "EAT"))
 
+([BASICEMOTION%3AREQUEST_CAKE%3AGUILT] of  EMOTION
+
+	(emotionIntensity 0.0)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "GUILT")
+	(value_type "BASICEMOTION"))
+
 ([BODYSTATE%3AADAM_ANGER] of  BODYSTATE
 
 	(instance_association
@@ -3953,7 +3978,7 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.2)
+	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.0)
 	(value "ELATION")
 	(value_type "MEMORIZEDEMOTION"))
@@ -3964,7 +3989,7 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.3)
+	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.0)
 	(value "JOY")
 	(value_type "MEMORIZEDEMOTION"))
@@ -3980,15 +4005,15 @@
 	(value "ANGER")
 	(value_type "MEMORIZEDEMOTION"))
 
-([EMOTION%3AREQUEST_CAKE%3AGUILT] of  EMOTION
+([EMOTION%3AREQUEST_CAKE%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.5)
+	(emotionIntensity 1.0)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 1.0)
-	(value "GUILT")
+	(sourcePleasure 1.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "MEMORIZEDEMOTION"))
 
 ([EMOTION%3ASELF%3ABODYSTATE%3AANGER] of  EMOTION
