@@ -131,6 +131,7 @@ public class SimaJSONHandler {
 	protected void decisionTreeDataPreperation(itfMapTreeNode root) {
 	    double value = Double.parseDouble(root.getData("value"));
 	    root.setData("raw_value", Double.toString(value));
+	    root.setData("value", String.format("%.4f", value));
 	    
 	    for(itfMapTreeNode child : root.getChildren()) {
 	        decisionTreeDataPercentageRecursion(child, value);
