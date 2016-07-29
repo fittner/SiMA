@@ -18,6 +18,7 @@ public enum eEntity {
 	ANOUK,
 	BODO,
 	CAKE,
+	CAKEFIM,
 	CAN,
 	CARL,
 	CARROT,

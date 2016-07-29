@@ -307,6 +307,7 @@ public class TestDataCreator {
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.EAT), new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity),
 		    new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), "EAT"));
 
+			
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.MOVE_FORWARD), new clsImage(eDistance.FAR, eDirection.CENTER, oEntity),
 		    new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), "MOVE_FW_FAR_TO_MEDIUM"));
 

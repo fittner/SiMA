@@ -1055,6 +1055,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oDisplaceDriveObjectList.put("LYNX","HARE");	
 		oDisplaceDriveObjectList.put("PLANT","FUNGUS_EATER");
 		oDisplaceDriveObjectList.put("CAKE","SCHNIZL");
+		oDisplaceDriveObjectList.put("CAKEFIM","SCHNIZL");
 		oDisplaceDriveObjectList.put("FUNGUS_EATER","ANIMAL");
 		
 		

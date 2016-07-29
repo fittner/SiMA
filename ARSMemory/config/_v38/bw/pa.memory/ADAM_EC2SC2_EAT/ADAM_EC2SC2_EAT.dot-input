@@ -1,0 +1,4 @@
+digraph "ADAM_EC2SC2_EAT" {
+
+"ASSOCIATIONATTRIBUTE" [shape=box, label="ASSOCIATIONATTRIBUTE", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+}
