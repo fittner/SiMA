@@ -146,7 +146,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
         moSuperEgoRulesCheckInstance = new clsSuperEgoRulesCheck();
 	}
 	
-
+// Alt eventuell das gleiche wie poPersonalityParameterContainer
     public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		
