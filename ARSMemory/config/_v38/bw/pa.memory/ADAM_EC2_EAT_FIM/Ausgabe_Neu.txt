@@ -1,0 +1,589 @@
+[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\2Agenten(beat).properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\analysis_scenario.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.arscraft_v10.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.default.cake.test.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.pa.pausecase.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.PhD.Testcase.01.GetAroundStone.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.PhD.Testcase.02.UseNavPoints.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.PhD.Testcase.03.ExecuteWC.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.PhD.Testcase.03.FindNavPointStart.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.PhD.Testcase.04.StrafeLeft_GetAroundStone.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.PhD.Testcase.05.StrafeRight_GetAroundStone.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.PhD.TestcaseXX.TestDrive.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.PhD.Usecase.PAUsecase1ObstacleModification.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.PhD.Usecase.UC1ModForSearch.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.PhD.Usecase.UC1ModwithBodo.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.survivalworld.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.Test.Base_eat_A09.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.UC1_Standardscenario(eat)_minimalversion_mod.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\AW.UNIT.Testcase.01.SeeCan.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\default_V38_test.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC1_FLEE.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_BEAT.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_DIVIDE_ACTIVE_BODO.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_EAT.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_EAT_ACTIVE_BODO.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_LEAVE.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_LEAVE_by_reverse.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_PAPER_EX1.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_PAPER_EX2.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_PAPER_EX3.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_PAPER_EX4.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_SHARE_ACTIVE_BODO.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC2_TEST_.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC3.2_SHARE.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC3.2__BEAT.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC3_REJECT.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC3_scenario_1.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC3_scenario_ACTIVE_BODO.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2SC3_SHARE.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2_ACTIVE_BODO_SHARE.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2_BEAT.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2_EAT.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2_FLEE_by_reflected_evaluation.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2_FLEE_by_reversal_of_affect.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2_GIVE.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\EC2_SHARE.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\Kivy.PickupAndCarry.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\KollmannUC1_Divide_1_1.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\KollmannUC1_Divide_1_2.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\KollmannUC1_Divide_1_3.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\Kollmann_EmotionRangeTest.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\Kollmann_SelfPerceptionLoopTest.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\LH_action_test_sceanario'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\LH_entityTest'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\LH_test_different_protege_files'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\SamerUC1Beat.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\SamerUC1Playground.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\SamerUC1_2Playground.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\SchnitzelArsin.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\SM.PR.Testcase.01.StrafeLeft_GetAroundStone_Bodo.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\testForPropertiesinspector.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\testsetup.main.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\tutorial.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\UC1_01.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\UC1_alternativscenario1(give)_minimalversion.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\UC1_alternativscenario2(beat)_minimalversion.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\UC1_alternativscenario3(share)_minimalversion.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\UC1_Standardscenario(eat)_minimalversion.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\_FUNCTIONALTEST.01.TestDriveSourceDecisionMaking.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\_FUNCTIONALTEST.02.TestPerceptionSourceDecisionMaking.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\_FUNCTIONALTEST.03.TestBeatAct.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\_FUNCTIONALTEST.05.TestComplexActGetAroundStone.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\config.save'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\system.properties'
+[0mNot all classes loaded, due to error: probably no Java3D
+[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\scenarios\UC1_Standardscenario(eat)_minimalversion.properties'
+[0m.
+
+
+
+
+[1;31m[planning][ERROR] (clsTEMPPlannerAW.java:74) - FATAL initializing planning Wizard
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\personality_parameters\decision_unit\default.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\personality_parameters\decision_unit\EC2_default.properties'
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\personality_parameters\decision_unit\EC2_EAT_personality.properties'
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F1
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F2
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F6
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F8
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F10
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F11
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F12
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F13
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F14
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F18
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F19
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F20
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F21
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F23
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F51
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F26
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F29
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F30
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F31
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F32
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F53
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F35
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F37
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F39
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F40
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F48
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F57
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F49
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F54
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F56
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F55
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F7
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F52
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F45
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F46
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F47
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F63
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F61
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F64
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F65
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F66
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F67
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent0.F71
+[0m[1;33m[analysis.analyzer.singleton][WARN] (clsSingletonAnalysisAccessor.java:42) - Trying to access analyzer before it has been initialized - using dummy analyzer clsAnalyzerDummy
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\personality_parameters\body\default.properties'
+[0m.
+
+
+
+
+
+[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\personality_parameters\decision_unit\default.properties'
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F1
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F2
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F6
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F8
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F10
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F11
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F12
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F13
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F14
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F18
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F19
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F20
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F21
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F23
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F51
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F26
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F29
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F30
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F31
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F32
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F53
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F35
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F37
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F39
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F40
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F48
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F57
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F49
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F54
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F56
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F55
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F7
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F52
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F45
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F46
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F47
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F63
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F61
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F64
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F65
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F66
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F67
+[0m[22;32m[sim][INFO] (clsModuleBase.java:97) - Created logger Agent1.F71
+[0m[22;36m[sim][DEBUG] (clsProperties.java:304) - reading property file 'C:\workspace\ARS\ARSIN_V02\Simulation\config\personality_parameters\body\default.properties'
+[0m.[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I02:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,49:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, INSUFFICIENT_PIMATCH_INFO, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I02
+INTENTION: RI:A120_EAT_CAKE_L01_I02(PIMatch=0,94)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I02:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,61:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, INSUFFICIENT_PIMATCH_INFO, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I02
+INTENTION: RI:A120_EAT_CAKE_L01_I02(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A12_EAT_CAKE_L01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKE:MEMORYDRIVE:0,60:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKE:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A12_EAT_CAKE_L01
+INTENTION: RI:A12_EAT_CAKE_L01(PIMatch=0,50)(ActConf=0,00);
+SUBIMAGES: A12_EAT_CAKE_L01_I03(PIMatch=1,00)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I01(PIMatch=0,75)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I02(PIMatch=0,50)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A12_EAT_CAKE_L01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKE:MEMORYDRIVE:0,61:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKE:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A12_EAT_CAKE_L01
+INTENTION: RI:A12_EAT_CAKE_L01(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A12_EAT_CAKE_L01_I03(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I02(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,51:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I01
+INTENTION: RI:A120_EAT_CAKE_L01_I01(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[1;31m[Memory][ERROR] (clsSearchSpaceManager.java:373) - Error in clsSearchSpacemanager::complementMesh(...) with + RI:A120_EAT_CAKE_L01_I01
+INT ASS: CAKEFIM(null:null),SELF(null:null),
+EXT ASS:::EMOTION::666:ANXIETY:::ASSOCIATIONEMOTION::667:ASSOCIATIONEMOTION|elementA:666:BASICEMOTION:ANXIETY:elementB:442:RI:A120_EAT_CAKE_L01_I01: intensity: 0,1 U: 0,25 A: 0,2 L: 0,15 P: 0,05,::EMOTION::664:ANGER:::ASSOCIATIONEMOTION::665:ASSOCIATIONEMOTION|elementA:664:BASICEMOTION:ANGER:elementB:442:RI:A120_EAT_CAKE_L01_I01: intensity: 0,1 U: 0,25 A: 0,2 L: 0,15 P: 0,05,
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,52:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I01
+INTENTION: RI:A120_EAT_CAKE_L01_I01(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,47:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,91)(ActConf=0,00);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,91)(MomConf=0,00)(Timeout=0);A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,47:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);A14_FLEE_BODO_L01_I02(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,49:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:FOCUS_ON [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, SET_FOLLOW_ACT, SET_BASIC_ACT_ANALYSIS, NEED_PERFORM_RECOMMENDED_ACTION, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,91)(ActConf=0,50);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,91)(MomConf=0,91)(Timeout=20);A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+MOMENT: RI:A14_FLEE_BODO_L01_I01(PIMatch=0,91)(MomConf=0,91)(Timeout=20);
+ACTION: FLEE
+EXPECTATION: RI:A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+ACTION: NULLOBJECT
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:FOCUS_ON
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I02:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,51:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, INSUFFICIENT_PIMATCH_INFO, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I02
+INTENTION: RI:A120_EAT_CAKE_L01_I02(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I02:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,63:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, INSUFFICIENT_PIMATCH_INFO, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I02
+INTENTION: RI:A120_EAT_CAKE_L01_I02(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A12_EAT_CAKE_L01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKE:MEMORYDRIVE:0,51:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKE:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A12_EAT_CAKE_L01
+INTENTION: RI:A12_EAT_CAKE_L01(PIMatch=0,49)(ActConf=0,00);
+SUBIMAGES: A12_EAT_CAKE_L01_I03(PIMatch=0,99)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I01(PIMatch=0,74)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I02(PIMatch=0,49)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A12_EAT_CAKE_L01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKE:MEMORYDRIVE:0,63:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKE:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A12_EAT_CAKE_L01
+INTENTION: RI:A12_EAT_CAKE_L01(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A12_EAT_CAKE_L01_I03(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I02(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,48:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:FOCUS_MOVE_FORWARD [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, SET_INTERNAL_INFO, SET_FOLLOW_ACT, SET_BASIC_ACT_ANALYSIS, NEED_PERFORM_RECOMMENDED_ACTION, SET_FOCUS_ON, NEED_GOAL_FOCUS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,91)(ActConf=0,50);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,91)(MomConf=0,91)(Timeout=20);A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+MOMENT: RI:A14_FLEE_BODO_L01_I01(PIMatch=0,91)(MomConf=0,91)(Timeout=20);
+ACTION: FLEE
+EXPECTATION: RI:A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+ACTION: NULLOBJECT
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:FOCUS_MOVE_FORWARD
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,52:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I01
+INTENTION: RI:A120_EAT_CAKE_L01_I01(PIMatch=0,99)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=0,99)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[1;31m[Memory][ERROR] (clsSearchSpaceManager.java:373) - Error in clsSearchSpacemanager::complementMesh(...) with + RI:A120_EAT_CAKE_L01_I01
+INT ASS: CAKEFIM(null:null),SELF(null:null),
+EXT ASS:::EMOTION::666:ANXIETY:::ASSOCIATIONEMOTION::667:ASSOCIATIONEMOTION|elementA:666:BASICEMOTION:ANXIETY:elementB:442:RI:A120_EAT_CAKE_L01_I01: intensity: 0,1 U: 0,25 A: 0,2 L: 0,15 P: 0,05,::EMOTION::664:ANGER:::ASSOCIATIONEMOTION::665:ASSOCIATIONEMOTION|elementA:664:BASICEMOTION:ANGER:elementB:442:RI:A120_EAT_CAKE_L01_I01: intensity: 0,1 U: 0,25 A: 0,2 L: 0,15 P: 0,05,
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,53:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I01
+INTENTION: RI:A120_EAT_CAKE_L01_I01(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,48:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:FOCUS_ON [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, SET_INTERNAL_INFO, SET_FOLLOW_ACT, SET_BASIC_ACT_ANALYSIS, NEED_PERFORM_RECOMMENDED_ACTION, NEED_GOAL_FOCUS, SET_FOCUS_MOVEMENT, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,92)(ActConf=0,50);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+MOMENT: RI:A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);
+ACTION: FLEE
+EXPECTATION: RI:A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+ACTION: NULLOBJECT
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:FOCUS_ON
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,49:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:MOVE_BACKWARD [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, SET_INTERNAL_INFO, SET_FOLLOW_ACT, SET_BASIC_ACT_ANALYSIS, NEED_PERFORM_RECOMMENDED_ACTION, SET_FOCUS_MOVEMENT, SET_FOCUS_ON, NEED_GOAL_FOCUS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,91)(ActConf=0,50);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,91)(MomConf=0,91)(Timeout=20);A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+MOMENT: RI:A14_FLEE_BODO_L01_I01(PIMatch=0,91)(MomConf=0,91)(Timeout=20);
+ACTION: FLEE
+EXPECTATION: RI:A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+ACTION: NULLOBJECT
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:MOVE_BACKWARD
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I02:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,51:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, INSUFFICIENT_PIMATCH_INFO, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I02
+INTENTION: RI:A120_EAT_CAKE_L01_I02(PIMatch=0,99)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I02:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,63:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, INSUFFICIENT_PIMATCH_INFO, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I02
+INTENTION: RI:A120_EAT_CAKE_L01_I02(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A12_EAT_CAKE_L01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKE:MEMORYDRIVE:0,51:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKE:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A12_EAT_CAKE_L01
+INTENTION: RI:A12_EAT_CAKE_L01(PIMatch=0,49)(ActConf=0,00);
+SUBIMAGES: A12_EAT_CAKE_L01_I03(PIMatch=0,99)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I01(PIMatch=0,74)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I02(PIMatch=0,49)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A12_EAT_CAKE_L01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKE:MEMORYDRIVE:0,63:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKE:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A12_EAT_CAKE_L01
+INTENTION: RI:A12_EAT_CAKE_L01(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A12_EAT_CAKE_L01_I03(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I02(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,49:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:FOCUS_ON [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, SET_INTERNAL_INFO, SET_FOLLOW_ACT, SET_BASIC_ACT_ANALYSIS, NEED_PERFORM_RECOMMENDED_ACTION, SET_FOCUS_MOVEMENT, NEED_GOAL_FOCUS, EXECUTED_MOVE_BACKWARD, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,92)(ActConf=0,50);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+MOMENT: RI:A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);
+ACTION: FLEE
+EXPECTATION: RI:A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+ACTION: NULLOBJECT
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:FOCUS_ON
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[1;31m[Meshtools][ERROR] (clsMeshTools.java:1731) - Association ::ASSOCIATIONSEC::-1:HASACTIONREFINEMENT|elementA:196:ACTION:FLEE:elementB:-1:ACTION:MOVE_BACKWARD was not anchored in WPM ::WPM::-1:ACTION:MOVE_BACKWARD which is one endpoint of the association
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,50:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:MOVE_BACKWARD [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, SET_INTERNAL_INFO, SET_FOLLOW_ACT, SET_BASIC_ACT_ANALYSIS, NEED_PERFORM_RECOMMENDED_ACTION, SET_FOCUS_MOVEMENT, EXECUTED_MOVE_BACKWARD, SET_FOCUS_ON, NEED_GOAL_FOCUS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,92)(ActConf=0,50);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+MOMENT: RI:A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);
+ACTION: FLEE
+EXPECTATION: RI:A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+ACTION: NULLOBJECT
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:MOVE_BACKWARD
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,51:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I01
+INTENTION: RI:A120_EAT_CAKE_L01_I01(PIMatch=0,99)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=0,99)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[1;31m[Memory][ERROR] (clsSearchSpaceManager.java:373) - Error in clsSearchSpacemanager::complementMesh(...) with + RI:A120_EAT_CAKE_L01_I01
+INT ASS: CAKEFIM(null:null),SELF(null:null),
+EXT ASS:::EMOTION::666:ANXIETY:::ASSOCIATIONEMOTION::667:ASSOCIATIONEMOTION|elementA:666:BASICEMOTION:ANXIETY:elementB:442:RI:A120_EAT_CAKE_L01_I01: intensity: 0,1 U: 0,25 A: 0,2 L: 0,15 P: 0,05,::EMOTION::664:ANGER:::ASSOCIATIONEMOTION::665:ASSOCIATIONEMOTION|elementA:664:BASICEMOTION:ANGER:elementB:442:RI:A120_EAT_CAKE_L01_I01: intensity: 0,1 U: 0,25 A: 0,2 L: 0,15 P: 0,05,
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,53:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I01
+INTENTION: RI:A120_EAT_CAKE_L01_I01(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,49:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:FOCUS_ON [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, SET_INTERNAL_INFO, SET_FOLLOW_ACT, SET_BASIC_ACT_ANALYSIS, NEED_PERFORM_RECOMMENDED_ACTION, SET_FOCUS_MOVEMENT, EXECUTED_MOVE_BACKWARD, NEED_GOAL_FOCUS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,92)(ActConf=0,50);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+MOMENT: RI:A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);
+ACTION: FLEE
+EXPECTATION: RI:A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+ACTION: NULLOBJECT
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:FOCUS_ON
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[1;31m[Meshtools][ERROR] (clsMeshTools.java:1731) - Association ::ASSOCIATIONSEC::-1:HASACTIONREFINEMENT|elementA:196:ACTION:FLEE:elementB:-1:ACTION:MOVE_BACKWARD was not anchored in WPM ::WPM::-1:ACTION:MOVE_BACKWARD which is one endpoint of the association
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I02:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,51:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, INSUFFICIENT_PIMATCH_INFO, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I02
+INTENTION: RI:A120_EAT_CAKE_L01_I02(PIMatch=0,99)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[1;31m[Meshtools][ERROR] (clsMeshTools.java:1731) - Association ::ASSOCIATIONSEC::-1:HASACTIONREFINEMENT|elementA:196:ACTION:FLEE:elementB:-1:ACTION:MOVE_BACKWARD was not anchored in WPM ::WPM::-1:ACTION:MOVE_BACKWARD which is one endpoint of the association
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A120_EAT_CAKE_L01_I02:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKEFIM:MEMORYDRIVE:0,62:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKEFIM:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, INSUFFICIENT_PIMATCH_INFO, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A120_EAT_CAKE_L01_I02
+INTENTION: RI:A120_EAT_CAKE_L01_I02(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A120_EAT_CAKE_L01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[1;31m[Meshtools][ERROR] (clsMeshTools.java:1731) - Association ::ASSOCIATIONSEC::-1:HASACTIONREFINEMENT|elementA:196:ACTION:FLEE:elementB:-1:ACTION:MOVE_BACKWARD was not anchored in WPM ::WPM::-1:ACTION:MOVE_BACKWARD which is one endpoint of the association
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A12_EAT_CAKE_L01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKE:MEMORYDRIVE:0,51:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKE:SEND_TO_PHANTASY [IS_MEMORY_SOURCE, NEED_INTERNAL_INFO, IS_CONTINUED_GOAL, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A12_EAT_CAKE_L01
+INTENTION: RI:A12_EAT_CAKE_L01(PIMatch=0,49)(ActConf=0,00);
+SUBIMAGES: A12_EAT_CAKE_L01_I03(PIMatch=0,99)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I01(PIMatch=0,74)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I02(PIMatch=0,49)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:SEND_TO_PHANTASY
+[0m[1;31m[Meshtools][ERROR] (clsMeshTools.java:1731) - Association ::ASSOCIATIONSEC::-1:HASACTIONREFINEMENT|elementA:196:ACTION:FLEE:elementB:-1:ACTION:MOVE_BACKWARD was not anchored in WPM ::WPM::-1:ACTION:MOVE_BACKWARD which is one endpoint of the association
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A12_EAT_CAKE_L01:LIBIDINOUSSTOMACHUNDEFINEDEAT:CAKE:MEMORYDRIVE:0,62:[ANXIETY: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25, ANGER: Intensity=0,10 Libido=0,15 Aggression=0,20 Pleasure=0,05 Unpleasure=0,25]:CAKE:PERFORM_BASIC_ACT_ANALYSIS [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, NEED_GOAL_FOCUS, SET_INTERNAL_INFO, NEED_BASIC_ACT_ANALYSIS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A12_EAT_CAKE_L01
+INTENTION: RI:A12_EAT_CAKE_L01(PIMatch=1,00)(ActConf=0,00);
+SUBIMAGES: A12_EAT_CAKE_L01_I03(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I01(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);A12_EAT_CAKE_L01_I02(PIMatch=-1,00)(MomConf=0,00)(Timeout=0);
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:PERFORM_BASIC_ACT_ANALYSIS
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[1;31m[Meshtools][ERROR] (clsMeshTools.java:1731) - Association ::ASSOCIATIONSEC::-1:HASACTIONREFINEMENT|elementA:196:ACTION:FLEE:elementB:-1:ACTION:MOVE_BACKWARD was not anchored in WPM ::WPM::-1:ACTION:MOVE_BACKWARD which is one endpoint of the association
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,50:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:MOVE_BACKWARD [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, SET_INTERNAL_INFO, SET_FOLLOW_ACT, SET_BASIC_ACT_ANALYSIS, NEED_PERFORM_RECOMMENDED_ACTION, SET_FOCUS_MOVEMENT, EXECUTED_MOVE_BACKWARD, SET_FOCUS_ON, NEED_GOAL_FOCUS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,92)(ActConf=0,50);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+MOMENT: RI:A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);
+ACTION: FLEE
+EXPECTATION: RI:A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+ACTION: NULLOBJECT
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:MOVE_BACKWARD
+[0mclass complexbody.expressionVariables.clsExpressionVariableFacialEyes -> setting crying intensity: 0.05656528037922964
+[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,51:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:FOCUS_ON [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, SET_INTERNAL_INFO, SET_FOLLOW_ACT, SET_BASIC_ACT_ANALYSIS, NEED_PERFORM_RECOMMENDED_ACTION, SET_FOCUS_MOVEMENT, EXECUTED_MOVE_BACKWARD, NEED_GOAL_FOCUS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,92)(ActConf=0,50);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+MOMENT: RI:A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);
+ACTION: FLEE
+EXPECTATION: RI:A14_FLEE_BODO_L01_I02(PIMatch=0,72)(MomConf=0,00)(Timeout=0);
+ACTION: NULLOBJECT
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:FOCUS_ON
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPI
+[0m[1;31m[Memory][ERROR] (clsDataStructureComparisonTools.java:188) - Could not get searchspace for content type RPA
+[0m[1;31m[Meshtools][ERROR] (clsMeshTools.java:1731) - Association ::ASSOCIATIONSEC::-1:HASACTIONREFINEMENT|elementA:196:ACTION:FLEE:elementB:-1:ACTION:MOVE_BACKWARD was not anchored in WPM ::WPM::-1:ACTION:MOVE_BACKWARD which is one endpoint of the association
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:284) - 
+=======================
+Decided goal: A14_FLEE_BODO_L01:NO_DRIVE:NULLOBJECT:MEMORYDRIVE:0,51:[ANXIETY: Intensity=0,45 Libido=0,35 Aggression=0,11 Pleasure=0,06 Unpleasure=0,65]:NULLOBJECT:MOVE_BACKWARD [IS_MEMORY_SOURCE, IS_CONTINUED_GOAL, SET_INTERNAL_INFO, SET_FOLLOW_ACT, SET_BASIC_ACT_ANALYSIS, NEED_PERFORM_RECOMMENDED_ACTION, SET_FOCUS_MOVEMENT, EXECUTED_MOVE_BACKWARD, SET_FOCUS_ON, NEED_GOAL_FOCUS, IS_CONTINUED_PLANGOAL]
+SUPPORTIVE DATASTRUCTURE: ACT:A14_FLEE_BODO_L01
+INTENTION: RI:A14_FLEE_BODO_L01(PIMatch=0,92)(ActConf=0,50);
+SUBIMAGES: A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);A14_FLEE_BODO_L01_I02(PIMatch=0,71)(MomConf=0,00)(Timeout=0);
+MOMENT: RI:A14_FLEE_BODO_L01_I01(PIMatch=0,92)(MomConf=0,91)(Timeout=20);
+ACTION: FLEE
+EXPECTATION: RI:A14_FLEE_BODO_L01_I02(PIMatch=0,71)(MomConf=0,00)(Timeout=0);
+ACTION: NULLOBJECT
+
+==============================
+[0m[22;32m[Agent0.F29][INFO] (F29_EvaluationOfImaginaryActions.java:291) - Selected Action: ::WPM::-1:ACTION:MOVE_BACKWARD
+[0m
