@@ -51,7 +51,7 @@ public class GoalData {
         public static String EmotionMatching = "Reactive Valuation";
 //        public static String MemorizedEmotion = "MemorizedEmotion";
 //        public static String CurrentEmotion = "CurrentExtendedEmotion";
-        public static String EmotionDefenseImpact = "Emotion Defense Impact";
+        public static String EmotionDefenseImpact = "Emotion Defense";
 //        public static String EmotionRuleImpact = "Emotion Rule Impact";
         public static String BasicEmotion = "Emotion";
         public static String ObjectivePerception = "Objective Perception";
