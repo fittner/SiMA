@@ -196,6 +196,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         clsEmotion oNewGuilt = null;
         mrRemainingConflict = 0;
         double mrConflictImpactOnGuilt = 0.75;
+        double dGuilt = 0.0d;
         
         log.debug("neutralized intensity F71: " + Double.toString(rReceivedPsychicEnergy));
 
@@ -229,11 +230,12 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
                 mrRemainingConflict += oConflict.getConflictTension();
             }
             
-            if(mrRemainingConflict > 0) {
-                oNewGuilt = generateGuilt(mrRemainingConflict * mrConflictImpactOnGuilt);
-                moEmotions_Output.add(oNewGuilt);
-            }
+            dGuilt = mrRemainingConflict * mrConflictImpactOnGuilt;
         }
+        
+        oNewGuilt = generateGuilt(dGuilt);
+        moEmotions_Output.add(oNewGuilt);
+        
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, mrInitialRequestIntensity, rConsumedPsychicIntensity);
         
         DataCollector.all().putDefendedExtendedEmotionF71(moEmotions_Output);
