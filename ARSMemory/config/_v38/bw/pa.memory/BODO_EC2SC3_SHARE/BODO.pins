@@ -1,4 +1,4 @@
-; Wed Jul 13 17:44:19 GMT 2016
+; Thu Jul 14 10:38:17 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1914,6 +1914,13 @@
 		[EMOTION%3AA12_EAT_CAKE_L01%3AANXIETY])
 	(weight 1.0 1.0))
 
+([ASSOCIATIONEMOTION%3AA12_EAT_CAKE_L01%3AJOY] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AA12_EAT_CAKE_L01]
+		[EMOTION%3AA12_EAT_CAKE_L01%3AJOY])
+	(weight 1.0 1.0))
+
 ([ASSOCIATIONEMOTION%3AA12_EAT_CAKE_L01_I01%3AANGER] of  ASSOCIATIONEMOTION
 
 	(element
@@ -1926,6 +1933,13 @@
 	(element
 		[TPM%3AIMAGE%3AA12_EAT_CAKE_L01_I01]
 		[EMOTION%3AA12_EAT_CAKE_L01_I01%3AANXIETY])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONEMOTION%3AA12_EAT_CAKE_L01_I01%3AJOY] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AA12_EAT_CAKE_L01_I01]
+		[EMOTION%3AA12_EAT_CAKE_L01_I01%3AJOY])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONEMOTION%3AA12_EAT_CAKE_L01_I02%3AANGER] of  ASSOCIATIONEMOTION
@@ -1942,6 +1956,13 @@
 		[EMOTION%3AA12_EAT_CAKE_L01_I02%3AANXIETY])
 	(weight 1.0 1.0))
 
+([ASSOCIATIONEMOTION%3AA12_EAT_CAKE_L01_I02%3AJOY] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AA12_EAT_CAKE_L01_I02]
+		[EMOTION%3AA12_EAT_CAKE_L01_I02%3AJOY])
+	(weight 1.0 1.0))
+
 ([ASSOCIATIONEMOTION%3AA12_EAT_CAKE_L01_I03%3AANGER] of  ASSOCIATIONEMOTION
 
 	(element
@@ -1954,6 +1975,13 @@
 	(element
 		[TPM%3AIMAGE%3AA12_EAT_CAKE_L01_I03]
 		[EMOTION%3AA12_EAT_CAKE_L01_I03%3AANXIETY])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONEMOTION%3AA12_EAT_CAKE_L01_I03%3AJOY] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AA12_EAT_CAKE_L01_I03]
+		[EMOTION%3AA12_EAT_CAKE_L01_I03%3AJOY])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONEMOTION%3AA13_GIVE_CAKE_L01%3AGUILT] of  ASSOCIATIONEMOTION
@@ -3567,7 +3595,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3578,7 +3606,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3589,7 +3617,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3600,7 +3628,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3611,7 +3639,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3622,7 +3650,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3633,7 +3661,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3644,7 +3672,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3655,7 +3683,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3666,7 +3694,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
@@ -3697,6 +3725,17 @@
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
+([EMOTION%3AA12_EAT_CAKE_L01%3AJOY] of  EMOTION
+
+	(emotionIntensity 0.25)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
+	(value_type "BASICEMOTION"))
+
 ([EMOTION%3AA12_EAT_CAKE_L01_I01%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.1)
@@ -3717,6 +3756,17 @@
 	(sourcePleasure 0.05)
 	(sourceUnpleasure 0.25)
 	(value "ANXIETY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3AA12_EAT_CAKE_L01_I01%3AJOY] of  EMOTION
+
+	(emotionIntensity 0.25)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I02%3AANGER] of  EMOTION
@@ -3741,6 +3791,17 @@
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
+([EMOTION%3AA12_EAT_CAKE_L01_I02%3AJOY] of  EMOTION
+
+	(emotionIntensity 0.25)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
+	(value_type "BASICEMOTION"))
+
 ([EMOTION%3AA12_EAT_CAKE_L01_I03%3AANGER] of  EMOTION
 
 	(emotionIntensity 0.1)
@@ -3761,6 +3822,17 @@
 	(sourcePleasure 0.05)
 	(sourceUnpleasure 0.25)
 	(value "ANXIETY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3AA12_EAT_CAKE_L01_I03%3AJOY] of  EMOTION
+
+	(emotionIntensity 0.25)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA13_GIVE_CAKE_L01%3AGUILT] of  EMOTION
