@@ -629,6 +629,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             //PP impact factor, according to the relation between drive demand impact and feelings impact
             rTempImportanceSum = oGoal.getDriveDemandImportance() +  oGoal.getFeelingsMatchImportance() + oGoal.getFeelingsExcpactationImportance();
             rTempDriveDemandImportance = oGoal.getPPImportance() * (oGoal.getDriveDemandImportance() / rTempImportanceSum);
+            logger.clsLogger.getLog("fim").debug("{} oGoal.getPPImportance() {} * (oGoal.getDriveDemandImportance() {} / rTempImportanceSum {} rTempDriveDemandImportance:{}", oGoal.getGoalName().toString(),oGoal.getPPImportance(),oGoal.getDriveDemandImportance(),rTempImportanceSum, rTempDriveDemandImportance);
             rTempFeelingMatchImportance = oGoal.getPPImportance() * (oGoal.getFeelingsMatchImportance() / rTempImportanceSum);
             rTempFeelingExpectationImportance = oGoal.getPPImportance() * (oGoal.getFeelingsExcpactationImportance() / rTempImportanceSum);
             

@@ -1,0 +1,46 @@
+#change values to BASIC, DRAFT, FINAL to define which of the three process implementation 
+#should be executed in each module.
+#Mon Jul 12 14:49:33 CEST 2010
+processor.psychicapparatus.01.IMP_STAGE=BASIC
+processor.psychicapparatus.02.IMP_STAGE=BASIC
+processor.psychicapparatus.03.IMP_STAGE=BASIC
+processor.psychicapparatus.04.IMP_STAGE=BASIC
+processor.psychicapparatus.39.IMP_STAGE=BASIC
+processor.psychicapparatus.40.IMP_STAGE=BASIC
+processor.psychicapparatus.41.IMP_STAGE=BASIC
+processor.psychicapparatus.43.IMP_STAGE=BASIC
+processor.psychicapparatus.10.IMP_STAGE=BASIC
+processor.psychicapparatus.11.IMP_STAGE=BASIC
+processor.psychicapparatus.12.IMP_STAGE=BASIC
+processor.psychicapparatus.13.IMP_STAGE=BASIC
+processor.psychicapparatus.14.IMP_STAGE=BASIC
+processor.psychicapparatus.46.IMP_STAGE=BASIC
+processor.psychicapparatus.37.IMP_STAGE=BASIC
+processor.psychicapparatus.35.IMP_STAGE=BASIC
+processor.psychicapparatus.45.IMP_STAGE=BASIC
+processor.psychicapparatus.18.IMP_STAGE=BASIC
+processor.psychicapparatus.48.IMP_STAGE=BASIC
+processor.psychicapparatus.57.IMP_STAGE=BASIC
+processor.psychicapparatus.49.IMP_STAGE=BASIC
+processor.psychicapparatus.54.IMP_STAGE=BASIC
+processor.psychicapparatus.56.IMP_STAGE=BASIC
+processor.psychicapparatus.63.IMP_STAGE=BASIC
+processor.psychicapparatus.55.IMP_STAGE=BASIC
+processor.psychicapparatus.07.IMP_STAGE=BASIC
+processor.psychicapparatus.06.IMP_STAGE=BASIC
+processor.psychicapparatus.19.IMP_STAGE=BASIC
+processor.psychicapparatus.08.IMP_STAGE=BASIC
+processor.psychicapparatus.20.IMP_STAGE=BASIC
+processor.psychicapparatus.21.IMP_STAGE=BASIC
+processor.psychicapparatus.61.IMP_STAGE=BASIC
+processor.psychicapparatus.23.IMP_STAGE=BASIC
+processor.psychicapparatus.51.IMP_STAGE=BASIC
+processor.psychicapparatus.26.IMP_STAGE=BASIC
+processor.psychicapparatus.52.IMP_STAGE=BASIC
+processor.psychicapparatus.29.IMP_STAGE=BASIC
+processor.psychicapparatus.53.IMP_STAGE=BASIC
+processor.psychicapparatus.30.IMP_STAGE=BASIC
+processor.psychicapparatus.31.IMP_STAGE=BASIC
+processor.psychicapparatus.32.IMP_STAGE=BASIC
+processor.psychicapparatus.71.IMP_STAGE=BASIC
+processor.psychicapparatus.64.IMP_STAGE=BASIC

@@ -7,4 +7,5 @@ public enum eOdor {
 	PUTRID,
 	FLORAL,
 	PUNGENT,
+	RODDEN
 }

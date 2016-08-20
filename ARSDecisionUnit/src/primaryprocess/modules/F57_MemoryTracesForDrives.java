@@ -92,8 +92,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		mrThresholdPleasure=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_THRESHOLD_PLEASURE_FACTOR).getParameterDouble();
 
 		
-		moDrivesAndTraces_OUT = new  ArrayList<clsDriveMesh>();	//If no drive candidate is there, then it is initialized
-		moTimeChartData =  new HashMap<String, Double>(); //initialize charts
+		moDrivesAndTraces_OUT = new ArrayList<clsDriveMesh>();	//If no drive candidate is there, then it is initialized
+		moTimeChartData = new HashMap<String, Double>(); //initialize charts
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -263,6 +263,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				
 				// search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
 				oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TPM, poSearchPattern);
+				//this.setLongtermmemory
 				
 				rMaxDecisionfactor = 0.0;
 				rCurrentMatchFactor = 0.0;
@@ -278,11 +279,13 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 					    oMemoryDM = ((clsDriveMesh)oSearchPair.b.getMoDataStructure());
 					    if (oMemoryDM.getContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)){
 					        rSumSimilarDMsQoA += oMemoryDM.getQuotaOfAffect();
+					        
 					    }
 					}
 				}
 				
-				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
+				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult)
+				{
 					// for results of similar memory-DMs (should be various similar DMs)
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
 						// take matchfactor for associating simulator-dm with memory-dm. pleasureValue is implicitly included in matchfactor
@@ -300,6 +303,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							rCurrentDecisionFactor = oSearchPair.a * oMemoryDM.getQuotaOfAffect(); 
 							
 							// take the best match
+							// fittner: best match adaption --> learning QoA???
 							
 							if( rCurrentDecisionFactor > mrThresholdMatchFactor) {
 								

@@ -633,7 +633,7 @@ public class clsImportanceTools {
 		} else if (rActConfidence<0.5) {
 			nResult += -0.10;
 		}
-		
+		logger.clsLogger.getLog("fim").debug("poIntention:{} rActConfidence: {} nResult:{}", poIntention, rActConfidence, nResult);
 		
 		return nResult;
 	}

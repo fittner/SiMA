@@ -180,7 +180,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 	 *
 	 * @since 12.10.2011 15:35:43
 	 * 
-	 * @see pa._v38.interfaces.modules.D3_1_receive#receive_D3_1(double)
+	 * @see pa._v38.interfaces.modules.D4_1_receive#receive_D4_1(double)
 	 */
 	@Override
 	public void receive_D4_1(ArrayList<clsDriveMesh> poActualDriveCandidates) {

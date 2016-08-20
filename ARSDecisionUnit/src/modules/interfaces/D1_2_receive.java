@@ -13,8 +13,8 @@ import base.datatypes.helpstructures.clsPair;
 
 /**
  * Write access to libido storage
- * Increses both drive components
- * 1. aggressiv
+ * Increases both drive components
+ * 1. aggressive
  * 2. libidinous
  * 
  * @author herret

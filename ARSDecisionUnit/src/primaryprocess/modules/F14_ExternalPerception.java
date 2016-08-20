@@ -16,6 +16,8 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 
 import prementalapparatus.symbolization.eSymbolExtType;
+import prementalapparatus.symbolization.representationsymbol.itfGetSymbolName;
+import prementalapparatus.symbolization.representationsymbol.itfIsContainer;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
 import testfunctions.clsTester;
@@ -265,7 +267,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    oText += oOwnershipText;
 	    return oText;
 	}
-	
+	// settig the implementation stage
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		
@@ -315,6 +317,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	@Override
 	public void receive_I2_3(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
 		moEnvironmentalData = (HashMap<eSymbolExtType, itfSymbol>) deepCopy(poEnvironmentalData); 
+		log.debug("moEnvironmentalData {}" + moEnvironmentalData.toString(),moEnvironmentalData.values());
 	}
 
 	/* (non-Javadoc)
@@ -340,14 +343,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	protected void process_draft() {
 
 	}
-		
-	private static String removePrefix(String poName) {
-		if (poName.startsWith("get")) {
-			poName = poName.substring(3);
-		}
-				
-		return poName;
-	}
+	
+	//fttner: not ued
+	//private static String removePrefix(String poName) {
+	//	if (poName.startsWith("get")) {
+	//		poName = poName.substring(3);
+	//	}
+	//			
+	//	return poName;
+	//}
 	
 	/* (non-Javadoc)
 	 *
@@ -374,12 +378,12 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		putInterfaceData(I2_6_send.class, poCompleteThingPresentationMeshList, poDrives_IN);
 	}
 	
-	
-	 void AddBodyExpressionTP(clsThingPresentationMesh poEntity, String poContentType, String poContent){ //attach a body expression to poEntity.
-         eContentType poeContentType = eContentType.getContentType(poContentType);  
-         clsThingPresentation poExpressionTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(poeContentType, poContent));
-         clsAssociation poAss = clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, poEntity, true, poExpressionTP, 1.0f);
-	 }
+	//fittner: not used
+	// void AddBodyExpressionTP(clsThingPresentationMesh poEntity, String poContentType, String poContent){ //attach a body expression to poEntity.
+    //     eContentType poeContentType = eContentType.getContentType(poContentType);  
+    //     clsThingPresentation poExpressionTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(poeContentType, poContent));
+    //     clsAssociation poAss = clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, poEntity, true, poExpressionTP, 1.0f);
+	// }
     
 	/* (non-Javadoc)
 	 *
@@ -398,14 +402,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    
         // 1. Convert Neurosymbols to TPMs
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = convertSymbolToTPM(moEnvironmentalData);
-       
+	    log.debug("oEnvironmentalTP: {} ", oEnvironmentalTP.toString());
         // 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment. 
-        // since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activaiton is done) 
+        // since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activation is done) 
         moCompleteThingPresentationMeshList = searchTPMList(oEnvironmentalTP);
-        
+        log.debug("moCompleteThingPresentationMeshList: {} ", moCompleteThingPresentationMeshList.toString());
         //add current emotions to SELF
 //        for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList) {
-//            if(oEntity.getContent().equals("SELF")) { //TODO (Kollmann): this is actually not very nice, normally there should be some kind of reference to a SELF that can be used for comparion (or direct access)
+//            if(oEntity.getContent().equals("SELF")) { //TODO (Kollmann): this is actually not very nice, normally there should be some kind of reference to a SELF that can be used for compartion (or direct access)
 //                //go through all received emotions and connect them to the self (internal connection == how the entity feels)
 //                for(clsEmotion oEmotion : moCurrentEmotions) {
 //                    //generate a new association
@@ -490,7 +494,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
         ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
         boolean bRemoved = false;
-                     
+        // TODO: Personality parameter should be used             
         double rImpactFactorOfCurrentEmotion = 0.5; // Personality Factor for the impact of current emotions on emotional valuation of perceived agents
         ArrayList<clsEmotion> oCurrentEmotions = getCurrentEmotions(moDrives_IN);
         clsEmotion oCurrentEmotionValues = getEmotionValues(oCurrentEmotions);
@@ -1017,20 +1021,40 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		return oBestMatch; 
 	}
 		
-	private  ArrayList<clsPrimaryDataStructureContainer> convertSymbolToTPM( HashMap<eSymbolExtType, itfSymbol> poData) {
+	private  ArrayList<clsPrimaryDataStructureContainer> convertSymbolToTPM( HashMap<eSymbolExtType, itfSymbol> poData)
+	{
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		for(itfSymbol oSymbol : poData.values()){
-			if(oSymbol!=null){
-				for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
-					//convert the symbol to a PDSC/TP
+		
+	    for(itfSymbol oSymbol : poData.values()){
+			if(oSymbol!=null)
+			{
+			    //log.debug("oSymbol.getDataAccessMethods {}", ((itfGetDataAccessMethods)oSymbol.getSymbolObjects()).getDataAccessMethods());
+			    //log.debug("oSymbol.getSymbolType {}", (((itfGetSymbolName)oSymbol.getSymbolObjects()).getSymbolType().toString()));
+  
+
+	        
+			    for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
+					
+		             eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)oSymbolObject).getSymbolType());
+		                String oContent = ((itfIsContainer)oSymbolObject).getSymbolMeshContent().toString();
+		                log.debug("oSymbol.oContentType "+ oContentType);
+		                log.debug("oSymbol.oContent "+ oContent);
+		                log.debug("oSymbol.getSymbolMeshContent "+ ((itfIsContainer) (oSymbolObject)).getSymbolMeshContent().toString());
+			        
+			        //convert the symbol to a PDSC/TP
 					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
 					oEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+					//fittner:
+					log.debug("oDataStructure {}",oDataStructure);
+					log.debug("oDataStructure {}",oDataStructure.getDebugInfo());
+					log.debug("oDataStructure {}",oDataStructure.getMoDataStructureType());
+					log.debug("oDataStructure {}",oDataStructure);
 				}	
 			}
 		}
 		
 		// FIXME: SSCH delete this, if CM have changed the sensors to avoid the occurence of non-entities in moEnvironmentalData 
-		ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
+		/*ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
 		for (clsPrimaryDataStructureContainer oEnvEntity : oEnvironmentalTP) {
 			clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
 			if(oCheckEntity.getMoDataStructure().getContentType() != eContentType.ENTITY) {
@@ -1039,7 +1063,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}		
 		for(clsPrimaryDataStructureContainer oDS: oRemoveDS){
 		    oEnvironmentalTP.remove(oDS);			
-		}
+		}*/
 		
 		return oEnvironmentalTP;
 	}
@@ -1171,8 +1195,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     }
                    
                 }
-								
-                oSearchResultsEnviromentalTP = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternEnviromentalTP); //koller Suchaufruf mit neuem DMTPM eDataType
+                //koller Suchaufruf mit neuem DMTPM eDataType				
+                oSearchResultsEnviromentalTP = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternEnviromentalTP); 
                 
                 poRankingResultsEnviromentalTP = rankCandidatesTPM(oSearchResultsEnviromentalTP);
                 

@@ -207,6 +207,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 				
 				
 		//Create EMPTYSPACE objects
+		// TODO: fittner Warum diese Emyspace Objekte????
 		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
 		//Add those to the PI
 		clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
@@ -238,8 +239,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		
 		//Associate current emotions (currently associated to SELF entity) to the perceived image via ASSOCIATIONEMOTION
 		// (this will later be used for the emotion aspect of the image match)
-		
 		//Start by finding the SELF entity
+		// TODO: fittner: SELF sollte doch immer da sein. Warum muss das erst gesucht werden???
 		clsThingPresentationMesh oSelf = clsMeshTools.getSELF(oPerceivedImage);
 		
 		if(oSelf != null && !oSelf.isNullObject()) {
@@ -256,7 +257,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
         } catch (Exception e1) {
             log.error("", e1);
         }
-		
+		// TODO: fittner add Emotions to the image match, change associations, add emotions to objects and actions???
 //		Remove the emotion from the perceived image
 		for(clsAssociationEmotion oAss : clsAssociation.filterListByType(oPerceivedImage.getExternalAssociatedContent(), clsAssociationEmotion.class)) {
 		    oPerceivedImage.getExternalAssociatedContent().remove(oAss);
@@ -525,8 +526,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
         //--- Remove enhanced perception from PI as these were only there to activate memories
         removeEnhancedEnvironmentalImageFromPerception(perceivedImage);
     }
-	
-	
+		
 	/**
 	 * Get the phantasy from the input
 	 * 
@@ -548,14 +548,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		
 		return oResult;
 	}
-
 	
-	
-	
-	
-
-	
-	
+	//  TODO: fittner: Warum?? Wozu ist das gut???
 	/**
 	 * Add Empty-Space-Objects to perception for all floor elements, which are not visible
 	 * 

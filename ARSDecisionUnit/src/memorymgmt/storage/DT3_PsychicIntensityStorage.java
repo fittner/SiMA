@@ -102,7 +102,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 	@Override
 	public String getDescription() {
 		return  "Storage module for delivering psychic intensity to F55, F7, F21, F20, F8, F23. " +
-		"Module F56 sends freed psychic intensity that is taken from the drives from {I5.3}. " +
+		"Module F56 sends free psychic intensity that is taken from the drives from {I5.3}. " +
 		"A special storage containing this psychic intensity is necessary in order to distribute it. " +
 		"The stored data is simply the amount of intensity available to each connected module. " +
 		"The modules are connected to this special type of storage with {D3_1_receive}," +
@@ -142,7 +142,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGener
 		String text = "";
 		
 		text += toText.h1("Psychic Intensity Storage");
-		text += toText.mapToTEXT("moPsychicEnergyPerModule", moPsychicIntensityPerModuleTable);
+		text += toText.mapToTEXT("moPsychicIntensityPerModule", moPsychicIntensityPerModuleTable);
 		
 		return text;
 	}

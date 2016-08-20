@@ -707,6 +707,7 @@ public class clsActTools {
 		
 		if (oWP!=null) {
 			rResult = Double.valueOf(oWP.getContent());
+			logger.clsLogger.getLog("fim").debug("oWP:{} Double.valueOf(oWP.getContent()): {}", oWP.toString(), Double.valueOf(oWP.getContent()));
 		}
 		
 		return rResult;

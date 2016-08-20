@@ -314,7 +314,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		//Debug output - sort the list of goals by attractiveness and log it
 		ArrayList <clsWordPresentationMeshPossibleGoal> oSortedList = clsGoalManipulationTools.sortAndFilterGoalsByTotalImportance(moReachableGoalList_IN, moReachableGoalList_IN.size());
-		log.debug("Sorted Goals after aplying aim importance:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
+		log.debug("Sorted Goals after applying aim importance:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
 		
 		//Apply social rules on goals
 		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);

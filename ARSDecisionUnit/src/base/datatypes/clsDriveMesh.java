@@ -478,7 +478,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		// TODO (schaat) - Auto-generated method stub
 		double oRetVal = 0.0; 
-		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
+		
+		if(this.moDataStructureType != poDataStructure.moDataStructureType)
+		{
+		    return oRetVal;
+		}
 
 		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
 				
@@ -493,7 +497,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			 */
 			//oRetVal = oDataStructure.getNumbAssociations();
 			oRetVal = 1.0;
-		} else if (oDataStructure.moDS_ID >= -1) {
+		}
+		else if (oDataStructure.moDS_ID >= -1) 
+		{
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
