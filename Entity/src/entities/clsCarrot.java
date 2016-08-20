@@ -154,8 +154,8 @@ public class clsCarrot extends clsOrganic implements itfGetFlesh, itfAPEatable, 
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 150);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
 		
-		oProp.setProperty(pre+P_REGROW_STEPS_MIN,100);
-		oProp.setProperty(pre+P_REGROW_STEPS_MAX, 125);
+		oProp.setProperty(pre+P_REGROW_STEPS_MIN,10000);
+		oProp.setProperty(pre+P_REGROW_STEPS_MAX, 12500);
 
 		return oProp;
 	}
@@ -286,13 +286,13 @@ public class clsCarrot extends clsOrganic implements itfGetFlesh, itfAPEatable, 
 	/*	if (getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			// state has changed recently to no_food_left
 			// update shape to the gray carrot
-			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
+			//clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
 			mnShapeUpdated = true;
 			set2DShape(moDead2D, getTotalWeight());		
 		} else if (!getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			// state has changed recently to food_available
 			// update shape to the orange carrot
-			clsEventLogger.add(new Event(this, getId(), eEvent.RESPAWN, ""));
+			//clsEventLogger.add(new Event(this, getId(), eEvent.RESPAWN, ""));
 			mnShapeUpdated = true;
 			set2DShape(moFresh2D, getTotalWeight());
 		}	

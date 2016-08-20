@@ -20,6 +20,7 @@ import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsInanimate;
 import entities.abstractEntities.clsMobile;
 import entities.abstractEntities.clsOrganic;
+import complexbody.io.sensors.datatypes.enums.eOdor;
 import entities.actionProxies.*;
 import entities.enums.eBindingState;
 import entities.enums.eNutritions;
@@ -193,6 +194,17 @@ public class clsCake extends clsOrganic implements itfGetFlesh, itfAPEatable, it
 	public boolean isConsumable() {
 		return getFlesh().getTotallyConsumed();
 	}
+    /* (non-Javadoc)
+    *
+    * @author deutsch
+    * 23.09.2009, 11:36:06
+    * 
+    * @see bw.body.itfget.itfGetConsumeable#isConsumable()
+    */	
+    @Override
+    public eOdor getOdor() {
+        return eOdor.RODDEN;
+    }
 
 	/* (non-Javadoc)
 	 *

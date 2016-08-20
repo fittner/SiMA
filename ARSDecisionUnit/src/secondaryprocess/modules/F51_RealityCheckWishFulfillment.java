@@ -262,7 +262,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//this.moDecisionEngine.addContinuedGoalToGoalList(moReachableGoalList_IN, oContinuedGoalList);
 		
 		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
-        EffortFunctionality.applyEffortOfGoal(moReachableGoalList_OUT);
+		log.info("BEFORE Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
+		EffortFunctionality.applyEffortOfGoal(moReachableGoalList_OUT);
         log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		
         // --- ADD NON REACHABLE GOALS TO THE STM --- //

@@ -124,7 +124,7 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	 * @author deutsch
 	 * 11.08.2009, 14:25:15
 	 * 
-	 * @see pa.interfaces.I2_3#receive_I2_3(int)
+	 * @see pa.interfaces.I1_4#receive_I1_4(int)
 	 */
 	@Override
 	public void receive_I1_4(clsDataContainer poData) {

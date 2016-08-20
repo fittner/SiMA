@@ -49,7 +49,7 @@ import base.modules.ePsychicInstances;
 import base.tools.toText;
 
 /**
- * F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine whether they qualify for libido
+ * F45 communicates with F48 via the libido buffer. Incoming perceptions are compared with memory to determine whether they qualify for libido
  * discharge and thus for pleasure gain. If so, the value of the libido buffer is reduced (tension reduction is pleasure gain). The pleasure gain is
  * forwarded to F18 as an additional value for the composition of the quota of affect.
  * 
@@ -235,6 +235,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
         ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>();
 
         // mrAvailableLibido=moLibidoBuffer.send_D1_4();
+        // fittner: Warum kein Parameter der vom Körper kommt
         mrAvailableLibido = 0.8;
         mrLibidoReducedBy = 0.0;
         // Clone input structure and make modification directly on the output
@@ -255,21 +256,29 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
         mrMemoryReduceFactor = mrMemoryReduceFactor * mrAvailableLibido;
 
         // Go through all images
-        for (clsThingPresentationMesh oImage : oImageList) {
-            if (oImage.getContentType() == eContentType.PI) {
+        for (clsThingPresentationMesh oImage : oImageList)
+        {
+            if (oImage.getContentType() == eContentType.PI) 
+            {
                 mrLibidoReducedBy += setImageLibido(oImage, mrPerceptionReduceFactor, mrAvailableLibido);
 
                 // reduce PI, if agent perceive action has to reduce libido
                 oSelfEntity = getPerceivedSelf(oImage);
 
-                if (oSelfEntity != null) {
-                    for (clsAssociation oAssPerceivedAction : oSelfEntity.getExternalAssociatedContent()) {
-                        try {
+                if (oSelfEntity != null) 
+                {
+                    for (clsAssociation oAssPerceivedAction : oSelfEntity.getExternalAssociatedContent()) 
+                    {
+                        try
+                        {
                             oPerceivedAction = (clsThingPresentationMesh) oAssPerceivedAction.getLeafElement();
-                        } catch (Exception E) {
+                        }
+                        catch (Exception E)
+                        {
                             continue;
                         }
-                        if (oPerceivedAction != null && oPerceivedAction.getContentType() == eContentType.ACTION) {
+                        if (oPerceivedAction != null && oPerceivedAction.getContentType() == eContentType.ACTION)
+                        {
                             // workaround: create TPM from TP. action should be a TPM, but comes from F14 as TP
                             // oPerceivedAction = oPerceivedActionTP;// clsDataStructureGenerator.generateTPM(new clsTriple <eContentType,
                             // ArrayList<clsThingPresentation>, Object> (oPerceivedActionTP.getMoContentType(), new ArrayList<clsThingPresentation>(),
@@ -291,69 +300,89 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                              * }
                              */
                             clsThingPresentationMesh oActionObject = null;
-                            for (clsAssociation oAssActionObject : oPerceivedAction.getExternalAssociatedContent()) {
-                                try {
+                            
+                            for (clsAssociation oAssActionObject : oPerceivedAction.getExternalAssociatedContent())
+                            {
+                                try 
+                                {
                                         oActionObject = (clsThingPresentationMesh) oAssActionObject.getLeafElement();
-
-                                } catch (Exception E) {
+                                }
+                                catch (Exception E)
+                                {
                                     continue;
                                 }
-                                if (oActionObject != null && oActionObject.getContentType() == eContentType.ENTITY) {
-                                    // get DMs associated with oNearCenterEntity
-                                    for (clsAssociation oAss : oPerceivedAction.getExternalAssociatedContent()) {
+                                if (oActionObject != null && oActionObject.getContentType() == eContentType.ENTITY)
+                                {
+                                    // get DMs associated with oNearCenterEntity (fittner: NearCenter? falsch)
+                                    for (clsAssociation oAss : oPerceivedAction.getExternalAssociatedContent())
+                                    {
 
-                                        if (oAss.getContentType().equals(eContentType.ASSOCIATIONDM)) {
-
+                                        if (oAss.getContentType().equals(eContentType.ASSOCIATIONDM))
+                                        {
                                             // if sexual drive --> discharge Psychic intensity(PI)
                                             // TODO: in future also self-preservation drives (with abstract drive goals, i.e. actions) may trigger
                                             // discharge of PI
                                             oDM = (clsDriveMesh) oAss.getLeafElement();
                                             //test if Drive Object is the same
-                                            if (oDM.getActualDriveObject().getContent().equals(oActionObject.getContent())) {
+                                            if (oDM.getActualDriveObject().getContent().equals(oActionObject.getContent()))
+                                            {
                                                 eDrive oDrive;
-                                                if (!oDM.getPartialDrive().equals(ePartialDrive.UNDEFINED)) {
+                                                if ( !(oDM.getPartialDrive().equals(ePartialDrive.UNDEFINED)))
+                                                {
                                                     // if DM is sexual drive
                                                     oDrive = eDrive.valueOf(oDM.getPartialDrive().toString());
-                                                } else {
-                                                    // if DM is self preservation drive
+                                                    log.debug("DM is sexual drive: " + oDrive.toString());
+                                                }
+                                                else
+                                                {
+                                                    
                                                     if (oDM.getActualDriveSourceAsENUM()==eOrgan.UNDEFINED)
+                                                    {
+                                                        // No drive found --> skip rest of loop and do next cycle
                                                         continue;
+                                                    }
+                                                    // if DM is self preservation drive
                                                     oDrive = eDrive.valueOf(oDM.getActualDriveSourceAsENUM().toString());
+                                                    log.debug("DM is self preservation drive: " + oDM.getActualDriveSourceAsENUM().toString());
                                                 }
 
                                                 // if the perceived action is a drive goal of this DM -> discharge PI
                                                 // oPerceivedAction
                                                // if (oDM.getActualDriveAim() != null) {
                                                //     if (oDM.getActualDriveAim().getMoContent().equals(oPerceivedAction.getMoContent())) {
-                                                        if (oDM.getDriveComponent().equals(eDriveComponent.AGGRESSIV)) {
-                                                            moLibidoBuffer.receive_D1_3(oDrive,
-                                                                    new clsPair<Double, Double>(oDM.getPsychicSatisfactionValue(), 0.0));
-                                                        } else {
-                                                            moLibidoBuffer.receive_D1_3(oDrive,
-                                                                    new clsPair<Double, Double>(0.0, oDM.getPsychicSatisfactionValue()));
-                                                        }
+                                                if (oDM.getDriveComponent().equals(eDriveComponent.AGGRESSIV))
+                                                {
+                                                    moLibidoBuffer.receive_D1_3(oDrive,
+                                                            new clsPair<Double, Double>(oDM.getPsychicSatisfactionValue(), 0.0));
+                                                    log.debug("moLibidoBuffer.receive_D1_3: " + oDM.getPsychicSatisfactionValue() +" 0");
+                                                }
+                                                else
+                                                {
+                                                    moLibidoBuffer.receive_D1_3(oDrive,
+                                                            new clsPair<Double, Double>(0.0, oDM.getPsychicSatisfactionValue()));
+                                                    log.debug("moLibidoBuffer.receive_D1_3: 0 " + oDM.getPsychicSatisfactionValue());
+                                                }
 
                                                 //    }
                                                // }
                                             }
                                         }
                                     }
-
                                 }
                             }
-
                         }
                     }
                 }
-
             }
             // temporarily deactivated, since perception of "emptyspace" always trigger an RI with a cake. hence there would always be libidodischarge
             // else if(oImage.getMoContentType() == eContentType.RI){
             // mrLibidoReducedBy += setImageLibido(oImage, mrMemoryReduceFactor, mrAvailableLibido);
             //
-            // }
-            else if (oImage.getContentType() == eContentType.PHI) {
+            //}
+            else if (oImage.getContentType() == eContentType.PHI)
+            {
                 mrLibidoReducedBy += setImageLibido(oImage, mrPhantasyReduceFactor, mrAvailableLibido);
+                log.debug("mrLibidoReducedBy:" + mrLibidoReducedBy);
 
             }
         }
@@ -370,16 +399,18 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
 
         // moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
         log.debug(moLibidoBuffer.send_D1_5().toString());
-
     }
 
-    public clsThingPresentationMesh getPerceivedSelf(clsThingPresentationMesh poImage) {
+    public clsThingPresentationMesh getPerceivedSelf(clsThingPresentationMesh poImage)
+    {
         clsThingPresentationMesh oSelfEntity;
 
-        for (clsAssociation oAss : poImage.getInternalAssociatedContent()) {
+        for (clsAssociation oAss : poImage.getInternalAssociatedContent())
+        {
             oSelfEntity = (clsThingPresentationMesh) oAss.getLeafElement();
 
-            if (oSelfEntity.getContent().equals("SELF")) {
+            if (oSelfEntity.getContent().equals("SELF"))
+            {
                 return oSelfEntity;
             }
         }
@@ -617,7 +648,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
      */
     @Override
     public void setDescription() {
-        moDescription = "F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine whether they qualify for libido discharge and thus for pleasure gain. If so, the value of the libido buffer is reduced (tension reduction is pleasure gain). The pleasure gain is forwarded to F18 as an additional value for the composition of the quota of affect.";
+        moDescription = "F45 communicates with F48 via the libido buffer. Incoming perceptions are compared with memory to determine whether they qualify for libido discharge and thus for pleasure gain. If so, the value of the libido buffer is reduced (tension reduction is pleasure gain). The pleasure gain is forwarded to F18 as an additional value for the composition of the quota of affect.";
     }
 
     /*

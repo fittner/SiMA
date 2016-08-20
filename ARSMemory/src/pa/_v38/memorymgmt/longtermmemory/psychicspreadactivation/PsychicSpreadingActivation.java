@@ -136,8 +136,11 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	    ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh2 = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 
 		//moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, prThreshold, 1);
+	    // add rememberd Immage
 		oSearchResultMesh = moModuleBase.searchMesh(poOriginImage, eContentType.RI, prThreshold, 1);
+		// add recognized intention
 		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPI, prThreshold, 1));
+		// add Recognized Action
 		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPA, prThreshold, 1));
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {

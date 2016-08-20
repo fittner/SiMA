@@ -60,6 +60,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @author Marcus Zottl (e0226304)
 	 * 28.06.2011, 20:22:42
 	 */
+	// TODO: fittner Personality parameter in parameter file would be nice 
 	private double mrActivationThreshold = 0.5;
 	
 	/**
@@ -70,6 +71,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @author Marcus Zottl (e0226304)
 	 * 28.06.2011, 20:21:28
 	 */
+	// TODO: fittner Personality parameter in parameter file would be nice
 	private int mnActivationLimit = 3;
 	
 	/**

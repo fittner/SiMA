@@ -13,6 +13,7 @@ import inspector.interfaces.itfInterfaceDescription;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Formatter;
 import java.util.HashMap;
 
 import memorymgmt.enums.eDrive;
@@ -28,7 +29,6 @@ import modules.interfaces.eInterfaces;
 import org.slf4j.Logger;
 
 import properties.personality_parameter.clsPersonalityParameterContainer;
-
 import base.datatypes.helpstructures.clsPair;
 import base.tools.toText;
 
@@ -585,7 +585,28 @@ public clsPair<Boolean,Boolean> send_D1_7(eDrive peType) {
         
         @Override
         public String toString(){
-            return "Aggr: "+moAggrValue+" ("+moAggrValueOld+"); Lib: "+ moLibValue+" ("+moLibValueOld+")";
+            Formatter oDoubleFormatter = new Formatter();
+            Formatter oDoubleFormatter1 = new Formatter();
+            Formatter oDoubleFormatter2 = new Formatter();
+            Formatter oDoubleFormatter3 = new Formatter();
+            
+            //return "<tr><td>"+getClassName()+"</td>"+oDoubleFormatter.format("%.5f",mrEnergy)+"<td></td></tr>";
+            /*String oResult = "::"+this.moDataStructureType+"|";  
+            //oResult +=  this.moContentType + "|";
+            
+            if (this.getRootElement() instanceof clsThingPresentationMesh) {
+                oResult += ":" + ((clsThingPresentationMesh)this.getRootElement()).getContent();
+            } else {
+                oResult += ":" + moAssociationElementA;
+            }
+            
+            //oResult += ":"; 
+            if(getDM() != null) {
+                oResult += ":" + this.getDM().getDriveIdentifier() + ", " + this.getDM().getQuotaOfAffect();
+            }*/
+           
+            return "Aggr: "+oDoubleFormatter.format("%.5f",moAggrValue)+" ("+oDoubleFormatter1.format("%.5f",moAggrValueOld)+"); Lib: "+ oDoubleFormatter2.format("%.5f",moLibValue)+" ("+oDoubleFormatter3.format("%.5f",moLibValueOld)+")";
+            
         }
         
         

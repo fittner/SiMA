@@ -213,6 +213,8 @@ public class clsGoalManipulationTools {
         //FIXME SSCH: 
         //double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION), 0.1);
         double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), 0, 0.1);
+        logger.clsLogger.getLog("fim").debug("poDM.getQuotaOfAffect() {} = rImportance: {} ", poDM.getQuotaOfAffect(), rImportance);
+        
         //getGoalObject
         
         
@@ -665,14 +667,15 @@ public class clsGoalManipulationTools {
 	    
 	    //Sort the list for importance
 	    Collections.sort(goalList, Collections.reverseOrder(new ImportanceComparatorWPM()));
-	    
+	    logger.clsLogger.getLog("fim").debug("goalList:{} Collections.reverseOrder(new ImportanceComparatorWPM()): {} numberOfElementsToKeep: {}", goalList, Collections.reverseOrder(new ImportanceComparatorWPM()),numberOfElementsToKeep);
 	    //Get the n highest elements
 	    if (numberOfElementsToKeep>-1 && numberOfElementsToKeep<goalList.size()) {
 	        result = new ArrayList<E>(goalList.subList(0, numberOfElementsToKeep));
 	    } else {
 	        result = goalList;
 	    }
-	    
+	    logger.clsLogger.getLog("fim").debug("result:{} ", result);
+        
 	    return result;
 	}
 	
