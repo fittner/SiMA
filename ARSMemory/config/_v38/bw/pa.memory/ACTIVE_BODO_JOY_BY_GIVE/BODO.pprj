@@ -1,4 +1,4 @@
-; Tue Oct 06 13:09:16 GMT 2015
+; Sun Aug 21 06:03:53 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,114 +45,70 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BODO_ProjectKB_Class10] of  Property_List
-
-	(properties
-		[BODO_ProjectKB_Class11]
-		[BODO_ProjectKB_Class12]))
-
-([BODO_ProjectKB_Class11] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-View References to Value"))
-
-([BODO_ProjectKB_Class12] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Instance"))
-
-([BODO_ProjectKB_Class13] of  String
+([BODO_ProjectKB_Class10036] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([BODO_ProjectKB_Class14] of  String
+([BODO_ProjectKB_Class10037] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BODO_ProjectKB_Class15] of  String
+([BODO_ProjectKB_Class10038] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([BODO_ProjectKB_Class16] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([BODO_ProjectKB_Class17] of  String
+([BODO_ProjectKB_Class10039] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([BODO_ProjectKB_Class18] of  Map_Entry
+([BODO_ProjectKB_Class10040] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([BODO_ProjectKB_Class10041] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_ProjectKB_Class19] of  Map_Entry
+([BODO_ProjectKB_Class10042] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_ProjectKB_Class20] of  Map_Entry
+([BODO_ProjectKB_Class10043] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_ProjectKB_Class21] of  Map
+([BODO_ProjectKB_Class10044] of  Map
 )
 
-([BODO_ProjectKB_Class22] of  Map_Entry
+([BODO_ProjectKB_Class10045] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BODO_ProjectKB_Class21")
+	(value "BODO_ProjectKB_Class10044")
 	(value_class "java.util.Map"))
-
-([BODO_ProjectKB_Class6] of  Widget
-
-	(is_hidden FALSE)
-	(name "Foo")
-	(property_list [BODO_ProjectKB_Class7])
-	(widget_class_name "edu.stanford.smi.protege.widget.FormWidget"))
-
-([BODO_ProjectKB_Class7] of  Property_List
-
-	(properties
-		[BODO_ProjectKB_Class8]
-		[BODO_ProjectKB_Class9]))
-
-([BODO_ProjectKB_Class8] of  Property_List
-
-	(name "layout properties"))
-
-([BODO_ProjectKB_Class9] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "element")
-	(property_list [BODO_ProjectKB_Class10])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 200)
-	(x 0)
-	(y 0))
 
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BODO_ProjectKB_Class13]
-		[BODO_ProjectKB_Class14]
-		[BODO_ProjectKB_Class15]
-		[BODO_ProjectKB_Class16]
-		[BODO_ProjectKB_Class17]))
+		[BODO_ProjectKB_Class10036]
+		[BODO_ProjectKB_Class10037]
+		[BODO_ProjectKB_Class10038]
+		[BODO_ProjectKB_Class10039]
+		[BODO_ProjectKB_Class10040]))
 
 ([CLSES_TAB] of  Widget
 
@@ -197,9 +153,6 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_064980_Class5] of  Map
-)
-
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -208,11 +161,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BODO_ProjectKB_Class18]
-		[BODO_ProjectKB_Class19]
-		[BODO_ProjectKB_Class20]
-		[BODO_ProjectKB_Class22])
-	(referenced_maps [BODO_ProjectKB_Class21]))
+		[BODO_ProjectKB_Class10041]
+		[BODO_ProjectKB_Class10042]
+		[BODO_ProjectKB_Class10043]
+		[BODO_ProjectKB_Class10045])
+	(referenced_maps [BODO_ProjectKB_Class10044]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -664,6 +617,9 @@
 )
 
 ([KB_610615_Class99] of  Property_List
+)
+
+([KB_710508_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
