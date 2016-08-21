@@ -177,12 +177,11 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 * 
 	 * @see pa._v38.interfaces.modules.I5_1_receive#receive_I5_1(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_1(
 			ArrayList<clsDriveMesh> poData) {
 		
-		moInput = (ArrayList<clsDriveMesh>) deepCopy(poData); 
+		moInput = poData; 
 	}
 
 	/* (non-Javadoc)
@@ -192,10 +191,10 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 * 
 	 * @see pa._v38.modules.clsModuleBase#process_basic()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
-		moOutput=  deepCopy(moInput);
+		
+	    moOutput=  moInput;
 		//moOutput = new ArrayList<clsDriveMesh>();
 		//RedefineDevisionFactors(deepCopy(moInput));
 			

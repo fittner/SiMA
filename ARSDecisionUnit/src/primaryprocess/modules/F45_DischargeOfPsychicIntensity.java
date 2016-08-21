@@ -98,6 +98,8 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
     private double mrAvailableLibido;
     /** The amount of libido, of which the libido buffer is reduced by */
     private double mrLibidoReducedBy;
+    /** The amount of libido, of which the libido buffer is reduced by Summary of the whole simulation run*/
+    private double mrLibidoReducedBySum;
     /** instance of libidobuffer */
     private DT1_PsychicIntensityBuffer moLibidoBuffer;
 
@@ -261,6 +263,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
             if (oImage.getContentType() == eContentType.PI) 
             {
                 mrLibidoReducedBy += setImageLibido(oImage, mrPerceptionReduceFactor, mrAvailableLibido);
+                log.debug("mrLibidoReducedBy PI:" + mrLibidoReducedBy);
 
                 // reduce PI, if agent perceive action has to reduce libido
                 oSelfEntity = getPerceivedSelf(oImage);
@@ -382,7 +385,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
             else if (oImage.getContentType() == eContentType.PHI)
             {
                 mrLibidoReducedBy += setImageLibido(oImage, mrPhantasyReduceFactor, mrAvailableLibido);
-                log.debug("mrLibidoReducedBy:" + mrLibidoReducedBy);
+                log.debug("mrLibidoReducedBy PHI:" + mrLibidoReducedBy);
 
             }
         }
@@ -399,6 +402,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
 
         // moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
         log.debug(moLibidoBuffer.send_D1_5().toString());
+        mrLibidoReducedBySum += mrLibidoReducedBy;
     }
 
     public clsThingPresentationMesh getPerceivedSelf(clsThingPresentationMesh poImage)
