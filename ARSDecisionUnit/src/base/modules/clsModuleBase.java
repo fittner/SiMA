@@ -39,7 +39,8 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
     
 	/** property key where the selected implemenation stage is stored.; @since 12.07.2011 14:54:42 */
 	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
-	
+	protected static Integer mnImplementationVariant = 01; //MJ
+		
 	/** Primary or secondary function; @since 12.07.2011 14:57:12 */
 	protected eProcessType mnProcessType;
 	/** Id, Ego, Superego, or Body; @since 12.07.2011 14:57:27 */

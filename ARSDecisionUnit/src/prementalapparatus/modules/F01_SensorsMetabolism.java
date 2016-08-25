@@ -20,7 +20,6 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-
 import communication.datatypes.clsDataContainer;
 
 /**
@@ -118,6 +117,7 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 		log.debug("\n\n\n===START OF PRIMARY PROCESS===");
 		
 		moHomeostasis_OUT = moHomeostasis_IN;
+
 		
 		putInterfaceData(I0_3_receive.class, moHomeostasis_OUT);
 	}

@@ -10,6 +10,7 @@ package sim;
 
 import loader.clsLoader;
 import loader.clsSimplePropertyLoader;
+import properties.clsImplementationVariant;
 import properties.clsProperties;
 import sim.engine.Schedule;
 import sim.engine.SimState;
@@ -32,7 +33,7 @@ public class clsMain extends SimState{
 	
 	/** stores the runtime arguements. set by method main */
 	private String[] moArgs;
-     
+    
     /**
      * Creates an instance of the simulation with the given seed. No agents have been created yet. This is done in method start(). 
      *
@@ -108,21 +109,32 @@ public class clsMain extends SimState{
 		// read BW properties
 		
 		clsProperties oProp = clsProperties.readProperties(oScenarioPath, oFilename);
-		
+
 		if (oImplementationStagesFile != null) {
 			//read implementation stages file
 			clsProperties oPropImp = clsProperties.readProperties(oPath, oImplementationStagesFile);
+			
+			//MJ. Initiate Implementation variant.
+			if (oPropImp.containsKey(clsImplementationVariant.P_IMPLEMENTATIONVARIANT)) {
+				clsImplementationVariant.initiate(Integer.parseInt(oPropImp.getProperty(clsImplementationVariant.P_IMPLEMENTATIONVARIANT)));
+//				System.out.printf("Impvariant: " + oPropImp.getProperty(clsImplementationVariant.P_IMPLEMENTATIONVARIANT));
+				oPropImp.remove(clsImplementationVariant.P_IMPLEMENTATIONVARIANT);
+			} else {
+				clsImplementationVariant.initiate(clsImplementationVariant.implementationVariantDefault);
+//				System.out.printf("Impvariant: " + clsImplementationVariant.implementationVariantDefault);
+			}
+
 			oPropImp.addPrefix(clsSimplePropertyLoader.P_DEFAULTSDECISIONUNIT+"."+eDecisionType.PA);
-			//merge settings - overwrites exsiting entries
+			//merge settings - overwrites existing entries
 			oProp.putAll(oPropImp);
 			
 			oPropImp = clsProperties.readProperties(oPath, oImplementationStagesFile);
 			oPropImp.addPrefix(clsSimplePropertyLoader.P_DEFAULTSDECISIONUNIT+"."+eDecisionType.ActionlessTestPA);
 			
-			//merge settings - overwrites exsiting entries
+			//merge settings - overwrites existing entries
 			oProp.putAll(oPropImp);
 		}
-			
+	
 		// process config
 		
 		clsLoader oLoader = new clsSimplePropertyLoader(this, oProp);

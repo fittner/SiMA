@@ -22,6 +22,7 @@ import modules.interfaces.I6_1_send;
 import modules.interfaces.I6_4_receive;
 import modules.interfaces.I6_4_send;
 import modules.interfaces.eInterfaces;
+import properties.clsImplementationVariant;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.functionality.conversion.DataStructureConversion;
@@ -222,8 +223,23 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// --- Update short term memory ---//
 	    ShortTermMemoryFunctionality.createNewMentalSituation(this.moShortTermMemory);
 	    log.debug("Incoming associated images {}", PrintTools.printImagesInMesh(moPerceptionalMesh_IN));//clsMeshTools.getAllTPMImages(moPerceptionalMesh_IN, 5));
-		
-		// Search for all images from the primary process in the memory
+
+	    //MJ Test whether the code has to be executed under the adjusted implementation variant.
+	    if (clsImplementationVariant.permittedByImplementationVariant(clsImplementationVariant.implementationVariantAW)) {
+	        System.out.printf("F21: Code is executed if AW.\n");	        
+	    }
+	    if (clsImplementationVariant.permittedByImplementationVariant(clsImplementationVariant.implementationVariantMJ)) {
+            System.out.printf("F21: Code is executed if MJ.\n");            	        
+	    }
+	    if (clsImplementationVariant.permittedByImplementationVariant(clsImplementationVariant.implementationVariantAW + clsImplementationVariant.implementationVariantMJ)) {
+            System.out.printf("F21: Code is executed if AW or MJ.\n");
+	    } else {
+            System.out.printf("F21: Code is not executed.\n");
+	    }
+	        
+	        
+	    
+	    // Search for all images from the primary process in the memory
 		// Input: TPM
 		// 1. Get all Images of the Mesh
 		// 2. Search for WPM for the image
