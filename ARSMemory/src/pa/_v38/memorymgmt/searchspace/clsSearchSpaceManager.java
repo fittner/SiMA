@@ -150,7 +150,9 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, oPatternElement.b);	//Get container from a certain data value
 			oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
 		}
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return oDataStructureContainerList;
+		
 		
 	}
 	
@@ -171,6 +173,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			
 			ArrayList<clsAssociation> oExternalAssociationList = moSearchSpaceHandler.readOutSearchSpace(poReturnType, poDataStructure);
 			oDataStructureContainer.setMoAssociatedDataStructures(oExternalAssociationList); 
+			log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 			
 		return oDataStructureContainer;
 	}
@@ -198,6 +201,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 //			e.printStackTrace();
 //		}
 		oResult = oSearchPatternMatch;
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		
 		return oResult;
 	}
@@ -241,7 +245,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
-		
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return oResult;
 	}
 	
@@ -277,7 +281,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
-		
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return oMatchedDataStructures;
 	}
 	

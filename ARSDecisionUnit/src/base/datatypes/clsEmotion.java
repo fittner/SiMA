@@ -219,7 +219,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	
 	public void add(clsEmotion poEmotion) {
 	  //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a math of 0
-        if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {
+	    if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {
             switch(getContentType()) {
             case MEMORIZEDEMOTION:
             case BASICEMOTION:
