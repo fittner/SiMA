@@ -8,8 +8,6 @@
 package entities;
 
 
-import java.awt.Color;
-
 import properties.clsProperties;
 
 import complexbody.internalSystems.clsFlesh;
@@ -31,6 +29,9 @@ import entities.enums.eNutritions;
 import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
+
+import java.awt.Color;
+
 import body.clsBaseBody;
 import body.clsMeatBody;
 import body.attributes.clsAttributes;
@@ -83,7 +84,7 @@ public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, i
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 6.0);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.red);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.decode("#B70E0E"));
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "Apple2.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
@@ -102,7 +103,8 @@ public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, i
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 150);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_BODY+"."+clsBaseBody.P_ATTRIBUTES) );
-	
+		logger.clsLogger.getLog("memory").debug("oProp.toString(): {}",oProp.toString());
+
 		return oProp;
 	}
 	
