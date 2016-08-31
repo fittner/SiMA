@@ -1,4 +1,4 @@
-; Wed Aug 31 08:53:36 GMT 2016
+; Wed Aug 31 10:12:32 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -325,6 +325,10 @@
 ;+		(value "REMOTEBOT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
+
+(defclass APPLE
+	(is-a TPM%3AENTITY)
+	(role concrete))
 
 (defclass CARROT
 	(is-a TPM%3AENTITY)
