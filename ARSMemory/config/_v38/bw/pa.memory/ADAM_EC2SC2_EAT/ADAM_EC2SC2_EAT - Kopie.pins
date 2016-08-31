@@ -1,4 +1,4 @@
-; Wed Aug 31 04:50:54 GMT 2016
+; Sun Aug 21 06:00:46 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -637,6 +637,48 @@
 		[TPM%3AACTION%3AL1_SUCK])
 	(weight 1.0 1.0))
 
+([AD%3AAIM%3ACARROT%3ABITE] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ABITE%3ACARROT]
+		[TPM%3AACTION%3AL1_BITE])
+	(weight 1.0 1.0))
+
+([AD%3AAIM%3ACARROT%3AEAT] of  ASSOCIATIONDM
+
+	(element
+		[DM%3AEAT%3ACARROT]
+		[TPM%3AACTION%3AL1_EAT])
+	(weight 1.0 1.0))
+
+([AD%3AAIM%3ACARROT%3AEAT_AGGR] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ABITE%3ACARROT]
+		[TPM%3AACTION%3AL1_EAT])
+	(weight 1.0 1.0))
+
+([AD%3AAIM%3ACARROT%3ALEECH] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AACTION%3AL1_LEECH]
+		[DM%3ALEECH%3ACARROT])
+	(weight 1.0 1.0))
+
+([AD%3AAIM%3ACARROT%3ASPEAK] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AACTION%3AL1_SPEAK]
+		[DM%3ASPEAK%3ACARROT])
+	(weight 1.0 1.0))
+
+([AD%3AAIM%3ACARROT%3ASUCK] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AACTION%3AL1_SUCK]
+		[DM%3ASUCK%3ACARROT])
+	(weight 1.0 1.0))
+
 ([AD%3AAIM%3AEMPTYSPACE%3AREPRESS] of  ASSOCIATIONDM
 
 	(element
@@ -768,6 +810,41 @@
 	(element
 		[DM%3AEAT%3ACAKE]
 		[TPM%3AENTITY%3ACAKE%3ABASIC])
+	(weight 1.0 1.0))
+
+([AD%3ADRIVEOBJECT%3ACARROT%3ALEECH] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ALEECH%3ACARROT]
+		[TPM%3AACTION%3AL1_LEECH])
+	(weight 1.0 1.0))
+
+([AD%3ADRIVEOBJECT%3ACARROT%3ASPEAK] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ASPEAK%3ACARROT]
+		[TPM%3AENTITY%3ACARROT%3ABASIC])
+	(weight 1.0 1.0))
+
+([AD%3ADRIVEOBJECT%3ACARROT%3ASUCK] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ASUCK%3ACARROT]
+		[TPM%3AENTITY%3ACARROT%3ABASIC])
+	(weight 1.0 1.0))
+
+([AD%3ADRIVEOBJECT%3ACARROTBASIC%3ABITE] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ABITE%3ACARROT]
+		[TPM%3AENTITY%3ACARROT%3ABASIC])
+	(weight 1.0 1.0))
+
+([AD%3ADRIVEOBJECT%3ACARROTBASIC%3AEAT] of  ASSOCIATIONDM
+
+	(element
+		[DM%3AEAT%3ACARROT]
+		[TPM%3AENTITY%3ACARROT%3ABASIC])
 	(weight 1.0 1.0))
 
 ([AD%3ADRIVEOBJECT%3AEMPTYSPACE%3ARELAX] of  ASSOCIATIONDM
@@ -2706,6 +2783,13 @@
 		[DM%3ABITE%3ACAKE])
 	(weight 1.0 1.0))
 
+([AW%3ADM_BITE%3ABITECARROT] of  ASSOCIATIONWP
+
+	(element
+		[WP%3ABITE]
+		[DM%3ABITE%3ACARROT])
+	(weight 1.0 1.0))
+
 ([AW%3ADM_DEPOSIT%3ADEPOSITSTONE] of  ASSOCIATIONWP
 
 	(element
@@ -2725,6 +2809,13 @@
 	(element
 		[WP%3ANOURISH]
 		[DM%3AEAT%3ACAKE])
+	(weight 1.0 1.0))
+
+([AW%3ADM_NOURISH%3ANOURISHCARROTBASIC] of  ASSOCIATIONWP
+
+	(element
+		[WP%3ANOURISH]
+		[DM%3AEAT%3ACARROT])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_RELAX%3ARELAX] of  ASSOCIATIONWP
@@ -3219,6 +3310,18 @@
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
+([DM%3ABITE%3ACARROT] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "AGGRESSIVE")
+	(instance_association
+		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3ABITE]
+		[AD%3AAIM%3ACARROT%3ABITE])
+	(partial_drive "UNDEFINED")
+	(quotaOfAffect 0.0)
+	(value "DM:STOMACH:AGGRESSIVE")
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
+
 ([DM%3ABITE%3AMOTHERSBREASTS] of  DM_Stomach
 
 	(class_association [TPM%3AORGANS%3ASTOMACH])
@@ -3297,6 +3400,18 @@
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
+([DM%3AEAT%3ACARROT] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "LIBIDINOUS")
+	(instance_association
+		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3AEAT]
+		[AD%3AAIM%3ACARROT%3AEAT])
+	(partial_drive "UNDEFINED")
+	(quotaOfAffect 0.0)
+	(value "DM:STOMACH:LIBIDINOUS")
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
+
 ([DM%3AEAT%3AMOTHERSBREASTS] of  DM_Stomach
 
 	(class_association [TPM%3AORGANS%3ASTOMACH])
@@ -3350,6 +3465,18 @@
 	(instance_association
 		[AD%3AAIM%3ACAKE%3ALEECH]
 		[AD%3ADRIVEOBJECT%3ACAKE%3ALEECH])
+	(partial_drive "ORAL")
+	(quotaOfAffect 0.2)
+	(value "DM:ORAL:AGGRESSIVE")
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
+
+([DM%3ALEECH%3ACARROT] of  DM_oral
+
+	(class_association [TPM%3AORGANS%3ALIBIDO])
+	(drive_component "AGGRESSIVE")
+	(instance_association
+		[AD%3AAIM%3ACARROT%3ALEECH]
+		[AD%3ADRIVEOBJECT%3ACARROT%3ALEECH])
 	(partial_drive "ORAL")
 	(quotaOfAffect 0.2)
 	(value "DM:ORAL:AGGRESSIVE")
@@ -3465,6 +3592,19 @@
 	(value "DM:ORAL:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
+([DM%3ASPEAK%3ACARROT] of  DM_oral
+
+	(class_association [TPM%3AORGANS%3ALIBIDO])
+	(drive_component "LIBIDINOUS")
+	(instance_association
+		[AD%3ADRIVEOBJECT%3ACARROT%3ASPEAK]
+		[AD%3AAIM%3ACARROT%3ASPEAK])
+	(partial_drive "ORAL")
+	(psychic_satisfaction 0.2)
+	(quotaOfAffect 0.2)
+	(value "DM:ORAL:LIBIDINOUS")
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
+
 ([DM%3ASUCK%3ACAKE] of  DM_oral
 
 	(class_association [TPM%3AORGANS%3ALIBIDO])
@@ -3472,6 +3612,18 @@
 	(instance_association
 		[AD%3ADRIVEOBJECT%3ACAKE%3ASUCK]
 		[AD%3AAIM%3ACAKE%3ASUCK])
+	(partial_drive "ORAL")
+	(quotaOfAffect 0.2)
+	(value "DM:ORAL:LIBIDINOUS")
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
+
+([DM%3ASUCK%3ACARROT] of  DM_oral
+
+	(class_association [TPM%3AORGANS%3ALIBIDO])
+	(drive_component "LIBIDINOUS")
+	(instance_association
+		[AD%3ADRIVEOBJECT%3ACARROT%3ASUCK]
+		[AD%3AAIM%3ACARROT%3ASUCK])
 	(partial_drive "ORAL")
 	(quotaOfAffect 0.2)
 	(value "DM:ORAL:LIBIDINOUS")
