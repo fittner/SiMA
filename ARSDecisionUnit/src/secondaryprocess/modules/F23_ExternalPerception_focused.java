@@ -240,6 +240,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromPerception(moPerceptionalMesh_IN));
 		
 		//Extract all possible goals from the images (memories)
+		// MF Hier werden die Emotionen hinzugefügt
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromActs(moAssociatedMemories_IN));
 		
 		//Extract basic goals directly from the drives, to be used if there is nothing in perception

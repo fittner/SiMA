@@ -59,6 +59,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
     private DT4_PleasureStorage            moPleasureStorage;
     private DT1_PsychicIntensityBuffer     moLibidoBuffer;
     private double                         mnCurrentPleasure          = 0.0;
+    private double                         mnCurrentPleasure_Sum      = 0.0;
 
     // We make use of DT3 in order to measure the ratio of actually used psychic intensity to
     // demanded psychic intensity (actuallyUsedIntensity/demandedIntensity). This ratio (now) represents
@@ -202,6 +203,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
         text += toText.listToTEXT("OUT", moAllDriveComponents_OUT);
 
         text += toText.valueToTEXT("Pleasure", mnCurrentPleasure);
+        text += toText.valueToTEXT("Pleasure", mnCurrentPleasure_Sum);
 
         return text;
     }
@@ -221,6 +223,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
         moAllDriveComponents_OUT = new ArrayList<clsDriveMesh>();
 
         generateAllDrives();
+        
 
         // first calculate the tensions for homoestatic drives
         for (clsDriveMesh oHeastaticDMPairEntry : moHomoestasisDriveComponents_IN)
@@ -237,7 +240,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
         // calculate the pleasure gain from reduced tensions for DT4
         // + the pleasure gain from the efficient use of psychic intensity in F56 (Aldo Martinez)
         ProcessPleasureCalculation();
-
+        generatePerceptionDrive();
         // add some meaningfull information to the debug info, comment this out for performance
         AddDebugInfoForUsProgrammers(this.moAllDriveComponents_OUT);
 
@@ -345,6 +348,22 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
         }
 
     }
+   
+    /**
+     * DOCUMENT (fittner) - insert description
+     *
+     * @since 23.05.2013 15:46:49
+     *
+     */
+    private void generatePerceptionDrive(
+        )
+    {
+        // TODO: fixme fittner DT1 Buffer is used instead of Input I3.3 and I3.4
+        
+        mnCurrentPleasure_Sum += mnCurrentPleasure;
+
+    }    
+    
 
     /**
      * Creates a DM out of the entry, and adds necessary information, source, etc
@@ -489,8 +508,6 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
                         // old drive is the same as the new one, found a match...
 
                         double deltaQuotaOfAffect = oOldDMEntry.getQuotaOfAffect() - oNewDMEntry.getQuotaOfAffect();
-
-                        
 
                         // Pleasure cannot be negative
                         if (deltaQuotaOfAffect > 0)

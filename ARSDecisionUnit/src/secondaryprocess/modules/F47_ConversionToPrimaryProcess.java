@@ -13,12 +13,14 @@ import java.util.SortedMap;
 
 import properties.clsProperties;
 import memorymgmt.enums.PsychicSpreadingActivationMode;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import modules.interfaces.I5_19_receive;
 import modules.interfaces.I5_19_send;
 import modules.interfaces.I6_11_receive;
 import modules.interfaces.eInterfaces;
 import secondaryprocess.datamanipulation.clsActionTools;
+//import secondaryprocess.datamanipulation.clsDataStructureTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
@@ -29,10 +31,12 @@ import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.modules.clsModuleBase;
+import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+
 
 /**
  * From an incoming list of action plan together with a list of their associated data structures, the primary data structures
@@ -47,7 +51,7 @@ import base.tools.toText;
  * 03.03.2012, 15:22:59
  * 
  */
-public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_11_receive, I5_19_send {    //Instead of I6_9_receive
+public class F47_ConversionToPrimaryProcess extends clsModuleBaseKB implements I6_11_receive, I5_19_send {    //Instead of I6_9_receive
 	public static final String P_MODULENUMBER = "47";
 	//FIXME AW: Extends ModulebaseKB is a hack until results from the planning can be used. Then it should be changed 
 	//to clsModuleBase
@@ -55,9 +59,11 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	
 	/** A list of primarty data structure containers, which form the input for phantsies in F46 */
 	private ArrayList<clsThingPresentationMesh> returnedTPMemory_OUT;
-	private PsychicSpreadingActivationMode psychicSpreadingActivationMode;
+	private ArrayList<clsThingPresentationMesh> returnedTPM_Action_OUT;
+    private PsychicSpreadingActivationMode psychicSpreadingActivationMode;
 	/** The list of generated actions */
 	private clsWordPresentationMesh actionCommand_IN;
+	private clsThingPresentationMesh oTPM_Action;
 	/** The list of associated memories of the generated actions */
 	private clsWordPresentationMesh moWordingToContext;
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
@@ -81,9 +87,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	public F47_ConversionToPrimaryProcess(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, int pnUid)
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, int pnUid,
+			itfModuleMemoryAccess poLongTermMemory)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		
 		moShortTimeMemory = poShortTimeMemory;
 		
@@ -104,7 +111,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 		text += toText.listToTEXT("moReturnedTPMemory_OUT", returnedTPMemory_OUT);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
 		text += toText.valueToTEXT("moActionCommands_IN", actionCommand_IN);
-		
+		text += toText.valueToTEXT("oTPM_Action", oTPM_Action);
 		return text;
 	}		
 	
@@ -134,12 +141,18 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 		try {
 			returnedTPMemory_OUT = getTPMImagesFromAction(actionCommand_IN);
 			this.psychicSpreadingActivationMode = getPhantasyCommandFromAction(actionCommand_IN);
+			returnedTPM_Action_OUT = null;
 			log.debug("Phantasy image: " + returnedTPMemory_OUT.toString());
 		} catch (Exception e) {
 			log.error("", e);
 		}
-		
-	      //=== Perform system tests ===//
+		//oTPM_Action = clsDataStructureTools.getTPMfromWPM(actionCommand_IN);
+		//oTPM_Action = clsMeshTools.getPrimaryDataStructureOfWPM(actionCommand_IN);
+		@SuppressWarnings("unused")
+        List<clsAssociationWordPresentation> oAssWPs = clsAssociationWordPresentation.getAllExternAssociationWordPresentation(actionCommand_IN);
+        clsAssociationWordPresentation oWPforObject = this.getLongTermMemory().getPrimaryDataStructure(actionCommand_IN);
+	    
+		//=== Perform system tests ===//
         if (clsTester.getTester().isActivated()) {
             log.warn("Systemtester is activated");
             try {
@@ -217,6 +230,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 			
 			for (clsWordPresentationMesh wpm : oSupportiveDataStructure) {
 			    clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(wpm);
+			    
                 if (oTPM!=null && oTPM.isNullObject()==false) {
                     //At this stage, there should be no associationWP in the external associations of the TPM
                     try {
@@ -225,6 +239,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
                         } else {
                             //oTPM.setMoContentType(eContentType.PHI);
                             oRetVal.add(oTPM);
+                            oTPM_Action = oTPM;
                         }
                     } catch (Exception e) {
                         log.error("", e);

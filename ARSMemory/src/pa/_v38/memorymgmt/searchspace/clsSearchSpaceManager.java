@@ -318,7 +318,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		} else { 
 			throw new IllegalArgumentException("DataStructure unknown ");
 		}
-		
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return oRetVal;
 	}
 	
@@ -329,6 +329,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return poInput;
 	}
 	
@@ -362,12 +363,14 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			
 			oClone.add(oClonedList); 
 		}
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return oClone;
 	}
 
 	@Override
 	public void complementMesh(clsDataStructurePA poInput, int pnLevel) {
-		try {
+	    log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
+	    try {
 			if(poInput instanceof clsThingPresentationMesh){
 				clsDataStructureComparisonTools.complementMesh((clsThingPresentationMesh) poInput, moSearchSpaceHandler, pnLevel, new HashMap<Integer, clsThingPresentationMesh>());
 			} else { 

@@ -22,6 +22,11 @@ public enum eShapeType {
 	POLYGON,
 	ELLIPSE,
 	SQUARE,
+	APPLE1,
+	APPLE2,
+	APPLE3,
+	APPLE4,
+	APPLE5,
 //	CIRCLE_IMAGE, // TD - removed. clsShape2DCreator takes care whether an image is present or not 
 //	RECTANGLE_IMAGE, // TD - removed. clsShape2DCreator takes care whether an image is present or not
 	NONE

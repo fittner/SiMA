@@ -103,8 +103,6 @@ public class clsApple extends clsOrganic implements itfGetFlesh, itfAPEatable, i
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 150);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_BODY+"."+clsBaseBody.P_ATTRIBUTES) );
-		logger.clsLogger.getLog("memory").debug("oProp.toString(): {}",oProp.toString());
-
 		return oProp;
 	}
 	

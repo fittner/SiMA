@@ -475,7 +475,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
             ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
             oSELFList.add(oSELF);
             clsMeshTools.addTPMToTPMImage(sourceImagePhantasy, oSELFList);
-            
         }
         
         if (mode.equals(PsychicSpreadingActivationMode.COMPLETE_DIRECT_ACTIVATION)==true) {

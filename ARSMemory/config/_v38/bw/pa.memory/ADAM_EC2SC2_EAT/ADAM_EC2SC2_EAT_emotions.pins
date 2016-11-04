@@ -1,4 +1,4 @@
-; Wed Aug 31 10:12:32 GMT 2016
+; Sat Oct 08 14:12:02 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -247,6 +247,13 @@
 		[TPM%3AENTITY%3ACAN%3ABASIC]
 		[TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ABLUE])
 	(weight 1.0 1.0))
+
+([AA%3ACARROT_BASIC%3ASHAPE] of  ASSOCIATIONATTRIBUTE
+
+	(element
+		[TPM%3AENTITY%3ACARROT%3ABASIC]
+		[TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ANUMBER])
+	(weight 0.0 0.0))
 
 ([AA%3AL1_BEAT%3ABEAT] of  ASSOCIATIONATTRIBUTE
 
@@ -3522,7 +3529,7 @@
 		[AD%3ADRIVEOBJECT%3AAPPLEBASIC%3ABITE]
 		[AD%3AAIM%3AAPPLE%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.11)
+	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -4211,23 +4218,23 @@
 
 ([EMOTION%3AA12_EAT_CARROT_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.35)
+	(emotionIntensity 0.24)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.2)
-	(sourceLibid 0.15)
-	(sourcePleasure 0.05)
-	(sourceUnpleasure 0.25)
+	(sourceAggr 0.24)
+	(sourceLibid 0.17)
+	(sourcePleasure 0.14)
+	(sourceUnpleasure 0.3)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CARROT_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.4)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.2)
-	(sourceLibid 0.15)
-	(sourcePleasure 0.05)
-	(sourceUnpleasure 0.25)
+	(sourceAggr 0.24)
+	(sourceLibid 0.17)
+	(sourcePleasure 0.14)
+	(sourceUnpleasure 0.3)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -5167,6 +5174,10 @@
 
 	(value "CIRCLE"))
 
+([TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ANUMBER] of  SHAPE
+
+	(value "#CC0000"))
+
 ([TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3APOLYGON] of  SHAPE
 
 	(value "POLYGON"))
@@ -5368,9 +5379,9 @@
 
 	(class_association
 		[TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3AORANGE]
-		[TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE]
 		[TP%3ASENSOR_EXT%3AALIVE%3AFALSE]
 		[TP%3AINTENSITY%3AMEDIUM])
+	(instance_association [AA%3ACARROT_BASIC%3ASHAPE])
 	(value "CARROT"))
 
 ([TPM%3AENTITY%3AEMPTYSPACE01] of  EMPTYSPACE

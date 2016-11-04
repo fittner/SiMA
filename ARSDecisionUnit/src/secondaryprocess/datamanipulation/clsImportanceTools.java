@@ -286,6 +286,7 @@ public class clsImportanceTools {
 			}
 			
 			if (!poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
+			    // Feelings added
 			    copyOfSelectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
 			}
 			
