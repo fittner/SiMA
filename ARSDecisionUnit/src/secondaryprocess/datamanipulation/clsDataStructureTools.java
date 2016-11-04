@@ -432,7 +432,7 @@ public class clsDataStructureTools {
 	
 	public static clsThingPresentationMesh getTPMfromWPM(clsWordPresentationMesh poWPM){
         for (clsAssociation oAssoc: poWPM.getExternalAssociatedContent()){
-            if(oAssoc.getAssociationElementB() instanceof clsThingPresentationMesh) return (clsThingPresentationMesh) oAssoc.getAssociationElementB(); 
+            if(oAssoc.getAssociationElementA() instanceof clsThingPresentationMesh) return (clsThingPresentationMesh) oAssoc.getAssociationElementB(); 
         }
         return null;
 	}

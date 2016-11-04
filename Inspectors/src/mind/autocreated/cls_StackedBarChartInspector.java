@@ -17,6 +17,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.StackedBarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
 
@@ -60,22 +62,86 @@ public class cls_StackedBarChartInspector extends cls_AbstractChartInspector {
         		false
         );
         //place for optical improvements of the chart
-    	chart.setBackgroundPaint(Color.white); // background of the outside-panel
+    	chart.setBackgroundPaint(Color.black); // background of the outside-panel
   
     	
     	
     	ChartPanel oChartPanel = new ChartPanel(chart);
         oChartPanel.setPreferredSize(new java.awt.Dimension(600, 400));
         chart.setTitle(moChartName);
+        
+        
+        StackedBarRenderer renderer = new StackedBarRenderer(false);
+        
+        Color color_new;
+        //renderer.setSeriesPaint(0, color_new);
+        
+        for (int i = 0; i < moDataset.getRowCount(); i++){
+            switch (i) {
+            case 0:
+                // red
+                color_new = new Color(255, 0, 0);
+                break;
+            case 1:
+                // blue
+                color_new = new Color(0, 0, 255);
+                break;
+            case 2:
+                // red
+                color_new = new Color(240, 240, 0);
+                break;
+            case 3:
+                // blue
+                color_new = new Color(0, 255, 255);
+                break;
+            case 4:
+                // red
+                color_new = new Color(0, 255, 0);
+                break;
+            case 5:
+                // blue
+                color_new = new Color(255, 0, 255);
+                break;
+            case 6:
+                // red
+                color_new = new Color(164, 164, 164);
+                break;
+            case 7:
+                // blue
+                color_new = new Color(255, 128, 0);
+                break;
+            case 8:
+                // red
+                color_new = new Color(128, 0, 255);
+                break;
+            case 9:
+                // blue
+                color_new = new Color(255, 0, 128);
+                break;
+            default:
+                // green
+                color_new = new Color(0, 0, 0);
+                break;
+            }
+            renderer.setSeriesPaint(i, color_new);
+            renderer.setSeriesFillPaint(0, getForeground());
+            renderer.setSeriesFillPaint(0, new Color(255, 0, 0));
+            renderer.setSeriesVisible(0, null);
+        }
+        
+        renderer.setShadowVisible(false);
+        renderer.setShape(null);
+        renderer.setBarPainter(new StandardBarPainter());
+        
         CategoryPlot plot =chart.getCategoryPlot();
+        chart.getCategoryPlot().setRenderer(renderer);
         NumberAxis iAxis = new NumberAxis();
         iAxis.setAutoRange(true);
         //iAxis.setRange(0.0,1.0);
         plot.setRangeAxis(iAxis);
         
-        plot.setBackgroundPaint(Color.white);
-        
-        plot.setForegroundAlpha(0.5f);
+        plot.setBackgroundPaint(Color.lightGray);
+        plot.setForegroundAlpha(0.7f);
 
     	return oChartPanel;
 	}

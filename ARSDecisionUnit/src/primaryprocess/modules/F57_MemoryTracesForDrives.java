@@ -193,7 +193,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	protected void process_basic() {
 		
-		moDrivesAndTraces_OUT = hallucinatoryWishfulfillment(moDrivesAndTraces_OUT);
+		// Fittner: Deep Copy nicht notwendig!!!
+	    moDrivesAndTraces_OUT = hallucinatoryWishfulfillment(moDrivesAndTraces_OUT);
 		
 		// create time Chart Data
 		for( clsDriveMesh oDriveMeshEntry:moDrivesAndTraces_OUT){

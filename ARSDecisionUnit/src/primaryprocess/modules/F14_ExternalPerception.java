@@ -1045,7 +1045,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
 					oEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
 					//fittner:
-					log.debug("oDataStructure {}",oDataStructure);
+					log.debug("oDataStructure {}" ,oDataStructure);
 					log.debug("oDataStructure {}",oDataStructure.getDebugInfo());
 					log.debug("oDataStructure {}",oDataStructure.getMoDataStructureType());
 					log.debug("oDataStructure {}",oDataStructure);

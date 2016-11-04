@@ -1,5 +1,5 @@
  {
-   "raw_value": "0.38518380279696196",
+   "raw_value": "0.2628125",
    "color": "#000000",
    "level": "BLUE",
    "nameColor": "BLACK",
@@ -10,7 +10,7 @@
    "children": [
       {
          "parent": "Final Relevance",
-         "raw_value": "0.052598513055450054",
+         "raw_value": "0.1328125",
          "color": "#ff0000",
          "level": "BLUE",
          "nameColor": "BLACK",
@@ -21,7 +21,7 @@
          "children": [
             {
                "parent": "Drive Valuation",
-               "raw_value": "0.03485478350344354",
+               "raw_value": "0.06640625",
                "color": "#ff0000",
                "level": "BLUE",
                "nameColor": "BLACK",
@@ -33,11 +33,11 @@
                "id": "Initial Drives",
                "position": "4",
                "darkeningFactor": "0.0",
-               "value": "66,27 %"
+               "value": "50,00 %"
             },
             {
                "parent": "Drive Valuation",
-               "raw_value": "0.017743729552006517",
+               "raw_value": "0.06640625",
                "color": "#ff0000",
                "level": "BLUE",
                "nameColor": "BLACK",
@@ -49,14 +49,14 @@
                "id": "Memorized Drive\nSatisfactions",
                "position": "4",
                "darkeningFactor": "0.5",
-               "value": "33,73 %"
+               "value": "50,00 %"
             }
          ],
          "name": "Drive Valuation",
          "id": "Drive Valuation",
          "position": "2",
          "darkeningFactor": "0.9",
-         "value": "13,66 %"
+         "value": "50,54 %"
       },
       {
          "parent": "Final Relevance",
@@ -88,11 +88,11 @@
          "id": "Effort Valuation",
          "position": "2",
          "darkeningFactor": "0.9",
-         "value": "33,75 %"
+         "value": "49,46 %"
       },
       {
          "parent": "Final Relevance",
-         "raw_value": "0.2025852897415119",
+         "raw_value": "0.0",
          "color": "#000000",
          "level": "BLUE",
          "nameColor": "BLACK",
@@ -103,7 +103,7 @@
          "children": [
             {
                "parent": "Emotion Valuation",
-               "raw_value": "0.2025852897415119",
+               "raw_value": "0.0",
                "color": "#000000",
                "level": "BLUE",
                "nameColor": "BLACK",
@@ -114,7 +114,7 @@
                "children": [
                   {
                      "parent": "Reactive Valuation",
-                     "raw_value": "0.2025852897415119",
+                     "raw_value": "0.0",
                      "color": "#0000ff",
                      "level": "BLUE",
                      "nameColor": "BLACK",
@@ -125,7 +125,7 @@
                      "children": [
                         {
                            "parent": "Emotion",
-                           "raw_value": "0.11360320255293871",
+                           "raw_value": "0.0",
                            "color": "#0000ff",
                            "level": "BLUE",
                            "nameColor": "BLACK",
@@ -137,11 +137,11 @@
                            "id": "Drives",
                            "position": "8",
                            "darkeningFactor": "0.5",
-                           "value": "56,08 %"
+                           "value": "-"
                         },
                         {
                            "parent": "Emotion",
-                           "raw_value": "0.0889820871885732",
+                           "raw_value": "0.0",
                            "color": "#0000ff",
                            "level": "BLUE",
                            "nameColor": "BLACK",
@@ -164,11 +164,11 @@
                                  "id": "Emotion Transfer",
                                  "position": "10",
                                  "darkeningFactor": "0.0",
-                                 "value": "0,00 %"
+                                 "value": "-"
                               },
                               {
                                  "parent": "External Perception",
-                                 "raw_value": "0.0889820871885732",
+                                 "raw_value": "0.0",
                                  "color": "#0000ff",
                                  "level": "BLUE",
                                  "nameColor": "BLACK",
@@ -180,21 +180,21 @@
                                  "id": "Objective Perception",
                                  "position": "10",
                                  "darkeningFactor": "0.0",
-                                 "value": "100,00 %"
+                                 "value": "-"
                               }
                            ],
                            "name": "External Perception",
                            "id": "External Perception",
                            "position": "8",
                            "darkeningFactor": "1.5",
-                           "value": "43,92 %"
+                           "value": "-"
                         }
                      ],
                      "name": "Emotion",
                      "id": "Emotion",
                      "position": "6",
                      "darkeningFactor": "0.9",
-                     "value": "100,00 %"
+                     "value": "-"
                   },
                   {
                      "parent": "Reactive Valuation",
@@ -210,14 +210,14 @@
                      "id": "Emotion Defense Impact",
                      "position": "6",
                      "darkeningFactor": "0.5",
-                     "value": "0,00 %"
+                     "value": "-"
                   }
                ],
                "name": "Reactive Valuation",
                "id": "Reactive Valuation",
                "position": "4",
                "darkeningFactor": "0.0",
-               "value": "100,00 %"
+               "value": "-"
             },
             {
                "parent": "Emotion Valuation",
@@ -233,19 +233,19 @@
                "id": "Reflective Evaluation",
                "position": "4",
                "darkeningFactor": "0.0",
-               "value": "0,00 %"
+               "value": "-"
             }
          ],
          "name": "Emotion Valuation",
          "id": "Emotion Valuation",
          "position": "2",
          "darkeningFactor": "0.0",
-         "value": "52,59 %"
+         "value": "0,00 %"
       }
    ],
    "name": "Final Relevance",
    "id": "Final Relevance",
    "position": "0",
    "darkeningFactor": "0.0",
-   "value": "0,3852"
+   "value": "0,2628"
 } 

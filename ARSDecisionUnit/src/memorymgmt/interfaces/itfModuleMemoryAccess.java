@@ -16,6 +16,7 @@ import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 
 /**
@@ -101,4 +102,6 @@ public interface itfModuleMemoryAccess {
 	 * @return
 	 */
 	public clsAssociationWordPresentation getSecondaryDataStructure(clsPrimaryDataStructure poDataStructure, double prThreshold);
+	
+	public clsAssociationWordPresentation getPrimaryDataStructure(clsWordPresentationMesh poDataStructure);
 }

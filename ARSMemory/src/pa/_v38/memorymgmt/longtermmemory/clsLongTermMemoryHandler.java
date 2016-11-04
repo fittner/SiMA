@@ -279,7 +279,42 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess
 
         return oRetVal;
     }
+    /*
+     * (non-Javadoc)
+     *
+     * @since 25.02.2013 14:59:22
+     * 
+     * @see pa._v38.memorymgmt.itfModuleMemoryAccess#getSecondaryDataStructure(pa._v38.memorymgmt.datatypes.
+     * clsPrimaryDataStructure, double)
+     */
+    public clsAssociationWordPresentation getPrimaryDataStructure(
+            clsWordPresentationMesh poDataStructure)
+    {
+        ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>();
+        clsAssociationWordPresentation oRetVal = null;
 
+            oSearchResult = searchEntity(eDataType.ASSOCIATIONWP,
+                    new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)));
+            // If the input is a TP or DM, then search for the WP
+
+
+        // If something was found
+        if (oSearchResult.isEmpty() == false && oSearchResult.get(0).size() > 0
+                && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0)
+        {
+            // Get the best match if higher than the threshold
+
+                oRetVal = (clsAssociationWordPresentation) oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures()
+                        .get(0);
+                if (poDataStructure.getDS_ID() == oRetVal.getRootElement().getDS_ID())
+                {
+                    oRetVal.setRootElement(poDataStructure);
+                }
+
+        }
+
+        return oRetVal;
+    }
     /**
      * DOCUMENT (zeilinger) - insert description
      *

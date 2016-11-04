@@ -36,7 +36,10 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	
 	public static final String moContent = null;
-    private double mrQuotaOfAffect = 0.0;				//0-1
+	private double mrQuotaOfAffect = 0.0;               //0-1
+	private double mrPleasureSum = 0.0;               //0-1
+	private double mrPleasureSumMax = 0.0;               //0-1
+    private int    mdLearningCnt = 0;               //0-1
     private double mrPsychicSatisfactionValue = 0.0;
 	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
 	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
@@ -351,7 +354,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		//	oRetval += ": :External=NULL";
 			if(this.moDebugInfo!=null && this.moDebugInfo!="")
 				oRetval += ":DBG='"+this.moDebugInfo+"'";
-		oRetval += "|\n";
+			oRetval += ":PleSum= " + (this.getPleasureSum());
+			oRetval += ":PleSumMax= " + (this.getPleasureSumMax());
+	        oRetval += ":LeaCnt= " + (this.getLearningCnt());
+        oRetval += "|\n";
 		return oRetval;
 	}
 	
@@ -404,18 +410,73 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * 
 	 * @return the mrQuotaOfAffect
 	 */
-	public double getQuotaOfAffect() {
-		return mrQuotaOfAffect;
+	public int getLearningCnt() {
+		return mdLearningCnt;
 	}
 
-	/**
-	 * @since 11.07.2012 14:10:00
-	 * 
-	 * @param mrQuotaOfAffect the mrQuotaOfAffect to set
-	 */
-	public void setQuotaOfAffect(double mrQuotaOfAffect) {
-		this.mrQuotaOfAffect = mrQuotaOfAffect;
-	}
+
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getQuotaOfAffect() {
+        return mrQuotaOfAffect;
+    }
+
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setLearningCnt(int mdLearningCnt) {
+        this.mdLearningCnt = mdLearningCnt;
+    }
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getPleasureSum() {
+        return mrPleasureSum;
+    }
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setPleasureSum(double mrPleasureSum) {
+        this.mrPleasureSum = mrPleasureSum;
+    }    
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getPleasureSumMax() {
+        return mrPleasureSumMax;
+    }
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setPleasureSumMax(double mrPleasureSumMax) {
+        this.mrPleasureSumMax = mrPleasureSumMax;
+    }    
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setQuotaOfAffect(double mrQuotaOfAffect) {
+        this.mrQuotaOfAffect = mrQuotaOfAffect;
+    }
 	
 	/**
 	 * @since 28.01.2013 14:10:00

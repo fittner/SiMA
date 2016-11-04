@@ -30,6 +30,7 @@ import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
+import base.tools.toText;
 
 /**
  * Module checks available goals against perception and removes goals that are not available for actions
@@ -43,7 +44,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	
 	public static final String P_MODULENUMBER = "53";
 	
-	    
+	public static final String newline = System.getProperty("line.separator");
+	
 	private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
 	private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
 	    
@@ -107,9 +109,19 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	public String stateToTEXT() {
-		String text ="FIM_TEST_stateToTEXT()";
 		
-		return text;
+		String text = "";
+
+        //text += toText.listToTEXT("moPlanInput", moPlanInput);
+        //text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
+        text += toText.listToTEXT("selectableGoals: {}", selectableGoals);
+        text += toText.valueToTEXT("moPerception_IN: {}", moPerception_IN);
+        //text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
+        text += newline;
+        text += "current generated plans:";
+        text += newline;
+		
+        return text;
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
