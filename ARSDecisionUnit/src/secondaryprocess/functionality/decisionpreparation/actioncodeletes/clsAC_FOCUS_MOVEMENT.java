@@ -58,6 +58,7 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 		
 		if (oExternalPlans.isEmpty()==false) {
 			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getContent());
+			moActionMemory = oExternalPlans.get(0);
 		}
 		
 		//Now the movement is gotten. Compose a new action for focusing, rename the action
@@ -82,7 +83,7 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 //                log.error("", e);
 //            }
 		}
-
+//Fittner: generate Action
 		this.generateAction(oChosenAction);
 		
 		//Associate the action with the goal

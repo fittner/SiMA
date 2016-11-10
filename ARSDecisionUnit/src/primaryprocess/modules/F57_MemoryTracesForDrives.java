@@ -195,6 +195,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		
 		// Fittner: Deep Copy nicht notwendig!!!
 	    moDrivesAndTraces_OUT = hallucinatoryWishfulfillment(moDrivesAndTraces_OUT);
+	    
+	   
 		
 		// create time Chart Data
 		for( clsDriveMesh oDriveMeshEntry:moDrivesAndTraces_OUT){
@@ -266,6 +268,21 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TPM, poSearchPattern);
 				//this.setLongtermmemory
 				
+				// search for short-term memories if identical recalculate QoA
+				clsDriveMesh oSTMemoryDM = null;
+				
+                // get rSumSimilarDMsQoA to calculate cathexis (see below)
+                for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
+                    // for results of similar memory-DMs (should be various similar DMs)
+                    for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
+                        oSTMemoryDM = ((clsDriveMesh)oSearchPair.b.getMoDataStructure());
+                        if (oSTMemoryDM.getContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)){
+                            rSumSimilarDMsQoA += oSTMemoryDM.getQuotaOfAffect();
+                            
+                        }
+                    }
+                }				
+				
 				rMaxDecisionfactor = 0.0;
 				rCurrentMatchFactor = 0.0;
 				rCurrentDecisionFactor= 0.0;
@@ -326,7 +343,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 									//TODO: CATHEXIS STATT embodimentActivation?? test mit perception
 									oDriveObjectActivated.applyEmbodimentActivation(poDriveCandidates);
 									//oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor, oSimulatorDM.getQuotaOfAffect());
-									
+
 									// cathexis of potential drive object												
 									oMemoryDM.cathexis(oSimulatorDM.getQuotaOfAffect() * (oMemoryDM.getQuotaOfAffect()/rSumSimilarDMsQoA));
 								}

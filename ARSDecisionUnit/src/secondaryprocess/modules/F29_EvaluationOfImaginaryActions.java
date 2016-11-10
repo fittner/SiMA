@@ -100,6 +100,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     private String moTEMPDecisionString = "";
 
     private clsWordPresentationMesh moWordingToContext;
+    private clsWordPresentationMesh moAction;
+    private clsWordPresentationMesh moObject;
 
     /**
      * DOCUMENT (perner) - insert description
@@ -351,6 +353,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
         
         DataCollector.goal(moSelectableGoals.get(0)).finish();
+        moAction = planGoal.getAssociatedPlanMemAction();
+        moObject = planGoal.getGoalObject();
+        
         
         // //=== TEST ONLY ONE ACTION === //
         // if (clsTester.getTester().isActivated()) {
@@ -413,6 +418,14 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
         // Get the goal object
         String oGoalObjectString = poDecidedGoal.getGoalObject().toString();
+        
+        // Get the goal object
+        String oGoalActionString = poDecidedGoal.getGoalAction().toString();
+        String oGoalPlanActionString = poDecidedGoal.getGoalPlanAction().toString();
+        String oGoalPlanMemActionString = poDecidedGoal.getGoalPlanMemAction().toString();
+        String oGoalPrefActionString = poDecidedGoal.getGoalPrefAction().toString();
+        String oGoalDriveActionString = poDecidedGoal.getGoalDriveAction().toString();
+        
 
         // Get the Goal source
         String oGoalSource = "NONE";
@@ -452,6 +465,11 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         sb.append("[GOAL NAME]\n   " + oGoalString + "\n\n");
         sb.append("[GOAL OBJECT]\n   " + oGoalObjectString + "\n\n");
         sb.append("[GOAL SOURCE]\n   " + oGoalSource + "\n\n");
+        sb.append("[GOAL ACTION]\n   " + oGoalActionString + "\n\n");
+        sb.append("[GOAL PLANACTION]\n   " + oGoalPlanActionString + "\n\n");
+        sb.append("[GOAL PLANMEMACTION]\n   " + oGoalPlanMemActionString + "\n\n");
+        sb.append("[GOAL PREFACTION]\n   " + oGoalPrefActionString + "\n\n");
+        sb.append("[GOAL DRIVEACTION]\n   " + oGoalDriveActionString + "\n\n");
         sb.append("[IMPORTANCE/PLEASURELEVEL]\n   " + oAffectLevel + "\n\n");
         sb.append("[GOAL CONDITIONS]\n   " + oGoalConditions + "\n\n");
         sb.append("[SUPPORTIVE DATASTRUCTURE]\n   " + oSupportiveDataStructureString + "\n");
@@ -471,7 +489,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      */
     @Override
     protected void send() {
-        send_I6_11(moActionCommand, moWordingToContext);
+        send_I6_11(moActionCommand, moWordingToContext, moAction, moObject);
 
     }
 
@@ -483,9 +501,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @see pa.interfaces.send.I7_4_send#send_I7_4(java.util.ArrayList)
      */
     @Override
-    public void send_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2) {
-        ((I6_11_receive) moModuleList.get(30)).receive_I6_11(poActionCommands, moWordingToContext2);
-        ((I6_11_receive) moModuleList.get(47)).receive_I6_11(poActionCommands, moWordingToContext2);
+    public void send_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2, clsWordPresentationMesh moAction2, clsWordPresentationMesh moObject2) {
+        ((I6_11_receive) moModuleList.get(30)).receive_I6_11(poActionCommands, moWordingToContext2, moAction2, moObject2);
+        ((I6_11_receive) moModuleList.get(47)).receive_I6_11(poActionCommands, moWordingToContext2, moAction2, moObject2);
         // ((I6_11_receive) moModuleList.get(52)).receive_I6_11(poActionCommands);
 
         putInterfaceData(I6_11_send.class, poActionCommands);

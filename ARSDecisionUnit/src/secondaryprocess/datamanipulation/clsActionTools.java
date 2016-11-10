@@ -103,13 +103,35 @@ public class clsActionTools {
 			
 			clsActionTools.setActionType(oResult, eActionType.SINGLE_INTERNAL);
 			
-		} else if (clsActionTools.getAction(oResult).equals(eAction.SEARCH1) ||
-				clsActionTools.getAction(oResult).equals(eAction.FLEE)) {
-			
-			clsActionTools.setActionType(oResult, eActionType.COMPOSED_EXTERNAL);
-		} else {
+		} 
+		else if (  clsActionTools.getAction(oResult).equals(eAction.SEARCH1)
+		        || clsActionTools.getAction(oResult).equals(eAction.FLEE)
+		        )
+		{
+            
+            clsActionTools.setActionType(oResult, eActionType.COMPOSED_EXTERNAL);
+        } 
+ /*       else if (  clsActionTools.getAction(oResult).equals(eAction.EAT.toString()) )
+        {
+            clsActionTools.setRealActionType(oResult, eActionType.EAT);
+        }
+        else if (  clsActionTools.getAction(oResult).equals(eAction.BITE.toString()) )
+        {
+            clsActionTools.setRealActionType(oResult, eActionType.BITE);
+        }
+        else if (  clsActionTools.getAction(oResult).equals(eAction.SUCK.toString()) )
+        {
+            clsActionTools.setRealActionType(oResult, eActionType.SUCK);
+        }
+        else if (  clsActionTools.getAction(oResult).equals(eAction.BEAT.toString()) )
+        {
+            clsActionTools.setRealActionType(oResult, eActionType.BEAT);
+        }*/
+		else
+		{
 			clsActionTools.setActionType(oResult, eActionType.SINGLE_EXTERNAL);
 		}
+		
 		
 	}
 	
@@ -236,6 +258,19 @@ public class clsActionTools {
 	public static void setActionType(clsWordPresentationMesh poAction, eActionType poActionType) {
 		clsMeshTools.setUniquePredicateWP(poAction, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTIONTYPE, eContentType.ACTIONTYPE, poActionType.toString(), false);
 	}
+	
+	   /**
+     * Set action type
+     * 
+     * (wendt)
+     *
+     * @since 12.07.2012 17:30:09
+     *
+     * @param poAction
+     */
+    public static void setRealActionType(clsWordPresentationMesh poAction, eActionType poActionType) {
+        clsMeshTools.setUniquePredicateWP(poAction, eContentType.TPM, ePredicate.HASACTIONTYPE, eContentType.TPM, poActionType.toString(), false);
+    }
 	
 	/**
 	 * Get the get action type

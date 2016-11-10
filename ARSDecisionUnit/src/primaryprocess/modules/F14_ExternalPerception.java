@@ -9,6 +9,7 @@ package primaryprocess.modules;
 import inspector.interfaces.itfGraphCompareInterfaces;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,7 @@ import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
+import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -106,12 +108,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	ArrayList<String> Test1 = new ArrayList<String>();
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
-	private boolean useAttentionMechanism = false;
+	private ArrayList<clsDriveMesh> moLearningDrives_IN;
+    private boolean useAttentionMechanism = false;
 	
 	private HashMap<String, String> composedActions = new HashMap<String, String>();
 	
 	ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();
-	List<clsEmotion> moCurrentEmotions = new ArrayList<>(); 
+	List<clsEmotion> moCurrentEmotions = new ArrayList<>();
+	clsThingPresentationMesh moTPM_Action;
+	clsThingPresentationMesh moTPM_Object;
 	
 	//These two are pass-through parameters that will be sent to F46 without being used
 	clsWordPresentationMesh moWordingToContext_IN = null;
@@ -179,9 +184,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.listToTEXT("§§§§§§§§§§§§§§Test", Test);
-		text += toText.listToTEXT("§§§§§§§§§§§§§§Test1", Test1);
-		text += toText.mapToTEXT("§§§§§§§§§§§§3333333333moEnvironmentalData", moEnvironmentalData);
+		text += toText.listToTEXT("moDrives_IN {}", moDrives_IN);
+		text += toText.valueToTEXT("moTPM_Action", moTPM_Action);
+		text += toText.valueToTEXT("moTPM_Object", moTPM_Object);
+        text += toText.mapToTEXT("§§§§§§§§§§§§3333333333moEnvironmentalData", moEnvironmentalData);
 		text += toText.mapToTEXT("moBodyData", moBodyData);
 		text += toText.listToTEXT("moCompleteThingPresentationMeshList", moCompleteThingPresentationMeshList);
 
@@ -418,6 +424,28 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 //                }   
 //            }
 //        }
+       // Fittner: Create DM Object to adapt DM from memory
+        //moDrives_IN.toString();
+        //moTPM_Action;
+        //moTPM_Object;
+        
+        ArrayList<clsDriveMesh> moPrimalRepressionMemory =  new ArrayList<clsDriveMesh>();
+        
+        ArrayList<ArrayList<Object>> oList = new ArrayList<ArrayList<Object>>();
+        oList.add( new ArrayList<Object>( Arrays.asList(eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED, "BITE", 0.5) ) );
+        oList.add( new ArrayList<Object>( Arrays.asList(eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED, "EAT",  0.3) ) );
+        oList.add( new ArrayList<Object>( Arrays.asList(eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED, "DEPOSIT",  0.7) ) );
+        oList.add( new ArrayList<Object>( Arrays.asList(eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED, "NOURISH", 0.1) ) );
+
+        for (ArrayList<Object> oData:oList) {
+            clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECOMPONENT, 
+                                                                       new ArrayList<clsThingPresentationMesh>(),     oData.get(2)), (eDriveComponent)oData.get(0), (ePartialDrive)oData.get(1));
+            oDM.setQuotaOfAffect( (Double)oData.get(3) ); 
+            moPrimalRepressionMemory.add(oDM);      
+        }
+
+        
+        //clsDataStructureGenerator.generateDM(poContent, poDriveComponent, poPartialDrive);
         
         //=== Perform system tests ===//
         boolean status = clsTester.getTester().isActivated();
@@ -1810,10 +1838,12 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
      * @see modules.interfaces.I5_19_receive#receive_I5_19(java.util.ArrayList, memorymgmt.enums.PsychicSpreadingActivationMode, base.datatypes.clsWordPresentationMesh)
      */
 	@Override
-	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2, List<clsEmotion> poCurrentEmotions) {
+	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2, List<clsEmotion> poCurrentEmotions, clsThingPresentationMesh poTPM_Action, clsThingPresentationMesh poTPM_Object) {
         moWordingToContext_IN = moWordingToContext2;
         moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
         moPsychicSpreadingActivationMode_IN = mode;
         moCurrentEmotions = poCurrentEmotions;
+        moTPM_Action = poTPM_Action;
+        moTPM_Object = poTPM_Object;
 	}	
 }
