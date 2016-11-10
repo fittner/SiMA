@@ -139,8 +139,9 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
                         if( moAllDrivesXSteps.get(i).getPleasureSum() > moAllDrivesXSteps.get(i).getPleasureSumMax())
                         {
                             moAllDrivesXSteps.get(i).setPleasureSumMax(moAllDrivesXSteps.get(i).getPleasureSum());
+                            moAllDrivesActualStep.get(i).setPleasureSumMax(moAllDrivesXSteps.get(i).getPleasureSum());
                         }
-                        else
+                        else if( moAllDrivesXSteps.get(i).getPleasureSum() < moAllDrivesXSteps.get(i).getPleasureSumMax())
                         {
                             tmpCalc = 0;
                         }

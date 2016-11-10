@@ -23,5 +23,5 @@ import base.datatypes.clsWordPresentationMesh;
  */
 public interface I5_19_send {
 	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode psychicSpreadingActivationMode,
-            clsWordPresentationMesh moWordingToContext2, List<clsEmotion> poCurrentEmotions);
+            clsWordPresentationMesh moWordingToContext2, List<clsEmotion> poCurrentEmotions, clsThingPresentationMesh poTPM_Action, clsThingPresentationMesh poTPM_Object);
 }

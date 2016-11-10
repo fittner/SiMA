@@ -42,6 +42,7 @@ public enum eAction {
 	//Actions with Objects
 	GOTO,
 	FLEE,
+	LEECH,
     
 	//Unreal actions
 	UNREAL_MOVE_TO,

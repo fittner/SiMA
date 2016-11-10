@@ -16,5 +16,5 @@ import base.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I6_11_send {
-	public void send_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2);
+	public void send_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2, clsWordPresentationMesh moAction2, clsWordPresentationMesh moObject2);
 }

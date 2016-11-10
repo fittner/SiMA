@@ -24,8 +24,9 @@ import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
  */
 public abstract class clsActionCodelet extends clsCodelet {
 
-	protected clsWordPresentationMesh moAction;
-	protected clsTEMPPlannerAW moExternalActionPlanner;
+    protected clsWordPresentationMesh moAction;
+    protected clsWordPresentationMesh moActionMemory;
+    protected clsTEMPPlannerAW moExternalActionPlanner;
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
@@ -69,13 +70,14 @@ public abstract class clsActionCodelet extends clsCodelet {
 	    if(oActionRefinement != null && !oActionRefinement.isNullObject()) {
 	        oAction = eAction.valueOf(oActionRefinement.getContent());
 	    }
-	    
+	    // Add new Action to get real WPM back to Primary Process for learning
 	    moAction = clsActionTools.createAction(oAction);
+	    moActionMemory = poAction;
 	}
 	
 	protected void setActionAssociationInGoal() {
 	    this.moGoal.setAssociatedPlanAction(this.moAction);
-		
+	    this.moGoal.setAssociatedPlanActionMemory(this.moActionMemory);
 	}
 
 	

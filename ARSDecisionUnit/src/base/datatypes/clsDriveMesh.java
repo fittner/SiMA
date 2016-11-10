@@ -336,8 +336,12 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	public String toString(){
 		String oRetval = "|DM:";
-		oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
-		oRetval += ":DComponent="+this.moDriveComponent.toString();
+		oRetval += ":QoASum="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
+		oRetval += ":PleSum= " + GetQuotaOfAffectAsMyString(this.getPleasureSum());
+        oRetval += ":PleSumMax= " + GetQuotaOfAffectAsMyString(this.getPleasureSumMax());
+        oRetval += ":LeaCnt= " + GetQuotaOfAffectAsMyString(this.getLearningCnt());
+        oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
+        oRetval += ":DComponent="+this.moDriveComponent.toString();
 		oRetval += ":PartialD="+this.moPartialDrive.toString();
 		oRetval += ":Organ="+this.getActualDriveSourceAsENUM();
 		oRetval += ":Orifice="+this.getActualBodyOrificeAsENUM();
@@ -354,10 +358,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		//	oRetval += ": :External=NULL";
 			if(this.moDebugInfo!=null && this.moDebugInfo!="")
 				oRetval += ":DBG='"+this.moDebugInfo+"'";
-			oRetval += ":PleSum= " + (this.getPleasureSum());
-			oRetval += ":PleSumMax= " + (this.getPleasureSumMax());
-	        oRetval += ":LeaCnt= " + (this.getLearningCnt());
-        oRetval += "|\n";
+			oRetval += "|\n";
 		return oRetval;
 	}
 	

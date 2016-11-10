@@ -145,7 +145,10 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		else{
 			oMatchedDataStructures = clsDataStructureComparisonTools.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());; 
 		}
-				
+		
+		// fittner : Learning
+		
+		
 		for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
 			clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, oPatternElement.b);	//Get container from a certain data value
 			oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));

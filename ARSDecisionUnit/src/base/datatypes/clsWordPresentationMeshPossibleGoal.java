@@ -386,6 +386,11 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     public clsWordPresentationMesh getAssociatedPlanAction() {
         return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDPLANACTION);
     } 
+
+    public clsWordPresentationMesh getAssociatedPlanMemAction() {
+        return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDPLANACTIONMEMORY);
+    } 
+
     
     /**
      * Set associated action
@@ -400,6 +405,11 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     public void setAssociatedPlanAction(clsWordPresentationMesh poAssociatedAction) {
         this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDPLANACTION, true);
     }
+
+    public void setAssociatedPlanActionMemory(clsWordPresentationMesh poAssociatedAction) {
+        this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDPLANACTIONMEMORY, true);
+    }
+
     
     public void setPotentialDriveAim(clsWordPresentationMesh poPotentialDriveAim) {
         this.setUniqueProperty(poPotentialDriveAim, ePredicate.HASPOTENTIALDRIVEAIM, true);
