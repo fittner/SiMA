@@ -156,7 +156,8 @@ public class clsPsychicApparatus {
 	
 	/** The knowlegdebase / aka memory; @since 13.07.2011 17:48:27 */
 	//public clsKnowledgeBaseHandler moKnowledgeBaseHandler;
-	public itfModuleMemoryAccess moLongTermMemory;
+    public itfModuleMemoryAccess moLongTermMemory;
+    //public itfModuleMemoryAccess moWorkingMemory;
 	/** Libido buffer storage. Necessary for DT1.; @since 13.07.2011 17:48:42 */
 	public DT1_PsychicIntensityBuffer moLibidoBuffer;
 	/** Blocked content storage. Necessary for DT2.; @since 13.07.2011 17:49:01 */
