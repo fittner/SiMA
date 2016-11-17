@@ -2659,11 +2659,14 @@ public class clsMeshTools
             // Check internal associations
             for (clsAssociation oExternalAss : poSourceWPM.getInternalAssociatedContent())
             {
-                if (oExternalAss.getLeafElement().equals(poRootOrLeafDeleteObject) || oExternalAss.getRootElement().equals(poRootOrLeafDeleteObject))
+                if (oExternalAss.getLeafElement() != null && poRootOrLeafDeleteObject != null && oExternalAss.getRootElement() != null)
                 {
-                    bFound = true;
-                    oDeleteAss = oExternalAss;
-                    break;
+                    if (oExternalAss.getLeafElement().equals(poRootOrLeafDeleteObject) || oExternalAss.getRootElement().equals(poRootOrLeafDeleteObject))
+                    {
+                        bFound = true;
+                        oDeleteAss = oExternalAss;
+                        break;
+                    }
                 }
             }
 

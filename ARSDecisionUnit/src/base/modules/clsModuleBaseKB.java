@@ -37,8 +37,9 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	/** The knowledgebasehandler (aka the memory); @since 13.07.2011 13:46:56 */
 	//protected clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	
-	private itfModuleMemoryAccess moMemoryAccess;
-	
+    private itfModuleMemoryAccess moMemoryAccess;
+    //private itfModuleMemoryAccess moWorkingMemoryAccess;
+    
 	//protected clsPsychicSpreadActivation moSpreadActivationHandler;
 
 
@@ -63,6 +64,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		//moSpreadActivationHandler = new clsPsychicSpreadActivation(this);
 		moMemoryAccess = poMemoryAccess;
+		//moWorkingMemoryAccess = poWorkingMemoryAccess;
 	}
 	
 	/**
@@ -73,6 +75,10 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	public itfModuleMemoryAccess getLongTermMemory() {
  		return moMemoryAccess;
 	}
+	
+	 //  public itfModuleMemoryAccess getWorkingMemory() {
+	 //       return moWorkingMemoryAccess;
+	 //   }
 
 //	/**
 //	 * Search for entities.

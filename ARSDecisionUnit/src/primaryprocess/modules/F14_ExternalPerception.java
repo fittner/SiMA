@@ -11,6 +11,7 @@ import inspector.interfaces.itfGraphCompareInterfaces;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -115,8 +116,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	
 	ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();
 	List<clsEmotion> moCurrentEmotions = new ArrayList<>();
-	clsThingPresentationMesh moTPM_Action;
-	clsThingPresentationMesh moTPM_Object;
+	public static clsThingPresentationMesh moTPM_Action;
+	public static clsThingPresentationMesh moTPM_Object;
 	
 	//These two are pass-through parameters that will be sent to F46 without being used
 	clsWordPresentationMesh moWordingToContext_IN = null;
@@ -131,6 +132,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     public static final String P_EMOTIONRECOGNITION_PRIMING_INTENSITY = "EMOTIONRECOGNITION_PRIMING_INTENSITY";
     
     public static final int N_PROXIMITY_DISTANCE = 17; 
+    public static ArrayList<clsDriveMesh> moSTM_DM = new ArrayList<clsDriveMesh>();;
     
     private double mrEmotionrecognitionPrimingPleasure;
     private double mrEmotionrecognitionPrimingUnpleasure;
@@ -428,6 +430,91 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         //moDrives_IN.toString();
         //moTPM_Action;
         //moTPM_Object;
+        double maxPleasure = 0.0;
+        int indexDrive;
+        int i;
+        clsDriveMesh Drive_STM_Candidate=null;
+        
+        for ( clsDriveMesh Drive : moDrives_IN)
+        {
+            if(Drive.getPleasureSumMax() > maxPleasure)
+            {
+                maxPleasure = Drive.getPleasureSumMax();
+                Drive_STM_Candidate = Drive;
+                try
+                {
+                    if(moTPM_Action != null)
+                    {
+                        Drive_STM_Candidate.setActualDriveAim(moTPM_Action, 1.0);
+                        Drive_STM_Candidate.setQuotaOfAffect(Drive_STM_Candidate.getPleasureSumMax());
+                    }
+                }
+                catch (Exception e)
+                {
+                    // TODO (noName) - Auto-generated catch block
+                    e.printStackTrace();
+                }
+                try
+                {
+                    if(moTPM_Object != null)
+                    {
+                        Drive_STM_Candidate.setActualDriveObject(moTPM_Object, 1.0);
+                    }
+                }
+                catch (Exception e)
+                {
+                    // TODO (noName) - Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        Comparator<clsDriveMesh> compare;
+        boolean equal=false;
+        if(moSTM_DM.size()>0)
+        {
+            for ( clsDriveMesh Drive : moSTM_DM)
+            {
+                double compare2 = 0;
+                if ((moTPM_Object != null) && (moTPM_Action != null) )
+                {
+                    compare2 += Drive.getDriveComponent().compareTo(Drive_STM_Candidate.getDriveComponent());
+                    compare2 += Drive.getActualDriveSourceAsENUM().compareTo(Drive_STM_Candidate.getActualDriveSourceAsENUM());
+                    compare2 += Drive.getPartialDrive().compareTo(Drive_STM_Candidate.getPartialDrive());
+                    
+                    compare2 += Drive.getActualDriveAim().compareTo(Drive_STM_Candidate.getActualDriveAim());
+                    compare2 += Drive.getActualDriveObject().compareTo(Drive_STM_Candidate.getActualDriveObject());
+                }
+                
+                if(compare2 > 100) 
+                {
+                    equal = true;
+                    if(Drive_STM_Candidate.getQuotaOfAffect() > Drive.getQuotaOfAffect()) 
+                    {
+                        Drive.setQuotaOfAffect(Drive_STM_Candidate.getQuotaOfAffect());
+                    }
+                }
+                else
+                {
+                    Drive = null;
+                }
+            }
+            
+            if(!equal)
+            {
+                moSTM_DM.add(Drive_STM_Candidate);
+            }
+        }
+        else
+        {
+            if(Drive_STM_Candidate != null)
+            {
+                moSTM_DM.add(Drive_STM_Candidate);    
+            }
+        }
+        
+            
+ 
+        
         
         ArrayList<clsDriveMesh> moPrimalRepressionMemory =  new ArrayList<clsDriveMesh>();
         
@@ -441,9 +528,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
             clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECOMPONENT, 
                                                                        new ArrayList<clsThingPresentationMesh>(),     oData.get(2)), (eDriveComponent)oData.get(0), (ePartialDrive)oData.get(1));
             oDM.setQuotaOfAffect( (Double)oData.get(3) ); 
-            moPrimalRepressionMemory.add(oDM);      
+            moPrimalRepressionMemory.add(oDM);   
         }
 
+        
         
         //clsDataStructureGenerator.generateDM(poContent, poDriveComponent, poPartialDrive);
         
@@ -1830,7 +1918,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public ArrayList<eInterfaces> getCompareInterfacesSend() {
 		return getInterfacesSend();
 	}
+	
+	public clsThingPresentationMesh getAction() {
+	        return moTPM_Action;
+	}
 
+	public clsThingPresentationMesh getObject() {
+           return moTPM_Object;
+    }
     /* (non-Javadoc)
      *
      * @since 07.10.2014 15:20:36

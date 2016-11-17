@@ -29,6 +29,7 @@ import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.modules.clsModuleBase;
@@ -281,8 +282,23 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
                             
                         }
                     }
-                }				
-				
+                }
+                //
+                if (F14_ExternalPerception.moSTM_DM.size() > 0)
+                {
+                    for(clsDriveMesh Drive:F14_ExternalPerception.moSTM_DM)
+                    {
+                        ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList = oSearchResult.get(0);
+                        
+                        clsPrimaryDataStructureContainer oDataStructureContainer = new clsPrimaryDataStructureContainer(null, null);
+                        oDataStructureContainer.setMoDataStructure(Drive);
+                        oSearchList.add(new clsPair<Double, clsDataStructureContainer>(1.0, oDataStructureContainer));
+                    }
+                }
+                
+                
+                
+                
 				rMaxDecisionfactor = 0.0;
 				rCurrentMatchFactor = 0.0;
 				rCurrentDecisionFactor= 0.0;

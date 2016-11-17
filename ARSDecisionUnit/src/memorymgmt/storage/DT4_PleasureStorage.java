@@ -39,6 +39,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
     private long tmpCalc_cnt = 911911911;
 	private ArrayList<clsDriveMesh> moAllDrivesLastStep;
     private ArrayList<clsDriveMesh> moAllDrivesXSteps;
+    public  double moPleasure;
 
 	public DT4_PleasureStorage() {
 		
@@ -120,6 +121,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
                         {
                             tmpCalc = 0;
                             moAllDrivesXSteps.get(i).setQuotaOfAffect(mrQuotaOfAffect);
+                            moPleasure = moAllDrivesXSteps.get(i).getPleasureSumMax();
                         }
                         
                         if(tmpCalc == 0)
@@ -139,7 +141,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
                         if( moAllDrivesXSteps.get(i).getPleasureSum() > moAllDrivesXSteps.get(i).getPleasureSumMax())
                         {
                             moAllDrivesXSteps.get(i).setPleasureSumMax(moAllDrivesXSteps.get(i).getPleasureSum());
-                            moAllDrivesActualStep.get(i).setPleasureSumMax(moAllDrivesXSteps.get(i).getPleasureSum());
+                            
                         }
                         else if( moAllDrivesXSteps.get(i).getPleasureSum() < moAllDrivesXSteps.get(i).getPleasureSumMax())
                         {
@@ -152,6 +154,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
                         //}
                     }
                 }
+                moAllDrivesActualStep.get(i).setPleasureSumMax(moAllDrivesXSteps.get(i).getPleasureSumMax());
                 i++;
             }
 	    }

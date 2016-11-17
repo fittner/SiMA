@@ -1,4 +1,4 @@
-; Fri Oct 28 05:27:44 GMT 2016
+; Thu Nov 17 15:27:31 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3496,7 +3496,8 @@
 		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3AANAL]
 		[AD%3AAIM%3ABODO%3ABEAT%3AANAL])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.2)
+	(psychic_satisfaction 0.0)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3508,8 +3509,8 @@
 		[AD%3AAIM%3ABODO%3ABEAT%3AANAL]
 		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3AANAL])
 	(partial_drive "ANAL")
-	(psychic_satisfaction 0.2)
-	(quotaOfAffect 0.2)
+	(psychic_satisfaction 0.0)
+	(quotaOfAffect 0.0)
 	(value "DM:ANAL:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3521,8 +3522,8 @@
 		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3APHALLIC]
 		[AD%3AAIM%3ABODO%3ABEAT%3APHALLIC])
 	(partial_drive "PHALLIC")
-	(psychic_satisfaction 0.2)
-	(quotaOfAffect 0.2)
+	(psychic_satisfaction 0.0)
+	(quotaOfAffect 0.0)
 	(value "DM:PHALIC:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3534,7 +3535,7 @@
 		[AD%3ADRIVEOBJECT%3AAPPLEBASIC%3ABITE]
 		[AD%3AAIM%3AAPPLE%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.11)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3546,7 +3547,7 @@
 		[AD%3ADRIVEOBJECT%3ABODO%3ABITE]
 		[AD%3AAIM%3ABODO%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.2)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3558,7 +3559,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3ABITE]
 		[AD%3AAIM%3ACAKE%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.8)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3570,7 +3571,7 @@
 		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3ABITE]
 		[AD%3AAIM%3ACARROT%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.1)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3594,7 +3595,7 @@
 		[AD%3ADRIVEOBJECT%3ASTONE%3ABITE]
 		[AD%3AAIM%3ASTONE%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.1)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3636,7 +3637,7 @@
 		[AD%3ADRIVEOBJECT%3AAPPLEBASIC%3AEAT]
 		[AD%3AAIM%3AAPPLE%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.1)
+	(quotaOfAffect 0.09)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3660,7 +3661,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3AEAT]
 		[AD%3AAIM%3ACAKE%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.3)
+	(quotaOfAffect 0.02)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3672,7 +3673,7 @@
 		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3AEAT]
 		[AD%3AAIM%3ACARROT%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.3)
+	(quotaOfAffect 0.14)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3684,7 +3685,7 @@
 		[AD%3ADRIVEOBJECT%3AMOTHERS_BREAST%3AEAT]
 		[AD%3AAIM%3AMOTHERSBREASTS%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.1)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3838,8 +3839,8 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ASHARE_FOOD]
 		[AD%3AAIM%3ACAKE%3ASHARE_FOOD])
 	(partial_drive "UNDEFINED")
-	(psychic_satisfaction 1.0)
-	(quotaOfAffect 0.2)
+	(psychic_satisfaction 0.0)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3882,23 +3883,23 @@
 
 ([EMOTION%3AA06_BEAT_BODO_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.35)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.2)
-	(sourceLibid 0.15)
-	(sourcePleasure 0.05)
-	(sourceUnpleasure 0.35)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA06_BEAT_BODO_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.4)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.2)
-	(sourceLibid 0.15)
-	(sourcePleasure 0.05)
-	(sourceUnpleasure 0.35)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -4058,7 +4059,7 @@
 
 ([EMOTION%3AA12_EAT_APPLE_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.35)
+	(emotionIntensity 0.3)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
@@ -4069,7 +4070,7 @@
 
 ([EMOTION%3AA12_EAT_APPLE_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.4)
+	(emotionIntensity 0.3)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
@@ -4135,7 +4136,7 @@
 
 ([EMOTION%3AA12_EAT_APPLE_L01_I03%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.1)
+	(emotionIntensity 0.3)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
@@ -4234,7 +4235,7 @@
 
 ([EMOTION%3AA12_EAT_CARROT_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.35)
+	(emotionIntensity 0.3)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
@@ -4245,7 +4246,7 @@
 
 ([EMOTION%3AA12_EAT_CARROT_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.4)
+	(emotionIntensity 0.3)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
