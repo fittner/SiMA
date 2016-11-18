@@ -37,7 +37,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	public static final String moContent = null;
 	private double mrQuotaOfAffect = 0.0;               //0-1
-	private double mrPleasureSum = 0.0;               //0-1
+	private double mrQuotaOfAffect_lastStep = 0.0;               //0-1
+    private double mrPleasureSum = 0.0;               //0-1
 	private double mrPleasureSumMax = 0.0;               //0-1
     private int    mdLearningCnt = 0;               //0-1
     private double mrPsychicSatisfactionValue = 0.0;
@@ -428,6 +429,16 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     /**
      * @since 11.07.2012 14:10:00
      * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getQuotaOfAffect_lastStep() {
+        return mrQuotaOfAffect_lastStep;
+    }   
+    
+
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
      * @param mrQuotaOfAffect the mrQuotaOfAffect to set
      */
     public void setLearningCnt(int mdLearningCnt) {
@@ -478,7 +489,16 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     public void setQuotaOfAffect(double mrQuotaOfAffect) {
         this.mrQuotaOfAffect = mrQuotaOfAffect;
     }
-	
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double setQuotaOfAffect_lastStep(double mrQuotaOfAffect) {
+        return mrQuotaOfAffect_lastStep = mrQuotaOfAffect;
+    }   
+
 	/**
 	 * @since 28.01.2013 14:10:00
 	 * 
