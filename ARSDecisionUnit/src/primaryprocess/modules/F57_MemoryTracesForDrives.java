@@ -292,10 +292,17 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
                 {
                     for ( clsDriveMesh Drive : F14_ExternalPerception.moSTM_DM)
                     {
-                        ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList = oSearchResult.get(0);
-                        clsPrimaryDataStructureContainer oDataStructureContainer = new clsPrimaryDataStructureContainer(null, null);
-                        oDataStructureContainer.setMoDataStructure(Drive);
-                        oSearchList.add(new clsPair<Double, clsDataStructureContainer>(1.0, oDataStructureContainer));
+                        if (  Drive.getDriveComponent().equals(oSimulatorDM.getDriveComponent())
+                           && Drive.getActualDriveSourceAsENUM().equals(oSimulatorDM.getActualDriveSourceAsENUM())
+                           && Drive.getPartialDrive().equals(oSimulatorDM.getPartialDrive())
+                           )
+                        {
+                            ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList = oSearchResult.get(0);
+                            clsPrimaryDataStructureContainer oDataStructureContainer = new clsPrimaryDataStructureContainer(null, null);
+                            oDataStructureContainer.setMoDataStructure(Drive);
+                            oSearchList.add(new clsPair<Double, clsDataStructureContainer>(1.0, oDataStructureContainer));
+                        }
+                        
                     }
                 }
                 
