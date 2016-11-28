@@ -286,7 +286,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
         log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: "
                 + planGoal.getSupportiveDataStructure().toString() + "\n==============================");
-        this.moTEMPDecisionString = setDecisionString(planGoal);
+        //this.moTEMPDecisionString = setDecisionString(planGoal);
         
         // Get action command from goal
         try {

@@ -61,6 +61,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 
     private  ArrayList<clsDriveMesh> moDrivesAndTraces_OUT;
     
+    private  ArrayList<ArrayList<String>> moBuffer_Objects_Aims = new ArrayList<ArrayList<String>>();;
+    private int counter=0;
+    
     private double mrThresholdMatchFactor;
     private double mrThresholdPleasure;
     private double moPleasure;
@@ -288,9 +291,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
                 //if STM DM == oSimulatorDM
                 //Add a copy of the first Result
                 
-                if (F14_ExternalPerception.moSTM_DM.size() > 0)
+                ArrayList<clsDriveMesh> moSTM_DM_copy = (ArrayList<clsDriveMesh>) F14_ExternalPerception.moSTM_DM.clone();
+                if (moSTM_DM_copy.size() > 0)
                 {
-                    for ( clsDriveMesh Drive : F14_ExternalPerception.moSTM_DM)
+                    for ( clsDriveMesh Drive : moSTM_DM_copy)
                     {
                         if (  Drive.getDriveComponent().equals(oSimulatorDM.getDriveComponent())
                            && Drive.getActualDriveSourceAsENUM().equals(oSimulatorDM.getActualDriveSourceAsENUM())
@@ -409,6 +413,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
                                     oDriveAim = oMemoryDM.getActualDriveAim();
                                     oDriveObject = oMemoryDM.getActualDriveObject();
                                     rSatisfactionOfActualDM = rCurrentDecisionFactor;
+                                    
+
                                 }
                                  
                                 
@@ -430,7 +436,13 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
                         oSimulatorDM.setActualDriveObject(oDriveObject, 1.0);       
                         oSimulatorDM.setActualDriveAim(oDriveAim, 1.0); 
                         oSimulatorDM.setMoContentType(eContentType.DRIVEREPRESENTATION);
-                        oRetVal.add(oSimulatorDM);                                              
+                        oRetVal.add(oSimulatorDM);
+                        ArrayList<String> moBuffer_Object_Aim = new ArrayList<String>();
+                        moBuffer_Object_Aim.add(String.valueOf(counter));
+                        counter++;
+                        moBuffer_Object_Aim.add(oDriveAim.toString());
+                        moBuffer_Object_Aim.add(oDriveObject.toString());
+                        moBuffer_Objects_Aims.add(moBuffer_Object_Aim);
                     }
                     else {
                         

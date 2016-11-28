@@ -129,23 +129,28 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	    }
 	
 	
-	public clsThingPresentationMesh getActualDriveObject(){
+	public clsThingPresentationMesh getActualDriveObject()
+	{
 		return getAssociatedObject(eContentType.ENTITY);
 	}
 	
-	public clsThingPresentationMesh getActualDriveAim(){
+	public clsThingPresentationMesh getActualDriveAim()
+	{
 		return getAssociatedObject(eContentType.ACTION);
 	}
 	
-	public clsThingPresentationMesh getActualBodyOrifice(){
+	public clsThingPresentationMesh getActualBodyOrifice()
+	{
 		return getAssociatedObject(eContentType.ORIFICE);
 	}
 	
-	public double getPsychicSatisfactionValue(){
+	public double getPsychicSatisfactionValue()
+	{
 	    return mrPsychicSatisfactionValue;
 	}
 	//orifices are fixed for PA body, thus we can do this here
-	public eOrifice getActualBodyOrificeAsENUM(){
+	public eOrifice getActualBodyOrificeAsENUM()
+	{
 		
 		eOrifice retVal = eOrifice.UNDEFINED;
 		
@@ -336,12 +341,14 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	
 	public String toString(){
-		String oRetval = "|DM:";
-		oRetval += ":QoASum="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
-		oRetval += ":PleSum= " + GetQuotaOfAffectAsMyString(this.getPleasureSum());
+	    String oRetval = "|DM:";
+	    oRetval += ":Action="+(this.getActualDriveAim()!=null?this.getActualDriveAim().getContent():"no action");
+	    oRetval += ":Object="+(this.getActualDriveObject()!=null?this.getActualDriveObject().getContent():"no object");
+        oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
+        oRetval += ":QoASum="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
+        oRetval += ":PleSum= " + GetQuotaOfAffectAsMyString(this.getPleasureSum());
         oRetval += ":PleSumMax= " + GetQuotaOfAffectAsMyString(this.getPleasureSumMax());
         oRetval += ":LeaCnt= " + GetQuotaOfAffectAsMyString(this.getLearningCnt());
-        oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
         oRetval += ":DComponent="+this.moDriveComponent.toString();
 		oRetval += ":PartialD="+this.moPartialDrive.toString();
 		oRetval += ":Organ="+this.getActualDriveSourceAsENUM();
