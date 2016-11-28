@@ -155,9 +155,14 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBaseKB implements I
 		}
 		clsThingPresentationMesh Action;
 		clsThingPresentationMesh Object;
-        
-		moTPM_Action = clsMeshTools.getPrimaryDataStructureOfWPM(moAction);
-		moTPM_Object = clsMeshTools.getPrimaryDataStructureOfWPM(moObject);
+        if(moAction != null)
+        {
+            moTPM_Action = clsMeshTools.getPrimaryDataStructureOfWPM(moAction);
+        }
+        if(moObject != null)
+        {
+            moTPM_Object = clsMeshTools.getPrimaryDataStructureOfWPM(moObject);
+        }
         
 		Action = moTPM_Action;
 		Object = moTPM_Object;

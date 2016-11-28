@@ -809,7 +809,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase
             // Special BLOODSUGAR
             if (oEntry.getKey() == "BLOODSUGAR")
             {
-                rEntryTension = 1 - rEntryTension;
+                rEntryTension = 1 - (rEntryTension/2);
             }
 
             // Special STAMINA

@@ -1,62 +1,69 @@
-; Thu Nov 17 15:27:31 GMT 2016
+; Mon Nov 28 15:27:18 GMT 2016
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class10229] of  String
+([ADAM_EC2SC2_EAT_ProjectKB_Class663] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class10230] of  String
+([ADAM_EC2SC2_EAT_ProjectKB_Class664] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class10231] of  String
+([ADAM_EC2SC2_EAT_ProjectKB_Class665] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class10232] of  String
+([ADAM_EC2SC2_EAT_ProjectKB_Class666] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class10233] of  String
+([ADAM_EC2SC2_EAT_ProjectKB_Class667] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class10234] of  Map_Entry
+([ADAM_EC2SC2_EAT_ProjectKB_Class668] of  Map_Entry
+
+	(key "show_collaboration_panel")
+	(key_class "java.lang.String")
+	(value "true")
+	(value_class "java.lang.Boolean"))
+
+([ADAM_EC2SC2_EAT_ProjectKB_Class669] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class10235] of  Map_Entry
+([ADAM_EC2SC2_EAT_ProjectKB_Class670] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class10236] of  Map_Entry
+([ADAM_EC2SC2_EAT_ProjectKB_Class671] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class10237] of  Map
+([ADAM_EC2SC2_EAT_ProjectKB_Class672] of  Map
 )
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class10238] of  Map_Entry
+([ADAM_EC2SC2_EAT_ProjectKB_Class673] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_EC2SC2_EAT_ProjectKB_Class10237")
+	(value "ADAM_EC2SC2_EAT_ProjectKB_Class672")
 	(value_class "java.util.Map"))
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
@@ -104,11 +111,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_EC2SC2_EAT_ProjectKB_Class10229]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class10230]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class10231]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class10232]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class10233]))
+		[ADAM_EC2SC2_EAT_ProjectKB_Class663]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class664]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class665]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class666]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class667]))
 
 ([CLSES_TAB] of  Widget
 
@@ -153,7 +160,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_424885_Class5] of  Map
+([KB_369349_Class5] of  Map
 )
 
 ([KB_610615_Class0] of  String
@@ -164,11 +171,12 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_EC2SC2_EAT_ProjectKB_Class10234]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class10235]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class10236]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class10238])
-	(referenced_maps [ADAM_EC2SC2_EAT_ProjectKB_Class10237]))
+		[ADAM_EC2SC2_EAT_ProjectKB_Class668]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class669]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class670]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class671]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class673])
+	(referenced_maps [ADAM_EC2SC2_EAT_ProjectKB_Class672]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -710,11 +718,11 @@
 
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
-		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
-		[STANDARD_SLOT_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET]
-		[PAL_FORM_WIDGET])
+		[PAL_FORM_WIDGET]
+		[STANDARD_SLOT_FORM_WIDGET]
+		[INSTANCE_ANNOTATION_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protege.widget.FormWidget")
