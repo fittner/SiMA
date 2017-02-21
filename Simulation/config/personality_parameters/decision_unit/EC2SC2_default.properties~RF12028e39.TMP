@@ -166,7 +166,7 @@ F64.IMPACT_FACTOR_GENITAL.description =
 
 #F65 Partial self preservation drives
 #Stomach Drive
-F65.HOMEOSTASIS_IMPACT_FACTOR_BLOODSUGAR.value=1.0
+F65.HOMEOSTASIS_IMPACT_FACTOR_BLOODSUGAR.value=0.5
 F65.HOMEOSTASIS_IMPACT_FACTOR_BLOODSUGAR.description=Homeostatis impact factor for the stomach
 F65.EROGENOUS_ZONES_IMPACT_STOMACH.value = 0.7
 F65.EROGENOUS_ZONES_IMPACT_STOMACH.description = How important is the erogenous zones value for the drive generation

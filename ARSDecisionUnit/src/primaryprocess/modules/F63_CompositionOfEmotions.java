@@ -404,6 +404,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase implements itfInspe
         DataCollector.all().putEmotionVectorsF63(oDrivesExtractedValues, oPerceptionExtractedValues, oMemoryExtractedValues);
         DataCollector.all().putBasicEmotionF63(moEmotions_OUT.get(0));
 
+        // TODO: Fehler die letzte Zeile rPerception setzt die Emotionen die weiter von F71 verarbeitet werden.
         clsEmotion oFromDrives = getEmotionFromMap(oDrivesExtractedValues, "rDrive");
         clsEmotion oFromPerceptionDrive = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionDriveMesh");
         clsEmotion oFromPerceptionExperiences = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionExperience");
