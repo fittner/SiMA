@@ -595,7 +595,7 @@ public class clsGoalManipulationTools {
         clsWordPresentationMeshAimOfDrive oRetVal = clsGoalManipulationTools.createAimOfDrive(oDriveContent, eGoalType.DRIVESOURCE, rImportance, oAction, oDriveObject, clsMeshTools.getNullObjectWPM());
         
 	    return oRetVal;
-	}
+	} 
 	
 	/**
 	 * Create  a list of goals from drive meshes

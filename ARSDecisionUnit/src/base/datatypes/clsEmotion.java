@@ -523,9 +523,11 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    return generateExtendedEmotions(mrRelativeThreshold);
 	}
 	
+	//mrRelativeThreshold = poPersonalityParameterContainer.getPersonalityParameter("F" + P_MODULENUMBER, P_REALATIV_THRESHOLD).getParameterDouble();
 	public ArrayList<clsEmotion> generateExtendedEmotions(double prRelativeThreshold) {
 	    ArrayList<clsEmotion> oExtEmotions = new ArrayList<>();
 	    
+	    // TODO: fittner: Hier wird der Emotionsvektor neu aufgebaut. Warum keine Übernahme aus F63?
 	    // Normalize to be able to decide which basic category prevails/dominates
         double rSumValuesPlUnPl = mrSourceUnpleasure + mrSourcePleasure;
         double rSumValuesLibidAggr =  mrSourceAggr + mrSourceLibid;        

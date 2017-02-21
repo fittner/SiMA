@@ -1,69 +1,62 @@
-; Mon Nov 28 15:27:18 GMT 2016
+; Wed Jan 18 15:46:13 GMT 2017
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class663] of  String
+([ADAM_EC2SC2_EAT_ProjectKB_Class118] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class664] of  String
+([ADAM_EC2SC2_EAT_ProjectKB_Class119] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class665] of  String
+([ADAM_EC2SC2_EAT_ProjectKB_Class120] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class666] of  String
+([ADAM_EC2SC2_EAT_ProjectKB_Class121] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class667] of  String
+([ADAM_EC2SC2_EAT_ProjectKB_Class122] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class668] of  Map_Entry
-
-	(key "show_collaboration_panel")
-	(key_class "java.lang.String")
-	(value "true")
-	(value_class "java.lang.Boolean"))
-
-([ADAM_EC2SC2_EAT_ProjectKB_Class669] of  Map_Entry
+([ADAM_EC2SC2_EAT_ProjectKB_Class123] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class670] of  Map_Entry
+([ADAM_EC2SC2_EAT_ProjectKB_Class124] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class671] of  Map_Entry
+([ADAM_EC2SC2_EAT_ProjectKB_Class125] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class672] of  Map
+([ADAM_EC2SC2_EAT_ProjectKB_Class126] of  Map
 )
 
-([ADAM_EC2SC2_EAT_ProjectKB_Class673] of  Map_Entry
+([ADAM_EC2SC2_EAT_ProjectKB_Class127] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_EC2SC2_EAT_ProjectKB_Class672")
+	(value "ADAM_EC2SC2_EAT_ProjectKB_Class126")
 	(value_class "java.util.Map"))
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
@@ -111,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_EC2SC2_EAT_ProjectKB_Class663]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class664]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class665]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class666]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class667]))
+		[ADAM_EC2SC2_EAT_ProjectKB_Class118]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class119]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class120]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class121]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class122]))
 
 ([CLSES_TAB] of  Widget
 
@@ -160,9 +153,6 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_369349_Class5] of  Map
-)
-
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -171,12 +161,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_EC2SC2_EAT_ProjectKB_Class668]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class669]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class670]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class671]
-		[ADAM_EC2SC2_EAT_ProjectKB_Class673])
-	(referenced_maps [ADAM_EC2SC2_EAT_ProjectKB_Class672]))
+		[ADAM_EC2SC2_EAT_ProjectKB_Class123]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class124]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class125]
+		[ADAM_EC2SC2_EAT_ProjectKB_Class127])
+	(referenced_maps [ADAM_EC2SC2_EAT_ProjectKB_Class126]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -630,6 +619,9 @@
 ([KB_610615_Class99] of  Property_List
 )
 
+([KB_730614_Class5] of  Map
+)
+
 ([LAYOUT_PROPERTIES] of  Property_List
 
 	(name "layout properties")
@@ -718,11 +710,11 @@
 
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
+		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
-		[STANDARD_CLASS_FORM_WIDGET]
-		[PAL_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
-		[INSTANCE_ANNOTATION_FORM_WIDGET])
+		[STANDARD_CLASS_FORM_WIDGET]
+		[PAL_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protege.widget.FormWidget")
