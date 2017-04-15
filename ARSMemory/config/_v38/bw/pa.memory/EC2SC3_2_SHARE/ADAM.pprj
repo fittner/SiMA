@@ -1,62 +1,62 @@
-; Tue Jan 05 15:04:19 GMT 2016
+; Tue Feb 21 15:45:11 GMT 2017
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
 
-([ADAM_ProjectKB_Class79] of  String
+([ADAM_ProjectKB_Class83] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ADAM_ProjectKB_Class80] of  String
+([ADAM_ProjectKB_Class84] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_ProjectKB_Class81] of  String
+([ADAM_ProjectKB_Class85] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([ADAM_ProjectKB_Class82] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([ADAM_ProjectKB_Class83] of  String
+([ADAM_ProjectKB_Class86] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([ADAM_ProjectKB_Class84] of  Map_Entry
+([ADAM_ProjectKB_Class87] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([ADAM_ProjectKB_Class88] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_ProjectKB_Class85] of  Map_Entry
+([ADAM_ProjectKB_Class89] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_ProjectKB_Class86] of  Map_Entry
+([ADAM_ProjectKB_Class90] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_ProjectKB_Class87] of  Map
+([ADAM_ProjectKB_Class91] of  Map
 )
 
-([ADAM_ProjectKB_Class88] of  Map_Entry
+([ADAM_ProjectKB_Class92] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_ProjectKB_Class87")
+	(value "ADAM_ProjectKB_Class91")
 	(value_class "java.util.Map"))
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_ProjectKB_Class79]
-		[ADAM_ProjectKB_Class80]
-		[ADAM_ProjectKB_Class81]
-		[ADAM_ProjectKB_Class82]
-		[ADAM_ProjectKB_Class83]))
+		[ADAM_ProjectKB_Class83]
+		[ADAM_ProjectKB_Class84]
+		[ADAM_ProjectKB_Class85]
+		[ADAM_ProjectKB_Class86]
+		[ADAM_ProjectKB_Class87]))
 
 ([CLSES_TAB] of  Widget
 
@@ -153,7 +153,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_320279_Class5] of  Map
+([KB_370502_Class5] of  Map
 )
 
 ([KB_610615_Class0] of  String
@@ -164,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_ProjectKB_Class84]
-		[ADAM_ProjectKB_Class85]
-		[ADAM_ProjectKB_Class86]
-		[ADAM_ProjectKB_Class88])
-	(referenced_maps [ADAM_ProjectKB_Class87]))
+		[ADAM_ProjectKB_Class88]
+		[ADAM_ProjectKB_Class89]
+		[ADAM_ProjectKB_Class90]
+		[ADAM_ProjectKB_Class92])
+	(referenced_maps [ADAM_ProjectKB_Class91]))
 
 ([KB_610615_Class10] of  Property_List
 )
