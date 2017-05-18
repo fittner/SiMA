@@ -107,7 +107,7 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 		// simple toString output
 		//text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
         // complex clsDumper output
-        text += "moPerceptionalMesh_IN:" + clsDumper.dump(moPerceptionalMesh_IN,0,0,ignoreList) + "\n";	
+        text += "moPerceptionalMesh_IN:" + clsDumper.dump(moPerceptionalMesh_IN,3,0,ignoreList) + "\n";	
 		
 		return text;
 	}	
