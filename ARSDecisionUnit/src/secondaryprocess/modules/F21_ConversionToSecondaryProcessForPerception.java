@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.enums.ePredicate;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -28,11 +31,19 @@ import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.functionality.conversion.DataStructureConversion;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import testfunctions.clsTester;
+import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationAttribute;
+import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsEmotion;
+import base.datatypes.clsPrimaryDataStructure;
+import base.datatypes.clsSecondaryDataStructure;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.clsWordPresentation;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
@@ -57,6 +68,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
     private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
     private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
     private static final String P_INFLUENCE_FACTOR_DRIVEDEMAND = "INFLUENCE_FACTOR_DRIVEDEMAND";
+    private static final String P_ERROR_NO_WP_OR_WPM = "The data structure is neither WP nor WPM!";
 	            
 	private double mrModuleStrength;
     private double mrInitialRequestIntensity;
@@ -225,7 +237,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	    log.debug("Incoming associated images {}", PrintTools.printImagesInMesh(moPerceptionalMesh_IN));//clsMeshTools.getAllTPMImages(moPerceptionalMesh_IN, 5));
 
 	    //MJ Test whether the code has to be executed under the adjusted implementation variant.
-	    if (clsImplementationVariant.permittedByImplementationVariant(clsImplementationVariant.implementationVariantAW)) {
+/*	    if (clsImplementationVariant.permittedByImplementationVariant(clsImplementationVariant.implementationVariantAW)) {
 	        System.out.printf("F21: Code is executed if AW.\n");	        
 	    }
 	    if (clsImplementationVariant.permittedByImplementationVariant(clsImplementationVariant.implementationVariantMJ)) {
@@ -236,7 +248,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	    } else {
             System.out.printf("F21: Code is not executed.\n");
 	    }
-	        
+*/
+	    
 	        
 	    
 	    // Search for all images from the primary process in the memory
@@ -255,7 +268,65 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		log.info("Perceived Image: " + oWPMConstruct.a);
 		log.info("Found Acts:" + oWPMConstruct.b);
 		
-		// Assign the output to the meshes
+        if (clsImplementationVariant.permittedByImplementationVariant(clsImplementationVariant.implementationVariantMJ)) {
+            clsWordPresentationMesh oWPMresult = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.PI), new ArrayList<clsAssociation>(), "CURRENTWPMLIST"); // This is the container list of WPMs for the function output.
+            int nCounterPerceivedObjects = 0;
+            clsWordPresentationMesh oAtomicPropositionNew;
+            // For all TPMs in the PI atomic propositions are created as WPS and added to the list of WPMs in oWPMresult.
+            for (clsAssociation oAssciationOfPI : moPerceptionalMesh_IN.getInternalAssociatedContent()) {
+                clsThingPresentationMesh oTPMofPI = (clsThingPresentationMesh) oAssciationOfPI.getAssociationElementB();
+                if (!oTPMofPI.getContent().contentEquals(eContentType.EMPTYSPACE.toString())) { // If the content at a certain position is Emptyspace no WPM is created for it.
+                    clsWordPresentationMesh oWPMforTPMofPI = (clsWordPresentationMesh)this.getLongTermMemory().getSecondaryDataStructure(oTPMofPI, -1).getLeafElement(); // For the TPM the associated WPM is taken from the memory.
+                    clsWordPresentationMesh oObjectvariableLocal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.WPM), new ArrayList<clsAssociation>(), "X" + nCounterPerceivedObjects++); // A variable WPM is created for this perceived TPM.
+                    oAtomicPropositionNew = clsWordPresentationMesh.createWPSfromTwo(oWPMforTPMofPI, oObjectvariableLocal); // An atomic proposition is created with the TPM as predicate.
+                    System.out.printf("\n(" + oAtomicPropositionNew.getContent() + ")\n");
+                    clsAssociationSecondary.createAssociation(oWPMresult, oAtomicPropositionNew, ePredicate.TOCONTENT); // The new atomic proposition is added to the list of WPMs for the function output.
+                    // For each attribute (TP) associated with the TPM an atomic proposition is created as WPS.
+                    clsDataStructurePA oWPorWPMforTPorTPMofPI;
+                    // First internal associations get translated to atomic propositions.
+                    for (clsAssociation oAssociationOfoTPM : oTPMofPI.getInternalAssociatedContent()) {
+                        if (oAssociationOfoTPM instanceof clsAssociationAttribute) { // Not all the associations might be with attributes.
+                            clsPrimaryDataStructure oAssociatedTPorTPM = (clsPrimaryDataStructure)oAssociationOfoTPM.getAssociationElementB();                       
+                            try { // For the attribute the associated or WP or WPM is taken from the memory. 
+                                oWPorWPMforTPorTPMofPI = this.getLongTermMemory().getSecondaryDataStructure(oAssociatedTPorTPM, -1).getAssociationElementA();
+                                if (!(oWPorWPMforTPorTPMofPI instanceof clsWordPresentation || oWPorWPMforTPorTPMofPI instanceof clsWordPresentationMesh)) {
+                                    // Attributes have to be WPs or WPMs.
+                                    throw new java.lang.Error(P_ERROR_NO_WP_OR_WPM);
+                                }
+                            }
+                            catch (Exception e) { // No WP or WPM was found for a certain attribute, so a dummy WPM is created with the content "SOMETHING")
+                                oWPorWPMforTPorTPMofPI = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.WPM), new ArrayList<clsAssociation>(), "SOMETHING");                                
+                            }
+                            oAtomicPropositionNew = clsWordPresentationMesh.createWPSfromTwo((clsSecondaryDataStructure)oWPorWPMforTPorTPMofPI, (clsSecondaryDataStructure)oObjectvariableLocal); // An atomic proposition is created with the attribute as predicate.
+                            clsAssociationSecondary.createAssociation(oWPMresult, oAtomicPropositionNew, ePredicate.TOCONTENT); // The new atomic proposition is added to the list of WPMs for the function output.
+                            System.out.printf("(" + oAtomicPropositionNew.getContent() + ")\n");
+                        }
+                    }
+                    // Second external associations get translated to atomic propositions.
+                    for (clsAssociation oAssociationOfoTPM : oTPMofPI.getExternalAssociatedContent()) {
+                        if (oAssociationOfoTPM instanceof clsAssociationAttribute) { // Not all the associations might be with attributes.
+                            clsPrimaryDataStructure oAssociatedTPorTPM = (clsPrimaryDataStructure)oAssociationOfoTPM.getAssociationElementB();                       
+                            try { // For the attribute the associated or WP or WPM is taken from the memory. 
+                                oWPorWPMforTPorTPMofPI = this.getLongTermMemory().getSecondaryDataStructure(oAssociatedTPorTPM, -1).getAssociationElementA();
+                                if (!(oWPorWPMforTPorTPMofPI instanceof clsWordPresentation || oWPorWPMforTPorTPMofPI instanceof clsWordPresentationMesh)) {
+                                    // Attributes have to be WPs or WPMs.
+                                    throw new java.lang.Error(P_ERROR_NO_WP_OR_WPM);
+                                }
+                            }
+                            catch (Exception e) { // No WP or WPM was found for a certain attribute, so a dummy WPM is created with the content "SOMETHING")
+                                oWPorWPMforTPorTPMofPI = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.WPM), new ArrayList<clsAssociation>(), "SOMETHING");                                
+                            }
+                            oAtomicPropositionNew = clsWordPresentationMesh.createWPSfromTwo((clsSecondaryDataStructure)oWPorWPMforTPorTPMofPI, (clsSecondaryDataStructure)oObjectvariableLocal); // An atomic proposition is created with the attribute as predicate.
+                            clsAssociationSecondary.createAssociation(oWPMresult, oAtomicPropositionNew, ePredicate.TOCONTENT); // The new atomic proposition is added to the list of WPMs for the function output.
+                            System.out.printf("(" + oAtomicPropositionNew.getContent() + ")\n");
+                        }
+                    }
+                }
+            }
+            oWPMresult = oWPMresult;
+        }
+
+        // Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;
 		moAssociatedMemories_OUT = oWPMConstruct.b;
 		

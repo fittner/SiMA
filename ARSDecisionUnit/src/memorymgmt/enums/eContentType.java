@@ -316,6 +316,10 @@ public enum eContentType {
     FAROF,
     OUT_OF_SIGHT_OF,
     
+    //for Word Presentation Sequences, by MJ
+    WPSelement,
+    WPS,
+    
     
     //Control
     HASPHANTASYFLAG,

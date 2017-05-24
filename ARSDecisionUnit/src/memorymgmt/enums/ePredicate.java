@@ -13,7 +13,6 @@ package memorymgmt.enums;
  * 
  * @author wendt
  * 12.09.2011, 09:28:44
- * @deprecated
  * 
  * CONTENT TYPE SHOULD BE USED INSTEAD OF PREDICATE - for all new functions, try to avoid predicates
  */
@@ -118,6 +117,13 @@ public enum ePredicate {
 	FAROF,
 	OUT_OF_SIGHT_OF,
 	
+
+	//WPS by MJ
+	NEXT,
+	FIRST,
+	LAST,
+	MEDIUM,
+	TOCONTENT,
 	
 	//Control
 	HASPHANTASYFLAG;

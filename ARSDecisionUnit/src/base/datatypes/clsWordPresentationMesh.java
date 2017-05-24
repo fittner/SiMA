@@ -36,8 +36,11 @@ import base.tools.ElementNotFoundException;
 public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 
 	//private String moContent = "UNDEFINED";
+    private final static String P_ERROR_INCOMPLETE_WPS = "The WPS has no first or last element!";
+    private final static String P_ERROR_ASSOCIATIONSECONDARY = "Instance not of expected type clsAssociationSecondary!";
+    private final static String P_ERROR_NO_WPS = "Object not of expected content type WPS!";
     private final static clsWordPresentationMesh moNullObject = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.NULLOBJECT), new ArrayList<clsAssociation>(), eContentType.NULLOBJECT.toString()); 
-	
+    	
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
@@ -84,6 +87,140 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         return oRetVal;
     }
 	
+    /**
+     * Creates a WPM as an Element of a WPS.
+     * A given WP or WPM is associated with the new WPS.
+     * The new WPS is returned.
+     *
+     * @author jakubec
+     * @since 05.05.2017 15:13:41
+     *
+     * @return the new WPSElement 'oNewWPS'
+     */
+    private static clsWordPresentationMesh createWPSelemment(clsSecondaryDataStructure poAssociatedWP) {
+        //Create identifiyer. All WPSelements must have the content type "WPSelement"
+        //The content of the new WPSelement is set from the content of the WP or WPM that it is supposed to connect to a WPS.
+        clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.WPSelement);
+
+        //Create the basic WPSelement structure
+        clsWordPresentationMesh WPSelement = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), poAssociatedWP.getContent());
+        
+        //The new WPSelement is associated with the given WP or WPM.
+        clsAssociationSecondary.createAssociation(WPSelement, poAssociatedWP, ePredicate.TOCONTENT);
+        
+        return WPSelement;
+    }
+
+    
+    /**
+     * Creates a WPM as a WPS.
+     * The new WPS is returned.
+     *
+     * @author jakubec
+     * @since 05.05.2017 15:13:41
+     *
+     * @return the new WPS 'oNewWPS'
+     */
+    public static clsWordPresentationMesh createWPS() {
+        
+        //Create identifier. All WPS must have the content type "WPS"
+        clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.WPS);
+
+        //Create the basic WPS structure
+        clsWordPresentationMesh oNewWPS = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), "");
+        
+        //The new WPS is associated with the given WP or WPM  .
+        //clsAssociationSecondary.createAssociation(oNewWPS, poAssociatedWP, ePredicate.TOCONTENT);
+
+        return oNewWPS;
+        
+    }
+
+    
+    /**
+     * Creates a WPM as a WPS from two WPs or WPMs.
+     * The new WPS is returned.
+     *
+     * @author jakubec
+     * @since 05.05.2017 15:13:41
+     *
+     * @return the new WPS 'oNewWPS'
+     */
+    public static clsWordPresentationMesh createWPSfromTwo(clsSecondaryDataStructure poWPSelementApplicant1, clsSecondaryDataStructure poWPSelementApplicant2) {
+        
+        clsWordPresentationMesh oNewWPS = createWPS(); // First the WPS structure has to be created.
+        oNewWPS.addWPSelement(poWPSelementApplicant1); // Now the two WPS elements have to be added to the parent node.
+        oNewWPS.addWPSelement(poWPSelementApplicant2);
+        
+        return oNewWPS;
+
+    }
+
+    
+    /**
+     * Adds a WPSelement as last element to a WPS.
+     * If this object is not a WPS the method causes an error.
+     * If the WPS doesn't have elements already the new element becomes the first and the last one.
+     *
+     * @author jakubec
+     * @since 10.05.2017
+     *
+     * @return
+     */
+    public void addWPSelement (clsSecondaryDataStructure poWPSelementApplicant) {
+
+        if (!moContentType.equals(eContentType.WPS)) {
+            // This method may only be applied to WPS.
+            throw new java.lang.Error(P_ERROR_NO_WPS);           
+        }
+        
+        // A new WPS element has to be created.
+        clsWordPresentationMesh oNewWPSelement = createWPSelemment (poWPSelementApplicant); // First for the applicant a new WPS element has to be created.
+        
+        if (moExternalAssociatedContent.isEmpty()) { // The new applicant will be the first element in the WPS and also the last one.
+            clsAssociationSecondary.createAssociation(this, oNewWPSelement, ePredicate.FIRST);
+            clsAssociationSecondary.createAssociation(this, oNewWPSelement, ePredicate.LAST);
+            moContent = oNewWPSelement.getContent();
+        } else {
+            clsAssociationSecondary oAssociationToFirstElement = null;
+            clsAssociationSecondary oAssociationToLastElement = null;
+            // All already existing WPSelements of the WPS must be investigated.
+            for (clsAssociation oAssociationOfWPS : moExternalAssociatedContent) {
+                if (!(oAssociationOfWPS instanceof clsAssociationSecondary)) {
+                    // If the Association is not a secondary association this is an error.
+                    throw new java.lang.Error(P_ERROR_ASSOCIATIONSECONDARY);
+                }
+                if (((clsAssociationSecondary)oAssociationOfWPS).getPredicate().equals(ePredicate.FIRST)) {
+                    // The first element of the WPS has to be recognized and saved.
+                    oAssociationToFirstElement = ((clsAssociationSecondary)oAssociationOfWPS);
+                } else
+                if (((clsAssociationSecondary)oAssociationOfWPS).getPredicate().equals(ePredicate.MEDIUM)) {
+                } else
+                if (((clsAssociationSecondary)oAssociationOfWPS).getPredicate().equals(ePredicate.LAST)) {
+                    // The last element of the WPS has to be recognized and saved.
+                    oAssociationToLastElement = ((clsAssociationSecondary)oAssociationOfWPS);
+                } else {
+                    // Other Predicates are not of interest here. There might be associations between phrases.
+                }
+            }
+            if (oAssociationToFirstElement == null || oAssociationToLastElement == null) {
+                // If the WPS doesn't have a first or doesn't have a last element it is faulty.
+                throw new java.lang.Error(P_ERROR_INCOMPLETE_WPS);
+            }
+            clsAssociationSecondary.createAssociation((clsWordPresentationMesh)oAssociationToLastElement.getAssociationElementB(), oNewWPSelement, ePredicate.NEXT); // Between the up to now next and the new next element the next-association must be set.
+            clsAssociationSecondary.createAssociation(this, oNewWPSelement, ePredicate.LAST); // The new element is now the last one of the WPS.
+            if (oAssociationToLastElement.getAssociationElementB().equals(oAssociationToFirstElement.getAssociationElementB())) {
+                // If the last element is the same as the first element of the WPS the last-association between the WPS and this element has to be removed.
+                clsAssociation.removeAssociationCompletely(oAssociationToLastElement);
+            } else {
+                // Otherwise the association between the WPS and the previously last element has to be changed to 'MEDIUM'.
+                oAssociationToLastElement.setMrPredicate(ePredicate.MEDIUM);
+            }
+            moContent = moContent.concat(" ").concat(oNewWPSelement.getContent());
+       }
+
+    }
+    
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *

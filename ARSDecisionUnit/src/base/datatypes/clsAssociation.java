@@ -137,6 +137,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		moAssociationElementB = poAssociationElementB; 
 	}
 	
+    
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -660,67 +661,4 @@ public abstract class clsAssociation extends clsDataStructurePA{
         return oDriveMeshes;
     }
 
-    
-//    /* (non-Javadoc)
-//     *
-//     * @since 16.07.2014 17:11:31
-//     * 
-//     * @see base.datatypes.itfExternalAssociatedDataStructure#removeExternalAssociationCompletely(base.datatypes.clsAssociation)
-//     */
-//    @Override
-//    public boolean removeExternalAssociationCompletely(clsAssociation poAssociation) {
-//        boolean bRemoved = false;
-//    
-//        if(moExternalAssociatedContent.contains(poAssociation)) {
-//            //Disconnect from element A
-//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementA());
-//            
-//            //Disconnect from element B
-//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementB());
-//        }
-//        
-//        return bRemoved;
-//    }
-//    
-//    /* (non-Javadoc)
-//     *
-//     * @since 16.07.2014 17:11:33
-//     * 
-//     * @see base.datatypes.itfInternalAssociatedDataStructure#removeInternalAssociationFromThis(base.datatypes.clsAssociation)
-//     */
-//    @Override
-//    public boolean removeInternalAssociationFromThis(clsAssociation poAssociation) {
-//        boolean bRemoved = false;
-//        
-//        if(poAssociation.getAssociationElementA() == this) {
-//            //Disconnect from element A
-//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementA());
-//        } else {
-//            //Disconnect from element B
-//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementA());
-//        } 
-//        
-//        return bRemoved;
-//    }
-//    
-//    /* (non-Javadoc)
-//     *
-//     * @since 16.07.2014 17:11:36
-//     * 
-//     * @see base.datatypes.itfInternalAssociatedDataStructure#removeInternalAssociationCompletely(base.datatypes.clsAssociation)
-//     */
-//    @Override
-//    public boolean removeInternalAssociationCompletely(clsAssociation poAssociation) {
-//        boolean bRemoved = false;
-//        
-//        if(moExternalAssociatedContent.contains(poAssociation)) {
-//            //Disconnect from element A
-//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementA());
-//            
-//            //Disconnect from element B
-//            bRemoved |= disconnectAssociation(poAssociation, poAssociation.getAssociationElementB());
-//        }
-//        
-//        return bRemoved;
-//    }
 }

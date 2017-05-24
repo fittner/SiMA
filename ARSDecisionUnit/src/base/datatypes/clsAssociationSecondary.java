@@ -45,6 +45,7 @@ public class clsAssociationSecondary extends clsAssociation{
 		moPredicate = oPredicate;
 	}
 
+
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -144,4 +145,28 @@ public class clsAssociationSecondary extends clsAssociation{
 		
 		return oResult; 
 	}
+
+
+    /**
+     * The method creates a secondary association between two word presentation meshes and adds it to the external associations of its first parameter.
+     * If the second parameter is a WPM and not a WP the association is also added to the second parameter.
+     *
+     * @author jakubec
+     * @since 2017-03-21
+     *
+     * @param clsWordPresentationMesh elementA
+     * @param clsWordPresentationMesh elementB
+     * @return 
+     */
+    public static void createAssociation (clsWordPresentationMesh elementA, clsSecondaryDataStructure elementB, ePredicate pePredicate){
+
+        clsAssociationSecondary oAssociation = new clsAssociationSecondary(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONSEC, eContentType.ASSOCIATIONSECONDARY), elementA, elementB, pePredicate);
+        
+        elementA.addExternalAssociation(oAssociation);
+        if (elementB instanceof clsWordPresentationMesh) { //if element B is a WP the association cannot be stored there
+            ((clsWordPresentationMesh)elementB).addExternalAssociation(oAssociation);
+        }
+
+    }
+
 }

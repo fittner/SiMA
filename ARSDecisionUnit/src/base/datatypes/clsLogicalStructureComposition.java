@@ -20,8 +20,7 @@ import base.datatypes.helpstructures.clsTriple;
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:15
- * @deprecated
- */
+  */
 public abstract class clsLogicalStructureComposition extends clsSecondaryDataStructure implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	/** Add internal associations to WP or other WPM, which are defining this structure; @since 29.11.2011 11:26:20 */
 	protected ArrayList<clsAssociation> moInternalAssociatedContent;
