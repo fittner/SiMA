@@ -96,7 +96,8 @@ public class clsDataStructureConverter {
 		ArrayList<clsPhysicalRepresentation> oExternalAssociatedTPM = new ArrayList<clsPhysicalRepresentation>();
 		ArrayList<clsThingPresentation> oExternalAssociatedTP = new ArrayList<clsThingPresentation>();
 		
-		for(Method oM : oMethods){
+		for(Method oM : oMethods)
+		{
 			if (oM.getName().equals("getSymbolObjects")) {
 				continue;
 			}
@@ -119,11 +120,7 @@ public class clsDataStructureConverter {
 			        clsThingPresentationMesh oTPMAction = (clsThingPresentationMesh) convertSymbolsToTPM((itfSymbol)oAction);
 			        oExternalAssociatedTPM.add(oTPMAction);
 			    }
-			    
 			    continue;
-	        
-		        
-		            
 			}
 			if(oM.getName().equals("getObjectSymbolVisionEntry")){
 	             Object oAction = null;
@@ -143,7 +140,6 @@ public class clsDataStructureConverter {
 	                    clsThingPresentationMesh oTPMObject = (clsThingPresentationMesh) convertSymbolsToTPM((itfSymbol)oAction);
 	                    oExternalAssociatedTPM.add(oTPMObject);
 	                }
-	                
 	                continue;
 			}
 			
