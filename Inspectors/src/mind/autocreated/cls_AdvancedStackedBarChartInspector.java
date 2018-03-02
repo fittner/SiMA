@@ -7,6 +7,7 @@
 package mind.autocreated;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.StackedBarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
@@ -92,8 +94,10 @@ public class cls_AdvancedStackedBarChartInspector extends cls_StackedBarChartIns
         iAxis.setAutoRange(true);
         plot.setRangeAxis(iAxis);
         plot.setBackgroundPaint(Color.white);
-        plot.setForegroundAlpha(0.5f);
+        plot.setForegroundAlpha(0.70f);
         plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        plot.setRangeGridlinesVisible(true);
+        plot.setRangeGridlinePaint(Color.lightGray);
         
 //        StackedBarRenderer renderer = new StackedBarRenderer(false);
 //        StandardCategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator();
@@ -107,6 +111,64 @@ public class cls_AdvancedStackedBarChartInspector extends cls_StackedBarChartIns
         renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         renderer.setBaseItemLabelsVisible(true);
         renderer.setBaseNegativeItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.INSIDE1, TextAnchor.TOP_LEFT));
+        
+        Color color_new;
+        //renderer.setSeriesPaint(0, color_new);
+        
+        for (int i = 0; i < moDataset.getRowCount(); i++){
+            switch (i) {
+            case 0:
+                // red
+                color_new = new Color(255, 0, 0);
+                break;
+            case 1:
+                // blue
+                color_new = new Color(0, 0, 255);
+                break;
+            case 2:
+                // red
+                color_new = new Color(240, 240, 0);
+                break;
+            case 3:
+                // blue
+                color_new = new Color(0, 255, 255);
+                break;
+            case 4:
+                // red
+                color_new = new Color(0, 255, 0);
+                break;
+            case 5:
+                // blue
+                color_new = new Color(255, 0, 255);
+                break;
+            case 6:
+                // red
+                color_new = new Color(164, 164, 164);
+                break;
+            case 7:
+                // blue
+                color_new = new Color(255, 128, 0);
+                break;
+            case 8:
+                // red
+                color_new = new Color(128, 0, 255);
+                break;
+            case 9:
+                // blue
+                color_new = new Color(255, 0, 128);
+                break;
+            default:
+                // green
+                color_new = new Color(0, 0, 0);
+                break;
+            }
+            renderer.setSeriesPaint(i, color_new);
+        }
+        renderer.setShadowVisible(false);
+        renderer.setBaseItemLabelFont(new java.awt.Font("Arial", Font.BOLD, 16));
+        renderer.setBarPainter(new StandardBarPainter());
+      
+        
         chart.getCategoryPlot().setRenderer(renderer);
         
         LegendTitle legend = chart.getLegend();
@@ -134,6 +196,8 @@ public class cls_AdvancedStackedBarChartInspector extends cls_StackedBarChartIns
         
         
         chart.addLegend(legend2);
+        
+        
         
     	return oChartPanel;
 	}
