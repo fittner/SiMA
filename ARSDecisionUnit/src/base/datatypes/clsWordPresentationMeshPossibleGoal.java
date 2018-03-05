@@ -461,11 +461,12 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     @Override
     public String toString() {
         String oResult = "";
+        oResult += getSupportiveDataStructure().getContent() + ":";
         ArrayList<eCondition> oConditionList = getCondition();
         if (oConditionList.isEmpty()==false) {
-           oResult += " \n" + oConditionList.toString();
+           oResult += " " + oConditionList.toString();
         }
-        oResult += getSupportiveDataStructure().getContent() + ":";
+        
         oResult += this.getGoalContentIdentifier();
         //TODO SM: Goal, Tostring adaption to application of feelings together with the getter and setter
         //double rImportanceOfFeelings = clsImportanceTools.getConsequencesOfFeelingsOnGoalAsImportance(this, this.getFeelings());
@@ -482,7 +483,7 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
             oResult += ":" + this.getAssociatedPlanAction().getContent();
         }
             
-
+        oResult += "\n";
             
         return oResult;
     }
