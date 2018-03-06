@@ -702,8 +702,8 @@ public abstract class clsDataStructureComparisonTools {
 					
 					//Also check internal associations
 					if(bFound == false) {
-	                    for (clsAssociation oExternalAss : oRetVal.getInternalAssociatedContent()) {
-	                        if (oAss.getDS_ID()==oExternalAss.getDS_ID()) {
+	                    for (clsAssociation oInternalAss : oRetVal.getInternalAssociatedContent()) {
+	                        if (oAss.getDS_ID()==oInternalAss.getDS_ID()) {
 	                            bFound=true;
 	                            break;
 	                        }

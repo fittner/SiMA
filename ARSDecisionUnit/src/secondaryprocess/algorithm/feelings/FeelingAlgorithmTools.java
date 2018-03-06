@@ -299,7 +299,7 @@ public class FeelingAlgorithmTools {
                 moLogger.debug("Comparing emotions:\n\t\tFirst: {}\n\t\tLast: {}", oFirstEmotions, oLastEmotions);
                 
                 //kollmann: see if the image has emotions at all (only continue of we have a FIRST and LAST image emotion
-                //          TODO: not just extract the emotion from first and last imgae, but find the first and last emotion;
+                //          TODO: not just extract the emotion from first and last image, but find the first and last emotion;
                 if(oFirstEmotions != null && oLastEmotions != null) {
                     oExpectedChanges = calculateEmotionChanges(oFirstEmotions, oLastEmotions);
                     

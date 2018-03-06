@@ -223,7 +223,17 @@ public class clsActPreparationTools {
 		//Get previous expectation
 		clsWordPresentationMesh oPreviousExpectation = clsActDataStructureTools.getExpectation(poPreviousAct);
 		
-		//when start_with_first_image ersten vorziehen
+		//when start_with_first_image use first image
+//		if (clsActTools.checkIfConditionExists(clsActDataStructureTools.getIntention(poCurrentAct), eCondition.START_WITH_FIRST_IMAGE)==true
+//		       )
+//		{
+//		    if (0 == oPreviousMoment.compareTo(clsMeshTools.getNullObjectWPM()))
+//		    {
+//		        oCurrentMomentCandidateList.clear();
+//		        oCurrentMomentCandidateList.add(clsActTools.getFirstImageFromIntention(clsActDataStructureTools.getIntention(poCurrentAct)));
+//		        oCurrentMomentCandidateList.add(clsActTools.getFirstImageFromIntention(clsActDataStructureTools.getIntention(poCurrentAct)));
+//            }
+//		}
 		
 		enhanceListWithPreviousMoment(oCurrentMomentCandidateList, poCurrentAct, oPreviousMoment);
 		
