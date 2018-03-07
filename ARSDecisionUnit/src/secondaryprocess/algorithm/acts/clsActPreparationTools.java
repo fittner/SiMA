@@ -171,6 +171,7 @@ public class clsActPreparationTools {
 	                //Goal completed, close goal
 	                oResult.add(eCondition.GOAL_COMPLETED);
 	            }
+	            // Act finished --> Get Emotions for last image + (Please for finishing the act?)
 	            oResult.add(eCondition.ACT_FINISHED);
 	        } else {
 	            //If not the last image

@@ -267,9 +267,16 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         clsWordPresentationMeshPossibleGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
         
         if ( !planGoal.isEquivalentDataStructure(OldPlanGoal)
-            && clsActTools.checkIfConditionExists(OldPlanGoal, eCondition.SET_FOLLOW_ACT))
+           )
         {
-            NewPlanGoal = OldPlanGoal;
+            // Create new start Emotion for Act
+            
+            if (clsActTools.checkIfConditionExists(OldPlanGoal, eCondition.SET_FOLLOW_ACT))
+//               || OldPlanGoal.isEquivalentDataStructure(clsWordPresentationMeshPossibleGoal.getNullObject()))
+            {
+                // Set Abbort emotion --> Unpleasure to last image and/or to intention
+                NewPlanGoal = OldPlanGoal;
+            }
         }
 
         if(planGoal.getTotalImportance() < mrWaitThreshold) { 

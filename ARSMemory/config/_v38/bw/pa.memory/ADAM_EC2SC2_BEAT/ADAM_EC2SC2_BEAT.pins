@@ -1,4 +1,4 @@
-; Wed Mar 07 13:49:08 GMT 2018
+; Wed Mar 07 11:00:16 GMT 2018
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2133,6 +2133,13 @@
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01_I09])
 	(weight 1.0 1.0))
 
+([AT%3AA12_EAT_CAKE_L01%3ABODO] of  ASSOCIATIONTEMP
+
+	(element
+		[TPM%3AIMAGE%3AA12_EAT_CAKE_L01]
+		[PRI%3AA12_EAT_CAKE_L01%3ABODO])
+	(weight 1.0 1.0))
+
 ([AT%3AA12_EAT_CAKE_L01%3ACAKE] of  ASSOCIATIONTEMP
 
 	(element
@@ -3537,6 +3544,17 @@
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
+([EMOTION%3AA12_EAT_CAKE_L01_I03%3AELATION] of  EMOTION
+
+	(emotionIntensity 0.49)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.49)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.29)
+	(sourceUnpleasure 0.31)
+	(value "ELATION")
+	(value_type "BASICEMOTION"))
+
 ([EMOTION%3AA13_GIVE_CAKE_L01%3AGUILT] of  EMOTION
 
 	(emotionIntensity 0.45)
@@ -3605,23 +3623,23 @@
 
 ([EMOTION%3AA14_FLEE_BODO_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.5)
+	(emotionIntensity 0.17)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.11)
-	(sourceLibid 0.35)
-	(sourcePleasure 0.06)
-	(sourceUnpleasure 0.65)
+	(sourceAggr 0.06)
+	(sourceLibid 0.11)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.17)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA14_FLEE_BODO_L01_I01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.17)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.11)
-	(sourceLibid 0.35)
-	(sourcePleasure 0.06)
-	(sourceUnpleasure 0.65)
+	(sourceAggr 0.06)
+	(sourceLibid 0.11)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.17)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3632,7 +3650,7 @@
 	(sourceAggr 0.11)
 	(sourceLibid 0.1)
 	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.2)
+	(sourceUnpleasure 0.1)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3928,6 +3946,10 @@
 ([PRI%3AA10_DIVIDE_CAKE_L01_I09%3AEMPTYSPACE] of  PRIMARYINSTANCEOBJECT
 
 	(instance_type [TPM%3AENTITY%3AEMPTYSPACE01]))
+
+([PRI%3AA12_EAT_CAKE_L01%3ABODO] of  PRIMARYINSTANCEOBJECT
+
+	(instance_type [TPM%3AENTITY%3AARSIN%3ABODO]))
 
 ([PRI%3AA12_EAT_CAKE_L01%3ACAKE] of  PRIMARYINSTANCEOBJECT
 
@@ -4739,7 +4761,9 @@
 
 ([TPM%3AIMAGE%3AA12_EAT_CAKE_L01] of  TPM%3AIMAGE
 
-	(instance_association [AT%3AA12_EAT_CAKE_L01%3ACAKE])
+	(instance_association
+		[AT%3AA12_EAT_CAKE_L01%3ACAKE]
+		[AT%3AA12_EAT_CAKE_L01%3ABODO])
 	(value "A12_EAT_CAKE_L01")
 	(value_type "RI"))
 
