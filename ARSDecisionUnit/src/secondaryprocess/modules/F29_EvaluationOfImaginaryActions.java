@@ -6,8 +6,9 @@
  */
 package secondaryprocess.modules;
 
-import inspector.interfaces.clsTimeChartPropeties;
+
 import general.datamanipulation.PrintTools;
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorAdvancedStackedBarChart;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 
@@ -266,17 +267,21 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
         clsWordPresentationMeshPossibleGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
         
-        if ( !planGoal.isEquivalentDataStructure(OldPlanGoal)
-           )
+//Old!!        if ( !planGoal.isEquivalentDataStructure(OldPlanGoal)
+//           )
+//        {
+//            // Create new start Emotion for Act
+//        }
+        if(!(planGoal.getSupportiveDataStructure().isEquivalentDataStructure((OldPlanGoal.getSupportiveDataStructure()))))
         {
-            // Create new start Emotion for Act
-            
+            // Add new emotion 
             if (clsActTools.checkIfConditionExists(OldPlanGoal, eCondition.SET_FOLLOW_ACT))
-//               || OldPlanGoal.isEquivalentDataStructure(clsWordPresentationMeshPossibleGoal.getNullObject()))
-            {
-                // Set Abbort emotion --> Unpleasure to last image and/or to intention
-                NewPlanGoal = OldPlanGoal;
-            }
+//              || OldPlanGoal.isEquivalentDataStructure(clsWordPresentationMeshPossibleGoal.getNullObject()))
+           {
+               // Set Abbort emotion --> Unpleasure to last image and/or to intention
+               // Or set no Emotion to the aborted image?
+               NewPlanGoal = OldPlanGoal;
+           }
         }
 
         if(planGoal.getTotalImportance() < mrWaitThreshold) { 
@@ -592,17 +597,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         return oCaptions;
     }
 
-    /* (non-Javadoc)
-    *
-    * @since 14.05.2014 10:33:20
-    * 
-    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
-    */
-   @Override
-   public clsTimeChartPropeties getProperties() {
-       return new clsTimeChartPropeties(true);
-   }
-   
+  
     /*
      * (non-Javadoc)
      * 
@@ -725,6 +720,18 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
         
         return oResult;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 07.03.2018 15:59:24
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+     */
+    @Override
+    public clsTimeChartPropeties getProperties() {
+        // TODO (noName) - Auto-generated method stub
+        return null;
     }
 
 //    /* (non-Javadoc)
