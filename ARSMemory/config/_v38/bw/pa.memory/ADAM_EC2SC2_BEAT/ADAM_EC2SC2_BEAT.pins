@@ -1,4 +1,4 @@
-; Wed Mar 07 07:06:44 GMT 2018
+; Wed Mar 07 11:00:16 GMT 2018
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3458,12 +3458,12 @@
 
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.1)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -3480,12 +3480,12 @@
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.1)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -3502,12 +3502,12 @@
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I02%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.1)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -3524,12 +3524,12 @@
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I03%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.1)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourceAggr 0.2)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.05)
+	(sourceUnpleasure 0.25)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
