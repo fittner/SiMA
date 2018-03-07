@@ -47,6 +47,7 @@ import modules.interfaces.I6_11_receive;
 import modules.interfaces.I6_11_send;
 import modules.interfaces.I6_2_receive;
 import modules.interfaces.eInterfaces;
+import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
@@ -250,6 +251,11 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         
         log.debug("=== module {} start ===", this.getClass().getName());
 
+        // Save old and new PlanGoal to detect Goal Change
+        clsWordPresentationMeshPossibleGoal OldPlanGoal;
+        clsWordPresentationMeshPossibleGoal NewPlanGoal;
+        // Save Plan Goal
+        OldPlanGoal = this.moDecisionEngine.getPlanGoal(moSelectableGoals);
         // Select the best goal
         // Delete previous plan goals
         try {
@@ -259,6 +265,12 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
 
         clsWordPresentationMeshPossibleGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
+        
+        if ( !planGoal.isEquivalentDataStructure(OldPlanGoal)
+            && clsActTools.checkIfConditionExists(OldPlanGoal, eCondition.SET_FOLLOW_ACT))
+        {
+            NewPlanGoal = OldPlanGoal;
+        }
 
         if(planGoal.getTotalImportance() < mrWaitThreshold) { 
             //Create WAIT goal
@@ -273,6 +285,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             //Select the WAIT goal
             planGoal.setCondition(eCondition.IS_CONTINUED_GOAL);
         } 
+        
             
         logger.clsLogger.getLog("EmotionRange").info("Emotion Match on plangoal: {}", planGoal.getFeelingsMatchImportance());
         
