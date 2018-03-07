@@ -223,7 +223,18 @@ public class clsActPreparationTools {
 		//Get previous expectation
 		clsWordPresentationMesh oPreviousExpectation = clsActDataStructureTools.getExpectation(poPreviousAct);
 		
-		//when start_with_first_image ersten vorziehen
+		//when start_with_first_image use first image
+		// Fittner: Workaround that isn't needed if Emotions are tuned to match the right image
+//		if (clsActTools.checkIfConditionExists(clsActDataStructureTools.getIntention(poCurrentAct), eCondition.START_WITH_FIRST_IMAGE)==true
+//		       )
+//		{
+//		    if (0 == oPreviousMoment.compareTo(clsMeshTools.getNullObjectWPM()))
+//		    {
+//		        oCurrentMomentCandidateList.clear();
+//		        oCurrentMomentCandidateList.add(clsActTools.getFirstImageFromIntention(clsActDataStructureTools.getIntention(poCurrentAct)));
+//		        oCurrentMomentCandidateList.add(clsActTools.getFirstImageFromIntention(clsActDataStructureTools.getIntention(poCurrentAct)));
+//            }
+//		}
 		
 		enhanceListWithPreviousMoment(oCurrentMomentCandidateList, poCurrentAct, oPreviousMoment);
 		
@@ -388,7 +399,8 @@ public class clsActPreparationTools {
 			int nIndividualMovementTimeout = clsActTools.getIndividualMovementTimeoutValue(oResult);
 			
 			if (nIndividualMovementTimeout>0) {
-				clsActTools.setMovementTimeoutValue(oResult, nIndividualMovementTimeout);
+				//TODO:Fittner: Useless function. Should there be a Movment decrementation?
+			    clsActTools.setMovementTimeoutValue(oResult, nIndividualMovementTimeout);
 			} else {
 				//Set the movement timeout from this modeule (default value)
 				clsActTools.setMovementTimeoutValue(oResult, mnMovementTimeoutStartValue);

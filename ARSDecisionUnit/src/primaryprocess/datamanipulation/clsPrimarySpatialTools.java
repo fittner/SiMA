@@ -200,16 +200,18 @@ public class clsPrimarySpatialTools {
 
         clsEmotion oEmotionPI = null,  oEmotionRI = null; 
         //calculate emotion match of images
-        //get emotions from first image
+
+        // Check if ContentType is not Recognized (from other agent) Intention or Action
         if(poRI.getContentType() != eContentType.RPI && poRI.getContentType() != eContentType.RPA) { 
+        //get emotions from perceived image
             oEmotionPI = clsEmotion.fromTPM(poPI);
         
-        //get emotions from second image
+        //get emotions from remembered image
             oEmotionRI = clsEmotion.fromTPM(poRI);
-            
         }
-        else {
-            oEmotionPI =  getEmotionFromAnotherEntity(poPI);
+        else 
+        {
+            oEmotionPI = getEmotionFromAnotherEntity(poPI);
             oEmotionRI = getRecognizedEmotionFromMemorizedImage(poRI);
             
             //If the RPA is not provided with any basicemotion, then assume the emotion match is 1.0 as long as the action matches 
@@ -223,6 +225,7 @@ public class clsPrimarySpatialTools {
         if(oEmotionPI != null && oEmotionRI != null) {
             rEmotionMatch = oEmotionPI.compareTo(oEmotionRI);
         }
+        // Return Recognized Images in non proportional  aggregation with emotions
         return (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
     }
     
@@ -848,10 +851,12 @@ public class clsPrimarySpatialTools {
 	 *
 	 * @param oPositionArray
 	 */
-	private static ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> sortPositionArray(ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPositionArray) {
+	private static ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> sortPositionArray(ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPositionArray)
+	{
 		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oNewArray = new ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>>();
 		
-		for (clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPos : oPositionArray) {
+		for (clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPos : oPositionArray)
+		{
 			//Set score: 3: null, null; 2: null, X; 1: X,X
 			
 			//Calculate score for the current position
@@ -872,7 +877,6 @@ public class clsPrimarySpatialTools {
             }
             oNewArray.add(i, oPos);
 		}
-		
 		return oNewArray;
 	}
 	

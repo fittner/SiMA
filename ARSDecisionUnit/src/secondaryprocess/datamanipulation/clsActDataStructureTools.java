@@ -354,13 +354,21 @@ public class clsActDataStructureTools {
 		
 		for (clsWordPresentationMesh oSubImage : oSubImageList) {
 			double rCurrentPIMatch = clsActTools.getPIMatch(oSubImage);
-						
-			if (rCurrentPIMatch>rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
-				rMaxPIMatch = rCurrentPIMatch;
-				oResult.clear();
-				oResult.add(oSubImage);
-			} else if (rCurrentPIMatch==rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
-				oResult.add(oSubImage);
+//          Fittner: Debug to get first image of Act A12 EAT
+//			if (oSubImage.getContent().equals("A12_EAT_CAKE_L01_I01")||oSubImage.getContent().equals("A12_EAT_CAKE_L01_I02"))
+//			{
+//                oResult.add(oSubImage);  
+//                return oResult;
+//			}
+//			else
+			{
+    			if (rCurrentPIMatch>rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
+    				rMaxPIMatch = rCurrentPIMatch;
+    				oResult.clear();
+    				oResult.add(oSubImage);
+    			} else if (rCurrentPIMatch==rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
+    				oResult.add(oSubImage);
+    			}
 			}
 		}
 		
