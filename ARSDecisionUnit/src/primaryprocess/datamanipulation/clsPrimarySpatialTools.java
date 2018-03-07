@@ -851,10 +851,12 @@ public class clsPrimarySpatialTools {
 	 *
 	 * @param oPositionArray
 	 */
-	private static ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> sortPositionArray(ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPositionArray) {
+	private static ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> sortPositionArray(ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPositionArray)
+	{
 		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oNewArray = new ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>>();
 		
-		for (clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPos : oPositionArray) {
+		for (clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPos : oPositionArray)
+		{
 			//Set score: 3: null, null; 2: null, X; 1: X,X
 			
 			//Calculate score for the current position
@@ -875,7 +877,6 @@ public class clsPrimarySpatialTools {
             }
             oNewArray.add(i, oPos);
 		}
-		
 		return oNewArray;
 	}
 	

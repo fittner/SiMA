@@ -398,7 +398,8 @@ public class clsActPreparationTools {
 			int nIndividualMovementTimeout = clsActTools.getIndividualMovementTimeoutValue(oResult);
 			
 			if (nIndividualMovementTimeout>0) {
-				clsActTools.setMovementTimeoutValue(oResult, nIndividualMovementTimeout);
+				//TODO:Fittner: Useless function. Should there be a Movment decrementation?
+			    clsActTools.setMovementTimeoutValue(oResult, nIndividualMovementTimeout);
 			} else {
 				//Set the movement timeout from this modeule (default value)
 				clsActTools.setMovementTimeoutValue(oResult, mnMovementTimeoutStartValue);
