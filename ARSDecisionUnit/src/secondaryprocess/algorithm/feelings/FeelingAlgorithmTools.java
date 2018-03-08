@@ -130,6 +130,8 @@ public class FeelingAlgorithmTools {
             ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poImage.getFeelings();
             
             if(oFeelingList.isEmpty()) {
+                // Wenn there are no feelings from the image or moment take it from the self of this moment
+                // Would be also good for learning --> Store new feeling at moment
                 //Try to get a SELF from the image and take the feelings from there
                 clsWordPresentationMesh oSelf = clsMeshTools.getSELF(poImage);
                 
