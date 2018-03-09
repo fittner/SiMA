@@ -219,7 +219,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	
 	public void add(clsEmotion poEmotion) {
 	  //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a math of 0
-        if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {
+	    if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {
             switch(getContentType()) {
             case MEMORIZEDEMOTION:
             case BASICEMOTION:
@@ -523,9 +523,11 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    return generateExtendedEmotions(mrRelativeThreshold);
 	}
 	
+	//mrRelativeThreshold = poPersonalityParameterContainer.getPersonalityParameter("F" + P_MODULENUMBER, P_REALATIV_THRESHOLD).getParameterDouble();
 	public ArrayList<clsEmotion> generateExtendedEmotions(double prRelativeThreshold) {
 	    ArrayList<clsEmotion> oExtEmotions = new ArrayList<>();
 	    
+	    // TODO: fittner: Hier wird der Emotionsvektor neu aufgebaut. Warum keine Übernahme aus F63?
 	    // Normalize to be able to decide which basic category prevails/dominates
         double rSumValuesPlUnPl = mrSourceUnpleasure + mrSourcePleasure;
         double rSumValuesLibidAggr =  mrSourceAggr + mrSourceLibid;        

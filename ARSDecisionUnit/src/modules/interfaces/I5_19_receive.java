@@ -23,6 +23,6 @@ import base.datatypes.clsWordPresentationMesh;
  */
 public interface I5_19_receive {
 	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2,
-	        List<clsEmotion> poCurrentFeelings);
+	        List<clsEmotion> poCurrentFeelings, clsThingPresentationMesh poTPM_Action, clsThingPresentationMesh poTPM_Object);
 
     }

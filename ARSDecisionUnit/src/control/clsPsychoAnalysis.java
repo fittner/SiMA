@@ -24,7 +24,7 @@ import du.enums.eDecisionType;
  * 
  */
 public class clsPsychoAnalysis extends clsBaseDecisionUnit {
-	/** prefix for all property entries for this class. @since 11.07.2011 16:50:30 */
+    /** prefix for all property entries for this class. @since 11.07.2011 16:50:30 */
 	public static final String P_PROCESSOR = "processor"; 
 	/** the version of this class. not to be confused with the model version of the selected implementation; @since 11.07.2011 16:50:55 */
 	public static final String P_VERSION = "version";

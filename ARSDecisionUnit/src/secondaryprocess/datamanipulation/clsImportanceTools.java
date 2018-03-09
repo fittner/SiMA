@@ -286,6 +286,7 @@ public class clsImportanceTools {
 			}
 			
 			if (!poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
+			    // Feelings added
 			    copyOfSelectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
 			}
 			
@@ -633,7 +634,7 @@ public class clsImportanceTools {
 		} else if (rActConfidence<0.5) {
 			nResult += -0.10;
 		}
-		
+		logger.clsLogger.getLog("fim").debug("poIntention:{} rActConfidence: {} nResult:{}", poIntention, rActConfidence, nResult);
 		
 		return nResult;
 	}

@@ -258,15 +258,21 @@ public class GoalAlgorithmTools {
 		double nResult = 0;
 		
 		ArrayList<eCondition> oGoalConditionList = poGoal.getCondition();
-		
+		logger.clsLogger.getLog("fim").debug("poGoal oGoalConditionList: {} {} ", poGoal.toString());
+
 		for (eCondition oC: oGoalConditionList) {
 			nResult += clsImportanceTools.getEffortValueOfCondition(oC);
+			logger.clsLogger.getLog("fim").debug("nResult oGoalConditionList: {} oC: {}", nResult, oC);
+
 		}
 		
 		if (poGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			//Check how far away the goal is
 			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(poGoal.getGoalObject());
 			nResult += clsImportanceTools.getEffortValueOfDistance(oPosition.b, oPosition.c);
+			logger.clsLogger.getLog("fim").debug("nResult IS_PERCEPTIONAL_SOURCE: {} ", nResult);
+			logger.clsLogger.getLog("fim").debug("oPosition.b: {} oPosition.c: {}", oPosition.b,oPosition.c);
+			logger.clsLogger.getLog("fim").debug("getEffortValueOfDistance: {}", clsImportanceTools.getEffortValueOfDistance(oPosition.b, oPosition.c));
 		} 
 //		if (poGoal.checkIfConditionExists(eCondition.IS_CONTEXT_SOURCE)) {
 //            
@@ -277,6 +283,7 @@ public class GoalAlgorithmTools {
 			if (poGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)) {
 				//There are only the acts: Check the act confidence. If it is low, then lower the pleasure value
 				nResult -= clsImportanceTools.getEffortValueOfActConfidence(clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure()));
+				logger.clsLogger.getLog("fim").debug("nResult SET_BASIC_ACT_ANALYSIS: {} ", nResult);
 			}
 			
 		}
@@ -309,6 +316,7 @@ public class GoalAlgorithmTools {
                     //if the images action fits, increase the importance value
                     if(poAim == oAction) {
                         rResult += prGoalImpact * poGoal.getDriveDemandImportance();
+                        logger.clsLogger.getLog("fim").debug("prGoalImpact {} * poGoal.getDriveDemandImportance() {} rResult:{}", prGoalImpact,poGoal.getDriveDemandImportance(),rResult);
 //                        rResult += 0.2;
                         log.info("(in " + poGoal.getContent() + ") Act " + oSuppDataStructure.getContent() + " has importance increase by " + rResult + " due to action match for " + oAction);
                     }

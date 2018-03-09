@@ -9,13 +9,17 @@ package primaryprocess.modules;
 import inspector.interfaces.itfGraphCompareInterfaces;
 
 import java.util.ArrayList;
+//import java.util.Arrays;
 import java.util.Collections;
+//import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 
 import prementalapparatus.symbolization.eSymbolExtType;
+import prementalapparatus.symbolization.representationsymbol.itfGetSymbolName;
+import prementalapparatus.symbolization.representationsymbol.itfIsContainer;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
 import testfunctions.clsTester;
@@ -55,6 +59,7 @@ import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
+//import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -104,12 +109,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	ArrayList<String> Test1 = new ArrayList<String>();
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
-	private boolean useAttentionMechanism = false;
+	private ArrayList<clsDriveMesh> moLearningDrives_IN;
+    private boolean useAttentionMechanism = false;
 	
 	private HashMap<String, String> composedActions = new HashMap<String, String>();
 	
 	ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();
-	List<clsEmotion> moCurrentEmotions = new ArrayList<>(); 
+	List<clsEmotion> moCurrentEmotions = new ArrayList<>();
+	public static clsThingPresentationMesh moTPM_Action;
+	public static clsThingPresentationMesh moTPM_Object;
 	
 	//These two are pass-through parameters that will be sent to F46 without being used
 	clsWordPresentationMesh moWordingToContext_IN = null;
@@ -122,14 +130,21 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     public static final String P_EMOTIONRECOGNITION_PRIMING_AGGRESSION = "EMOTIONRECOGNITION_PRIMING_AGGRESSION";
     public static final String P_EMOTIONRECOGNITION_PRIMING_LIBIDO = "EMOTIONRECOGNITION_PRIMING_LIBIDO";
     public static final String P_EMOTIONRECOGNITION_PRIMING_INTENSITY = "EMOTIONRECOGNITION_PRIMING_INTENSITY";
+    public static final String P_LEARNING_OBJECT_AFFECT_DECREASE = "LEARNING_OBJECT_AFFECT_DECREASE";
+    public static final String P_LEARNING_ACTION_AFFECT_DECREASE = "LEARNING_ACTION_AFFECT_DECREASE";
     
     public static final int N_PROXIMITY_DISTANCE = 17; 
+    public static ArrayList<clsDriveMesh> moSTM_DM = new ArrayList<clsDriveMesh>();
+    private ArrayList<clsDriveMesh> STM_Action_QoA = new ArrayList<clsDriveMesh>();
+    private ArrayList<clsDriveMesh> STM_Object_QoA = new ArrayList<clsDriveMesh>();
     
     private double mrEmotionrecognitionPrimingPleasure;
     private double mrEmotionrecognitionPrimingUnpleasure;
     private double mrEmotionrecognitionPrimingAggression;
     private double mrEmotionrecognitionPrimingLibido;
     private double mrEmotionrecognitionPrimingIntensity;
+    private double mrMemorizedActionQoAReducion;
+    private double mrMemorizedObjectQoAReducion;
     
     //Kollmann: WORKAROUND: this is a helper instance that will hold a flat copy of the last used emotion state on the self
     //          It is a workaround for a bug in priming where the bodystate recognized on the self is, for some reason, not associated with
@@ -164,6 +179,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         mrEmotionrecognitionPrimingAggression =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_AGGRESSION).getParameterDouble();
         mrEmotionrecognitionPrimingLibido =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_LIBIDO).getParameterDouble();
         mrEmotionrecognitionPrimingIntensity =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_INTENSITY).getParameterDouble();
+        mrMemorizedActionQoAReducion =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_LEARNING_ACTION_AFFECT_DECREASE).getParameterDouble();
+        mrMemorizedObjectQoAReducion =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_LEARNING_OBJECT_AFFECT_DECREASE).getParameterDouble();
 	}
 
 	/* (non-Javadoc)
@@ -177,9 +194,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.listToTEXT("§§§§§§§§§§§§§§Test", Test);
-		text += toText.listToTEXT("§§§§§§§§§§§§§§Test1", Test1);
-		text += toText.mapToTEXT("§§§§§§§§§§§§3333333333moEnvironmentalData", moEnvironmentalData);
+		text += toText.listToTEXT("moDrives_IN {}", moDrives_IN);
+		text += toText.valueToTEXT("moTPM_Action", moTPM_Action);
+		text += toText.valueToTEXT("moTPM_Object", moTPM_Object);
+        text += toText.mapToTEXT("§§§§§§§§§§§§3333333333moEnvironmentalData", moEnvironmentalData);
 		text += toText.mapToTEXT("moBodyData", moBodyData);
 		text += toText.listToTEXT("moCompleteThingPresentationMeshList", moCompleteThingPresentationMeshList);
 
@@ -265,7 +283,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    oText += oOwnershipText;
 	    return oText;
 	}
-	
+	// settig the implementation stage
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		
@@ -315,6 +333,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	@Override
 	public void receive_I2_3(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
 		moEnvironmentalData = (HashMap<eSymbolExtType, itfSymbol>) deepCopy(poEnvironmentalData); 
+		log.debug("moEnvironmentalData {}" + moEnvironmentalData.toString(),moEnvironmentalData.values());
 	}
 
 	/* (non-Javadoc)
@@ -340,14 +359,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	protected void process_draft() {
 
 	}
-		
-	private static String removePrefix(String poName) {
-		if (poName.startsWith("get")) {
-			poName = poName.substring(3);
-		}
-				
-		return poName;
-	}
+	
+	//fttner: not ued
+	//private static String removePrefix(String poName) {
+	//	if (poName.startsWith("get")) {
+	//		poName = poName.substring(3);
+	//	}
+	//			
+	//	return poName;
+	//}
 	
 	/* (non-Javadoc)
 	 *
@@ -374,12 +394,12 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		putInterfaceData(I2_6_send.class, poCompleteThingPresentationMeshList, poDrives_IN);
 	}
 	
-	
-	 void AddBodyExpressionTP(clsThingPresentationMesh poEntity, String poContentType, String poContent){ //attach a body expression to poEntity.
-         eContentType poeContentType = eContentType.getContentType(poContentType);  
-         clsThingPresentation poExpressionTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(poeContentType, poContent));
-         clsAssociation poAss = clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, poEntity, true, poExpressionTP, 1.0f);
-	 }
+	//fittner: not used
+	// void AddBodyExpressionTP(clsThingPresentationMesh poEntity, String poContentType, String poContent){ //attach a body expression to poEntity.
+    //     eContentType poeContentType = eContentType.getContentType(poContentType);  
+    //     clsThingPresentation poExpressionTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(poeContentType, poContent));
+    //     clsAssociation poAss = clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ASSOCIATIONATTRIBUTE, poEntity, true, poExpressionTP, 1.0f);
+	// }
     
 	/* (non-Javadoc)
 	 *
@@ -398,14 +418,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    
         // 1. Convert Neurosymbols to TPMs
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = convertSymbolToTPM(moEnvironmentalData);
-       
+	    log.debug("oEnvironmentalTP: {} ", oEnvironmentalTP.toString());
         // 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment. 
-        // since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activaiton is done) 
+        // since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activation is done) 
         moCompleteThingPresentationMeshList = searchTPMList(oEnvironmentalTP);
-        
+        log.debug("moCompleteThingPresentationMeshList: {} ", moCompleteThingPresentationMeshList.toString());
         //add current emotions to SELF
 //        for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList) {
-//            if(oEntity.getContent().equals("SELF")) { //TODO (Kollmann): this is actually not very nice, normally there should be some kind of reference to a SELF that can be used for comparion (or direct access)
+//            if(oEntity.getContent().equals("SELF")) { //TODO (Kollmann): this is actually not very nice, normally there should be some kind of reference to a SELF that can be used for compartion (or direct access)
 //                //go through all received emotions and connect them to the self (internal connection == how the entity feels)
 //                for(clsEmotion oEmotion : moCurrentEmotions) {
 //                    //generate a new association
@@ -414,7 +434,265 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 //                }   
 //            }
 //        }
+       // Fittner: Create DM Object to adapt DM from memory
+        //moDrives_IN.toString();
+        //moTPM_Action;
+        //moTPM_Object;
+        double maxPleasure = 0.0;
+        double StepPleasure = 0.0;
+      
+        clsDriveMesh Drive_STM_Candidate=null;
         
+        // get the drive with the highest PleasureMax Count
+        for ( clsDriveMesh Drive : moDrives_IN)
+        {
+            if(Drive.getPleasureSumMax() > maxPleasure)
+            {
+                maxPleasure = Drive.getPleasureSumMax();
+                StepPleasure = Drive.getQuotaOfAffect_lastStep() - Drive.getQuotaOfAffect();
+                
+                try
+                {
+                    Drive_STM_Candidate = (clsDriveMesh)Drive.clone();
+                }
+                catch (CloneNotSupportedException e)
+                {
+                    // TODO (noName) - Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        if (Drive_STM_Candidate!=null)
+        {
+            //Compare selected Action with preceived Action --> Select from Perception
+            if(moTPM_Action.getContentType() != eContentType.NULLOBJECT)
+            {
+                for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList)
+                {
+                    if(oEntity.getContent().equals("SELF"))
+                    {
+                        for(clsAssociation oEntitySelected : oEntity.getExternalAssociatedContent())
+                        {
+                            if(    oEntitySelected.getAssociationElementB().getMoDataStructureType().equals(moTPM_Action.getMoDataStructureType())
+                                && oEntitySelected.getAssociationElementB().getContentType().equals(moTPM_Action.getContentType())
+                              )
+                            {
+                                if (((clsThingPresentationMesh)oEntitySelected.getAssociationElementB()).getContent().equals(moTPM_Action.getContent()))
+                                {
+                                    try
+                                    {
+                                        moTPM_Action = (clsThingPresentationMesh) ((clsThingPresentationMesh) oEntitySelected.getAssociationElementB()).clone();
+                                    }
+                                    catch (CloneNotSupportedException e)
+                                    {
+                                        // TODO (noName) - Auto-generated catch block
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if(moTPM_Object.getContentType() != eContentType.NULLOBJECT)
+            {
+                //Compare selected object with preceived objects --> If match
+                for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList)
+                {
+                    if(oEntity.getContent().equals(moTPM_Object.getContent()))
+                    {
+                       try
+                        {
+                            moTPM_Object = (clsThingPresentationMesh) oEntity.clone();
+                        }
+                        catch (CloneNotSupportedException e)
+                        {
+                            // TODO (noName) - Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            
+            Drive_STM_Candidate.setQuotaOfAffect(StepPleasure);
+            if(moTPM_Action.getContentType() != eContentType.NULLOBJECT)
+            {   boolean eqAction=false;
+                for ( clsDriveMesh STM_Action_QoA_Element : STM_Action_QoA)
+                {
+                    if (  moTPM_Action.getMoDataStructureType().equals(STM_Action_QoA_Element.getActualDriveAim().getMoDataStructureType())
+                       && moTPM_Action.getContentType().equals(STM_Action_QoA_Element.getActualDriveAim().getContentType())
+                       && moTPM_Action.getContent().equals(STM_Action_QoA_Element.getActualDriveAim().getContent())
+                       )
+                    {
+                        STM_Action_QoA_Element.setQuotaOfAffect(STM_Action_QoA_Element.getQuotaOfAffect()+ StepPleasure);   
+                        eqAction = true;
+                    }
+                }
+                if (eqAction != true)
+                {
+                    clsDriveMesh STM_Action_QoA_Element;
+                    //moDS_ID = poDataStructureIdentifier.a; 
+                    //moDataStructureType = poDataStructureIdentifier.b;
+                    //moContentType = poDataStructureIdentifier.c; 
+                    STM_Action_QoA_Element = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.DM, eContentType.MEMORIZEDDRIVEREPRESENTATION), Drive_STM_Candidate,StepPleasure, "debugInfo:");
+                    STM_Action_QoA.add(STM_Action_QoA_Element);
+                    try
+                    {
+                        STM_Action_QoA.get(STM_Action_QoA.size()-1).setActualDriveAim(moTPM_Action, 1.0);
+                        STM_Action_QoA.get(STM_Action_QoA.size()-1).setActualDriveObject(moTPM_Action, 1.0);
+                    }
+                    catch (Exception e)
+                    {
+                        // TODO (noName) - Auto-generated catch block
+                        e.printStackTrace();
+                    };
+                }
+            }
+            
+            if(moTPM_Object.getContentType() != eContentType.NULLOBJECT)
+            {   boolean eqObject=false;
+                for ( clsDriveMesh STM_Object_QoA_Element : STM_Object_QoA)
+                {
+                    if (  moTPM_Object.getMoDataStructureType().equals(STM_Object_QoA_Element.getActualDriveObject().getMoDataStructureType())
+                       && moTPM_Object.getContentType().equals(STM_Object_QoA_Element.getActualDriveObject().getContentType())
+                       && moTPM_Object.getContent().equals(STM_Object_QoA_Element.getActualDriveObject().getContent())
+                       )
+                    {
+                        STM_Object_QoA_Element.setQuotaOfAffect(STM_Object_QoA_Element.getQuotaOfAffect()+ StepPleasure);
+                        eqObject = true;
+                    }
+                }
+                if (eqObject != true)
+                {
+                    clsDriveMesh STM_Object_QoA_Element = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.DM, eContentType.MEMORIZEDDRIVEREPRESENTATION), Drive_STM_Candidate, StepPleasure, "debugInfo:");
+                    
+                    STM_Object_QoA.add(STM_Object_QoA_Element);
+                    try
+                    {
+                        STM_Object_QoA.get(STM_Object_QoA.size()-1).setActualDriveObject(moTPM_Object, 1.0);
+                        STM_Object_QoA.get(STM_Object_QoA.size()-1).setActualDriveAim(moTPM_Object, 1.0);
+                    }
+                    catch (Exception e)
+                    {
+                        // TODO (noName) - Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+            // TODO: Fittner: search for highest QoA in Memory
+            // Decrease 0,01 per 10 Steps? (how many cals in 10 Steps?) all QoA
+            
+            if (  Drive_STM_Candidate!=null 
+                    // TODO: Ändern auf STM_Object_QoA / STM_Action_QoA
+               && moTPM_Object.getContentType() != eContentType.NULLOBJECT
+               && moTPM_Object.getContent()     != "NULLOBJECT"
+               && moTPM_Action.getContentType() != eContentType.NULLOBJECT
+               && moTPM_Action.getContent()     != "NULLOBJECT"
+               )
+            {
+                maxPleasure = 0.0;
+                try
+                {
+                    for ( clsDriveMesh STM_Object_QoA_Element : STM_Object_QoA)
+                    {
+                        if (STM_Object_QoA_Element.getQuotaOfAffect() > maxPleasure)
+                        {
+                            maxPleasure = STM_Object_QoA_Element.getQuotaOfAffect();
+                            Drive_STM_Candidate.setActualDriveObject(STM_Object_QoA_Element.getActualDriveObject(), 1.0);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    // TODO (noName) - Auto-generated catch block
+                    e.printStackTrace();
+                }
+               
+                maxPleasure = 0.0;
+                try
+                {
+                    for ( clsDriveMesh STM_Action_QoA_Element : STM_Action_QoA)
+                    {
+                        if (STM_Action_QoA_Element.getQuotaOfAffect() > maxPleasure)
+                        {
+                            maxPleasure = STM_Action_QoA_Element.getQuotaOfAffect();
+                            Drive_STM_Candidate.setActualDriveAim(STM_Action_QoA_Element.getActualDriveAim(), 1.0);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    // TODO (noName) - Auto-generated catch block
+                    e.printStackTrace();
+                }
+        
+                //Comparator<clsDriveMesh> compare;
+                boolean equal=false;
+                for ( clsDriveMesh moSTM_DM_Entry : moSTM_DM)
+                {
+                    if (  (Drive_STM_Candidate.getActualDriveAim()    != null)
+                       && (Drive_STM_Candidate.getActualDriveObject() != null)
+                       && (moSTM_DM_Entry.getActualDriveAim()         != null)
+                       && (moSTM_DM_Entry.getActualDriveObject()      != null)
+                       )
+                    { 
+                        if (  moSTM_DM_Entry.getDriveComponent().equals(Drive_STM_Candidate.getDriveComponent())
+                           && moSTM_DM_Entry.getActualDriveSourceAsENUM().equals(Drive_STM_Candidate.getActualDriveSourceAsENUM())
+                           && moSTM_DM_Entry.getPartialDrive().equals(Drive_STM_Candidate.getPartialDrive())
+                           && moSTM_DM_Entry.getActualDriveAim().getContentType().equals(Drive_STM_Candidate.getActualDriveAim().getContentType())
+                           && moSTM_DM_Entry.getActualDriveAim().getContent().equals(Drive_STM_Candidate.getActualDriveAim().getContent())
+                           && moSTM_DM_Entry.getActualDriveObject().getContentType().equals(Drive_STM_Candidate.getActualDriveObject().getContentType())
+                           && moSTM_DM_Entry.getActualDriveObject().getContent().equals(Drive_STM_Candidate.getActualDriveObject().getContent())
+                           ) 
+                        {
+                            equal = true;
+                            moSTM_DM_Entry.setQuotaOfAffect(Drive_STM_Candidate.getPleasureSumMax());
+                        }
+                    }
+                }
+                if(!equal && Drive_STM_Candidate != null)
+                {
+                    clsDriveMesh STM_newDM_Element = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.DM, eContentType.MEMORIZEDDRIVEREPRESENTATION), Drive_STM_Candidate, Drive_STM_Candidate.getPleasureSumMax(), "debugInfo:");
+                    
+                    moSTM_DM.add(STM_newDM_Element);
+                }
+            }
+            // Decrease QoA of DM in STM for Object and Action
+            try
+            {
+                for ( clsDriveMesh STM_Object_QoA_Element : STM_Object_QoA)
+                {
+                    STM_Object_QoA_Element.setQuotaOfAffect(STM_Object_QoA_Element.getQuotaOfAffect() - mrMemorizedObjectQoAReducion);
+                    if (STM_Object_QoA_Element.getQuotaOfAffect() < 0)
+                    {
+                        STM_Object_QoA_Element.setQuotaOfAffect(0.0);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // TODO (noName) - Auto-generated catch block
+                e.printStackTrace();
+            }
+            try
+            {
+                for ( clsDriveMesh STM_Action_QoA_Element : STM_Action_QoA)
+                {
+                    STM_Action_QoA_Element.setQuotaOfAffect(STM_Action_QoA_Element.getQuotaOfAffect() - mrMemorizedActionQoAReducion);
+                    if (STM_Action_QoA_Element.getQuotaOfAffect() < 0)
+                    {
+                        STM_Action_QoA_Element.setQuotaOfAffect(0.0);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // TODO (noName) - Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
         //=== Perform system tests ===//
         boolean status = clsTester.getTester().isActivated();
         clsTester.getTester().setActivated(false);
@@ -490,7 +768,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
         ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
         boolean bRemoved = false;
-                     
+        // TODO: Personality parameter should be used             
         double rImpactFactorOfCurrentEmotion = 0.5; // Personality Factor for the impact of current emotions on emotional valuation of perceived agents
         ArrayList<clsEmotion> oCurrentEmotions = getCurrentEmotions(moDrives_IN);
         clsEmotion oCurrentEmotionValues = getEmotionValues(oCurrentEmotions);
@@ -1017,20 +1295,40 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		return oBestMatch; 
 	}
 		
-	private  ArrayList<clsPrimaryDataStructureContainer> convertSymbolToTPM( HashMap<eSymbolExtType, itfSymbol> poData) {
+	private  ArrayList<clsPrimaryDataStructureContainer> convertSymbolToTPM( HashMap<eSymbolExtType, itfSymbol> poData)
+	{
 	    ArrayList<clsPrimaryDataStructureContainer> oEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		for(itfSymbol oSymbol : poData.values()){
-			if(oSymbol!=null){
-				for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
-					//convert the symbol to a PDSC/TP
+		
+	    for(itfSymbol oSymbol : poData.values()){
+			if(oSymbol!=null)
+			{
+			    //log.debug("oSymbol.getDataAccessMethods {}", ((itfGetDataAccessMethods)oSymbol.getSymbolObjects()).getDataAccessMethods());
+			    //log.debug("oSymbol.getSymbolType {}", (((itfGetSymbolName)oSymbol.getSymbolObjects()).getSymbolType().toString()));
+  
+
+	        
+			    for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
+					
+		             eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)oSymbolObject).getSymbolType());
+		                String oContent = ((itfIsContainer)oSymbolObject).getSymbolMeshContent().toString();
+		                log.debug("oSymbol.oContentType "+ oContentType);
+		                log.debug("oSymbol.oContent "+ oContent);
+		                log.debug("oSymbol.getSymbolMeshContent "+ ((itfIsContainer) (oSymbolObject)).getSymbolMeshContent().toString());
+			        
+			        //convert the symbol to a PDSC/TP
 					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
 					oEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+					//fittner:
+					log.debug("oDataStructure {}" ,oDataStructure);
+					log.debug("oDataStructure {}",oDataStructure.getDebugInfo());
+					log.debug("oDataStructure {}",oDataStructure.getMoDataStructureType());
+					log.debug("oDataStructure {}",oDataStructure);
 				}	
 			}
 		}
 		
 		// FIXME: SSCH delete this, if CM have changed the sensors to avoid the occurence of non-entities in moEnvironmentalData 
-		ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
+		/*ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
 		for (clsPrimaryDataStructureContainer oEnvEntity : oEnvironmentalTP) {
 			clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
 			if(oCheckEntity.getMoDataStructure().getContentType() != eContentType.ENTITY) {
@@ -1039,7 +1337,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}		
 		for(clsPrimaryDataStructureContainer oDS: oRemoveDS){
 		    oEnvironmentalTP.remove(oDS);			
-		}
+		}*/
 		
 		return oEnvironmentalTP;
 	}
@@ -1171,8 +1469,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     }
                    
                 }
-								
-                oSearchResultsEnviromentalTP = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternEnviromentalTP); //koller Suchaufruf mit neuem DMTPM eDataType
+                //koller Suchaufruf mit neuem DMTPM eDataType				
+                oSearchResultsEnviromentalTP = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternEnviromentalTP); 
                 
                 poRankingResultsEnviromentalTP = rankCandidatesTPM(oSearchResultsEnviromentalTP);
                 
@@ -1778,7 +2076,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public ArrayList<eInterfaces> getCompareInterfacesSend() {
 		return getInterfacesSend();
 	}
+	
+	public clsThingPresentationMesh getAction() {
+	        return moTPM_Action;
+	}
 
+	public clsThingPresentationMesh getObject() {
+           return moTPM_Object;
+    }
     /* (non-Javadoc)
      *
      * @since 07.10.2014 15:20:36
@@ -1786,10 +2091,12 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
      * @see modules.interfaces.I5_19_receive#receive_I5_19(java.util.ArrayList, memorymgmt.enums.PsychicSpreadingActivationMode, base.datatypes.clsWordPresentationMesh)
      */
 	@Override
-	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2, List<clsEmotion> poCurrentEmotions) {
+	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory, PsychicSpreadingActivationMode mode, clsWordPresentationMesh moWordingToContext2, List<clsEmotion> poCurrentEmotions, clsThingPresentationMesh poTPM_Action, clsThingPresentationMesh poTPM_Object) {
         moWordingToContext_IN = moWordingToContext2;
         moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
         moPsychicSpreadingActivationMode_IN = mode;
         moCurrentEmotions = poCurrentEmotions;
+        moTPM_Action = poTPM_Action;
+        moTPM_Object = poTPM_Object;
 	}	
 }

@@ -1,8 +1,8 @@
 /**
- * E33_RealityCheck2.java: DecisionUnits - pa.modules
+ * F53_RealityCheckActionPlanning.java: DecisionUnits - pa.modules
  * 
- * @author deutsch
- * 27.04.2010, 10:18:11
+ * @author fittner
+ * 08.08.2016, 08:33:00
  */
 package secondaryprocess.modules;
 
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import logger.clsLogger;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -19,8 +18,6 @@ import modules.interfaces.I6_10_send;
 import modules.interfaces.I6_15_receive;
 import modules.interfaces.I6_9_receive;
 import modules.interfaces.eInterfaces;
-
-import org.slf4j.Logger;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
@@ -33,19 +30,22 @@ import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
+import base.tools.toText;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ * Module checks available goals against perception and removes goals that are not available for actions
+ * Parameter: Psychic Intensity
  * 
- * @author deutsch
- * 27.04.2012, 10:18:11
+ * @author fittner
+ * 08.08.2016, 08:33:00
  * 
  */
 public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I6_9_receive, I6_10_send, I6_15_receive {
 	
 	public static final String P_MODULENUMBER = "53";
 	
-	    
+	public static final String newline = System.getProperty("line.separator");
+	
 	private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
 	private static final String P_INITIAL_REQUEST_INTENSITY ="INITIAL_REQUEST_INTENSITY";
 	    
@@ -54,15 +54,17 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	
 	
 	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
-	private clsWordPresentationMesh moWording_IN;
+	//fittner: not used
+	//private clsWordPresentationMesh moWording_IN;
 	private clsWordPresentationMesh moPerception_IN;
 	
 	private ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoals;
 	
-	/** (wendt) Goal memory; @since 24.05.2012 15:25:09 */
-    private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
+	//fittner: not used
+	///** (wendt) Goal memory; @since 24.05.2012 15:25:09 */
+    //private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
 	
-	private final Logger log = clsLogger.getLog("F" + P_MODULENUMBER);
+	//private final Logger log = clsLogger.getLog("F" + P_MODULENUMBER);
 	
 	private clsWordPresentationMesh moWordingToContext;
 	
@@ -87,14 +89,14 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTermMemory,
 			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
-		// TODO (zeilinger) - Auto-generated constructor stub
 		
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F53", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F53", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
-		this.moShortTimeMemory = poShortTermMemory;
+        //fittner: not used
+        //this.moShortTimeMemory = poShortTermMemory;
 		 
 	}
 	
@@ -107,9 +109,19 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	public String stateToTEXT() {
-		String text ="";
 		
-		return text;
+		String text = "";
+
+        //text += toText.listToTEXT("moPlanInput", moPlanInput);
+        //text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
+        text += toText.listToTEXT("selectableGoals: {}", selectableGoals);
+        text += toText.valueToTEXT("moPerception_IN: {}", moPerception_IN);
+        //text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
+        text += newline;
+        text += "current generated plans:";
+        text += newline;
+		
+        return text;
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -158,7 +170,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	    
 	    //Kollmann: compare the currently perceived entities to the entities in the acts intentions to check if they match - if not, the goal gets a slightly lower importance
 	    GoalHandlingFunctionality.applyObjectAttributeMatchImportanceOnPossibleGoals(selectableGoals, moPerception_IN);
-
+	    log.debug("selectableGoals:{}", selectableGoals);
+	    log.debug("moPerception_IN: {}",moPerception_IN);
 	    double rRequestedPsychicIntensity =0.0;
 	                
 	    double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
@@ -166,6 +179,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	    double rConsumedPsychicIntensity = rReceivedPsychicEnergy;
 	            
 	    moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
+	    log.debug("moPsychicEnergyStorage {} {}", moPsychicEnergyStorage.getFreePsychicIntensityInStorage(),rReceivedPsychicEnergy);
 	}
 
 	/* (non-Javadoc)
@@ -289,7 +303,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "This module operates similarly to {E24}. The imaginary actions generated by {E27} are evaluated regarding which action plan is possible and the resulting requirements. {E34} provides the semantic knowledge necessary for this task. The result influences the final decision which action to choose in module {E28}.";
+		moDescription = "This module operates similarly to {F51}. The imaginary actions generated by {F52} are evaluated regarding which action plan is possible and the resulting requirements. (The Memory provides the semantic knowledge necessary for this task. Not realized until now) The result influences the final decision which action to choose in module {F29}.";
 	}
 
     

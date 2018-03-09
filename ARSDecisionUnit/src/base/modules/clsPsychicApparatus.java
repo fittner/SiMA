@@ -156,7 +156,8 @@ public class clsPsychicApparatus {
 	
 	/** The knowlegdebase / aka memory; @since 13.07.2011 17:48:27 */
 	//public clsKnowledgeBaseHandler moKnowledgeBaseHandler;
-	public itfModuleMemoryAccess moLongTermMemory;
+    public itfModuleMemoryAccess moLongTermMemory;
+    //public itfModuleMemoryAccess moWorkingMemory;
 	/** Libido buffer storage. Necessary for DT1.; @since 13.07.2011 17:48:42 */
 	public DT1_PsychicIntensityBuffer moLibidoBuffer;
 	/** Blocked content storage. Necessary for DT2.; @since 13.07.2011 17:49:01 */
@@ -398,7 +399,7 @@ public class clsPsychicApparatus {
 			moF39_SeekingSystem_LibidoSource = new F39_SeekingSystem_LibidoSource(pre + F39_SeekingSystem_LibidoSource.P_MODULENUMBER, poProp, moModules, moInterfaceData,  moPersonalityParameterContainer, uid);
 			moF40_NeurosymbolizationOfLibido = new F40_NeurosymbolizationOfLibido(pre + F40_NeurosymbolizationOfLibido.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moF48_AccumulationOfQuotaOfAffectsForDrives = new F48_AccumulationOfQuotaOfAffectsForDrives(pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moLibidoBuffer, moPersonalityParameterContainer, moPsychicEnergyStorage, uid);
-			moF57_MemoryTracesForDrives = new F57_MemoryTracesForDrives(pre + F57_MemoryTracesForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer, uid);
+			moF57_MemoryTracesForDrives = new F57_MemoryTracesForDrives(pre + F57_MemoryTracesForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer, moPleasureStorage, uid);
 			moF49_PrimalRepressionForDrives = new F49_PrimalRepressionForDrives(pre + F49_PrimalRepressionForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer, uid);
 			moF54_EmersionOfBlockedDriveContent = new F54_EmersionOfBlockedDriveContent(pre + F54_EmersionOfBlockedDriveContent.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moF56_Desexualization_Neutralization = new F56_Desexualization_Neutralization(pre + F56_Desexualization_Neutralization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
@@ -407,7 +408,7 @@ public class clsPsychicApparatus {
 			moF52_GenerationOfImaginaryActions = new F52_GenerationOfImaginaryActions(pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moDecisionEngine, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
 			moF45_LibidoDischarge = new F45_DischargeOfPsychicIntensity(pre + F45_DischargeOfPsychicIntensity.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moLongTermMemory, moPersonalityParameterContainer, uid);
 			moF46_MemoryTracesForPerception = new F46_MemoryTracesForPerception(pre + F46_MemoryTracesForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moEnvironmentalImageStorage, moPersonalityParameterContainer, uid);
-			moF47_ConversionToPrimaryProcess = new F47_ConversionToPrimaryProcess(pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData, moShortTimeMemory, uid);
+			moF47_ConversionToPrimaryProcess = new F47_ConversionToPrimaryProcess(pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData, moShortTimeMemory, uid, moLongTermMemory);
 			moF63_CompositionOfEmotions = new F63_CompositionOfEmotions(pre + F63_CompositionOfEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
 			moF61_Localization = new F61_Localization(pre + F61_Localization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
 			moF64_PartialSexualDrives = new F64_PartialSexualDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moPersonalityParameterContainer, moPleasureStorage, uid);

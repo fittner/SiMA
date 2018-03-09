@@ -36,7 +36,11 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	
 	public static final String moContent = null;
-    private double mrQuotaOfAffect = 0.0;				//0-1
+	private double mrQuotaOfAffect = 0.0;               //0-1
+	private double mrQuotaOfAffect_lastStep = 0.0;               //0-1
+    private double mrPleasureSum = 0.0;               //0-1
+	private double mrPleasureSumMax = 0.0;               //0-1
+    private int    mdLearningCnt = 0;               //0-1
     private double mrPsychicSatisfactionValue = 0.0;
 	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
 	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
@@ -125,23 +129,28 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	    }
 	
 	
-	public clsThingPresentationMesh getActualDriveObject(){
+	public clsThingPresentationMesh getActualDriveObject()
+	{
 		return getAssociatedObject(eContentType.ENTITY);
 	}
 	
-	public clsThingPresentationMesh getActualDriveAim(){
+	public clsThingPresentationMesh getActualDriveAim()
+	{
 		return getAssociatedObject(eContentType.ACTION);
 	}
 	
-	public clsThingPresentationMesh getActualBodyOrifice(){
+	public clsThingPresentationMesh getActualBodyOrifice()
+	{
 		return getAssociatedObject(eContentType.ORIFICE);
 	}
 	
-	public double getPsychicSatisfactionValue(){
+	public double getPsychicSatisfactionValue()
+	{
 	    return mrPsychicSatisfactionValue;
 	}
 	//orifices are fixed for PA body, thus we can do this here
-	public eOrifice getActualBodyOrificeAsENUM(){
+	public eOrifice getActualBodyOrificeAsENUM()
+	{
 		
 		eOrifice retVal = eOrifice.UNDEFINED;
 		
@@ -332,9 +341,15 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	
 	public String toString(){
-		String oRetval = "|DM:";
-		oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
-		oRetval += ":DComponent="+this.moDriveComponent.toString();
+	    String oRetval = "|DM:";
+	    oRetval += ":Action="+(this.getActualDriveAim()!=null?this.getActualDriveAim().getContent():"no action");
+	    oRetval += ":Object="+(this.getActualDriveObject()!=null?this.getActualDriveObject().getContent():"no object");
+        oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
+        oRetval += ":QoASum="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
+        oRetval += ":PleSum= " + GetQuotaOfAffectAsMyString(this.getPleasureSum());
+        oRetval += ":PleSumMax= " + GetQuotaOfAffectAsMyString(this.getPleasureSumMax());
+        oRetval += ":LeaCnt= " + GetQuotaOfAffectAsMyString(this.getLearningCnt());
+        oRetval += ":DComponent="+this.moDriveComponent.toString();
 		oRetval += ":PartialD="+this.moPartialDrive.toString();
 		oRetval += ":Organ="+this.getActualDriveSourceAsENUM();
 		oRetval += ":Orifice="+this.getActualBodyOrificeAsENUM();
@@ -351,7 +366,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		//	oRetval += ": :External=NULL";
 			if(this.moDebugInfo!=null && this.moDebugInfo!="")
 				oRetval += ":DBG='"+this.moDebugInfo+"'";
-		oRetval += "|\n";
+			oRetval += "|\n";
 		return oRetval;
 	}
 	
@@ -404,19 +419,93 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * 
 	 * @return the mrQuotaOfAffect
 	 */
-	public double getQuotaOfAffect() {
-		return mrQuotaOfAffect;
+	public int getLearningCnt() {
+		return mdLearningCnt;
 	}
 
-	/**
-	 * @since 11.07.2012 14:10:00
-	 * 
-	 * @param mrQuotaOfAffect the mrQuotaOfAffect to set
-	 */
-	public void setQuotaOfAffect(double mrQuotaOfAffect) {
-		this.mrQuotaOfAffect = mrQuotaOfAffect;
-	}
-	
+
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getQuotaOfAffect() {
+        return mrQuotaOfAffect;
+    }
+
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getQuotaOfAffect_lastStep() {
+        return mrQuotaOfAffect_lastStep;
+    }   
+    
+
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setLearningCnt(int mdLearningCnt) {
+        this.mdLearningCnt = mdLearningCnt;
+    }
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getPleasureSum() {
+        return mrPleasureSum;
+    }
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setPleasureSum(double mrPleasureSum) {
+        this.mrPleasureSum = mrPleasureSum;
+    }    
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getPleasureSumMax() {
+        return mrPleasureSumMax;
+    }
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setPleasureSumMax(double mrPleasureSumMax) {
+        this.mrPleasureSumMax = mrPleasureSumMax;
+    }    
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setQuotaOfAffect(double mrQuotaOfAffect) {
+        this.mrQuotaOfAffect = mrQuotaOfAffect;
+    }
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double setQuotaOfAffect_lastStep(double mrQuotaOfAffect) {
+        return mrQuotaOfAffect_lastStep = mrQuotaOfAffect;
+    }   
+
 	/**
 	 * @since 28.01.2013 14:10:00
 	 * 
@@ -478,7 +567,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		// TODO (schaat) - Auto-generated method stub
 		double oRetVal = 0.0; 
-		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
+		
+		if(this.moDataStructureType != poDataStructure.moDataStructureType)
+		{
+		    return oRetVal;
+		}
 
 		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
 				
@@ -493,7 +586,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			 */
 			//oRetVal = oDataStructure.getNumbAssociations();
 			oRetVal = 1.0;
-		} else if (oDataStructure.moDS_ID >= -1) {
+		}
+		else if (oDataStructure.moDS_ID >= -1) 
+		{
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined

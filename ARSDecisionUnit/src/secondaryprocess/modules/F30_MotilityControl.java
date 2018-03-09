@@ -203,7 +203,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2) {
+	public void receive_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2, clsWordPresentationMesh moAction2, clsWordPresentationMesh moObject2) {
 		moActionCommand_Input = poActionCommands; 
 		moWordingToContext = moWordingToContext2;
 	}

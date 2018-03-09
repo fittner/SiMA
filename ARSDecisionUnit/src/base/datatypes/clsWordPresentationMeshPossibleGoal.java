@@ -268,8 +268,9 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         String oAimImportance = this.getUniqueProperty(ePredicate.HASDRIVEAIMIMPORTANCE);
         if (oAimImportance.isEmpty()==false) {
             oRetVal = Double.valueOf(oAimImportance);
+            logger.clsLogger.getLog("fim").debug("oAimImportance: {} ",oAimImportance);
+            logger.clsLogger.getLog("fim").debug("ePredicate: {} oRetVal:{}", this.getGoalName().toString(), oRetVal);
         }
-        
     
         return oRetVal;
     }
@@ -353,6 +354,7 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     public void setPotentialDriveFulfillmentImportance(double importance) {
         if(!Double.isNaN(importance)) {
             this.setUniqueProperty(String.valueOf(importance), eContentType.POTENTIALDRIVEFULFILLMENTIMPORTANCE, ePredicate.HASPOTENTIALDRIVEFULFILLMENTIMPORTANCE, true);
+            logger.clsLogger.getLog("fim").debug("{} {} {} importance: {} ",this.getGoalName().toString(),this.getGoalObject().toString(),this.getGoalSource().toString(), importance );
         } else {
             log.error("Method setPotentialDriveFulfillmentImportance tried to set NaN as dable value");
         }
@@ -364,6 +366,7 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         String oAffectLevel = this.getUniqueProperty(ePredicate.HASPOTENTIALDRIVEFULFILLMENTIMPORTANCE);
         if (oAffectLevel.isEmpty()==false) {
             oRetVal = Double.valueOf(oAffectLevel);
+            logger.clsLogger.getLog("fim").debug("{} {} {} oAffectLevel: {} ",this.getGoalName().toString(),this.getGoalObject().toString(),this.getGoalSource().toString(), oAffectLevel );
         }
         
     
@@ -383,6 +386,11 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     public clsWordPresentationMesh getAssociatedPlanAction() {
         return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDPLANACTION);
     } 
+
+    public clsWordPresentationMesh getAssociatedPlanMemAction() {
+        return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDPLANACTIONMEMORY);
+    } 
+
     
     /**
      * Set associated action
@@ -397,6 +405,11 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     public void setAssociatedPlanAction(clsWordPresentationMesh poAssociatedAction) {
         this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDPLANACTION, true);
     }
+
+    public void setAssociatedPlanActionMemory(clsWordPresentationMesh poAssociatedAction) {
+        this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDPLANACTIONMEMORY, true);
+    }
+
     
     public void setPotentialDriveAim(clsWordPresentationMesh poPotentialDriveAim) {
         this.setUniqueProperty(poPotentialDriveAim, ePredicate.HASPOTENTIALDRIVEAIM, true);

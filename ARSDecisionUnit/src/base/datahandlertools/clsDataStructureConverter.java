@@ -96,7 +96,8 @@ public class clsDataStructureConverter {
 		ArrayList<clsPhysicalRepresentation> oExternalAssociatedTPM = new ArrayList<clsPhysicalRepresentation>();
 		ArrayList<clsThingPresentation> oExternalAssociatedTP = new ArrayList<clsThingPresentation>();
 		
-		for(Method oM : oMethods){
+		for(Method oM : oMethods)
+		{
 			if (oM.getName().equals("getSymbolObjects")) {
 				continue;
 			}
@@ -263,19 +264,18 @@ public class clsDataStructureConverter {
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
 					}
-					
-
 				}
 		}
 		oTPM = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM,	new clsTriple<eContentType, Object, Object>(oContentType, oAssociatedContent, oContent)); 
-		for(clsPhysicalRepresentation oVal: oExternalAssociatedTPM){
+		for(clsPhysicalRepresentation oVal: oExternalAssociatedTPM)
+		{
 		    oTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.TPM, oTPM, (clsThingPresentationMesh) oVal, 1.0));
-		    
 		}
-		for(clsThingPresentation tp : oExternalAssociatedTP){
-		    oTPM.addExternalAssociation(new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
-		            oTPM, 
-		            tp)); 
+		for(clsThingPresentation tp : oExternalAssociatedTP)
+		{
+		    oTPM.addExternalAssociation(new clsAssociationAttribute(new clsTriple<Integer,
+		            eDataType, eContentType> (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
+		            oTPM, tp)); 
 		}
 		return oTPM; 	
 	}

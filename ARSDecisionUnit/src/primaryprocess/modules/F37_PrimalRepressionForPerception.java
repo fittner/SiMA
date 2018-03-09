@@ -155,7 +155,7 @@ implements I5_6_receive, I5_7_send  {
 		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		text += toText.listToTEXT("moPrimalRepressionMemory", moPrimalRepressionMemory);
-
+		
 		return text;
 	}	
 
@@ -202,6 +202,7 @@ implements I5_6_receive, I5_7_send  {
 //		}
 
 		evaluatePerception(moPerceptionalMesh_OUT);
+		log.debug("Blocked Content: ", DT2_BlockedContentStorage.class.toString());
 		
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {

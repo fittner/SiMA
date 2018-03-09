@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 public enum eInterfaces {
 	D1_1("Write access to libido storage (from F41)."),
-	D1_2("Read access to libido storage (from F41)."),
-	D1_3("Write access to libido storage (from F39)."),
+	D1_2("Write increase access to libido storage (from F41)."),
+	D1_3("Write decrease access to libido storage (from F39)."),
 	D1_4("Read access to libido storage (from F39)."),
 	D1_5("n/a"),
 	D2_1("Write access to blocked content (from F35)."),

@@ -66,6 +66,21 @@ public abstract class clsWordPresentationMeshGoal extends clsWordPresentationMes
         return this.getUniquePropertyWPM(ePredicate.HASGOALOBJECT);
     }
     
+    public clsWordPresentationMesh getGoalPlanAction() {
+        return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDPLANACTION);
+    }
+    public clsWordPresentationMesh getGoalPlanMemAction() {
+        return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDPLANACTIONMEMORY);
+    }
+    public clsWordPresentationMesh getGoalAction() {
+        return this.getUniquePropertyWPM(ePredicate.HASACTION);
+    }
+    public clsWordPresentationMesh getGoalPrefAction() {
+        return this.getUniquePropertyWPM(ePredicate.HASPREFERREDACTION);
+    }
+    public clsWordPresentationMesh getGoalDriveAction() {
+        return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDDRIVEAIMACTION);
+    }
     /**
      * Set goal object
      * 

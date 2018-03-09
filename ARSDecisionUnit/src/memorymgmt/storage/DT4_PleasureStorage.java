@@ -34,14 +34,16 @@ public class DT4_PleasureStorage
 implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_1_send, D4_2_receive{
 
 	private double mnSystemPleasureValue = 0.0;
-	private double mnSystemPleasureValueOld = 0.0;
+	private ArrayList<Double> mnSystemPleasureValueXSum = new ArrayList<Double>();
+    private double mnSystemPleasureValueOld = 0.0;
+    private long tmpCalc_cnt = 911911911;
 	private ArrayList<clsDriveMesh> moAllDrivesLastStep;
+    private ArrayList<clsDriveMesh> moAllDrivesXSteps;
+    public  double moPleasure;
 
 	public DT4_PleasureStorage() {
 		
 	}
-
-
 	/**
 	 * @since 18.07.2012 15:32:09
 	 * 
@@ -66,7 +68,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 							//old drive is the same as the new one, found a match... calculate pleasure
 						
 							double tmpCalc = oOldDMEntry.getQuotaOfAffect() - oNewDMEntry.getQuotaOfAffect();
-							
+							oNewDMEntry.setQuotaOfAffect_lastStep(oOldDMEntry.getQuotaOfAffect());
 							//Pleasure cannot be negative
 							if(tmpCalc <0)
 								tmpCalc = 0;
@@ -79,18 +81,93 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 			
 			//dynamiic protion of pleasure
 			/*if((nNewPleasureValue - this.mnSystemPleasureValue) > 0)
-				nNewPleasureValue = nNewPleasureValue + (nNewPleasureValue - this.mnSystemPleasureValue);
-			
-			
+				nNewPleasureValue = nNewPleasureValue + (nNewPleasureValue - this.mnSystemPleasureValue);	
 			*/
 			this.mnSystemPleasureValue =nNewPleasureValue;
 			
 			if(this.mnSystemPleasureValue>1.0)this.mnSystemPleasureValue=1.0;
 		}
-		
-		
-		//overwrite old ones with new ones for next step calculation
-		this.moAllDrivesLastStep = moAllDrivesActualStep;
+
+	
+	    /* Fittner: New Symbol creation for pleasure/QoA reductio over X steps
+	     * */
+        
+        if(moAllDrivesXSteps!=null && !moAllDrivesXSteps.isEmpty() )
+	    {
+            double nNewPleasureValue = 0.0;
+            //go through the list of drives from last step, and calculate the pleasure out of the reduction
+            int i=0;
+            
+            for( clsDriveMesh oOldDMEntry : moAllDrivesXSteps)
+            {
+                //find the drive from the list from last step
+                for( clsDriveMesh oNewDMEntry : moAllDrivesActualStep)
+                {
+                    if(    oOldDMEntry.getActualDriveSourceAsENUM() == oNewDMEntry.getActualDriveSourceAsENUM()
+                        && oOldDMEntry.getContentType() == oNewDMEntry.getContentType()
+                        && oOldDMEntry.getPartialDrive() == oNewDMEntry.getPartialDrive()
+                           // drive component have to be considered to
+                        && oOldDMEntry.getDriveComponent() == oNewDMEntry.getDriveComponent()
+                      )
+                    {
+                        //old drive is the same as the new one, found a match... calculate pleasure
+                    
+                        double mrQuotaOfAffect = oOldDMEntry.getQuotaOfAffect();
+                        double tmpCalc = mrQuotaOfAffect - oNewDMEntry.getQuotaOfAffect();
+                        
+                        
+                        //Pleasure cannot be negative
+                        if(tmpCalc < 0)
+                        {
+                            tmpCalc = 0;
+                            moAllDrivesXSteps.get(i).setQuotaOfAffect(mrQuotaOfAffect);
+                            moPleasure = moAllDrivesXSteps.get(i).getPleasureSumMax();
+                        }
+                        
+                        if(tmpCalc == 0)
+                        {
+                            moAllDrivesXSteps.get(i).setLearningCnt(moAllDrivesXSteps.get(i).getLearningCnt()+1);
+                        }
+                        else
+                        {
+                            if(moAllDrivesXSteps.get(i).getLearningCnt() > 0)
+                            {
+                                moAllDrivesXSteps.get(i).setQuotaOfAffect(mrQuotaOfAffect);
+                            }
+                            moAllDrivesXSteps.get(i).setLearningCnt(0);
+                            moAllDrivesXSteps.get(i).setPleasureSum(tmpCalc);
+                        }
+                        
+                        if( moAllDrivesXSteps.get(i).getPleasureSum() > moAllDrivesXSteps.get(i).getPleasureSumMax())
+                        {
+                            moAllDrivesXSteps.get(i).setPleasureSumMax(moAllDrivesXSteps.get(i).getPleasureSum());
+                            
+                        }
+                        else if( moAllDrivesXSteps.get(i).getPleasureSum() < moAllDrivesXSteps.get(i).getPleasureSumMax())
+                        {
+                            tmpCalc = 0;
+                        }
+                        
+                        //if (oDMEntryPleasure.getLearningCnt() > 5)
+                        //{
+                        //    
+                        //}
+                    }
+                }
+                moAllDrivesActualStep.get(i).setPleasureSumMax(moAllDrivesXSteps.get(i).getPleasureSumMax());
+                i++;
+            }
+	    }
+
+        /* init */
+        if (tmpCalc_cnt == 911911911)
+        {
+            this.moAllDrivesXSteps = moAllDrivesActualStep;
+            tmpCalc_cnt = 0;
+        }
+        
+        //overwrite old ones with new ones for next step calculation
+        this.moAllDrivesLastStep = moAllDrivesActualStep;
 	}
 	
 
@@ -180,7 +257,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 	 *
 	 * @since 12.10.2011 15:35:43
 	 * 
-	 * @see pa._v38.interfaces.modules.D3_1_receive#receive_D3_1(double)
+	 * @see pa._v38.interfaces.modules.D4_1_receive#receive_D4_1(double)
 	 */
 	@Override
 	public void receive_D4_1(ArrayList<clsDriveMesh> poActualDriveCandidates) {

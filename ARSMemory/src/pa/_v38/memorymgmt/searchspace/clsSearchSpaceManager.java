@@ -145,12 +145,17 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		else{
 			oMatchedDataStructures = clsDataStructureComparisonTools.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());; 
 		}
-				
+		
+		// fittner : Learning
+		
+		
 		for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
 			clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, oPatternElement.b);	//Get container from a certain data value
 			oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
 		}
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return oDataStructureContainerList;
+		
 		
 	}
 	
@@ -171,6 +176,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			
 			ArrayList<clsAssociation> oExternalAssociationList = moSearchSpaceHandler.readOutSearchSpace(poReturnType, poDataStructure);
 			oDataStructureContainer.setMoAssociatedDataStructures(oExternalAssociationList); 
+			log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 			
 		return oDataStructureContainer;
 	}
@@ -198,6 +204,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 //			e.printStackTrace();
 //		}
 		oResult = oSearchPatternMatch;
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		
 		return oResult;
 	}
@@ -241,7 +248,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
-		
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return oResult;
 	}
 	
@@ -277,7 +284,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
-		
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return oMatchedDataStructures;
 	}
 	
@@ -314,7 +321,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		} else { 
 			throw new IllegalArgumentException("DataStructure unknown ");
 		}
-		
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return oRetVal;
 	}
 	
@@ -325,6 +332,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return poInput;
 	}
 	
@@ -358,12 +366,14 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			
 			oClone.add(oClonedList); 
 		}
+		log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
 		return oClone;
 	}
 
 	@Override
 	public void complementMesh(clsDataStructurePA poInput, int pnLevel) {
-		try {
+	    log.debug("moSearchSpaceHandler {} ", moSearchSpaceHandler.returnSearchSpace());
+	    try {
 			if(poInput instanceof clsThingPresentationMesh){
 				clsDataStructureComparisonTools.complementMesh((clsThingPresentationMesh) poInput, moSearchSpaceHandler, pnLevel, new HashMap<Integer, clsThingPresentationMesh>());
 			} else { 

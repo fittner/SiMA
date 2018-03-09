@@ -228,6 +228,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         else{
             //Clear Action Queue if real Action comes up
             if(nonQueueAction) moActionQueue.clear();
+            // Fittner: Sende real action to Wahrnehmung
         }
         
         //START PROCESS REAL ACTIONS
