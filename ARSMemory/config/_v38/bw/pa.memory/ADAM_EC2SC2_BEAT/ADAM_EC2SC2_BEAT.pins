@@ -1,4 +1,4 @@
-; Wed Apr 18 12:29:37 GMT 2018
+; Wed Apr 18 12:38:43 GMT 2018
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3579,23 +3579,23 @@
 
 ([EMOTION%3AA14_FLEE_BODO_L01_I01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.17)
+	(emotionIntensity 0.39)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.06)
-	(sourceLibid 0.11)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 0.17)
+	(sourceAggr 0.51)
+	(sourceLibid 0.21)
+	(sourcePleasure 0.32)
+	(sourceUnpleasure 0.39)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA14_FLEE_BODO_L01_I02%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.42)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.11)
-	(sourceLibid 0.1)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.1)
+	(sourceAggr 0.36)
+	(sourceLibid 0.23)
+	(sourcePleasure 0.24)
+	(sourceUnpleasure 0.42)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
