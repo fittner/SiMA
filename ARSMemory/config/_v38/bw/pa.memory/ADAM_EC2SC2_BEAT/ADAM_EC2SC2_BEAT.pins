@@ -1,4 +1,4 @@
-; Wed Apr 18 09:37:55 GMT 2018
+; Wed Apr 18 12:29:37 GMT 2018
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3480,12 +3480,12 @@
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I02%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.42)
+	(emotionIntensity 0.4)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.51)
-	(sourceLibid 0.23)
+	(sourceLibid 0.21)
 	(sourcePleasure 0.32)
-	(sourceUnpleasure 0.42)
+	(sourceUnpleasure 0.4)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
