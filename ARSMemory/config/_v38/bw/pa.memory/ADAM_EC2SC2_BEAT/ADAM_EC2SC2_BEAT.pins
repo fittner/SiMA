@@ -1,4 +1,4 @@
-; Wed Apr 18 12:38:43 GMT 2018
+; Thu Apr 19 10:56:34 GMT 2018
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3315,34 +3315,34 @@
 
 ([EMOTION%3AA06_BEAT_BODO_L01_I01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.51)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourceAggr 0.51)
+	(sourceLibid 0.21)
+	(sourcePleasure 0.32)
+	(sourceUnpleasure 0.39)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA06_BEAT_BODO_L01_I02%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.51)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourceAggr 0.51)
+	(sourceLibid 0.25)
+	(sourcePleasure 0.4)
+	(sourceUnpleasure 0.42)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA06_BEAT_BODO_L01_I03%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourceAggr 0.52)
+	(sourceLibid 0.32)
+	(sourcePleasure 0.3)
+	(sourceUnpleasure 0.7)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
