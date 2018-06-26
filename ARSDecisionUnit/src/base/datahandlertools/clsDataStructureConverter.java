@@ -249,7 +249,8 @@ public class clsDataStructureConverter {
                     continue;
 				}*/
 				{
-					try {
+					/* Check for Internal Associations of TMP */
+				    try {
 						oContentTP = oM.invoke(poSymbolObject,new Object[0]);
 						if (oContentTP != null)
 						{

@@ -1,4 +1,4 @@
-; Thu Apr 19 10:56:34 GMT 2018
+; Wed Jun 20 08:49:24 GMT 2018
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -614,7 +614,7 @@
 	(element
 		[DM%3AEAT%3ACARROT]
 		[TPM%3AACTION%3AL1_EAT])
-	(weight 1.0 1.0))
+	(weight 0.5 0.5))
 
 ([AD%3AAIM%3ACARROT%3AEAT_AGGR] of  ASSOCIATIONDM
 
@@ -754,7 +754,7 @@
 	(element
 		[DM%3AEAT%3ACAKE]
 		[TPM%3AENTITY%3ACAKE%3ABASIC])
-	(weight 1.0 1.0))
+	(weight 0.1 0.1))
 
 ([AD%3ADRIVEOBJECT%3ACARROTBASIC%3ABITE] of  ASSOCIATIONDM
 
@@ -3064,7 +3064,7 @@
 		[AD%3ADRIVEOBJECT%3AMOTHERS_BREAST%3ABITE]
 		[AD%3AAIM%3AMOTHERS_BREAST%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.17)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 

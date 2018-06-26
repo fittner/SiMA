@@ -331,7 +331,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 									rMaxDecisionfactor = rCurrentDecisionFactor; 								
 									oDriveAim = oMemoryDM.getActualDriveAim();
 									oDriveObject = oMemoryDM.getActualDriveObject();
-									rSatisfactionOfActualDM = rCurrentDecisionFactor;
+									// Fittner: Not needed?
+									// rSatisfactionOfActualDM = rCurrentDecisionFactor;
 								}
 								 
 								
@@ -342,7 +343,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				
 				// if no memory-dm is similar
 				if (oAssSimilarDMs == null) {
-					// no error if simulator-dm does not have similar memroy-dms
+					// no error if simulator-dm does not have similar memory-dms
 				}
 				
 				oSimulatorDM.addExternalAssociations(oAssSimilarDMs);

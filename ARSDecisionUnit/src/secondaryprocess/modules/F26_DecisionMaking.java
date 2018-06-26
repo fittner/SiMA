@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import memorymgmt.enums.eActivationType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -29,6 +30,7 @@ import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import testfunctions.clsTester;
 import base.datatypes.clsAct;
+import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.datatypes.clsWordPresentationMeshFeeling;
@@ -328,7 +330,28 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		//GoalProcessingFunctionality.initStatusOfSelectedGoals(moDecisionEngine, moDecidedGoalList_OUT);
 		log.info("Selected goals: {}", PrintTools.printArrayListWithLineBreaks(moDecidedGoalList_OUT));
-		
+//		moReachableGoalList_IN.get(0).getAssociatedPlanAction()
+//        moAction = planGoal.getAssociatedPlanMemAction();
+//        moObject = planGoal.getGoalObject();
+//        log.info("\nFITTNER LIST OF OBJECTS: {}", moReachableGoalList_IN.get(0).getAssociatedPlanAction());
+//        log.info("\nFITTNER LIST OF OBJECTS: {}", moReachableGoalList_IN.get(1).getAssociatedPlanAction());
+//        log.info("\nFITTNER LIST OF OBJECTS: {}", moReachableGoalList_IN.get(0).getGoalObject());
+//        log.info("\nFITTNER LIST OF OBJECTS: {}", moReachableGoalList_IN.get(1).getGoalObject());
+//        log.info("\nFITTNER LIST OF OBJECTS: {}", moReachableGoalList_IN.get(1).getGoalObject().getAssociationWPOfWPM());
+        for (int i = 0;i<moReachableGoalList_IN.size();i++)
+        {
+            if((!moReachableGoalList_IN.get(i).getGoalObject().isNullObject()) && (!((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).isNullObject()))
+            {
+                log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i,moReachableGoalList_IN.get(i).getGoalObject(),((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue());
+                log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i,moReachableGoalList_IN.get(i).getGoalObject(),((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
+            }
+            // .getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue());
+//            if((!moReachableGoalList_IN.get(i).getGoalObject().isNullObject()) && (!((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).isNullObject()))
+//            {
+//                log.info("\nFITTNER LIST OF OBJECTS({}): {}",i, moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB().getAggregatedActivationValue());
+//            }
+        }
+
 		//Add the aim of drives goal to the mental situation
 		ShortTermMemoryFunctionality.addUsableAimOfDrivesToMentalSituation(moDriveGoalList_IN, moDecidedGoalList_OUT, this.moShortTermMemory);
 	

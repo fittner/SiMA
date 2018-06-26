@@ -496,7 +496,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 					oOverallActivation += moActivations.get(oActivationType) *1;
 					oOverallWeights += 1;
 				}
-				else {
+				else if(oActivationType == eActivationType.EMBODIMENT_ACTIVATION) {
 					try{
 					    oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType);	
 					    oOverallWeights += moCriterionWeights.get(oActivationType);
@@ -504,7 +504,18 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 					catch(Exception e){
 					   // System.out.println("sad");
 					}
-				}				
+				}
+				else
+				{
+                    try{
+                        oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType); 
+                        oOverallWeights += moCriterionWeights.get(oActivationType);
+                    }
+                    catch(Exception e){
+                       // System.out.println("sad");
+                    }
+				    
+				}
 			}
 			mrAggregatedActivationValue = oOverallActivation/oOverallWeights;
 		}
