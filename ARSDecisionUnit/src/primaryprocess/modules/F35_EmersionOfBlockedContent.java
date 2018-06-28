@@ -237,7 +237,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		mnPsychicInstances = ePsychicInstances.EGO;
+		mnPsychicInstances = ePsychicInstances.ID;
 		
 	}
 

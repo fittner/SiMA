@@ -19,6 +19,8 @@ import java.util.SortedMap;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import base.datatypes.clsDriveMesh;
+import base.datatypes.clsThingPresentationMesh;
 //import base.datatypes.clsAssociation;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
@@ -99,6 +101,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     private String moTEMPDecisionString = "";
 
     private clsWordPresentationMesh moWordingToContext;
+    public static clsWordPresentationMesh moAction;
+    public static clsThingPresentationMesh moTPM_Action;
 
     /**
      * DOCUMENT (perner) - insert description
@@ -246,7 +250,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @see pa.modules.clsModuleBase#process()
      */
     @Override
-    protected void process_basic() {
+    protected void process_basic()
+    {
         clsWordPresentationMesh oWaitAction = null;
         
         log.debug("=== module {} start ===", this.getClass().getName());
@@ -350,6 +355,25 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
         
         DataCollector.goal(moSelectableGoals.get(0)).finish();
+        moAction = moSelectableGoals.get(0).getAssociatedPlanAction();
+        try
+        {
+            for(int i=0;i< ((clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().size();i++)
+            {
+                clsDriveMesh DM;
+                DM = (clsDriveMesh)((clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(i).getAssociationElementA();
+                if(moAction.getContent() == ((clsThingPresentationMesh)DM.getInternalAssociatedContent().get(2).getAssociationElementB()).getContent())
+                {
+                    moTPM_Action = (clsThingPresentationMesh) DM.getInternalAssociatedContent().get(2).getAssociationElementB();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("", e);
+        }
+//            ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue();
+
         
         // //=== TEST ONLY ONE ACTION === //
         // if (clsTester.getTester().isActivated()) {

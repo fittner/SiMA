@@ -283,7 +283,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
     @Override
     protected void setPsychicInstances() {
-        mnPsychicInstances = ePsychicInstances.ID;
+        mnPsychicInstances = ePsychicInstances.EGO;
     }
 
     @Override

@@ -7,8 +7,12 @@
 package secondaryprocess.modules;
 
 import general.datamanipulation.PrintTools;
+import inspector.interfaces.clsTimeChartPropeties;
+import inspector.interfaces.itfInspectorGenericTimeChart;
+
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
@@ -30,6 +34,7 @@ import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import testfunctions.clsTester;
 import base.datatypes.clsAct;
+//import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
@@ -37,6 +42,7 @@ import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.clsWording;
+import base.datatypes.helpstructures.clsPair;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
@@ -58,7 +64,7 @@ import base.tools.toText;
  * 31.07.2011, 14:13:58
  * 
  */
-public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
+public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send, itfInspectorGenericTimeChart{
     
 	public static final String P_MODULENUMBER = "26";
 	
@@ -113,6 +119,10 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	
 	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
+	public static ArrayList<clsPair<Double, clsThingPresentationMesh>> moArrayObjPairSort = new ArrayList<clsPair<Double, clsThingPresentationMesh>>();
+	public static clsThingPresentationMesh moAction;
+    
+	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description 
 	 * 
@@ -153,7 +163,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		moShortTermMemory = poShortTimeMemory;
 		
 		moDecisionEngine = poDecisionEngine;
-		
+	
 	}
 	
 	/* (non-Javadoc)
@@ -330,28 +340,137 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		//GoalProcessingFunctionality.initStatusOfSelectedGoals(moDecisionEngine, moDecidedGoalList_OUT);
 		log.info("Selected goals: {}", PrintTools.printArrayListWithLineBreaks(moDecidedGoalList_OUT));
-//		moReachableGoalList_IN.get(0).getAssociatedPlanAction()
-//        moAction = planGoal.getAssociatedPlanMemAction();
-//        moObject = planGoal.getGoalObject();
-//        log.info("\nFITTNER LIST OF OBJECTS: {}", moReachableGoalList_IN.get(0).getAssociatedPlanAction());
-//        log.info("\nFITTNER LIST OF OBJECTS: {}", moReachableGoalList_IN.get(1).getAssociatedPlanAction());
-//        log.info("\nFITTNER LIST OF OBJECTS: {}", moReachableGoalList_IN.get(0).getGoalObject());
-//        log.info("\nFITTNER LIST OF OBJECTS: {}", moReachableGoalList_IN.get(1).getGoalObject());
-//        log.info("\nFITTNER LIST OF OBJECTS: {}", moReachableGoalList_IN.get(1).getGoalObject().getAssociationWPOfWPM());
+		
+		HashMap<clsThingPresentationMesh, Double> arrayObj = new HashMap<clsThingPresentationMesh, Double>();
+		ArrayList<clsPair<Double, clsThingPresentationMesh>> arrayObjPair = new ArrayList<clsPair<Double, clsThingPresentationMesh>>();
+		clsThingPresentationMesh tmpObject = null;
+		double aggregatedActivationValue = 0;
+		double embodimentActivationValue = 0;
+		
         for (int i = 0;i<moReachableGoalList_IN.size();i++)
         {
+           
             if((!moReachableGoalList_IN.get(i).getGoalObject().isNullObject()) && (!((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).isNullObject()))
             {
-                log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i,moReachableGoalList_IN.get(i).getGoalObject(),((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue());
-                log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i,moReachableGoalList_IN.get(i).getGoalObject(),((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
+                tmpObject = ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB());
+                aggregatedActivationValue = ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue();
+                embodimentActivationValue = ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION);
+                
+                log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i, tmpObject, aggregatedActivationValue);
+                //log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i, moReachableGoalList_IN.get(i).getGoalObject(),((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
+            
             }
+            if(!arrayObj.containsKey(tmpObject)) {
+                arrayObj.put(tmpObject, aggregatedActivationValue);
+                arrayObjPair.add(new clsPair<Double, clsThingPresentationMesh>(aggregatedActivationValue, tmpObject));
+            }
+
             // .getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue());
 //            if((!moReachableGoalList_IN.get(i).getGoalObject().isNullObject()) && (!((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).isNullObject()))
 //            {
 //                log.info("\nFITTNER LIST OF OBJECTS({}): {}",i, moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB().getAggregatedActivationValue());
 //            }
         }
-
+        double maxAggrActVal = 0;
+        boolean smaller = false;
+        ArrayList<clsPair<Double, clsThingPresentationMesh>> arrayObjPairSort = new ArrayList<clsPair<Double, clsThingPresentationMesh>>();;
+        
+        
+        for (int i = 0;i<arrayObjPair.size();i++)
+        {
+            if(Double.isNaN(arrayObjPair.get(i).a))
+            {
+                arrayObjPair.get(i).a = (double) 0;
+            }
+        }
+        int size = arrayObjPair.size();
+        for (int i = 0;;)
+        {
+            smaller = false;
+            double tmp_i;
+            tmp_i = arrayObjPair.get(i).a;
+            for (int j = 0;j<arrayObjPair.size();j++)
+            {
+                double tmp_j = arrayObjPair.get(j).a;
+                if(tmp_i < tmp_j)
+                {
+                    smaller = true;
+                    break;
+                }
+            }
+            if(smaller != true)
+            {
+                arrayObjPairSort.add(arrayObjPair.get(i));
+                arrayObjPair.remove(i);
+            }
+            if(arrayObjPairSort.size() >= size)
+            {
+                break;
+            }
+            if(i>=(arrayObjPair.size()-1))
+            {
+                i=0;
+            }
+            else
+            {
+                i++;
+            }
+        }
+        /* Remove double entries */
+        for (int i = 0;;i++)
+        {   String content;
+            
+        if(  (!arrayObjPairSort.isEmpty())
+          && (arrayObjPairSort.get(i).b != null)
+          && (!arrayObjPairSort.get(i).b.isNullObject())
+          )
+        {
+            content = arrayObjPairSort.get(i).b.getContent(); 
+            
+            for (int j = i+1;j < arrayObjPairSort.size();j++)
+            {   
+                String content2;
+                try {
+                    if(  (arrayObjPairSort.get(j).b != null)
+                      && (!arrayObjPairSort.get(j).b.isNullObject())
+                      )
+                    {
+                        content2 = arrayObjPairSort.get(j).b.getContent();
+                        if(content2.equals(content))
+                        {
+                            arrayObjPairSort.remove(j);
+                            j--;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                } catch (Exception e) {
+                log.info("ERROR: ", e);
+                }
+            }
+            if(i >= arrayObjPairSort.size()-1)
+            {
+                break;
+            }
+        }
+        }
+        for (int i = 0;;i++)
+        {
+            if(arrayObjPairSort.get(i).b.getContent().equals("SELF"))
+            {
+                arrayObjPairSort.remove(i);
+                break;
+            }
+        }
+        
+        log.info("\nFITTNER HASH OF OBJECTS: {}", arrayObj);
+        log.info("\nFITTNER PAIR OF OBJECTS: {}", arrayObjPair);
+        log.info("\nFITTNER SORT OF OBJECTS: {}", arrayObjPairSort);
+        
+        moArrayObjPairSort = arrayObjPairSort;
+ 
 		//Add the aim of drives goal to the mental situation
 		ShortTermMemoryFunctionality.addUsableAimOfDrivesToMentalSituation(moDriveGoalList_IN, moDecidedGoalList_OUT, this.moShortTermMemory);
 	
@@ -488,6 +607,99 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	public void setDescription() {
 		moDescription = "Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability.";
 	}
+
+    /* (non-Javadoc)
+     *
+     * @since 26.06.2018 11:12:01
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+     */
+    @Override
+    public String getTimeChartAxis() {
+        // TODO (noName) - Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 26.06.2018 11:12:01
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+     */
+    @Override
+    public String getTimeChartTitle() {
+		return "Composition of Emotions";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChart#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oValues = new ArrayList<Double>();
+		
+		oValues.add(moArrayObjPairSort.get(0).a);
+		oValues.add(moArrayObjPairSort.get(1).a);
+		
+		oValues.add(moArrayObjPairSort.get(2).a);
+		
+		return oValues;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChart#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		return new ArrayList<String>(Arrays.asList(moArrayObjPairSort.get(0).b.getContent(),moArrayObjPairSort.get(1).b.getContent(), moArrayObjPairSort.get(2).b.getContent()));
+	}
+
+
+    /* (non-Javadoc)
+    *
+    * @since 14.05.2014 10:33:20
+    * 
+    * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+    */
+   @Override
+   public clsTimeChartPropeties getProperties() {
+       return new clsTimeChartPropeties(true);
+   }
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 20;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.5;
+	}
+
 
   
 }

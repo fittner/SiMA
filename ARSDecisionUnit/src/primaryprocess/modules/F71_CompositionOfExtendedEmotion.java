@@ -304,7 +304,7 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      */
     @Override
     protected void setPsychicInstances() {
-        mnPsychicInstances = ePsychicInstances.ID;
+        mnPsychicInstances = ePsychicInstances.EGO;
     }
 
     /* (non-Javadoc)

@@ -18,6 +18,8 @@ import java.util.SortedMap;
 import base.datatypes.enums.eOrgan;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import secondaryprocess.modules.F26_DecisionMaking;
+import secondaryprocess.modules.F29_EvaluationOfImaginaryActions;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eDrive;
@@ -42,6 +44,7 @@ import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
+import base.tools.clsDriveMeshBEComparator;
 import base.tools.clsDriveMeshQoAComparator;
 import base.tools.toText;
 
@@ -75,6 +78,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	private ArrayList<clsDriveMesh> moHomoestasisDriveComponents_IN;
 	//holds the list of all sexual and homeoststic drives
 	private ArrayList<clsDriveMesh> moAllDriveComponents_OUT;
+	private ArrayList<clsDriveMesh> moDriveCanditates_OUT;
 
 	private ArrayList<clsDriveMesh> moSexualDriveRepresentations_IN;
 	
@@ -184,7 +188,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		text += toText.listToTEXT("HomIN", moHomoestasisDriveComponents_IN);
 		text += toText.listToTEXT("SexIN", moSexualDriveRepresentations_IN);
-		text += toText.listToTEXT("OUT", moAllDriveComponents_OUT);	
+		text += toText.listToTEXT("OUT", moAllDriveComponents_OUT);
+	    text += toText.listToTEXT("DM-Canditate", moDriveCanditates_OUT); 
 		
 		text += toText.valueToTEXT("Pleasure", mnCurrentPleasure);	
 		
@@ -244,11 +249,40 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		moDriveChartData.put(olKey, mnCurrentPleasure);
 		
 		ArrayList<clsDriveMesh> loggingData = (ArrayList<clsDriveMesh>) moAllDriveComponents_OUT.clone();
+		moDriveCanditates_OUT = (ArrayList<clsDriveMesh>) moAllDriveComponents_OUT.clone();
 		Collections.sort(loggingData, new clsDriveMeshQoAComparator());
+		Collections.sort(moDriveCanditates_OUT, new clsDriveMeshBEComparator());
+		
+		for(int i=0;;)
+		{
+		    if(moDriveCanditates_OUT.get(i).getPleasureSumMax() < 0.05)
+		    {
+		        moDriveCanditates_OUT.remove(i);
+		    }
+		    else
+		    {
+		        i++;
+		    }
+		    if(i>= moDriveCanditates_OUT.size() )
+		    {
+		        break;
+		    }
+		}
+		
+		try {
+		    clsThingPresentationMesh moObject = F26_DecisionMaking.moArrayObjPairSort.get(0).b;
+		    clsThingPresentationMesh moAction = F29_EvaluationOfImaginaryActions.moTPM_Action;
+		    for(int i=0;i<moDriveCanditates_OUT.size();i++)
+		    {
+	            moDriveCanditates_OUT.get(i).setActualDriveObject(moObject, (double)1.0);
+	            moDriveCanditates_OUT.get(i).setActualDriveAim(moAction, (double)1.0);		        
+		    }
+        } catch (Exception e) {
+            // TODO (noName) - Auto-generated catch block
+            e.printStackTrace();
+        }
 		
 		log.debug("Generated Drives: \n"+loggingData.toString());
-		
-
 	}
 	
 	/**

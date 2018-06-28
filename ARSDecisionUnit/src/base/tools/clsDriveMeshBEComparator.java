@@ -17,7 +17,7 @@ import base.datatypes.clsDriveMesh;
  * 15.10.2013, 10:19:43
  * 
  */
-public class clsDriveMeshQoAComparator implements Comparator<clsDriveMesh> {
+public class clsDriveMeshBEComparator implements Comparator<clsDriveMesh> {
 
 
 
@@ -27,9 +27,9 @@ public class clsDriveMeshQoAComparator implements Comparator<clsDriveMesh> {
      */
     @Override
     public int compare(clsDriveMesh o1, clsDriveMesh o2) {
-        if(o1.getQuotaOfAffect()>o2.getQuotaOfAffect()) return -1;
-        else if(o1.getQuotaOfAffect() == o2.getQuotaOfAffect()) return 0;
-        else if(o1.getQuotaOfAffect() < o2.getQuotaOfAffect()) return 1;
+        if(o1.getPleasureSumMax()>o2.getPleasureSumMax()) return -1;
+        else if(o1.getPleasureSumMax() == o2.getPleasureSumMax()) return 0;
+        else if(o1.getPleasureSumMax() < o2.getPleasureSumMax()) return 1;
         return 0;
     }
     
