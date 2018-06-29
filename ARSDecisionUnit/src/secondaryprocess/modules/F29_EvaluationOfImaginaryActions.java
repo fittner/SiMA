@@ -103,6 +103,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     private clsWordPresentationMesh moWordingToContext;
     public static clsWordPresentationMesh moAction;
     public static clsThingPresentationMesh moTPM_Action;
+    public static clsThingPresentationMesh moTPM_Object;
 
     /**
      * DOCUMENT (perner) - insert description
@@ -362,9 +363,12 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             {
                 clsDriveMesh DM;
                 DM = (clsDriveMesh)((clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(i).getAssociationElementA();
-                if(moAction.getContent() == ((clsThingPresentationMesh)DM.getInternalAssociatedContent().get(2).getAssociationElementB()).getContent())
+                String moActionString = moAction.getContent();
+                String moDMString = ((clsThingPresentationMesh)DM.getInternalAssociatedContent().get(2).getAssociationElementB()).getContent();
+                if(moActionString == moDMString)
                 {
                     moTPM_Action = (clsThingPresentationMesh) DM.getInternalAssociatedContent().get(2).getAssociationElementB();
+                    moTPM_Object = (clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB();
                 }
             }
         }

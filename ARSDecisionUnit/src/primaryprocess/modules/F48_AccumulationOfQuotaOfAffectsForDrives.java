@@ -18,7 +18,6 @@ import java.util.SortedMap;
 import base.datatypes.enums.eOrgan;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-import secondaryprocess.modules.F26_DecisionMaking;
 import secondaryprocess.modules.F29_EvaluationOfImaginaryActions;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -33,6 +32,7 @@ import modules.interfaces.I4_1_send;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.clsShortTermMemory;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
@@ -85,6 +85,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	private HashMap<eDrive, eOrifice> moOrificeMap;
 	private HashMap<eDrive, eOrgan> moOrganMap;
 	private HashMap<eDrive, ePartialDrive> moPartialDriveMapping;
+	
+	private int nStep = 0;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -255,7 +257,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		for(int i=0;;)
 		{
-		    if(moDriveCanditates_OUT.get(i).getPleasureSumMax() < 0.05)
+		    if(moDriveCanditates_OUT.get(i).getQuotaOfAffect() < 0.05)
 		    {
 		        moDriveCanditates_OUT.remove(i);
 		    }
@@ -268,9 +270,13 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		        break;
 		    }
 		}
-		
+		clsShortTermMemory test = null;
+		nStep++;
+	    test.setActualStep(nStep);
+		test.setActualSnapShot(moDriveCanditates_OUT);
+
 		try {
-		    clsThingPresentationMesh moObject = F26_DecisionMaking.moArrayObjPairSort.get(0).b;
+		    clsThingPresentationMesh moObject = F29_EvaluationOfImaginaryActions.moTPM_Object;
 		    clsThingPresentationMesh moAction = F29_EvaluationOfImaginaryActions.moTPM_Action;
 		    for(int i=0;i<moDriveCanditates_OUT.size();i++)
 		    {

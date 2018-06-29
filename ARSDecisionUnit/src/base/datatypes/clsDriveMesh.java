@@ -44,6 +44,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     private double mrPsychicSatisfactionValue = 0.0;
 	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
 	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
+	public String moBE = "NO";
+    
 	
 	//private clsThingPresentationMesh moDriveObject;	//Triebobjekt contenttype entity
 	//private clsThingPresentationMesh moDriveAim;		//Triebziel contenttype action
@@ -344,7 +346,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	    String oRetval = "|DM:";
 	    oRetval += ":Action="+(this.getActualDriveAim()!=null?this.getActualDriveAim().getContent():"no action");
 	    oRetval += ":Object="+(this.getActualDriveObject()!=null?this.getActualDriveObject().getContent():"no object");
-        oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
+	    oRetval += ":BE="+ this.getBE();
+	    oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
         oRetval += ":QoASum="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
         oRetval += ":PleSum= " + GetQuotaOfAffectAsMyString(this.getPleasureSum());
         oRetval += ":PleSumMax= " + GetQuotaOfAffectAsMyString(this.getPleasureSumMax());
@@ -686,6 +689,35 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public double getNumbInternalAssociations() {
 		return moInternalAssociatedContent.size();
 	}
+	
+	   /* (non-Javadoc)
+    *
+    * @since Jul 10, 2012 1:21:47 PM
+    * 
+    * @see pa._v38.memorymgmt.datatypes.itfAssociatedDataStructure#getNumbAssociations()
+    */
+   public String getBE() {
+       
+       if (this.mrPleasureSumMax >= 0.2)
+       {
+           moBE = "LARGE";
+       }
+       else if (this.mrPleasureSumMax >= 0.1)
+       {
+           moBE = "MEDIUM";
+       }
+       else if (this.mrPleasureSumMax >= 0.05)
+       {
+           moBE = "SMALL";
+       }
+       else
+       {
+           moBE = "NO";
+       }
+       return moBE;
+   }
+   
+
 
 	/* (non-Javadoc)
 	 *
