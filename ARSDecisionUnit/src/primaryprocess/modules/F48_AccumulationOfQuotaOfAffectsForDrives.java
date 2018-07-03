@@ -32,7 +32,7 @@ import modules.interfaces.I4_1_send;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsDriveMesh;
-import base.datatypes.clsShortTermMemory;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
@@ -86,8 +86,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	private HashMap<eDrive, eOrgan> moOrganMap;
 	private HashMap<eDrive, ePartialDrive> moPartialDriveMapping;
 	
-	private int nStep = 0;
-	
+
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
@@ -257,7 +256,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		for(int i=0;;)
 		{
-		    if(moDriveCanditates_OUT.get(i).getQuotaOfAffect() < 0.05)
+		    if(  (moDriveCanditates_OUT.get(i).getQuotaOfAffect() < 0.02)
+		      || (moDriveCanditates_OUT.get(i).getPleasureSumMax() < 0.02)
+		      )
 		    {
 		        moDriveCanditates_OUT.remove(i);
 		    }
@@ -270,10 +271,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		        break;
 		    }
 		}
-		clsShortTermMemory test = null;
-		nStep++;
-	    test.setActualStep(nStep);
-		test.setActualSnapShot(moDriveCanditates_OUT);
+		clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
+		ArrayList<clsPair<Integer, ArrayList<clsDriveMesh>>> snapshot;
+
 
 		try {
 		    clsThingPresentationMesh moObject = F29_EvaluationOfImaginaryActions.moTPM_Object;
@@ -281,12 +281,59 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		    for(int i=0;i<moDriveCanditates_OUT.size();i++)
 		    {
 	            moDriveCanditates_OUT.get(i).setActualDriveObject(moObject, (double)1.0);
-	            moDriveCanditates_OUT.get(i).setActualDriveAim(moAction, (double)1.0);		        
+	            moDriveCanditates_OUT.get(i).setActualDriveAim(moAction, (double)1.0);
 		    }
         } catch (Exception e) {
             // TODO (noName) - Auto-generated catch block
             e.printStackTrace();
         }
+		ArrayList<clsDriveMesh> moAllDrivesLastStep;
+		moAllDrivesLastStep = moPleasureStorage.getmoAllDrivesLastStep();
+		
+		if(moAllDrivesLastStep!=null && !moAllDrivesLastStep.isEmpty())
+        {
+            double
+            nNewPleasureValue = 0.0;
+            //go through the list of drives from last step, and calculate the pleasure out of the reduction
+            
+            for( clsDriveMesh oOldDMEntry : moAllDrivesLastStep){
+                
+                //find the drive from the list from last step
+                for( clsDriveMesh oNewDMEntry : moDriveCanditates_OUT){
+                    if( oOldDMEntry.getActualDriveSourceAsENUM() == oNewDMEntry.getActualDriveSourceAsENUM() &&
+                        oOldDMEntry.getContentType() == oNewDMEntry.getContentType() &&
+                        oOldDMEntry.getPartialDrive() == oNewDMEntry.getPartialDrive()  &&
+                        // drive component have to be considered to
+                        oOldDMEntry.getDriveComponent() == oNewDMEntry.getDriveComponent() ) {
+                            //old drive is the same as the new one, found a match... calculate pleasure
+                          if(oOldDMEntry.getLearning())
+                          {
+                              oNewDMEntry.setLearning();
+                          }
+                          else
+                          {
+                              oNewDMEntry.resetLearning();
+                          }
+                          if(oOldDMEntry.getRisingQoA())
+                          {
+                              oNewDMEntry.setRisingQoA();
+                          }
+                          else
+                          {
+                              oNewDMEntry.resetRisingQoA();
+                          }
+                        }
+                }
+                
+            }
+        }
+	    
+		if(test.getChangedMoment())
+        {
+            test.setActualSnapShot(moDriveCanditates_OUT);
+        }
+        snapshot = test.getActualSnapShot();
+        log.info("\nFITTNER SNAPSHOT: {}",snapshot);
 		
 		log.debug("Generated Drives: \n"+loggingData.toString());
 	}

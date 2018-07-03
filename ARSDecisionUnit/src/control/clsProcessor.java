@@ -280,7 +280,8 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moPleasureStorage.calculateDynamicPortionOfPleasure();
 		
 		moPsyApp.moF57_MemoryTracesForDrives.step(); 
-				
+		moPsyApp.moF90_LearningQoA.step(); 
+        		
 		//perception to memory and repression
 		moPsyApp.moF14_ExternalPerception.step();
 		moPsyApp.moF46_MemoryTracesForPerception.step();

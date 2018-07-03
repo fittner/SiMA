@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 
+import base.datatypes.clsShortTermMemoryMF;
 import properties.clsProperties;
 import complexbody.io.clsExternalIO;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
@@ -73,6 +74,8 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	private boolean executeDU=true;
 	
 	protected final Logger log;
+	
+	private int Steps=0;
 	
 
 	
@@ -230,6 +233,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	@Override
 	public void processing() {
 		Thread.currentThread().setName("ARSIN #"+uid);
+		clsShortTermMemoryMF.setActualStep(Steps++);
 		if (isAlive()) {
 			if(executeDU){
 				log.trace("Step "+clsSimState.getSteps()+": Processing");

@@ -20,6 +20,7 @@ import modules.interfaces.D4_2_receive;
 import modules.interfaces.eInterfaces;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.enums.eDriveComponent;
+import base.datatypes.enums.eOrgan;
 import base.datatypes.helpstructures.clsPair;
 import base.tools.toText;
 
@@ -125,16 +126,35 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
                     
                         double mrQuotaOfAffect = oOldDMEntry.getQuotaOfAffect();
                         double tmpCalc = mrQuotaOfAffect - oNewDMEntry.getQuotaOfAffect();
-                        
+                        if(  (oOldDMEntry.getActualDriveSourceAsENUM() == eOrgan.STOMACH)
+                          && (tmpCalc<0)
+                          )
+                        {
+                            double temp = tmpCalc;
+                            tmpCalc= 0;
+                            tmpCalc=temp;
+                        }
                         
                         //Pleasure cannot be negative
                         // If Pleasure is negativ --> No pleasure any more
-                        if(tmpCalc < 0)
+                        if(tmpCalc < 0.000000000000000000000000000000)
                         {
                             tmpCalc = 0;
                             moAllDrivesXSteps.get(i).setQuotaOfAffect(mrQuotaOfAffect);
                             moPleasure = moAllDrivesXSteps.get(i).getPleasureSumMax();
-                            moPleasures.add(moAllDrivesXSteps.get(i).getPleasureSum()); 
+                            moPleasures.add(moAllDrivesXSteps.get(i).getPleasureSum());
+                            if(!(moAllDrivesXSteps.get(i).getRisingQoA()))
+                            {
+                                moAllDrivesXSteps.get(i).setLearning();
+                                oNewDMEntry.setLearning();
+                            }
+                            else
+                            {
+                                moAllDrivesXSteps.get(i).resetLearning();
+                                oNewDMEntry.resetLearning();
+                            }
+                            moAllDrivesXSteps.get(i).setRisingQoA();
+                            oNewDMEntry.setRisingQoA();
                         }
                         
                         if(tmpCalc == 0)
@@ -143,6 +163,9 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
                         }
                         else
                         {
+                            moAllDrivesXSteps.get(i).resetLearning();
+                            moAllDrivesXSteps.get(i).resetRisingQoA();
+                            oNewDMEntry.resetRisingQoA();
                             if(moAllDrivesXSteps.get(i).getLearningCnt() > 0)
                             {
                                 moAllDrivesXSteps.get(i).setQuotaOfAffect(mrQuotaOfAffect);
@@ -182,7 +205,10 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
         this.moAllDrivesLastStep = moAllDrivesActualStep;
 	}
 	
-
+	public ArrayList<clsDriveMesh> getmoAllDrivesLastStep()
+	{
+	    return moAllDrivesLastStep;
+	}
 	
 	private ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> groupDrives (ArrayList<clsDriveMesh> moDrives){
 	       ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> oDrivePairs = new ArrayList<clsPair<clsDriveMesh,clsDriveMesh>>();

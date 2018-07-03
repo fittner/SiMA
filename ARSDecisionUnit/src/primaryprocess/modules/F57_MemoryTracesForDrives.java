@@ -29,6 +29,7 @@ import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.modules.clsModuleBase;
@@ -52,6 +53,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	
 	public static final String P_THRESHOLD_MATCH_FACTOR = "THRESHOLD_MATCH_FACTOR";
 	public static final String P_THRESHOLD_PLEASURE_FACTOR = "THRESHOLD_PLEASURE_FACTOR";
+
+    private static itfModuleMemoryAccess poLongTermMemory2 = null;
 	
 	//private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
@@ -87,6 +90,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 			super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
 		applyProperties(poPrefix, poProp); 
+		poLongTermMemory2 = poLongTermMemory;
 		
 		mrThresholdMatchFactor= poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_THRESHOLD_MATCH_FACTOR).getParameterDouble();
 		mrThresholdPleasure=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_THRESHOLD_PLEASURE_FACTOR).getParameterDouble();
@@ -194,6 +198,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	protected void process_basic() {
 		
 		moDrivesAndTraces_OUT = hallucinatoryWishfulfillment(moDrivesAndTraces_OUT);
+		clsShortTermMemoryMF test = new clsShortTermMemoryMF(poLongTermMemory2);
 		
 		// create time Chart Data
 		for( clsDriveMesh oDriveMeshEntry:moDrivesAndTraces_OUT){
@@ -242,8 +247,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		
 		double rSumSimilarDMsQoA = 0;
 		double rQoA = 0;
-
 		
+	
 		// for each simulator-DM (should be 16 for now)
 		for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
 				

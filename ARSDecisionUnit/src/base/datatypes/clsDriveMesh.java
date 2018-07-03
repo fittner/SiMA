@@ -54,7 +54,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	private ArrayList<clsAssociation> moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
 	private ArrayList<clsAssociation> moInternalAssociatedContent = new ArrayList<clsAssociation>();  //enthällt das aktuelle triebzie, objekt und quelle (ggf Körperöffung), also max 2 Einträge
 	
-	
+	private boolean learning = false;
+	private boolean risingQoA = true;
 
 	/**
 	 * DOCUMENT (schaat)
@@ -173,6 +174,30 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		return getAssociatedObject(eContentType.ORGAN);
 	}
 	
+	
+	
+	public boolean getLearning(){
+        return learning;
+    }
+	
+    public void setLearning(){
+        learning=true;
+    }
+    public void resetLearning(){
+        learning=false;
+    }
+    
+    public boolean getRisingQoA(){
+        return risingQoA;
+    }
+    
+    public void setRisingQoA(){
+        risingQoA=true;
+    }
+    public void resetRisingQoA(){
+        risingQoA=false;
+    }
+
 	//organs are fixed for PA body, thus we can do this- here
 	public eOrgan getActualDriveSourceAsENUM(){
 		eOrgan retVal = eOrgan.UNDEFINED;
@@ -344,8 +369,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	public String toString(){
 	    String oRetval = "|DM:";
-	    oRetval += ":Action="+(this.getActualDriveAim()!=null?this.getActualDriveAim().getContent():"no action");
-	    oRetval += ":Object="+(this.getActualDriveObject()!=null?this.getActualDriveObject().getContent():"no object");
+	    oRetval += ":R="+this.getRisingQoA();
+	    oRetval += ":L="+this.getLearning();
+        oRetval += ":Action="+(this.getActualDriveAim()!=null?this.getActualDriveAim().getContent():"no action");
+        oRetval += ":Object="+(this.getActualDriveObject()!=null?this.getActualDriveObject().getContent():"no object");
 	    oRetval += ":BE="+ this.getBE();
 	    oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
         oRetval += ":QoASum="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
@@ -698,15 +725,15 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     */
    public String getBE() {
        
-       if (this.mrPleasureSumMax >= 0.2)
+       if (this.getPleasureSumMax() >= 0.2)
        {
            moBE = "LARGE";
        }
-       else if (this.mrPleasureSumMax >= 0.1)
+       else if (this.getPleasureSumMax() >= 0.1)
        {
            moBE = "MEDIUM";
        }
-       else if (this.mrPleasureSumMax >= 0.05)
+       else if (this.getPleasureSumMax() >= 0.05)
        {
            moBE = "SMALL";
        }

@@ -44,6 +44,7 @@ import primaryprocess.modules.F63_CompositionOfEmotions;
 import primaryprocess.modules.F64_PartialSexualDrives;
 import primaryprocess.modules.F65_PartialSelfPreservationDrives;
 import primaryprocess.modules.F71_CompositionOfExtendedEmotion;
+import primaryprocess.modules.F90_LearningQoA;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
@@ -134,7 +135,8 @@ public class clsPsychicApparatus {
 	public F40_NeurosymbolizationOfLibido moF40_NeurosymbolizationOfLibido;
 	public F48_AccumulationOfQuotaOfAffectsForDrives moF48_AccumulationOfQuotaOfAffectsForDrives;
 	public F57_MemoryTracesForDrives moF57_MemoryTracesForDrives;
-	public F49_PrimalRepressionForDrives moF49_PrimalRepressionForDrives;
+	public F90_LearningQoA moF90_LearningQoA;
+    public F49_PrimalRepressionForDrives moF49_PrimalRepressionForDrives;
 	public F54_EmersionOfBlockedDriveContent moF54_EmersionOfBlockedDriveContent;
 	public F56_Desexualization_Neutralization moF56_Desexualization_Neutralization;
 	public F55_SuperEgoProactive moF55_SuperEgoProactive; 
@@ -320,7 +322,8 @@ public class clsPsychicApparatus {
 		oProp.putAll( F40_NeurosymbolizationOfLibido.getDefaultProperties( pre + F40_NeurosymbolizationOfLibido.P_MODULENUMBER ));
 		oProp.putAll( F48_AccumulationOfQuotaOfAffectsForDrives.getDefaultProperties( pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER ));
 		oProp.putAll( F57_MemoryTracesForDrives.getDefaultProperties( pre + F57_MemoryTracesForDrives.P_MODULENUMBER ));
-		oProp.putAll( F49_PrimalRepressionForDrives.getDefaultProperties( pre + F49_PrimalRepressionForDrives.P_MODULENUMBER ));
+		oProp.putAll( F90_LearningQoA.getDefaultProperties( pre + F90_LearningQoA.P_MODULENUMBER ));
+        oProp.putAll( F49_PrimalRepressionForDrives.getDefaultProperties( pre + F49_PrimalRepressionForDrives.P_MODULENUMBER ));
 		oProp.putAll( F54_EmersionOfBlockedDriveContent.getDefaultProperties( pre +  F54_EmersionOfBlockedDriveContent.P_MODULENUMBER ));
 		oProp.putAll( F56_Desexualization_Neutralization.getDefaultProperties( pre + F56_Desexualization_Neutralization.P_MODULENUMBER ));
 		oProp.putAll( F55_SuperEgoProactive.getDefaultProperties( pre + F55_SuperEgoProactive.P_MODULENUMBER ));
@@ -399,7 +402,8 @@ public class clsPsychicApparatus {
 			moF40_NeurosymbolizationOfLibido = new F40_NeurosymbolizationOfLibido(pre + F40_NeurosymbolizationOfLibido.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moF48_AccumulationOfQuotaOfAffectsForDrives = new F48_AccumulationOfQuotaOfAffectsForDrives(pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moLibidoBuffer, moPersonalityParameterContainer, moPsychicEnergyStorage, uid);
 			moF57_MemoryTracesForDrives = new F57_MemoryTracesForDrives(pre + F57_MemoryTracesForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer, uid);
-			moF49_PrimalRepressionForDrives = new F49_PrimalRepressionForDrives(pre + F49_PrimalRepressionForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer, uid);
+			moF90_LearningQoA = new F90_LearningQoA(pre + F90_LearningQoA.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer, uid);
+            moF49_PrimalRepressionForDrives = new F49_PrimalRepressionForDrives(pre + F49_PrimalRepressionForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer, uid);
 			moF54_EmersionOfBlockedDriveContent = new F54_EmersionOfBlockedDriveContent(pre + F54_EmersionOfBlockedDriveContent.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moF56_Desexualization_Neutralization = new F56_Desexualization_Neutralization(pre + F56_Desexualization_Neutralization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
 			moF55_SuperEgoProactive = new F55_SuperEgoProactive(pre + F55_SuperEgoProactive.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);

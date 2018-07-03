@@ -374,7 +374,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
         catch (Exception e)
         {
-            log.error("", e);
+//            log.error("", e);
         }
 //            ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue();
 
