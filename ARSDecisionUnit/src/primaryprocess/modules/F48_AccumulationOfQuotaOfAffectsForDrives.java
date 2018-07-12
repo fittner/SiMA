@@ -25,6 +25,7 @@ import memorymgmt.enums.eDrive;
 import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import memorymgmt.storage.DT4_PleasureStorage;
+import memorymgmt.storage.DT5_LearningIntensityBuffer;
 import modules.interfaces.I3_3_receive;
 import modules.interfaces.I3_4_receive;
 import modules.interfaces.I4_1_receive;
@@ -62,8 +63,12 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 
 	private DT4_PleasureStorage moPleasureStorage;
 	private DT1_PsychicIntensityBuffer moLibidoBuffer;
-	private double mnCurrentPleasure = 0.0;
-	
+	private DT5_LearningIntensityBuffer moLearningIntensityBuffer;
+    private double mnCurrentPleasure = 0.0;
+	private double mnCurrentAggr = 0.0;
+	private double mnCurrentLibido = 0.0;
+	private double mnCurrentUnpleasure = 0.0;
+    private double mnCurrentLearningIntensity = 0.0;
 	
 	//We make use of DT3 in order to measure the ratio of actually used psychic intensity to
 	//demanded psychic intensity (actuallyUsedIntensity/demandedIntensity). This ratio (now) represents
@@ -224,11 +229,30 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		//calculate the pleasure gain from reduced tensions for DT4
 	    //+ the pleasure gain from the efficient use of psychic intensity in F56 (Aldo Martinez)
-		ProcessPleasureCalculation();
+	      clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
+	        if(test.getChangedMoment())
+	        {
+	            ProcessPleasureCalculation();
+	        }
 		
 		//add some meaningfull information to the debug info, comment this out for performance
 		AddDebugInfoForUsProgrammers(this.moAllDriveComponents_OUT);
+		mnCurrentLibido = 0;
+		mnCurrentAggr = 0;
 		
+        /* Sum up all aggessif and libidinous quota of affect */
+		for (clsDriveMesh oDriveMeshEntry : moAllDriveComponents_OUT )
+        {
+            if(oDriveMeshEntry.getDriveComponent() == eDriveComponent.LIBIDINOUS)
+            {
+                mnCurrentLibido += oDriveMeshEntry.getQuotaOfAffect();  
+            }
+            else if (oDriveMeshEntry.getDriveComponent() == eDriveComponent.AGGRESSIVE)
+            {
+                mnCurrentAggr += oDriveMeshEntry.getQuotaOfAffect();
+            }
+        }
+		mnCurrentUnpleasure = mnCurrentLibido + mnCurrentAggr;
 		
 		//add chart data for all drives:
 		for (clsDriveMesh oDriveMeshEntry : moAllDriveComponents_OUT )
@@ -248,6 +272,35 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			mnChartColumnsChanged = true;
 		}
 		moDriveChartData.put(olKey, mnCurrentPleasure);
+		
+		//now add chart for pleasure
+        olKey = "AGGR";
+        if ( !moDriveChartData.containsKey(olKey) ) {
+            mnChartColumnsChanged = true;
+        }
+        moDriveChartData.put(olKey, mnCurrentAggr);
+        
+        //now add chart for pleasure
+        olKey = "LIBIDO";
+        if ( !moDriveChartData.containsKey(olKey) ) {
+            mnChartColumnsChanged = true;
+        }
+        moDriveChartData.put(olKey, mnCurrentLibido);
+        
+        //now add chart for pleasure
+        olKey = "UNPLEASURE";
+        if ( !moDriveChartData.containsKey(olKey) ) {
+            mnChartColumnsChanged = true;
+        }
+        moDriveChartData.put(olKey, mnCurrentUnpleasure); 
+        
+        mnCurrentLearningIntensity = mnCurrentUnpleasure + mnCurrentPleasure;
+        //now add chart for pleasure
+        olKey = "LEARNING";
+        if ( !moDriveChartData.containsKey(olKey) ) {
+            mnChartColumnsChanged = true;
+        }
+        moDriveChartData.put(olKey, mnCurrentLearningIntensity);
 		
 		ArrayList<clsDriveMesh> loggingData = (ArrayList<clsDriveMesh>) moAllDriveComponents_OUT.clone();
 		moDriveCanditates_OUT = (ArrayList<clsDriveMesh>) moAllDriveComponents_OUT.clone();
@@ -271,63 +324,26 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		        break;
 		    }
 		}
-		clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
+		//clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
 		ArrayList<clsPair<Integer, ArrayList<clsDriveMesh>>> snapshot;
-
 
 		try {
 		    clsThingPresentationMesh moObject = F29_EvaluationOfImaginaryActions.moTPM_Object;
 		    clsThingPresentationMesh moAction = F29_EvaluationOfImaginaryActions.moTPM_Action;
-		    for(int i=0;i<moDriveCanditates_OUT.size();i++)
+		    if(moObject != null && moAction != null)
 		    {
-	            moDriveCanditates_OUT.get(i).setActualDriveObject(moObject, (double)1.0);
-	            moDriveCanditates_OUT.get(i).setActualDriveAim(moAction, (double)1.0);
+    		    for(int i=0;i<moDriveCanditates_OUT.size();i++)
+    		    {
+    	            moDriveCanditates_OUT.get(i).setActualDriveObject(moObject, (double)1.0);
+    	            moDriveCanditates_OUT.get(i).setActualDriveAim(moAction, (double)1.0);
+    		    }
 		    }
         } catch (Exception e) {
             // TODO (noName) - Auto-generated catch block
             e.printStackTrace();
         }
 		ArrayList<clsDriveMesh> moAllDrivesLastStep;
-		moAllDrivesLastStep = moPleasureStorage.getmoAllDrivesLastStep();
 		
-		if(moAllDrivesLastStep!=null && !moAllDrivesLastStep.isEmpty())
-        {
-            double
-            nNewPleasureValue = 0.0;
-            //go through the list of drives from last step, and calculate the pleasure out of the reduction
-            
-            for( clsDriveMesh oOldDMEntry : moAllDrivesLastStep){
-                
-                //find the drive from the list from last step
-                for( clsDriveMesh oNewDMEntry : moDriveCanditates_OUT){
-                    if( oOldDMEntry.getActualDriveSourceAsENUM() == oNewDMEntry.getActualDriveSourceAsENUM() &&
-                        oOldDMEntry.getContentType() == oNewDMEntry.getContentType() &&
-                        oOldDMEntry.getPartialDrive() == oNewDMEntry.getPartialDrive()  &&
-                        // drive component have to be considered to
-                        oOldDMEntry.getDriveComponent() == oNewDMEntry.getDriveComponent() ) {
-                            //old drive is the same as the new one, found a match... calculate pleasure
-                          if(oOldDMEntry.getLearning())
-                          {
-                              oNewDMEntry.setLearning();
-                          }
-                          else
-                          {
-                              oNewDMEntry.resetLearning();
-                          }
-                          if(oOldDMEntry.getRisingQoA())
-                          {
-                              oNewDMEntry.setRisingQoA();
-                          }
-                          else
-                          {
-                              oNewDMEntry.resetRisingQoA();
-                          }
-                        }
-                }
-                
-            }
-        }
-	    
 		if(test.getChangedMoment())
         {
             test.setActualSnapShot(moDriveCanditates_OUT);

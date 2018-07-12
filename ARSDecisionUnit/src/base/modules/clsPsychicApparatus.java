@@ -56,6 +56,7 @@ import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import memorymgmt.storage.DT2_BlockedContentStorage;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import memorymgmt.storage.DT4_PleasureStorage;
+import memorymgmt.storage.DT5_LearningIntensityBuffer;
 import modules.interfaces.eInterfaces;
 import externalmessager.DatapointHandler;
 import externalmessager.MonitorExecutor;
@@ -167,6 +168,8 @@ public class clsPsychicApparatus {
 	public DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
 	public DT4_PleasureStorage moPleasureStorage;
+	
+	public DT5_LearningIntensityBuffer moLearningIntensityBuffer;
 	
 	/** (wendt) The instance of the short time memory; @since 15.11.2011 12:38:18 */
 	public clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
@@ -367,7 +370,8 @@ public class clsPsychicApparatus {
             moLibidoBuffer = new DT1_PsychicIntensityBuffer(moPersonalityParameterContainer);
             moBlockedContentStorage = new DT2_BlockedContentStorage();
             moPsychicEnergyStorage = new DT3_PsychicIntensityStorage(moPersonalityParameterContainer);
-            moPleasureStorage = new DT4_PleasureStorage();
+            moLearningIntensityBuffer = new DT5_LearningIntensityBuffer();
+            moPleasureStorage = new DT4_PleasureStorage(moLearningIntensityBuffer);
 
 			moF01_SensorsMetabolism = new F01_SensorsMetabolism(pre + F01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moF02_NeurosymbolizationOfNeeds = new F02_NeurosymbolizationOfNeeds(pre + F02_NeurosymbolizationOfNeeds.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);

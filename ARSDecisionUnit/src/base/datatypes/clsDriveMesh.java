@@ -38,6 +38,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public static final String moContent = null;
 	private double mrQuotaOfAffect = 0.0;               //0-1
 	private double mrQuotaOfAffect_lastStep = 0.0;               //0-1
+	private double mrQuotaOfAffect_lastRise = 0.0;               //0-1
     private double mrPleasureSum = 0.0;               //0-1
 	private double mrPleasureSumMax = 0.0;               //0-1
     private int    mdLearningCnt = 0;               //0-1
@@ -450,7 +451,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * @return the mrQuotaOfAffect
 	 */
 	public int getLearningCnt() {
-		return mdLearningCnt;
+		return this.mdLearningCnt;
 	}
 
 
@@ -460,7 +461,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      * @return the mrQuotaOfAffect
      */
     public double getQuotaOfAffect() {
-        return mrQuotaOfAffect;
+        return this.mrQuotaOfAffect;
     }
 
     /**
@@ -469,8 +470,17 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      * @return the mrQuotaOfAffect
      */
     public double getQuotaOfAffect_lastStep() {
-        return mrQuotaOfAffect_lastStep;
+        return this.mrQuotaOfAffect_lastStep;
     }   
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getQuotaOfAffect_lastRise() {
+        return this.mrQuotaOfAffect_lastRise;
+    } 
     
 
     /**
@@ -488,7 +498,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      * @return the mrQuotaOfAffect
      */
     public double getPleasureSum() {
-        return mrPleasureSum;
+        return this.mrPleasureSum;
     }
     
     /**
@@ -506,7 +516,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      * @return the mrQuotaOfAffect
      */
     public double getPleasureSumMax() {
-        return mrPleasureSumMax;
+        return this.mrPleasureSumMax;
     }
     
     /**
@@ -532,8 +542,17 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      * 
      * @return the mrQuotaOfAffect
      */
-    public double setQuotaOfAffect_lastStep(double mrQuotaOfAffect) {
-        return mrQuotaOfAffect_lastStep = mrQuotaOfAffect;
+    public void setQuotaOfAffect_lastStep(double mrQuotaOfAffect) {
+        this.mrQuotaOfAffect_lastStep = mrQuotaOfAffect;
+    }
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public void setQuotaOfAffect_lastRise(double mrQuotaOfAffect) {
+        this.mrQuotaOfAffect_lastRise = mrQuotaOfAffect;
     }   
 
 	/**

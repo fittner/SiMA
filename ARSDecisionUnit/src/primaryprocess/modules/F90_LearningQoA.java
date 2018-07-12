@@ -126,8 +126,18 @@ public class F90_LearningQoA extends clsModuleBaseKB {
                       // for results of similar memory-DMs (should be various similar DMs)
                       for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
                           oMemoryDM = ((clsDriveMesh)oSearchPair.b.getMoDataStructure());
-                          if (oMemoryDM.getContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)){
+                          if (   oMemoryDM.getContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)
+                              && oMemoryDM.getActualDriveSourceAsENUM() == oLearningDM.getActualDriveSourceAsENUM()
+                              && oMemoryDM.getPartialDrive() == oLearningDM.getPartialDrive()
+                                 // drive component have to be considered to
+                              && oMemoryDM.getDriveComponent() == oLearningDM.getDriveComponent()
+                              && oMemoryDM.getActualDriveAim() != null
+                              && !oMemoryDM.getActualDriveAim().isNullObject()
+                              && oMemoryDM.getActualDriveAim().isEquivalentDataStructure(oLearningDM.getActualDriveAim())
+                              && oMemoryDM.getActualDriveObject().isEquivalentDataStructure(oLearningDM.getActualDriveObject())
+                            ){
                               //rSumSimilarDMsQoA += oMemoryDM.getQuotaOfAffect();
+                              oMemoryDM.setQuotaOfAffect((oMemoryDM.getQuotaOfAffect() + oLearningDM.getPleasureSumMax())/2);
                           }
                       }
                   }

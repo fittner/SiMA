@@ -14,7 +14,7 @@ import communication.datatypes.clsDataPoint;
 import control.interfaces.itfProcessor;
 
 import properties.clsProperties;
-
+import base.datatypes.clsShortTermMemoryMF;
 import base.modules.clsPsychicApparatus;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 //import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
@@ -246,7 +246,14 @@ public class clsProcessor implements itfProcessor  {
 		//BODY --------------------------------------------- 
 		//data preprocessing
 	    //Resets the pleasure value to 0
-	    moPsyApp.moPleasureStorage.resetPleasure();
+	    /* Nur alle 10 Schritte */
+	    clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
+	    if(test.getChangedMoment())
+	    {
+	        moPsyApp.moPleasureStorage.resetPleasure();
+	        //calculate the dynamic portion of pleasure depending on the gradiant
+	        moPsyApp.moPleasureStorage.calculateDynamicPortionOfPleasure();
+	    }
 	    moPsyApp.moLibidoBuffer.saveOld();
 	    
 		moPsyApp.moF01_SensorsMetabolism.step();
@@ -276,8 +283,7 @@ public class clsProcessor implements itfProcessor  {
 		//Accumulation of affects and drives
 		moPsyApp.moF48_AccumulationOfQuotaOfAffectsForDrives.step(); 
 		
-		//calculate the dynamic portion of pleasure depending on the gradiant
-		moPsyApp.moPleasureStorage.calculateDynamicPortionOfPleasure();
+
 		
 		moPsyApp.moF57_MemoryTracesForDrives.step(); 
 		moPsyApp.moF90_LearningQoA.step(); 
