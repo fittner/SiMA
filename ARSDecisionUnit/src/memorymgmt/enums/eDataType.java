@@ -43,7 +43,8 @@ public enum eDataType {
 	EMOTION					(0x000010),
 	FEELING                 (0x000010),
 	ASSOCIATIONSPATIAL      (0x011000),
-	DMTPM                   (0x010010); //koller
+    DMTPM                   (0x010010), //koller
+    SATISFACTION            (0x010011); //fittner
 	
 	
 	public int nBinaryValue; 

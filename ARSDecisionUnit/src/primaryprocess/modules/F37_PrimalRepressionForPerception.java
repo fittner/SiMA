@@ -276,7 +276,7 @@ implements I5_6_receive, I5_7_send  {
 								clsAssociationDriveMesh oNewAssociation =	new clsAssociationDriveMesh(
 												new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM),
 												oEntry,
-												newRoot);
+												newRoot,1.0);
 
 								// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
 								int i = 0;

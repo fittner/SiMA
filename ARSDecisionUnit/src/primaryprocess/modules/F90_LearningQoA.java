@@ -13,14 +13,10 @@ import java.util.SortedMap;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eDataType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import modules.interfaces.eInterfaces;
-import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsShortTermMemoryMF;
-import base.datatypes.helpstructures.clsPair;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
@@ -37,6 +33,7 @@ import base.modules.ePsychicInstances;
 public class F90_LearningQoA extends clsModuleBaseKB {
 
 	public static final String P_MODULENUMBER = "90";
+	private ArrayList<clsDriveMesh> moLearningStorage_DM = new ArrayList<clsDriveMesh>();
 	
 
 	/**
@@ -91,7 +88,8 @@ public class F90_LearningQoA extends clsModuleBaseKB {
 	 * @see pa._v38.modules.clsModuleBase#process_basic()
 	 */
 	@Override
-	protected void process_basic() {
+	protected void process_basic()
+	{
 	    
 	    // Lernen der bereits vorhandenen Objekte --> Merdge mit LongTermMemory!!!
 	    
@@ -107,44 +105,50 @@ public class F90_LearningQoA extends clsModuleBaseKB {
         && (!poLerningCandidates.isEmpty())
         )
       {
-          for (clsDriveMesh oLearningDM : poLerningCandidates) {
-              
-              if(oLearningDM.getLearning())
+          clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
+          if(test.getChangedMoment())
+          {   for (clsDriveMesh oLearningDM : poLerningCandidates)
               {
-                  ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-                          new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-                  
-                  ArrayList<clsDriveMesh> poSearchPattern = new ArrayList<clsDriveMesh>();
-                  poSearchPattern.add(oLearningDM);
-                  
-                  // search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
-                  oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TPM, poSearchPattern);
-                  clsDriveMesh oMemoryDM = null;
-                  
-                  // get rSumSimilarDMsQoA to calculate cathexis (see below)
-                  for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
-                      // for results of similar memory-DMs (should be various similar DMs)
-                      for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
-                          oMemoryDM = ((clsDriveMesh)oSearchPair.b.getMoDataStructure());
-                          if (   oMemoryDM.getContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)
-                              && oMemoryDM.getActualDriveSourceAsENUM() == oLearningDM.getActualDriveSourceAsENUM()
-                              && oMemoryDM.getPartialDrive() == oLearningDM.getPartialDrive()
-                                 // drive component have to be considered to
-                              && oMemoryDM.getDriveComponent() == oLearningDM.getDriveComponent()
-                              && oMemoryDM.getActualDriveAim() != null
-                              && !oMemoryDM.getActualDriveAim().isNullObject()
-                              && oMemoryDM.getActualDriveAim().isEquivalentDataStructure(oLearningDM.getActualDriveAim())
-                              && oMemoryDM.getActualDriveObject().isEquivalentDataStructure(oLearningDM.getActualDriveObject())
-                            ){
-                              //rSumSimilarDMsQoA += oMemoryDM.getQuotaOfAffect();
-                              oMemoryDM.setQuotaOfAffect((oMemoryDM.getQuotaOfAffect() + oLearningDM.getPleasureSumMax())/2);
-                          }
+                  boolean found_DM = false;
+                  clsDriveMesh oLearningStorageDM=null;
+                  for (clsDriveMesh oLearningStorageDM_Loop: moLearningStorage_DM)
+                  {
+                      if (   oLearningStorageDM_Loop.getActualDriveSourceAsENUM() == oLearningDM.getActualDriveSourceAsENUM()
+                          && oLearningStorageDM_Loop.getPartialDrive() == oLearningDM.getPartialDrive()
+                             // drive component have to be considered to
+                          && oLearningStorageDM_Loop.getDriveComponent() == oLearningDM.getDriveComponent()
+                          && oLearningStorageDM_Loop.getActualDriveAim() != null
+                          && !oLearningStorageDM_Loop.getActualDriveAim().isNullObject()
+                          && oLearningStorageDM_Loop.getActualDriveAim().isEquivalentDataStructure(oLearningDM.getActualDriveAim())
+                          && oLearningStorageDM_Loop.getActualDriveObject().isEquivalentDataStructure(oLearningDM.getActualDriveObject())
+                         )
+                      {
+                          found_DM = true;
+                          oLearningStorageDM = oLearningStorageDM_Loop;
                       }
                   }
-              }
-          }
-      }
 
+                  if(!found_DM)
+                  {
+                      oLearningStorageDM = oLearningDM;
+                      moLearningStorage_DM.add(oLearningDM);
+                  }
+                      
+                  /* Aggregate Weights */
+                  /* Finde DM in Memory */
+               
+                  oLearningStorageDM.setSatisfactionWeightLearning_no(oLearningStorageDM.getSatisfactionWeightLearning_no()+oLearningStorageDM.getExpectedSatisfactionWeight_no()*oLearningStorageDM.getLearningIntensity());
+                  oLearningStorageDM.setSatisfactionWeightLearning_low(oLearningStorageDM.getSatisfactionWeightLearning_low()+oLearningStorageDM.getExpectedSatisfactionWeight_low()*oLearningStorageDM.getLearningIntensity());
+                  oLearningStorageDM.setSatisfactionWeightLearning_mid(oLearningStorageDM.getSatisfactionWeightLearning_mid()+oLearningStorageDM.getExpectedSatisfactionWeight_mid()*oLearningStorageDM.getLearningIntensity());
+                  oLearningStorageDM.setSatisfactionWeightLearning_high(oLearningStorageDM.getSatisfactionWeightLearning_high()+oLearningStorageDM.getExpectedSatisfactionWeight_high()*oLearningStorageDM.getLearningIntensity());
+
+                  if(oLearningDM.getLearning())
+                  {
+                      moLearningStorage_DM.add(null);
+                  }
+            }
+        }
+    }
       
 //      if(moAllDrivesXSteps!=null && !moAllDrivesXSteps.isEmpty() )
 //      {

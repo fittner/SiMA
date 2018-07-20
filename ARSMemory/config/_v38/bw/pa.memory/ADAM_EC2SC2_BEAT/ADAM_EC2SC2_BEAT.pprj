@@ -1,62 +1,62 @@
-; Tue Jul 03 07:25:15 GMT 2018
+; Wed Jul 18 13:19:32 GMT 2018
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class51] of  String
+([ADAM_EC2SC2_BEAT_ProjectKB_Class383] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class52] of  String
+([ADAM_EC2SC2_BEAT_ProjectKB_Class384] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class53] of  String
+([ADAM_EC2SC2_BEAT_ProjectKB_Class385] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class54] of  String
-
-	(name "DOMAIN")
-	(string_value "value_type"))
-
-([ADAM_EC2SC2_BEAT_ProjectKB_Class55] of  String
+([ADAM_EC2SC2_BEAT_ProjectKB_Class386] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class56] of  Map_Entry
+([ADAM_EC2SC2_BEAT_ProjectKB_Class387] of  String
+
+	(name "DOMAIN")
+	(string_value "value_type"))
+
+([ADAM_EC2SC2_BEAT_ProjectKB_Class388] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class57] of  Map_Entry
+([ADAM_EC2SC2_BEAT_ProjectKB_Class389] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class58] of  Map_Entry
+([ADAM_EC2SC2_BEAT_ProjectKB_Class390] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class59] of  Map
+([ADAM_EC2SC2_BEAT_ProjectKB_Class391] of  Map
 )
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class60] of  Map_Entry
+([ADAM_EC2SC2_BEAT_ProjectKB_Class392] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_EC2SC2_BEAT_ProjectKB_Class59")
+	(value "ADAM_EC2SC2_BEAT_ProjectKB_Class391")
 	(value_class "java.util.Map"))
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
@@ -104,11 +104,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class51]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class52]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class53]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class54]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class55]))
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class383]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class384]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class385]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class386]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class387]))
 
 ([CLSES_TAB] of  Widget
 
@@ -153,6 +153,9 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
+([KB_073230_Class5] of  Map
+)
+
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -161,11 +164,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class56]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class57]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class58]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class60])
-	(referenced_maps [ADAM_EC2SC2_BEAT_ProjectKB_Class59]))
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class388]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class389]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class390]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class392])
+	(referenced_maps [ADAM_EC2SC2_BEAT_ProjectKB_Class391]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -619,9 +622,6 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_974358_Class5] of  Map
-)
-
 ([LAYOUT_PROPERTIES] of  Property_List
 
 	(name "layout properties")
@@ -710,11 +710,11 @@
 
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
-		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET]
-		[PAL_FORM_WIDGET])
+		[PAL_FORM_WIDGET]
+		[INSTANCE_ANNOTATION_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protege.widget.FormWidget")

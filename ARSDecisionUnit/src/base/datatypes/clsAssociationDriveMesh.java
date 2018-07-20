@@ -35,9 +35,10 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 */
 	public clsAssociationDriveMesh(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, 
 			clsDriveMesh poAssociationElementA, 
-			clsThingPresentationMesh poAssociationElementB){
+			clsThingPresentationMesh poAssociationElementB,
+			double prAssWeight){
 		
-		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);		
+		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB,prAssWeight);		
 		//HZ moContent defines the association weight => also defines the affect!
 		//It has to be defined if an affect is required and how the affect's minus values
 		//should be represented in case the affect is the same as the clsAssociation's weight 

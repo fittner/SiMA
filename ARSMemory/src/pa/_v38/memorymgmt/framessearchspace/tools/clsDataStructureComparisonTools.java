@@ -1016,7 +1016,7 @@ public abstract class clsDataStructureComparisonTools {
 					new clsAssociationDriveMesh(
 							new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM),
 							oldAssDM.getDM(),
-							poNewRoot);
+							poNewRoot,1.0);
 				oReturnlist.add(newAssDM);
 			}
 		}

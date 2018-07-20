@@ -18,6 +18,7 @@ import modules.interfaces.D4_1_receive;
 import modules.interfaces.D4_1_send;
 import modules.interfaces.D4_2_receive;
 import modules.interfaces.eInterfaces;
+import primaryprocess.modules.F48_AccumulationOfQuotaOfAffectsForDrives;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.enums.eDriveComponent;
 import base.datatypes.helpstructures.clsPair;
@@ -69,9 +70,13 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 					    oNewDMEntry.setQuotaOfAffect_lastRise(oOldDMEntry.getQuotaOfAffect_lastRise());
 					    oNewDMEntry.setPleasureSumMax(oOldDMEntry.getPleasureSumMax());
 					    oNewDMEntry.setLearningCnt(oOldDMEntry.getLearningCnt());
+					    oNewDMEntry.setArray_Full(oOldDMEntry.getArray());
+					    oNewDMEntry.setActPleasure(oOldDMEntry.getActPleasure());
+					    oNewDMEntry.setExpPleasure(oOldDMEntry.getExpPleasure());
+					    oNewDMEntry.setLearningIntensity(oOldDMEntry.getLearningIntensity());
 					    
 					    if(oOldDMEntry.getQuotaOfAffect() < oNewDMEntry.getQuotaOfAffect())
-			            {
+			            {   /* Trieb steigt */
 			                if(oNewDMEntry.getLearningCnt()>0)
 			                {
 			                    // Falscher Trigger --> Aktivierungsstärke pro Zeit nehmen für Lernen!!!
@@ -85,7 +90,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 			                }
 			            }
 			            else if(oOldDMEntry.getQuotaOfAffect() > oNewDMEntry.getQuotaOfAffect())
-			            {
+			            {   /* Trieb fällt */
 			                oNewDMEntry.resetLearning();
 			                double pleasure;
 			                pleasure = oNewDMEntry.getQuotaOfAffect_lastRise()-oNewDMEntry.getQuotaOfAffect();
@@ -93,15 +98,15 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 			                {
 			                    pleasure = 0;
 			                }
-			                oNewDMEntry.setPleasureSum(pleasure);
-			                if(oNewDMEntry.getPleasureSumMax()<oNewDMEntry.getPleasureSum())
+			                if(oNewDMEntry.getPleasureSumMax()<pleasure)
 			                {
-			                    oNewDMEntry.setPleasureSumMax(oNewDMEntry.getPleasureSum());   
+			                    oNewDMEntry.setPleasureSumMax(pleasure);   
 			                }
 			                oNewDMEntry.setLearningCnt(oNewDMEntry.getLearningCnt()+1);
 			            }
 					
 						double tmpCalc = oOldDMEntry.getQuotaOfAffect() - oNewDMEntry.getQuotaOfAffect();
+						oNewDMEntry.setArray(tmpCalc);
 						
 						//oNewDMEntry.setQuotaOfAffect_lastStep(oNewDMEntry.getQuotaOfAffect());
 						//Pleasure cannot be negative
@@ -109,6 +114,34 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 						{
 							tmpCalc = 0;
 						}
+						oNewDMEntry.setActPleasure(tmpCalc);
+						
+                        double expPleasure = oNewDMEntry.getActPleasure();
+                        double pleasure = oNewDMEntry.getActPleasure();
+                        double dec = 0.105541;
+                        for(int i=0; i<100; i++)
+                        {
+                            pleasure = ((pleasure - (pleasure*dec)));
+                            expPleasure += pleasure;
+                        }
+                        //oNewDMEntry.setExpPleasure(expPleasure + oNewDMEntry.getPleasureSumMax()-oNewDMEntry.getActPleasure());
+                        oNewDMEntry.setExpPleasure(expPleasure);
+
+						/* Calculate expected Pleasure */
+						if(  (oNewDMEntry.getActPleasure()>oOldDMEntry.getActPleasure())
+						  && (oNewDMEntry.getActPleasure() > 0)
+						  )
+						{
+						    F48_AccumulationOfQuotaOfAffectsForDrives.change = false;
+                            oNewDMEntry.setExpectedSatisfactionWeights();
+						}
+                        if(F48_AccumulationOfQuotaOfAffectsForDrives.change)
+                        {
+//                            oNewDMEntry.setExpPleasure(0);
+                        }
+						
+						oNewDMEntry.setLearningIntensity(oNewDMEntry.getQuotaOfAffect()+oNewDMEntry.getExpPleasure());
+						
 						nNewPleasureValue = nNewPleasureValue+tmpCalc;
 						
 						/* Save Pleasure for Learning intensity */

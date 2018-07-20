@@ -459,7 +459,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                             eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM);
                     // Create new association drivemesh but with the new root element
                     clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh,
-                            (clsThingPresentationMesh) oAssignmentElement.a);
+                            (clsThingPresentationMesh) oAssignmentElement.a,1.0);
                     // Add the assocation to the input container
                     oAssignmentElement.a.getExternalAssociatedContent().add(oDriveAss);
                     // poAssignment.a.assignDataStructure(oDriveAss);

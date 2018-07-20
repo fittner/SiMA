@@ -63,13 +63,15 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 
 	private DT4_PleasureStorage moPleasureStorage;
 	private DT1_PsychicIntensityBuffer moLibidoBuffer;
-	private DT5_LearningIntensityBuffer moLearningIntensityBuffer;
+	DT5_LearningIntensityBuffer LIB;
+	public static  double moLearningIntensityBuffer = 0.0;
     private double mnCurrentPleasure = 0.0;
 	private double mnCurrentAggr = 0.0;
 	private double mnCurrentLibido = 0.0;
 	private double mnCurrentUnpleasure = 0.0;
-    private double mnCurrentLearningIntensity = 0.0;
-	
+	private double mnCurrentLearningIntensity = 0.0;
+	private double mnCurrentMaxPleasureLiSto = 0.0;
+    
 	//We make use of DT3 in order to measure the ratio of actually used psychic intensity to
 	//demanded psychic intensity (actuallyUsedIntensity/demandedIntensity). This ratio (now) represents
 	//the extra pleasure gained and will be added to the mnCurrentPleasure of F48.
@@ -90,6 +92,11 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	private HashMap<eDrive, eOrifice> moOrificeMap;
 	private HashMap<eDrive, eOrgan> moOrganMap;
 	private HashMap<eDrive, ePartialDrive> moPartialDriveMapping;
+	
+	public static clsThingPresentationMesh moLastObject = null;
+	public static clsThingPresentationMesh moLastAction = null;
+	
+	public static boolean change=false;
 	
 
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
@@ -227,6 +234,33 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	         // moAllDriveComponents_OUT.add(oSexualDMPairEntry);
 	    }
 		
+	    try {
+            clsThingPresentationMesh moObject = F29_EvaluationOfImaginaryActions.moTPM_Object;
+            clsThingPresentationMesh moAction = F29_EvaluationOfImaginaryActions.moTPM_Action;
+            if(moObject != null && moAction != null)
+            {
+                if(moLastObject==null)
+                {
+                    moLastObject = moObject;
+                }
+                if(moLastAction==null)
+                {
+                    moLastAction = moAction;
+                }
+                if(  !(moLastObject.isEquivalentDataStructure(moObject))
+                  || !(moLastAction.isEquivalentDataStructure(moAction))
+                  )
+                {
+                    change = true;
+                }
+            }
+            moLastObject = moObject;
+            moLastAction = moAction;
+        } catch (Exception e) {
+            // TODO (noName) - Auto-generated catch block
+            //e.printStackTrace();
+        }
+	    
 		//calculate the pleasure gain from reduced tensions for DT4
 	    //+ the pleasure gain from the efficient use of psychic intensity in F56 (Aldo Martinez)
 	      clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
@@ -301,7 +335,10 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
             mnChartColumnsChanged = true;
         }
         moDriveChartData.put(olKey, mnCurrentLearningIntensity);
-		
+        
+        moLearningIntensityBuffer = mnCurrentLearningIntensity; 
+        
+	
 		ArrayList<clsDriveMesh> loggingData = (ArrayList<clsDriveMesh>) moAllDriveComponents_OUT.clone();
 		moDriveCanditates_OUT = (ArrayList<clsDriveMesh>) moAllDriveComponents_OUT.clone();
 		Collections.sort(loggingData, new clsDriveMeshQoAComparator());
@@ -342,6 +379,23 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
             // TODO (noName) - Auto-generated catch block
             e.printStackTrace();
         }
+		
+       for (clsDriveMesh oDriveCanditate: moDriveCanditates_OUT) {
+            if (oDriveCanditate.getActualDriveSourceAsENUM() == eOrgan.STOMACH
+                   // drive component have to be considered to
+                && oDriveCanditate.getDriveComponent() == eDriveComponent.LIBIDINOUS
+              ){
+                //rSumSimilarDMsQoA += oMemoryDM.getQuotaOfAffect();
+                mnCurrentMaxPleasureLiSto = oDriveCanditate.getPleasureSumMax();
+            }
+        }
+        
+        olKey = "L.-.STOMACH_PLE_MAX";
+        if ( !moDriveChartData.containsKey(olKey) ) {
+            mnChartColumnsChanged = true;
+        }
+        moDriveChartData.put(olKey, mnCurrentMaxPleasureLiSto);
+        
 		ArrayList<clsDriveMesh> moAllDrivesLastStep;
 		
 		if(test.getChangedMoment())

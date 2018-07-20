@@ -174,7 +174,7 @@ public abstract class clsDataStructureGenerator {
 		for(clsThingPresentationMesh oElement : poContent.b){
 			oInternalAssociatedContent.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType> (setID(), eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), 
 													 oRetVal, 
-													 oElement)); 
+													 oElement,1.0)); 
 		}
 		
 		
@@ -259,8 +259,8 @@ public abstract class clsDataStructureGenerator {
 	public static clsAssociation generateASSOCIATIONDM(clsDriveMesh poDM, clsThingPresentationMesh poTPM, double prWeight) {
 		clsAssociation oRetVal=null;
 		
-		oRetVal = new clsAssociationDriveMesh (new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), poDM, poTPM);
-		oRetVal.setMrWeight(prWeight);
+		oRetVal = new clsAssociationDriveMesh (new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), poDM, poTPM, prWeight);
+		//oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;
 	}

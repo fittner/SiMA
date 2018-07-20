@@ -239,6 +239,9 @@ public class clsOntologyLoader {
 		case AFFECT:
 			createAFFECT(poRootElement, poElement, poDataContainer);
 			break;
+		case SATISFACTION:
+			createSATISFACTION(poRootElement, poElement, poDataContainer);
+			break;
 		case ASSOCIATIONDM:
 			createAssociation(poRootElement, poElement, poDataContainer);
 			break;
@@ -410,6 +413,36 @@ public class clsOntologyLoader {
 		oDataStructure.setMaxVal(oElementMaxVal);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 	}
+	
+	/**
+	 * DOCUMENT (fttner) - insert description
+	 * 
+	 * @author fittner 15.08.2010, 14:38:23
+	 * 
+	 * @param poRootElement
+	 * @param poElement
+	 * @param poDataContainer
+	 */
+	private static void createSATISFACTION(
+			Instance poRootElement,
+			Instance poElement,
+			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
+
+		eDataType oElementType = eDataType.SATISFACTION;
+		int oID = DS_ID++;
+		eContentType oElementValueType = eContentType
+				.valueOf((String) poElement.getOwnSlotValue(poDataContainer.a
+						.getSlot("value_type")));
+		float oElementValue = (Float) poElement
+				.getOwnSlotValue(poDataContainer.a.getSlot("value"));
+
+		clsAffect oDataStructure = new clsAffect(
+				new clsTriple<Integer, eDataType, eContentType>(oID,
+						oElementType, oElementValueType), oElementValue);
+		// HZ AFFECT does not obey of any associations
+
+		poDataContainer.b.put(poElement.getName(), oDataStructure);
+	}
 
 	/**
 	 * DOCUMENT (schaat) - insert description
@@ -462,8 +495,10 @@ public class clsOntologyLoader {
 
 		oAssociationList.addAll(loadInstanceAssociations(poElement,
 				poDataContainer));
-
+		
 		oDataStructure.addInternalAssociations(oAssociationList);
+		
+		oDataStructure.setNewQoA();
 
 		// Association should be added to both associated ends
 		// (moAssociationElementA and moAssociationElementB)
@@ -1232,7 +1267,8 @@ public class clsOntologyLoader {
 					new clsTriple<Integer, eDataType, eContentType>(oID,
 							peElementType, peContentType),
 					(clsDriveMesh) oAssociationElements.a,
-					(clsThingPresentationMesh) oAssociationElements.b);
+					(clsThingPresentationMesh) oAssociationElements.b,
+					prAssWeight);
 		case ASSOCIATIONEMOTION:
 			oAssociationElements = evaluateElementOrder(poElementA, poElementB,
 					eDataType.EMOTION);

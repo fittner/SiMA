@@ -56,7 +56,8 @@ public class clsCarrot extends clsOrganic implements itfGetFlesh, itfAPEatable, 
 	public static final String P_REGROW_STEPS_MIN 	= "regrow_steps_min";
 	public static final String P_REGROW_STEPS_MAX 	= "regrow_steps_max";
 	
-
+	private boolean mnDestroyed = false;
+	
 	private Shape moFresh2D;
 	private Shape moDead2D;
 	
@@ -212,11 +213,7 @@ public class clsCarrot extends clsOrganic implements itfGetFlesh, itfAPEatable, 
 	 */
 	@Override
 	public double tryEat() {
-		if (getFlesh().getTotallyConsumed()) {
-			return 1;
-		} else {
 			return 0;
-		}
 	}
 
 	/* (non-Javadoc)
@@ -326,9 +323,10 @@ public class clsCarrot extends clsOrganic implements itfGetFlesh, itfAPEatable, 
 	@Override
 	public void updateInternalState() {
 		updateShape();
-		if(getFlesh().getTotallyConsumed()){
+		if(getFlesh().getTotallyConsumed()  && !mnDestroyed){
+			mnDestroyed = true;
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
-			regrowIt();
+			//regrowIt();
 		}
 	}
 	

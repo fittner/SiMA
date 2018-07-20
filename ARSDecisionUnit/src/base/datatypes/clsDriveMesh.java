@@ -37,15 +37,30 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	public static final String moContent = null;
 	private double mrQuotaOfAffect = 0.0;               //0-1
-	private double mrQuotaOfAffect_lastStep = 0.0;               //0-1
+	private double mrSatisfactionWeight_low = 0.0;               //0-1
+	private double mrSatisfactionWeight_mid = 0.0;               //0-1
+	private double mrSatisfactionWeight_high = 0.0;               //0-1
+	private double mrSatisfactionWeight_no = 0.0;               //0-1
+    private double mrSatisfactionWeightLearning_low = 0.0;               //0-1
+    private double mrSatisfactionWeightLearning_mid = 0.0;               //0-1
+    private double mrSatisfactionWeightLearning_high = 0.0;               //0-1
+    private double mrSatisfactionWeightLearning_no = 0.0;               //0-1
+    private double mrQuotaOfAffect_lastStep = 0.0;               //0-1
 	private double mrQuotaOfAffect_lastRise = 0.0;               //0-1
-    private double mrPleasureSum = 0.0;               //0-1
+	private ArrayList<Double> moArrayPleasure = new ArrayList<Double>();
+    private double mrExpectedSatisfactionWeight_low = 0.0;               //0-1
+    private double mrExpectedSatisfactionWeight_mid = 0.0;               //0-1
+    private double mrExpectedSatisfactionWeight_high = 0.0;               //0-1
+    private double mrExpectedSatisfactionWeight_no = 0.0;               //0-1
+	private double mrActPleasure = 0.0;               //0-1
+	private double mrExpPleasure = 0.0;
 	private double mrPleasureSumMax = 0.0;               //0-1
     private int    mdLearningCnt = 0;               //0-1
     private double mrPsychicSatisfactionValue = 0.0;
 	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
 	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
 	public String moBE = "NO";
+	private double learingIntensity;
     
 	
 	//private clsThingPresentationMesh moDriveObject;	//Triebobjekt contenttype entity
@@ -106,7 +121,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
                                 eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM);
                         // Create new association drivemesh but with the new root element
                         clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, this,
-                                (clsThingPresentationMesh) oAssociation.getAssociationElementB());
+                                (clsThingPresentationMesh) oAssociation.getAssociationElementB(),1.0);
                         
                         moInternalAssociatedContent.add(oDriveAss);
 	        }
@@ -143,6 +158,48 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		return getAssociatedObject(eContentType.ACTION);
 	}
 	
+    public void setNewQoA()
+    {
+        double QoA_temp = 0;
+        double weight_tmp = 0;
+        boolean found_new_QoA = false;
+        
+        for(clsAssociation oAssociation :  moInternalAssociatedContent) {
+            
+            if(oAssociation.getContentType() == eContentType.ASSOCIATIONDM) {
+                
+                clsThingPresentationMesh oAssociatedElement = (clsThingPresentationMesh)oAssociation.getAssociationElementB() ;
+                if(oAssociatedElement.getContentType() == eContentType.SATISFACTION)
+                {   weight_tmp += oAssociation.getMrWeight();
+                    if(oAssociatedElement.getContent() == "HIGH")
+                    {
+                        QoA_temp += oAssociation.getMrWeight() * 0.3;
+                        mrSatisfactionWeight_high = oAssociation.getMrWeight();
+                    }
+                    if(oAssociatedElement.getContent() == "MID")
+                    {
+                        QoA_temp += oAssociation.getMrWeight() * 0.2;
+                        mrSatisfactionWeight_mid = oAssociation.getMrWeight();
+                    }
+                    if(oAssociatedElement.getContent() == "LOW")
+                    {
+                        QoA_temp += oAssociation.getMrWeight() * 0.1;
+                        mrSatisfactionWeight_low = oAssociation.getMrWeight();
+                    }
+                    if(oAssociatedElement.getContent() == "NO")
+                    {
+                        mrSatisfactionWeight_no = oAssociation.getMrWeight();
+                    }
+                    found_new_QoA=true;
+                }
+            }
+        }
+        if(found_new_QoA)
+        {
+            this.setQuotaOfAffect(QoA_temp/weight_tmp);
+        }
+    }
+	
 	public clsThingPresentationMesh getActualBodyOrifice()
 	{
 		return getAssociatedObject(eContentType.ORIFICE);
@@ -175,7 +232,49 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		return getAssociatedObject(eContentType.ORGAN);
 	}
 	
-	
+
+	public ArrayList<Double> getArray(){
+        return moArrayPleasure;
+    }
+    
+    public void setArray(double array){
+        moArrayPleasure.add(array);
+    }
+    
+    public void setArray_Full(ArrayList<Double>  array){
+        moArrayPleasure = array;
+    }
+
+    public void setSatisfactionWeightLearning_no(double value){
+        mrSatisfactionWeightLearning_no=value;
+    }
+    
+    public void setSatisfactionWeightLearning_low(double value){
+        mrSatisfactionWeightLearning_low=value;
+    }
+    
+    public void setSatisfactionWeightLearning_mid(double value){
+        mrSatisfactionWeightLearning_mid=value;
+    }
+    
+    public void setSatisfactionWeightLearning_high(double value){
+        mrSatisfactionWeightLearning_high=value;
+    }
+    
+    public double getSatisfactionWeightLearning_no(){
+        return this.mrSatisfactionWeightLearning_no;
+    }
+    public double getSatisfactionWeightLearning_low(){
+        return this.mrSatisfactionWeightLearning_low;
+    }
+    public double getSatisfactionWeightLearning_mid(){
+        return this.mrSatisfactionWeightLearning_mid;
+    }
+    public double getSatisfactionWeightLearning_high(){
+        return this.mrSatisfactionWeightLearning_high;
+    }
+    
+   
 	
 	public boolean getLearning(){
         return learning;
@@ -198,6 +297,15 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     public void resetRisingQoA(){
         risingQoA=false;
     }
+    public double getLearningIntensity(){
+        return learingIntensity;
+    }
+    
+    public void setLearningIntensity(double value){
+        learingIntensity=value;
+    }
+    
+    
 
 	//organs are fixed for PA body, thus we can do this- here
 	public eOrgan getActualDriveSourceAsENUM(){
@@ -370,19 +478,19 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	public String toString(){
 	    String oRetval = "|DM:";
-	    oRetval += ":R="+this.getRisingQoA();
+	    oRetval += ":Organ="+this.getActualDriveSourceAsENUM();
+	    oRetval += ":DComponent="+this.moDriveComponent.toString();
+	    oRetval += ":PleSumMax= " + GetQuotaOfAffectAsMyString(this.getPleasureSumMax());
+        oRetval += ":R="+this.getRisingQoA();
 	    oRetval += ":L="+this.getLearning();
         oRetval += ":Action="+(this.getActualDriveAim()!=null?this.getActualDriveAim().getContent():"no action");
         oRetval += ":Object="+(this.getActualDriveObject()!=null?this.getActualDriveObject().getContent():"no object");
 	    oRetval += ":BE="+ this.getBE();
 	    oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
         oRetval += ":QoASum="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
-        oRetval += ":PleSum= " + GetQuotaOfAffectAsMyString(this.getPleasureSum());
-        oRetval += ":PleSumMax= " + GetQuotaOfAffectAsMyString(this.getPleasureSumMax());
+        oRetval += ":PleSum= " + GetQuotaOfAffectAsMyString(this.getActPleasure());
         oRetval += ":LeaCnt= " + GetQuotaOfAffectAsMyString(this.getLearningCnt());
-        oRetval += ":DComponent="+this.moDriveComponent.toString();
-		oRetval += ":PartialD="+this.moPartialDrive.toString();
-		oRetval += ":Organ="+this.getActualDriveSourceAsENUM();
+        oRetval += ":PartialD="+this.moPartialDrive.toString();
 		oRetval += ":Orifice="+this.getActualBodyOrificeAsENUM();
 		oRetval += ":Aim=" + (this.getActualDriveAim()!=null?this.getActualDriveAim().getContent():"no action");
 		//if(this.moInternalAssociatedContent!=null){
@@ -463,6 +571,38 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     public double getQuotaOfAffect() {
         return this.mrQuotaOfAffect;
     }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getQuotaOfAffect_no() {
+        return this.mrSatisfactionWeight_no;
+    }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getQuotaOfAffect_low() {
+        return this.mrSatisfactionWeight_low;
+    }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getQuotaOfAffect_mid() {
+        return this.mrSatisfactionWeight_mid;
+    }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getQuotaOfAffect_high() {
+        return this.mrSatisfactionWeight_high;
+    }
 
     /**
      * @since 11.07.2012 14:10:00
@@ -497,8 +637,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      * 
      * @return the mrQuotaOfAffect
      */
-    public double getPleasureSum() {
-        return this.mrPleasureSum;
+    public double getActPleasure() {
+        return this.mrActPleasure;
     }
     
     /**
@@ -506,10 +646,62 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      * 
      * @param mrQuotaOfAffect the mrQuotaOfAffect to set
      */
-    public void setPleasureSum(double mrPleasureSum) {
-        this.mrPleasureSum = mrPleasureSum;
+    public void setActPleasure(double mrActPleasure) {
+        this.mrActPleasure = mrActPleasure;
     }    
     
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getExpPleasure() {
+        return this.mrExpPleasure;
+    }
+    
+    public double getExpectedSatisfactionWeight_no() {
+        return this.mrExpectedSatisfactionWeight_no;
+    }
+    public double getExpectedSatisfactionWeight_low() {
+        return this.mrExpectedSatisfactionWeight_low;
+    }
+    public double getExpectedSatisfactionWeight_mid() {
+        return this.mrExpectedSatisfactionWeight_mid;
+    }    
+    public double getExpectedSatisfactionWeight_high() {
+        return this.mrExpectedSatisfactionWeight_high;
+    }
+    
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setExpPleasure(double mrExpPleasure) {
+        this.mrExpPleasure = mrExpPleasure;
+    }
+    public void setExpectedSatisfactionWeights() {
+    if(mrExpPleasure<0.1)
+    {
+        mrExpectedSatisfactionWeight_no =  (0.1 - mrExpPleasure)/0.1;
+        mrExpectedSatisfactionWeight_low = (mrExpPleasure - 0.0)/0.1;
+    }
+    else if(mrExpPleasure<0.2)
+    {
+        mrExpectedSatisfactionWeight_low = (0.2 - mrExpPleasure)/0.1;
+        mrExpectedSatisfactionWeight_mid = (mrExpPleasure - 0.1)/0.1;  
+    }
+    else if(mrExpPleasure<0.3)
+    {
+        mrExpectedSatisfactionWeight_mid =  (0.3 - mrExpPleasure)/0.1;
+        mrExpectedSatisfactionWeight_high = (mrExpPleasure - 0.2)/0.1;   
+    }
+    else
+    {
+        mrExpectedSatisfactionWeight_high = 1;  
+    }
+} 
+  
     /**
      * @since 11.07.2012 14:10:00
      * 
@@ -526,6 +718,25 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      */
     public void setPleasureSumMax(double mrPleasureSumMax) {
         this.mrPleasureSumMax = mrPleasureSumMax;
+        if(mrPleasureSumMax<0.1)
+        {
+            mrSatisfactionWeight_no =  (0.1 - mrPleasureSumMax)/0.1;
+            mrSatisfactionWeight_low = (mrPleasureSumMax - 0.0)/0.1;
+        }
+        else if(mrPleasureSumMax<0.2)
+        {
+            mrSatisfactionWeight_low = (0.2 - mrPleasureSumMax)/0.1;
+            mrSatisfactionWeight_mid = (mrPleasureSumMax - 0.1)/0.1;  
+        }
+        else if(mrPleasureSumMax<0.3)
+        {
+            mrSatisfactionWeight_mid =  (0.3 - mrPleasureSumMax)/0.1;
+            mrSatisfactionWeight_high = (mrPleasureSumMax - 0.2)/0.1;   
+        }
+        else
+        {
+            mrSatisfactionWeight_high = 1;  
+        }
     }    
     
     /**

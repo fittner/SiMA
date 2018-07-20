@@ -269,6 +269,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				// search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
 				oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TPM, poSearchPattern);
 				
+
+				
 				rMaxDecisionfactor = 0.0;
 				rCurrentMatchFactor = 0.0;
 				rCurrentDecisionFactor= 0.0;
@@ -282,6 +284,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
 					    oMemoryDM = ((clsDriveMesh)oSearchPair.b.getMoDataStructure());
 					    if (oMemoryDM.getContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)){
+				            // Neues QoA Auflösen und auf alten QoA speichern
+//					        oMemoryDM.setNewQoA();
+					        
 					        rSumSimilarDMsQoA += oMemoryDM.getQuotaOfAffect();
 					    }
 					}

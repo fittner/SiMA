@@ -323,7 +323,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 						//2. If found, create a new association with this dm and the found root element. This association shall be added to all these objects
 						for (clsThingPresentationMesh oObject : oFoundObjects) {
 							//3. create a new association
-							clsAssociationDriveMesh oNewMesh = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMesh) oDMAssociation.getLeafElement(), oObject);
+							clsAssociationDriveMesh oNewMesh = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMesh) oDMAssociation.getLeafElement(), oObject,1.0);
 							//4. Add the association to the external associations of the root element
 							oObject.getExternalAssociatedContent().add(oNewMesh);
 						}
@@ -479,7 +479,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 						// add the association with the matching element from the input to the return values
 						ArrayList<clsAssociationDriveMesh> newDMAssociations = new ArrayList<clsAssociationDriveMesh>();
 						clsThingPresentationMesh newRoot = (clsThingPresentationMesh) ((clsAssociationDriveMesh)oInputAssociation).getRootElement();
-						newDMAssociations.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMesh)oEntry, newRoot));
+						newDMAssociations.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMesh)oEntry, newRoot,1.0));
 						//oBlockedCont = new clsPrimaryDataStructureContainer(oEntry.a, oEntry.b);
 						// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
 						int i = 0;
@@ -641,7 +641,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 			//Assign physical representation
 			//newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, poDS));
 			//Add DM as association
-			clsAssociationDriveMesh oAddDM = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.DM, eContentType.ASSOCIATIONDM), poDM, poDS);
+			clsAssociationDriveMesh oAddDM = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.DM, eContentType.ASSOCIATIONDM), poDM, poDS,1.0);
 			//Create ass list
 			//ArrayList<clsAssociation> oContainerAssList = new ArrayList<clsAssociation>();
 			//oContainerAssList.add(oAddDM);
