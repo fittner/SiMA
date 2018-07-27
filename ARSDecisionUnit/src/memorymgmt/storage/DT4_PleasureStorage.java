@@ -74,7 +74,14 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 					    oNewDMEntry.setActPleasure(oOldDMEntry.getActPleasure());
 					    oNewDMEntry.setExpPleasure(oOldDMEntry.getExpPleasure());
 					    oNewDMEntry.setLearningIntensity(oOldDMEntry.getLearningIntensity());
-					    
+					    oNewDMEntry.setExpectedSatisfactionWeight_no(oOldDMEntry.getExpectedSatisfactionWeight_no());
+					    oNewDMEntry.setExpectedSatisfactionWeight_low(oOldDMEntry.getExpectedSatisfactionWeight_low());
+					    oNewDMEntry.setExpectedSatisfactionWeight_mid(oOldDMEntry.getExpectedSatisfactionWeight_mid());
+					    oNewDMEntry.setExpectedSatisfactionWeight_high(oOldDMEntry.getExpectedSatisfactionWeight_high());
+					    if(oOldDMEntry.getLearning())
+					    {
+					        oNewDMEntry.setLearning();
+					    }
 					    if(oOldDMEntry.getQuotaOfAffect() < oNewDMEntry.getQuotaOfAffect())
 			            {   /* Trieb steigt */
 			                if(oNewDMEntry.getLearningCnt()>0)
@@ -138,9 +145,20 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
                         if(F48_AccumulationOfQuotaOfAffectsForDrives.change)
                         {
 //                            oNewDMEntry.setExpPleasure(0);
+                            oNewDMEntry.setExpectedSatisfactionWeights();
+                            oNewDMEntry.setPleasureSumMax(0); 
+                            
                         }
 						
-						oNewDMEntry.setLearningIntensity(oNewDMEntry.getQuotaOfAffect()+oNewDMEntry.getExpPleasure());
+						if(oNewDMEntry.getActPleasure()>0)
+						{
+						    oNewDMEntry.setLearningIntensity(oNewDMEntry.getQuotaOfAffect()+oNewDMEntry.getExpPleasure());
+						}
+						else
+						{
+						    oNewDMEntry.setLearningIntensity(0);
+						}
+						
 						
 						nNewPleasureValue = nNewPleasureValue+tmpCalc;
 						

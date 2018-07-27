@@ -82,6 +82,12 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		
 	}
 	
+	public void writeQoA(clsDriveMesh DM)
+	{
+		clsDriveMesh DMnew;
+		
+	}
+	
 
 	
 	/* (non-Javadoc)

@@ -364,11 +364,15 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
                 clsDriveMesh DM;
                 DM = (clsDriveMesh)((clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(i).getAssociationElementA();
                 String moActionString = moAction.getContent();
-                String moDMString = ((clsThingPresentationMesh)DM.getInternalAssociatedContent().get(2).getAssociationElementB()).getContent();
+                String moDMString = DM.getActualDriveAim().getContent();
                 if(moActionString == moDMString)
                 {
-                    moTPM_Action = (clsThingPresentationMesh) DM.getInternalAssociatedContent().get(2).getAssociationElementB();
+                    moTPM_Action = DM.getActualDriveAim();
                     moTPM_Object = (clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB();
+                }
+                else
+                {
+                    moActionString = null;
                 }
             }
         }

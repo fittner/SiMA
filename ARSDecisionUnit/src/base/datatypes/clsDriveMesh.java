@@ -48,6 +48,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     private double mrQuotaOfAffect_lastStep = 0.0;               //0-1
 	private double mrQuotaOfAffect_lastRise = 0.0;               //0-1
 	private ArrayList<Double> moArrayPleasure = new ArrayList<Double>();
+	private ArrayList<String> moArrayCalc = new ArrayList<String>();
     private double mrExpectedSatisfactionWeight_low = 0.0;               //0-1
     private double mrExpectedSatisfactionWeight_mid = 0.0;               //0-1
     private double mrExpectedSatisfactionWeight_high = 0.0;               //0-1
@@ -198,6 +199,29 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         {
             this.setQuotaOfAffect(QoA_temp/weight_tmp);
         }
+        else
+        {
+            if(this.getQuotaOfAffect()<0.1)
+            {
+                mrSatisfactionWeight_no =  (0.1 - this.getQuotaOfAffect())/0.1;
+                mrSatisfactionWeight_low = (this.getQuotaOfAffect() - 0.0)/0.1;
+            }
+            else if(this.getQuotaOfAffect()<0.2)
+            {
+                mrSatisfactionWeight_low = (0.2 - this.getQuotaOfAffect())/0.1;
+                mrSatisfactionWeight_mid = (this.getQuotaOfAffect() - 0.1)/0.1;  
+            }
+            else if(this.getQuotaOfAffect()<0.3)
+            {
+                mrSatisfactionWeight_mid =  (0.3 - this.getQuotaOfAffect())/0.1;
+                mrSatisfactionWeight_high = (this.getQuotaOfAffect() - 0.2)/0.1;   
+            }
+            else
+            {
+                mrSatisfactionWeight_high = 1;  
+            }
+
+        }
     }
 	
 	public clsThingPresentationMesh getActualBodyOrifice()
@@ -244,6 +268,15 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     public void setArray_Full(ArrayList<Double>  array){
         moArrayPleasure = array;
     }
+    
+    public ArrayList<String> getArrayCalc(){
+        return moArrayCalc;
+    }
+    
+    public void setArrayCalc(String array){
+        moArrayCalc.add(array);
+    }
+    
 
     public void setSatisfactionWeightLearning_no(double value){
         mrSatisfactionWeightLearning_no=value;
@@ -603,6 +636,38 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     public double getQuotaOfAffect_high() {
         return this.mrSatisfactionWeight_high;
     }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public void setQuotaOfAffect_no(double value) {
+        this.mrSatisfactionWeight_no = value;
+    }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public void setQuotaOfAffect_low(double value) {
+        this.mrSatisfactionWeight_low = value;
+    }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public void setQuotaOfAffect_mid(double value) {
+        this.mrSatisfactionWeight_mid = value;
+    }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public void setQuotaOfAffect_high(double value) {
+        this.mrSatisfactionWeight_high = value;
+    }
 
     /**
      * @since 11.07.2012 14:10:00
@@ -670,6 +735,19 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     }    
     public double getExpectedSatisfactionWeight_high() {
         return this.mrExpectedSatisfactionWeight_high;
+    }
+    
+    public void setExpectedSatisfactionWeight_no(double value) {
+        this.mrExpectedSatisfactionWeight_no = value;
+    }
+    public void setExpectedSatisfactionWeight_low(double value) {
+        this.mrExpectedSatisfactionWeight_low = value;
+    }
+    public void setExpectedSatisfactionWeight_mid(double value) {
+        this.mrExpectedSatisfactionWeight_mid = value;
+    }    
+    public void setExpectedSatisfactionWeight_high(double value) {
+        this.mrExpectedSatisfactionWeight_high = value;
     }
     
     /**

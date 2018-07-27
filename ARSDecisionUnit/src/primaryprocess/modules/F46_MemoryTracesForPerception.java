@@ -30,6 +30,7 @@ import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationEmotion;
+import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsConcept;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
@@ -87,6 +88,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	private clsWordPresentationMesh moWordingToContext;
     private clsWordPresentationMesh moWordingToContextNew;
     private clsConcept moConcept;
+    public static clsThingPresentationMesh moAction;
+    public static clsThingPresentationMesh moActionOld;
+    public static ArrayList<clsThingPresentationMesh> moActions = new ArrayList<clsThingPresentationMesh>();
     
 	///* Internal */
 	//private clsThingPresentationMesh moEnhancedPerception;
@@ -266,6 +270,23 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		log.info("Activated images: {}", PrintTools.printActivatedMeshWithPIMatch(oPerceivedImage));
 		moPerceptionalMesh_OUT = oPerceivedImage;
 		
+		oSelf = clsMeshTools.getSELF(oPerceivedImage);
+		if(oSelf != null && !oSelf.isNullObject()) {
+            for(int i=0; i < (oSelf.getExternalAssociatedContent().size()); i++) {
+                clsAssociation oAssPri = oSelf.getExternalAssociatedContent().get(i);
+                if(oAssPri instanceof clsAssociationPrimary) {
+                    moAction = (clsThingPresentationMesh)oAssPri.getAssociationElementB();
+                    if(  (moActionOld == null)
+                      || (moActionOld.getContent() != moAction.getContent())
+                      )
+                    {
+                        moActionOld = moAction;
+                    }
+                    moActionOld = moAction;
+                    moActions.add(moAction);
+                }
+            }
+        }
 		//=== Perform system tests ===//
 		clsTester.getTester().setActivated(false);
 		if (clsTester.getTester().isActivated()) {

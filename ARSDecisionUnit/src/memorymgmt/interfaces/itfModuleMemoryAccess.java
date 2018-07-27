@@ -38,6 +38,19 @@ public interface itfModuleMemoryAccess {
 	 * @return
 	 */
 	public <E> ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntity (eDataType poDataType, ArrayList<E> poPattern);
+    /**
+     * Search for a general single entity or data structure
+     * 
+     * (wendt)
+     *
+     * @since 26.02.2013 11:13:47
+     *
+     * @param poDataType
+     * @param poPattern
+     * @return
+     */
+	public void writeQoA(clsDriveMesh DM);
+
 	/**
 	 * From the input data like, content, shape and color, the matching TPM is loaded from the memory
 	 * 

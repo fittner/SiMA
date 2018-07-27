@@ -7,16 +7,20 @@
  */
 package primaryprocess.modules;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import memorymgmt.enums.eDataType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import modules.interfaces.eInterfaces;
+import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsShortTermMemoryMF;
+import base.datatypes.helpstructures.clsPair;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
@@ -34,7 +38,8 @@ public class F90_LearningQoA extends clsModuleBaseKB {
 
 	public static final String P_MODULENUMBER = "90";
 	private ArrayList<clsDriveMesh> moLearningStorage_DM = new ArrayList<clsDriveMesh>();
-	
+	public static ArrayList<String> ArrayChanges = new ArrayList<String>();
+	ArrayList<clsDriveMesh> moLearningLTM_DM = new ArrayList<clsDriveMesh>();
 
 	/**
 	 * DOCUMENT (fittner) 
@@ -54,6 +59,14 @@ public class F90_LearningQoA extends clsModuleBaseKB {
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 			super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
+		    applyProperties(poPrefix, poProp); 
+	}
+	   
+	private void applyProperties(String poPrefix, clsProperties poProp)
+	{
+	        //String pre = clsProperties.addDot(poPrefix);
+	    
+	        //nothing to do
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -105,6 +118,7 @@ public class F90_LearningQoA extends clsModuleBaseKB {
         && (!poLerningCandidates.isEmpty())
         )
       {
+          ArrayList<String> ArrayChangesloc = ArrayChanges;
           clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
           if(test.getChangedMoment())
           {   for (clsDriveMesh oLearningDM : poLerningCandidates)
@@ -125,6 +139,10 @@ public class F90_LearningQoA extends clsModuleBaseKB {
                       {
                           found_DM = true;
                           oLearningStorageDM = oLearningStorageDM_Loop;
+                          if(oLearningDM.getLearning())
+                          {
+                              oLearningStorageDM.setLearning(); 
+                          }
                       }
                   }
 
@@ -136,15 +154,210 @@ public class F90_LearningQoA extends clsModuleBaseKB {
                       
                   /* Aggregate Weights */
                   /* Finde DM in Memory */
-               
-                  oLearningStorageDM.setSatisfactionWeightLearning_no(oLearningStorageDM.getSatisfactionWeightLearning_no()+oLearningStorageDM.getExpectedSatisfactionWeight_no()*oLearningStorageDM.getLearningIntensity());
-                  oLearningStorageDM.setSatisfactionWeightLearning_low(oLearningStorageDM.getSatisfactionWeightLearning_low()+oLearningStorageDM.getExpectedSatisfactionWeight_low()*oLearningStorageDM.getLearningIntensity());
-                  oLearningStorageDM.setSatisfactionWeightLearning_mid(oLearningStorageDM.getSatisfactionWeightLearning_mid()+oLearningStorageDM.getExpectedSatisfactionWeight_mid()*oLearningStorageDM.getLearningIntensity());
-                  oLearningStorageDM.setSatisfactionWeightLearning_high(oLearningStorageDM.getSatisfactionWeightLearning_high()+oLearningStorageDM.getExpectedSatisfactionWeight_high()*oLearningStorageDM.getLearningIntensity());
+                  double learnIntensity = oLearningStorageDM.getLearningIntensity();
+                  DecimalFormat f = new DecimalFormat("#0.00");
+                  
+                  double SatWeight_no = oLearningStorageDM.getSatisfactionWeightLearning_no();
+                  double ExpSatWeight_no = oLearningStorageDM.getExpectedSatisfactionWeight_no();
+                  double SatWeight_low = oLearningStorageDM.getSatisfactionWeightLearning_low();
+                  double ExpSatWeight_low = oLearningStorageDM.getExpectedSatisfactionWeight_low();
+                  double SatWeight_mid = oLearningStorageDM.getSatisfactionWeightLearning_mid();
+                  double ExpSatWeight_mid = oLearningStorageDM.getExpectedSatisfactionWeight_mid();
+                  double SatWeight_high = oLearningStorageDM.getSatisfactionWeightLearning_high();
+                  double ExpSatWeight_high = oLearningStorageDM.getExpectedSatisfactionWeight_high();
+                  
+                  String ArrayCalc;
+                  ArrayCalc =  "A:" + (oLearningStorageDM.getActualDriveAim()!=null?oLearningStorageDM.getActualDriveAim().getContent():"no action") + ";";
+                  ArrayCalc += "O:" + (oLearningStorageDM.getActualDriveObject()!=null?oLearningStorageDM.getActualDriveObject().getContent():"no object") + ";";
+                  ArrayCalc += "LI:" + f.format(learnIntensity) + ";";
+                  ArrayCalc += "SWL_NO:" + f.format(SatWeight_no) + ";";
+                  ArrayCalc += "ExSWL_NO:" + f.format(ExpSatWeight_no) + ";";
+                  ArrayCalc += "SWL_LOW:" + f.format(SatWeight_low) + ";";
+                  ArrayCalc += "ExSWL_LOW:" + f.format(ExpSatWeight_low) + ";";
+                  ArrayCalc += "SWL_MID:" + f.format(SatWeight_mid) + ";";
+                  ArrayCalc += "ExSWL_MID:" + f.format(ExpSatWeight_mid) + ";";
+                  ArrayCalc += "SWL_HIGH:" + f.format(SatWeight_high) + ";";
+                  ArrayCalc += "ExSWL_HIGH:" + f.format(ExpSatWeight_high) + ";";
+                  
+                  oLearningStorageDM.setArrayCalc(ArrayCalc);
+                  
+                  
+                  oLearningStorageDM.setSatisfactionWeightLearning_no(  SatWeight_no   + ExpSatWeight_no   * learnIntensity);
+                  oLearningStorageDM.setSatisfactionWeightLearning_low( SatWeight_low  + ExpSatWeight_low  * learnIntensity);
+                  oLearningStorageDM.setSatisfactionWeightLearning_mid( SatWeight_mid  + ExpSatWeight_mid  * learnIntensity);
+                  oLearningStorageDM.setSatisfactionWeightLearning_high(SatWeight_high + ExpSatWeight_high * learnIntensity);
 
-                  if(oLearningDM.getLearning())
+//                  if(oLearningStorageDM.getLearning())
                   {
-                      moLearningStorage_DM.add(null);
+                      //moLearningStorage_DM.add(null);
+                      /* Suche DM mit identer Objekt Aktions beziehung */
+                      for (clsDriveMesh oLearningStorageDM_Loop: moLearningStorage_DM)
+                      {
+
+                          oLearningStorageDM = oLearningStorageDM_Loop;
+                          clsDriveMesh oLongTermMemoryDM = null;
+                          clsDriveMesh oNewLearnedDM = null;
+                          
+                          ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+                                  new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+                          
+                          ArrayList<clsDriveMesh> poSearchPattern = new ArrayList<clsDriveMesh>();
+                          poSearchPattern.add(oLearningStorageDM);
+                          
+                          // search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
+                          oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TPM, poSearchPattern);
+                          String changes = "";
+                          
+                          boolean found = false;
+                          
+                          for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
+                              // for results of similar memory-DMs (should be various similar DMs)
+                              for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList)
+                              {
+                                  oLongTermMemoryDM = (clsDriveMesh)(oSearchPair.b.getMoDataStructure());
+                                  if (   oLearningStorageDM.getActualDriveSourceAsENUM() == oLongTermMemoryDM.getActualDriveSourceAsENUM()
+                                          && oLearningStorageDM.getPartialDrive() == oLongTermMemoryDM.getPartialDrive()
+                                             // drive component have to be considered to
+                                          && oLearningStorageDM.getDriveComponent() == oLongTermMemoryDM.getDriveComponent()
+                                          && oLearningStorageDM.getActualDriveAim() != null
+                                          && !oLearningStorageDM.getActualDriveAim().isNullObject()
+                                          && oLongTermMemoryDM.getActualDriveAim() != null
+                                          && !oLongTermMemoryDM.getActualDriveAim().isNullObject()
+                                          && oLearningStorageDM.getActualDriveAim().isEquivalentDataStructure(oLongTermMemoryDM.getActualDriveAim())
+                                          && oLearningStorageDM.getActualDriveObject().isEquivalentDataStructure(oLongTermMemoryDM.getActualDriveObject())
+                                         )
+                                  {
+
+                                      changes = "|DM:"+ ";";
+                                      changes += ":Organ="+oLearningStorageDM.getActualDriveSourceAsENUM()+ ";";
+                                      changes += ":DComponent="+oLearningStorageDM.getDriveComponent().toString()+ ";";
+                                      changes += ":Action="+(oLearningStorageDM.getActualDriveAim()!=null?oLearningStorageDM.getActualDriveAim().getContent():"no action")+ ";";
+                                      changes += ":Object="+(oLearningStorageDM.getActualDriveObject()!=null?oLearningStorageDM.getActualDriveObject().getContent():"no object")+ ";";
+
+                                      oNewLearnedDM = oLongTermMemoryDM;
+
+                                      double value_tmp;
+                                      value_tmp = Math.floor(oLearningStorageDM.getSatisfactionWeightLearning_no());
+                                      if (oLongTermMemoryDM.getQuotaOfAffect_no() > 1)
+                                      {
+                                          value_tmp = oLongTermMemoryDM.getQuotaOfAffect_no() + Math.floor(value_tmp/oLongTermMemoryDM.getQuotaOfAffect_no());
+                                      }    
+                                      if(value_tmp > oLongTermMemoryDM.getQuotaOfAffect_no())
+                                      {
+                                          changes+="Weight_NO:+" + value_tmp + ";";
+                                          oNewLearnedDM.setQuotaOfAffect_no(value_tmp);
+                                      }
+                                     
+                                      value_tmp = Math.floor(oLearningStorageDM.getSatisfactionWeightLearning_low());
+                                      if (oLongTermMemoryDM.getQuotaOfAffect_low() > 1)
+                                      {
+                                          value_tmp = oLongTermMemoryDM.getQuotaOfAffect_low() + Math.floor(value_tmp/oLongTermMemoryDM.getQuotaOfAffect_low());
+                                      }    
+                                      if(value_tmp > oLongTermMemoryDM.getQuotaOfAffect_low())
+                                      {
+                                          changes+="Weight_LOW:+" + value_tmp + ";";
+                                          oNewLearnedDM.setQuotaOfAffect_low(value_tmp);
+                                      }
+                                      
+                                      value_tmp = Math.floor(oLearningStorageDM.getSatisfactionWeightLearning_mid());
+                                      if (oLongTermMemoryDM.getQuotaOfAffect_mid() > 1)
+                                      {
+                                          value_tmp = oLongTermMemoryDM.getQuotaOfAffect_mid() + Math.floor(value_tmp/oLongTermMemoryDM.getQuotaOfAffect_mid());
+                                      }    
+                                      if(value_tmp > oLongTermMemoryDM.getQuotaOfAffect_mid())
+                                      {
+                                          changes+="Weight_MID:+" + value_tmp + ";";
+                                          oNewLearnedDM.setQuotaOfAffect_mid(value_tmp);
+                                      }
+                                     
+                                      value_tmp = Math.floor(oLearningStorageDM.getSatisfactionWeightLearning_high());
+                                      if (oLongTermMemoryDM.getQuotaOfAffect_high() > 1)
+                                      {
+                                          value_tmp = oLongTermMemoryDM.getQuotaOfAffect_high() + Math.floor(value_tmp/oLongTermMemoryDM.getQuotaOfAffect_high());
+                                      }    
+                                      if(value_tmp > oLongTermMemoryDM.getQuotaOfAffect_high())
+                                      {
+                                          changes+="Weight_HIGH:+" + value_tmp + ";";
+                                          oNewLearnedDM.setQuotaOfAffect_high(value_tmp);
+                                      }
+                                      for(int i=0; i< ArrayChanges.size(); i++)
+                                      {
+                                          if(ArrayChanges.get(i).compareTo(changes) == 0)
+                                          {
+                                          //    ArrayChanges.remove(i);
+                                          }
+                                      }
+                                      ArrayChanges.add(changes);
+                                      found = true;
+                                  }
+                              }
+                              if (found == false)
+                              {
+                                  
+                                  changes = "|DM:"+ ";";
+                                  changes += ":Organ="+oLearningStorageDM.getActualDriveSourceAsENUM()+ ";";
+                                  changes += ":DComponent="+oLearningStorageDM.getDriveComponent().toString()+ ";";
+                                  changes += ":Action="+(oLearningStorageDM.getActualDriveAim()!=null?oLearningStorageDM.getActualDriveAim().getContent():"no action")+ ";";
+                                  changes += ":Object="+(oLearningStorageDM.getActualDriveObject()!=null?oLearningStorageDM.getActualDriveObject().getContent():"no object")+ ";";
+
+                                  oNewLearnedDM = oLearningStorageDM;
+
+                                  double value_tmp;
+                                  value_tmp = Math.floor(oLearningStorageDM.getSatisfactionWeightLearning_no());
+                                  changes+="Weight_NO:+" + value_tmp + ";";
+                                  oNewLearnedDM.setQuotaOfAffect_no(value_tmp);
+                                  
+                                 
+                                  value_tmp = Math.floor(oLearningStorageDM.getSatisfactionWeightLearning_low());
+                                  changes+="Weight_LOW:+" + value_tmp + ";";
+                                  oNewLearnedDM.setQuotaOfAffect_low(value_tmp);
+                                   
+                                  value_tmp = Math.floor(oLearningStorageDM.getSatisfactionWeightLearning_mid());
+                                  changes+="Weight_MID:+" + value_tmp + ";";
+                                  oNewLearnedDM.setQuotaOfAffect_mid(value_tmp);
+                                 
+                                  value_tmp = Math.floor(oLearningStorageDM.getSatisfactionWeightLearning_high());
+                                  changes+="Weight_HIGH:+" + value_tmp + ";";
+                                  oNewLearnedDM.setQuotaOfAffect_high(value_tmp);
+
+                                  for(int i=0; i< ArrayChanges.size(); i++)
+                                  {
+                                      if(ArrayChanges.get(i).compareTo(changes) == 0)
+                                      {
+                                      //    ArrayChanges.remove(i);
+                                      }
+                                  }
+                                  ArrayChanges.add(changes);
+                                  
+                                  found = true;
+                              }
+                              found = false;
+                          }
+                          if(oNewLearnedDM != null)
+                          {
+                              found=false;
+                              for (clsDriveMesh oLearningLTM: moLearningLTM_DM)
+                              {
+                                  if (   oLearningLTM.getActualDriveSourceAsENUM() == oNewLearnedDM.getActualDriveSourceAsENUM()
+                                      && oLearningLTM.getPartialDrive() == oNewLearnedDM.getPartialDrive()
+                                         // drive component have to be considered to
+                                      && oLearningLTM.getDriveComponent() == oNewLearnedDM.getDriveComponent()
+                                      && oLearningLTM.getActualDriveAim() != null
+                                      && !oLearningLTM.getActualDriveAim().isNullObject()
+                                      && oLearningLTM.getActualDriveAim().isEquivalentDataStructure(oNewLearnedDM.getActualDriveAim())
+                                      && oLearningLTM.getActualDriveObject().isEquivalentDataStructure(oNewLearnedDM.getActualDriveObject())
+                                     )
+                                  {
+//                                      found = true;
+                                  }
+                              }
+                              if(!found)
+                              {
+                                  moLearningLTM_DM.add(oNewLearnedDM);
+                              }
+                          }
+                      } 
+                      //this.getLongTermMemory().writeQoA(oLearningDM);;
                   }
             }
         }
