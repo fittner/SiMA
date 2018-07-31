@@ -17,6 +17,7 @@ import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.enums.eDataType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import modules.interfaces.eInterfaces;
+import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsShortTermMemoryMF;
@@ -40,6 +41,7 @@ public class F90_LearningQoA extends clsModuleBaseKB {
 	private ArrayList<clsDriveMesh> moLearningStorage_DM = new ArrayList<clsDriveMesh>();
 	public static ArrayList<String> ArrayChanges = new ArrayList<String>();
 	ArrayList<clsDriveMesh> moLearningLTM_DM = new ArrayList<clsDriveMesh>();
+	ArrayList<clsDriveMesh> moLearningLTMred_DM = new ArrayList<clsDriveMesh>();
 
 	/**
 	 * DOCUMENT (fittner) 
@@ -205,7 +207,7 @@ public class F90_LearningQoA extends clsModuleBaseKB {
                           poSearchPattern.add(oLearningStorageDM);
                           
                           // search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
-                          oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TPM, poSearchPattern);
+                          oSearchResult = this.getLongTermMemory().searchEntity(eDataType.DM, poSearchPattern);
                           String changes = "";
                           
                           boolean found = false;
@@ -246,6 +248,13 @@ public class F90_LearningQoA extends clsModuleBaseKB {
                                       {
                                           changes+="Weight_NO:+" + value_tmp + ";";
                                           oNewLearnedDM.setQuotaOfAffect_no(value_tmp);
+                                          //2. Check if the root element can be found in the associated data structures
+                                          for (clsAssociation oAssToImage : oNewLearnedDM.getInternalAssociatedContent()) {
+                                              if(oAssToImage.getAssociationElementB().getContentType().toString().equals("Alive"))
+                                              {
+                                                  oAssToImage.setMrLearning(value_tmp);
+                                              }
+                                          }
                                       }
                                      
                                       value_tmp = Math.floor(oLearningStorageDM.getSatisfactionWeightLearning_low());
@@ -333,27 +342,40 @@ public class F90_LearningQoA extends clsModuleBaseKB {
                               }
                               found = false;
                           }
+                          if(  (oNewLearnedDM.getQuotaOfAffect_no()==0)
+                            && (oNewLearnedDM.getQuotaOfAffect_low()==0)
+                            && (oNewLearnedDM.getQuotaOfAffect_mid()==0)
+                            && (oNewLearnedDM.getQuotaOfAffect_high()==0)
+                            )
+                          {
+                              oNewLearnedDM = null;    
+                          }
                           if(oNewLearnedDM != null)
                           {
                               found=false;
-                              for (clsDriveMesh oLearningLTM: moLearningLTM_DM)
+                              moLearningLTM_DM.add(oNewLearnedDM);
+
+                              
+                              for(int i=0; i < moLearningLTMred_DM.size() ; i++)
                               {
-                                  if (   oLearningLTM.getActualDriveSourceAsENUM() == oNewLearnedDM.getActualDriveSourceAsENUM()
-                                      && oLearningLTM.getPartialDrive() == oNewLearnedDM.getPartialDrive()
-                                         // drive component have to be considered to
-                                      && oLearningLTM.getDriveComponent() == oNewLearnedDM.getDriveComponent()
-                                      && oLearningLTM.getActualDriveAim() != null
-                                      && !oLearningLTM.getActualDriveAim().isNullObject()
-                                      && oLearningLTM.getActualDriveAim().isEquivalentDataStructure(oNewLearnedDM.getActualDriveAim())
-                                      && oLearningLTM.getActualDriveObject().isEquivalentDataStructure(oNewLearnedDM.getActualDriveObject())
-                                     )
-                                  {
-//                                      found = true;
-                                  }
+                                  if (   moLearningLTMred_DM.get(i).getActualDriveSourceAsENUM() == oNewLearnedDM.getActualDriveSourceAsENUM()
+                                          && moLearningLTMred_DM.get(i).getPartialDrive() == oNewLearnedDM.getPartialDrive()
+                                             // drive component have to be considered to
+                                          && moLearningLTMred_DM.get(i).getDriveComponent() == oNewLearnedDM.getDriveComponent()
+                                          && moLearningLTMred_DM.get(i).getActualDriveAim() != null
+                                          && !moLearningLTMred_DM.get(i).getActualDriveAim().isNullObject()
+                                          && moLearningLTMred_DM.get(i).getActualDriveAim().isEquivalentDataStructure(oNewLearnedDM.getActualDriveAim())
+                                          && moLearningLTMred_DM.get(i).getActualDriveObject().isEquivalentDataStructure(oNewLearnedDM.getActualDriveObject())
+                                         )
+                                      {
+                                          // Wo sind die Speicherpools WM --> LTM???
+                                          moLearningLTMred_DM.get(i).setQuotaOfAffect_no(oNewLearnedDM.getQuotaOfAffect_no());
+                                          break;
+                                      }
                               }
                               if(!found)
                               {
-                                  moLearningLTM_DM.add(oNewLearnedDM);
+                                  moLearningLTMred_DM.add(oNewLearnedDM);
                               }
                           }
                       } 

@@ -236,7 +236,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 	    try {
             clsThingPresentationMesh moObject = F29_EvaluationOfImaginaryActions.moTPM_Object;
-            clsThingPresentationMesh moAction = F29_EvaluationOfImaginaryActions.moTPM_Action;
+            clsThingPresentationMesh moAction = F46_MemoryTracesForPerception.moAction;
             if(moObject != null && moAction != null)
             {
                 if(moLastObject==null)
@@ -366,7 +366,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 
 		try {
 		    clsThingPresentationMesh moObject = F29_EvaluationOfImaginaryActions.moTPM_Object;
-		    clsThingPresentationMesh moAction = F29_EvaluationOfImaginaryActions.moTPM_Action;
+		    clsThingPresentationMesh moAction = F46_MemoryTracesForPerception.moAction;
 		    if(moObject != null && moAction != null)
 		    {
     		    for(int i=0;i<moDriveCanditates_OUT.size();i++)

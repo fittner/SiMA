@@ -41,7 +41,8 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	//private static final long mrMaxStackDepth = 5000;
 	
 	//protected double mrImperativeFactor; 
-	protected double mrWeight; 
+	protected double mrWeight;
+	protected double mrLearning;
 	protected clsDataStructurePA moAssociationElementA;
 	protected clsDataStructurePA moAssociationElementB;
 
@@ -64,6 +65,26 @@ public abstract class clsAssociation extends clsDataStructurePA{
 //	public void setMrImperativeFactor(double mrImperativeFactor) {
 //		this.mrImperativeFactor = mrImperativeFactor;
 //	}
+	   /**
+     * @author fittner
+     * 31.07.2018, 10:36:52
+     * 
+     * @return the mrLearning
+     */
+    public double getMrLearning() {
+        return mrLearning;
+    }
+    
+    /**
+     * @author fittner
+     * 31.07.2018, 10:36:52
+     * 
+     * @param mrLearning the mrLearning to set
+     */
+    public void setMrLearning(double mrLearning) {
+        this.mrLearning = mrLearning;
+    }
+
 
 	/**
 	 * @author zeilinger
