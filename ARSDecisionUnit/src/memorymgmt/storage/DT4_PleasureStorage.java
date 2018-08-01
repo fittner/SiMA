@@ -69,7 +69,8 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 							//old drive is the same as the new one, found a match... calculate pleasure
 					    oNewDMEntry.setQuotaOfAffect_lastRise(oOldDMEntry.getQuotaOfAffect_lastRise());
 					    oNewDMEntry.setPleasureSumMax(oOldDMEntry.getPleasureSumMax());
-					    oNewDMEntry.setLearningCnt(oOldDMEntry.getLearningCnt());
+					    oNewDMEntry.setExpPleasureMax(oOldDMEntry.getExpPleasureMax());
+                        oNewDMEntry.setLearningCnt(oOldDMEntry.getLearningCnt());
 					    oNewDMEntry.setArray_Full(oOldDMEntry.getArray());
 					    oNewDMEntry.setActPleasure(oOldDMEntry.getActPleasure());
 					    oNewDMEntry.setExpPleasure(oOldDMEntry.getExpPleasure());
@@ -133,6 +134,11 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
                         }
                         //oNewDMEntry.setExpPleasure(expPleasure + oNewDMEntry.getPleasureSumMax()-oNewDMEntry.getActPleasure());
                         oNewDMEntry.setExpPleasure(expPleasure);
+                        
+                        if(oNewDMEntry.getExpPleasureMax() < oNewDMEntry.getExpPleasure())
+                        {
+                            oNewDMEntry.setExpPleasureMax(oNewDMEntry.getExpPleasure());
+                        }
 
 						/* Calculate expected Pleasure */
 						if(  (oNewDMEntry.getActPleasure()>oOldDMEntry.getActPleasure())
@@ -146,7 +152,8 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
                         {
 //                            oNewDMEntry.setExpPleasure(0);
                             oNewDMEntry.setExpectedSatisfactionWeights();
-                            oNewDMEntry.setPleasureSumMax(0); 
+                            oNewDMEntry.setPleasureSumMax(0);
+                            oNewDMEntry.setExpPleasureMax(0); 
                             
                         }
 						

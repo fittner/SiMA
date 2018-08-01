@@ -55,6 +55,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     private double mrExpectedSatisfactionWeight_no = 0.0;               //0-1
 	private double mrActPleasure = 0.0;               //0-1
 	private double mrExpPleasure = 0.0;
+	private double mrExpPleasureMax = 0.0;
 	private double mrPleasureSumMax = 0.0;               //0-1
     private int    mdLearningCnt = 0;               //0-1
     private double mrPsychicSatisfactionValue = 0.0;
@@ -758,24 +759,49 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     public void setExpPleasure(double mrExpPleasure) {
         this.mrExpPleasure = mrExpPleasure;
     }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getExpPleasureMax() {
+        return this.mrExpPleasureMax;
+    }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setExpPleasureMax(double mrExpPleasure) {
+        this.mrExpPleasureMax = mrExpPleasure;
+    }
+    
     public void setExpectedSatisfactionWeights() {
     if(mrExpPleasure<0.1)
     {
         mrExpectedSatisfactionWeight_no =  (0.1 - mrExpPleasure)/0.1;
         mrExpectedSatisfactionWeight_low = (mrExpPleasure - 0.0)/0.1;
+        mrExpectedSatisfactionWeight_mid = 0;
+        mrExpectedSatisfactionWeight_high = 0;
     }
     else if(mrExpPleasure<0.2)
     {
+        mrExpectedSatisfactionWeight_no = 0;
         mrExpectedSatisfactionWeight_low = (0.2 - mrExpPleasure)/0.1;
-        mrExpectedSatisfactionWeight_mid = (mrExpPleasure - 0.1)/0.1;  
+        mrExpectedSatisfactionWeight_mid = (mrExpPleasure - 0.1)/0.1;
+        mrExpectedSatisfactionWeight_high = 0;
     }
     else if(mrExpPleasure<0.3)
     {
+        mrExpectedSatisfactionWeight_no = 0;
+        mrExpectedSatisfactionWeight_low = 0;
         mrExpectedSatisfactionWeight_mid =  (0.3 - mrExpPleasure)/0.1;
         mrExpectedSatisfactionWeight_high = (mrExpPleasure - 0.2)/0.1;   
     }
     else
-    {
+    {   mrExpectedSatisfactionWeight_no = 0;
+        mrExpectedSatisfactionWeight_low = 0;
+        mrExpectedSatisfactionWeight_mid = 0;
         mrExpectedSatisfactionWeight_high = 1;  
     }
 } 

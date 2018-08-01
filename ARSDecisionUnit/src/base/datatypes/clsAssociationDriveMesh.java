@@ -133,7 +133,7 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		
-		/* compare drive source, -object and -aim
+		/* compare drive source, -object and -aim */
 		double oRetVal = 0.0; 
 		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 		
@@ -153,8 +153,6 @@ public class clsAssociationDriveMesh extends clsAssociation{
 		}
 			
 		return oRetVal; 
-		*/
-		return 0;
 	}
 	/* (non-Javadoc)
 	 *

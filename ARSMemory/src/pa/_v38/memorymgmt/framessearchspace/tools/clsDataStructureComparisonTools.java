@@ -74,6 +74,12 @@ public abstract class clsDataStructureComparisonTools {
 
 		return getMatchingDataStructures(poSearchSpace, poDS_Unknown);
 	}
+	public static ArrayList<clsPair<Double,clsDataStructurePA>> compareDataStructuresWrite
+							(clsDataStructurePA poDS_Unknown, clsSearchSpaceBase poSearchSpace, double weight)
+	{
+
+		return getMatchingDataStructuresWrite(poSearchSpace, poDS_Unknown, weight);
+	}
 		
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -99,6 +105,34 @@ public abstract class clsDataStructureComparisonTools {
 		}
 		else{
 			oRetVal = getDataStructureByDataStructureType(oMap, poDS_Unknown); 
+		}
+		
+		return oRetVal; 
+	}
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 02.07.2010, 20:04:08
+	 *
+	 * @param poSearchSpace
+	 * @param poDataStructureSearchPattern
+	 * @param matchingDataStructureList
+	 * @param method 
+	 */
+	private static ArrayList<clsPair<Double, clsDataStructurePA>> getMatchingDataStructuresWrite(
+													clsSearchSpaceBase poSearchSpace,
+													clsDataStructurePA poDS_Unknown, double weight) {
+		
+		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double,clsDataStructurePA>>(); 
+		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
+											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.getMoDataStructureType());
+		
+		if(oMap.containsKey(poDS_Unknown.getContentType().toString())){	//If the input content type already exists in the memory
+			oRetVal = getDataStructureByContentTypeWrite(oMap.get(poDS_Unknown.getContentType().toString()), poDS_Unknown, weight); 
+		}
+		else{
+			oRetVal = getDataStructureByDataStructureTypeWrite(oMap, poDS_Unknown, weight); 
 		}
 		
 		return oRetVal; 
@@ -1120,6 +1154,41 @@ public abstract class clsDataStructureComparisonTools {
 		
 			return oDS_List;
 	}
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.08.2010, 14:59:49
+	 *
+	 * @param poMap
+	 * @param poDataStructureUnknown
+	 * @param poDataStructureContentType 
+	 * @return
+	 */
+	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByContentTypeWrite(
+			HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> poMap,
+			clsDataStructurePA poDS_Unknown, double weight) {
+		
+			double rMatchScore = 0.0; 
+			ArrayList<clsPair<Double, clsDataStructurePA>> oDS_List = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+			
+			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poMap.entrySet()){
+				clsDataStructurePA oCompareElement = oEntry.getValue().a; 
+				//A comparison will only take place, if the search data structure instanceID is 0, in order to compare the unknown structures with a type
+				//if (oCompareElement.getMoDSInstance_ID()==0) {
+				
+					
+					rMatchScore = oCompareElement.compareTo(poDS_Unknown);
+					
+					if(rMatchScore >= 1.0){
+						// set weight
+						((clsAssociation)oCompareElement).setMrWeight(weight);
+					}
+				//}
+			}
+		
+			return oDS_List;
+	}
 	
 //	/**
 //	 * DOCUMENT (zeilinger) - insert description
@@ -1144,9 +1213,43 @@ public abstract class clsDataStructureComparisonTools {
 				//InstanceID has to be 0, in the search part, in order to compare the structure
 				//if (oSearchSpaceElement.getMoDSInstance_ID()==0) {
 					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
-					
 					if(rMatchScore > THRESHOLDMATCH){
 						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
+					}
+
+				//}
+			}
+		}
+				
+		return oMatchingDataStructureList;
+	}
+//	/**
+//	 * DOCUMENT (zeilinger) - insert description
+//	 *
+//	 * @author zeilinger
+//	 * 18.08.2010, 14:59:44
+//	 *
+//	 * @param poSearchSpace
+//	 * @param poDataStructureUnknown
+//	 * @return
+//	 */
+	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByDataStructureTypeWrite(
+			HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> poMap,
+			clsDataStructurePA poDataStructureUnknown, double weight) {
+
+		double rMatchScore = 0.0; 
+		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+
+		for(Map.Entry<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poMap.entrySet()){
+			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oTableEntry.getValue().entrySet()){
+				clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a;
+				//InstanceID has to be 0, in the search part, in order to compare the structure
+				//if (oSearchSpaceElement.getMoDSInstance_ID()==0) {
+					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
+					
+					if(rMatchScore >= 1.0){
+						// set weight
+						oSearchSpaceElement.getMoDataStructureType();
 					}
 				//}
 			}

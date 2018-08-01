@@ -114,4 +114,17 @@ public interface itfModuleMemoryAccess {
 	 * @return
 	 */
 	public clsAssociationWordPresentation getSecondaryDataStructure(clsPrimaryDataStructure poDataStructure, double prThreshold);
+    /**
+     * DOCUMENT - insert description
+     *
+     * @author noName
+     * @since 01.08.2018 11:21:55
+     *
+     * @param poDataType
+     * @param poPattern
+     * @param weight
+     * @return
+     */
+	public <E> ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntityWrite(eDataType poDataType, ArrayList<E> poPattern, double weight);
+
 }

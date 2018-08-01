@@ -123,6 +123,39 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		}
 		throw new NoSuchElementException("No return value defined"); 
 	}
+	//=== SEARCH METHODS ===//
+
+	//=== SEARCH ENTITIES ===//
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 25.02.2013 15:40:05
+	 * 
+	 * @see pa._v38.memorymgmt.itfSearchSpaceAccess#searchEntity(java.util.ArrayList)
+	 */
+	@Override
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntityWrite(ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternList, double weight) {
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		
+		for(clsPair<Integer, clsDataStructurePA> element:poSearchPatternList){
+			ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = searchSingleEntityWrite((int)element.a, element.b, weight);
+			moSearchResult.add(oSearchPatternMatch);
+		}
+		
+		if(moSearchResult.size() != poSearchPatternList.size()){
+			throw new NullPointerException("Missing search result: search pattern and search result not from the same size"); 
+		}
+		
+		try {
+			
+			return (ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>) this.cloneResult(moSearchResult);
+		
+		} catch (CloneNotSupportedException e) {
+			// TODO (zeilinger) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		throw new NoSuchElementException("No return value defined"); 
+	}
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -140,10 +173,41 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 //		System.out.println(moSearchSpaceHandler.toString());
 		
 		if(poDataStructureUnknown.getDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
-			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0, poDataStructureUnknown)); 
+			//oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0, poDataStructureUnknown));
+			oMatchedDataStructures = clsDataStructureComparisonTools.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());
 		}
 		else{
-			oMatchedDataStructures = clsDataStructureComparisonTools.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());; 
+			oMatchedDataStructures = clsDataStructureComparisonTools.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace()); 
+		}
+				
+		for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
+			clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, oPatternElement.b);	//Get container from a certain data value
+			oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
+		}
+		return oDataStructureContainerList;
+		
+	}
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 24.05.2010, 16:51:15
+	 *
+	 * @param next
+	 * @return 
+	 */
+	private ArrayList<clsPair<Double, clsDataStructureContainer>> searchSingleEntityWrite(int poReturnType, clsDataStructurePA poDataStructureUnknown, double weight) {
+			
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double,clsDataStructurePA>>();
+//		System.out.println(moSearchSpaceHandler.toString());
+		
+		if(poDataStructureUnknown.getDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
+			//oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0, poDataStructureUnknown));
+			oMatchedDataStructures = clsDataStructureComparisonTools.compareDataStructuresWrite(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace(), weight);
+		}
+		else{
+			// CREATE ASSOZIATION
 		}
 				
 		for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
