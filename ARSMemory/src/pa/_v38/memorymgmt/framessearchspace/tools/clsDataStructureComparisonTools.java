@@ -6,6 +6,11 @@
  */
 package pa._v38.memorymgmt.framessearchspace.tools;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -75,10 +80,10 @@ public abstract class clsDataStructureComparisonTools {
 		return getMatchingDataStructures(poSearchSpace, poDS_Unknown);
 	}
 	public static ArrayList<clsPair<Double,clsDataStructurePA>> compareDataStructuresWrite
-							(clsDataStructurePA poDS_Unknown, clsSearchSpaceBase poSearchSpace, double weight)
+							(clsDataStructurePA poDS_Unknown, clsSearchSpaceBase poSearchSpace, double weight, double learning)
 	{
 
-		return getMatchingDataStructuresWrite(poSearchSpace, poDS_Unknown, weight);
+		return getMatchingDataStructuresWrite(poSearchSpace, poDS_Unknown, weight, learning);
 	}
 		
 	/**
@@ -122,17 +127,17 @@ public abstract class clsDataStructureComparisonTools {
 	 */
 	private static ArrayList<clsPair<Double, clsDataStructurePA>> getMatchingDataStructuresWrite(
 													clsSearchSpaceBase poSearchSpace,
-													clsDataStructurePA poDS_Unknown, double weight) {
+													clsDataStructurePA poDS_Unknown, double weight, double learning) {
 		
 		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double,clsDataStructurePA>>(); 
 		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
 											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.getMoDataStructureType());
 		
 		if(oMap.containsKey(poDS_Unknown.getContentType().toString())){	//If the input content type already exists in the memory
-			oRetVal = getDataStructureByContentTypeWrite(oMap.get(poDS_Unknown.getContentType().toString()), poDS_Unknown, weight); 
+			oRetVal = getDataStructureByContentTypeWrite(oMap.get(poDS_Unknown.getContentType().toString()), poDS_Unknown, weight, learning); 
 		}
 		else{
-			oRetVal = getDataStructureByDataStructureTypeWrite(oMap, poDS_Unknown, weight); 
+			oRetVal = getDataStructureByDataStructureTypeWrite(oMap, poDS_Unknown, weight, learning); 
 		}
 		
 		return oRetVal; 
@@ -1167,7 +1172,7 @@ public abstract class clsDataStructureComparisonTools {
 	 */
 	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByContentTypeWrite(
 			HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> poMap,
-			clsDataStructurePA poDS_Unknown, double weight) {
+			clsDataStructurePA poDS_Unknown, double weight, double learning) {
 		
 			double rMatchScore = 0.0; 
 			ArrayList<clsPair<Double, clsDataStructurePA>> oDS_List = new ArrayList<clsPair<Double, clsDataStructurePA>>();
@@ -1183,6 +1188,30 @@ public abstract class clsDataStructureComparisonTools {
 					if(rMatchScore >= 1.0){
 						// set weight
 						((clsAssociation)oCompareElement).setMrWeight(weight);
+						((clsAssociation)oCompareElement).setMrLearning(learning);
+						try
+				        {
+							File f1 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT_Learning.pins");
+							File f2 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT.pins");
+				            FileReader fr = new FileReader(f2);
+				            BufferedReader br = new BufferedReader(fr);
+				            ArrayList<String> lines = new ArrayList<String>();
+				            String line = null;
+							while ((line = br.readLine()) != null)
+				            {
+				                if (line.contains("([AD%3ASATISFACTION%3ACAKE%3AEAT%3AHIGH]"))
+				                    line = line.replace("([AD%3ASATISFACTION%3ACAKE%3AEAT%3ALOW]", " ");
+				                lines.add(line);
+				            }
+				            FileWriter fw = new FileWriter(f1);
+				            BufferedWriter out = new BufferedWriter(fw);
+				            out.write(lines.toString());
+				        }
+				        catch (Exception ex)
+				        {
+				            ex.printStackTrace();
+				        }
+						
 					}
 				//}
 			}
@@ -1235,7 +1264,7 @@ public abstract class clsDataStructureComparisonTools {
 //	 */
 	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByDataStructureTypeWrite(
 			HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> poMap,
-			clsDataStructurePA poDataStructureUnknown, double weight) {
+			clsDataStructurePA poDataStructureUnknown, double weight, double learning) {
 
 		double rMatchScore = 0.0; 
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
@@ -1249,7 +1278,8 @@ public abstract class clsDataStructureComparisonTools {
 					
 					if(rMatchScore >= 1.0){
 						// set weight
-						oSearchSpaceElement.getMoDataStructureType();
+						((clsAssociation)oSearchSpaceElement).setMrWeight(weight);
+						((clsAssociation)oSearchSpaceElement).setMrLearning(learning);	
 					}
 				//}
 			}

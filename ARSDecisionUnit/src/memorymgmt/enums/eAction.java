@@ -68,6 +68,7 @@ public enum eAction {
 	DISAGREE,
 	
 	FOCUS_SEARCH1,
+	SHARE_FOOD,
 	
 	//Composed actions
 	SEARCH1,

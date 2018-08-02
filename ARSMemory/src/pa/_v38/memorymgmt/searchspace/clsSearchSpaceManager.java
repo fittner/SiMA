@@ -134,11 +134,11 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 	 * @see pa._v38.memorymgmt.itfSearchSpaceAccess#searchEntity(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntityWrite(ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternList, double weight) {
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntityWrite(ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternList, double weight, double learning) {
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
 		for(clsPair<Integer, clsDataStructurePA> element:poSearchPatternList){
-			ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = searchSingleEntityWrite((int)element.a, element.b, weight);
+			ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = searchSingleEntityWrite((int)element.a, element.b, weight, learning);
 			moSearchResult.add(oSearchPatternMatch);
 		}
 		
@@ -196,7 +196,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 	 * @param next
 	 * @return 
 	 */
-	private ArrayList<clsPair<Double, clsDataStructureContainer>> searchSingleEntityWrite(int poReturnType, clsDataStructurePA poDataStructureUnknown, double weight) {
+	private ArrayList<clsPair<Double, clsDataStructureContainer>> searchSingleEntityWrite(int poReturnType, clsDataStructurePA poDataStructureUnknown, double weight, double learning) {
 			
 		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
 		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double,clsDataStructurePA>>();
@@ -204,7 +204,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		
 		if(poDataStructureUnknown.getDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
 			//oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0, poDataStructureUnknown));
-			oMatchedDataStructures = clsDataStructureComparisonTools.compareDataStructuresWrite(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace(), weight);
+			oMatchedDataStructures = clsDataStructureComparisonTools.compareDataStructuresWrite(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace(), weight, learning);
 		}
 		else{
 			// CREATE ASSOZIATION

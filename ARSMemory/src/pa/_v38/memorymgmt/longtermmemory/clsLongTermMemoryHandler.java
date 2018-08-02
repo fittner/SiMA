@@ -89,11 +89,11 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#search(pa._v38.memorymgmt.enums.eDataType, java.util.ArrayList, java.util.ArrayList)
 	 */
 	@Override
-	public <E> ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntityWrite(eDataType poDataType, ArrayList<E> poPattern, double weight) {
+	public <E> ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntityWrite(eDataType poDataType, ArrayList<E> poPattern, double weight, double learning) {
 		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
 
 		createSearchPattern(poDataType, poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
-		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult = moSearchSpaceMethods.searchEntityWrite(oSearchPattern,weight);
+		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult = moSearchSpaceMethods.searchEntityWrite(oSearchPattern,weight,learning);
 		
 		return poSearchResult;
 		//accessKnowledgeBase(poSearchResult, oSearchPattern); 

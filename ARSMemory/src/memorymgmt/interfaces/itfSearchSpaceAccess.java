@@ -40,7 +40,7 @@ public interface itfSearchSpaceAccess {
 	 * @param poSearchPatternList
 	 * @return
 	 */
-	public ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> searchEntityWrite(ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternList, double weight);
+	public ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> searchEntityWrite(ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternList, double weight, double learning);
 	/**
 	 * DOCUMENT - insert description
 	 *

@@ -125,6 +125,6 @@ public interface itfModuleMemoryAccess {
      * @param weight
      * @return
      */
-	public <E> ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntityWrite(eDataType poDataType, ArrayList<E> poPattern, double weight);
+	public <E> ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntityWrite(eDataType poDataType, ArrayList<E> poPattern, double weight, double learning);
 
 }
