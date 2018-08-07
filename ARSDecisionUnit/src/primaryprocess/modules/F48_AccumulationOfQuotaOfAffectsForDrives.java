@@ -346,8 +346,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		for(int i=0;;)
 		{
-		    if(  (moDriveCanditates_OUT.get(i).getQuotaOfAffect() < 0.02)
-		      || (moDriveCanditates_OUT.get(i).getPleasureSumMax() < 0.02)
+		    if(  (moDriveCanditates_OUT.get(i).getQuotaOfAffect() < 0.002)
+		      || (moDriveCanditates_OUT.get(i).getPleasureSumMax() < 0.002)
 		      )
 		    {
 		        moDriveCanditates_OUT.remove(i);

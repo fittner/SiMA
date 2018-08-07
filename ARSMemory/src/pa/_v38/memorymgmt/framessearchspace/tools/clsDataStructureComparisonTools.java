@@ -6,11 +6,16 @@
  */
 package pa._v38.memorymgmt.framessearchspace.tools;
 
+import java.awt.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,6 +33,7 @@ import base.datatypes.clsAssociationTime;
 import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsDriveMesh;
 import base.datatypes.clsPhysicalRepresentation;
 import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsPrimaryDataStructureContainer;
@@ -132,9 +138,26 @@ public abstract class clsDataStructureComparisonTools {
 		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double,clsDataStructurePA>>(); 
 		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
 											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.getMoDataStructureType());
-		
+		String marker;
+		//EAT
+		marker = "([AD%3A";
+		//marker += poDS_Unknown.getContentType().toString();
+		//marker += "%3A";
+		//SATISFACTION
+		marker += ((clsThingPresentationMesh)(((clsAssociation)poDS_Unknown).getAssociationElementB())).getContentType();
+		marker += "%3A";
+		//CAKE
+		marker += ((clsDriveMesh)(((clsAssociation)poDS_Unknown).getAssociationElementA())).getActualDriveObject().getContent();
+		marker += "%3A";
+		//EAT
+		marker += ((clsDriveMesh)(((clsAssociation)poDS_Unknown).getAssociationElementA())).getActualDriveAim().getContent();
+		marker += "%3A";
+		//HIGH,MID,LOW
+		marker += ((clsThingPresentationMesh)(((clsAssociation)poDS_Unknown).getAssociationElementB())).getContent();
+		marker += "]";
+		//marker ="([AD%3ASATISFACTION%3ACAKE%3AEAT%3AHIGH]";
 		if(oMap.containsKey(poDS_Unknown.getContentType().toString())){	//If the input content type already exists in the memory
-			oRetVal = getDataStructureByContentTypeWrite(oMap.get(poDS_Unknown.getContentType().toString()), poDS_Unknown, weight, learning); 
+			oRetVal = getDataStructureByContentTypeWrite(oMap.get(poDS_Unknown.getContentType().toString()), poDS_Unknown, weight, learning, marker); 
 		}
 		else{
 			oRetVal = getDataStructureByDataStructureTypeWrite(oMap, poDS_Unknown, weight, learning); 
@@ -1172,7 +1195,7 @@ public abstract class clsDataStructureComparisonTools {
 	 */
 	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByContentTypeWrite(
 			HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> poMap,
-			clsDataStructurePA poDS_Unknown, double weight, double learning) {
+			clsDataStructurePA poDS_Unknown, double weight, double learning, String marker) {
 		
 			double rMatchScore = 0.0; 
 			ArrayList<clsPair<Double, clsDataStructurePA>> oDS_List = new ArrayList<clsPair<Double, clsDataStructurePA>>();
@@ -1189,28 +1212,51 @@ public abstract class clsDataStructureComparisonTools {
 						// set weight
 						((clsAssociation)oCompareElement).setMrWeight(weight);
 						((clsAssociation)oCompareElement).setMrLearning(learning);
+						ArrayList<String> lines = new ArrayList<String>();
+						String line = null;
+						boolean found = false;
+						DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance();
+						dfs.setDecimalSeparator('.');
+						DecimalFormat f = new DecimalFormat("#0.00", dfs);
 						try
 				        {
+							LocalDateTime now = LocalDateTime.now();
+					        DateTimeFormatter df;
+					        df = DateTimeFormatter.ofPattern("_yyyyMMdd");     // 31.01.2016 20:07
+					        String date = now.format(df);
+							
 							File f1 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT_Learning.pins");
-							File f2 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT.pins");
-				            FileReader fr = new FileReader(f2);
-				            BufferedReader br = new BufferedReader(fr);
-				            ArrayList<String> lines = new ArrayList<String>();
-				            String line = null;
-							while ((line = br.readLine()) != null)
-				            {
-				                if (line.contains("([AD%3ASATISFACTION%3ACAKE%3AEAT%3AHIGH]"))
-				                    line = line.replace("([AD%3ASATISFACTION%3ACAKE%3AEAT%3ALOW]", " ");
-				                lines.add(line);
-				            }
-				            FileWriter fw = new FileWriter(f1);
-				            BufferedWriter out = new BufferedWriter(fw);
-				            out.write(lines.toString());
+							//File f2 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT.pins");
+							FileReader fr = new FileReader(f1);
+					        BufferedReader br = new BufferedReader(fr);
+					        while ((line = br.readLine()) != null) {
+					            if (line.contains(marker))
+					            {
+					            	found=true;
+					            }
+					            if (found)
+					            {
+					            	if (line.contains("(weight"))
+					            	{
+					            		line = line.replaceFirst("[(]weight [0-9]*.[0-9]*", "(weight "+f.format(weight));
+						            	found = false;
+					            	}
+					            }
+					            lines.add(line+"\n");
+					        }
+					        fr.close();
+					        br.close();
+
+					        FileWriter fw = new FileWriter(f1);
+					        BufferedWriter out = new BufferedWriter(fw);
+					        for(String s : lines)
+					             out.write(s);
+					        out.flush();
+					        out.close();
 				        }
-				        catch (Exception ex)
-				        {
-				            ex.printStackTrace();
-				        }
+					   catch (Exception ex) {
+					        ex.printStackTrace();
+					    }
 						
 					}
 				//}

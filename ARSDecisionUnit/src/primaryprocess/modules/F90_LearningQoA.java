@@ -207,12 +207,13 @@ public class F90_LearningQoA extends clsModuleBaseKB {
                                       }
                                   }
                                   
-                                  if(  (mrSatisfactionWeight_low == 0)
-                                    && (mrSatisfactionWeight_mid == 0)
-                                    && (mrSatisfactionWeight_high == 0)
+                                  if(  (  (mrSatisfactionWeight_low == 0)
+                                       && (mrSatisfactionWeight_mid == 0)
+                                       && (mrSatisfactionWeight_high == 0)
+                                       )
+                                    || (oLearningStorageDM.getExpPleasureMaxRise() > 0)
                                     )
                                   {
-                                  
                                       if(oLearningStorageDM.getExpPleasureMax()<0.1)
                                       {
                                           mrSatisfactionWeight_low  = (oLearningStorageDM.getExpPleasureMax() - 0.0)/0.1;

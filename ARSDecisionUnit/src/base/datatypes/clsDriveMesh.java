@@ -55,7 +55,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     private double mrExpectedSatisfactionWeight_no = 0.0;               //0-1
 	private double mrActPleasure = 0.0;               //0-1
 	private double mrExpPleasure = 0.0;
-	private double mrExpPleasureMax = 0.0;
+    private double mrExpPleasureMax = 0.0;
+    private double mrExpPleasureMaxRise = 0.0;
 	private double mrPleasureSumMax = 0.0;               //0-1
     private int    mdLearningCnt = 0;               //0-1
     private double mrPsychicSatisfactionValue = 0.0;
@@ -774,6 +775,22 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      */
     public void setExpPleasureMax(double mrExpPleasure) {
         this.mrExpPleasureMax = mrExpPleasure;
+    }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @return the mrQuotaOfAffect
+     */
+    public double getExpPleasureMaxRise() {
+        return this.mrExpPleasureMax;
+    }
+    /**
+     * @since 11.07.2012 14:10:00
+     * 
+     * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+     */
+    public void setExpPleasureMaxRise(double mrExpPleasureRise) {
+        this.mrExpPleasureMaxRise = mrExpPleasureRise;
     }
     
     public void setExpectedSatisfactionWeights() {

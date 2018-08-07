@@ -124,6 +124,8 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 						}
 						oNewDMEntry.setActPleasure(tmpCalc);
 						
+						oOldDMEntry.getActPleasure();
+						
                         double expPleasure = oNewDMEntry.getActPleasure();
                         double pleasure = oNewDMEntry.getActPleasure();
                         double dec = 0.105541;
@@ -137,6 +139,14 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
                         
                         if(oNewDMEntry.getExpPleasureMax() < oNewDMEntry.getExpPleasure())
                         {
+                            if (oNewDMEntry.getExpPleasureMax() > 0)
+                            {
+                                oNewDMEntry.setExpPleasureMaxRise(oNewDMEntry.getExpPleasure()-oNewDMEntry.getExpPleasureMax());
+                            }
+                            else
+                            {
+                                oNewDMEntry.setExpPleasureMaxRise(0);
+                            }
                             oNewDMEntry.setExpPleasureMax(oNewDMEntry.getExpPleasure());
                         }
 
