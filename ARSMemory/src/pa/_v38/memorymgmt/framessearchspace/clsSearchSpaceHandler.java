@@ -173,7 +173,7 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 		ArrayList <clsAssociation> oList = moSearchSpace
 		                                        .returnSearchSpaceTable()
 		                                        	.get(poDataStructure.getMoDataStructureType())
-		                                              .get(poDataStructure.getContentType().toString())
+		                                              .get(poDataStructure.getContentType())
 		                                              	.get(poDataStructure.getDS_ID()).b;
 		
 		for(clsAssociation oAssociationElement : oList){

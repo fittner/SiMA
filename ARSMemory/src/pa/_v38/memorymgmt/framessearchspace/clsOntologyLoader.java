@@ -17,6 +17,10 @@ import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
 import memorymgmt.enums.ePredicate;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.interfaces.itfOntology;
+import memorymgmt.interfaces.itfOntologyMgm;
+import memorymgmt.interfaces.itfSearchSpaceAccess;
 
 import org.slf4j.Logger;
 
@@ -32,6 +36,7 @@ import base.datatypes.clsAssociationSecondary;
 import base.datatypes.clsAssociationSpatial;
 import base.datatypes.clsAssociationTime;
 import base.datatypes.clsAssociationWordPresentation;
+import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDomain;
 import base.datatypes.clsDriveMesh;
@@ -64,9 +69,9 @@ import edu.stanford.smi.protege.util.MessageError.Severity;
  * @author zeilinger 31.05.2010, 08:21:13
  * 
  */
-public class clsOntologyLoader {
+public class clsOntologyLoader implements itfModuleMemoryAccess {
 	static int mrMaxStackDepth = 1000;
-	static int DS_ID = 0;
+	public static int DS_ID = 0;
 	
 	private static final Logger log = clsLogger.getLog("memory");
 
@@ -85,6 +90,11 @@ public class clsOntologyLoader {
 		} else {
 			log.warn("The search space will be set manually");
 		}
+	}
+	
+	public int getID()
+	{
+		return DS_ID++;
 	}
 
 	/**
@@ -159,7 +169,7 @@ public class clsOntologyLoader {
 				eDataType.ASSOCIATIONSEC,
 				eDataType.ASSOCIATIONEMOTION,
 				eDataType.ASSOCIATIONFEELING, 
-				eDataType.AFFECT, 
+				eDataType.SATISFACTION, 
 				eDataType.DM,
 				eDataType.TP, 
 				eDataType.TPM, 
@@ -1587,5 +1597,61 @@ public class clsOntologyLoader {
 
 		throw new NoSuchFieldError(" there is no slot with the name "
 				+ poSlotName + " found ");
+	}
+
+	@Override
+	public <E> ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntity(eDataType poDataType,
+			ArrayList<E> poPattern) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void writeQoA(clsDriveMesh DM) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public clsThingPresentationMesh searchExactEntityFromInternalAttributes(String poContent, String poShape,
+			String poColor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<clsPair<Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern,
+			eContentType poSearchContentType, double prThreshold, int pnLevel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public clsDataStructurePA searchCompleteMesh(clsDataStructurePA poInput, int pnLevel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput,
+			ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn, int maxNumberOfDirectActivations,
+			boolean useDirectActivation, double recognizedImageMultiplyFactor,
+			ArrayList<clsThingPresentationMesh> preferredImages) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public clsAssociationWordPresentation getSecondaryDataStructure(clsPrimaryDataStructure poDataStructure,
+			double prThreshold) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <E> ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntityWrite(eDataType poDataType,
+			ArrayList<E> poPattern, double weight, double learning) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

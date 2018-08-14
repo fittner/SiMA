@@ -127,4 +127,5 @@ public interface itfModuleMemoryAccess {
      */
 	public <E> ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntityWrite(eDataType poDataType, ArrayList<E> poPattern, double weight, double learning);
 
+	public int getID();
 }

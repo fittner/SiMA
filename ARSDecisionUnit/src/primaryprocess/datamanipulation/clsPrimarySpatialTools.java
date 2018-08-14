@@ -273,7 +273,7 @@ public class clsPrimarySpatialTools {
 
 	private static boolean isAlive(clsThingPresentationMesh poTPM)  {
 	    for(clsAssociation oIntAss : poTPM.getInternalAssociatedContent()) { 
-	        if(oIntAss.getAssociationElementB().getContentType().toString().equals("Alive")) {
+	        if(oIntAss.getAssociationElementB().getContentType().equals(eContentType.Alive)) {
 	                clsThingPresentation associatedProperty = (clsThingPresentation)oIntAss.getAssociationElementB();
 	                return Boolean.parseBoolean(associatedProperty.getContent().toString());          
 	          }

@@ -32,6 +32,7 @@ import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.tools.clsDebugTools;
+import pa._v38.memorymgmt.framessearchspace.clsOntologyLoader;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadingActivation;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadingActivationInterface;
 import secondaryprocess.datamanipulation.clsMeshTools;
@@ -320,6 +321,14 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	@Override
 	public ArrayList<clsPair<Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel) {
 		return this.moSearchSpaceMethods.searchMesh(poPattern, poSearchContentType, prThreshold, pnLevel);
+	}
+
+
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return clsOntologyLoader.DS_ID++;
 	}
 
 

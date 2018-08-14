@@ -10,18 +10,21 @@ package primaryprocess.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import modules.interfaces.eInterfaces;
+import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsShortTermMemoryMF;
+import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
@@ -155,8 +158,6 @@ public class F90_LearningQoA extends clsModuleBaseKB {
                       oLearningStorageDM = oLearningDM;
                       moLearningStorage_DM.add(oLearningDM);
                   }
-
-                  clsDriveMesh oLongTermMemoryDM = null;
                   
                   ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
                   new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
@@ -166,6 +167,11 @@ public class F90_LearningQoA extends clsModuleBaseKB {
                   
                   // search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
                   oSearchResult = this.getLongTermMemory().searchEntity(eDataType.DM, poSearchPattern);
+                  
+                  boolean found = false;
+                  clsDriveMesh oLongTermMemoryDM = null;
+                  clsDriveMesh oLongTermMemoryDM_Found = null;
+                  
                   if(oLearningStorageDM.getActPleasure() > 0)
                   {
                       for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
@@ -185,109 +191,163 @@ public class F90_LearningQoA extends clsModuleBaseKB {
                                       && oLearningStorageDM.getActualDriveObject().isEquivalentDataStructure(oLongTermMemoryDM.getActualDriveObject())
                                      )
                               {
-                                  double mrSatisfactionWeight_low = 0;
-                                  double mrSatisfactionWeight_mid = 0;
-                                  double mrSatisfactionWeight_high = 0;
-                                  
-                                  for (clsAssociation oAssToImage : oLongTermMemoryDM.getInternalAssociatedContent()) {
-                                      if(oAssToImage.getAssociationElementB().getContentType().toString().equals("SATISFACTION"))
-                                      {
-                                          if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("HIGH"))
-                                          {
-                                              mrSatisfactionWeight_high = oAssToImage.getMrLearning();
-                                          }
-                                          if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("MID"))
-                                          {
-                                              mrSatisfactionWeight_mid  = oAssToImage.getMrLearning();
-                                          }
-                                          if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("LOW"))
-                                          {
-                                              mrSatisfactionWeight_low = oAssToImage.getMrLearning();
-                                          }
-                                      }
-                                  }
-                                  
-                                  if(  (  (mrSatisfactionWeight_low == 0)
-                                       && (mrSatisfactionWeight_mid == 0)
-                                       && (mrSatisfactionWeight_high == 0)
-                                       )
-                                    || (oLearningStorageDM.getExpPleasureMaxRise() > 0)
-                                    )
+                                  found = true;
+                                  oLongTermMemoryDM_Found = oLongTermMemoryDM;                                  
+                              }
+                          }
+                      }
+                      // End Check for LTM Elements
+                      if(found)
+                      {
+                          oLongTermMemoryDM = oLongTermMemoryDM_Found;
+                          
+                          double mrSatisfactionWeight_low = 0;
+                          double mrSatisfactionWeight_mid = 0;
+                          double mrSatisfactionWeight_high = 0;
+                          boolean found_high=false;
+                          boolean found_mid=false;
+                          boolean found_low=false;
+                          
+                          
+                          for (clsAssociation oAssToImage : oLongTermMemoryDM.getInternalAssociatedContent()) {
+                              if(oAssToImage.getAssociationElementB().getContentType().toString().equals("SATISFACTION"))
+                              {
+                                  if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("HIGH"))
                                   {
-                                      if(oLearningStorageDM.getExpPleasureMax()<0.1)
-                                      {
-                                          mrSatisfactionWeight_low  = (oLearningStorageDM.getExpPleasureMax() - 0.0)/0.1;
-                                          mrSatisfactionWeight_mid  = 0;
-                                          mrSatisfactionWeight_high = 0;
-                                      }
-                                      else if(oLearningStorageDM.getExpPleasureMax()<0.2)
-                                      {
-                                          mrSatisfactionWeight_low  = (0.2 - oLearningStorageDM.getExpPleasureMax())/0.1;
-                                          mrSatisfactionWeight_mid  = (oLearningStorageDM.getExpPleasureMax() - 0.1)/0.1;
-                                          mrSatisfactionWeight_high = 0;
-                                      }
-                                      else if(oLearningStorageDM.getExpPleasureMax()<0.3)
-                                      {
-                                          mrSatisfactionWeight_low  = 0;
-                                          mrSatisfactionWeight_mid  = (0.3 - oLearningStorageDM.getExpPleasureMax())/0.1;
-                                          mrSatisfactionWeight_high = (oLearningStorageDM.getExpPleasureMax() - 0.2)/0.1;   
-                                      }
-                                      else
-                                      {
-                                          mrSatisfactionWeight_low  = 0;
-                                          mrSatisfactionWeight_mid  = 0;
-                                          mrSatisfactionWeight_high = 1;  
-                                      }
-                                      //Set Learning Value
-                                      for (clsAssociation oAssToImage : oLongTermMemoryDM.getInternalAssociatedContent()) {
-                                          if(oAssToImage.getAssociationElementB().getContentType().toString().equals("SATISFACTION"))
-                                          {
-                                              if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("HIGH"))
-                                              {
-                                                  oAssToImage.setMrLearning(mrSatisfactionWeight_high);
-                                              }
-                                              if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("MID"))
-                                              {
-                                                  oAssToImage.setMrLearning(mrSatisfactionWeight_mid);
-                                              }
-                                              if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("LOW"))
-                                              {
-                                                  oAssToImage.setMrLearning(mrSatisfactionWeight_low);
-                                              }
-                                          }
-                                      }
+                                      mrSatisfactionWeight_high = oAssToImage.getMrLearning();
+                                      found_high=true;
                                   }
-                                  
-                                  for (clsAssociation oAssToImage : oLongTermMemoryDM.getInternalAssociatedContent()) {
-                                      if(oAssToImage.getAssociationElementB().getContentType().toString().equals("SATISFACTION"))
+                                  if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("MID"))
+                                  {
+                                      mrSatisfactionWeight_mid  = oAssToImage.getMrLearning();
+                                      found_mid=true;
+                                  }
+                                  if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("LOW"))
+                                  {
+                                      mrSatisfactionWeight_low = oAssToImage.getMrLearning();
+                                      found_low=true;
+                                  }
+                              }
+                          }
+                          if(  !found_high
+                            || !found_mid
+                            || !found_low
+                            )
+                          {
+                              // set weight
+                              ArrayList<clsThingPresentationMesh> TPM_array = new ArrayList<clsThingPresentationMesh>();
+                              clsAssociation oNewAssoziation = null;
+                              ArrayList<clsAssociation> poAssociatedDataStructures = new ArrayList<clsAssociation>();
+                              if(!found_high)
+                              {
+                                  TPM_array.add((clsThingPresentationMesh)clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.SATISFACTION, new ArrayList<clsThingPresentation>(),  "HIGH" )));
+                              }
+                              if(!found_mid)
+                              { 
+                                  TPM_array.add((clsThingPresentationMesh)clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.SATISFACTION, new ArrayList<clsThingPresentation>(),  "MID" )));
+                              }
+                              if(!found_low)
+                              {
+                                  TPM_array.add((clsThingPresentationMesh)clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.SATISFACTION, new ArrayList<clsThingPresentation>(),  "LOW" )));
+                              }
+                              for(clsThingPresentationMesh TPM:TPM_array)
+                              {
+                              try{
+                                  int ID = this.getLongTermMemory().getID();
+                                  oNewAssoziation = CreateAssoziation(oLongTermMemoryDM,TPM,0.0,ID);
+                              }
+                              catch (Exception ex) {
+//                                ex.printStackTrace();
+                              }
+                              poAssociatedDataStructures.add(oNewAssoziation);
+                              oLongTermMemoryDM.addInternalAssociations(poAssociatedDataStructures);
+                              }
+                              
+                          }
+                          
+                          if(  (  (mrSatisfactionWeight_low == 0)
+                               && (mrSatisfactionWeight_mid == 0)
+                               && (mrSatisfactionWeight_high == 0)
+                               )
+                            || (oLearningStorageDM.getExpPleasureMaxRise() > 0)
+                            )
+                          {
+                              if(oLearningStorageDM.getExpPleasureMax()<0.1)
+                              {
+                                  mrSatisfactionWeight_low  = (oLearningStorageDM.getExpPleasureMax() - 0.0)/0.1;
+                                  mrSatisfactionWeight_mid  = 0;
+                                  mrSatisfactionWeight_high = 0;
+                              }
+                              else if(oLearningStorageDM.getExpPleasureMax()<0.2)
+                              {
+                                  mrSatisfactionWeight_low  = (0.2 - oLearningStorageDM.getExpPleasureMax())/0.1;
+                                  mrSatisfactionWeight_mid  = (oLearningStorageDM.getExpPleasureMax() - 0.1)/0.1;
+                                  mrSatisfactionWeight_high = 0;
+                              }
+                              else if(oLearningStorageDM.getExpPleasureMax()<0.3)
+                              {
+                                  mrSatisfactionWeight_low  = 0;
+                                  mrSatisfactionWeight_mid  = (0.3 - oLearningStorageDM.getExpPleasureMax())/0.1;
+                                  mrSatisfactionWeight_high = (oLearningStorageDM.getExpPleasureMax() - 0.2)/0.1;   
+                              }
+                              else
+                              {
+                                  mrSatisfactionWeight_low  = 0;
+                                  mrSatisfactionWeight_mid  = 0;
+                                  mrSatisfactionWeight_high = 1;  
+                              }
+                              //Set Learning Value
+                              for (clsAssociation oAssToImage : oLongTermMemoryDM.getInternalAssociatedContent()) {
+                                  if(oAssToImage.getAssociationElementB().getContentType().toString().equals("SATISFACTION"))
+                                  {
+                                      if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("HIGH"))
                                       {
-                                          double learning;
-                                          // 0,03 und 0,045 bleiben übrig --> bessere Transferformel
-                                          //learning = oAssToImage.getMrLearning()*oLearningStorageDM.getQuotaOfAffect()*oLearningStorageDM.getActPleasure()*100;
-                                          learning = oAssToImage.getMrLearning()*oLearningStorageDM.getQuotaOfAffect();
-                                          if(learning<0)
-                                          {
-                                              learning = learning * 0.01;
-                                          }
-                                          double diff;
-                                          diff = oAssToImage.getMrLearning()-learning;
-                                          if(diff>0)
-                                          {
-                                              oAssToImage.setMrLearning(diff);
-                                              oAssToImage.setMrWeight(oAssToImage.getMrWeight() + learning);
-                                          }
-                                          else
-                                          {
-                                              oAssToImage.setMrWeight(oAssToImage.getMrLearning()+oAssToImage.getMrWeight());
-                                              oAssToImage.setMrLearning(0);
-                                          }
-                                          ArrayList<clsAssociation> poSearchPatternAss = new ArrayList<clsAssociation>();
-                                          poSearchPatternAss.add(oAssToImage);
-                                          this.getLongTermMemory().searchEntityWrite(eDataType.ASSOCIATIONDM, poSearchPatternAss, oAssToImage.getMrWeight(), oAssToImage.getMrLearning());
+                                          oAssToImage.setMrLearning(mrSatisfactionWeight_high);
+                                      }
+                                      if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("MID"))
+                                      {
+                                          oAssToImage.setMrLearning(mrSatisfactionWeight_mid);
+                                      }
+                                      if(((clsThingPresentationMesh)(oAssToImage.getAssociationElementB())).getContent().toString().equals("LOW"))
+                                      {
+                                          oAssToImage.setMrLearning(mrSatisfactionWeight_low);
                                       }
                                   }
                               }
                           }
+                          
+                          for (clsAssociation oAssToImage : oLongTermMemoryDM.getInternalAssociatedContent()) {
+                              if(oAssToImage.getAssociationElementB().getContentType().toString().equals("SATISFACTION"))
+                              {
+                                  double learning;
+                                  // 0,03 und 0,045 bleiben übrig --> bessere Transferformel
+                                  //learning = oAssToImage.getMrLearning()*oLearningStorageDM.getQuotaOfAffect()*oLearningStorageDM.getActPleasure()*100;
+                                  learning = oAssToImage.getMrLearning()*oLearningStorageDM.getQuotaOfAffect();
+                                  if(learning<0)
+                                  {
+                                      learning = learning * 0.01;
+                                  }
+                                  double diff;
+                                  diff = oAssToImage.getMrLearning()-learning;
+                                  if(diff>0)
+                                  {
+                                      oAssToImage.setMrLearning(diff);
+                                      oAssToImage.setMrWeight(oAssToImage.getMrWeight() + learning);
+                                  }
+                                  else
+                                  {
+                                      oAssToImage.setMrWeight(oAssToImage.getMrLearning()+oAssToImage.getMrWeight());
+                                      oAssToImage.setMrLearning(0);
+                                  }
+                                  ArrayList<clsAssociation> poSearchPatternAss = new ArrayList<clsAssociation>();
+                                  poSearchPatternAss.add(oAssToImage);
+                                  this.getLongTermMemory().searchEntityWrite(eDataType.ASSOCIATIONDM, poSearchPatternAss, oAssToImage.getMrWeight(), oAssToImage.getMrLearning());
+                              }
+                          }
+                      }
+                      else // Not found in LTM
+                      {
+                          oLongTermMemoryDM = null;
                       }
                   }
                   else
@@ -298,6 +358,24 @@ public class F90_LearningQoA extends clsModuleBaseKB {
             }
         }
 	}
+	
+    /**
+     * Creates a DM out of the entry, and adds necessary information, source, etc
+     * @throws Exception 
+     *
+     * @since 16.07.2012 15:20:26
+     *
+     */
+    private clsAssociation CreateAssoziation(clsDriveMesh poDM, clsThingPresentationMesh poTPM, double prWeight, int ID) throws Exception {
+        
+        clsAssociation oDriveAssociationCandidate  = null;
+
+        //create the DM
+        oDriveAssociationCandidate = (clsAssociation)clsDataStructureGenerator.generateASSOCIATIONDM(poDM, poTPM, prWeight,ID);
+        oDriveAssociationCandidate.setMrLearning(0.0);
+
+        return oDriveAssociationCandidate;
+    }
 
 
 	

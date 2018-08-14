@@ -108,11 +108,11 @@ public abstract class clsDataStructureComparisonTools {
 													clsDataStructurePA poDS_Unknown) {
 		
 		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double,clsDataStructurePA>>(); 
-		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
+		HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oMap 
 											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.getMoDataStructureType());
 		
-		if(oMap.containsKey(poDS_Unknown.getContentType().toString())){	//If the input content type already exists in the memory
-			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.getContentType().toString()), poDS_Unknown); 
+		if(oMap.containsKey(poDS_Unknown.getContentType())){	//If the input content type already exists in the memory
+			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.getContentType()), poDS_Unknown); 
 		}
 		else{
 			oRetVal = getDataStructureByDataStructureType(oMap, poDS_Unknown); 
@@ -136,9 +136,11 @@ public abstract class clsDataStructureComparisonTools {
 													clsDataStructurePA poDS_Unknown, double weight, double learning) {
 		
 		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double,clsDataStructurePA>>(); 
-		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
+		HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
 											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.getMoDataStructureType());
 		String marker;
+		String markerDM;
+		String markerTPM;
 		//EAT
 		marker = "([AD%3A";
 		//marker += poDS_Unknown.getContentType().toString();
@@ -155,14 +157,37 @@ public abstract class clsDataStructureComparisonTools {
 		//HIGH,MID,LOW
 		marker += ((clsThingPresentationMesh)(((clsAssociation)poDS_Unknown).getAssociationElementB())).getContent();
 		marker += "]";
+		
+		markerDM = "[DM%3A";
+		//EAT
+		markerDM += ((clsDriveMesh)(((clsAssociation)poDS_Unknown).getAssociationElementA())).getActualDriveAim().getContent();
+		markerDM += "%3A";
+		//CAKE
+		markerDM += ((clsDriveMesh)(((clsAssociation)poDS_Unknown).getAssociationElementA())).getActualDriveObject().getContent();
+		markerDM += "%3A";
+		markerDM += "]";
+		
+		markerTPM = "[TPM%3A";
+		//marker += poDS_Unknown.getContentType().toString();
+		//marker += "%3A";
+		//SATISFACTION
+		markerTPM += ((clsThingPresentationMesh)(((clsAssociation)poDS_Unknown).getAssociationElementB())).getContentType();
+		markerTPM += "%3A";
+		//HIGH,MID,LOW
+		markerTPM += ((clsThingPresentationMesh)(((clsAssociation)poDS_Unknown).getAssociationElementB())).getContent();
+		markerTPM += "])";
+		
+		HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap2 
+		= poSearchSpace.returnSearchSpaceTable().get(((clsAssociation)poDS_Unknown).getAssociationElementA().getMoDataStructureType());
+		
 		//marker ="([AD%3ASATISFACTION%3ACAKE%3AEAT%3AHIGH]";
-		if(oMap.containsKey(poDS_Unknown.getContentType().toString())){	//If the input content type already exists in the memory
-			oRetVal = getDataStructureByContentTypeWrite(oMap.get(poDS_Unknown.getContentType().toString()), poDS_Unknown, weight, learning, marker); 
+		if(oMap.containsKey(poDS_Unknown.getContentType())){	//If the input content type already exists in the memory
+			oRetVal = getDataStructureByContentTypeWrite(oMap.get(poDS_Unknown.getContentType()),oMap2.get(((clsDriveMesh)(((clsAssociation)poDS_Unknown).getAssociationElementA())).getContentType().toString()),((clsAssociation)poDS_Unknown).getAssociationElementA(), poDS_Unknown, weight, learning, marker, markerDM,markerTPM); 
 		}
 		else{
 			oRetVal = getDataStructureByDataStructureTypeWrite(oMap, poDS_Unknown, weight, learning); 
-		}
-		
+		}		
+
 		return oRetVal; 
 	}
 	
@@ -240,11 +265,11 @@ public abstract class clsDataStructureComparisonTools {
 		//Get searchspace
 		clsSearchSpaceBase poSearchSpace = poSearchSpaceHandler.returnSearchSpace();
 		//Get all objects of a certain type
-		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oMap 
+		HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oMap 
 											= poSearchSpace.returnSearchSpaceTable().get(poDSUnknown.getMoDataStructureType());	//Nehme nur nach Typ Image oder TI
 		
 		//Get Searchspace for a certain datatype
-		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poDSUnknown.getContentType().toString());
+		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poDSUnknown.getContentType());
 		
 		if(oMapWithType == null) {
 			log.error("Could not get searchspace for content type " + poDSUnknown.getContentType().toString());
@@ -1194,11 +1219,14 @@ public abstract class clsDataStructureComparisonTools {
 	 * @return
 	 */
 	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByContentTypeWrite(
-			HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> poMap,
-			clsDataStructurePA poDS_Unknown, double weight, double learning, String marker) {
+			HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> poMap,HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> poMap2,
+			clsDataStructurePA TPM,
+			clsDataStructurePA poDS_Unknown, double weight, double learning, String marker, String markerDM, String markerTPM) {
 		
 			double rMatchScore = 0.0; 
 			ArrayList<clsPair<Double, clsDataStructurePA>> oDS_List = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+			
+			boolean newElement = true;
 			
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poMap.entrySet()){
 				clsDataStructurePA oCompareElement = oEntry.getValue().a; 
@@ -1240,6 +1268,7 @@ public abstract class clsDataStructureComparisonTools {
 					            	{
 					            		line = line.replaceFirst("[(]weight [0-9]*.[0-9]*", "(weight "+f.format(weight));
 						            	found = false;
+						            	newElement = false;
 					            	}
 					            }
 					            lines.add(line+"\n");
@@ -1257,14 +1286,117 @@ public abstract class clsDataStructureComparisonTools {
 					   catch (Exception ex) {
 					        ex.printStackTrace();
 					    }
-						
 					}
-				//}
 			}
+			if(newElement)
+			{
+				ArrayList<clsAssociation> Ass = new ArrayList<clsAssociation>();
+				poMap.put(poDS_Unknown.getDS_ID(),new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDS_Unknown,Ass));
+				
+				for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poMap2.entrySet())
+				{
+					clsDataStructurePA oCompareElement = oEntry.getValue().a; 
+					//A comparison will only take place, if the search data structure instanceID is 0, in order to compare the unknown structures with a type
+					//if (oCompareElement.getMoDSInstance_ID()==0) {
+					
+						
+						rMatchScore = oCompareElement.compareTo(TPM);
+						ArrayList<clsAssociation> poInternalAssociatedContent = new ArrayList<clsAssociation> ();
+						poInternalAssociatedContent.add((clsAssociation) poDS_Unknown);
+						if(rMatchScore >= 1.0){
+							// set Assoziation
+							oEntry.getValue().b.add((clsAssociation) poDS_Unknown);
+							((clsDriveMesh)oEntry.getValue().a).addInternalAssociations(poInternalAssociatedContent);;
+						}
+				}
+				
+				// set weight
+				ArrayList<String> lines = new ArrayList<String>();
+				String line = null;
+				DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance();
+				dfs.setDecimalSeparator('.');
+				DecimalFormat f = new DecimalFormat("#0.00", dfs);
+				try
+		        {
+					LocalDateTime now = LocalDateTime.now();
+			        DateTimeFormatter df;
+			        df = DateTimeFormatter.ofPattern("_yyyyMMdd");     // 31.01.2016 20:07
+			        String date = now.format(df);
+					
+					File f1 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT_Learning.pins");
+					//File f2 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT.pins");
+					FileReader fr = new FileReader(f1);
+			        BufferedReader br = new BufferedReader(fr);
+			        while ((line = br.readLine()) != null) {
+			            lines.add(line+"\n");
+			        }
+			        fr.close();
+			        br.close();
+			        
+			        /* Add new Element */
+			        lines.add("\n");
+			        lines.add(marker+" of  ASSOCIATIONDM\n\n");
+			        lines.add("\t(element\n");
+			        lines.add("\t\t"+markerDM+"\n");
+			        lines.add("\t\t"+markerTPM+"\n");
+			        lines.add("\t(weight "+f.format(weight) + "))\n");
+
+			        FileWriter fw = new FileWriter(f1);
+			        BufferedWriter out = new BufferedWriter(fw);
+			        for(String s : lines)
+			             out.write(s);
+			        out.flush();
+			        out.close();
+		        }
+			   catch (Exception ex) {
+			        ex.printStackTrace();
+			    }
+	        }
+
 		
 			return oDS_List;
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.08.2010, 14:59:49
+	 *
+	 * @param poMap
+	 * @param poDataStructureUnknown
+	 * @param poDataStructureContentType 
+	 * @return
+	 */
+	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByContentTypeWrite2(
+			HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> poMap,
+			clsDataStructurePA poDS_Unknown, clsDataStructurePA poDS_Unknown2)
+	{
+		
+			double rMatchScore = 0.0; 
+			ArrayList<clsPair<Double, clsDataStructurePA>> oDS_List = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+			
+			boolean newElement = true;
+			
+			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poMap.entrySet())
+			{
+				clsDataStructurePA oCompareElement = oEntry.getValue().a; 
+				//A comparison will only take place, if the search data structure instanceID is 0, in order to compare the unknown structures with a type
+				//if (oCompareElement.getMoDSInstance_ID()==0) {
+				
+					
+					rMatchScore = oCompareElement.compareTo(poDS_Unknown);
+					
+					if(rMatchScore >= 1.0){
+						// set Assoziation
+						oEntry.getValue().b.add((clsAssociation) poDS_Unknown2);
+					}
+			}
+
+		
+			return oDS_List;
+	}
+
 //	/**
 //	 * DOCUMENT (zeilinger) - insert description
 //	 *
@@ -1276,13 +1408,13 @@ public abstract class clsDataStructureComparisonTools {
 //	 * @return
 //	 */
 	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByDataStructureType(
-			HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> poMap,
+			HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> poMap,
 			clsDataStructurePA poDataStructureUnknown) {
 
 		double rMatchScore = 0.0; 
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 
-		for(Map.Entry<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poMap.entrySet()){
+		for(Map.Entry<eContentType, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poMap.entrySet()){
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oTableEntry.getValue().entrySet()){
 				clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a;
 				//InstanceID has to be 0, in the search part, in order to compare the structure
@@ -1309,13 +1441,13 @@ public abstract class clsDataStructureComparisonTools {
 //	 * @return
 //	 */
 	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByDataStructureTypeWrite(
-			HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> poMap,
+			HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> poMap,
 			clsDataStructurePA poDataStructureUnknown, double weight, double learning) {
 
 		double rMatchScore = 0.0; 
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 
-		for(Map.Entry<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poMap.entrySet()){
+		for(Map.Entry<eContentType, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poMap.entrySet()){
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oTableEntry.getValue().entrySet()){
 				clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a;
 				//InstanceID has to be 0, in the search part, in order to compare the structure

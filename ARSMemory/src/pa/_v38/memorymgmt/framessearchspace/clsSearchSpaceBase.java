@@ -11,6 +11,7 @@ import inspector.interfaces.itfInspectorInternalState;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructurePA;
@@ -41,5 +42,5 @@ public abstract class clsSearchSpaceBase implements itfInspectorInternalState {
 	 * 09.06.2010, 22:04:04
 	 *
 	 */
-	public abstract HashMap<eDataType,HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>> returnSearchSpaceTable();  
+	public abstract HashMap<eDataType,HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>> returnSearchSpaceTable();  
 }

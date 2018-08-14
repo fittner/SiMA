@@ -85,10 +85,11 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal; 
 	}
 	
-	public static int setID(){
-		int dummyID = -1; 
-		return dummyID;
-	}
+
+	   public static int setID(){
+	        int dummyID = -1; 
+	        return dummyID;
+	    }
 	
 	public static clsThingPresentation generateTP(clsPair <eContentType, Object> poContent){
 		clsThingPresentation oRetVal = new clsThingPresentation(new clsTriple<Integer, eDataType, eContentType> (setID() , eDataType.TP, poContent.a), poContent.b); ;  
@@ -263,6 +264,15 @@ public abstract class clsDataStructureGenerator {
 		//oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;
+	}
+	
+	public static clsAssociation generateASSOCIATIONDM(clsDriveMesh poDM, clsThingPresentationMesh poTPM, double prWeight, int ID) {
+	        clsAssociation oRetVal=null;
+	        
+	        oRetVal = new clsAssociationDriveMesh (new clsTriple<Integer, eDataType, eContentType>(ID, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), poDM, poTPM, prWeight);
+	        //oRetVal.setMrWeight(prWeight);
+	        
+	        return oRetVal;
 	}
 	
 	public static clsAssociation generateASSOCIATIONATTRIBUTE(eContentType poContentType, 

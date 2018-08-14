@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructurePA;
@@ -18,7 +19,7 @@ import base.tools.toText;
 
 public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 
-	private HashMap<eDataType,HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>> moSearchSpaceContent;
+	private HashMap<eDataType, HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>> moSearchSpaceContent;
 	HashMap<eDataType, ArrayList<clsDataStructurePA>> moSimplifiedSearchSpace; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -56,20 +57,20 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	 *
 	 */
 	private void convertArrayListToHashTable() {
-		moSearchSpaceContent = new HashMap<eDataType, HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>>();
+		moSearchSpaceContent = new HashMap<eDataType, HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>>();
 		
 		for(Map.Entry<String, clsDataStructurePA> oEntry : moDataStructureTable.entrySet()){
 			clsDataStructurePA oDS = oEntry.getValue();
 			try {
 				if(!moSearchSpaceContent.containsKey(oDS.getMoDataStructureType())){
-					moSearchSpaceContent.put(oDS.getMoDataStructureType(), new HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>()); 
+					moSearchSpaceContent.put(oDS.getMoDataStructureType(), new HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>()); 
 				}
-				if(!moSearchSpaceContent.get(oDS.getMoDataStructureType()).containsKey(oDS.getContentType().toString())){
+				if(!moSearchSpaceContent.get(oDS.getMoDataStructureType()).containsKey(oDS.getContentType())){
 					moSearchSpaceContent.get(oDS.getMoDataStructureType())
-										.put(oDS.getContentType().toString(), new HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>()); 
+										.put(oDS.getContentType(), new HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>()); 
 				}
-				if(!moSearchSpaceContent.get(oDS.getMoDataStructureType()).get(oDS.getContentType().toString()).containsKey(oDS.getDS_ID())){
-					moSearchSpaceContent.get(oDS.getMoDataStructureType()).get(oDS.getContentType().toString())
+				if(!moSearchSpaceContent.get(oDS.getMoDataStructureType()).get(oDS.getContentType()).containsKey(oDS.getDS_ID())){
+					moSearchSpaceContent.get(oDS.getMoDataStructureType()).get(oDS.getContentType())
 										.put(oDS.getDS_ID(), new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(oDS, new ArrayList<clsAssociation>()));
 				}
 			} catch (Exception e) {
@@ -108,8 +109,8 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 		clsDataStructurePA oElementA = ((clsAssociation)poAssociation).getAssociationElementA();
 		clsDataStructurePA oElementB = ((clsAssociation)poAssociation).getAssociationElementB();
 		
-		moSearchSpaceContent.get(oElementA.getMoDataStructureType()).get(oElementA.getContentType().toString()).get(oElementA.getDS_ID()).b.add((clsAssociation)poAssociation);
-		moSearchSpaceContent.get(oElementB.getMoDataStructureType()).get(oElementB.getContentType().toString()).get(oElementB.getDS_ID()).b.add((clsAssociation)poAssociation);	
+		moSearchSpaceContent.get(oElementA.getMoDataStructureType()).get(oElementA.getContentType()).get(oElementA.getDS_ID()).b.add((clsAssociation)poAssociation);
+		moSearchSpaceContent.get(oElementB.getMoDataStructureType()).get(oElementB.getContentType()).get(oElementB.getDS_ID()).b.add((clsAssociation)poAssociation);	
 	}
 	
 	/**
@@ -125,7 +126,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 		for(eDataType oDataType : moSearchSpaceContent.keySet()){
 			ArrayList<clsDataStructurePA> oDataStructureList = new ArrayList<clsDataStructurePA>(); 
 
-			for(String oDataStructureContentType : moSearchSpaceContent.get(oDataType).keySet()){
+			for(eContentType oDataStructureContentType : moSearchSpaceContent.get(oDataType).keySet()){
 				for(Integer oDataStructureID : moSearchSpaceContent.get(oDataType).get(oDataStructureContentType).keySet()){
 					oDataStructureList.add(moSearchSpaceContent.get(oDataType).get(oDataStructureContentType).get(oDataStructureID).a);
 				}
@@ -156,7 +157,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	 * @see pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase#returnSearchSpace(java.lang.String)
 	 */
 	@Override
-	public HashMap<eDataType,HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>> returnSearchSpaceTable() {
+	public HashMap<eDataType,HashMap<eContentType, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>> returnSearchSpaceTable() {
 		return moSearchSpaceContent;
 	}
 	
@@ -173,7 +174,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 		String oRetVal = ":Search space: \n"; 
 		for(eDataType oDataElement : moSearchSpaceContent.keySet()){
 			oRetVal += "DataStructure " + oDataElement + "\n";
-			for(String oDataStructureContentType : moSearchSpaceContent.get(oDataElement).keySet()){
+			for(eContentType oDataStructureContentType : moSearchSpaceContent.get(oDataElement).keySet()){
 				oRetVal +="	Content Type:	" + oDataStructureContentType + "\n";
 					for(Integer oDataStructureID : moSearchSpaceContent.get(oDataStructureContentType).get(oDataElement).keySet()){
 						clsDataStructurePA oDataStructure = moSearchSpaceContent.get(oDataStructureContentType).get(oDataElement).get(oDataStructureID).a; 
