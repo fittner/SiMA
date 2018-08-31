@@ -37,14 +37,15 @@ import java.util.ArrayList;
  * 
  */
 public abstract class clsDataStructureContainer implements Cloneable{
-	protected clsDataStructurePA moDataStructure; 
 	protected ArrayList<clsAssociation> moAssociatedDataStructures; 
+	protected clsDataStructurePA moDataStructure; 
+    
 	
 	public clsDataStructureContainer(clsDataStructurePA poDataStructure, ArrayList<clsAssociation>poAssociationList){
-		moDataStructure = poDataStructure; 
-		moAssociatedDataStructures = new ArrayList<clsAssociation>(); 
 		
+		moAssociatedDataStructures = new ArrayList<clsAssociation>(); 
 		if(poAssociationList != null) {moAssociatedDataStructures = poAssociationList;}
+		moDataStructure = poDataStructure; 
 	}
 
 	

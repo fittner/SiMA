@@ -169,7 +169,7 @@ public class clsOntologyLoader implements itfModuleMemoryAccess {
 				eDataType.ASSOCIATIONSEC,
 				eDataType.ASSOCIATIONEMOTION,
 				eDataType.ASSOCIATIONFEELING, 
-				eDataType.SATISFACTION, 
+//				eDataType.SATISFACTION, 
 				eDataType.DM,
 				eDataType.TP, 
 				eDataType.TPM, 

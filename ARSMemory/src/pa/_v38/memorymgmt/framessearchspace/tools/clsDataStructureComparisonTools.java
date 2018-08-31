@@ -182,7 +182,7 @@ public abstract class clsDataStructureComparisonTools {
 		
 		//marker ="([AD%3ASATISFACTION%3ACAKE%3AEAT%3AHIGH]";
 		if(oMap.containsKey(poDS_Unknown.getContentType())){	//If the input content type already exists in the memory
-			oRetVal = getDataStructureByContentTypeWrite(oMap.get(poDS_Unknown.getContentType()),oMap2.get(((clsDriveMesh)(((clsAssociation)poDS_Unknown).getAssociationElementA())).getContentType().toString()),((clsAssociation)poDS_Unknown).getAssociationElementA(), poDS_Unknown, weight, learning, marker, markerDM,markerTPM); 
+			oRetVal = getDataStructureByContentTypeWrite(oMap.get(poDS_Unknown.getContentType()),oMap2.get(((clsDriveMesh)(((clsAssociation)poDS_Unknown).getAssociationElementA())).getContentType()),((clsAssociation)poDS_Unknown).getAssociationElementA(), poDS_Unknown, weight, learning, marker, markerDM,markerTPM); 
 		}
 		else{
 			oRetVal = getDataStructureByDataStructureTypeWrite(oMap, poDS_Unknown, weight, learning); 
