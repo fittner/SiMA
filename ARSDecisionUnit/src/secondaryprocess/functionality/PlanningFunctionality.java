@@ -75,18 +75,6 @@ public class PlanningFunctionality {
     public static clsWordPresentationMesh getActionCommandFromPlanGoal(clsWordPresentationMeshPossibleGoal planGoal) throws Exception {
        
         clsWordPresentationMesh actionCommand;
-        /* try {
-            if (planGoal.isNullObject()==true) {
-                throw new Exception("planGoal is Nullobject. The agent always have to do something");
-            }
-        } catch (Exception e) {
-            log.error("Goal is nullobject", e);
-            throw new Exception(e.getMessage());
-        } */
-        // Zhukova create wait action
-        if(planGoal.isNullObject()) {
-            actionCommand = clsActionTools.createAction(eAction.WAIT);
-        }
         
         //Extract action from goal
         actionCommand = planGoal.getAssociatedPlanAction();
