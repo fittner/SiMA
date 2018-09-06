@@ -510,7 +510,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
             // c. get set of graded DMs
             ArrayList<clsPrimaryDataStructure> oDMStimulusList = getStimulusDMs(oAssDMforCategorization);
             
-            if(!oRankedCandidates.isEmpty() && !(((clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure()).getContent().equals("Bodystate"))){ //koller
+            if(!oRankedCandidates.isEmpty() && !(((clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure()).getContent().equals("Bodystate")))
+            { //koller
 
                 // extend object
                 clsThingPresentationMesh oInputTPM = (clsThingPresentationMesh) poEnvironmentalTP.get(oRankedCandidateTPMs.indexOf(oRankedCandidates)).getMoDataStructure(); 
