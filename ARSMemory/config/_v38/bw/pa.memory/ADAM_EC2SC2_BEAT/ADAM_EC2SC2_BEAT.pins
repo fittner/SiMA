@@ -1,4 +1,4 @@
-; Thu Sep 06 08:43:08 GMT 2018
+; Fri Sep 07 12:38:00 GMT 2018
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -49,7 +49,7 @@
 
 	(element
 		[PRI%3AA10_DIVIDE_CAKE_L01_I06%3ACAKE]
-		[TP%3ADISTANCE%3ANEAR])
+		[TP%3ADISTANCE%3ACARRYING])
 	(weight 1.0 1.0))
 
 ([AA%3AA10_DIVIDE_CAKE_L01_I07%3ACAKE%3APOSITION%3AMIDDLE_LEFT] of  ASSOCIATIONATTRIBUTE
@@ -1783,74 +1783,74 @@
 		[EMOTION%3AA06_BEAT_BODO_L01_I03%3AANGER])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01]
-		[EMOTION%3AA10_DIVIDE_CAKE_L01%3AGUILT])
+		[EMOTION%3AA10_DIVIDE_CAKE_L01%3AJOY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01_I01]
-		[EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AGUILT])
+		[EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AJOY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01_I02]
-		[EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AGUILT])
+		[EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AJOY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01_I03]
-		[EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AGUILT])
+		[EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AJOY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01_I04]
-		[EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AGUILT])
+		[EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AJOY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01_I05]
-		[EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AGUILT])
+		[EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AJOY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01_I06]
-		[EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AGUILT])
+		[EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AJOY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01_I07]
-		[EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AGUILT])
+		[EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AJOY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01_I08]
-		[EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AGUILT])
+		[EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AJOY])
 	(weight 1.0 1.0))
 
-([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AGUILT] of  ASSOCIATIONEMOTION
+([ASSOCIATIONEMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AJOY] of  ASSOCIATIONEMOTION
 
 	(element
 		[TPM%3AIMAGE%3AA10_DIVIDE_CAKE_L01_I09]
-		[EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AGUILT])
+		[EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AJOY])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONEMOTION%3AA12_EAT_CAKE_L01%3AANXIETY] of  ASSOCIATIONEMOTION
@@ -3095,7 +3095,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3AEAT]
 		[AD%3AAIM%3ACAKE%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.8)
+	(quotaOfAffect 0.2)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3311,119 +3311,119 @@
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AA10_DIVIDE_CAKE_L01%3AGUILT] of  EMOTION
+([EMOTION%3AA10_DIVIDE_CAKE_L01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.39)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AGUILT] of  EMOTION
+([EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.45)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AGUILT] of  EMOTION
+([EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.45)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AGUILT] of  EMOTION
+([EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.45)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AGUILT] of  EMOTION
+([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.45)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AGUILT] of  EMOTION
+([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.45)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AGUILT] of  EMOTION
+([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.45)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AGUILT] of  EMOTION
+([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.45)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AGUILT] of  EMOTION
+([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.45)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
-([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AGUILT] of  EMOTION
+([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.45)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.39)
+	(emotionIntensity 0.36)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.51)
 	(sourceLibid 0.21)
