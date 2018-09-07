@@ -25,7 +25,7 @@ import base.datatypes.helpstructures.clsTriple;
 public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     //kollmann: if we convert an emotion from memory into a feeling, the resulting feelings needs an instance_id. We will use the original emotions ID + this CONVERT_FEELING_BASE
     static final int CONVERTED_FEELING_BASE = 10000;
-    
+    private int counter;
     /**
      * DOCUMENT (wendt) - insert description 
      *
@@ -98,6 +98,15 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     
     public void setIntensity(double poIntensity){
         this.setUniqueProperty(String.valueOf(poIntensity), eContentType.INTENSITY, ePredicate.HASINTENSITY, true);
+    }
+    
+    public void setCounter(int count)
+    {
+        counter =count;
+    }
+    public int getCounter()
+    {
+        return counter;
     }
     
     public double similarity(clsWordPresentationMeshFeeling poOtherFeeling) {

@@ -49,6 +49,7 @@ import modules.interfaces.I6_11_receive;
 import modules.interfaces.I6_11_send;
 import modules.interfaces.I6_2_receive;
 import modules.interfaces.eInterfaces;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
@@ -74,6 +75,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     public static final String P_WAIT_THRESHOLD = "WAIT_THRESHOLD";
     public static final String P_INTERACTION_DEBUG  = "INTERACTION_DEBUG";
     
+    public ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
+    HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moArrayFeelingsInMomentsMap = new HashMap<>();
+        
     private double mrWaitThreshold;
     private boolean mbInteractionDebug;
     
@@ -311,7 +315,46 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         } catch (Exception e1) {
             log.error("Cannot declare goal as plan goal", e1);
         }
+        clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(planGoal.getSupportiveDataStructure());
+        if (oMoment.isNullObject()==false) {
+            moArrayFeelingsInMoments.add("\nMOMENT: " + oMoment.getContent());
+        }
+        if (!moArrayFeelingsInMomentsMap.containsKey(oMoment.getContent()))
+        {
+            for(int i=0; i < F26_DecisionMaking.moFeeling_IN.size(); i++)
+            {
+                F26_DecisionMaking.moFeeling_IN.get(i).setCounter(1);
+            }
+            moArrayFeelingsInMomentsMap.put(oMoment.getContent(), F26_DecisionMaking.moFeeling_IN);   
+        }
+        else
+        {
+            ArrayList<clsWordPresentationMeshFeeling> oOldFeelings =  moArrayFeelingsInMomentsMap.get(oMoment.getContent());
+            //Compare the feelings
+            for (clsWordPresentationMeshFeeling oOldFeeling : oOldFeelings) {
+                clsWordPresentationMeshFeeling oCurrentFeeling1 = null;
+                boolean found=false;
+                for (clsWordPresentationMeshFeeling oCurrentFeeling : F26_DecisionMaking.moFeeling_IN) {
+                    if(oOldFeeling.getContent().contentEquals(oCurrentFeeling.getContent()))
+                    {
+                        oOldFeeling.setCounter(oOldFeeling.getCounter()+1);
+                        oOldFeeling.setIntensity(((oOldFeeling.getIntensity() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getIntensity())/oOldFeeling.getCounter()));
+                        found = true;
+                    }
+                    oCurrentFeeling1 = oCurrentFeeling;
+                }
+                if(found == false)
+                {
+                    oOldFeelings.add(oCurrentFeeling1);
+                }
+            }
+            moArrayFeelingsInMomentsMap.put(oMoment.getContent(),oOldFeelings);
+        }
+
+        
+        moArrayFeelingsInMoments.add("FEELINGS::" + F26_DecisionMaking.moFeeling_IN.toString());
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
+        log.info("\n+++++++++++++++++++++++++++++\n Feelings in Moments: " + moArrayFeelingsInMoments + "\n++++++++++++++++++++++++++++++");
         log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: "
                 + planGoal.getSupportiveDataStructure().toString() + "\n==============================");
         this.moTEMPDecisionString = setDecisionString(planGoal);

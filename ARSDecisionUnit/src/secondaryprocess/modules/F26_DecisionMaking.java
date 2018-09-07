@@ -100,7 +100,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	private final DecisionEngine moDecisionEngine;
 	
 	// Anxiety from F20
-	private ArrayList<clsWordPresentationMeshFeeling> moFeeling_IN;
+	public static ArrayList<clsWordPresentationMeshFeeling> moFeeling_IN;
 	
 	
 	/** Number of goals to pass */
