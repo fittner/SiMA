@@ -350,7 +350,39 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             }
             moArrayFeelingsInMomentsMap.put(oMoment.getContent(),oOldFeelings);
         }
+        clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(planGoal.getSupportiveDataStructure());
 
+        if (!moArrayFeelingsInMomentsMap.containsKey(oIntention.getContent()))
+        {
+            for(int i=0; i < F26_DecisionMaking.moFeeling_IN.size(); i++)
+            {
+                F26_DecisionMaking.moFeeling_IN.get(i).setCounter(1);
+            }
+            moArrayFeelingsInMomentsMap.put(oIntention.getContent(), F26_DecisionMaking.moFeeling_IN);   
+        }
+        else
+        {
+            ArrayList<clsWordPresentationMeshFeeling> oOldFeelings =  moArrayFeelingsInMomentsMap.get(oIntention.getContent());
+            //Compare the feelings
+            for (clsWordPresentationMeshFeeling oOldFeeling : oOldFeelings) {
+                clsWordPresentationMeshFeeling oCurrentFeeling1 = null;
+                boolean found=false;
+                for (clsWordPresentationMeshFeeling oCurrentFeeling : F26_DecisionMaking.moFeeling_IN) {
+                    if(oOldFeeling.getContent().contentEquals(oCurrentFeeling.getContent()))
+                    {
+                        oOldFeeling.setCounter(oOldFeeling.getCounter()+1);
+                        oOldFeeling.setIntensity(((oOldFeeling.getIntensity() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getIntensity())/oOldFeeling.getCounter()));
+                        found = true;
+                    }
+                    oCurrentFeeling1 = oCurrentFeeling;
+                }
+                if(found == false)
+                {
+                    oOldFeelings.add(oCurrentFeeling1);
+                }
+            }
+            moArrayFeelingsInMomentsMap.put(oIntention.getContent(),oOldFeelings);
+        }
         
         moArrayFeelingsInMoments.add("FEELINGS::" + F26_DecisionMaking.moFeeling_IN.toString());
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));

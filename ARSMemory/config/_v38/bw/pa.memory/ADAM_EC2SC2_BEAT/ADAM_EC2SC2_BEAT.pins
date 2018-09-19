@@ -1,4 +1,4 @@
-; Fri Sep 07 12:54:21 GMT 2018
+; Fri Sep 07 15:42:13 GMT 2018
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -3102,7 +3102,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3AEAT]
 		[AD%3AAIM%3ACAKE%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.2)
+	(quotaOfAffect 0.8)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3320,7 +3320,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.39)
+	(emotionIntensity 0.35)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.0)
 	(sourceLibid 0.0)
