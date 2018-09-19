@@ -1,63 +1,72 @@
-; Fri Sep 07 15:42:13 GMT 2018
+; Wed Sep 19 07:53:05 CEST 2018
 ; 
-;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (version "3.5")
+;+ (build "Build 663")
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class221] of  String
+([ADAM_EC2SC2_BEAT_ProjectKB_Class39] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class222] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([ADAM_EC2SC2_BEAT_ProjectKB_Class223] of  String
+([ADAM_EC2SC2_BEAT_ProjectKB_Class40] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class224] of  String
+([ADAM_EC2SC2_BEAT_ProjectKB_Class41] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class225] of  String
+([ADAM_EC2SC2_BEAT_ProjectKB_Class42] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class226] of  Map_Entry
+([ADAM_EC2SC2_BEAT_ProjectKB_Class43] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([ADAM_EC2SC2_BEAT_ProjectKB_Class44] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class227] of  Map_Entry
+([ADAM_EC2SC2_BEAT_ProjectKB_Class45] of  Map
+)
 
-	(key "change_tracking_active")
+([ADAM_EC2SC2_BEAT_ProjectKB_Class46] of  Map_Entry
+
+	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
+	(value "ADAM_EC2SC2_BEAT_ProjectKB_Class45")
+	(value_class "java.util.Map"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class228] of  Map_Entry
+([ADAM_EC2SC2_BEAT_ProjectKB_Class47] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class229] of  Map
-)
+([ADAM_EC2SC2_BEAT_ProjectKB_Class48] of  Map_Entry
 
-([ADAM_EC2SC2_BEAT_ProjectKB_Class230] of  Map_Entry
-
-	(key "InstanceDisplay.yellow_stickies")
+	(key "change_tracking_active")
 	(key_class "java.lang.String")
-	(value "ADAM_EC2SC2_BEAT_ProjectKB_Class229")
-	(value_class "java.util.Map"))
+	(value "false")
+	(value_class "java.lang.String"))
+
+([ADAM_EC2SC2_BEAT_ProjectKB_Class6] of  Widget
+
+	(is_hidden TRUE)
+	(property_list [ADAM_EC2SC2_BEAT_ProjectKB_Class7])
+	(widget_class_name "org.protege.owl.mm.portability.protege3.MappingMasterTab"))
+
+([ADAM_EC2SC2_BEAT_ProjectKB_Class7] of  Property_List
+)
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
 
@@ -104,11 +113,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class221]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class222]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class223]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class224]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class225]))
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class39]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class40]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class41]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class42]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class43]))
 
 ([CLSES_TAB] of  Widget
 
@@ -161,11 +170,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class226]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class227]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class228]
-		[ADAM_EC2SC2_BEAT_ProjectKB_Class230])
-	(referenced_maps [ADAM_EC2SC2_BEAT_ProjectKB_Class229]))
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class44]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class46]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class47]
+		[ADAM_EC2SC2_BEAT_ProjectKB_Class48])
+	(referenced_maps [ADAM_EC2SC2_BEAT_ProjectKB_Class45]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -619,7 +628,7 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_615659_Class5] of  Map
+([KB_635429_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
@@ -711,9 +720,9 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[STANDARD_FACET_FORM_WIDGET]
-		[STANDARD_SLOT_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET]
+		[STANDARD_SLOT_FORM_WIDGET]
+		[STANDARD_FACET_FORM_WIDGET]
 		[PAL_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
 	(default_facet_metaclass ":STANDARD-FACET")
