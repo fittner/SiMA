@@ -11,8 +11,8 @@ import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.SortedMap;
+import java.util.Map.Entry;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -27,8 +27,12 @@ import modules.interfaces.eInterfaces;
 
 import org.apache.log4j.Logger;
 
+
+
+
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentation;
@@ -110,9 +114,10 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsPersonalityParameterContainer poPersonalityParameterContainer,
 			DT1_PsychicIntensityBuffer poLibidoBuffer,
-			DT4_PleasureStorage poPleasureStorage)
+			DT4_PleasureStorage poPleasureStorage,
+			int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		//rectum_pain_limit = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_RECTUM_PAIN_LIMIT).getParameterDouble();
 		
 		moPleasureStorage= poPleasureStorage;

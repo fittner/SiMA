@@ -127,20 +127,25 @@ public class clsOrientation {
         
         switch(moPosition.a) {
             case LEFT:
-            case MIDDLE_LEFT:
-            case CENTER:
                 oChange = eAction.TURN_RIGHT;
                 break;
+                
             case RIGHT:
-            case MIDDLE_RIGHT:
                 oChange = eAction.TURN_LEFT;
                 break;
+            
+            case MIDDLE_LEFT:
+            case CENTER:
+            case MIDDLE_RIGHT:
+                oChange = eAction.MOVE_BACKWARD;
+                break;
+                
             case UNKNOWNPOSITION:
                 //This means we want to flee from something that we do not know the position of ... for now, just stay true
                 
                 //Kollmann: temporarly removed, as this somehow increases the chance of the
                 //          object instance staying infinitely in the tempLocalizationStorage (in F46)
-                oChange = eAction.MOVE_FORWARD;
+                oChange = eAction.MOVE_BACKWARD;
                 break;
             default:
                 moLogger.warn("relative position of target entity invalid.");
@@ -157,5 +162,10 @@ public class clsOrientation {
         clsWordPresentationMesh oDifferenceWPM = clsActionTools.createAction(oChange);
         
         return oDifferenceWPM;
+    }
+    
+    @Override
+    public String toString() {
+        return moPosition.toString();
     }
 }

@@ -38,7 +38,7 @@ public enum eAction {
 	BEAT,
 	DIVIDE,
 	GIVE,
-	
+	WAIT,
 	//Actions with Objects
 	GOTO,
 	FLEE,
@@ -61,6 +61,11 @@ public enum eAction {
 	FOCUS_MOVE_FORWARD,
 	FOCUS_TURN_RIGHT,
 	FOCUS_TURN_LEFT,
+	
+	REQUEST,
+	OBJECT_TRANSFER,
+	AGREE,
+	DISAGREE,
 	
 	FOCUS_SEARCH1,
 	

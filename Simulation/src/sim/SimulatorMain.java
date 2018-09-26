@@ -8,17 +8,9 @@
 
 package sim;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-
-import javax.swing.JFrame;
-
-import properties.clsProperties;
 import sim.display.Controller;
 import sim.display.GUIState;
 import sim.engine.SimState;
-import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.continuous.ContinuousPortrayal2D;
 import sim.portrayal.grid.FastValueGridPortrayal2D;
@@ -26,11 +18,23 @@ import sim.portrayal.network.NetworkPortrayal2D;
 import sim.portrayal.network.SimpleEdgePortrayal2D;
 import sim.portrayal.network.SpatialNetwork2D;
 import sim.portrayal.simple.OvalPortrayal2D;
+import java.awt.Color;
+import java.awt.Dimension;
+
+
+import javax.swing.JFrame;
+
+import complexbody.io.sensors.datatypes.clsInspectorPerceptionItem;
+
+import properties.clsProperties;
+
+
+import java.awt.Graphics2D;
+
+import sim.portrayal.DrawInfo2D;
 import singeltons.clsSingletonMasonGetter;
 import singeltons.clsSingletonProperties;
 import utils.clsGetARSPath;
-
-import complexbody.io.sensors.datatypes.clsInspectorPerceptionItem;
 
 
 
@@ -68,8 +72,10 @@ public class SimulatorMain extends GUIState {
     /** turn logging to file on-off */
     public static final String P_USELOGGER = "useLogger";
     /** filename of the system properties file. contains all the P_* params defined in this class. */
-
+    
     public static final String  F_CONFIGFILENAME = "system.properties";
+    
+    public static boolean mbHideGui = false;
     
 	/** GUI widget which holds some number of field portrayals and frames, 
 	 * usually layered on top of one another */
@@ -101,6 +107,10 @@ public class SimulatorMain extends GUIState {
 	 */
 	public SimulatorMain(String[] args) { 
 		super(new clsMain( System.currentTimeMillis(), args) ); 
+	}
+	
+	public static void hideGui(boolean pbHideGui) {
+		mbHideGui = pbHideGui;
 	}
 	
 	/**
@@ -139,21 +149,23 @@ public class SimulatorMain extends GUIState {
 			oPath = clsGetARSPath.getConfigPath();
 		}
 		
+		mbHideGui = new Boolean(clsMain.argumentForKey("-hidegui", args, 0));
+		
 		clsProperties oProp = clsProperties.readProperties(oPath, F_CONFIGFILENAME);
 		clsSingletonProperties.setSystemProperties(oProp, P_DRAWIMAGES, P_DRAWSENSORS, P_USELOGGER);
 		
 		SimulatorMain oMainWithUI = new SimulatorMain(args);
 		
-		//check if autostarting and pausing the simulation is needed
-		//String oAutostart = clsMain.argumentForKey("-autostart", args, 0);
-		//Boolean nAutostart = new Boolean(oAutostart);
-		Boolean nAutostart = true;
-		clsSingletonMasonGetter.setConsole( new console.Console(oMainWithUI, nAutostart) ); // 2011/06/14 CM+TD: adapted to new ARSsim.display.Console constructor
+		clsSingletonMasonGetter.setConsole( new console.Console(oMainWithUI, true) ); // 2011/06/14 CM+TD: adapted to new ARSsim.display.Console constructor
 		Dimension windowSize = clsSingletonMasonGetter.getConsole().getSize();
 		windowSize.height+=300;
 		clsSingletonMasonGetter.getConsole().setSize(windowSize);
-		clsSingletonMasonGetter.getConsole().setVisible(true);
-		
+		clsSingletonMasonGetter.getConsole().setVisible(!mbHideGui);
+
+		if(new Boolean(clsMain.argumentForKey("-autostart", args, 0))) {
+			clsSingletonMasonGetter.getConsole().pressPause();
+		}
+
 		//clsEventLoggerInspector oELI = new clsEventLoggerInspector();
 		//clsSingletonMasonGetter.getConsole().getTabPane().addTab("Eventlog", oELI);
 		//clsEventLogger.setELI(oELI);
@@ -217,7 +229,7 @@ public class SimulatorMain extends GUIState {
 		
 		// specify the backdrop color  -- what gets painted behind the displays
 		moDisplay.setBackdrop( oProp.getPropertyColor(pre+P_BACKGROUNDCOLOR) );
-		moDisplayGamegridFrame.setVisible( true );
+		moDisplayGamegridFrame.setVisible( !mbHideGui );
 		moDisplay.attach(moGameGridPortrayal, oProp.getPropertyString(pre+P_PORTRAYALTITLE) ); //attach the Portrayal to the Display2D to display it 
 		
 		//add the arousal Grid, in case of problems, outcomment the following line and it wont be there
@@ -343,5 +355,9 @@ public class SimulatorMain extends GUIState {
 	    return oInspector;
     }
 	
-	
+	public static void hideField(boolean pbHide) {
+//		if(pbHide) {
+//			moPl
+//		}
+	}
 }

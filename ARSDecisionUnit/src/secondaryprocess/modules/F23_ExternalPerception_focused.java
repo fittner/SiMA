@@ -105,9 +105,9 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 */
 	public F23_ExternalPerception_focused(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 		
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F23", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F23", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
@@ -187,7 +187,6 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * 
 	 * @see pa._v38.interfaces.modules.I6_12_receive#receive_I6_12(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_12(clsWordPresentationMesh poPerception,
 			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary, clsWordPresentationMesh moWordingToContext2) {

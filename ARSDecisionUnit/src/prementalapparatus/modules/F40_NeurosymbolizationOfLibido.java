@@ -10,19 +10,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
+
+import properties.clsProperties;
+
 import modules.interfaces.I1_1_receive;
 import modules.interfaces.I2_1_receive;
 import modules.interfaces.I2_1_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-
-import communication.datatypes.clsDataContainer;
-import communication.datatypes.clsDataPoint;
 /**
  * Conversion of raw data into neuro-symbols
  * 
@@ -51,9 +52,9 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 * @throws Exception
 	 */
 	public F40_NeurosymbolizationOfLibido(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		
 		mrLibido = 0;
 		applyProperties(poPrefix, poProp);	

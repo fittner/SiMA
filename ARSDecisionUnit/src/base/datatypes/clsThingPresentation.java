@@ -7,11 +7,10 @@
 package base.datatypes;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
-import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
 
@@ -176,12 +175,12 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
         }
 	}
 	
-	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+	public Object clone(HashMap<clsDataStructurePA, clsDataStructurePA> poClonedNodeMap) throws CloneNotSupportedException {
 		clsThingPresentation oClone = null;
 		
 		try {
 			oClone = (clsThingPresentation)super.clone();
-        	poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
+        	poClonedNodeMap.put(this, oClone);
         	
          	
         } catch (CloneNotSupportedException e) {

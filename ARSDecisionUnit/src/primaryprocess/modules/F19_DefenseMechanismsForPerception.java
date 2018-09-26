@@ -15,6 +15,10 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.SortedMap;
 
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
@@ -28,18 +32,10 @@ import modules.interfaces.I5_16_receive;
 import modules.interfaces.I5_16_send;
 import modules.interfaces.I5_22_receive;
 import modules.interfaces.eInterfaces;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictEmotion;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoConflictPerception;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
-//import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-//import pa._v38.tools.clsMeshTools;
-import testfunctions.clsTester;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
-import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
@@ -55,6 +51,9 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+//import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+//import pa._v38.tools.clsMeshTools;
+import testfunctions.clsTester;
 
 /**
  * F19 defends forbidden perceptions and forbidden emotions.
@@ -162,9 +161,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces,
 			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage,
 			itfModuleMemoryAccess poMemory,
-			clsPersonalityParameterContainer poPersonalityParameterContainer)
+			clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory, pnUid);
 		
 		applyProperties(poPrefix, poProp);
 		
@@ -302,10 +301,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private ArrayList<clsEmotion> clone(ArrayList<clsEmotion> oEmotions) {
 		// deep clone: oEmotions --> oClonedEmotions
 		ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
-		ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
+
 		for (clsEmotion oOneEmotion : oEmotions) {
 			try {
-				oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
+				oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(new HashMap<clsDataStructurePA, clsDataStructurePA>()));
 			} catch (CloneNotSupportedException e) {
 				// Auto-generated catch block
 				e.printStackTrace();
@@ -1295,33 +1294,34 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
         for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {           
                     for(clsEmotion oOneEmotion : oEmotions_Output) { 
                         if(oOneEmotion.getContent()==oOneForbiddenEmotion){     //find the forbidden Emotion from Output
-                            try{
-                                clsAssociation oAssociation = new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType>(
-                                        -1, eDataType.ASSOCIATIONEMOTION, eContentType.UNDEFINED),          
-                                        oOneEmotion, oTargetTPM.get(targetNr));     // Build the Association between forbidden 
-                                                                                    //Emotion and the chosen random Target, reference from F14 line 1178
-                                oNewAssociation.add(oAssociation);          // add this Association to the List
-                                ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent().add(oAssociation); 
-                                // add the association to the agent's perception-memory                                
-                                oEmotions_Output.remove(oOneEmotion);              //remove the forbidden Emotions, since it has been projected to others
-                                
-                                //followed prompt output are used for software test  
-                                ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent();
-                                for(clsAssociation oAssociation1 : oInternalAssociations){  //look up the ARSIN in Sight, refer to line 698
-                                    if (oAssociation1==oAssociation){
-                                        System.out.println("######### Info for Projection, new Association added to the Perception ");
-                                        }
-                                    }
-                                //System.out.println("######### Info for Projection, added new Association: "+ oAssociation.toString());
-                                //System.out.println("######### Info for Projection, done "); 
-                                //System.out.println("##################################################################################################### ");
-                                //System.out.println("");
-                                
-                                break;                                             // current action done, jump to the next forbidden Emotion
-                            }catch(Exception e){
-                                e.printStackTrace();
-                                System.out.println("Unable to create the Association for Projection!");
-                            }                     
+                            throw new RuntimeException("Defense mechanism projection tried to create an emotion the wrong way. Use clsDataStructureGenerator.generateASSOCIATIONEMOTION to do it properly.");
+//                            try{
+//                                clsAssociation oAssociation = new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType>(
+//                                        -1, eDataType.ASSOCIATIONEMOTION, eContentType.UNDEFINED),          
+//                                        oOneEmotion, oTargetTPM.get(targetNr));     // Build the Association between forbidden 
+//                                                                                    //Emotion and the chosen random Target, reference from F14 line 1178
+//                                oNewAssociation.add(oAssociation);          // add this Association to the List
+//                                ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent().add(oAssociation); 
+//                                // add the association to the agent's perception-memory                                
+//                                oEmotions_Output.remove(oOneEmotion);              //remove the forbidden Emotions, since it has been projected to others
+//                                
+//                                //followed prompt output are used for software test  
+//                                ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_IN).getInternalAssociatedContent();
+//                                for(clsAssociation oAssociation1 : oInternalAssociations){  //look up the ARSIN in Sight, refer to line 698
+//                                    if (oAssociation1==oAssociation){
+//                                        System.out.println("######### Info for Projection, new Association added to the Perception ");
+//                                        }
+//                                    }
+//                                //System.out.println("######### Info for Projection, added new Association: "+ oAssociation.toString());
+//                                //System.out.println("######### Info for Projection, done "); 
+//                                //System.out.println("##################################################################################################### ");
+//                                //System.out.println("");
+//                                
+//                                break;                                             // current action done, jump to the next forbidden Emotion
+//                            }catch(Exception e){
+//                                e.printStackTrace();
+//                                System.out.println("Unable to create the Association for Projection!");
+//                            }                     
                         }
                     }                                           
         }       

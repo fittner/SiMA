@@ -17,10 +17,6 @@ import memorymgmt.interfaces.itfSearchSpaceAccess;
 
 import org.apache.log4j.Logger;
 
-import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadingActivation;
-import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadingActivationInterface;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
@@ -36,6 +32,10 @@ import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.tools.clsDebugTools;
+import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadingActivation;
+import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadingActivationInterface;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -96,13 +96,13 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		
 		ArrayList<clsThingPresentation> oPropertyList = new ArrayList<clsThingPresentation>();
 		//Shape
-		if (poShape!="") {
+		if (poShape != "") {
 			clsThingPresentation oShapeTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.ShapeType, poShape));
 			oPropertyList.add(oShapeTP);
 		}
 		
 		//Color
-		if (poColor!="") {
+		if (poColor != "") {
 			clsThingPresentation oColorTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.COLOR, poColor));
 			oPropertyList.add(oColorTP);
 		}

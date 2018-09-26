@@ -8,21 +8,8 @@ package secondaryprocess.algorithm.goals;
 
 import java.util.ArrayList;
 
-import logger.clsLogger;
-import memorymgmt.enums.eAction;
-import memorymgmt.enums.eCondition;
-import memorymgmt.enums.eGoalType;
-import memorymgmt.enums.ePhiPosition;
-import memorymgmt.enums.eRadius;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-
 import org.slf4j.Logger;
 
-import secondaryprocess.datamanipulation.clsActDataStructureTools;
-import secondaryprocess.datamanipulation.clsActTools;
-import secondaryprocess.datamanipulation.clsActionTools;
-import secondaryprocess.datamanipulation.clsEntityTools;
-import secondaryprocess.datamanipulation.clsImportanceTools;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.datatypes.clsWordPresentationMeshGoal;
@@ -30,6 +17,19 @@ import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
+import base.logging.DataCollector;
+import logger.clsLogger;
+import memorymgmt.enums.eAction;
+import memorymgmt.enums.eCondition;
+import memorymgmt.enums.eGoalType;
+import memorymgmt.enums.ePhiPosition;
+import memorymgmt.enums.eRadius;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsActTools;
+import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.datamanipulation.clsEntityTools;
+import secondaryprocess.datamanipulation.clsImportanceTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -173,6 +173,18 @@ public class GoalAlgorithmTools {
         case DROP:
             oActionCondition = eCondition.EXECUTED_DROP;
             break;
+        case REQUEST:
+            oActionCondition = eCondition.EXECUTED_REQUEST;
+            break;
+        case AGREE:
+            oActionCondition = eCondition.EXECUTED_AGREE;
+            break;      
+        case DISAGREE:
+            oActionCondition = eCondition.EXECUTED_DISAGREE;
+            break;
+        case OBJECT_TRANSFER:
+            oActionCondition = eCondition.EXECUTED_OBJECT_TRANSFER;
+            break;    
         case NULLOBJECT:
             oActionCondition = eCondition.NULLOBJECT;
             break;
@@ -392,7 +404,7 @@ public class GoalAlgorithmTools {
      * @param aimOfDrive
      * @return
      */
-    private static boolean applyAimOfDriveOnGoal(clsWordPresentationMeshPossibleGoal selectableGoal, clsWordPresentationMeshAimOfDrive aimOfDrive) {
+    private static boolean applyAimOfDriveOnGoal(clsWordPresentationMeshPossibleGoal selectableGoal, clsWordPresentationMeshAimOfDrive aimOfDrive, double prDriveImpact) {
         boolean goalMatch = false;
         
         //1. If the drive is the same
@@ -400,9 +412,11 @@ public class GoalAlgorithmTools {
             goalMatch=true;
             //2. use the quota of affect of as far as the selectable goal can fulfill it
             if (selectableGoal.getPotentialDriveFulfillmentImportance()<=aimOfDrive.getTotalImportance()) {
-                selectableGoal.setDriveDemandImportance(selectableGoal.getPotentialDriveFulfillmentImportance());
+                selectableGoal.setDriveDemandImportance(prDriveImpact * selectableGoal.getPotentialDriveFulfillmentImportance());
+                DataCollector.goal(selectableGoal).putDriveFulfillmentImportance_F26(prDriveImpact * selectableGoal.getPotentialDriveFulfillmentImportance(), prDriveImpact * aimOfDrive.getTotalImportance());
             } else {
-                selectableGoal.setDriveDemandImportance(aimOfDrive.getTotalImportance());
+                selectableGoal.setDriveDemandImportance(prDriveImpact * aimOfDrive.getTotalImportance());
+                DataCollector.goal(selectableGoal).putDriveFulfillmentImportance_F26(prDriveImpact * aimOfDrive.getTotalImportance(), prDriveImpact * aimOfDrive.getTotalImportance());
             }
         }
         
@@ -437,7 +451,7 @@ public class GoalAlgorithmTools {
      * @param pnNumberOfGoalsToPass
      * @return
      */
-    public static void applyDriveDemandsOnDriveGoal (ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDriveListGoalList) {
+    public static void applyDriveDemandsOnDriveGoal (ArrayList<clsWordPresentationMeshPossibleGoal> poSelectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDriveListGoalList, double prDriveImpact) {
         
         //ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
         
@@ -447,7 +461,7 @@ public class GoalAlgorithmTools {
             
             //Apply effect of drive to selectable goal on each possible goal
             for (clsWordPresentationMeshPossibleGoal selectableGoal : poSelectableGoalList) {
-                boolean goalMatch = applyAimOfDriveOnGoal(selectableGoal, oAimOfDrive);
+                boolean goalMatch = applyAimOfDriveOnGoal(selectableGoal, oAimOfDrive, prDriveImpact);
                 
                 //If at least one goal was found, set true
                 if (goalMatch==true) {

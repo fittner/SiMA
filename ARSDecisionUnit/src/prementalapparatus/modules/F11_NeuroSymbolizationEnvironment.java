@@ -14,21 +14,21 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import modules.interfaces.I1_3_receive;
-import modules.interfaces.I2_3_receive;
-import modules.interfaces.I2_3_send;
-import modules.interfaces.eInterfaces;
+import communication.datatypes.clsDataContainer;
+
 import prementalapparatus.symbolization.clsSensorToSymbolConverter;
 import prementalapparatus.symbolization.eSymbolExtType;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
+import modules.interfaces.I1_3_receive;
+import modules.interfaces.I2_3_receive;
+import modules.interfaces.I2_3_send;
+import modules.interfaces.eInterfaces;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-
-import communication.datatypes.clsDataContainer;
 /**
  * Conversion of raw data into neuro-symbols.
  * 
@@ -73,8 +73,8 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	 * @throws Exception 
 	 */
 	public F11_NeuroSymbolizationEnvironment(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -141,7 +141,6 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	 * 
 	 * @see pa.interfaces.I2_1#receive_I2_1(HashMap<eSensorExtType, clsDataBase>)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_3(clsDataContainer poData) {
 	    moEnvironmentalData = poData; 
@@ -170,7 +169,6 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	@Override
 	protected void send() {
 		send_I2_3(moSymbolData);
-		
 	}
 
 	/* (non-Javadoc)

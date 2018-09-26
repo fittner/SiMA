@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -21,8 +23,6 @@ import modules.interfaces.I2_5_send;
 import modules.interfaces.I6_11_receive;
 import modules.interfaces.I6_14_receive;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsConcept.clsEntity;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsWordPresentationMesh;
@@ -78,8 +78,8 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	 */
 	public F30_MotilityControl(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F30", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F30", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
@@ -160,7 +160,7 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 		String pre = clsProperties.addDot(poPrefix);
 		
 		clsProperties oProp = new clsProperties();
-		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+		oProp.setProperty(pre + P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
@@ -202,7 +202,6 @@ public class F30_MotilityControl extends clsModuleBaseKB implements I6_11_receiv
 	 * 
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_11(clsWordPresentationMesh poActionCommands, clsWordPresentationMesh moWordingToContext2) {
 		moActionCommand_Input = poActionCommands; 

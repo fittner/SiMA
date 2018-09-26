@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
+import base.datatypes.clsWordPresentationMesh;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
-import base.datatypes.clsWordPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -71,7 +71,9 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
 		} else if (oChosenAction.equals(eAction.GOTO)) {
 		    oChosenAction = eAction.FOCUS_MOVE_FORWARD;
-		} else {
+		} else if (oChosenAction.equals(eAction.FLEE)) {
+            oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+        } else {
 //		    //FIXME This concept has to be remade as here a condition is corrected, which it should not be
 //		    try {
 //                this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);

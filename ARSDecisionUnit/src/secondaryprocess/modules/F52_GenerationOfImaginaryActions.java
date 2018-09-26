@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.enums.eSpeech;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
@@ -23,8 +25,6 @@ import modules.interfaces.I6_8_receive;
 import modules.interfaces.I6_9_receive;
 import modules.interfaces.I6_9_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.functionality.PlanningFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import testfunctions.clsTester;
@@ -116,8 +116,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	public F52_GenerationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine,
-		DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+		DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F51", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F51", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
@@ -528,7 +528,6 @@ private static String CalculatePossibleSpeechStatements(eSpeech moWordingToConte
 	 * 
 	 * @see pa.interfaces.I7_1#receive_I7_1(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_8(ArrayList<clsWordPresentationMeshPossibleGoal> poDecidedGoalList, clsWordPresentationMesh moWordingToContext2) {
 		//moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poDecidedGoalList);

@@ -23,6 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
+
 import javax.swing.ToolTipManager;
 
 import memorymgmt.enums.eActivationType;
@@ -40,8 +42,8 @@ import prementalapparatus.symbolization.representationsymbol.clsSymbolVision;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntry;
 import prementalapparatus.symbolization.representationsymbol.clsSymbolVisionEntryAction;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;
-import base.datatypes.clsAct;
+import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;import base.datatypes.clsAct;
+import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
@@ -67,6 +69,7 @@ import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
+
 import communication.datatypes.clsDataContainer;
 import communication.datatypes.clsDataPoint;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
@@ -140,6 +143,7 @@ public class clsGraph extends JGraph {
 	protected static final Color moColorTI = new Color(0xffFF9933); //brown
 	protected static final Color moColorWPMRoot = new Color(0xff1874CD); //dark blue
 	protected static final Color moColorEmotion = new Color(0xff8B4513); //brown
+	protected static final Color moColorAffect = Color.PINK;
 	protected static final Color moColorSensorIntern = new Color(0xff00E5EE); //türkis
 	protected static final Color moColorSymbolVision = new Color(0xffBEBEBE); //gray
 	protected static final Color moColorVisionEntry = new Color(0xff8B864E); //khaki
@@ -680,6 +684,10 @@ public class clsGraph extends JGraph {
 		} 
 		else if (poMemoryObject instanceof clsEmotion){
 			clsEmotion tmpRootMemoryObject = (clsEmotion)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		} 
+		else if (poMemoryObject instanceof clsAffect) {
+			clsAffect tmpRootMemoryObject = (clsAffect)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
 		else
@@ -1491,6 +1499,26 @@ public class clsGraph extends JGraph {
 
 		//generate root of the mesh
 		clsGraphCell oEmpotionRootCell = createDefaultGraphVertex(oDescription, moColorEmotion);
+		this.moCellList.add(oEmpotionRootCell);
+		
+	
+		return oEmpotionRootCell;	
+	}
+	
+	/** [AFFECT]
+	 * Generating cells from clsAffect
+	 */
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsAffect poMemoryObject)
+	{
+		String oDescription = "Affect - Pleasure: " + poMemoryObject.getPleasure();
+
+		if(!UseSimpleView()) 
+		{
+			oDescription = 	poMemoryObject.toString();
+		}
+
+		//generate root of the mesh
+		clsGraphCell oEmpotionRootCell = createDefaultGraphVertex(oDescription, moColorAffect);
 		this.moCellList.add(oEmpotionRootCell);
 		
 	

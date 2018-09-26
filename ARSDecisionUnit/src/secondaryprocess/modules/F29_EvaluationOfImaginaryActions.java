@@ -6,10 +6,10 @@
  */
 package secondaryprocess.modules;
 
-import general.datamanipulation.PrintTools;
 import inspector.interfaces.clsTimeChartPropeties;
+import general.datamanipulation.PrintTools;
+import inspector.interfaces.itfInspectorAdvancedStackedBarChart;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
-import inspector.interfaces.itfInspectorStackedBarChart;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,8 +17,27 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+//import base.datatypes.clsAssociation;
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshFeeling;
+import base.datatypes.clsWordPresentationMeshGoal;
+import base.datatypes.clsWordPresentationMeshMentalSituation;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.logging.DataCollector;
+import base.modules.clsModuleBase;
+import base.modules.clsModuleBaseKB;
+import base.modules.eImplementationStage;
+import base.modules.eProcessType;
+import base.modules.ePsychicInstances;
+import base.tools.ElementNotFoundException;
+import base.tools.clsSingletonAnalysisAccessor;
+import base.tools.toText;
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
+//import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eGoalType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -28,25 +47,13 @@ import modules.interfaces.I6_11_receive;
 import modules.interfaces.I6_11_send;
 import modules.interfaces.I6_2_receive;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.datamanipulation.clsActionTools;
+import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import secondaryprocess.functionality.PlanningFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshFeeling;
-import base.datatypes.clsWordPresentationMeshGoal;
-import base.datatypes.clsWordPresentationMeshMentalSituation;
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
-import base.modules.clsModuleBase;
-import base.modules.clsModuleBaseKB;
-import base.modules.eImplementationStage;
-import base.modules.eProcessType;
-import base.modules.ePsychicInstances;
-import base.tools.ElementNotFoundException;
-import base.tools.toText;
 
 /**
  * DOCUMENT (perner) - insert description
@@ -55,12 +62,18 @@ import base.tools.toText;
  * 
  */
 public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements I6_2_receive, I6_10_receive, I6_11_send,
-        itfInspectorGenericActivityTimeChart, itfInspectorStackedBarChart {
+        itfInspectorGenericActivityTimeChart, itfInspectorAdvancedStackedBarChart {
     public static final String P_MODULENUMBER = "29";
 
     private static final String P_MODULE_STRENGTH = "MODULE_STRENGTH";
     private static final String P_INITIAL_REQUEST_INTENSITY = "INITIAL_REQUEST_INTENSITY";
 
+    public static final String P_WAIT_THRESHOLD = "WAIT_THRESHOLD";
+    public static final String P_INTERACTION_DEBUG  = "INTERACTION_DEBUG";
+    
+    private double mrWaitThreshold;
+    private boolean mbInteractionDebug;
+    
     private double mrModuleStrength;
     private double mrInitialRequestIntensity;
 
@@ -99,12 +112,18 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     public F29_EvaluationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory,
             clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine decisionEngine, DT3_PsychicIntensityStorage poPsychicEnergyStorage,
-            clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-        super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+            clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+        super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F29", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity = poPersonalityParameterContainer.getPersonalityParameter("F29", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
 
+        this.mbInteractionDebug = poPersonalityParameterContainer.getPersonalityParameter("F29", P_INTERACTION_DEBUG).getParameterBoolean();
+        if(mbInteractionDebug)
+            this.mrWaitThreshold = poPersonalityParameterContainer.getPersonalityParameter("F29", P_WAIT_THRESHOLD).getParameterDouble();
+        else
+            this.mrWaitThreshold = 0.0;
+        
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
 
@@ -227,6 +246,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      */
     @Override
     protected void process_basic() {
+        clsWordPresentationMesh oWaitAction = null;
+        
         log.debug("=== module {} start ===", this.getClass().getName());
 
         // Select the best goal
@@ -238,6 +259,23 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
 
         clsWordPresentationMeshPossibleGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
+
+        if(planGoal.getTotalImportance() < mrWaitThreshold) { 
+            //Create WAIT goal
+            planGoal = clsGoalManipulationTools.createSelectableGoal("WAIT", eGoalType.NULLOBJECT, -1,clsMeshTools.getNullObjectWPM());
+            
+            //Create WAIT action
+            oWaitAction = clsActionTools.createAction(eAction.WAIT);
+            
+            //Set WAIT action as plan action
+            planGoal.setAssociatedPlanAction(oWaitAction);
+            
+            //Select the WAIT goal
+            planGoal.setCondition(eCondition.IS_CONTINUED_GOAL);
+        } 
+            
+        logger.clsLogger.getLog("EmotionRange").info("Emotion Match on plangoal: {}", planGoal.getFeelingsMatchImportance());
+        
         try {
             this.moDecisionEngine.declareGoalAsPlanGoal(planGoal);
         } catch (Exception e1) {
@@ -247,7 +285,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: "
                 + planGoal.getSupportiveDataStructure().toString() + "\n==============================");
         this.moTEMPDecisionString = setDecisionString(planGoal);
-
+        
         // Get action command from goal
         try {
             moActionCommand = PlanningFunctionality.getActionCommandFromPlanGoal(planGoal);
@@ -272,6 +310,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             log.warn("Erroneous action taken. Action cannot be NONE. This must be an error in the codelets");
         }
 
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putFinalGoals(moSelectableGoals);
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).putAction(selectedAction.toString());
 
         double rRequestedPsychicIntensity = 0.0;
 
@@ -281,6 +321,12 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, rRequestedPsychicIntensity, rConsumedPsychicIntensity);
 
+        for (clsWordPresentationMeshPossibleGoal oGoal : moSelectableGoals) {
+            DataCollector.goal(oGoal).putGoalF29(oGoal);
+        }
+        
+        DataCollector.goal(moSelectableGoals.get(0)).finish();
+        
         // //=== TEST ONLY ONE ACTION === //
         // if (clsTester.getTester().isActivated()) {
         // try {
@@ -566,7 +612,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         oData.add(new ArrayList<Double>()); // idx 4 = Effort Impact Importance
         oData.add(new ArrayList<Double>()); // idx 5 = Drive Aim Importance
         oData.add(new ArrayList<Double>()); // idx 6 = Social Rules Importance
-        oData.add(new ArrayList<Double>()); // idx 7 = Unknown influence
+        oData.add(new ArrayList<Double>()); // idx 7 = Entities Emotion Valuation Match Importance
+        oData.add(new ArrayList<Double>()); // idx 8 = Entities Bodystate Match Importance
+        oData.add(new ArrayList<Double>()); // idx 9 = Unknown influence
         
         double rTotalImportance = 0;
         double rTempDriveDemandImportance = 0;
@@ -598,7 +646,11 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             rTotalImportance += oGoal.getDriveAimImportance();
             oData.get(6).add(oGoal.getSocialRulesImportance());
             rTotalImportance += oGoal.getSocialRulesImportance();
-            oData.get(7).add(oGoal.getTotalImportance() - rTotalImportance);
+            oData.get(7).add(oGoal.getEntityValuationImportance());
+            rTotalImportance += oGoal.getEntityValuationImportance();
+            oData.get(8).add(oGoal.getEntityBodystateImportance());
+            rTotalImportance += oGoal.getEntityBodystateImportance();
+            oData.get(9).add(oGoal.getTotalImportance() - rTotalImportance);
         }
 
         return oData;
@@ -622,6 +674,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         oResult.add("Effort Impact Importance");
         oResult.add("Drive Aim Importance");
         oResult.add("Social Rules Importance");
+        oResult.add("Emotion Valuation Match Importance");
+        oResult.add("Bodystate Match Importance");
         oResult.add("Unknown factors");
         
         return oResult;

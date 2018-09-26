@@ -13,20 +13,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import modules.interfaces.I0_1_receive;
 import modules.interfaces.I0_2_receive;
 import modules.interfaces.I1_1_receive;
 import modules.interfaces.I1_1_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-
-import communication.datatypes.clsDataContainer;
 
 
 /**
@@ -67,8 +68,9 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 * @throws Exception 
 	 */
 	public F39_SeekingSystem_LibidoSource(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		libidoImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_LIBIDO_IMPACT_FACTOR).getParameterDouble();
 		
 		applyProperties(poPrefix, poProp);	
@@ -198,7 +200,6 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 * 
 	 * @see pa.interfaces.receive._v38.I0_2_receive#receive_I0_2(java.util.List)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I0_2(clsDataContainer poData) {
 		moSensorSystems_IN = poData; 

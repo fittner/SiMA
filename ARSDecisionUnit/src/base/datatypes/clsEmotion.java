@@ -8,12 +8,13 @@ package base.datatypes;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
 import base.datahandlertools.clsDataStructureGenerator;
-import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
 /**
@@ -27,6 +28,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private eEmotionType moContent = null;
 	private ArrayList<clsAssociation> moExternalAssociatedContent = null; 
 	private double mrEmotionIntensity = 0.0; 
+	private double mrIntensityDeviation = 0.0;
 	
 	// save the values of those components that the emotion is based on (dependent on the emotion)
 	private double mrSourcePleasure = 0.0; 
@@ -36,17 +38,35 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private double mrRelativeThreshold = 0.0;
 	private double mrThresholdRange = 0.0;
 	
-	public clsEmotion(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prEmotionIntensity, eEmotionType poContent, 
-			double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
+	public clsEmotion(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prEmotionIntensity, double prIntensityDeviation, 
+	        eEmotionType poContent, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
 		super(poDataStructureIdentifier); 
 		mrEmotionIntensity = prEmotionIntensity;
+		mrIntensityDeviation = prIntensityDeviation;
 		moContent = poContent;
 		mrSourcePleasure = prSourcePleasure; 
 		mrSourceUnpleasure = prSourceUnpleasure;
 		mrSourceLibid = prSourceLibid;
 		mrSourceAggr = prSourceAggr ;
+		moExternalAssociatedContent = new ArrayList<>();
 	} 
 
+	//Copy constructor - THIS SHOULD ONLY CREATE A FLEET COPY - NO RECURSIONS!
+	public clsEmotion(clsEmotion poToCopy) {
+	    this(new clsTriple<Integer, eDataType, eContentType>(poToCopy.getDS_ID(), poToCopy.getMoDataStructureType(), poToCopy.getContentType()),
+	            poToCopy.getEmotionIntensity(),
+	            poToCopy.getIntensityDeviation(),
+	            poToCopy.getContent(),
+	            poToCopy.getSourcePleasure(),
+	            poToCopy.getSourceUnpleasure(),
+	            poToCopy.getSourceLibid(),
+	            poToCopy.getSourceAggr());
+	}
+	
+	public clsEmotion flatCopy() {
+	    return new clsEmotion(this);
+	}
+	
 	public static clsEmotion fromTPM(clsThingPresentationMesh poTPM) {
 	    clsDataStructurePA oEmotion = null;
 	    
@@ -75,15 +95,6 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	}
 	
 	static protected double doubleMatch(double rLHV, double rRHV) {
-	    /*double rMatch = 1;
-	    
-	    if(rLHV != rRHV) {
-    	    double rDiff = Math.abs(rLHV - rRHV);
-    	    rMatch = 1 - (rDiff / Math.max(rLHV, rRHV));
-	    }
-	    
-	    return rMatch;*/
-	    
 	    double rMatch = 1 - Math.abs(rLHV - rRHV);
         
         return rMatch;
@@ -100,7 +111,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    return rMatch / 4;
 	}
 	
-	/* (non-Javadoc) Kollmann: calculates difference of two emotions as single value
+	/* (non-Javadoc) Kollmann: calculates match between two emotions as single value
 	 * 
 	 * @since 27.02.2015 17:50:53
 	 * 
@@ -114,15 +125,18 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		//if the other data structure is no cleEmotion -> no match
 	    if(poDataStructure instanceof clsEmotion) {
 	        oOtherEmotion = (clsEmotion)poDataStructure;
-	        //kollmann: emotions of different type always produce a math of 0
-	        if(getContentType().equals(oOtherEmotion.getContentType())) {
-	            switch(getContentType()) {
-	            case MEMORIZEDEMOTION:
-	            case BASICEMOTION:
-	                rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
-	                break;
-	            }
-	        }
+	        //kollmann: memorizedemotions can only be compared with other memorizedemotions - basic and attributedemotions can be compared to any other emotion type
+            switch(getContentType()) {
+            case MEMORIZEDEMOTION:
+                if(oOtherEmotion.getContentType().equals(eContentType.MEMORIZEDEMOTION)) {
+                    rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
+                }
+                break;
+            case BASICEMOTION:
+            case ATTRIBUTEDEMOTION:
+                rMatch = clsEmotion.matchingFunction(this, oOtherEmotion);
+                break;
+            }
 	    }
 	    
 		return rMatch;
@@ -132,8 +146,30 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    return clsDataStructureGenerator.generateEMOTION(new clsTriple<eContentType, eEmotionType, Object>(oContentType, oEmotionType, 0.0), 0.0, 0.0, 0.0, 0.0);
 	}
 	
+	private double stepChange(double prOldValue, double prNewValue, double prMaxChange) {
+	    //double rDiff = prNewValue - prOldValue;
+	    //return Math.min(rDiff, Math.signum(rDiff) * prMaxChange);
+	    
+	    return (prNewValue - prOldValue) * prMaxChange;
+	    
+//	    double rDiff = prNewValue - prOldValue;
+//	    if(Math.abs(rDiff) < prMaxChange) {
+//	        return rDiff;
+//	    } else {
+//	        return rDiff * prMaxChange;
+//	    }
+	}
+	
+	public void gradualChange(clsEmotion poTargetState, double prMaxChange) {
+	    mrEmotionIntensity += stepChange(mrEmotionIntensity, poTargetState.getEmotionIntensity(), prMaxChange);
+	    mrSourcePleasure += stepChange(mrSourcePleasure, poTargetState.getSourcePleasure(), prMaxChange);
+	    mrSourceUnpleasure += stepChange(mrSourceUnpleasure, poTargetState.getSourceUnpleasure(), prMaxChange);
+	    mrSourceLibid += stepChange(mrSourceLibid, poTargetState.getSourceLibid(), prMaxChange);
+	    mrSourceAggr += stepChange(mrSourceAggr, poTargetState.getSourceAggr(), prMaxChange);
+	}
+	
 	public void sub(clsEmotion poEmotion) {
-        //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a math of 0
+        //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a match of 0
         if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {
             switch(getContentType()) {
             case MEMORIZEDEMOTION:
@@ -237,6 +273,14 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 */
 	public void setEmotionIntensity(double mrEmotionIntensity) {
 		this.mrEmotionIntensity = mrEmotionIntensity;
+	}
+	
+	public double getIntensityDeviation() {
+	    return mrIntensityDeviation;
+	}
+	
+	public void setIntensityDeviation(double prIntensityDeviation) {
+	    this.mrIntensityDeviation = prIntensityDeviation;
 	}
 	
 	/**
@@ -347,27 +391,34 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
      */
     @Override
     public Object clone() throws CloneNotSupportedException {
-        return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+        return clone(new HashMap<clsDataStructurePA, clsDataStructurePA>());
     }
 	
 	
-	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+	public Object clone(HashMap<clsDataStructurePA, clsDataStructurePA> poClonedNodeMap) throws CloneNotSupportedException {
 		clsEmotion oClone = null;
 		
 		try {
         	oClone = (clsEmotion)super.clone();
-        	poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
-        	if (moExternalAssociatedContent != null) {
-        		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
-        		
-        		for(clsAssociation oAssociation : moExternalAssociatedContent){
-        			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
-    				} catch (Exception e) {
-    					return e;
-    				}
-        		}
+        	
+        	if(!poClonedNodeMap.containsKey(this)) {
+            	poClonedNodeMap.put(this, oClone);
+            	
+            	if (moExternalAssociatedContent != null) {
+            		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
+            		
+            		for(clsAssociation oAssociation : moExternalAssociatedContent){
+            			try { 
+        					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
+        					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+        				} catch (Exception e) {
+        					return e;
+        				}
+            		}
+            	}
+        	} else {
+        	    clsLogger.getLog("Cloning").info("Object already in list");
+        	    oClone = (clsEmotion) poClonedNodeMap.get(this);
         	}
         	
         } catch (CloneNotSupportedException e) {
@@ -482,7 +533,6 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
         double rRelativeSystemUnpleasure = mrSourceUnpleasure/rSumValuesPlUnPl;
         double rRelativeSystemLibid = mrSourceLibid/rSumValuesLibidAggr;
         double rRelativeSystemAggr = mrSourceAggr/rSumValuesLibidAggr;
-        double rGrade = 0;
         
         /*
          * Generate Emotions
@@ -500,77 +550,67 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
                 
         // just generate Unpleasure--based Emotions
         if(rRelativeSystemUnpleasure > prRelativeThreshold){
-            rGrade = (rRelativeSystemUnpleasure-mrRelativeThreshold) / mrThresholdRange; 
-            if(rGrade > 1) rGrade = 1;
-            
-            oExtEmotions.add(generateEmotion(eEmotionType.ANXIETY, mrSourceUnpleasure * rGrade));
-            oExtEmotions.add(generateEmotion(eEmotionType.JOY, mrSourcePleasure * (1-rGrade)));
+            oExtEmotions.add(generateEmotion(eEmotionType.ANXIETY, mrSourceUnpleasure));
+            oExtEmotions.add(generateEmotion(eEmotionType.JOY, mrSourcePleasure));
             
             if(rRelativeSystemAggr > prRelativeThreshold) {
-                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr));
             }
             else if (rRelativeSystemLibid > prRelativeThreshold) {
-                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING, mrSourceLibid * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING, mrSourceLibid));
             }
             else {
-                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr * rGrade));
-                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING,  mrSourceLibid * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr));
+                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING,  mrSourceLibid));
             }
         }
         // just generate Pleasure-based Emotions
         else if (rRelativeSystemPleasure > prRelativeThreshold) {
-            rGrade = (rRelativeSystemPleasure-mrRelativeThreshold) / mrThresholdRange; 
-            if(rGrade > 1) rGrade = 1;
-            
-            oExtEmotions.add(generateEmotion(eEmotionType.ANXIETY, mrSourceUnpleasure * (1-rGrade)));
-            oExtEmotions.add(generateEmotion(eEmotionType.JOY, mrSourcePleasure * rGrade));
+            oExtEmotions.add(generateEmotion(eEmotionType.ANXIETY, mrSourceUnpleasure));
+            oExtEmotions.add(generateEmotion(eEmotionType.JOY, mrSourcePleasure));
             
             if (rRelativeSystemLibid > prRelativeThreshold) {
-                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid));
             }
             else if (rRelativeSystemAggr > prRelativeThreshold) {
-                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr));
             }
             else {
-                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid * rGrade));
-                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid));
+                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr));
             } 
         }
         // generate both
         else {
             // pleasure-based emotions
-            rGrade = (mrRelativeThreshold - rRelativeSystemPleasure) / mrThresholdRange; 
-            if(rGrade > 1) rGrade = 1;
-            
-            oExtEmotions.add(generateEmotion(eEmotionType.JOY, mrSourcePleasure * rGrade));
+            oExtEmotions.add(generateEmotion(eEmotionType.JOY, mrSourcePleasure));
             if (rRelativeSystemLibid > prRelativeThreshold) {
-                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid));
             }
             else if (rRelativeSystemAggr > prRelativeThreshold) {
-                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr));
             }
             else {
-                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid * rGrade));
-                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.SATURATION,  mrSourceLibid));
+                oExtEmotions.add(generateEmotion(eEmotionType.ELATION, mrSourceAggr));
             }
             
             //unpleasure-based emotions         
-            rGrade = (mrRelativeThreshold - rRelativeSystemUnpleasure) / mrThresholdRange;  
-            if(rGrade > 1) rGrade = 1;
-            
-            oExtEmotions.add(generateEmotion(eEmotionType.ANXIETY, mrSourceUnpleasure * rGrade));
+            oExtEmotions.add(generateEmotion(eEmotionType.ANXIETY, mrSourceUnpleasure));
             if(rRelativeSystemAggr > prRelativeThreshold) {
-                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr));
             }
             else if (rRelativeSystemLibid > prRelativeThreshold) {
-                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING, mrSourceLibid * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING, mrSourceLibid));
             }
             else {
-                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr * rGrade));
-                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING,  mrSourceLibid * rGrade));
+                oExtEmotions.add(generateEmotion(eEmotionType.ANGER, mrSourceAggr));
+                oExtEmotions.add(generateEmotion(eEmotionType.MOURNING,  mrSourceLibid));
             }
         }
 	    
 	    return oExtEmotions;
 	}
+	
+	
 }

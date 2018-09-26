@@ -274,6 +274,46 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         return oRetVal;
     }
     
+    public void setEntityValuationImportance(double prImportance) {
+        if(!Double.isNaN(prImportance)) {
+            this.setUniqueProperty(String.valueOf(prImportance), eContentType.ENTITYVALUATIONMATCHIMPORTANCE, ePredicate.HASENTITYVALUATIONMATCHIMPORTANCE, true);
+        } else {
+            log.error("Method setEntityValuationImportance tried to set NaN as dable value");
+        }
+    }
+    
+    public double getEntityValuationImportance() {
+        double oRetVal = 0;
+        
+        String oImportance = this.getUniqueProperty(ePredicate.HASENTITYVALUATIONMATCHIMPORTANCE);
+        if (oImportance.isEmpty()==false) {
+            oRetVal = Double.valueOf(oImportance);
+        }
+        
+    
+        return oRetVal;
+    }
+    
+    public void setEntityBodystateImportance(double prImportance) {
+        if(!Double.isNaN(prImportance)) {
+            this.setUniqueProperty(String.valueOf(prImportance), eContentType.ENTITYBODYSTATEMATCHIMPORTANCE, ePredicate.HASENTITYBODYSTATEMATCHIMPORTANCE, true);
+        } else {
+            log.error("Method setEntityBodystateImportance tried to set NaN as dable value");
+        }
+    }
+    
+    public double getEntityBodystateImportance() {
+        double oRetVal = 0;
+        
+        String oImportance = this.getUniqueProperty(ePredicate.HASENTITYBODYSTATEMATCHIMPORTANCE);
+        if (oImportance.isEmpty()==false) {
+            oRetVal = Double.valueOf(oImportance);
+        }
+        
+    
+        return oRetVal;
+    }
+    
     /**
      * Get the affectlevel from a goal
      * 
@@ -293,7 +333,9 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
                 + getEffortImpactImportance()
                 + this.getSocialRulesImportance()
                 + getDriveAimImportance()
-                + getPPImportance();
+                + getPPImportance()
+                + getEntityValuationImportance()
+                + getEntityBodystateImportance();
         
         return totalImportance;
         
@@ -389,6 +431,8 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
         this.removeAllProperties(ePredicate.HASEFFORTIMPACTIMPORTANCE);
         this.removeAllProperties(ePredicate.HASSOCIALRULESIMPORTANCE);
         this.removeAllProperties(ePredicate.HASDRIVEAIMIMPORTANCE);
+        this.removeAllProperties(ePredicate.HASENTITYVALUATIONMATCHIMPORTANCE);
+        this.removeAllProperties(ePredicate.HASENTITYBODYSTATEMATCHIMPORTANCE);
     }
     
     /**

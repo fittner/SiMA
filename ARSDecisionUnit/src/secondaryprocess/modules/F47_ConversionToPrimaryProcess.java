@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 
+import properties.clsProperties;
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import modules.interfaces.I5_19_receive;
 import modules.interfaces.I5_19_send;
 import modules.interfaces.I6_11_receive;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
@@ -81,9 +81,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	public F47_ConversionToPrimaryProcess(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory)
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		
 		moShortTimeMemory = poShortTimeMemory;
 		

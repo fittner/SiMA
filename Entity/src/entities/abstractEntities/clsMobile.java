@@ -48,10 +48,12 @@ public abstract class clsMobile extends clsEntity implements itfMobile{
 	private double mrDefaultStaticFriction;	//0.2
 	private double mrDefaultRestitution;	//1.0
 
+	
 	protected clsInventory moInventory;
 	
 	private int mnMaxItems, mnMaxMass; //maxMass and MaxItem for the inventory
 	
+
 
 	public clsMobile(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
@@ -67,6 +69,8 @@ public abstract class clsMobile extends clsEntity implements itfMobile{
 		clsRegisterEntity.registerEntity(this);
 	}
 
+	 
+	
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 
@@ -135,7 +139,9 @@ public abstract class clsMobile extends clsEntity implements itfMobile{
 		moInventory= new clsInventory(this, mnMaxItems, mnMaxMass);
 	}
 	public clsInventory getInventory() {
+		
 		return moInventory;
+		
 	}
 
 	@Override
@@ -189,5 +195,6 @@ public abstract class clsMobile extends clsEntity implements itfMobile{
 	public int getHolders(){
 		return mnHolders;		
 	}
+
 
 }

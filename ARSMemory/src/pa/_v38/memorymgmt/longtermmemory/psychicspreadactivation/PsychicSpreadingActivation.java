@@ -9,6 +9,7 @@ package pa._v38.memorymgmt.longtermmemory.psychicspreadactivation;
 import general.datamanipulation.PrintTools;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import logger.clsLogger;
@@ -17,10 +18,6 @@ import memorymgmt.interfaces.itfSearchSpaceAccess;
 
 import org.slf4j.Logger;
 
-import primaryprocess.datamanipulation.clsPrimarySpatialTools;
-import secondaryprocess.datamanipulation.clsImportanceTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsAssociationTime;
@@ -28,6 +25,12 @@ import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
+import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.PsychicSpreadActivationNode;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import secondaryprocess.datamanipulation.clsImportanceTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.HackMethods;
+import testfunctions.clsTester;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -42,7 +45,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	private final double mrActivationThreshold;
 	private itfSearchSpaceAccess moModuleBase;
 	
-	private Logger log = clsLogger.getLog("memory");
+	private Logger log = clsLogger.getLog("Memory");
 	
 	public PsychicSpreadingActivation(itfSearchSpaceAccess poModuleBase, double prConsumeValue, double prActivationThreshold) {
 		moDefaultConsumeValue = prConsumeValue;
@@ -130,10 +133,12 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 	 */
 	private void getAssociatedImagesPerception(clsThingPresentationMesh poOriginImage, double prThreshold) {
 		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsPair<Double,clsDataStructurePA>>();
-		
+	    ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh2 = new ArrayList<clsPair<Double,clsDataStructurePA>>();
+
 		//moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, prThreshold, 1);
 		oSearchResultMesh = moModuleBase.searchMesh(poOriginImage, eContentType.RI, prThreshold, 1);
-		
+		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPI, prThreshold, 1));
+		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPA, prThreshold, 1));
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {

@@ -9,6 +9,7 @@ package mind.autocreated;
 import inspector.interfaces.itfInspectorGenericTimeChart;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
@@ -101,5 +102,34 @@ public class cls_GenericTimeChartInspector extends cls_AbstractTimeChartInspecto
         
         plot.getRenderer().setSeriesPaint(moValueHistory.size(), Color.white);
         plot.getRenderer().setSeriesPaint(moValueHistory.size()+1, Color.white);        
+    }
+    
+    @Override
+	protected ArrayList<Color> getColorList() {
+    	ArrayList<Color> oColors = new ArrayList<Color>();
+    	
+    	oColors.add(Color.red);
+    	oColors.add(Color.green);
+    	oColors.add(Color.black);
+    	oColors.add(Color.blue);
+    	oColors.add(Color.cyan);
+    	oColors.add(Color.orange);
+    	oColors.add(Color.magenta);
+    	oColors.add(Color.pink);
+    	oColors.add(Color.yellow);
+    	oColors.add(new Color(204, 51, 102));
+    	oColors.add(new Color(153, 51, 0));
+    	oColors.add(new Color(255, 153, 0));
+    	oColors.add(Color.darkGray);
+    	oColors.add(new Color(210, 55, 44));
+    	oColors.add(new Color(90, 153, 5));
+    	oColors.add(new Color(255, 103, 5));
+    	oColors.add(new Color(68, 5, 255));
+    	oColors.add(new Color(0, 0, 0));
+    	oColors.add(new Color(0, 0, 0));
+    	oColors.add(new Color(0, 0, 0));
+    	oColors.add(new Color(0, 0, 0));
+        
+        return oColors;
     }
 }

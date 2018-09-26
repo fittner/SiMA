@@ -7,6 +7,7 @@
 package secondaryprocess.functionality.decisionmaking;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import logger.clsLogger;
 import memorymgmt.enums.eAction;
@@ -14,22 +15,26 @@ import memorymgmt.enums.eCondition;
 import memorymgmt.enums.eContent;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eGoalType;
+import memorymgmt.enums.ePredicate;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 
 import org.slf4j.Logger;
 
-import secondaryprocess.algorithm.aimofdrives.clsAimOfDrivesTools;
-import secondaryprocess.algorithm.feelings.FeelingAlgorithmTools;
-import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
-import secondaryprocess.algorithm.goals.GoalGenerationTools;
-import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import base.datatypes.clsAct;
+import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshGoal;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsPair;
+import secondaryprocess.algorithm.aimofdrives.clsAimOfDrivesTools;
+import secondaryprocess.algorithm.feelings.FeelingAlgorithmTools;
+import secondaryprocess.algorithm.goals.GoalAlgorithmTools;
+import secondaryprocess.algorithm.goals.GoalGenerationTools;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -64,8 +69,8 @@ public class GoalHandlingFunctionality {
      *
      * @since 29.09.2013 12:55:38
      */
-    public static void applyDriveDemandsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poDriveDemandList) {
-        GoalAlgorithmTools.applyDriveDemandsOnDriveGoal(selectableGoalList, poDriveDemandList);
+    public static void applyDriveDemandsOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> selectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poDriveDemandList, double prDriveImpact) {
+        GoalAlgorithmTools.applyDriveDemandsOnDriveGoal(selectableGoalList, poDriveDemandList, prDriveImpact);
         
         //ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(selectableGoalList, poDriveDemandList, currentFeelingsList, affectThreashold);
     }
@@ -112,7 +117,7 @@ public class GoalHandlingFunctionality {
                  */
                 
                 if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold && receivedPsychicIntensity < goalsByExpectedFeelingThreshold){
-                    goal.setFeelingsMatchImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));                   
+                    goal.setFeelingsMatchImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByTriggeredFeelings(goal, currentFeelings));
                 }
                 
                 if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold && receivedPsychicIntensity < goalsByReservedFeelingThreshold){
@@ -180,6 +185,147 @@ public class GoalHandlingFunctionality {
         }
     }
     
+    /**
+     * DOCUMENT - Compares a possible goal to the current perception to determine how well the attributes of entities in the acts intention act match actual entities
+     * 
+     *            Currently this comparison consists of:
+     *               1) extract intention
+     *               2) extract all entities in intention
+     *               3) try to find matching entities in perception
+     *               4) calculate match values for all entities
+     *                     (if the entity is not present in the perception it will NOT be considered - determining if the required entities are present at all should be handled by another method
+     *                      reason for this decission is: focusing on entities requires an internal action, it is possible to have many steps that are not yet focused and in this cases acts with
+     *                      more attributes associated to the entities would get unnaturally strong negative importance)
+     *               5) combine all match values into a single importance value  
+     *
+     * @author kollmann
+     * @since 23.05.2015 14:07:49
+     *
+     * @param poReachableGoals List of all reachable goals (should already be filtered by available NI)
+     * @param poFocusedPerception WPM Image containing the information of all perceived entities that are currently focused.
+     */
+    public static void applyObjectAttributeMatchImportanceOnPossibleGoals(List<clsWordPresentationMeshPossibleGoal> poReachableGoals, clsWordPresentationMesh poFocusedPerception) {
+        clsWordPresentationMesh oSupportiveDataStructure = null;
+        clsWordPresentationMesh oIntention = null;
+        clsDataStructurePA oRawDS = null;
+        clsWordPresentationMesh oRIEntity = null;
+        List<clsWordPresentationMesh> oPerceivedEntities = new ArrayList<>();
+        List<clsAssociationSecondary> oBodystateAssociations = null;
+        List<clsPair<clsWordPresentationMesh, clsWordPresentationMesh>> oPairs = new ArrayList<>();
+        clsWordPresentationMeshFeeling oValuationPI = null;
+        clsWordPresentationMeshFeeling oValuationRI = null;
+        clsWordPresentationMeshFeeling oAttributedPI = null;
+        clsWordPresentationMeshFeeling oAttributedRI = null;
+        clsWordPresentationMesh oBodystate = null;
+        double rValuationMatch = 0.0;
+        double rAttributedMatch = 0.0;
+        int nNumValidMatchings = 0;
+        
+        double mrEntityValuationMatchImpact = 0.1;
+        double mrEntityBodystateMatchImpact = 0.1;
+        
+        //extract the perceived entities
+        for(clsAssociationSecondary oEntityAssociation : clsAssociationSecondary.filterListByPredicate(poFocusedPerception.getInternalAssociatedContent(), ePredicate.HASPART)) {
+            oRawDS = oEntityAssociation.getTheOtherElement(poFocusedPerception);
+            
+            if(oRawDS instanceof clsWordPresentationMesh && !((clsWordPresentationMesh) oRawDS).getContent().equals("SELF")) {
+                oPerceivedEntities.add((clsWordPresentationMesh)oRawDS);
+            }
+        }
+        
+        for(clsWordPresentationMeshPossibleGoal oGoal : poReachableGoals) {
+            oSupportiveDataStructure = oGoal.getSupportiveDataStructure();
+            if(oSupportiveDataStructure.getContentType().equals(eContentType.ACT)) {
+                oIntention = clsActDataStructureTools.getIntention(oSupportiveDataStructure);
+                
+                oPairs = new ArrayList<>();
+                
+                for(clsAssociationSecondary oEntityAssociation : clsAssociationSecondary.filterListByPredicate(oIntention.getInternalAssociatedContent(), ePredicate.HASPART)) {
+                    oRawDS = oEntityAssociation.getTheOtherElement(oIntention);
+                    if(oRawDS instanceof clsWordPresentationMesh) {
+                        oRIEntity = (clsWordPresentationMesh)oRawDS;
+                        //lookup entity in list of perceived objects
+                        for(clsWordPresentationMesh oPerceivedEntity : oPerceivedEntities) {
+                            if(oPerceivedEntity.getDS_ID() == oRIEntity.getDS_ID()) {
+                                oPairs.add(new clsPair<clsWordPresentationMesh, clsWordPresentationMesh>(oPerceivedEntity, oRIEntity));
+                            }
+                        }
+                    } else {
+                        log.error("Intention has a HASPART association that does not point to a WPM:\nIntention: {}\nAssociation:{}", oIntention, oRawDS);
+                    }
+                }
+                
+                nNumValidMatchings = 0;
+                
+                //calculate matches for found pairs
+                for(clsPair<clsWordPresentationMesh, clsWordPresentationMesh> oPair : oPairs) {
+                    //The feeling valuation is stored via setFeelings()
+                    
+                    if(oPair.a.getFeelings().size() < 1) {
+                        log.debug("Entity {} in goal {} has no feelings associated", oPair.a, oGoal);
+                    } else if(oPair.a.getFeelings().size() > 1) {
+                        log.warn("Entity {} in goal {} has more than one feeling associated", oPair.a, oGoal);
+                    } else {
+                        oValuationPI = oPair.a.getFeelings().get(0);
+                        if(oPair.b.getFeelings().size() < 1) {
+                            log.debug("Entity {} in goal {} has no feelings associated", oPair.b, oGoal);
+                        } else if(oPair.b.getFeelings().size() > 1) {
+                            log.warn("Entity {} in goal {} has more than one feeling associated", oPair.b, oGoal);
+                        } else {
+                            oValuationRI = oPair.b.getFeelings().get(0);
+                            
+                            nNumValidMatchings++;
+                            
+                            oBodystateAssociations = clsAssociationSecondary.filterListByPredicate(oPair.a.getExternalAssociatedContent(), ePredicate.HASBODYSTATE);
+                            if(oBodystateAssociations.size() > 0) {
+                                if(oBodystateAssociations.size() > 1) {
+                                    log.warn("Entity {} has more than one bodystate associated - will be usind the first one", oPair.a);
+                                }
+                                oRawDS = oBodystateAssociations.get(0).getTheOtherElement(oPair.a);
+                                oBodystate = (clsWordPresentationMesh)oRawDS;
+                                if(oBodystate.getFeelings().size() < 1) {
+                                    log.warn("Bodystate {} has no feelings associated", oBodystate);
+                                } else if(oBodystate.getFeelings().size() > 1) {
+                                    log.warn("Bodystate {} has more than one feeling associated", oBodystate);
+                                } else {
+                                    oAttributedPI = oBodystate.getFeelings().get(0);
+                                }
+                            } else {
+                                log.debug("Entity {} has no bodystates associated", oPair.a);
+                            }
+                            
+                            oBodystateAssociations = clsAssociationSecondary.filterListByPredicate(oPair.b.getExternalAssociatedContent(), ePredicate.HASBODYSTATE);
+                            if(oBodystateAssociations.size() > 0) {
+                                if(oBodystateAssociations.size() > 1) {
+                                    log.warn("Entity {} has more than one bodystate associated - will be usind the first one", oPair.b);
+                                }
+                                oRawDS = oBodystateAssociations.get(0).getTheOtherElement(oPair.b);
+                                oBodystate = (clsWordPresentationMesh)oRawDS;
+                                if(oBodystate.getFeelings().size() < 1) {
+                                    log.warn("Bodystate {} has no feelings associated", oBodystate);
+                                } else if(oBodystate.getFeelings().size() > 1) {
+                                    log.warn("Bodystate {} has more than one feeling associated", oBodystate);
+                                } else {
+                                    oAttributedRI = oBodystate.getFeelings().get(0);
+                                }
+                            } else {
+                                log.debug("Entity {} has no bodystates associated", oPair.b);
+                            }
+                            
+                            rValuationMatch += oValuationPI.getEmotion().compareTo(oValuationRI.getEmotion());
+                            
+                            rAttributedMatch += oAttributedPI.getEmotion().compareTo(oAttributedRI.getEmotion());
+                        }
+                    }  
+                }
+                if(nNumValidMatchings > 0) {
+                    //assign importance value to goal based on matches
+                    oGoal.setEntityValuationImportance((rValuationMatch / nNumValidMatchings) * oGoal.getDriveDemandImportance() * mrEntityValuationMatchImpact);
+                    oGoal.setEntityBodystateImportance((rAttributedMatch / nNumValidMatchings) * oGoal.getDriveDemandImportance() * mrEntityBodystateMatchImpact);
+                }
+            }
+        }
+    }
     
     /**
      * Select the goals with the highest importance for further processing. This function is intended to be used in F26

@@ -10,17 +10,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
+import properties.clsProperties;
+
 import modules.interfaces.I0_3_receive;
 import modules.interfaces.I1_2_receive;
 import modules.interfaces.I1_2_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-import communication.datatypes.clsDataContainer;
 
 /**
  * Sensor of Module {F1} are collecting information on bodily functions like metabolism, blood pressure, 
@@ -60,8 +62,8 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 * @throws Exception 
 	 */
 	public F01_SensorsMetabolism(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 
 		applyProperties(poPrefix, poProp);		
 	}
@@ -117,7 +119,6 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 		log.debug("\n\n\n===START OF PRIMARY PROCESS===");
 		
 		moHomeostasis_OUT = moHomeostasis_IN;
-
 		
 		putInterfaceData(I0_3_receive.class, moHomeostasis_OUT);
 	}
@@ -191,7 +192,6 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 * 
 	 * @see pa.interfaces.receive._v38.I0_3_receive#receive_I0_3(java.util.List)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I0_3(clsDataContainer poData) {
 		moHomeostasis_IN = poData; 

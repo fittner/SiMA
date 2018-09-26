@@ -10,18 +10,22 @@ import inspector.interfaces.itfInspectorStackedAreaChart;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
+import org.jfree.text.TextBlock;
+import org.jfree.ui.RectangleEdge;
 
 import singeltons.clsSimState;
 
@@ -37,6 +41,7 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	protected String moYAxisCaption = "";
 	protected itfInspectorStackedAreaChart moContent = null;
 	protected DefaultCategoryDataset moDataset = null;
+	protected String moLabel = "";
 	
 	/**
 	 * DOCUMENT (Kollmann) - insert description 
@@ -50,8 +55,13 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	 */
 	public cls_StackedAreaChartInspector(
 			itfInspectorStackedAreaChart poTimingContainer, String poYAxisCaption,
-			String poChartName) {
+			String poChartName, String poLabel) {
 		super(poChartName);
+		
+		moHeightRelation = 3.5;
+		moWidthRelation = 2.0;
+		
+		moLabel = poLabel;
 
 		moContent = poTimingContainer;
 		moChartName = poChartName;
@@ -71,7 +81,7 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	@Override
 	protected ChartPanel initChart() {
 		final JFreeChart chart = ChartFactory.createStackedAreaChart(
-	            moChartName,      			// chart title
+	            moContent.getTitle(moLabel),// chart title
 	            "Steps",                	// domain axis label
 	            moYAxisCaption,             // range axis label
 	            moDataset,					// data
@@ -89,13 +99,36 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	        plot.setDomainGridlinePaint(Color.white);
 	        plot.setRangeGridlinePaint(Color.white);
 	        
-	        final CategoryAxis domainAxis = plot.getDomainAxis();
-	        domainAxis.setLowerMargin(0.0);
-	        domainAxis.setUpperMargin(0.0);
+	        final CategoryAxis domainAxis = new CategoryAxis() {
+				/** DOCUMENT (Kollmann) - insert description; @since 10.07.2015 17:10:12 */
+				private static final long serialVersionUID = -7410814467692519268L;
 
+				@Override
+				protected TextBlock createLabel(Comparable category,
+						float width, RectangleEdge edge, Graphics2D g2) {
+					TextBlock oLabel = super.createLabel(category, width, edge, g2);
+					try {
+						if((new Double(category.toString()) % 10) != 0) {
+							return new TextBlock();
+						}
+					}catch(NumberFormatException e) {
+						//should be logging a warning here
+						
+					}
+					return oLabel;
+				}
+	        	
+	        };
+	        domainAxis.setLowerMargin(0.0);
+	        domainAxis.setTickLabelsVisible(true);
+	        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_45);
+	        
+	        plot.setDomainAxis(domainAxis);
+	        
 	        // change the auto tick unit selection to integer units only...
 	        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-	        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+	        rangeAxis.setRange(0.0, 0.75);
+	        rangeAxis.setStandardTickUnits(NumberAxis.createStandardTickUnits());
 
 	        final CategoryItemRenderer renderer = plot.getRenderer();
 	        renderer.setBaseItemLabelsVisible(true);
@@ -116,8 +149,8 @@ public class cls_StackedAreaChartInspector extends cls_AbstractChartInspector {
 	 */
 	@Override
 	protected void updateDataset() {
-		ArrayList<Double> oData = moContent.getData();
-		ArrayList<String> oCaptions = moContent.getCategoryCaptions();
+		ArrayList<Double> oData = moContent.getData(moLabel);
+		ArrayList<String> oCaptions = moContent.getCategoryCaptions(moLabel);
 		
 		if(oData.size() != oCaptions.size()) {
 			throw new RuntimeException("Dataset inconsistent");

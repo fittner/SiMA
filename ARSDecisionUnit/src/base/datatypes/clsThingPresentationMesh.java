@@ -9,14 +9,14 @@ package base.datatypes;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import logger.clsLogger;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.ePhiPosition;
 import memorymgmt.enums.eRadius;
-import primaryprocess.datamanipulation.clsPrimarySpatialTools;
-import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 
 /**
  * DOCUMENT (zeilinger) - The term Thing Presentation Mesh (TPM) describes a mesh of TPs which are connected via attribute associations. 
@@ -640,7 +640,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	 */
 	public Object clone() throws CloneNotSupportedException {
 	//public Object cloneGraph() throws CloneNotSupportedException {
-		return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+		return clone(new HashMap<clsDataStructurePA, clsDataStructurePA>());
 	}
 	
 	/**
@@ -655,7 +655,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	 * @return
 	 * @throws CloneNotSupportedException
 	 */
-	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+	public Object clone(HashMap<clsDataStructurePA, clsDataStructurePA> poClonedNodeMap) throws CloneNotSupportedException {
 		
 		clsThingPresentationMesh oClone = null;
 		
@@ -669,33 +669,38 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 			oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>();
 			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
 			//Add this structure and the new clone to the list of cloned structures
-			poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
-			
-			//Go through all associations
-			if (moInternalAssociatedContent != null) {
-				//Add internal associations to oClone 
-        		for(clsAssociation oAssociation : this.moInternalAssociatedContent){
-        			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					if(dupl!= null) oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
-    				} catch (Exception e) {
-    					return e;
-    				}
-        		}
-        	}
-						
-			//Go through all associations
-			if (moExternalAssociatedContent != null) {
-				//Add internal associations to oClone 
-        		for(clsAssociation oAssociation : this.moExternalAssociatedContent){
-        			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
-    				} catch (Exception e) {
-    					return e;
-    				}
-        		}
-        	}
+			if(!poClonedNodeMap.containsKey(this)) {
+    			poClonedNodeMap.put(this, oClone);
+    			
+    			//Go through all associations
+    			if (moInternalAssociatedContent != null) {
+    				//Add internal associations to oClone 
+            		for(clsAssociation oAssociation : this.moInternalAssociatedContent){
+            			try { 
+        					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
+        					if(dupl!= null) oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+        				} catch (Exception e) {
+        					return e;
+        				}
+            		}
+            	}
+    						
+    			//Go through all associations
+    			if (moExternalAssociatedContent != null) {
+    				//Add internal associations to oClone 
+            		for(clsAssociation oAssociation : this.moExternalAssociatedContent){
+            			try { 
+        					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
+        					if(dupl!= null) oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+        				} catch (Exception e) {
+        					return e;
+        				}
+            		}
+            	}
+			} else {
+			    clsLogger.getLog("Cloning").info("Object already in list");
+                oClone = (clsThingPresentationMesh) poClonedNodeMap.get(this);
+			}
 			
 		} catch (CloneNotSupportedException e) {
            return e;

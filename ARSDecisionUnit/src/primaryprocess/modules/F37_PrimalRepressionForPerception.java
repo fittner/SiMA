@@ -12,6 +12,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.storage.DT2_BlockedContentStorage;
@@ -19,9 +22,6 @@ import modules.interfaces.I5_6_receive;
 import modules.interfaces.I5_7_receive;
 import modules.interfaces.I5_7_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
-import testfunctions.clsTester;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationDriveMesh;
@@ -37,6 +37,7 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+import testfunctions.clsTester;
 
 /**
  * 
@@ -102,9 +103,10 @@ implements I5_6_receive, I5_7_send  {
 	 */
 	public F37_PrimalRepressionForPerception(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, 
-			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage , clsPersonalityParameterContainer poPersonalityParameterContainer)
+			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage,
+			clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 	throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		applyProperties(poPrefix, poProp);
 		mrActivationThreshold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_ACTIVATION_THRESHOLD).getParameterDouble();
 		mnActivationLimit = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_ACTIVATION_LIMIT).getParameterInt();
@@ -121,7 +123,6 @@ implements I5_6_receive, I5_7_send  {
 	 * @since 19.09.2011 17:02:40
 	 *
 	 */
-	@SuppressWarnings("unchecked")
 	private void fillPrimalRepressionMemory() {
 		
 	//TODO: check due to new DM-structure	
@@ -390,7 +391,6 @@ implements I5_6_receive, I5_7_send  {
 	 * 
 	 * @see pa.interfaces.receive._v38.I2_20_receive#receive_I2_20(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_6(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
 	    moWordingToContext = moWordingToContext2;

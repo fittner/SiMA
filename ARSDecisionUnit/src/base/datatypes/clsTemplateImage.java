@@ -8,10 +8,10 @@
 package base.datatypes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
-import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
 
@@ -221,7 +221,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
         		oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
         		for(clsAssociation oAssociation : moInternalAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
+    					Object dupl = oAssociation.clone(this, oClone, new HashMap<clsDataStructurePA, clsDataStructurePA>()); 
     					if(dupl!= null) oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;

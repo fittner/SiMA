@@ -32,4 +32,5 @@ public interface itfSymbolVisionEntry extends itfSymbol {
 	public double getDebugSensorArousal();
 	public itfSymbolVisionEntryAction getSymbolAction();
 	public ArrayList<clsSymbolVisionEntryExpression> getExpressions();
+	public boolean getCarringVariable();
 }

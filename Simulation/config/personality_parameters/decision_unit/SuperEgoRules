@@ -1,5 +1,5 @@
 -- dieses Zeichen "--" definiert eine Kommentarzeile
--- eine Zeile steht für eine Regel
+-- eine Zeile steht fuer eine Regel
 -- eine Regel kann entweder mit SuperEgoStrength beginnen, oder wenn nicht, wird für sie 0 angesetzt
 -- die SuperEgoStrength und die WENNs sind mit ';' zu trennen (WENN Arsin Hunger hat und Bodo + eine Torte sieht, DANN soll er den Hunger und die Torte unterdrücken)
 -- die DANNs sind mit '#' zu trennen
@@ -19,6 +19,8 @@
 -- QoA zu hoch um anzuschlagen Schritt 10
 --SuperEgoStrength 0,3;eDriveComponent AGGRESSIVE;eOrgan STOMACH;QoA 0,23678;eEmotionType ANXIETY;QoA 0,94#eContentType ENTITY CAKE
 
+-- Example with Action, memorize drive : 
+-- SuperEgoStrengh 0,8;eContentType ACTION EAT;QoA 0.6 0.9; eContentType ENTITY CAKE; eContentType ENTITY BODO#ACTION EAT
 
 
 -- Friedrich 2014-02-18

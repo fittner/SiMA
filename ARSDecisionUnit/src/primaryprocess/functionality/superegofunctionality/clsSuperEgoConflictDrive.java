@@ -20,12 +20,17 @@ import base.datatypes.helpstructures.clsPair;
  * 13.11.2013, 09:54:40
  * 
  */
-public class clsSuperEgoConflictDrive {
+public class clsSuperEgoConflictDrive { 
+    
+    private String moAction;
     private eDriveComponent moConflictComponent;
     private eOrgan moConflictOrgan;
     private eDefenseType moPreferedDefense;
     private Double moConflictTension = 0.0; // FG 22.01.2014: initialized with 0.0 to avoid null-pointer exceptions
 
+    boolean memorizedDrive = false;
+    
+    
     public clsSuperEgoConflictDrive(clsPair<eDriveComponent, eOrgan> poConflictIdentification) {
         this(poConflictIdentification.a, poConflictIdentification.b);
     }
@@ -41,12 +46,28 @@ public class clsSuperEgoConflictDrive {
         this(poConflictComponent, poConflictOrgan, eDefenseType.UNSPECIFIED_DEFENSE);
     }
     
+    public clsSuperEgoConflictDrive(String poAction, double poConflictTension) { 
+        setMoAction(poAction);
+        setConflictTension(poConflictTension);
+    }
+    
     public clsSuperEgoConflictDrive(eDriveComponent poConflictComponent, eOrgan poConflictOrgan, eDefenseType poPreferedDefense) {
         setConflictComponent(poConflictComponent);
         setConflictOrgan(poConflictOrgan);
         setPreferedDefense(poPreferedDefense);
     }
 
+    
+    public clsSuperEgoConflictDrive(String poAction, double poConflictTension, eDriveComponent peDriveComponent, eOrgan peOrgan) { 
+        setMoAction(poAction);
+        setConflictTension(poConflictTension);
+        setConflictComponent(peDriveComponent);
+        setConflictOrgan(peOrgan);
+        setPreferedDefense(eDefenseType.UNSPECIFIED_DEFENSE);
+        memorizedDrive = true;
+    }
+    
+    
     public boolean isConflict(clsDriveMesh poDrive) {
         boolean bIsConflict = false; 
         
@@ -93,4 +114,39 @@ public class clsSuperEgoConflictDrive {
     public void setConflictTension(double oConflictTension) {
         this.moConflictTension = oConflictTension;
     }
+
+    /**
+     * @since Apr 20, 2015 3:38:56 PM
+     * 
+     * @return the moAction
+     */
+    public String getMoAction() {
+        return moAction;
+    }
+
+    /**
+     * @since Apr 20, 2015 3:38:56 PM
+     * 
+     * @param moAction the moAction to set
+     */
+    public void setMoAction(String moAction) {
+        this.moAction = moAction;
+    }
+
+    /**
+     * @since Apr 23, 2015 6:22:00 PM
+     * 
+     * @return the moActionConflict
+     */
+    // if main conflict is the action conflict
+    public boolean isActionConflict() {
+        return (moAction!=null && moAction != "");
+    }
+
+    /**
+     * @since Apr 23, 2015 6:22:00 PM
+     * 
+     * @param moActionConflict the moActionConflict to set
+     */
+
 }

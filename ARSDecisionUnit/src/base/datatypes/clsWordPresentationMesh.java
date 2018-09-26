@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.ePhiPosition;
@@ -358,7 +359,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	 * @throws CloneNotSupportedException
 	 */
 	public Object clone() throws CloneNotSupportedException {
-		return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+		return clone(new HashMap<clsDataStructurePA, clsDataStructurePA>());
 	}
 	
 	/**
@@ -373,87 +374,81 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	 * @return
 	 * @throws CloneNotSupportedException
 	 */
-	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
-		
+	public Object clone(HashMap<clsDataStructurePA, clsDataStructurePA> poClonedNodeMap) throws CloneNotSupportedException {
 		clsWordPresentationMesh oClone = null;
 		
 		try {
 			//Clone the data structure without associated content. They only exists as empty lists
 		    
 		    //Check if structure already exists in the list
-		    for (clsPair<clsDataStructurePA, clsDataStructurePA> pair : poClonedNodeList) {
-		        if (this.equals(pair.a)) {
-		            //Return clone if this data structure already exists
-		            return pair.b;
-		        }
-		    }
-		    
-			oClone = (clsWordPresentationMesh)super.clone();
-			oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>();
-			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
-			
-			oClone.moAssociationMapping = new HashMap<ePredicate, ArrayList<clsSecondaryDataStructure>>();
-			
-			//Add this structure and the new clone to the list of cloned structures
-			poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
-			
-			//Go through all associations
-			if (moInternalAssociatedContent != null) {
-				//Add internal associations to oClone 
-        		for(clsAssociation oAssociation : moInternalAssociatedContent){
-        			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					if(dupl!= null) {
-    					    oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
-    					
-    					
-    					
-    					
-        					clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
-        					if (dupl instanceof clsAssociationSecondary) {
-        					    ePredicate oCT = ((clsAssociationSecondary)dupl).getPredicate();
-                                
-                                ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
-                                if (oS==null) {
-                                    oS = new ArrayList<clsSecondaryDataStructure>();
-                                }
-                                oS.add((clsSecondaryDataStructure) oOtherElement);
-                                oClone.moAssociationMapping.put(oCT, oS);
-        					}
-    					}
-    					
-    				} catch (Exception e) {
-    					return e;
-    				}
-        		}
-        	}
-						
-			//Go through all associations
-			if (moExternalAssociatedContent != null) {
-				//Add internal associations to oClone 
-        		for(clsAssociation oAssociation : moExternalAssociatedContent){
-        			try {
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					if(dupl!= null) {
-        					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+		    if(!poClonedNodeMap.containsKey(this)) {
+    			oClone = (clsWordPresentationMesh)super.clone();
+    			oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>();
+    			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
+    			
+    			oClone.moAssociationMapping = new HashMap<ePredicate, ArrayList<clsSecondaryDataStructure>>();
+    			
+    			//Add this structure and the new clone to the list of cloned structures
+    			poClonedNodeMap.put(this, oClone);
+    			
+    			//Go through all associations
+    			if (moInternalAssociatedContent != null) {
+    				//Add internal associations to oClone 
+            		for(clsAssociation oAssociation : moInternalAssociatedContent){
+            			try { 
+        					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
+        					if(dupl!= null) {
+        					    oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
         					
-                            clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
-                            if (dupl instanceof clsAssociationSecondary) {
-                                ePredicate oCT = ((clsAssociationSecondary)dupl).getPredicate();
-                                
-                                ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
-                                if (oS==null) {
-                                    oS = new ArrayList<clsSecondaryDataStructure>();
+            					clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
+            					if (dupl instanceof clsAssociationSecondary) {
+            					    ePredicate oCT = ((clsAssociationSecondary)dupl).getPredicate();
+                                    
+                                    ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
+                                    if (oS==null) {
+                                        oS = new ArrayList<clsSecondaryDataStructure>();
+                                    }
+                                    oS.add((clsSecondaryDataStructure) oOtherElement);
+                                    oClone.moAssociationMapping.put(oCT, oS);
+            					}
+        					}
+        					
+        				} catch (Exception e) {
+        					return e;
+        				}
+            		}
+            	}
+    						
+    			//Go through all associations
+    			if (moExternalAssociatedContent != null) {
+    				//Add internal associations to oClone 
+            		for(clsAssociation oAssociation : moExternalAssociatedContent){
+            			try {
+        					Object dupl = oAssociation.clone(this, oClone, poClonedNodeMap); 
+        					if(dupl!= null) {
+            					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+            					
+                                clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
+                                if (dupl instanceof clsAssociationSecondary) {
+                                    ePredicate oCT = ((clsAssociationSecondary)dupl).getPredicate();
+                                    
+                                    ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
+                                    if (oS==null) {
+                                        oS = new ArrayList<clsSecondaryDataStructure>();
+                                    }
+                                    oS.add((clsSecondaryDataStructure) oOtherElement);
+                                    oClone.moAssociationMapping.put(oCT, oS);
                                 }
-                                oS.add((clsSecondaryDataStructure) oOtherElement);
-                                oClone.moAssociationMapping.put(oCT, oS);
-                            }
-    					}
-    				} catch (Exception e) {
-    					return e;
-    				}
-        		}
-        	}
+        					}
+        				} catch (Exception e) {
+        					return e;
+        				}
+            		}
+            	}
+		    } else {
+		        clsLogger.getLog("Cloning").info("Object already in list");
+                oClone = (clsWordPresentationMesh) poClonedNodeMap.get(this);
+		    }
 			
 		} catch (CloneNotSupportedException e) {
            return e;
@@ -1368,7 +1363,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
     }
     
     /**
-     * Add a Feeling to the goal, which is not already present. If present, then replace
+     * Add a Feeling to the WPM, which is not already present. If present, then replace
      * 
      * (wendt) (moved by kollmann)
      *
@@ -1378,6 +1373,32 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      */
     public void addFeeling(clsWordPresentationMeshFeeling poFeeling) {
         this.addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
+    }
+    
+    /**
+     * Add an attributed emotion to the WPM, which is not already present. If present, then replace
+     * 
+     * (kollmann)
+     *
+     * @since 17.05.2013 10:37:48
+     *
+     * @param poEmotion
+     */
+    public void addAttributedEmotion(clsWordPresentationMeshEmotion poEmotion) {
+        this.addReplaceNonUniqueProperty(poEmotion, ePredicate.HASATTRIBUTEDEMOTION, false);
+    }
+    
+    /**
+     * Add an attributed emotion to the WPM, which is not already present. If present, then replace
+     * 
+     * (kollmann)
+     *
+     * @since 17.05.2013 10:37:48
+     *
+     * @param poEmotion
+     */
+    public ArrayList<clsWordPresentationMeshEmotion> getAttributedEmotions() {
+        return (ArrayList<clsWordPresentationMeshEmotion>) getNonUniquePropertyWPM(ePredicate.HASATTRIBUTEDEMOTION, clsWordPresentationMeshEmotion.class);
     }
     
     /**

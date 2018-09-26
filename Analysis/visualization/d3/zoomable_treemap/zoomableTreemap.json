@@ -1,0 +1,161 @@
+{
+  "name": "Overview of Choices",
+  "children": [
+    {
+      "name": "analytics",
+      "color": "#0000F0",
+      "children": [
+        {
+          "name": "cluster",
+          "children": [
+            {
+              "name": "AgglomerativeCluster",
+              "color": "#00F000",
+              "value": 338
+            },
+            {
+              "name": "CommunityStructure",
+              "color": "#00F000",
+              "value": 3812
+            },
+            {
+              "name": "HierarchicalCluster",
+              "color": "#00F000",
+              "value": 714
+            },
+            {
+              "name": "MergeEdge",
+              "color": "#00F000",
+              "value": 743
+            }
+          ]
+        },
+        {
+          "name": "graph",
+          "children": [
+            {
+              "name": "BetweennessCentrality",
+              "color": "#00F000",
+              "value": 3534
+            },
+            {
+              "name": "LinkDistance",
+              "color": "#00F000",
+              "value": 5731
+            },
+            {
+              "name": "MaxFlowMinCut",
+              "color": "#00F000",
+              "value": 7840
+            },
+            {
+              "name": "ShortestPaths",
+              "color": "#00F000",
+              "value": 5914
+            },
+            {
+              "name": "SpanningTree",
+              "color": "#00F000",
+              "value": 3416
+            }
+          ]
+        },
+        {
+          "name": "optimization",
+          "color": "#00F000",
+          "children": [
+            {
+              "name": "AspectRatioBanker",
+              "value": 7074
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "aqs",
+      "color": "#F0FAA0",
+      "children": [
+        {
+          "name": "cluster",
+          "children": [
+            {
+              "name": "AgglomerativeCluster",
+              "color": "#00F000",
+              "value": 338
+            },
+            {
+              "name": "CommunityStructure",
+              "color": "#00F000",
+              "value": 3812
+            },
+            {
+              "name": "HierarchicalCluster",
+              "color": "#00F000",
+              "value": 714
+            },
+            {
+              "name": "MergeEdge",
+              "color": "#00F000",
+              "value": 743
+            }
+          ]
+        },
+        {
+          "name": "graph",
+          "children": [
+            {
+              "name": "BetweennessCentrality",
+              "color": "#00F000",
+              "value": 3534
+            },
+            {
+              "name": "LinkDistance",
+              "color": "#00F000",
+              "value": 5731
+            },
+            {
+              "name": "MaxFlowMinCut",
+              "color": "#00F000",
+              "value": 7840
+            },
+            {
+              "name": "ShortestPaths",
+              "color": "#00F000",
+              "value": 5914
+            },
+            {
+              "name": "SpanningTree",
+              "color": "#00F000",
+              "value": 3416
+            }
+          ]
+        },
+        {
+          "name": "optimization",
+          "color": "#00F000",
+          "children": [
+            {
+              "name": "AspectRatioBanker",
+              "value": 7074
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "demo",
+      "color": "#F11000",
+      "children": [
+        {
+          "name": "cluster",
+          "color": "#F01100"
+        },
+        {
+          "name": "graph",
+          "color": "#F00010"
+        }
+      ]
+    }
+  ]
+}

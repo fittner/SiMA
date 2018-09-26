@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYSplineRenderer;
+import org.jfree.data.xy.XYDataItem;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -51,8 +53,19 @@ public class cls_GenericDynamicTimeChartInspector extends cls_GenericTimeChartIn
 		super(poObject, pnHistoryLength, pnWidth, pnHeight);
 		((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartColumnsUpdated();
 	}	
-	
-    @Override
+
+	@Override
+	protected void customizePlot(XYPlot plot) {
+		// TODO (Heinrich Kemmler) - Auto-generated method stub
+		super.customizePlot(plot);
+		
+		XYSplineRenderer renderer = new XYSplineRenderer();
+		renderer.setBaseItemLabelsVisible(false);
+		
+		plot.setRenderer(renderer);
+	}
+
+	@Override
     protected XYSeriesCollection createDataset() {
     	XYSeriesCollection poDataset = super.createDataset();
 		return poDataset;

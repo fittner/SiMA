@@ -12,6 +12,7 @@ import graph.clsGraphInterface;
 import graph.clsMeshInterface;
 import inspector.interfaces.itfGraphCompareInterfaces;
 import inspector.interfaces.itfGraphInterface;
+import inspector.interfaces.itfInspectorAdvancedStackedBarChart;
 import inspector.interfaces.itfInspectorAreaChart;
 import inspector.interfaces.itfInspectorBarChart;
 import inspector.interfaces.itfInspectorBarChartF06;
@@ -48,15 +49,18 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import mind.autocreated.clsE_SimpleInterfaceDataInspector;
 import mind.autocreated.clsI_SimpleInterfaceDataInspector;
+import mind.autocreated.cls_AdvancedStackedBarChartInspector;
 import mind.autocreated.cls_AreaChartInspector;
 import mind.autocreated.cls_BarChartInspector;
 import mind.autocreated.cls_BarChartInspectorF06;
 import mind.autocreated.cls_BarChartInspectorF19;
+import mind.autocreated.cls_CombinedGenericChart;
 import mind.autocreated.cls_CombinedTimeChart;
 import mind.autocreated.cls_DescriptionInspector;
 import mind.autocreated.cls_GenericActivityTimeChartInspector;
 import mind.autocreated.cls_GenericDynamicTimeChartInspector;
 import mind.autocreated.cls_GenericTimeChartInspector;
+import mind.autocreated.cls_MultipleBarChartsInspector;
 import mind.autocreated.cls_SpiderWebChartInspector;
 import mind.autocreated.cls_StackedAreaChartInspector;
 import mind.autocreated.cls_StackedBarChartInspector;
@@ -293,7 +297,7 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 			
 			if (oModule instanceof itfInspectorSpiderWebChart) { 
 				poTI.addInspector(
-						new cls_SpiderWebChartInspector((itfInspectorSpiderWebChart) oModule),	
+						new cls_SpiderWebChartInspector((itfInspectorSpiderWebChart) oModule, ""),	
 						"Spider Chart");
 			}
 			
@@ -317,6 +321,11 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 			if (oModule instanceof itfInspectorStackedBarChart) {
 				poTI.addInspector(
 						new cls_StackedBarChartInspector((itfInspectorStackedBarChart) oModule),	
+						"StackedBarChart");				
+			}
+			if (oModule instanceof itfInspectorAdvancedStackedBarChart) {
+				poTI.addInspector(
+						new cls_AdvancedStackedBarChartInspector((itfInspectorAdvancedStackedBarChart) oModule),	
 						"StackedBarChart");				
 			}
 			/*-------------------------BarChart For F06------------------------*/
@@ -397,14 +406,6 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 						new clsInspectorImageDrives((itfInspectorModificationDrives) oModule),
 						"pictogram DM-Rules");
 			}
-			
-			if(oModule instanceof itfInspectorStackedAreaChart) {
-				poTI.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) oModule,
-						"", "Eat goal evaluation"), "Eat evaluation");
-			}
-			
-
-			
 		} catch (java.lang.NoSuchFieldException e) {
 			// do nothing
 		} catch (java.lang.Exception e) {
@@ -479,7 +480,24 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 		} else if(poModuleName.equals("E45_LibidoDischarge")) {
 		} else if(poModuleName.equals("E46_FusionWithMemoryTraces")) {
 		} else if(poModuleName.equals("E47_ConversionToPrimaryProcess")) {
-		} 
+		} else if(poModuleName.equals("F63_CompositionOfEmotions")) {
+			cls_CombinedGenericChart oContainer = new cls_CombinedGenericChart();
+			oContainer.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) poPA.moF63_CompositionOfEmotions,
+					"Pleasure", "Pleasure Development", "PLEASURE"));
+			oContainer.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) poPA.moF63_CompositionOfEmotions,
+					"Un-pleasure", "Pleasure Development", "UNPLEASURE"));
+			oContainer.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) poPA.moF63_CompositionOfEmotions,
+					"Aggressive", "Pleasure Development", "AGGRESSIVE"));
+			oContainer.addInspector(new cls_StackedAreaChartInspector((itfInspectorStackedAreaChart) poPA.moF63_CompositionOfEmotions,
+					"Libidinous", "Pleasure Development", "LIBIDINOUS"));
+			poTI.addInspector(oContainer, "Emotion Development");
+			oContainer = new cls_CombinedGenericChart();
+			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "Associated Emotion"));
+			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "(weighted) Valuation"));
+			oContainer.addInspector(new cls_MultipleBarChartsInspector(poPA.moF63_CompositionOfEmotions, "Transfered Emotion"));
+			oContainer.setLayout(new BoxLayout(oContainer, BoxLayout.X_AXIS));
+			poTI.addInspector(oContainer, "Emotion Transfer");
+		}
 	}
 	
 	public void close(){

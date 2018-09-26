@@ -18,14 +18,16 @@ public enum eContentType {
 	NULLOBJECT,
 	NOTHING,
 	EMPTYSPACE,
-	
+	RI_ACTION,
 	//---Images---//
 	PI,			//Perceived Image
 	RI,			//Remembered Image
 	PHI,		//Phantasized image
+	RPA, // recognized actions or 
+	RPI, // recognized intention
 	RIREPRESSED,
 	RILIBIDO,
-	
+	RECOGNIZEDACTION,
 	PIMATCH, 		//Content type of perception
 	
 	//--- Entities --- //
@@ -76,7 +78,9 @@ public enum eContentType {
 	TOTALIMPORTANCE,
 	POTENTIALDRIVEFULFILLMENTIMPORTANCE,
 	DRIVEAIMIMPORTANCE,
-	
+	ENTITYVALUATIONMATCHIMPORTANCE,
+	ENTITYBODYSTATEMATCHIMPORTANCE,
+	REQUEST,
 	Expressions,
 	
 	
@@ -110,6 +114,7 @@ public enum eContentType {
 	//--- Emotions
 	BASICEMOTION,
 	MEMORIZEDEMOTION, // kollmann: this is used to identify that this emotion, if associated to an activated image, will influence the current drive state
+	ATTRIBUTEDEMOTION, // kollmann: this is used to identify that an emotion is attributed to the primaryinstance of an entity (currently used in intentions)
 	COMPLEXEMOTION,
 	
 	// Feelings
@@ -143,6 +148,7 @@ public enum eContentType {
 	ASSOCIATIONPRI,
 	ASSOCIATIONPRIDM,
 	ASSOCIATIONSEC,
+	ASSOCIATIONSPATIAL,
 	ASSOCIATIONEMOTION,
 	ASSOCIATIONFEELING,
 	DRIVEDEMAND,
@@ -315,7 +321,7 @@ public enum eContentType {
     MEDIUMOF,
     FAROF,
     OUT_OF_SIGHT_OF,
-    
+    CARRYING,
     //for Word Presentation Sequences, by MJ
     WPSelement,
     WPS,
@@ -324,8 +330,15 @@ public enum eContentType {
     //Control
     HASPHANTASYFLAG,
 	
+ // Ownership
+    ISOWNER,
+    ISOWNED,
+    CarringVariable,
 	//Expression
     Expression; //koller
+	
+	
+	
 	
 	public static eContentType getContentType(String poContentType) {
         

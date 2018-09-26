@@ -9,12 +9,6 @@ package secondaryprocess.datamanipulation;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-import logger.clsLogger;
-import memorymgmt.enums.eContent;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eDataType;
-import memorymgmt.enums.ePredicate;
-
 import org.slf4j.Logger;
 
 import base.datahandlertools.clsDataStructureGenerator;
@@ -36,6 +30,11 @@ import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
+import logger.clsLogger;
+import memorymgmt.enums.eContent;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.enums.ePredicate;
 
 /**
  * This class contains methods for data search and extraction in meshes
@@ -228,14 +227,14 @@ public class clsMeshTools {
 			}
 		}
 		
-		if (pbStopAtFirstMatch==false || poRetVal.isEmpty()==true) {	//=NOT Stopatfirstmatch=true AND oRetVal is not empty
+		if (pbStopAtFirstMatch == false || poRetVal.isEmpty() == true) {	//=NOT Stopatfirstmatch=true AND oRetVal is not empty
 			
 			//Add the substructures of the internal associations
-			if ((pnLevel>0) || (pnLevel==-1)) {
+			if ((pnLevel > 0) || (pnLevel == -1)) {
 				for (clsAssociation oAss : poMesh.getInternalAssociatedContent()) {
-					if (poAddedElements.contains(oAss.getLeafElement())==false && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
+					if (poAddedElements.contains(oAss.getLeafElement()) == false && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
 						searchDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeFilterList, pbStopAtFirstMatch, pnLevel-1);
-					} else if (poAddedElements.contains(oAss.getRootElement())==false && oAss.getRootElement() instanceof clsThingPresentationMesh) {
+					} else if (poAddedElements.contains(oAss.getRootElement()) == false && oAss.getRootElement() instanceof clsThingPresentationMesh) {
 						searchDataStructureInTPM((clsThingPresentationMesh) oAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentTypeFilterList, pbStopAtFirstMatch, pnLevel-1);
 					}
 				}
@@ -1405,15 +1404,9 @@ public class clsMeshTools {
 	 */
 	public static void createAssociationAttribute(clsThingPresentationMesh poStructureA, clsThingPresentation poStructureB, double prWeight, int pnAddMode) throws Exception {
 		eContentType oContentType = eContentType.ASSOCIATIONATTRIBUTE;
-		clsAssociationAttribute oAssAttr = (clsAssociationAttribute)clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(oContentType, poStructureA, poStructureB, prWeight);
-		if (pnAddMode==0) {
-			poStructureA.getInternalAssociatedContent().add(oAssAttr);
-		} else if (pnAddMode==1) {
-			poStructureA.getExternalAssociatedContent().add(oAssAttr);
-		} else {
-			throw new Exception("Only 0=add to internal associations or 1=add to external associations are selectable");
-		}
 		
+		//AddMode == 0 --> internal
+		clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(oContentType, poStructureA, (pnAddMode == 0), poStructureB, prWeight);
 	}
 	
 	/**
@@ -2225,6 +2218,16 @@ public class clsMeshTools {
 		ArrayList<eContentType> oContentTypeRI = new ArrayList<eContentType>();
 		oContentTypeRI.add(eContentType.RI);
 		oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeRI, false, pnLevel));
+		
+//		//Add all RPI. 
+//        ArrayList<eContentType> oContentTypeRPI = new ArrayList<eContentType>();
+//        oContentTypeRI.add(eContentType.RPI);
+//        oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeRPI, false, pnLevel));
+//        
+//        //Add all RPA. 
+//        ArrayList<eContentType> oContentTypeRPA = new ArrayList<eContentType>();
+//        oContentTypeRI.add(eContentType.RPA);
+//        oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeRPA, false, pnLevel));
 		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);

@@ -785,7 +785,7 @@ public class clsProperties extends Properties {
 	 */
 	private String unescapeTag(String value) {
 		if (value.startsWith(P_ESCAPE)) {
-			value = value.substring( P_ESCAPE.length() ); 
+			value = value.substring( P_ESCAPE.length()); 
 		}
 		
 		return value;

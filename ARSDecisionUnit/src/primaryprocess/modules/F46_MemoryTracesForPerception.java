@@ -26,12 +26,6 @@ import modules.interfaces.I2_6_receive;
 import modules.interfaces.I5_6_receive;
 import modules.interfaces.I5_6_send;
 import modules.interfaces.eInterfaces;
-import primaryprocess.datamanipulation.clsPrimarySpatialTools;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
-import secondaryprocess.datamanipulation.clsEntityTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import testfunctions.clsTester;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
@@ -52,6 +46,12 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+import secondaryprocess.datamanipulation.clsEntityTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 
 /**
  * Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). 
@@ -65,7 +65,7 @@ import base.tools.toText;
 public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2_6_receive, I5_6_send, itfGraphInterface {
 	public static final String P_MODULENUMBER = "46";
 	public static final String P_MATCH_THRESHOLD = "MATCH_THRESHOLD";
-	
+	 
 	//FIXME: Connect to neutral drive energy
 	private static final double PSYCHICINTENSITYFORSPREADINGACTIVATION = 30.0;
 	private static final int MAXDIRECTACTIVATIONFORSPREADINGACTIVATION = 30;
@@ -116,9 +116,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F46_MemoryTracesForPerception(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-			itfModuleMemoryAccess poLongTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+	public F46_MemoryTracesForPerception(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+	        SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory,
+	        clsEnvironmentalImageMemory poTempLocalizationStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		
 		applyProperties(poPrefix, poProp);
 		
@@ -244,7 +245,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		if(oSelf != null && !oSelf.isNullObject()) {
 		    for(clsAssociationEmotion oAssEmotion : clsAssociation.filterListByType(oSelf.getInternalAssociatedContent(), clsAssociationEmotion.class)) {
                 if(oAssEmotion.getTheOtherElement(oSelf) instanceof clsEmotion) {
-                    oPerceivedImage.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, (clsEmotion)oAssEmotion.getTheOtherElement(oSelf), oPerceivedImage, 1.0));
+                    clsDataStructureGenerator.generateASSOCIATIONEMOTION(eContentType.ASSOCIATIONEMOTION, (clsEmotion)oAssEmotion.getTheOtherElement(oSelf), oPerceivedImage, false, 1.0);
                 }
             }
 		}
@@ -348,7 +349,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		
 		//Get all objects from the localization
 		ArrayList<clsThingPresentationMesh> oPTPMList = poEnvironmentalImageStorage.getAllTPMFromEnhancedEnvironmentalImage();
-		ArrayList<clsThingPresentationMesh> oExtendEntityList = new ArrayList<clsThingPresentationMesh>();
+ 		ArrayList<clsThingPresentationMesh> oExtendEntityList = new ArrayList<clsThingPresentationMesh>();
 		
 		for(clsThingPresentationMesh oTPM : oPTPMList) {
 			//Check if the PI contains this type of object
@@ -510,7 +511,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
             }
         }
         
-        this.getLongTermMemory().executePsychicSpreadActivation(perceivedImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION, true, RECOGNIZEDIMAGEMULTIPLICATIONFACTOR, returnedPhantasyImageList);
+         this.getLongTermMemory().executePsychicSpreadActivation(perceivedImage, moDrives_IN, PSYCHICINTENSITYFORSPREADINGACTIVATION, MAXDIRECTACTIVATIONFORSPREADINGACTIVATION, true, RECOGNIZEDIMAGEMULTIPLICATIONFACTOR, returnedPhantasyImageList);
         
         //=== Perform system tests ===//
         if (clsTester.getTester().isActivated()) {

@@ -14,11 +14,11 @@ import memorymgmt.enums.eActionType;
 
 import org.slf4j.Logger;
 
+import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import secondaryprocess.algorithm.planning.ActionPlanAlgorithm;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
-import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.clsWordPresentationMeshPossibleGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -73,17 +73,23 @@ public class PlanningFunctionality {
      * @throws Exception
      */
     public static clsWordPresentationMesh getActionCommandFromPlanGoal(clsWordPresentationMeshPossibleGoal planGoal) throws Exception {
-        try {
+       
+        clsWordPresentationMesh actionCommand;
+        /* try {
             if (planGoal.isNullObject()==true) {
                 throw new Exception("planGoal is Nullobject. The agent always have to do something");
             }
         } catch (Exception e) {
             log.error("Goal is nullobject", e);
             throw new Exception(e.getMessage());
+        } */
+        // Zhukova create wait action
+        if(planGoal.isNullObject()) {
+            actionCommand = clsActionTools.createAction(eAction.WAIT);
         }
         
         //Extract action from goal
-        clsWordPresentationMesh actionCommand = planGoal.getAssociatedPlanAction();
+        actionCommand = planGoal.getAssociatedPlanAction();
         if (actionCommand.isNullObject()==true) {
             actionCommand = clsActionTools.createAction(eAction.NONE);
             log.trace("The selected action was a null object and therefore the action NONE was selected.");

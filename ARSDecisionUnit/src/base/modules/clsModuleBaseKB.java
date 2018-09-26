@@ -54,9 +54,10 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poKnowledgeBaseHandler A reference to the knowledgebase handler.
 	 * @throws Exception
 	 */
-	public clsModuleBaseKB(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemoryAccess)
+	public clsModuleBaseKB(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+	        SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemoryAccess, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		//moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		
 		//moSpreadActivationHandler = new clsPsychicSpreadActivation(this);
@@ -69,7 +70,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @return the moMemoryAccess
 	 */
 	public itfModuleMemoryAccess getLongTermMemory() {
-		return moMemoryAccess;
+ 		return moMemoryAccess;
 	}
 
 //	/**

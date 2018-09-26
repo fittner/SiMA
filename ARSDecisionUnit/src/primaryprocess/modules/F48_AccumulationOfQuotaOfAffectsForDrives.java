@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 
+import base.datatypes.enums.eOrgan;
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eDrive;
@@ -26,14 +29,11 @@ import modules.interfaces.I3_4_receive;
 import modules.interfaces.I4_1_receive;
 import modules.interfaces.I4_1_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
-import base.datatypes.enums.eOrgan;
 import base.datatypes.enums.eOrifice;
 import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
@@ -102,9 +102,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			DT4_PleasureStorage poPleasureStorage, DT1_PsychicIntensityBuffer poLibidoBuffer, 
-			clsPersonalityParameterContainer poPersonalityParameterContainer, DT3_PsychicIntensityStorage poDT3_IntensityStorage)
+			clsPersonalityParameterContainer poPersonalityParameterContainer, DT3_PsychicIntensityStorage poDT3_IntensityStorage, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 
 		moPleasureStorage = poPleasureStorage;
 		moLibidoBuffer = poLibidoBuffer;
@@ -558,7 +558,6 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	 * 
 	 * @see pa._v38.interfaces.modules.I3_3_receive#receive_I3_3(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I3_3(
 			ArrayList<clsDriveMesh> poSexualDriveRepresentations) {

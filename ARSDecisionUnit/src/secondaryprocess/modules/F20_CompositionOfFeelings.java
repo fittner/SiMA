@@ -10,18 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import memorymgmt.enums.eEmotionType;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.shorttermmemory.clsShortTermMemory;
-import memorymgmt.storage.DT3_PsychicIntensityStorage;
-import modules.interfaces.I5_23_receive;
-import modules.interfaces.I6_14_receive;
-import modules.interfaces.I6_14_send;
-import modules.interfaces.I6_2_receive;
-import modules.interfaces.I6_2_send;
-import modules.interfaces.I6_4_receive;
-import modules.interfaces.I6_5_receive;
-import modules.interfaces.eInterfaces;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsAffect;
@@ -41,6 +29,18 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+import memorymgmt.enums.eEmotionType;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.shorttermmemory.clsShortTermMemory;
+import memorymgmt.storage.DT3_PsychicIntensityStorage;
+import modules.interfaces.I5_23_receive;
+import modules.interfaces.I6_14_receive;
+import modules.interfaces.I6_14_send;
+import modules.interfaces.I6_2_receive;
+import modules.interfaces.I6_2_send;
+import modules.interfaces.I6_4_receive;
+import modules.interfaces.I6_5_receive;
+import modules.interfaces.eInterfaces;
 
 /**
  * - Converts separated quota of affect into affects for the secondary process.
@@ -112,8 +112,8 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	public F20_CompositionOfFeelings(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory,
 			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer,
-			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory, pnUid);
 		
 	    mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F20", P_MODULE_STRENGTH).getParameterDouble();
 	    mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F20", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
@@ -292,18 +292,18 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	//clone  Emotions -
 	private ArrayList<clsEmotion> clone(ArrayList<clsEmotion> oEmotions) {
 		// deep clone: oEmotions --> oClonedEmotions
-				ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
-				ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
-				for (clsEmotion oOneEmotion : oEmotions) {
-					try {
-						oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
-					} catch (CloneNotSupportedException e) {
-						// Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				return oClonedEmotions;
+		ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
+
+	    for (clsEmotion oOneEmotion : oEmotions) {
+			try {
+				oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(new HashMap<clsDataStructurePA, clsDataStructurePA>()));
+			} catch (CloneNotSupportedException e) {
+				// Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return oClonedEmotions;
 	}
 	
 	/* (non-Javadoc)

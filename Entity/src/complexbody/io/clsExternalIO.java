@@ -9,10 +9,12 @@ package complexbody.io;
 
 import java.util.ArrayList;
 
-import properties.clsProperties;
 import body.clsBaseBody;
-
+import properties.clsProperties;
 import complexbody.io.actuators.clsActionProcessor;
+import complexbody.io.actuators.actionCommands.clsActionAgree;
+//import complexbody.io.actuators.actionCommands.clsActionAgree;
+//import complexbody.io.actuators.actionCommands.clsActionAgree;
 import complexbody.io.actuators.actionCommands.clsActionAttackBite;
 import complexbody.io.actuators.actionCommands.clsActionAttackLightning;
 import complexbody.io.actuators.actionCommands.clsActionBeat;
@@ -34,12 +36,19 @@ import complexbody.io.actuators.actionCommands.clsActionFromInventory;
 import complexbody.io.actuators.actionCommands.clsActionKiss;
 import complexbody.io.actuators.actionCommands.clsActionMove;
 import complexbody.io.actuators.actionCommands.clsActionMoveToEatableArea;
+import complexbody.io.actuators.actionCommands.clsActionObjectTransfer;
+//import complexbody.io.actuators.actionCommands.clsActionObjectTransfer;
 import complexbody.io.actuators.actionCommands.clsActionPickUp;
+import complexbody.io.actuators.actionCommands.clsActionRequest;
+//import complexbody.io.actuators.actionCommands.clsActionRequest;
 import complexbody.io.actuators.actionCommands.clsActionSleep;
 import complexbody.io.actuators.actionCommands.clsActionSpeech;
 import complexbody.io.actuators.actionCommands.clsActionToInventory;
 import complexbody.io.actuators.actionCommands.clsActionTurn;
 import complexbody.io.actuators.actionCommands.clsActionTurnVision;
+import complexbody.io.actuators.actionCommands.clsActionWait;
+import complexbody.io.actuators.actionExecutors.clsExecutorAgree;
+//import complexbody.io.actuators.actionExecutors.clsExecutorAgree;
 import complexbody.io.actuators.actionExecutors.clsExecutorAttackBite;
 import complexbody.io.actuators.actionExecutors.clsExecutorAttackLightning;
 import complexbody.io.actuators.actionExecutors.clsExecutorBeat;
@@ -54,13 +63,18 @@ import complexbody.io.actuators.actionExecutors.clsExecutorFromInventory;
 import complexbody.io.actuators.actionExecutors.clsExecutorKiss;
 import complexbody.io.actuators.actionExecutors.clsExecutorMove;
 import complexbody.io.actuators.actionExecutors.clsExecutorMoveToArea;
+import complexbody.io.actuators.actionExecutors.clsExecutorObjectTransfer;
+//import complexbody.io.actuators.actionExecutors.clsExecutorObjectTransfer;
 import complexbody.io.actuators.actionExecutors.clsExecutorPickUp;
+import complexbody.io.actuators.actionExecutors.clsExecutorRequest;
+//import complexbody.io.actuators.actionExecutors.clsExecutorRequest;
 import complexbody.io.actuators.actionExecutors.clsExecutorSleep;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeech;
 import complexbody.io.actuators.actionExecutors.clsExecutorSpeechExpression;
 import complexbody.io.actuators.actionExecutors.clsExecutorToInventory;
 import complexbody.io.actuators.actionExecutors.clsExecutorTurn;
 import complexbody.io.actuators.actionExecutors.clsExecutorTurnVision;
+import complexbody.io.actuators.actionExecutors.clsExecutorWait;
 import complexbody.io.sensors.datatypes.enums.eSensorExtType;
 import complexbody.io.sensors.external.clsSensorAcceleration;
 import complexbody.io.sensors.external.clsSensorBump;
@@ -73,7 +87,6 @@ import complexbody.io.sensors.external.clsSensorOlfactoric;
 import complexbody.io.sensors.external.clsSensorPositionChange;
 import complexbody.io.sensors.external.clsSensorRadiation;
 import complexbody.io.sensors.external.clsSensorVision;
-
 import entities.abstractEntities.clsEntity;
 import entities.abstractEntities.clsMobile;
 import entities.actionProxies.itfAPSleep;
@@ -342,8 +355,20 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+entities.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_RIGHTANT,1);
 		oProp.putAll( clsExecutorFacialExpressions.getDefaultProperties( pre+P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS) );
 
+		oProp.setProperty(pre + P_ACTIONAVAILABLE	+"."+ entities.enums.eBodyParts.ACTIONEX_AGREE, 1);
+		oProp.putAll(clsExecutorAgree.getDefaultProperties( pre + P_ACTIONEX	+"."+ entities.enums.eBodyParts.ACTIONEX_AGREE));
+		
+		oProp.setProperty(pre + P_ACTIONAVAILABLE	+"."+ entities.enums.eBodyParts.ACTIONEX_REQUEST, 1);
+		oProp.putAll(clsExecutorRequest.getDefaultProperties( pre + P_ACTIONEX	+"."+ entities.enums.eBodyParts.ACTIONEX_REQUEST));
+		
+		oProp.setProperty(pre + P_ACTIONAVAILABLE	+"."+ entities.enums.eBodyParts.ACTIONEX_OBJECTTRANSFER, 1);
+		oProp.putAll(clsExecutorObjectTransfer.getDefaultProperties( pre + P_ACTIONEX	+"."+ entities.enums.eBodyParts.ACTIONEX_OBJECTTRANSFER));
+		
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+entities.enums.eBodyParts.ACTIONEX_SLEEP,1);
 		oProp.putAll( clsExecutorSleep.getDefaultProperties( pre+P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_SLEEP) );
+		
+		oProp.setProperty(pre + P_ACTIONAVAILABLE	+"."+ entities.enums.eBodyParts.ACTIONEX_WAIT, 1);
+		oProp.putAll(clsExecutorRequest.getDefaultProperties( pre + P_ACTIONEX	+"."+ entities.enums.eBodyParts.ACTIONEX_WAIT));
 
 		return oProp;		
 	}
@@ -435,6 +460,11 @@ public class clsExternalIO extends clsBaseIO {
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+entities.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_RIGHTANT)==1) moProcessor.addCommand(clsActionFacialExRightAntennaPosition.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
 
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+entities.enums.eBodyParts.ACTIONEX_SPEECH)==1) moProcessor.addCommand(clsActionSpeech.class, new clsExecutorSpeech(poPrefix+"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_SPEECH,poProp,(clsMobile) moEntity)); // MW 
+		
+		if (poProp.getPropertyInt( pre + P_ACTIONAVAILABLE	+ "."+entities.enums.eBodyParts.ACTIONEX_REQUEST) == 1) moProcessor.addCommand(clsActionRequest.class, new clsExecutorRequest(poPrefix +"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_AGREE, poProp, (clsMobile) moEntity)); // MW 
+		if (poProp.getPropertyInt( pre + P_ACTIONAVAILABLE	+ "."+entities.enums.eBodyParts.ACTIONEX_OBJECTTRANSFER) == 1) moProcessor.addCommand(clsActionObjectTransfer.class, new clsExecutorObjectTransfer(poPrefix+"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_OBJECTTRANSFER, poProp, (clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre + P_ACTIONAVAILABLE	+ "."+entities.enums.eBodyParts.ACTIONEX_AGREE) == 1) moProcessor.addCommand(clsActionAgree.class, new clsExecutorAgree(poPrefix +"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_AGREE, poProp)); // MW 
+		if (poProp.getPropertyInt( pre + P_ACTIONAVAILABLE	+ "."+entities.enums.eBodyParts.ACTIONEX_WAIT) == 1) moProcessor.addCommand(clsActionWait.class, new clsExecutorWait(poPrefix +"." + P_ACTIONEX	+"."+entities.enums.eBodyParts.ACTIONEX_AGREE, poProp, (clsMobile) moEntity));
 		
 		//TODO: Add itfAPSleep - objects to inform when sleeping!		
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+entities.enums.eBodyParts.ACTIONEX_SLEEP)==1) {

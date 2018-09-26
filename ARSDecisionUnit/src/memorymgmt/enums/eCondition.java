@@ -72,9 +72,10 @@ public enum eCondition {
 	EXECUTED_STRAFE_RIGHT,
 	//Actions - System
 	EXECUTED_NONE,
-	
-	
-	
+	EXECUTED_REQUEST,
+	EXECUTED_OBJECT_TRANSFER,
+	EXECUTED_AGREE,
+	EXECUTED_DISAGREE,
 	//--- Post conditions for actions by decision codelets --- //
 	SET_FOCUS_ON,					//Focus set on the supportive data structure in the action
 	SET_FOCUS_MOVEMENT,		//It has been focused on in front of the agent		

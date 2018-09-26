@@ -7,30 +7,18 @@ package loader;
 
 import java.awt.Color;
 
+
+
+
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.interfaces.itfSearchSpaceAccess;
-import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
-import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
-import properties.clsProperties;
-import registration.clsRegisterEntity;
-import sim.engine.SimState;
-import singeltons.clsSingletonMasonGetter;
-import tools.clsPose;
-import tools.eImagePositioning;
-import utils.clsGetARSPath;
-import utils.clsUniqueIdGenerator;
-import utils.ePositionType;
-import base.clsCommunicationFactory;
-import base.clsCommunicationInterface;
-import body.clsBaseBody;
-import body.clsComplexBody;
-import body.clsMeatBody;
-
 import communication.layer1.implementations.clsLayer1ProcedureCall;
 import complexbody.internalSystems.clsFlesh;
 import complexbody.internalSystems.clsInternalSystem;
 import complexbody.io.sensors.datatypes.enums.eEntityType;
-
+import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
+import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
+import properties.clsProperties;
 import control.clsProcessor;
 import control.clsPsychoAnalysis;
 import control.factory.clsARSDecisionUnitFactory;
@@ -47,6 +35,19 @@ import entities.enums.eShapeType;
 import entities.factory.clsEntityFactory;
 import entities.tools.clsShape2DCreator;
 import entity.clsInspectorEntity;
+import base.clsCommunicationFactory;
+import base.clsCommunicationInterface;
+import body.clsBaseBody;
+import body.clsComplexBody;
+import body.clsMeatBody;
+import registration.clsRegisterEntity;
+import sim.engine.SimState;
+import singeltons.clsSingletonMasonGetter;
+import tools.clsPose;
+import tools.eImagePositioning;
+import utils.clsGetARSPath;
+import utils.clsUniqueIdGenerator;
+import utils.ePositionType;
 
 /**
  * Creates the world and all of its entities according to a simple property file. This file contains basic world settings
@@ -454,6 +455,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 			((clsLayer1ProcedureCall) oDUBodyControl.getLayer1()).setCommunicationPartner((clsLayer1ProcedureCall) oBodyDUControl.getLayer1());
 			((clsLayer1ProcedureCall) oBodyDUControl.getLayer1()).setCommunicationPartner((clsLayer1ProcedureCall) oDUBodyControl.getLayer1());
 
+			//Register the agent at analysis
+//			clsAnalyzer.getInstance().registerActiveAgent(temp);
 		}
     	
     	
@@ -473,7 +476,7 @@ public class clsSimplePropertyLoader extends clsLoader {
      * @param poPrefix
      * @param poProp
      */
-    private void createEntityGroup(String poPrefix, clsProperties poProp) {
+    private void createEntityGroup(String poPrefix, clsProperties poProp, int pnGroupId) {
     	String pre = clsProperties.addDot(poPrefix);
     	
     	clsProperties oPropMemory = poProp.getSubset(P_KNOWLEDGEBASE);
@@ -504,7 +507,9 @@ public class clsSimplePropertyLoader extends clsLoader {
     		System.out.print(".");
     		
     		//get unique id for this entity (used for entity and for decision unit)
-    		int uid = clsUniqueIdGenerator.getUniqueId();
+    		//int uid = clsUniqueIdGenerator.getUniqueId();
+    		//Kollmann: lets use the group id as unique identifier
+    		int uid = pnGroupId;
     		
     		//get entity default properties
     		clsProperties oEntityProperties = getEntityProperties(nEntityType);
@@ -549,7 +554,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		String pre = clsProperties.addDot( getPrefix() );
 		
 		for (int i=0;i<numentitygroups; i++) {
-			createEntityGroup(pre+P_ENTITYGROUPS+"."+i, getProperties() );
+			createEntityGroup(pre+P_ENTITYGROUPS+"."+i, getProperties(), i);
 		}	
 		if (getProperties().getPropertyBoolean(pre+P_WORLDBOUNDARYWALLS)) {
 			generateWorldBoundaries();

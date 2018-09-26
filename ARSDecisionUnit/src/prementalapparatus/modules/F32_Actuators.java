@@ -10,18 +10,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
+import properties.clsProperties;
+
 import modules.interfaces.I0_6_send;
 import modules.interfaces.I1_5_receive;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-
-import communication.datatypes.clsDataContainer;
 
 /**
  * How the body executes action commands is defined in this module. Various motor controls are operated from here. 
@@ -50,8 +51,8 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	 * @throws Exception
 	 */
 	public F32_Actuators(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 				
         moActionCommandList_Input = new clsDataContainer();
 		
@@ -79,7 +80,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 		String pre = clsProperties.addDot(poPrefix);
 		
 		clsProperties oProp = new clsProperties();
-		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+		oProp.setProperty(pre + P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
@@ -121,7 +122,6 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	 * 
 	 * @see pa.interfaces.I8_2#receive_I8_2(int)
 	 */
-	@SuppressWarnings("unchecked") //deepCopy can only perform an unchecked operation
 	@Override
 	public void receive_I1_5(clsDataContainer poActionCommandList) {
         moActionCommandList_Input = poActionCommandList;

@@ -6,6 +6,8 @@
  */
 package base.datatypes;
 
+import java.util.HashMap;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import base.datatypes.helpstructures.clsTriple;
@@ -18,7 +20,20 @@ import base.datatypes.helpstructures.clsTriple;
  * 
  */
 public class clsAssociationAttribute extends clsAssociation{
-	/**
+	/* (non-Javadoc)
+     *
+     * @since 08.06.2015 11:12:49
+     * 
+     * @see base.datatypes.clsAssociation#clone(java.lang.Object, java.lang.Object, java.util.ArrayList)
+     */
+    @Override
+    public Object clone(Object poOriginalObject, Object poClonedObject, HashMap<clsDataStructurePA, clsDataStructurePA> poClonedNodeMap)
+            throws CloneNotSupportedException {
+        
+        return super.clone(poOriginalObject, poClonedObject, poClonedNodeMap);
+    }
+
+    /**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger

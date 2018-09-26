@@ -4,10 +4,11 @@
  * 2011/07/06 TD - added javadoc comments. code sanitation.
  */
 package control.factory;
-import memorymgmt.interfaces.itfModuleMemoryAccess;
-import properties.clsProperties;
+import base.tools.clsSingletonAnalysisAccessor;
 import control.interfaces.clsBaseDecisionUnit;
 import control.interfaces.itfDecisionUnit;
+import properties.clsProperties;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
 import du.enums.eDecisionType;
 
 
@@ -58,6 +59,7 @@ public class clsARSDecisionUnitFactory {
 		switch(nDecisionType) {
 			case PA:
 				oDecisionUnit = new control.clsPsychoAnalysis(poPrefix, poProp, uid, poMemory);
+				clsSingletonAnalysisAccessor.getAnalyzer().registerDu(uid);
 				break;
 			case ActionlessTestPA:
 				oDecisionUnit = new _MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA(poPrefix, poProp, uid, poMemory);

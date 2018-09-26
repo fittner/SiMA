@@ -10,16 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import memorymgmt.interfaces.itfModuleMemoryAccess;
-import memorymgmt.storage.DT2_BlockedContentStorage;
-import modules.interfaces.D2_1_send;
-import modules.interfaces.D2_2_receive;
-import modules.interfaces.I5_7_receive;
-import modules.interfaces.I5_8_receive;
-import modules.interfaces.I5_8_send;
-import modules.interfaces.eInterfaces;
 import properties.clsProperties;
-import testfunctions.clsTester;
+
+import base.datatypes.clsPrimaryDataStructureContainer;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
@@ -28,6 +21,15 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
+import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.storage.DT2_BlockedContentStorage;
+import modules.interfaces.D2_1_send;
+import modules.interfaces.D2_2_receive;
+import modules.interfaces.I5_7_receive;
+import modules.interfaces.I5_8_receive;
+import modules.interfaces.I5_8_send;
+import modules.interfaces.eInterfaces;
+import testfunctions.clsTester;
 
 /**
  * Emersion of blocked content. The inputs of the perception and associated memories are compared with
@@ -75,9 +77,9 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 */
 	public F35_EmersionOfBlockedContent(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			itfModuleMemoryAccess poLongTermMemory, DT2_BlockedContentStorage poBlockedContentStorage)
+			itfModuleMemoryAccess poLongTermMemory, DT2_BlockedContentStorage poBlockedContentStorage, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		
 		moBlockedContentStorage = poBlockedContentStorage;
 
@@ -126,7 +128,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 		//Test get protege content
@@ -301,7 +302,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 * 
 	 * @see pa.interfaces.receive._v38.I2_14_receive#receive_I2_14(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
 		//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();

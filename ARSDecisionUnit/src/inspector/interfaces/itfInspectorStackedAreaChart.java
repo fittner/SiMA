@@ -17,29 +17,30 @@ import java.util.ArrayList;
  */
 public interface itfInspectorStackedAreaChart {
     /**
-     * Returns the title of the  stacked bar chart
+     * Returns the title of the stacked bar chart for a certain label
      *
      * @since 30.08.2012 10:00
      *
      * @return
      */
-    public String getTitle();
+    public String getTitle(String poLabel);
     
     /**
-     * Returns an array that contains the current set of data for the inspected element
+     * Returns an array that contains the current set of data a certain label
      *
      * @since 30.08.2012 10:00
      *
      * @return
      */
-    public ArrayList<Double> getData();
+    public ArrayList<Double> getData(String poLabel);
     
     /**
-     * Returns an array that contains the labels of all Categories. Has to have the same number of entries as the main Array List return by getStackedBarChartData.
+     * Returns an array that contains the labels of all Categories for a certain label.
+     * Has to have the same number of entries as the main Array List return by getData.
      *
      * @since 30.08.2012 10:00
      *
      * @return
      */
-    public ArrayList<String> getCategoryCaptions();
+    public ArrayList<String> getCategoryCaptions(String poLabel);
 }

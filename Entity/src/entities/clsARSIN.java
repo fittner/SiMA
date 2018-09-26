@@ -13,32 +13,34 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 
 import properties.clsProperties;
-import sim.physics2D.shape.Shape;
-import singeltons.clsSimState;
-import tools.clsPose;
-import tools.eImagePositioning;
-import utils.clsGetARSPath;
-import body.clsComplexBody;
-import body.itfGetExternalIO;
-import body.attributes.clsAttributeAntenna;
-import body.attributes.clsAttributeEye;
-import body.attributes.clsAttributes;
-import body.itfget.itfGetInternalEnergyConsumption;
-import body.itfget.itfGetRadiation;
-import body.itfget.itfGetSensorEngine;
-
 import complexbody.io.clsExternalIO;
 import complexbody.io.actuators.actionCommands.clsActionCommand;
 import complexbody.io.actuators.actionCommands.clsInternalActionCommand;
 import complexbody.io.sensors.datatypes.enums.eActionKissIntensity;
 import complexbody.io.sensors.datatypes.enums.eEntityType;
-
+import body.itfget.itfGetInternalEnergyConsumption;
 import control.interfaces.itfDecisionUnit;
+import sim.physics2D.shape.Shape;
+import singeltons.clsSimState;
+import tools.clsPose;
+import tools.eImagePositioning;
+import utils.clsGetARSPath;
+
+
+import body.clsComplexBody;
+import body.itfGetExternalIO;
+import body.attributes.clsAttributeAntenna;
+import body.attributes.clsAttributeEye;
+import body.attributes.clsAttributes;
+import body.itfget.itfGetRadiation;
+import body.itfget.itfGetSensorEngine;
 import entities.abstractEntities.clsAnimate;
 import entities.abstractEntities.clsEntity;
+import entities.abstractEntities.clsMobile;
 import entities.actionProxies.itfAPAttackableBite;
 import entities.actionProxies.itfAPBeatable;
 import entities.actionProxies.itfAPKissable;
+import entities.actionProxies.itfTransferable;
 import entities.enums.eBodyAttributes;
 import entities.enums.eBodyType;
 import entities.enums.eShapeType;
@@ -52,7 +54,7 @@ import entities.tools.clsShape2DCreator;
  * @author langr
  * 
  */
-public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable, itfAPBeatable, itfAPAttackableBite {
+public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable, itfAPBeatable, itfAPAttackableBite, itfTransferable {
 	public static final String P_SHAPE_ALIVE		= "shape_alive";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	public static final String P_ALIVE              = "alive";
@@ -391,7 +393,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void beat(double pfForce) {
-		double rHurtFactor = 1;
+		double rHurtFactor = 0.5;
 		double rBeatThreshold = 0.2;
 		
 		if(pfForce >= rBeatThreshold){
@@ -454,6 +456,18 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 				
 			}
 		}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 31, 2015 7:48:43 PM
+	 * 
+	 * @see entities.actionProxies.itfTransferable#getEntityToTransfer(double)
+	 */
+	@Override
+	public clsMobile getTransferedEntity() {
+		// TODO (zhukova) - Auto-generated method stub
+		return this;
+	}
 		
 	
 

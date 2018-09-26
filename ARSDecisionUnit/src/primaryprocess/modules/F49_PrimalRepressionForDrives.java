@@ -17,15 +17,17 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.SortedMap;
 
+import base.datatypes.enums.eOrgan;
+
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import modules.interfaces.I5_1_receive;
 import modules.interfaces.I5_2_receive;
 import modules.interfaces.I5_2_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.enums.eDriveComponent;
-import base.datatypes.enums.eOrgan;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -88,9 +90,9 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsPersonalityParameterContainer poPersonalityParameterContainer)
+			clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 
 		applyProperties(poPrefix, poProp); 
 		fillPrimalRepressionMemory();

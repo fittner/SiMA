@@ -14,6 +14,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import base.datatypes.enums.eOrgan;
+
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eDrive;
@@ -24,8 +29,6 @@ import modules.interfaces.I5_8_receive;
 import modules.interfaces.I5_9_receive;
 import modules.interfaces.I5_9_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.datamanipulation.clsMeshTools;
 import base.datahandlertools.clsDataStructureCompareTools;
 import base.datatypes.clsAssociation;
@@ -35,7 +38,6 @@ import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
-import base.datatypes.enums.eOrgan;
 import base.datatypes.enums.ePartialDrive;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
@@ -113,8 +115,8 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
      */
     public F45_DischargeOfPsychicIntensity(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT1_PsychicIntensityBuffer poLibidoBuffer,
-            itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-        super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+            itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+        super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
         moLibidoBuffer = poLibidoBuffer;
 
@@ -223,7 +225,6 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
      * 
      * @see pa.modules._v38.clsModuleBase#process_basic()
      */
-    @SuppressWarnings("unchecked")
     @Override
     protected void process_basic() {
         clsThingPresentationMesh oPerceivedAction = null;
@@ -579,7 +580,6 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
      * 
      * @see pa.interfaces.receive._v38.I2_8_receive#receive_I2_8(java.util.ArrayList)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void receive_I5_8(clsThingPresentationMesh poPerceptionalMesh, clsWordPresentationMesh moWordingToContext2) {
         // moMergedPrimaryInformation_Rcv = poMergedPrimaryInformation;

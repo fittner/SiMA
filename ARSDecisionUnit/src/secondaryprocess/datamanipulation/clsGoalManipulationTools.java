@@ -22,7 +22,6 @@ import memorymgmt.shorttermmemory.clsShortTermMemory;
 
 import org.apache.log4j.Logger;
 
-import secondaryprocess.algorithm.goals.GoalArrangementTools;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsDriveMesh;
@@ -36,6 +35,7 @@ import base.datatypes.clsWordPresentationMeshPossibleGoal;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBaseKB;
+import secondaryprocess.algorithm.goals.GoalArrangementTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -202,7 +202,7 @@ public class clsGoalManipulationTools {
      * @param poDM
      * @return
      */
-    public static clsWordPresentationMeshPossibleGoal convertDriveMeshPerceptionToGoal(clsDriveMesh poDM, clsWordPresentationMesh goalObject, eGoalType goalType, double prDriveDemandImpactFactor) {
+    public static clsWordPresentationMeshPossibleGoal convertDriveMeshPerceptionToGoal(clsDriveMesh poDM, clsWordPresentationMesh goalObject, eGoalType goalType) {
         //clsWordPresentationMeshGoal oResult = clsGoalTools.moNullObjectWPM;
         
         //Create the drive string from Drive component, orifice and organ
@@ -212,7 +212,7 @@ public class clsGoalManipulationTools {
         
         //FIXME SSCH: 
         //double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION), 0.1);
-        double rImportance = prDriveDemandImpactFactor * clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), 0, 0.1);
+        double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), 0, 0.1);
         //getGoalObject
         
         

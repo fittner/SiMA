@@ -34,10 +34,12 @@ public class cls_SpiderWebChartInspector extends cls_AbstractChartInspector {
 
 	private itfInspectorSpiderWebChart moContainer;
 	private DefaultCategoryDataset moDataset;
+	private String moLabel;
 	
 	
-	public cls_SpiderWebChartInspector(itfInspectorSpiderWebChart poObject){
-		super(poObject.getSpiderWebChartTitle());
+	public cls_SpiderWebChartInspector(itfInspectorSpiderWebChart poObject, String poLabel){
+		super(poObject.getSpiderWebChartTitle(poLabel));
+		moLabel = poLabel;
 		moContainer = poObject;
 		moDataset=createDataset();
 		
@@ -57,7 +59,7 @@ public class cls_SpiderWebChartInspector extends cls_AbstractChartInspector {
         spiderWebPlot.setBackgroundPaint(new Color(255, 255, 255));
         spiderWebPlot.setSeriesOutlinePaint(new Color(255, 255, 255));
         
-        spiderWebPlot.setStartAngle(moContainer.getSpiderChartStartingAngle());
+        spiderWebPlot.setStartAngle(moContainer.getSpiderChartStartingAngle(moLabel));
         spiderWebPlot.setInteriorGap(0.3);
         
         // create the chart and pack it onto the panel
@@ -72,10 +74,10 @@ public class cls_SpiderWebChartInspector extends cls_AbstractChartInspector {
     
     private DefaultCategoryDataset createDataset() {
         DefaultCategoryDataset result = new DefaultCategoryDataset();
-		ArrayList<String> oCaptions = moContainer.getSpiderChartCaptions();
+		ArrayList<String> oCaptions = moContainer.getSpiderChartCaptions(moLabel);
 		
 		for (int i=0; i< oCaptions.size();i++){
-			result.addValue(moContainer.getSpiderChartData().get(i), "normvalue", oCaptions.get(i));
+			result.addValue(moContainer.getSpiderChartData(moLabel).get(i), "normvalue", oCaptions.get(i));
 		}
 
         

@@ -10,15 +10,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import logger.clsLogger;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eGoalType;
-
 import org.slf4j.Logger;
 
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import logger.clsLogger;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eGoalType;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshFeeling;
@@ -120,21 +119,11 @@ public class FeelingAlgorithmTools {
         return rResult;
     }
     
-    private static double similarity(double prValue1, double prValue2) {
-        //Kollmann:
-        double rSimilarity = 0.0;
-        double rTightness = 1.5; // >1
-        double rDiff = Math.abs(prValue1 - prValue2);
-        
-        rSimilarity = Math.pow((1 - rDiff), rTightness);
-        
-        return rSimilarity;
-    }
-    
     private static double getFeelingMatch(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         double rDiffValue = 0;
         double rDiff = 0;
         double rMatch = 0;
+        boolean bValidMatching = false;
         
         if(poImage != null && !poImage.isNullObject()) {
             //Get Feelings from the image
@@ -153,17 +142,16 @@ public class FeelingAlgorithmTools {
             for (clsWordPresentationMeshFeeling oGoalFeeling : oFeelingList) {
                 for (clsWordPresentationMeshFeeling oCurrentFeeling: poFeltFeelingList) {
                     if(oCurrentFeeling.getContent().contentEquals(oGoalFeeling.getContent())) {
-                        
-                        rDiff = 1 - similarity(oCurrentFeeling.getIntensity(), oGoalFeeling.getIntensity());
+                        bValidMatching = true;
+                        rDiff = 1 - oCurrentFeeling.similarity(oGoalFeeling);
                         rDiffValue = rDiffValue + (1 - rDiffValue) * rDiff;
                         //rMatchingFactor += 1 - oCurrentFeeling.getDiff(oGoalFeeling);
-                        
                     }
                 }
             }
         }
         
-        return (rDiffValue > 0)?(1 - rDiffValue):(0);
+        return (rDiffValue >= 0 && bValidMatching)?(1 - rDiffValue):(0);
     }
     
     /**

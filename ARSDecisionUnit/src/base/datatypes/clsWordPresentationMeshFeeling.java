@@ -100,6 +100,26 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         this.setUniqueProperty(String.valueOf(poIntensity), eContentType.INTENSITY, ePredicate.HASINTENSITY, true);
     }
     
+    public double similarity(clsWordPresentationMeshFeeling poOtherFeeling) {
+        
+        if(getEmotion() == null || poOtherFeeling == null) {
+            log.warn("Calculating the similarity for two clsWordPresentationMeshFeeling instance where at least one instance does not haven an emotion associated");
+            return 0;
+        }
+        
+        //Kollmann:
+        double rSimilarity = 0.0;
+        double rTightness = 1.5; // >1
+        double rDiff = Math.abs(this.getIntensity() - poOtherFeeling.getIntensity());
+        double rDeviations = getEmotion().getIntensityDeviation() + poOtherFeeling.getEmotion().getIntensityDeviation();
+        
+        rDiff = Math.max(rDiff - rDeviations, 0); 
+        
+        rSimilarity = Math.pow((1 - rDiff), rTightness);
+        
+        return rSimilarity;
+    }
+    
     public double getLibido(){
         
         double nResult = 0;
@@ -210,8 +230,6 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     
     @Override
     public String toString() {
-        String oText = getContent().toString() + "=" + new DecimalFormat("0.00").format(getIntensity());
-        
-        return oText;
+        return debugString();
     }
 }

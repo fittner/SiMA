@@ -76,8 +76,8 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     
     public F66_SpeechProduction(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicIntensityStorage poPsychicEnergyStorage,
-            clsPersonalityParameterContainer poPersonalityParameterContainer, clsShortTermMemory poShortTermMemory) throws Exception {
-        super(poPrefix, poProp, poModuleList, poInterfaceData);
+            clsPersonalityParameterContainer poPersonalityParameterContainer, clsShortTermMemory poShortTermMemory, int pnUid) throws Exception {
+        super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 
         moProperties = poProp;
         // Prepare finals to ensure null safety.

@@ -10,18 +10,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+
+import properties.clsProperties;
+
 import modules.interfaces.I0_4_receive;
 import modules.interfaces.I1_3_receive;
 import modules.interfaces.I1_3_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-
-import communication.datatypes.clsDataContainer;
 
 /**
  * These sensors collect data of the environment. Typical sensors are the five senses: sight, hearing, smell, touch, and taste. Also non-humanoid
@@ -57,7 +58,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
      */
     public F10_SensorsEnvironment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int uid) throws Exception {
-        super(poPrefix, poProp, poModuleList, poInterfaceData);
+        super(poPrefix, poProp, poModuleList, poInterfaceData, uid);
         this.uid = uid;
         applyProperties(poPrefix, poProp);
     }

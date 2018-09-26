@@ -10,19 +10,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
+
+import properties.clsProperties;
+
 import memorymgmt.enums.eEmotionType;
 import modules.interfaces.I6_14_receive;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
+
 import base.datatypes.clsEmotion;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.toText;
-
-import communication.datatypes.clsDataContainer;
-import communication.datatypes.clsDataPoint;
 
 
 
@@ -48,23 +50,23 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
     private double FullAffectionFactor = 1.0;
 
     // EB
-    private double JoyEyeBrowsFactor;
-    private double ElationEyeBrowsFactor;
-    private double MourningEyeBrowsFactor;
-    private double AngerEyeBrowsFactor;
-    private double AnxietyEyeBrowsFactor;
+    private double JoyEyeBrowsFactor = 1.0;
+    private double ElationEyeBrowsFactor = 1.0;
+    private double MourningEyeBrowsFactor = 1.0;
+    private double AngerEyeBrowsFactor = 1.0;
+    private double AnxietyEyeBrowsFactor = 1.0;
 
     // H
-    private double AnxietyHeartFactor;
+    private double AnxietyHeartFactor = 1.0;
 
     // M
-    private double ElationMouthFactor;
+    private double ElationMouthFactor = 1.0;
 
     // MT
-    private double AngerTenseMusclesFactor;
+    private double AngerTenseMusclesFactor = 1.0;
 
     // SG
-    private double AngerSweatGlandsFactor;
+    private double AngerSweatGlandsFactor = 1.0;
 
     // direction multipliers
     private int MinusDirection = -1;
@@ -82,8 +84,8 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
      * @throws Exception
      */
     public F67_BodilyReactionsOnEmotions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-        super(poPrefix, poProp, poModuleList, poInterfaceData);
+            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
+        super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
         
         
         // TODO (schaat) - Auto-generated constructor stub
@@ -146,7 +148,6 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
      *
      * @param moEmotions_Input2
      */
-    @SuppressWarnings("unchecked")
     private void FillInternalActions(ArrayList<clsEmotion> poEmotions_Input) {
 
         // create Values for Internal Action variables

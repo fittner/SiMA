@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedMap;
 
+import logger.clsLogger;
 import modules.interfaces.eInterfaces;
 
 import org.slf4j.Logger;
@@ -69,6 +70,7 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 	
 	protected final Logger log;
 	private final Logger logTiming;
+	private final int mnAgentIndex;
 	
 	/**
 	 * This constructor creates all functional modules with the provided properties. Further, all attributes of the module like process type, 
@@ -83,14 +85,17 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 	 * @throws Exception
 	 */
 	public clsModuleBase(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int pnUid) throws Exception {
 		setProcessType();
 		setPsychicInstances();
 		setModuleNumber();
 		setDescription();
 		setInterfacesList();
 		
-		 log = logger.clsLogger.getLog("F" + mnModuleNumber);
+		mnAgentIndex = pnUid;
+		
+		 log = logger.clsLogger.getLog("Agent" + mnAgentIndex + ".F" + mnModuleNumber);
+		 clsLogger.getLog("sim").info("Created logger " + log.getName());
 		 logTiming = logger.clsLogger.getLog("Timing");
 		//System.out.println("Set logger: "+ log.getName() + ", root " + log.ROOT_LOGGER_NAME);
 		
@@ -462,5 +467,9 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 	 */
 	public ArrayList<eInterfaces> getInterfaces() {
 		return moInterfaces;
+	}
+	
+	protected int getAgentIndex() {
+	    return mnAgentIndex;
 	}
 }

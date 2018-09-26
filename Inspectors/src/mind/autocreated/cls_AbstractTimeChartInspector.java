@@ -9,8 +9,10 @@ package mind.autocreated;
 import inspector.interfaces.itfInspectorTimeChartBase;
 //import inspector.interfaces.itfInterfaceTimeChartHistory;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import org.jfree.chart.ChartFactory;
@@ -23,6 +25,7 @@ import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
+
 
 //import base.datatypes.helpstructures.clsPair;
 import singeltons.clsSimState;
@@ -121,6 +124,19 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
 		((XYPlot) moChartPanel.getChart().getPlot()).getRangeAxis().setTickLabelsVisible(showRangeLabel);
 	}
 
+	public void setXAxisCaption(String poAxisCaption) {
+		((XYPlot) moChartPanel.getChart().getPlot()).getDomainAxis().setLabel(poAxisCaption);
+	}
+	
+	public void setShowLegend(boolean pbShowLegend) {
+		moChartPanel.getChart().getLegend().setVisible(pbShowLegend);
+	}
+	
+	public void setLegendFontSize(float prFontSize) {
+		Font oCurrentFont = moChartPanel.getChart().getLegend().getItemFont();
+		moChartPanel.getChart().getLegend().setItemFont(oCurrentFont.deriveFont(prFontSize));
+	}
+	
     private ChartPanel create()  {
     	ChartPanel poChartPanel =createPanel();
     	
@@ -195,7 +211,7 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
      // set line colors
         ArrayList<Color> oColors = getColorList();
         for (int i=0; i<moValueHistory.size(); i++) {
-        	 plot.getRenderer().setSeriesPaint(i+2, oColors.get(i));
+        	 plot.getRenderer().setSeriesPaint(i, oColors.get(i));
         }    	
     }
     

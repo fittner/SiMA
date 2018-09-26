@@ -8,6 +8,7 @@ package pa._v38.memorymgmt.framessearchspace;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -19,6 +20,7 @@ import memorymgmt.enums.ePredicate;
 
 import org.slf4j.Logger;
 
+import base.datatypes.clsAct;
 import base.datatypes.clsAffect;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
@@ -27,6 +29,7 @@ import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsAssociationFeeling;
 import base.datatypes.clsAssociationPrimary;
 import base.datatypes.clsAssociationSecondary;
+import base.datatypes.clsAssociationSpatial;
 import base.datatypes.clsAssociationTime;
 import base.datatypes.clsAssociationWordPresentation;
 import base.datatypes.clsDataStructurePA;
@@ -51,6 +54,7 @@ import edu.stanford.smi.protege.model.Instance;
 import edu.stanford.smi.protege.model.KnowledgeBase;
 import edu.stanford.smi.protege.model.Project;
 import edu.stanford.smi.protege.model.Slot;
+import edu.stanford.smi.protege.util.GetOwnSlotValuesBrowserTextJob;
 import edu.stanford.smi.protege.util.MessageError;
 import edu.stanford.smi.protege.util.MessageError.Severity;
 
@@ -164,7 +168,8 @@ public class clsOntologyLoader {
 				eDataType.EMOTION, 
 				eDataType.DOMAIN,
 				eDataType.ASSOCIATIONTEMP, 
-				eDataType.FEELING
+				eDataType.FEELING,
+				eDataType.ASSOCIATIONSPATIAL
 			};
 
 		/*
@@ -247,6 +252,9 @@ public class clsOntologyLoader {
 			createAssociation(poRootElement, poElement, poDataContainer);
 			break;
 		case ASSOCIATIONTEMP:
+			createAssociation(poRootElement, poElement, poDataContainer);
+			break;
+		case ASSOCIATIONSPATIAL:
 			createAssociation(poRootElement, poElement, poDataContainer);
 			break;
 		case ASSOCIATIONATTRIBUTE:
@@ -495,6 +503,8 @@ public class clsOntologyLoader {
 				.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		float rEmotionIntensity = ((Float) poElement
 				.getOwnSlotValue(poDataContainer.a.getSlot("emotionIntensity")));
+		float rIntensityDeviation = ((Float) poElement
+				.getOwnSlotValue(poDataContainer.a.getSlot("intensityDeviation")));
 		float rSourcePleasure = ((Float) poElement
 				.getOwnSlotValue(poDataContainer.a.getSlot("sourcePleasure")));
 		float rSourceUnpleasure = ((Float) poElement
@@ -508,7 +518,7 @@ public class clsOntologyLoader {
 
 		clsEmotion oDataStructure = new clsEmotion(
 				new clsTriple<Integer, eDataType, eContentType>(oID,
-						oElementType, oElementValueType), rEmotionIntensity,
+						oElementType, oElementValueType), rEmotionIntensity, rIntensityDeviation,
 				oEmotionType, rSourcePleasure, rSourceUnpleasure, rSourceLibid,
 				rSourceAggr);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
@@ -1045,7 +1055,14 @@ public class clsOntologyLoader {
 						poDataContainer.b);
 				clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(),
 						poDataContainer.b);
-				oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
+				
+				clsDataStructurePA oRawDataStructure = retrieveDataStructure(poAssociation.getName(), poDataContainer.b);
+				
+				if (oRawDataStructure == null) {
+				    oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
+		        } else {
+		            oDataStructure = (clsAssociation) oRawDataStructure;
+		        }
 			}
 		} else {
 			for (Object oElement : getSlotValues("element", poAssociation)) {
@@ -1056,7 +1073,14 @@ public class clsOntologyLoader {
 					initDataStructure(poRootElement, (Instance) oElement, poDataContainer); 
 					clsDataStructurePA oDS_a = retrieveDataStructure(oRootName, poDataContainer.b);
 					clsDataStructurePA oDS_b = retrieveDataStructure(oElementName, poDataContainer.b);
-					oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
+					
+					clsDataStructurePA oRawDataStructure = retrieveDataStructure(poAssociation.getName(), poDataContainer.b);
+	                
+	                if (oRawDataStructure == null) {
+	                    oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
+	                } else {
+	                    oDataStructure = (clsAssociation) oRawDataStructure;
+	                }
 				}
 			}
 		}
@@ -1194,6 +1218,13 @@ public class clsOntologyLoader {
 					(clsThingPresentationMesh) poElementA,
 					(clsThingPresentationMesh) poElementB);
 
+			
+		case ASSOCIATIONSPATIAL:
+			return new clsAssociationSpatial(
+					new clsTriple<Integer, eDataType, eContentType>(oID,
+							peElementType, peContentType),
+					(clsThingPresentationMesh) poElementA,
+					(clsThingPresentationMesh) poElementB);
 		case ASSOCIATIONDM:
 			oAssociationElements = evaluateElementOrder(poElementA, poElementB,
 					eDataType.DM);

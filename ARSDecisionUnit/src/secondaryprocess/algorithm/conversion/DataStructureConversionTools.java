@@ -17,8 +17,7 @@ import memorymgmt.interfaces.itfModuleMemoryAccess;
 
 import org.slf4j.Logger;
 
-import secondaryprocess.datamanipulation.clsGoalManipulationTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
+import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
@@ -34,9 +33,13 @@ import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentation;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.clsWordPresentationMeshEmotion;
 import base.datatypes.clsWordPresentationMeshFeeling;
 import base.datatypes.clsWordPresentationMeshPossibleGoal;
+import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
+import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -58,12 +61,12 @@ public class DataStructureConversionTools {
      * @param poTPM
      * @return
      */
-    public static clsWordPresentationMesh convertCompleteTPMtoWPMRoot(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM, double prDriveDemandImpactFactor) {
-        return convertCompleteTPMtoWPM(ltm, poTPM, new ArrayList<clsThingPresentationMesh>(), 1, poTPM.getContentType(), prDriveDemandImpactFactor);
+    public static clsWordPresentationMesh convertCompleteTPMtoWPMRoot(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM) {
+        return convertCompleteTPMtoWPM(ltm, poTPM, new ArrayList<clsThingPresentationMesh>(), 1, poTPM.getContentType());
     }
     
-    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess poLongTermMemory, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel,eContentType poContentType, double prDriveDemandImpactFactor) {
-        return convertCompleteTPMtoWPM(poLongTermMemory, poTPM, new ArrayList<clsThingPresentationMesh>(), pnLevel, pnLevel, poTPM.getContentType(), prDriveDemandImpactFactor);
+    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess poLongTermMemory, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel,eContentType poContentType) {
+        return convertCompleteTPMtoWPM(poLongTermMemory, poTPM, new ArrayList<clsThingPresentationMesh>(), pnLevel, pnLevel, poTPM.getContentType());
     }
     
     /**
@@ -81,7 +84,7 @@ public class DataStructureConversionTools {
      * @param poSubTPM
      * @return
      */
-    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevelInternal, int pnLevelExternal, eContentType contentType, double prDriveDemandImpactFactor) {
+    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevelInternal, int pnLevelExternal, eContentType contentType) {
         clsWordPresentationMesh oRetVal = null;
 
         // add the current TPM to the list
@@ -163,7 +166,15 @@ public class DataStructureConversionTools {
                         }
                     }
                     else if (oTPMExternalAss.getAssociationElementB() instanceof clsThingPresentationMesh){
-                        //do Nothing
+                        //Kollmann: check if the association attribute points to a bodystate, if so, convert the bodystate and the associated emotion
+                        clsThingPresentationMesh oAssociatedTPM = (clsThingPresentationMesh) oTPMExternalAss.getAssociationElementB();
+                        if(oAssociatedTPM.getContent().equals("Bodystate")) {
+                            clsWordPresentationMesh oAssociatedWPM = convertCompleteTPMtoWPM(ltm, oAssociatedTPM, poProcessedList, pnLevelInternal, pnLevelExternal - 1, contentType);
+                            clsMeshTools.createAssociationSecondary(oRetVal, 2,
+                                    oAssociatedWPM, 0, 2.0,
+                                    eContentType.ASSOCIATIONSECONDARY,
+                                    ePredicate.HASBODYSTATE, false);
+                        }
                     }
                     
                     
@@ -180,14 +191,14 @@ public class DataStructureConversionTools {
                         goalType = eGoalType.PERCEPTIONALDRIVE;
                     }
                     
-                    clsWordPresentationMeshPossibleGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType, prDriveDemandImpactFactor); //clsGoalTools.convertDriveMeshToWP(oDM);
+                    clsWordPresentationMeshPossibleGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType); //clsGoalTools.convertDriveMeshToWP(oDM);
                     
                     if(goalType.equals(eGoalType.MEMORYDRIVE)) {
                         clsThingPresentationMesh oTPMPotentialDriveAim = oDM.getActualDriveAim();
                         
                         if(oTPMPotentialDriveAim != null) {
                             //Kollmann : internal and external levels are set to -2 to keep the conversion method from going deeper into the TPM
-                            clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType, prDriveDemandImpactFactor);
+                            clsWordPresentationMesh oWPMPotentialDriveAim = convertCompleteTPMtoWPM(ltm, oTPMPotentialDriveAim, poProcessedList, -2, -2, contentType);
                             
                             oDMWP.setPotentialDriveAim(oWPMPotentialDriveAim);
                         } else {
@@ -201,9 +212,29 @@ public class DataStructureConversionTools {
                     clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
                 } else if (oTPMExternalAss instanceof clsAssociationEmotion) {
                     clsEmotion oEmotion = (clsEmotion) oTPMExternalAss.getLeafElement();
-                    clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
                     
-                    oRetVal.addFeeling(oFeeling);
+                    if(oEmotion.getContentType().equals(eContentType.BASICEMOTION)) {
+                        clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
+                        
+                        //Kollmann: small safety check to see if the emotion association is properly anchored in the emotion object
+                        if(!oEmotion.isAssociatedByType(clsAssociationEmotion.class)) {
+                            log.warn("Emotion {} is not properly associated", oEmotion);
+                        }
+                    
+                        oRetVal.addFeeling(oFeeling);
+                    } else if(oEmotion.getContentType().equals(eContentType.ATTRIBUTEDEMOTION)) {
+                        clsWordPresentationMesh oBodystate = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.ENTITY, "Bodystate"), new ArrayList<clsAssociation>());
+                        oBodystate.addFeeling(clsGoalManipulationTools.convertEmotionToFeeling(oEmotion));
+                        
+                        clsMeshTools.createAssociationSecondary(oRetVal, 2,
+                                oBodystate, 0, 2.0,
+                                eContentType.ASSOCIATIONSECONDARY,
+                                ePredicate.HASBODYSTATE, false);
+                    } else if (oEmotion.getContentType().equals(eContentType.MEMORIZEDEMOTION)) {
+                        //do nothing
+                    } else {
+                        log.debug("AssociationEmotion found that neither points to an attributed, nor to a basicemotion:\n{}", oEmotion);
+                    }
                     
 //                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
                 } else if(oTPMExternalAss instanceof clsAssociationPrimary) {
@@ -216,7 +247,7 @@ public class DataStructureConversionTools {
                 	    //          therefore we only consider associations where the current TPM is NOT the leaf
                 	    if(!(oSubTPM.getDS_ID() == poTPM.getDS_ID())) {
                         	// Convert the complete structure to a WPM
-                            clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, (clsThingPresentationMesh)oSubDataStructure, poProcessedList, pnLevelInternal, pnLevelExternal - 1, contentType, prDriveDemandImpactFactor);
+                            clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, (clsThingPresentationMesh)oSubDataStructure, poProcessedList, pnLevelInternal, pnLevelExternal - 1, contentType);
                             
                             if(oSubDataStructure.getContentType() == eContentType.ACTION) {
                         	    clsMeshTools.createAssociationSecondary(oRetVal, 2, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
@@ -264,7 +295,7 @@ public class DataStructureConversionTools {
 
                     clsThingPresentationMesh oSubTPM = ((clsAssociationTime) oTPMInternalAss).getLeafElement();
                     // Convert the complete structure to a WPM
-                    clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, oSubTPM, poProcessedList, pnLevelInternal - 1, pnLevelExternal, contentType, prDriveDemandImpactFactor);
+                    clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, oSubTPM, poProcessedList, pnLevelInternal - 1, pnLevelExternal, contentType);
 
                     // Add the subWPM to the WPM structure
                     clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
@@ -274,6 +305,30 @@ public class DataStructureConversionTools {
                     
                     oRetVal.addFeeling(oFeeling);
 //                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
+                } else if (oTPMInternalAss instanceof clsAssociationAttribute
+                        && oTPMInternalAss.getAssociationElementB() instanceof clsEmotion
+                        && poProcessedList.contains(((clsAssociationAttribute) oTPMInternalAss).getLeafElement()) == false) {
+                    //Kollmann if the association points to an attributed emotion
+                    clsEmotion oEmotion = (clsEmotion) oTPMInternalAss.getAssociationElementB();
+                    
+                    //Kollmann: small safety check to see if the emotion association is properly anchored in the emotion object
+                    if(!(oEmotion.isAssociatedByType(clsAssociationEmotion.class) || oEmotion.isAssociatedByType(clsAssociationAttribute.class))) {
+                        log.warn("Emotion {} is not properly associated", oEmotion);
+                    }
+                    
+                    if(oEmotion.getContentType().equals(eContentType.BASICEMOTION)) {
+                        clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
+                    
+                        oRetVal.addFeeling(oFeeling);
+                    } else if(oEmotion.getContentType().equals(eContentType.ATTRIBUTEDEMOTION)) {
+                        clsWordPresentationMeshEmotion oAttributedEmotion = new clsWordPresentationMeshEmotion(oEmotion);
+                        
+                        oRetVal.addAttributedEmotion(oAttributedEmotion);
+                    } else if (oEmotion.getContentType().equals(eContentType.MEMORIZEDEMOTION)) {
+                        //do nothing
+                    } else {
+                        log.debug("AssociationEmotion found that neither points to an attributed, nor to a basicemotion:\n{}", oEmotion);
+                    }
                 }
             }
         }

@@ -7,10 +7,10 @@
 package base.datatypes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
-import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
 /**
@@ -64,7 +64,7 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
         		
         		for(clsAssociation oAssociation : moAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
+    					Object dupl = oAssociation.clone(this, oClone, new HashMap<clsDataStructurePA, clsDataStructurePA>()); 
     					if(dupl != null) oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;

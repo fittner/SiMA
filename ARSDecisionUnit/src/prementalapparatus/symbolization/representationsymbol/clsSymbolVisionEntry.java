@@ -42,6 +42,7 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
     protected double moExactDebugAngle;
     protected double moDebugSensorArousal;
     protected double moObjectBodyIntegrity;
+    protected boolean mbCarring = false;
     protected clsSymbolVisionEntryAction moAction;
     protected String moDistance;
     
@@ -67,7 +68,7 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
         if(poEntry.hasAssociation("DEBUG_POSITION"))   moExactDebugY = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("Y").getValue());
         if(poEntry.hasAssociation("DEBUG_POSITION"))  moExactDebugAngle = Double.parseDouble(poEntry.getAssociation("DEBUG_POSITION").getAssociation("ANGLE").getValue());
         if(poEntry.hasAssociation("BRIGHTNESS"))  moBrightness = poEntry.getAssociation("BRIGHTNESS").getValue();//eSaliency.valueOf( poEntry.getAssociation("BRIGHTNESS").getValue()); 
-        
+        if(poEntry.hasAssociation("CARRYING")) mbCarring = Boolean.parseBoolean(poEntry.getAssociation("CARRYING").getValue());
         moExpressions = new ArrayList<clsSymbolVisionEntryExpression>();
         
         if(poEntry.hasAssociation("EXPRESSIONS")){
@@ -132,7 +133,14 @@ public class clsSymbolVisionEntry implements itfIsContainer, itfGetSymbolName, i
 		return itfSymbolVisionEntry.class.getMethods();
 	}
 	
+	@Override
+	public boolean getCarringVariable() { 
+	    return mbCarring;
+	}
 
+	public void setCarringVariable(boolean pbCarring) { 
+	    mbCarring = pbCarring;
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

@@ -9,12 +9,12 @@ package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 import java.util.ArrayList;
 
 import memorymgmt.enums.eCondition;
+import base.datatypes.clsWordPresentationMesh;
+import base.tools.ElementNotFoundException;
 import secondaryprocess.algorithm.acts.clsActPreparationTools;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
-import base.datatypes.clsWordPresentationMesh;
-import base.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -56,6 +56,13 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		
 		//This function shall extract the current moment and the expectation
 		ArrayList<eCondition> oTaskStatusList = clsActPreparationTools.performBasicActAnalysis(oCurrentAct, this.moShortTermMemory);
+		
+		//test perception with acts
+		
+		
+		
+		
+		
 		
 		//Check if act analysis failed and remove all status if this is the case
 		if (oTaskStatusList.contains(eCondition.GOAL_NOT_REACHABLE)==true) {

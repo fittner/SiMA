@@ -8,6 +8,8 @@ import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import utils.clsGetARSPath;
+
 /**
  *
  * @author gunther
@@ -50,7 +52,7 @@ public class clsLogger {
     public static Logger getLog(String loggerName) {
         if (ansiSet==false) {
             setSystemPropertyForANSI();
-            PropertyConfigurator.configure("log4j_" + getCurrentUser() + ".properties");
+            PropertyConfigurator.configure(clsGetARSPath.getArsPath() + clsGetARSPath.getSeperator() + "Simulation" + clsGetARSPath.getSeperator() + "log4j_" + getCurrentUser() + ".properties");
             ansiSet=true;
         }
         

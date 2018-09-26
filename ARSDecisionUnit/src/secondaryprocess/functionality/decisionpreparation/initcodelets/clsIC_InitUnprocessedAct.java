@@ -9,12 +9,12 @@ package secondaryprocess.functionality.decisionpreparation.initcodelets;
 import java.util.ArrayList;
 
 import memorymgmt.enums.eCondition;
+import base.datatypes.clsWordPresentationMesh;
+import base.tools.ElementNotFoundException;
 import secondaryprocess.algorithm.acts.clsActPreparationTools;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
-import base.datatypes.clsWordPresentationMesh;
-import base.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -48,8 +48,7 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
     protected void processGoal() {
      // --- Check the conditions in the intention --- //
         //Get the intention
-        clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(moGoal.getSupportiveDataStructure());
-           
+        clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(moGoal.getSupportiveDataStructure()); 
         ArrayList<eCondition> conditionList = clsActPreparationTools.initActInGoal(oIntention);
         
         for (eCondition c: conditionList) {

@@ -91,6 +91,9 @@ public abstract class clsEntity implements itfGetBody, itfEntity {
 	private ArrayList<clsAction> moExecutedActions;
 		
 	
+	private boolean mbIsCarring = false; 
+
+	
 	public abstract void registerEntity();
 	//public abstract void addEntityInspector(TabbedInspector poTarget, Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity);
 	
@@ -507,5 +510,24 @@ public abstract class clsEntity implements itfGetBody, itfEntity {
 	}
 	
 	public abstract clsEntity dublicate(clsProperties poPrperties, double poDistance, double poSplitFactor);
+	
+	/**
+	 * @since Oct 22, 2015 3:57:13 PM
+	 * 
+	 * @return the mbIsCarring
+	 */
+	public boolean isCarring() {
+		return mbIsCarring;
+	}
+
+	/**
+	 * @since Oct 22, 2015 3:57:13 PM
+	 * 
+	 * @param mbIsCarring the mbIsCarring to set
+	 */
+	public void setCarringAction(boolean mbIsCarring) {
+		this.mbIsCarring = mbIsCarring;
+	}
+
 	
 }

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
 import modules.interfaces.I5_12_receive;
 import modules.interfaces.I5_12_send;
@@ -22,8 +24,6 @@ import modules.interfaces.I5_4_receive;
 import modules.interfaces.I5_5_receive;
 import modules.interfaces.I5_5_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsWordPresentationMesh;
@@ -84,9 +84,9 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	public F55_SuperEgoProactive(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F55", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F55", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();

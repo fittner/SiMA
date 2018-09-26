@@ -9,13 +9,21 @@ package primaryprocess.modules;
 import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorCombinedTimeChart;
 import inspector.interfaces.itfInspectorGenericTimeChart;
+import inspector.interfaces.itfInspectorMultipleBarChart;
+import inspector.interfaces.itfInspectorStackedAreaChart;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 
+import org.slf4j.Logger;
+
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eEmotionType;
@@ -26,11 +34,6 @@ import modules.interfaces.I5_21_receive;
 import modules.interfaces.I5_21_send;
 import modules.interfaces.I5_3_receive;
 import modules.interfaces.eInterfaces;
-
-import org.slf4j.Logger;
-
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationEmotion;
@@ -39,10 +42,12 @@ import base.datatypes.clsEmotion;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
+import base.logging.DataCollector;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
+import base.tools.clsSingletonAnalysisAccessor;
 import base.tools.toText;
 
 /**
@@ -61,7 +66,7 @@ import base.tools.toText;
  * 07.06.2012, 15:47:11
  */
 public class F63_CompositionOfEmotions extends clsModuleBase 
-					implements  itfInspectorGenericTimeChart, I5_3_receive, I5_10_receive, I5_21_send,itfInspectorCombinedTimeChart {
+					implements  itfInspectorGenericTimeChart, I5_3_receive, I5_10_receive, I5_21_send,itfInspectorCombinedTimeChart, itfInspectorStackedAreaChart, itfInspectorMultipleBarChart{
 
 	//Statics for the module
 	public static final String P_MODULENUMBER = "63";
@@ -76,7 +81,14 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	public static final String P_THRESHOLD_RANGE = "THRESHOLD_RANGE";
 	public static final String P_PERCEPTION_PLEASURE_IMPACT_FACTOR = "PERCEPTION_PLEASURE_IMPACT_FACTOR";
 	public static final String P_PERCEPTION_UNPLEASURE_IMPACT_FACTOR = "PERCEPTION_UNPLEASURE_IMPACT_FACTOR";
+	public static final String P_PERCEPTION_AGGRESSIVE_IMPACT_FACTOR = "PERCEPTION_AGGRESSIVE_IMPACT_FACTOR";
+	public static final String P_PERCEPTION_LIBIDINOUS_IMPACT_FACTOR = "PERCEPTION_LIBIDINOUS_IMPACT_FACTOR";
+    
+	public static final String P_DRIVEDEMAND_IMPACT_FACTOR = "DRIVEDEMAND_IMPACT_FACTOR";
+	public static final String P_MEMORIZEDDRIVE_IMPACT_FACTOR = "MEMORIZEDDRIVE_IMPACT_FACTOR";
     public static final String P_EMOTIONRECOGNITION_IMPACT_FACTOR = "EMOTIONRECOGNITION_IMPACT_FACTOR"; //koller
+    public static final String P_EXPERIENCEDEMOTION_IMPACT_FACTOR = "EXPERIENCEDEMOTION_IMPACT_FACTOR";
+    public static final String P_MEMORIZEDIMAGE_IMPACT_FACTOR = "MEMORIZEDIMAGE_IMPACT_FACTOR";
 
 	
 	//Private members for send and recieve
@@ -84,6 +96,11 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private clsThingPresentationMesh moPerceptions_IN;
 	
+	//Provide steadier emotion change
+	private clsEmotion moLastEmotion = null;         /*ATTENTION: this is a local emotion that MUST NEVER be linked to ANYTHING*/
+	private clsEmotion moTargetEmotion = null;       /*This is stored for visualization purposes only*/
+	private double mrEmotionChangeFactor = 0.1;
+	private static final boolean mbShowTargetEmotionInChart = false;
 	
 	// threshold to determine in which case domination of a emotion occurs
 	private double mrRelativeThreshold;
@@ -100,18 +117,29 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 
 	// values from drive-track . to get a better output in the inspectors a hashmap is used instead of separate variables
 	HashMap<String, Double> oDrivesExtractedValues = new HashMap<String, Double>();
-
+	
 	// personality parameter, perceiving a drive object sould trigger less emotions than the bodily needs
 	private double mrPerceptionPleasureImpactFactor;
 	private double mrPerceptionUnpleasureImpactFactor;
-	
+	private double mrPerceptionAggressiveImpactFactor;
+    private double mrPerceptionLibidinousImpactFactor;
+    private double mrInfluenceRememberedImages;
+    private double mrInfluenceDrivesOnPerceivedObjects;
+    private double mrInfluenceCurrentDrives;
+    
+    private clsEmotion moAgentAttributedEmotion = null;
+    private clsEmotion moAgentEmotionValuation = null;
+    private clsEmotion moAgentTransferedEmotion = null;
+    
 	// koller 
     private double mrEmotionrecognitionImpactFactor;
 	
+    //kollmann: impact factors for experienced emotions
+    private double mrExperiencedEmotionImpactFactor;
+    
 	private clsWordPresentationMesh moWordingToContext;
     
 	double mrGrade = 0;
-	
 	
 	private final DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	
@@ -122,9 +150,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			DT4_PleasureStorage poPleasureStorage,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		
         mrModuleStrength = poPersonalityParameterContainer.getPersonalityParameter("F55", P_MODULE_STRENGTH).getParameterDouble();
         mrInitialRequestIntensity =poPersonalityParameterContainer.getPersonalityParameter("F55", P_INITIAL_REQUEST_INTENSITY).getParameterDouble();
@@ -136,14 +164,21 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		mrRelativeThreshold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_REALATIV_THRESHOLD).getParameterDouble();
 		mrThresholdRange = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_THRESHOLD_RANGE).getParameterDouble();
-		mrPerceptionPleasureImpactFactor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERCEPTION_PLEASURE_IMPACT_FACTOR).getParameterDouble();
-		mrPerceptionUnpleasureImpactFactor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERCEPTION_UNPLEASURE_IMPACT_FACTOR).getParameterDouble();
+		mrPerceptionPleasureImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERCEPTION_PLEASURE_IMPACT_FACTOR).getParameterDouble();
+		mrPerceptionUnpleasureImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERCEPTION_UNPLEASURE_IMPACT_FACTOR).getParameterDouble();
+		mrPerceptionAggressiveImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERCEPTION_AGGRESSIVE_IMPACT_FACTOR).getParameterDouble();
+		mrPerceptionLibidinousImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERCEPTION_LIBIDINOUS_IMPACT_FACTOR).getParameterDouble();
 		moPleasureStorage = poPleasureStorage;
 		
 		//koller
-        mrEmotionrecognitionImpactFactor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_IMPACT_FACTOR).getParameterDouble();
+        mrEmotionrecognitionImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_IMPACT_FACTOR).getParameterDouble();
         
-		
+        mrExperiencedEmotionImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EXPERIENCEDEMOTION_IMPACT_FACTOR).getParameterDouble();
+        mrInfluenceRememberedImages = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MEMORIZEDIMAGE_IMPACT_FACTOR).getParameterDouble();
+        mrInfluenceDrivesOnPerceivedObjects = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MEMORIZEDDRIVE_IMPACT_FACTOR).getParameterDouble();
+        mrInfluenceCurrentDrives = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_DRIVEDEMAND_IMPACT_FACTOR).getParameterDouble();
+        
+        moLastEmotion = null;
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -230,11 +265,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		//get Pleasure
 		rDrivePleasure =  moPleasureStorage.send_D4_1();
 		
+		rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives;
+        rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives;
+        rSystemLibid = rDriveLibid * mrInfluenceCurrentDrives;
+        rSystemAggr = rDriveAggr * mrInfluenceCurrentDrives;
+        
 		// TEMPORARY
-		oDrivesExtractedValues.put("rDrivePleasure", rDrivePleasure);
-		oDrivesExtractedValues.put("rDriveUnpleasure", rDriveLibid+rDriveAggr);
-		oDrivesExtractedValues.put("rDriveLibid", rDriveLibid);
-		oDrivesExtractedValues.put("rDriveAggr", rDriveAggr);
+        oDrivesExtractedValues.put("rDriveUnpleasure", rSystemUnpleasure);
+        oDrivesExtractedValues.put("rDrivePleasure", rSystemPleasure);
+		oDrivesExtractedValues.put("rDriveLibid", rSystemLibid);
+		oDrivesExtractedValues.put("rDriveAggr", rSystemAggr);
 		
 		/* emotions triggered by perception (from memory) influence emotion-generation
 		 * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (un-pleasure etc the emotion is based on) to influence the emotion generation in F63
@@ -246,10 +286,20 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		// aggregate values from drive- and perception track
 		// normalize grundkategorien
 		// (if agent sees many objects the perception has more influence, otherwise drives have more influence on emotions)
-		rSystemUnpleasure = nonProportionalAggregation(rDriveLibid+rDriveAggr, oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
-		rSystemPleasure = nonProportionalAggregation(rDrivePleasure, oPerceptionExtractedValues.get("rPerceptionPleasure"));
-		rSystemLibid = nonProportionalAggregation(rDriveLibid, oPerceptionExtractedValues.get("rPerceptionLibid"));
-		rSystemAggr = nonProportionalAggregation(rDriveAggr, oPerceptionExtractedValues.get("rPerceptionAggr"));
+		rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, oPerceptionExtractedValues.get("rPerceptionDriveMeshUnpleasure"));
+		rSystemPleasure = nonProportionalAggregation(rSystemPleasure, oPerceptionExtractedValues.get("rPerceptionDriveMeshPleasure"));
+		rSystemLibid = nonProportionalAggregation(rSystemLibid, oPerceptionExtractedValues.get("rPerceptionDriveMeshLibid"));
+		rSystemAggr = nonProportionalAggregation(rSystemAggr, oPerceptionExtractedValues.get("rPerceptionDriveMeshAggr"));
+
+		rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, oPerceptionExtractedValues.get("rPerceptionExperienceUnpleasure"));
+        rSystemPleasure = nonProportionalAggregation(rSystemPleasure, oPerceptionExtractedValues.get("rPerceptionExperiencePleasure"));
+        rSystemLibid = nonProportionalAggregation(rSystemLibid, oPerceptionExtractedValues.get("rPerceptionExperienceLibid"));
+        rSystemAggr = nonProportionalAggregation(rSystemAggr, oPerceptionExtractedValues.get("rPerceptionExperienceAggr"));
+        
+        rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, oPerceptionExtractedValues.get("rPerceptionBodystateUnpleasure"));
+        rSystemPleasure = nonProportionalAggregation(rSystemPleasure, oPerceptionExtractedValues.get("rPerceptionBodystatePleasure"));
+        rSystemLibid = nonProportionalAggregation(rSystemLibid, oPerceptionExtractedValues.get("rPerceptionBodystateLibid"));
+        rSystemAggr = nonProportionalAggregation(rSystemAggr, oPerceptionExtractedValues.get("rPerceptionBodystateAggr"));
 		
 		/* emotions associated to images (from memory) have a direct influence on emotions, if the scenes have been activated (happens in F46)
          * 
@@ -268,11 +318,27 @@ public class F63_CompositionOfEmotions extends clsModuleBase
             log.debug("Unpleasure missing");
         }
         
-        //create the base emotion state
-        clsEmotion oBaseEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+        //create the new base emotion target state
+        moTargetEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+        
+        if(moLastEmotion == null) {
+            //if this is the first step
+            moLastEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+            
+            //kollmann: debug code
+            //moLastEmotion = clsEmotion.zeroEmotion(eContentType.BASICEMOTION, eEmotionType.UNDEFINED);
+        } else {
+            //move last emotion state towards this target
+            moLastEmotion.gradualChange(moTargetEmotion, mrEmotionChangeFactor);
+        }
+        
+        clsEmotion oBaseEmotion = moLastEmotion.flatCopy();
         oBaseEmotion.setRelativeThreshold(mrRelativeThreshold);
         oBaseEmotion.setThresholdRange(mrThresholdRange);
         moEmotions_OUT.add(oBaseEmotion);
+        
+        moTargetEmotion.setRelativeThreshold(mrRelativeThreshold);
+        moTargetEmotion.setThresholdRange(mrThresholdRange);
         
 	    double rRequestedPsychicIntensity = 0.0;
 	                
@@ -287,8 +353,38 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         for(clsEmotion oEmotion: moEmotions_OUT) {
             log.debug(oEmotion.toString());
         }
+        
+        DataCollector.all().putEmotionVectorsF63(oDrivesExtractedValues, oPerceptionExtractedValues, oMemoryExtractedValues);
+        DataCollector.all().putBasicEmotionF63(moEmotions_OUT.get(0));
+        
+        clsEmotion oFromDrives = getEmotionFromMap(oDrivesExtractedValues, "rDrive");
+        clsEmotion oFromPerceptionDrive = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionDriveMesh");
+        clsEmotion oFromPerceptionExperiences = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionExperience");
+        clsEmotion oFromPerceptionBodystates = getEmotionFromMap(oPerceptionExtractedValues, "rPerceptionBodystate");
+        clsEmotion oFromMemorizedValuations = getEmotionFromMap(oMemoryExtractedValues, "rPerception");
+        
+        //Analysis logging
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F63_emotionContributors(oFromDrives, oFromPerceptionDrive, oFromPerceptionExperiences, oFromPerceptionBodystates, oFromMemorizedValuations);
+        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F63_basicEmotion(moTargetEmotion);
 	}
 	
+	/**
+	 * DOCUMENT - 
+	 *
+	 * @author Kollmann
+	 * @since 06. Feb. 2016 16:28:08
+	 *
+	 * @return
+	 */
+	private clsEmotion getEmotionFromMap(Map<String, Double> map, String prefix) {
+	    clsEmotion oEmotion = clsEmotion.zeroEmotion(eContentType.EMOTION,  eEmotionType.UNDEFINED);
+	    oEmotion.setSourceUnpleasure(map.get(prefix + "Unpleasure"));
+	    oEmotion.setSourcePleasure(map.get(prefix + "Pleasure"));
+	    oEmotion.setSourceLibid(map.get(prefix + "Libid"));
+	    oEmotion.setSourceAggr(map.get(prefix + "Aggr"));
+	    
+	    return oEmotion;
+	}
 	
 	/* (non-Javadoc)
 	 *
@@ -310,8 +406,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	    return rBaseValue;
 	}
 	
-	
-	
 	/* (non-Javadoc)
 	 *
 	 * @author schaat
@@ -323,14 +417,25 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 */
 	private HashMap<String, Double> getEmotionValuesFromPerception() {
 		// values from perception-track (triggered emotions)
-		double rPerceptionPleasure = 0.0; 
-		double rPerceptionUnpleasure = 0.0;
-		double rPerceptionLibid = 0.0;
-		double rPerceptionAggr = 0.0;
+		double rPerceptionPleasure_DM = 0.0; 
+		double rPerceptionUnpleasure_DM = 0.0;
+		double rPerceptionLibid_DM = 0.0;
+		double rPerceptionAggr_DM = 0.0;
+		
+		double rPerceptionPleasure_EXP = 0.0; 
+        double rPerceptionUnpleasure_EXP = 0.0;
+        double rPerceptionLibid_EXP = 0.0;
+        double rPerceptionAggr_EXP = 0.0;
+        
+        double rPerceptionPleasure_BS = 0.0; 
+        double rPerceptionUnpleasure_BS = 0.0;
+        double rPerceptionLibid_BS = 0.0;
+        double rPerceptionAggr_BS = 0.0;
 				
 		double rInfluencePerception = 0;
 		
-		double rInfluencePerceivedObjects = 0.3;
+		//kollmann: entity valuation ranges from -1 (maximum dislike) to 1 (maximum like)
+		double nEntityValuation = 0.0;
 		
 		clsDriveMesh oDM = null;
 		//clsEmotion oExperiencedEmotion = null;
@@ -338,8 +443,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		// use QoA of the PI's entities  for emotion-generation
 		for(clsAssociation oPIINtAss: moPerceptions_IN.getInternalAssociatedContent()) {
 			if(oPIINtAss.getContentType() == eContentType.PARTOFASSOCIATION){
-				
-				for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getExternalAssociatedContent()) {
+				clsEmotion oEmotionFromBodystate = null;
+			    clsEmotion oExperiencedEmotion = null;
+			    
+			    for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getExternalAssociatedContent()) {
 					// exclude empty spaces (they are currently associated with drives). just use entities. (this is not nice, but due to the use of emptySpaces-objekte in ars necessary)
 					if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONDM && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
 																		
@@ -348,7 +455,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						if(oDM.getContentType() == eContentType.LIBIDO) {
 							//rPerceptionPleasure += mrPerceptionPleasureImpactFactor*oDM.getQuotaOfAffect();
 							// Change by Kollmann - should be calculated as any other emotion value, by nonProportionalAggregation with PerceptionInfluence
-							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, rInfluencePerceivedObjects*oDM.getQuotaOfAffect());
+							rPerceptionPleasure_DM = nonProportionalAggregation(rPerceptionPleasure_DM, mrInfluenceDrivesOnPerceivedObjects*oDM.getQuotaOfAffect());
 						}
 						else {
 							
@@ -376,22 +483,36 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 							
 						    //rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oDM.getQuotaOfAffect());
 							if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
-								rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
+								rPerceptionLibid_DM = nonProportionalAggregation(rPerceptionLibid_DM, mrInfluenceDrivesOnPerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 							} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
-								rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
+								rPerceptionAggr_DM = nonProportionalAggregation(rPerceptionAggr_DM, mrInfluenceDrivesOnPerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 							}
 							
-							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, rInfluencePerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
+							rPerceptionPleasure_DM = nonProportionalAggregation(rPerceptionPleasure_DM, mrInfluenceDrivesOnPerceivedObjects*rInfluencePerception*oDM.getQuotaOfAffect());
 						}
 						
 					}
 					
-					//koller Emotionsübertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
+					//koller Emotionsuebertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
 
                     if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONATTRIBUTE && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
                         if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){
                             
                             clsThingPresentationMesh oTPMA = (clsThingPresentationMesh)oEntityAss.getAssociationElementA();
+                            
+                            /*Kollmann: THE IF STATEMENT BELLOW IS THE LAST OPPERTUNITY FOR TURNING THE SELF-PERCEPTION LOOP OFF (or on)
+                             * 
+                             * The self perception currently (06/2015) moves the agents emotion state towards the emotion state associated to the
+                             * bodystate the agent perceives at himself. E.g. if the agents emotion state would slowly change from anxious to joyful,
+                             * as the agent starts emiting the expressions associated with joy, the target emotion state would immediately take a leap
+                             * towards the emotion state associated with the JOY-bodystate.
+                             * 
+                             *  ATTENTION: Which expression variables are used for which emotion state is NOT stored in memory but hardcoded!
+                             *  This means, if you change the memorized bodystates or the emotions associated to these bodystates, the self perception
+                             *  behavior could become confusing! E.g. the agent shows ANGER but interprets it as JOY, which would result in the agent
+                             *  getting happier while being angry - the result will probably stabilize somewhere between these two emotions.
+                             */
+                            
                             if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
                                 if(oEntityAss.getAssociationElementB().getContentType() == eContentType.ENTITY){
                             
@@ -400,12 +521,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                                     if(oTPM.getContent().equals("Bodystate")){
                                         for(clsAssociation oAssoc : oTPM.getInternalAssociatedContent()){
                                             if(oAssoc.getAssociationElementB().getContentType() == eContentType.BASICEMOTION){
-                                                clsEmotion oEmotionFromBodystate = (clsEmotion)oAssoc.getAssociationElementB();
-                                                //koller EmotionRecognitionFactor * PerceptionPleasureImpactFactor * SourcePleasure/Unpleasure/Aggr/Libid * EmotionIntensity     
-                                                rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrEmotionrecognitionImpactFactor*mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure()); 
-                                                rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceUnpleasure());
-                                                rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceLibid());
-                                                rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrEmotionrecognitionImpactFactor*mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceAggr()); 
+                                                if(oEmotionFromBodystate != null) {
+                                                    log.warn("Entity {} seems to have more than one bodystate associated", oTPMA.getContent());
+                                                }
+                                                oEmotionFromBodystate = (clsEmotion)oAssoc.getAssociationElementB();
                                             }
                                         }
                                     }
@@ -414,32 +533,114 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                         }  
                     }//end koller  
                     
-                    //Experienced emotion for entities
-                    /*if(oEntityAss.getContentType().equals(eContentType.ASSOCIATIONEMOTION) && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")) {
+                    //Kollmann: influence of experienced emotion (memorized emotional valuation of other agents, e.g. "I like him") for entities
+                    if(oEntityAss.getContentType().equals(eContentType.ASSOCIATIONEMOTION) && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")) {
                         //check if the association really connects an emotion with a TPM
                         if(oEntityAss.getAssociationElementA() instanceof clsEmotion && oEntityAss.getAssociationElementB() instanceof clsThingPresentationMesh) {
+                            if(oExperiencedEmotion != null) {
+                                log.warn("Entity {} seems to have more than one experienced emotion associated", ((clsThingPresentationMesh)oEntityAss.getAssociationElementB()).getContent());
+                            }
                             oExperiencedEmotion = (clsEmotion) oEntityAss.getAssociationElementA();
-                            
-                            rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, oExperiencedEmotion.getSourcePleasure()); 
-                            rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oExperiencedEmotion.getSourceUnpleasure());
-                            rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, oExperiencedEmotion.getSourceLibid());
-                            rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, oExperiencedEmotion.getSourceAggr());
                         } else {
                             log.warn("Found ASSOCIATIONEMOTION that does NOT connect clsEmotion to clsThingPresentationMesh:");
                             log.warn(oEntityAss.toString());
                         }
-                    }*/
+                    }
 				}
+			    
+			    //kollmann: calculate valuation of entity - this will later be used to influence how emotion is transfered
+                //          positive evaluation -> direct transfer (e.g. 0.5 pleasure -> 0.5 pleasure)
+                //          negative evaluation -> reverse transfer (e.g. 0.5 pleasure -> 0.5 un-pleasure)
+			    //The default value of 1 means that, if a bodystate emotion but no experienced emotion is associated to the agent, the transfer will be fully positive
+			    
+			    double rPleasureFactor = 0.0;
+			    double rUnpleasureFactor = 0.0;
+			    
+			    if(oExperiencedEmotion != null) {
+			        
+			        //let the expierenced emotion have influence on the current emotion state
+			        rPerceptionPleasure_EXP = nonProportionalAggregation(rPerceptionPleasure_EXP, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourcePleasure()); 
+			        rPerceptionUnpleasure_EXP = nonProportionalAggregation(rPerceptionUnpleasure_EXP, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceUnpleasure());
+			        rPerceptionLibid_EXP = nonProportionalAggregation(rPerceptionLibid_EXP, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceLibid());
+			        rPerceptionAggr_EXP = nonProportionalAggregation(rPerceptionAggr_EXP, mrExperiencedEmotionImpactFactor * oExperiencedEmotion.getSourceAggr());
+			        
+                    if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
+                        moAgentEmotionValuation = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,
+                                rPerceptionPleasure_EXP,
+                                rPerceptionUnpleasure_EXP,
+                                rPerceptionLibid_EXP,
+                                rPerceptionAggr_EXP);
+                        //moAgentEmotionValuation = oExperiencedEmotion.flatCopy();
+                    }
+                    
+                    
+                    
+                    //rPositiveInfluenceFactor = oExperiencedEmotion.getSourcePleasure() / (oExperiencedEmotion.getSourcePleasure() + oExperiencedEmotion.getSourceUnpleasure());
+
+                    //calculate scaled transfer factors so their sum does not exceed 1.0
+                    rPleasureFactor = oExperiencedEmotion.getSourcePleasure() / Math.max(oExperiencedEmotion.getSourcePleasure() + oExperiencedEmotion.getSourceUnpleasure(), 1);
+                    rUnpleasureFactor = oExperiencedEmotion.getSourceUnpleasure() / Math.max(oExperiencedEmotion.getSourcePleasure() + oExperiencedEmotion.getSourceUnpleasure(), 1);
+                }
+                
+                if(oEmotionFromBodystate != null) {
+                    //koller EmotionRecognitionFactor * PerceptionPleasureImpactFactor * SourcePleasure/Unpleasure/Aggr/Libid * EmotionIntensity
+                    
+                    //calculate the transference values depending on the agents valuation from the experienced emotions
+                    //first of the positive transfers
+                    double rTransferPleasure = (mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure()) * rPleasureFactor;
+                    double rTransferUnpleasure = (mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceUnpleasure()) * rPleasureFactor;
+                    double rTransferAggressive = (mrPerceptionAggressiveImpactFactor*oEmotionFromBodystate.getSourceAggr()) * rPleasureFactor;
+                    double rTransferLibidinous = (mrPerceptionLibidinousImpactFactor*oEmotionFromBodystate.getSourceLibid()) * rPleasureFactor;
+                    
+                    if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
+//                        moAgentAttributedEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,
+//                                mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure(),
+//                                mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceUnpleasure(),
+//                                mrPerceptionAggressiveImpactFactor*oEmotionFromBodystate.getSourceAggr(),
+//                                mrPerceptionLibidinousImpactFactor*oEmotionFromBodystate.getSourceLibid());
+                        
+                        moAgentAttributedEmotion = oEmotionFromBodystate.flatCopy();
+                    }
+                    
+                    //now the "reversed" transfers
+                    rTransferPleasure += mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceUnpleasure() * rUnpleasureFactor;
+                    rTransferUnpleasure += mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure() * rUnpleasureFactor;
+                    rTransferAggressive += mrPerceptionLibidinousImpactFactor*oEmotionFromBodystate.getSourceLibid() * rUnpleasureFactor;
+                    rTransferLibidinous += mrPerceptionAggressiveImpactFactor*oEmotionFromBodystate.getSourceAggr() * rUnpleasureFactor;
+                    
+                    rPerceptionPleasure_BS = nonProportionalAggregation(rPerceptionPleasure_BS, mrEmotionrecognitionImpactFactor * rTransferPleasure);
+                    rPerceptionUnpleasure_BS = nonProportionalAggregation(rPerceptionUnpleasure_BS, mrEmotionrecognitionImpactFactor * rTransferUnpleasure);
+                    rPerceptionLibid_BS = nonProportionalAggregation(rPerceptionLibid_BS, mrEmotionrecognitionImpactFactor * rTransferLibidinous);
+                    rPerceptionAggr_BS = nonProportionalAggregation(rPerceptionAggr_BS, mrEmotionrecognitionImpactFactor * rTransferAggressive);
+                    
+                    if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
+                        moAgentTransferedEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,
+                                rPerceptionPleasure_BS,
+                                rPerceptionUnpleasure_BS,
+                                rPerceptionLibid_BS,
+                                rPerceptionAggr_BS);
+                    }
+                }
 			}
         }
 		
-        rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, rPerceptionLibid+rPerceptionAggr);
-		 
+		rPerceptionUnpleasure_DM = nonProportionalAggregation(rPerceptionUnpleasure_DM, rPerceptionLibid_DM+rPerceptionAggr_DM);
+         
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
-		oPerceptionExtractedValues.put("rPerceptionPleasure", rPerceptionPleasure);
-		oPerceptionExtractedValues.put("rPerceptionUnpleasure", rPerceptionUnpleasure);
-		oPerceptionExtractedValues.put("rPerceptionLibid", rPerceptionLibid);
-		oPerceptionExtractedValues.put("rPerceptionAggr", rPerceptionAggr);
+		oPerceptionExtractedValues.put("rPerceptionDriveMeshPleasure", rPerceptionPleasure_DM);
+		oPerceptionExtractedValues.put("rPerceptionDriveMeshUnpleasure", rPerceptionUnpleasure_DM);
+		oPerceptionExtractedValues.put("rPerceptionDriveMeshLibid", rPerceptionLibid_DM);
+		oPerceptionExtractedValues.put("rPerceptionDriveMeshAggr", rPerceptionAggr_DM);
+		
+		oPerceptionExtractedValues.put("rPerceptionExperiencePleasure", rPerceptionPleasure_EXP);
+        oPerceptionExtractedValues.put("rPerceptionExperienceUnpleasure", rPerceptionUnpleasure_EXP);
+        oPerceptionExtractedValues.put("rPerceptionExperienceLibid", rPerceptionLibid_EXP);
+        oPerceptionExtractedValues.put("rPerceptionExperienceAggr", rPerceptionAggr_EXP);
+        
+        oPerceptionExtractedValues.put("rPerceptionBodystatePleasure", rPerceptionPleasure_BS);
+        oPerceptionExtractedValues.put("rPerceptionBodystateUnpleasure", rPerceptionUnpleasure_BS);
+        oPerceptionExtractedValues.put("rPerceptionBodystateLibid", rPerceptionLibid_BS);
+        oPerceptionExtractedValues.put("rPerceptionBodystateAggr", rPerceptionAggr_BS);
 		
 		return oPerceptionExtractedValues;
 	}
@@ -461,15 +662,15 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                
        double rAssociationWeight = 0;
        
-       double rInfluenceRememberedImages = 0.75;
-       
        clsEmotion oEmotionFromMemory = null;
        clsThingPresentationMesh oRI = null;
        
        // use  assoc. emotions from PI's RIs for emotion-generation        
        for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalAssociatedContent()){
            if(oPIExtAss.getContentType() == eContentType.ASSOCIATIONPRI){
-               if(oPIExtAss.getAssociationElementB().getContentType() == eContentType.RI) {
+               if(oPIExtAss.getAssociationElementB().getContentType() == eContentType.RI ||
+                  oPIExtAss.getAssociationElementB().getContentType() == eContentType.RPI ||
+                  oPIExtAss.getAssociationElementB().getContentType() == eContentType.RPA) {
                    oRI = (clsThingPresentationMesh)oPIExtAss.getAssociationElementB();
                    
                    for (clsAssociation oRIAss: oRI.getExternalAssociatedContent()) {
@@ -482,10 +683,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                            if(oEmotionFromMemory.getContentType().equals(eContentType.MEMORIZEDEMOTION)) {
                                // the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
                                rAssociationWeight = oPIExtAss.getMrWeight();
-                               rMemoryPleasure = nonProportionalAggregation(rMemoryPleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourcePleasure()); 
-                               rMemoryUnpleasure = nonProportionalAggregation(rMemoryUnpleasure, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceUnpleasure());
-                               rMemoryLibid = nonProportionalAggregation(rMemoryLibid, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceLibid());
-                               rMemoryAggr = nonProportionalAggregation(rMemoryAggr, rInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceAggr());
+                               rMemoryPleasure = nonProportionalAggregation(rMemoryPleasure, mrInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourcePleasure()); 
+                               rMemoryUnpleasure = nonProportionalAggregation(rMemoryUnpleasure, mrInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceUnpleasure());
+                               rMemoryLibid = nonProportionalAggregation(rMemoryLibid, mrInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceLibid());
+                               rMemoryAggr = nonProportionalAggregation(rMemoryAggr, mrInfluenceRememberedImages*rAssociationWeight*oEmotionFromMemory.getSourceAggr());
                            }
                        }
                    }
@@ -661,8 +862,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		oValues.add(oDrivesExtractedValues.get("rDrivePleasure"));
 		oValues.add(oDrivesExtractedValues.get("rDriveUnpleasure"));
 		
-		
-		oValues.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
+		oValues.add(oPerceptionExtractedValues.get("rPerceptionDriveMeshAggr") + oPerceptionExtractedValues.get("rPerceptionExperienceAggr") + oPerceptionExtractedValues.get("rPerceptionBodystateAggr"));
 		
 		return oValues;
 	}
@@ -738,6 +938,29 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		return "";
 	}
 
+	/**
+	 * DOCUMENT - Searaches a List of clsEmotion objects for emotions of a specific type and return the intensity
+	 * 
+	 *            If an emotion occurs more than once, the QoAs will be summed up.
+	 *
+	 * @author Kollmann
+	 * @since 18.05.2015 13:53:08
+	 *
+	 * @param poEmotionList
+	 * @param poEmotionType
+	 * @return
+	 */
+	private Double extractEmotionValueForType(List<clsEmotion> poEmotionList, eEmotionType poEmotionType) {
+	    //EMOTIONS
+        Double oQoA= 0.0;
+        for(clsEmotion oEmotion : poEmotionList) {
+            if(oEmotion.getContent().equals(poEmotionType))
+                oQoA += oEmotion.getEmotionIntensity();
+        }
+        
+        return oQoA;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @since Oct 2, 2012 1:31:29 PM
@@ -747,76 +970,58 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	@Override
 	public ArrayList<ArrayList<Double>> getCombinedTimeChartData() {
 	    ArrayList<clsEmotion> oEmotions = moEmotions_OUT.get(0).generateExtendedEmotions();
+	    ArrayList<clsEmotion> oTargetEmotions = moTargetEmotion.generateExtendedEmotions();
 		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
 		
 		//EMOTIONS
 		ArrayList<Double> oAnger =new ArrayList<Double>();
-		Double oAngerQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.ANGER)){
-				oAngerQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
+		oAnger.add(extractEmotionValueForType(oEmotions, eEmotionType.ANGER));
+		if (mbShowTargetEmotionInChart)
+		{
+		    oAnger.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.ANGER));
 		}
-		oAnger.add(oAngerQoA);
 		oResult.add(oAnger);
 		
-		
-		ArrayList<Double> oFear =new ArrayList<Double>();
-		Double oFearQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.ANXIETY)){
-				oFearQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
-		}
-		oFear.add(oFearQoA);
-		oResult.add(oFear);
-		
-		ArrayList<Double> oGrief =new ArrayList<Double>();
-		Double oGriefQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.MOURNING)){
-				oGriefQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
-		}
-		oGrief.add(oGriefQoA);
-		oResult.add(oGrief);
-		
-		ArrayList<Double> oLoveSa =new ArrayList<Double>();
-		Double oLoveSaQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.SATURATION)){
-				oLoveSaQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
-		}
-		oLoveSa.add(oLoveSaQoA);
-		oResult.add(oLoveSa);
-		
-		ArrayList<Double> oLoveEx =new ArrayList<Double>();
-		Double oLoveExQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.ELATION)){
-				oLoveExQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
-		}
-		oLoveEx.add(oLoveExQoA);
-		oResult.add(oLoveEx);
-		
-		ArrayList<Double> oPleasure =new ArrayList<Double>();
-		Double oPleasureQoA= 0.0;
-		for(int i=0; i<oEmotions.size();i++){
-			if(oEmotions.get(i).getContent().equals(eEmotionType.JOY)){
-				oPleasureQoA = oEmotions.get(i).getEmotionIntensity();
-
-			}
-		}
-		oPleasure.add(oPleasureQoA);
-		oResult.add(oPleasure);
-		
+		ArrayList<Double> oAnxiety =new ArrayList<Double>();
+		oAnxiety.add(extractEmotionValueForType(oEmotions, eEmotionType.ANXIETY));
+		if (mbShowTargetEmotionInChart)
+        {
+            oAnxiety.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.ANXIETY));
+        }
+        oResult.add(oAnxiety);
+        
+        ArrayList<Double> oMourning =new ArrayList<Double>();
+        oMourning.add(extractEmotionValueForType(oEmotions, eEmotionType.MOURNING));
+        if (mbShowTargetEmotionInChart)
+        {
+            oMourning.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.MOURNING));
+        }
+        oResult.add(oMourning);
+        
+        ArrayList<Double> oSaturation =new ArrayList<Double>();
+        oSaturation.add(extractEmotionValueForType(oEmotions, eEmotionType.SATURATION));
+        if (mbShowTargetEmotionInChart)
+        {
+            oSaturation.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.SATURATION));
+        }
+        oResult.add(oSaturation);
+        
+        ArrayList<Double> oElation =new ArrayList<Double>();
+        oElation.add(extractEmotionValueForType(oEmotions, eEmotionType.ELATION));
+        if (mbShowTargetEmotionInChart)
+        {
+            oElation.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.ELATION));
+        }
+        oResult.add(oElation);
+        
+        ArrayList<Double> oJoy =new ArrayList<Double>();
+        oJoy.add(extractEmotionValueForType(oEmotions, eEmotionType.JOY));
+        if (mbShowTargetEmotionInChart)
+        {
+            oJoy.add(extractEmotionValueForType(oTargetEmotions, eEmotionType.JOY));
+        }
+        oResult.add(oJoy);
+        
 		//Chart Drive
 		ArrayList<Double> oDrive =new ArrayList<Double>();
 		oDrive.add(oDrivesExtractedValues.get("rDriveAggr"));
@@ -828,10 +1033,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			
 		//Chart Perception
 		ArrayList<Double> oPerception =new ArrayList<Double>();
-		oPerception.add(oPerceptionExtractedValues.get("rPerceptionAggr"));
-		oPerception.add(oPerceptionExtractedValues.get("rPerceptionLibid"));
-		oPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
-		oPerception.add(oPerceptionExtractedValues.get("rPerceptionPleasure"));
+		oPerception.add(oPerceptionExtractedValues.get("rPerceptionDriveMeshAggr") + oPerceptionExtractedValues.get("rPerceptionExperienceAggr") + oPerceptionExtractedValues.get("rPerceptionBodystateAggr"));
+		oPerception.add(oPerceptionExtractedValues.get("rPerceptionDriveMeshLibid") + oPerceptionExtractedValues.get("rPerceptionExperienceLibid") + oPerceptionExtractedValues.get("rPerceptionBodystateLibid"));
+		oPerception.add(oPerceptionExtractedValues.get("rPerceptionDriveMeshUnpleasure") + oPerceptionExtractedValues.get("rPerceptionExperienceUnpleasure") + oPerceptionExtractedValues.get("rPerceptionBodystateUnpleasure"));
+		oPerception.add(oPerceptionExtractedValues.get("rPerceptionDriveMeshPleasure") + oPerceptionExtractedValues.get("rPerceptionExperiencePleasure") + oPerceptionExtractedValues.get("rPerceptionBodystatePleasure"));
 		oResult.add(oPerception);
 
         //Chart Memory
@@ -885,33 +1090,57 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		//ChartAnger
 		ArrayList<String> chartAnger = new ArrayList<String>();
-		chartAnger.add("Emotion "+eEmotionType.ANGER.toString());
+		chartAnger.add("Current Emotion "+eEmotionType.ANGER.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartAnger.add("Target Emotion "+eEmotionType.ANGER.toString());
+        }
 		oResult.add(chartAnger);
 		
 		//ChartFear
 		ArrayList<String> chartFear = new ArrayList<String>();
-		chartFear.add("Emotion "+eEmotionType.ANXIETY.toString());
-		oResult.add(chartFear);
+		chartFear.add("Current Emotion "+eEmotionType.ANXIETY.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartFear.add("Target Emotion "+eEmotionType.ANXIETY.toString());
+        }
+        oResult.add(chartFear);
 		
 		//ChartGrief
 		ArrayList<String> chartGrief = new ArrayList<String>();
-		chartGrief.add("Emotion "+eEmotionType.MOURNING.toString());
-		oResult.add(chartGrief);	
+		chartGrief.add("Current Emotion "+eEmotionType.MOURNING.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartGrief.add("Target Emotion "+eEmotionType.MOURNING.toString());
+        }
+        oResult.add(chartGrief);	
 		
 		//ChartLoveSaturation
 		ArrayList<String> chartLoveSaturation = new ArrayList<String>();
-		chartLoveSaturation.add("Emotion "+eEmotionType.SATURATION.toString());
-		oResult.add(chartLoveSaturation);
+		chartLoveSaturation.add("Current Emotion "+eEmotionType.SATURATION.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartLoveSaturation.add("Target Emotion "+eEmotionType.SATURATION.toString());
+        }
+        oResult.add(chartLoveSaturation);
 		
 		//ChartLoveexhilaration
 		ArrayList<String> chartLoveExhilaration = new ArrayList<String>();
-		chartLoveExhilaration.add("Emotion "+eEmotionType.ELATION.toString());
-		oResult.add(chartLoveExhilaration);	
+		chartLoveExhilaration.add("Current Emotion "+eEmotionType.ELATION.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartLoveExhilaration.add("Target Emotion "+eEmotionType.ELATION.toString());
+        }
+        oResult.add(chartLoveExhilaration);	
 		
 		//ChartPleasure
 		ArrayList<String> chartPleasure= new ArrayList<String>();
-		chartPleasure.add("Emotion "+eEmotionType.JOY.toString());
-		oResult.add(chartPleasure);	
+		chartPleasure.add("Current Emotion "+eEmotionType.JOY.toString());
+		if (mbShowTargetEmotionInChart)
+        {
+            chartPleasure.add("Target Emotion "+eEmotionType.JOY.toString());
+        }
+        oResult.add(chartPleasure);	
 		
 		
 		//ChartDrive
@@ -952,7 +1181,211 @@ public class F63_CompositionOfEmotions extends clsModuleBase
        return new clsTimeChartPropeties(true);
    }
 
-	
+    /* (non-Javadoc)
+     *
+     * @since 30.04.2015 13:20:13
+     * 
+     * @see inspector.interfaces.itfInspectorStackedAreaChart#getTitle()
+     */
+    @Override
+    public String getTitle(String poLabel) {
+        return poLabel + " development";
+    }
+    
+    /**
+     * DOCUMENT - Returns a List of double values representing the contributions to the dimension of the base emotion vector.
+     * 
+     *            The dimensions of the base emotion vector are calculated by non-proportional aggregation of several values.
+     *            This method simply scales these contribution values to the actual value in the base emotion vector.
+     *            E.g. NPA ... non-propotional aggregation (rNewBaseValue = rBaseValue + (1 - rBaseValue) * rAddValue;
+     *                 A ... 0.6
+     *                 B ... 0.6
+     *                 NPA(A, B) = 0.84
+     *                 SUM(A, B) = 1.2
+     *                 The method would than calculate the contribution of A like this:
+     *                 cont(A) = NPA(A, B) * (A / SUM(A,B)) = 0,42
+     *                 cont(B) = NPA(A, B) * (B / SUM(A,B)) = 0,42
+     *
+     * @author Kollmann
+     * @since 04.05.2015 11:49:10
+     *
+     * @param prAggregatedValue The value calculated via non-proportional aggreagtion
+     * @param poPostfix The postfix that will be appended to the value hashmaps to retrieve the contributor value
+     * @return List of double values representing the different contributions to the provided aggregated value
+     */
+    Collection<Double> getDimensionContributers(double prAggregatedValue, String poPostfix) {
+        Collection<Double> rResults = new ArrayList<Double>();
+        
+        double rDrive = oDrivesExtractedValues.get("rDrive" + poPostfix);
+        double rPerceptionDM = oPerceptionExtractedValues.get("rPerceptionDriveMesh" + poPostfix);
+        double rPerceptionEXP = oPerceptionExtractedValues.get("rPerceptionExperience" + poPostfix);
+        double rPerceptionBS = oPerceptionExtractedValues.get("rPerceptionBodystate" + poPostfix);
+        double rMemory = oMemoryExtractedValues.get("rPerception" + poPostfix);
+        double rSum = rDrive + rPerceptionDM + rPerceptionEXP + rPerceptionBS + rMemory;
+        
+        rResults.add(prAggregatedValue * rDrive / rSum);
+        rResults.add(prAggregatedValue * rPerceptionDM / rSum);
+        rResults.add(prAggregatedValue * rPerceptionEXP / rSum);
+        rResults.add(prAggregatedValue * rPerceptionBS / rSum);
+        rResults.add(prAggregatedValue * rMemory / rSum);
+        
+        return rResults;
+    }
+    
+    /* (non-Javadoc)
+     *
+     * @since 30.04.2015 13:20:13
+     * 
+     * @see inspector.interfaces.itfInspectorStackedAreaChart#getData()
+     */
+    @Override
+    public ArrayList<Double> getData(String poLabel) {
+        ArrayList<Double> oData = new ArrayList<>();
+        double[] rContributions = new double[5];
+        
+        switch(poLabel) {
+        case "PLEASURE":
+            oData.addAll(getDimensionContributers(moTargetEmotion.getSourcePleasure(), "Pleasure"));
+            break;
+        case "UNPLEASURE":
+            oData.addAll(getDimensionContributers(moTargetEmotion.getSourceUnpleasure(), "Unpleasure"));
+            break;
+        case "AGGRESSIVE":
+            oData.addAll(getDimensionContributers(moTargetEmotion.getSourceAggr(), "Aggr"));
+            break;
+        case "LIBIDINOUS":
+            oData.addAll(getDimensionContributers(moTargetEmotion.getSourceLibid(), "Libid"));
+            break;
+        default:
+            log.warn("Unknown label for StackedBarChartInspector in getData method");
+            break;
+        }
+        
+        return oData;
+    }
+    
+    /* (non-Javadoc)
+     *
+     * @since 30.04.2015 13:20:13
+     * 
+     * @see inspector.interfaces.itfInspectorStackedAreaChart#getCategoryCaptions()
+     */
+    @Override
+    public ArrayList<String> getCategoryCaptions(String poLabel) {
+        ArrayList<String> oData = new ArrayList<String>();
 
+        oData.add("Current Drives");
+        oData.add("Memorized Drive Satisfactions");
+        oData.add("Memorized Emotions - Entities");
+        oData.add("Transferred Emotions");
+        oData.add("Memorized Emotions - Situations");
 
+        return oData;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 10.07.2015 11:40:16
+     * 
+     * @see inspector.interfaces.itfInspectorMultipleBarChart#getBarChartTitle(java.lang.String)
+     */
+    @Override
+    public String getBarChartTitle(String poLabel) {
+        return poLabel;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 10.07.2015 11:40:16
+     * 
+     * @see inspector.interfaces.itfInspectorMultipleBarChart#getBarChartData(java.lang.String)
+     */
+    @Override
+    public ArrayList<ArrayList<Double>> getBarChartData(String poLabel) {
+        ArrayList<ArrayList<Double>> oOuterData = new ArrayList<ArrayList<Double>>();
+        
+        switch(poLabel) {
+        case "Associated Emotion":
+            if(moAgentAttributedEmotion != null) {
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourcePleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceUnpleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceAggr())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentAttributedEmotion.getSourceLibid())));
+            } else {
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            }
+            break;
+        case "(weighted) Valuation":
+            if(moAgentEmotionValuation != null) {
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourcePleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceUnpleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceAggr())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentEmotionValuation.getSourceLibid())));
+            } else {
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            }
+            break;
+        case "Transfered Emotion":
+            if(moAgentTransferedEmotion != null) {
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourcePleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceUnpleasure())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceAggr())));
+                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceLibid())));
+            } else {
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+            }
+            break;
+        default:
+            log.warn("Trying to generate bar chart data for non-existant label {}", poLabel);
+            break;
+        }
+        
+        return oOuterData;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 10.07.2015 11:40:16
+     * 
+     * @see inspector.interfaces.itfInspectorMultipleBarChart#getBarChartCategoryCaptions(java.lang.String)
+     */
+    @Override
+    public ArrayList<String> getBarChartCategoryCaptions(String poLabel) {
+        ArrayList<String> oCaptions = new ArrayList<String>();
+        
+        if(!poLabel.isEmpty()) {
+            oCaptions.add("Pleasure");
+            oCaptions.add("Unpleasure");
+            oCaptions.add("Aggressive");
+            oCaptions.add("Libidinous");
+        }
+        
+        return oCaptions;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 10.07.2015 11:40:16
+     * 
+     * @see inspector.interfaces.itfInspectorMultipleBarChart#getBarChartColumnCaptions(java.lang.String)
+     */
+    @Override
+    public ArrayList<String> getBarChartColumnCaptions(String poLabel) {
+        ArrayList<String> oCaptions = new ArrayList<String>();
+        
+        if(!poLabel.isEmpty()) {
+            oCaptions.add("Value");
+        }
+        
+        return oCaptions;
+    }
 }

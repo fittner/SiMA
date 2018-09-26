@@ -122,7 +122,7 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 	
 	private void updateDetectedObjAndCollisionPointList(ArrayList<clsCollidingObject> peDetectedObjectList){
 		
-		if(moSensorData.mnFieldOfView<2*Math.PI){
+		if(moSensorData.mnFieldOfView < 2 * Math.PI){
 			processObjInAreaList(peDetectedObjectList); 
 		}
 	}
@@ -134,7 +134,7 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 			clsCollidingObject oCollidingObject = itr.next(); 
 			//TODO ()
 			eSensorExtType oSensorType =null;
-			for (Map.Entry<eSensorExtType, clsSensorExt> oEntry :moSensorEngine.getMeRegisteredSensors().entrySet()){
+			for (Map.Entry<eSensorExtType, clsSensorExt> oEntry : moSensorEngine.getMeRegisteredSensors().entrySet()){
 				if(oEntry.getValue().equals(this)){
 					oSensorType = oEntry.getKey();
 				}

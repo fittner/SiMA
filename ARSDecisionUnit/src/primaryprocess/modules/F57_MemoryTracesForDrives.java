@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -22,8 +25,6 @@ import modules.interfaces.I4_1_receive;
 import modules.interfaces.I5_1_receive;
 import modules.interfaces.I5_1_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructureContainer;
@@ -82,8 +83,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public F57_MemoryTracesForDrives(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-			super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
+			itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+			super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
 		applyProperties(poPrefix, poProp); 
 		

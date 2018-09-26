@@ -122,7 +122,7 @@ public class clsActionRefinementHardcoded_FLEE implements itfActionRefinement {
                     oRefinedAction = clsActionTools.createAction(eAction.SEARCH1);
                 }
             } else { 
-                oRefinedAction = clsOrientationReasoner.getInstance().getActionToEntity(oActionObjectInstance);
+                oRefinedAction = clsOrientationReasoner.getInstance().getActionAwayFromEntity(oActionObjectInstance);
             }
     
             replaceAction(poActionWPM, oRefinedAction);

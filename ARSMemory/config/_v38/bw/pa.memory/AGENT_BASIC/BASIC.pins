@@ -1,4 +1,4 @@
-; Mon Oct 06 14:39:44 CEST 2014
+; Mon Sep 14 16:55:04 GMT 2015
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2341,6 +2341,27 @@
 	(predicate "HASSUPER")
 	(weight 1.0 1.0))
 
+([ASSOCIATIONSPATIAL%3ABODO_OWNED_CAKE%3ABODO] of  ASSOCIATIONSPATIAL
+
+	(element
+		[TPM%3AIMAGE%3ABODO_OWNED_CAKE]
+		[PRIMARYINSTANCEOBJECT%3ABODO_OWNED_CAKE%3ABODO])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONSPATIAL%3ABODO_OWNED_CAKE%3ACAKE] of  ASSOCIATIONSPATIAL
+
+	(element
+		[TPM%3AIMAGE%3ABODO_OWNED_CAKE]
+		[PRIMARYINSTANCEOBJECT%3ABODO_OWNED_CAKE%3ACAKE])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONWP%3ABODO_OWNED_CAKE] of  ASSOCIATIONWP
+
+	(element
+		[TPM%3AIMAGE%3ABODO_OWNED_CAKE]
+		[WPM%3AIMAGE%3AADAM_OWNED_CAKE])
+	(weight 1.0 1.0))
+
 ([AT%3AA01_GOAROUNDSTONE_L01%3ACAKE] of  ASSOCIATIONTEMP
 
 	(element
@@ -4077,6 +4098,7 @@
 ([EMOTION%3AANGER%3ABEAT] of  EMOTION
 
 	(emotionIntensity 0.0)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.8)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -4087,6 +4109,7 @@
 ([EMOTION%3AANGER%3ACARL_CAKE] of  EMOTION
 
 	(emotionIntensity 0.0)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.5)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
@@ -4097,6 +4120,7 @@
 ([EMOTION%3AANXIETY] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.1)
@@ -4107,6 +4131,7 @@
 ([EMOTION%3AELATION] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.1)
@@ -4117,6 +4142,7 @@
 ([EMOTION%3AJOY] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.1)
@@ -4127,6 +4153,7 @@
 ([EMOTION%3AMOURNING] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.1)
@@ -4137,6 +4164,7 @@
 ([EMOTION%3ASATURATION] of  EMOTION
 
 	(emotionIntensity 0.8)
+	(intensityDeviation 0.0)
 	(sourceAggr 0.7)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.1)
@@ -4496,6 +4524,14 @@
 ([PRI%3ACARL_CAKE_L01_L03%3ACAKE_NEAR] of  PRIMARYINSTANCEOBJECT
 
 	(instance_type [TPM%3AENTITY%3ACAKE%3ABASIC]))
+
+([PRIMARYINSTANCEOBJECT%3ABODO_OWNED_CAKE%3ABODO] of  PRIMARYINSTANCEOBJECT
+
+	(instance_type [TPM%3AENTITY%3AARSIN%3ABODO]))
+
+([PRIMARYINSTANCEOBJECT%3ABODO_OWNED_CAKE%3ACAKE] of  PRIMARYINSTANCEOBJECT
+
+	(instance_type [TPM%3AENTITY%3AARSIN%3ABODO]))
 
 ([TP%3AACTION%3ADANCE_1] of  _OBSOLETE_ACTION
 
@@ -5404,6 +5440,11 @@
 	(value "A_BROTHERCOLLISION_L01_I04")
 	(value_type "RI"))
 
+([TPM%3AIMAGE%3ABODO_OWNED_CAKE] of  TPM%3AIMAGE
+
+	(value "BODO_OWNED_CAKE")
+	(value_type "RI"))
+
 ([TPM%3AIMAGE%3ACARL_CAKE] of  TPM%3AIMAGE
 
 	(value "CARL_CAKE")
@@ -6272,6 +6313,11 @@
 ([WPM%3AIMAGE%3AA_BROTHERCOLLISION_L01_I04] of  WPM%3AIMAGE
 
 	(value "A_BROTHERCOLLISION_L01_I04")
+	(value_type "RI"))
+
+([WPM%3AIMAGE%3AADAM_OWNED_CAKE] of  WPM%3AIMAGE
+
+	(value "ADAM_OWNED_CAKE")
 	(value_type "RI"))
 
 ([WPM%3AIMAGE%3ACARL_CAKE_L01] of  WPM%3AIMAGE

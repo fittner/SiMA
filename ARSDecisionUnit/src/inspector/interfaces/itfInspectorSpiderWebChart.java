@@ -17,40 +17,40 @@ import java.util.ArrayList;
  */
 public interface itfInspectorSpiderWebChart {
 	/**
-	 * Returns the title of the spieder chart
+	 * Returns the title of the spieder chart for a given label.
 	 *
 	 * @since 30.08.2012 10:00
 	 *
 	 * @return
 	 */
-	public String getSpiderWebChartTitle();
+	public String getSpiderWebChartTitle(String poLabel);
 	
 	/**
-	 * Returns an array that contains the current set of data. Has to have the same number of entries as the array returned by getSpiderChartCaptions.
+	 * Returns an array that contains the current set of data for a given label.. Has to have the same number of entries as the array returned by getSpiderChartCaptions.
 	 *
 	 * @since 30.08.2012 10:00
 	 *
 	 * @return
 	 */
-	public ArrayList<Double> getSpiderChartData();
+	public ArrayList<Double> getSpiderChartData(String poLabel);
 	
 	/**
-	 * Returns an array that contains the labels for all lines. Has to have the same number of entries as the array returned by getSpiderChartData.
+	 * Returns an array that contains the labels for all lines for a given label.. Has to have the same number of entries as the array returned by getSpiderChartData.
 	 *
 	 * @since 30.08.2012 10:00
 	 *
 	 * @return
 	 */
-	public ArrayList<String> getSpiderChartCaptions();
+	public ArrayList<String> getSpiderChartCaptions(String poLabel);
 	
 	/**
-	 * Returns the angle of the first axis
+	 * Returns the angle of the first axis for a given label.
 	 *
 	 * @since 30.08.2012 10:00
 	 *
 	 * @return
 	 */
-	public double getSpiderChartStartingAngle();
+	public double getSpiderChartStartingAngle(String poLabel);
 	
 	
 }

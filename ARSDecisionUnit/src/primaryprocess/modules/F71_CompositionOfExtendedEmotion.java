@@ -34,9 +34,11 @@ import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.helpstructures.clsTriple;
+import base.logging.DataCollector;
 import base.modules.clsModuleBase;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
+//import base.tools.clsSingletonAnalysisAccessor;
 import base.tools.toText;
 
 /**
@@ -81,10 +83,10 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
     double mrRemainingConflict = 0;
     
     /**
-     * DOCUMENT - In F71 (Zusammenstellung von erweiterter Emotion) führen Abwehrmechanismen eine Färbung/Akzentuierung der Basisemotionen
+     * DOCUMENT - In F71 (Zusammenstellung von erweiterter Emotion) fuehren Abwehrmechanismen eine Färbung/Akzentuierung der Basisemotionen
      * durch oder assoziieren ein Zusatzattribut. Die konkrete Verarbeitung der Basisemotionen ist bei den spezifischen erweiterten Emotionen
      * unterschiedlich und abhängig von der Situation, der Über-Ich Regeln und der Basisemotionen.
-     * Beispiele für erweiterte Emotionen sind Scham, Mitleid, Neid, Schuld.
+     * Beispiele fuer erweiterte Emotionen sind Scham, Mitleid, Neid, Schuld.
      *
      * @author Kollmann
      * @since 23.02.2015 18:33:41
@@ -97,8 +99,8 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      */
     public F71_CompositionOfExtendedEmotion(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsPersonalityParameterContainer poPersonalityParameterContainer,
-            DT3_PsychicIntensityStorage poPsychicEnergyStorage) throws Exception {        
-        super(poPrefix, poProp, poModuleList, poInterfaceData);
+            DT3_PsychicIntensityStorage poPsychicEnergyStorage, int pnUid) throws Exception {        
+        super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
         
         //Kollmann: this is a bit of a hack, I don't want to pass on the super ego rules so I load them again and for that I access F07s parameters
         //          for the filename and super-ego strength
@@ -193,9 +195,13 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         double rConsumedPsychicIntensity = 0;
         clsEmotion oNewGuilt = null;
         mrRemainingConflict = 0;
+        double mrConflictImpactOnGuilt = 0.75;
+        double dGuilt = 0.0d;
         
         log.debug("neutralized intensity F71: " + Double.toString(rReceivedPsychicEnergy));
 
+        DataCollector.all().putDefendedBasicEmotionF71(moEmotions_Input.get(0));
+        
         moEmotions_Output = moEmotions_Input.get(0).generateExtendedEmotions();
         
         if (rReceivedPsychicEnergy > mrPsychicEnergyThreshold) {
@@ -224,12 +230,18 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
                 mrRemainingConflict += oConflict.getConflictTension();
             }
             
-            if(mrRemainingConflict > 0) {
-                oNewGuilt = generateGuilt(mrRemainingConflict);
-                moEmotions_Output.add(oNewGuilt);
-            }
+            dGuilt = mrRemainingConflict * mrConflictImpactOnGuilt;
         }
+        
+        oNewGuilt = generateGuilt(dGuilt);
+        moEmotions_Output.add(oNewGuilt);
+        
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, mrInitialRequestIntensity, rConsumedPsychicIntensity);
+        
+        DataCollector.all().putDefendedExtendedEmotionF71(moEmotions_Output);
+        
+        //Log all emotions
+//        clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F71_emotionValues(moEmotions_Output);
     }
     
     private clsEmotion generateGuilt(double prConflictIntensity) {
@@ -314,10 +326,10 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
      */
     @Override
     public void setDescription() {
-        moDescription = "In F71 (Zusammenstellung von erweiterter Emotion) führen Abwehrmechanismen eine Färbung/Akzentuierung der Basisemotionen "
+        moDescription = "In F71 (Zusammenstellung von erweiterter Emotion) fuehren Abwehrmechanismen eine Färbung/Akzentuierung der Basisemotionen "
                 + "durch oder assoziieren ein Zusatzattribut. Die konkrete Verarbeitung der Basisemotionen ist bei den spezifischen erweiterten Emotionen "
                 + "unterschiedlich und abhängig von der Situation, der Über-Ich Regeln und der Basisemotionen.\n"
-                + "Beispiele für erweiterte Emotionen sind Scham, Mitleid, Neid, Schuld.";
+                + "Beispiele fuer erweiterte Emotionen sind Scham, Mitleid, Neid, Schuld.";
     }
 
     /*************************************************************/

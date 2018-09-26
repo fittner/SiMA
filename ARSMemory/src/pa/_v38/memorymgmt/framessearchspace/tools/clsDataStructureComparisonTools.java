@@ -8,19 +8,11 @@ package pa._v38.memorymgmt.framessearchspace.tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-
-import logger.clsLogger;
-import memorymgmt.enums.eContentType;
-import memorymgmt.enums.eDataType;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceBase;
-import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
-import primaryprocess.datamanipulation.clsPrimarySpatialTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
-import testfunctions.clsTester;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationAttribute;
 import base.datatypes.clsAssociationDriveMesh;
@@ -40,8 +32,18 @@ import base.datatypes.clsTemplateImage;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
+import base.datatypes.itfInternalAssociatedDataStructure;
+import base.datatypes.enums.eConnectionType;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
+import logger.clsLogger;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceBase;
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -181,6 +183,11 @@ public abstract class clsDataStructureComparisonTools {
 		
 		//Get Searchspace for a certain datatype
 		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poDSUnknown.getContentType().toString());
+		
+		if(oMapWithType == null) {
+			log.error("Could not get searchspace for content type " + poDSUnknown.getContentType().toString());
+			return oRetVal;
+		}
 		
 		//Check, which search depth is used. 
 		//pnLevel 0: Nothing is done with the image
@@ -706,9 +713,8 @@ public abstract class clsDataStructureComparisonTools {
 					if (bFound==false) {
 						try {
 							clsAssociation oClonedAss = (clsAssociation) oAss.clone();
-							
-							if (oClonedAss instanceof clsAssociationPrimary || 
-									oClonedAss instanceof clsAssociationPrimaryDM) {
+						
+							if (oClonedAss instanceof clsAssociationPrimaryDM) {
 								//If pnLevel is at least 1 and this association does not exist in the list
 								if (pnLevel>=1 && oRetVal.getExternalAssociatedContent().contains(oClonedAss)==false) {
 									//Replace the erroneous associations
@@ -722,7 +728,24 @@ public abstract class clsDataStructureComparisonTools {
 									
 									oRetVal.getExternalAssociatedContent().add(oClonedAss);
 								}
-							} else if (oClonedAss instanceof clsAssociationAttribute || 
+							}
+							 // Association primary  should be loaded before the image match because of action image comparision (we are require the action which is associated via primary association)
+							else if (oClonedAss instanceof clsAssociationPrimary) {
+	                                //If pnLevel is at least 1 and this association does not exist in the list
+	                                if (pnLevel>=0 && oRetVal.getExternalAssociatedContent().contains(oClonedAss)==false) {
+	                                    //Replace the erroneous associations
+	                                    if (oRetVal.getDS_ID()==oClonedAss.getRootElement().getDS_ID()) {
+	                                        oClonedAss.setRootElement(oRetVal);
+	                                    } else if (oRetVal.getDS_ID()==oClonedAss.getLeafElement().getDS_ID()) {
+	                                        oClonedAss.setLeafElement(oRetVal);
+	                                    } else {
+	                                        throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
+	                                    }
+	                                    
+	                                    oRetVal.getExternalAssociatedContent().add(oClonedAss);
+	                                }
+	                            }
+							else if (oClonedAss instanceof clsAssociationAttribute || 
 									oClonedAss instanceof clsAssociationDriveMesh || 
 									oClonedAss instanceof clsAssociationEmotion) {
 								//If pnLevel is at least 1 and this association does not exist in the list
@@ -736,7 +759,8 @@ public abstract class clsDataStructureComparisonTools {
 										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
 									}
 									
-									oRetVal.getExternalAssociatedContent().add(oClonedAss);
+									//oRetVal.getExternalAssociatedContent().add(oClonedAss);
+									oClonedAss.activate(eConnectionType.EXTERNAL, eConnectionType.EXTERNAL);
 								}
 								
 							} else if ((oClonedAss instanceof clsAssociationTime)==false) {

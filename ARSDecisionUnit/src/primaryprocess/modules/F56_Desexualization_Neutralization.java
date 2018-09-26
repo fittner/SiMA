@@ -12,15 +12,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import properties.clsProperties;
+import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
-import modules.interfaces.I5_22_receive;
 import modules.interfaces.I5_22_send;
+import modules.interfaces.I5_22_receive;
 import modules.interfaces.I5_3_receive;
 import modules.interfaces.I5_4_receive;
 import modules.interfaces.I5_4_send;
 import modules.interfaces.eInterfaces;
-import properties.clsProperties;
-import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.enums.ePartialDrive;
 import base.modules.clsModuleBase;
@@ -93,9 +93,9 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT3_PsychicIntensityStorage poPsychicIntensityStorage , clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT3_PsychicIntensityStorage poPsychicIntensityStorage , clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 	throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		
 		this.moPsychicIntensityStorage = poPsychicIntensityStorage;
 		

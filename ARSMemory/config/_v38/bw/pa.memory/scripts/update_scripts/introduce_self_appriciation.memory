@@ -1,0 +1,2 @@
+EMOTION(SELF:LIKE){emotionIntensity=[0.0]; intensityDeviation=[0.0]; sourcePleasure=[0.5]; sourceUnpleasure=[0.0]; sourceAggr=[0.0]; sourceLibid=[0.0]; value=[JOY]; value_type=[BASICEMOTION]}
+ASSOCIATIONEMOTION(SELF:LIKE){element=[\TPM:ENTITY:SELF:SELF_BASIC, \EMOTION:SELF:LIKE]}

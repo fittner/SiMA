@@ -6,6 +6,9 @@
  */
 package base.datatypes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.ePredicate;
@@ -145,8 +148,26 @@ public class clsAssociationSecondary extends clsAssociation{
 		
 		return oResult; 
 	}
-
-
+     * DOCUMENT - Goes through a provided list of associations and returns a new list, containing only associations of type clsAssociationSecondary
+     *
+     * @author Kollmann
+     * @since 24.09.2014 11:54:09
+     *
+     * @param poAssociations List of associations to filter
+     * @return
+     */
+    public static List<clsAssociationSecondary> filterListByType(List<clsAssociation> poAssociations) {
+        List<clsAssociationSecondary> oAssociations = new ArrayList<>();
+        
+        for(clsAssociation oAssociation : poAssociations) {
+            if(oAssociation instanceof clsAssociationSecondary) {
+                oAssociations.add((clsAssociationSecondary)oAssociation);
+            }
+        }
+        
+        return oAssociations;
+    }
+    
     /**
      * The method creates a secondary association between two word presentation meshes and adds it to the external associations of its first parameter.
      * If the second parameter is a WPM and not a WP the association is also added to the second parameter.
@@ -170,3 +191,23 @@ public class clsAssociationSecondary extends clsAssociation{
     }
 
 }
+    /**
+     * DOCUMENT - Goes through a provided list of associations and returns a new list, containing only associations of a certain type
+     *
+     * @author Kollmann
+     * @since 24.09.2014 11:54:09
+     *
+     * @param poAssociations
+     * @return
+     */
+    public static List<clsAssociationSecondary> filterListByPredicate(List<clsAssociation> poAssociations, ePredicate poFilterPredicate) {
+        List<clsAssociationSecondary> oAssociations = new ArrayList<>();
+        
+        for(clsAssociationSecondary oAssociation : clsAssociationSecondary.filterListByType(poAssociations)) {
+            if(oAssociation.getPredicate().equals(poFilterPredicate)) {
+                oAssociations.add(oAssociation);
+            }
+        }
+        
+        return oAssociations;
+    }

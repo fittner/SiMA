@@ -195,6 +195,10 @@ public class clsDataStructureConverter {
 				oContentTypeTP = eContentType.DISTANCE;
 			}
 			
+	         if(oContentTypeTP.equals(eContentType.CarringVariable)) {
+	                oContentTypeTP = eContentType.CARRYING; 
+	            }
+			
 			//          if (oContentTypeTP.equals(eContentType.Brightness)) {
 			//             oContentTypeTP = eContentType.BRIGHTNESS;
 			//         }
@@ -213,9 +217,10 @@ public class clsDataStructureConverter {
 //              oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oContentTP)); 
 //              oAssociatedContent.add(oTP); 
 			}
-			
+			if ((oM.getName().equals("getDebugSensorArousal")) ||
+	                (oM.getName().equals("getExactDebugAngle"))) {}
 	
-			if ((oM.getName().equals("getExactDebugX")) || 
+			/*if ((oM.getName().equals("getExactDebugX")) || 
 				(oM.getName().equals("getExactDebugY")) || 
 				(oM.getName().equals("getDebugSensorArousal")) ||
 				(oM.getName().equals("getExactDebugAngle"))  )

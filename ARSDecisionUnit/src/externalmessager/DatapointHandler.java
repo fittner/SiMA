@@ -20,7 +20,7 @@ public class DatapointHandler implements DatapointHandlerForCodeletInterface, Da
 	
 	public DatapointHandler() {
 		
-		Thread.currentThread().setName("DatapointHandler");
+//		Thread.currentThread().setName("DatapointHandler");
 	}
 	
 
