@@ -1,4 +1,4 @@
-; Wed Sep 19 09:31:14 CEST 2018
+; Thu Sep 20 11:02:27 CEST 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3078,7 +3078,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ADIVIDE]
 		[AD%3AAIM%3ACAKE%3ADIVIDE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.2)
+	(quotaOfAffect 0.19)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3102,7 +3102,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3AEAT]
 		[AD%3AAIM%3ACAKE%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.8)
+	(quotaOfAffect 0.201)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3540,34 +3540,34 @@
 
 ([EMOTION%3AA14_FLEE_BODO_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.5)
+	(emotionIntensity 0.37)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.11)
-	(sourceLibid 0.35)
-	(sourcePleasure 0.06)
-	(sourceUnpleasure 0.65)
+	(sourceAggr 0.94)
+	(sourceLibid 0.18)
+	(sourcePleasure 0.28)
+	(sourceUnpleasure 0.36)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA14_FLEE_BODO_L01_I01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.42)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.11)
-	(sourceLibid 0.35)
-	(sourcePleasure 0.06)
-	(sourceUnpleasure 0.65)
+	(sourceAggr 0.94)
+	(sourceLibid 0.18)
+	(sourcePleasure 0.28)
+	(sourceUnpleasure 0.36)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA14_FLEE_BODO_L01_I02%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.36)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.11)
-	(sourceLibid 0.1)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.2)
+	(sourceAggr 0.97)
+	(sourceLibid 0.18)
+	(sourcePleasure 0.29)
+	(sourceUnpleasure 0.36)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 

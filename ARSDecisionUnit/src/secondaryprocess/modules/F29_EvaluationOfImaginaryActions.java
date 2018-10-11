@@ -331,22 +331,33 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         {
             ArrayList<clsWordPresentationMeshFeeling> oOldFeelings =  moArrayFeelingsInMomentsMap.get(oMoment.getContent());
             //Compare the feelings
-            for (clsWordPresentationMeshFeeling oOldFeeling : oOldFeelings) {
-                clsWordPresentationMeshFeeling oCurrentFeeling1 = null;
-                boolean found=false;
-                for (clsWordPresentationMeshFeeling oCurrentFeeling : F26_DecisionMaking.moFeeling_IN) {
-                    if(oOldFeeling.getContent().contentEquals(oCurrentFeeling.getContent()))
-                    {
-                        oOldFeeling.setCounter(oOldFeeling.getCounter()+1);
-                        oOldFeeling.setIntensity(((oOldFeeling.getIntensity() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getIntensity())/oOldFeeling.getCounter()));
-                        found = true;
-                    }
-                    oCurrentFeeling1 = oCurrentFeeling;
-                }
-                if(found == false)
+            try
+            {
+                for (clsWordPresentationMeshFeeling oOldFeeling : oOldFeelings)
                 {
-                    oOldFeelings.add(oCurrentFeeling1);
+            
+                    clsWordPresentationMeshFeeling oCurrentFeeling1 = null;
+                    boolean found=false;
+                    for (clsWordPresentationMeshFeeling oCurrentFeeling : F26_DecisionMaking.moFeeling_IN)
+                    {
+                        if(oOldFeeling.getContent().contentEquals(oCurrentFeeling.getContent()))
+                        {
+                            oOldFeeling.setCounter(oOldFeeling.getCounter()+1);
+                            oOldFeeling.setIntensity(((oOldFeeling.getIntensity() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getIntensity())/oOldFeeling.getCounter()));
+                            found = true;
+                        }
+                        oCurrentFeeling1 = oCurrentFeeling;
+                    }
+                    if(found == false)
+                    {
+                    //    oOldFeelings.add(oCurrentFeeling1);
+                    }
+              
                 }
+            }
+            catch (Exception e)
+            {
+                log.error("", e);
             }
             moArrayFeelingsInMomentsMap.put(oMoment.getContent(),oOldFeelings);
         }
@@ -364,6 +375,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         {
             ArrayList<clsWordPresentationMeshFeeling> oOldFeelings =  moArrayFeelingsInMomentsMap.get(oIntention.getContent());
             //Compare the feelings
+            try {
             for (clsWordPresentationMeshFeeling oOldFeeling : oOldFeelings) {
                 clsWordPresentationMeshFeeling oCurrentFeeling1 = null;
                 boolean found=false;
@@ -378,8 +390,13 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
                 }
                 if(found == false)
                 {
-                    oOldFeelings.add(oCurrentFeeling1);
+                //    oOldFeelings.add(oCurrentFeeling1);
                 }
+            }
+            }
+            catch (Exception e)
+            {
+                log.error("", e);
             }
             moArrayFeelingsInMomentsMap.put(oIntention.getContent(),oOldFeelings);
         }
