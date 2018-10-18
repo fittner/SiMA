@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import communication.datatypes.clsDataContainer;
+import communication.datatypes.clsDataPoint;
 
 import properties.clsProperties;
 
@@ -22,6 +23,7 @@ import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
+import base.tools.clsPost;
 import base.tools.toText;
 
 /**
@@ -117,6 +119,12 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	@Override
 	protected void process_basic() {
 		log.debug("\n\n\n===START OF PRIMARY PROCESS===");
+        
+		for (clsDataPoint item : moHomeostasis_IN.getData()) {
+//		    System.out.println(item);
+		    clsPost.sendInflux("F01",item.getType(),item.getValue());
+		}
+
 		
 		moHomeostasis_OUT = moHomeostasis_IN;
 		
