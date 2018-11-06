@@ -1,7 +1,7 @@
-; Tue Oct 06 13:14:27 GMT 2015
+; Tue Oct 23 13:35:43 CEST 2018
 ; 
-;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (version "3.5")
+;+ (build "Build 663")
 
 ([AA%3AA06_BEAT_BODO_L01_I02%3ABODO%3ADISTANCE%3ANEAR] of  ASSOCIATIONATTRIBUTE
 
@@ -3290,7 +3290,7 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AGUILT] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
@@ -3390,7 +3390,7 @@
 
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANGER] of  EMOTION
 
-	(emotionIntensity 0.1)
+	(emotionIntensity 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
@@ -3400,7 +3400,7 @@
 
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.1)
+	(emotionIntensity 0.0)
 	(sourceAggr 0.2)
 	(sourceLibid 0.15)
 	(sourcePleasure 0.05)
