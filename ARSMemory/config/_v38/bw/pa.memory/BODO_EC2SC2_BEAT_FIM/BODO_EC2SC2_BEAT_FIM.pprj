@@ -1,4 +1,4 @@
-; Wed Nov 07 11:18:53 CET 2018
+; Wed Nov 07 11:25:35 CET 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -162,7 +162,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_194488_Class5] of  Map
+([KB_475646_Class5] of  Map
 )
 
 ([KB_610615_Class0] of  String
