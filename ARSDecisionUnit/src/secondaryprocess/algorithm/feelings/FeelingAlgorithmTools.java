@@ -211,7 +211,10 @@ public class FeelingAlgorithmTools {
         
             rAttractiveness = rAttractiveness / poEmotion.size();
         }
-        
+        if(rAttractiveness<0)
+        { 
+            rAttractiveness = 0;
+        }
         return rAttractiveness;
     }
     
