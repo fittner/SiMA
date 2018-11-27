@@ -1,4 +1,4 @@
-; Fri Nov 16 11:06:45 CET 2018
+; Tue Nov 27 13:06:30 CET 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -45,62 +45,6 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10049] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10050] of  String
-
-	(name "ANTENNA_LEFT")
-	(string_value "instance_association"))
-
-([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10051] of  String
-
-	(name "DOMAIN")
-	(string_value "value_type"))
-
-([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10052] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10053] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10054] of  Map_Entry
-
-	(key "suppress_instance_counting")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
-([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10055] of  Map
-)
-
-([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10056] of  Map_Entry
-
-	(key "InstanceDisplay.yellow_stickies")
-	(key_class "java.lang.String")
-	(value "BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10055")
-	(value_class "java.util.Map"))
-
-([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10057] of  Map_Entry
-
-	(key "add_name_on_instance_form")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
-([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10058] of  Map_Entry
-
-	(key "change_tracking_active")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
 ([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class6] of  Widget
 
 	(is_hidden TRUE)
@@ -110,14 +54,70 @@
 ([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class7] of  Property_List
 )
 
+([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class83] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class84] of  String
+
+	(name "ANTENNA_LEFT")
+	(string_value "instance_association"))
+
+([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class85] of  String
+
+	(name "DOMAIN")
+	(string_value "value_type"))
+
+([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class86] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class87] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class88] of  Map_Entry
+
+	(key "suppress_instance_counting")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class89] of  Map
+)
+
+([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class90] of  Map_Entry
+
+	(key "InstanceDisplay.yellow_stickies")
+	(key_class "java.lang.String")
+	(value "BODO_EC2SC2_BEAT_FIM_ProjectKB_Class89")
+	(value_class "java.util.Map"))
+
+([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class91] of  Map_Entry
+
+	(key "add_name_on_instance_form")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([BODO_EC2SC2_BEAT_FIM_ProjectKB_Class92] of  Map_Entry
+
+	(key "change_tracking_active")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10049]
-		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10050]
-		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10051]
-		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10052]
-		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10053]))
+		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class83]
+		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class84]
+		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class85]
+		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class86]
+		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class87]))
 
 ([CLSES_TAB] of  Widget
 
@@ -162,9 +162,6 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_227721_Class5] of  Map
-)
-
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -173,11 +170,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10054]
-		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10056]
-		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10057]
-		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10058])
-	(referenced_maps [BODO_EC2SC2_BEAT_FIM_ProjectKB_Class10055]))
+		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class88]
+		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class90]
+		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class91]
+		[BODO_EC2SC2_BEAT_FIM_ProjectKB_Class92])
+	(referenced_maps [BODO_EC2SC2_BEAT_FIM_ProjectKB_Class89]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -629,6 +626,9 @@
 )
 
 ([KB_610615_Class99] of  Property_List
+)
+
+([KB_975978_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
