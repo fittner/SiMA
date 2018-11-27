@@ -10,12 +10,15 @@ import inspector.interfaces.clsTimeChartPropeties;
 import general.datamanipulation.PrintTools;
 import inspector.interfaces.itfInspectorAdvancedStackedBarChart;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
+import logger.clsLogger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+import org.slf4j.Logger;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
@@ -74,6 +77,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
     public static final String P_WAIT_THRESHOLD = "WAIT_THRESHOLD";
     public static final String P_INTERACTION_DEBUG  = "INTERACTION_DEBUG";
+    
+    private static Logger moLearningLogger = clsLogger.getLog("Learning");
     
     public ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
     HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moArrayFeelingsInMomentsMap = new HashMap<>();
@@ -402,6 +407,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
         
         moArrayFeelingsInMoments.add("FEELINGS::" + F26_DecisionMaking.moFeeling_IN.toString());
+        moLearningLogger.debug("\nLEARNING: {}",moArrayFeelingsInMomentsMap);
+        
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
         log.info("\n+++++++++++++++++++++++++++++\n Feelings in Moments: " + moArrayFeelingsInMoments + "\n++++++++++++++++++++++++++++++");
         log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: "
