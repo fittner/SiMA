@@ -121,11 +121,9 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 		log.debug("\n\n\n===START OF PRIMARY PROCESS===");
         
 		for (clsDataPoint item : moHomeostasis_IN.getData()) {
-//		    System.out.println(item);
-		    clsPost.sendInflux("F01",item.getType(),item.getValue());
+		    clsPost.sendInflux("F"+P_MODULENUMBER,item.getType(),item.getValue());
 		}
-
-		
+	
 		moHomeostasis_OUT = moHomeostasis_IN;
 		
 		putInterfaceData(I0_3_receive.class, moHomeostasis_OUT);

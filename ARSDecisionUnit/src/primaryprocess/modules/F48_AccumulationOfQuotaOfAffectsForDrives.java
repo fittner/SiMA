@@ -43,6 +43,7 @@ import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
 import base.tools.clsDriveMeshQoAComparator;
+import base.tools.clsPost;
 import base.tools.toText;
 
 /**
@@ -245,6 +246,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		ArrayList<clsDriveMesh> loggingData = (ArrayList<clsDriveMesh>) moAllDriveComponents_OUT.clone();
 		Collections.sort(loggingData, new clsDriveMeshQoAComparator());
+		
+		clsPost.sendInflux("F"+P_MODULENUMBER,"Pleasure",mnCurrentPleasure);
 		
 		log.debug("Generated Drives: \n"+loggingData.toString());
 		
