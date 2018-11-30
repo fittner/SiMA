@@ -1,4 +1,4 @@
-; Tue Nov 27 13:15:41 CET 2018
+; Fri Nov 30 14:27:20 CET 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -50,13 +50,6 @@
 	(element
 		[PRI%3AA10_DIVIDE_CAKE_L01_I06%3ACAKE]
 		[TP%3ADISTANCE%3ACARRYING])
-	(weight 1.0 1.0))
-
-([AA%3AA10_DIVIDE_CAKE_L01_I07%3ACAKE%3ADISTANCE%3AMEDIUM] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[PRI%3AA10_DIVIDE_CAKE_L01_I07%3ACAKE]
-		[TP%3ADISTANCE%3AMEDIUM])
 	(weight 1.0 1.0))
 
 ([AA%3AA10_DIVIDE_CAKE_L01_I07%3ACAKE%3APOSITION%3AMIDDLE_LEFT] of  ASSOCIATIONATTRIBUTE
@@ -3364,67 +3357,67 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.6)
-	(sourceUnpleasure 0.0)
+	(sourceAggr 0.73)
+	(sourceLibid 0.24)
+	(sourcePleasure 0.41)
+	(sourceUnpleasure 0.51)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.6)
-	(sourceUnpleasure 0.0)
+	(sourceAggr 0.73)
+	(sourceLibid 0.24)
+	(sourcePleasure 0.41)
+	(sourceUnpleasure 0.51)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.6)
-	(sourceUnpleasure 0.0)
+	(sourceAggr 0.73)
+	(sourceLibid 0.24)
+	(sourcePleasure 0.41)
+	(sourceUnpleasure 0.51)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.6)
-	(sourceUnpleasure 0.0)
+	(sourceAggr 0.73)
+	(sourceLibid 0.24)
+	(sourcePleasure 0.41)
+	(sourceUnpleasure 0.51)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.6)
-	(sourceUnpleasure 0.0)
+	(sourceAggr 0.73)
+	(sourceLibid 0.24)
+	(sourcePleasure 0.41)
+	(sourceUnpleasure 0.51)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.45)
+	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.6)
-	(sourceUnpleasure 0.0)
+	(sourceAggr 0.73)
+	(sourceLibid 0.24)
+	(sourcePleasure 0.41)
+	(sourceUnpleasure 0.51)
 	(value "JOY")
 	(value_type "BASICEMOTION"))
 
