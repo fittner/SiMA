@@ -9,18 +9,35 @@ import java.net.URL;
 import properties.clsProperties;
 import utils.clsGetARSPath;
 
-public class clsPost {
-    public static final String  F_CONFIGFILENAME = "system.properties";
-
-    public static void sendInflux(String module, String measurement, Double value) {
-        sendInflux( module,  measurement,  Double.toString(value)); 
-    }
-    public static void sendInflux(String module, String measurement, String value) {
+public class clsInfluxDB {
+    private String url = new String();
+    private final String  F_CONFIGFILENAME = "system.properties";
+    
+    public clsInfluxDB() {
         String oPath = clsGetARSPath.getConfigPath();        
         clsProperties oProp = clsProperties.readProperties(oPath, F_CONFIGFILENAME);
-        String url = oProp.getProperty("influxdb","");  //"http://localhost:8086/write?db=sima";
+        try {
+            url = oProp.getProperty("influxdb","");  // e.g. "http://localhost:8086/write?db=sima";
+        }
+        catch (java.lang.NullPointerException exception)  {
+        // Catch NullPointerExceptions.
+            return;
+        }
+        catch (Throwable exception)
+        {
+        // Catch other Throwables.
+            return;
+        }  
+    }
+    
+
+    public void sendInflux(String module, String measurement, Double value) {
+        sendInflux( module,  measurement,  Double.toString(value)); 
+    }
+    public void sendInflux(String module, String measurement, String value) {   
         String empty = new String();
-        if (value.equals(empty)) return;
+        if (value.equals(empty)) return;   
+        if (url.equals(empty)) return;
         
         URL obj;
         try {
@@ -42,9 +59,9 @@ public class clsPost {
             wr.close();
 
             int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'POST' request to URL : " + url);
-            System.out.println("Post parameters : " + urlParameters);
-            System.out.println("Response Code : " + responseCode);
+            //System.out.println("\nSending 'POST' request to URL : " + url);
+            //System.out.println("Post parameters : " + urlParameters);
+            //System.out.println("Response Code : " + responseCode);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -56,7 +73,7 @@ public class clsPost {
             in.close();
 
             // print result
-            System.out.println(response.toString());
+            //System.out.println(response.toString());
         } catch (IOException e) {
             // TODO (brandy) - Auto-generated catch block
             e.printStackTrace();

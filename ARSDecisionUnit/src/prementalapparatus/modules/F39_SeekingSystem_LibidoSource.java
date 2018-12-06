@@ -27,7 +27,6 @@ import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
-import base.tools.clsPost;
 import base.tools.toText;
 
 
@@ -132,7 +131,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	//	CollectErogenousZoneStimuliAndReduceLibido();
 
         for (clsDataPoint item : moSensorSystems_IN.getData()) {
-            clsPost.sendInflux("F"+P_MODULENUMBER,item.getType(),item.getValue());
+            InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getType(),item.getValue());
         }
         
 		mrOutgoingLibido = mrIncomingLibido_I0_1*libidoImpactFactor;

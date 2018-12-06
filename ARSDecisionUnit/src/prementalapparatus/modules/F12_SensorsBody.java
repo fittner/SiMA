@@ -22,7 +22,6 @@ import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
-import base.tools.clsPost;
 import base.tools.toText;
 /**
  * Although, modules {F39} and {F1} are collecting information on internal body values too, {F12} focuses 
@@ -132,7 +131,7 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	protected void process_basic() {
 
         for (clsDataPoint item : moBodyData_IN.getData()) {
-            clsPost.sendInflux("F"+P_MODULENUMBER,item.getType(),item.getValue());
+            InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getType(),item.getValue());
         }
         
 		moBodyData_OUT = moBodyData_IN;

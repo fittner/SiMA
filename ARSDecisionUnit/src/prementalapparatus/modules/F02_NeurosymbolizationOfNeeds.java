@@ -27,7 +27,6 @@ import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
-import base.tools.clsPost;
 import base.tools.toText;
 
 
@@ -175,7 +174,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 		CollectBodilyDemandsInOneList();
 		
         for (HashMap.Entry<String, Double> item : moHomeostaticSymbol_OUT.entrySet()) {
-            clsPost.sendInflux("F"+P_MODULENUMBER,item.getKey(),item.getValue());
+            InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getKey(),item.getValue());
         }
         
 		//create some chart of them
