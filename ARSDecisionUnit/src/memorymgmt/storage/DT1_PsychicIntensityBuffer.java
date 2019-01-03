@@ -14,6 +14,7 @@ import inspector.interfaces.itfInterfaceDescription;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import memorymgmt.enums.eDrive;
 import modules.interfaces.D1_1_receive;
@@ -41,18 +42,11 @@ import base.tools.toText;
  */
 public class DT1_PsychicIntensityBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_4_send, D1_5_send, D1_6_receive, D1_1_receive, D1_2_receive, D1_3_receive, D1_7_send {
     private static final String P_LIBIDO_START_VALUE="LIBIDO_START_VALUE";
-
-    
-    
     private double mrBufferedLibido;
 	private HashMap<eDrive,clsDriveBuffer> moLibidoBuffers;
-	
-	private double moLibidoInitValue=0.0;
-protected final Logger log;
+    private double moLibidoInitValue=0.0;
+	protected final Logger log;
 
-
-
-	
 	public DT1_PsychicIntensityBuffer(clsPersonalityParameterContainer poPersonalityParameterContainer) {
 		mrBufferedLibido = 0;
 		moLibidoInitValue= poPersonalityParameterContainer.getPersonalityParameter("DT1", P_LIBIDO_START_VALUE).getParameterDouble();
@@ -66,6 +60,25 @@ protected final Logger log;
 	        moLibidoBuffers = initBuffers();
 	        log = logger.clsLogger.getLog("PsychicIntensityBuffer");
 	    }
+	   
+	   
+	    /**
+	     * @since 6 Dec 2018 15:55:58
+	     * 
+	     * @return the moLibidoBuffers
+	     */
+	    public HashMap<String, Double> getLibidoMetrics() {
+	        HashMap<String, Double> oRetVal = new HashMap<String, Double>();        
+	        for (Entry<eDrive, clsDriveBuffer> item : moLibidoBuffers.entrySet()) {
+	            eDrive key = item.getKey();
+	            clsDriveBuffer value = item.getValue();
+	            oRetVal.put(key.toString()+"_Lib", value.getLib());
+	            oRetVal.put(key.toString()+"_Aggr", value.getAggr());
+	        }
+	        return oRetVal;	        
+	    }
+	    
+	    
 	private HashMap<eDrive,clsDriveBuffer> initBuffers(){
 	    HashMap<eDrive,clsDriveBuffer> oRetVal = new HashMap<eDrive,clsDriveBuffer>();
 	    oRetVal.put(eDrive.STOMACH, new clsDriveBuffer());

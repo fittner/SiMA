@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 
@@ -362,6 +363,30 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         //Analysis logging
         clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F63_emotionContributors(oFromDrives, oFromPerceptionDrive, oFromPerceptionExperiences, oFromPerceptionBodystates, oFromMemorizedValuations);
         clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F63_basicEmotion(moTargetEmotion);
+
+        for (Entry<String, Double> item : oDrivesExtractedValues.entrySet()) {
+            InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getKey(),item.getValue());
+        }
+        
+        
+        for(clsEmotion oEmotion: moEmotions_OUT) {
+            if(oEmotion.getContent().equals(eEmotionType.UNDEFINED)) {
+                for(clsEmotion oExtEmotion : oEmotion.generateExtendedEmotions()) {
+                    if(!oExtEmotion.getContent().equals(eEmotionType.UNDEFINED)) {
+                        InfluxDB.sendInflux("F"+P_MODULENUMBER,oExtEmotion.getContent()+"_Pleasure",oExtEmotion.getSourcePleasure()); 
+                        InfluxDB.sendInflux("F"+P_MODULENUMBER,oExtEmotion.getContent()+"_Unpleasure",oExtEmotion.getSourceUnpleasure()); 
+                        InfluxDB.sendInflux("F"+P_MODULENUMBER,oExtEmotion.getContent()+"_Libid",oExtEmotion.getSourceLibid()); 
+                        InfluxDB.sendInflux("F"+P_MODULENUMBER,oExtEmotion.getContent()+"_Aggr",oExtEmotion.getSourceAggr()); 
+                    }
+                }
+            }
+            else {  
+              InfluxDB.sendInflux("F"+P_MODULENUMBER,oEmotion.getContent()+"_Pleasure",oEmotion.getSourcePleasure()); 
+              InfluxDB.sendInflux("F"+P_MODULENUMBER,oEmotion.getContent()+"_Unpleasure",oEmotion.getSourceUnpleasure()); 
+              InfluxDB.sendInflux("F"+P_MODULENUMBER,oEmotion.getContent()+"_Libid",oEmotion.getSourceLibid()); 
+              InfluxDB.sendInflux("F"+P_MODULENUMBER,oEmotion.getContent()+"_Aggr",oEmotion.getSourceAggr()); 
+            }
+        }
 	}
 	
 	/**

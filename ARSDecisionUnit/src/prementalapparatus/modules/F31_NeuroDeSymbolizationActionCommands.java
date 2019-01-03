@@ -184,13 +184,34 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         }
         if (moActionQueue.size() > 0 && !newActionAvailable) {
             
-            String  oAction = moActionQueue.get(0);
+            String oAction = moActionQueue.get(0);
             moActionQueue.remove(0);
             processActionCommand(oAction, moActionCommandList_Output, false);
             
         }
         
         log.info("ActionCommandList: "+ moActionCommandList_Output.toString());
+        
+        for (clsDataPoint item : moActionCommandList_Output.getData()) {
+            
+            clsDataPoint value = new clsDataPoint();
+            String[] directions = {"FORWARD", "BACKWARD", "TURN_LEFT", "TURN_RIGHT"};
+            
+            for (String d : directions) {                
+                if (item.hasAssociation("DIRECTION") && item.getAssociation("DIRECTION").getValue() == d) {
+                    if(item.hasAssociation("DISTANCE")) {
+                        value = item.getAssociation("DISTANCE"); 
+                    }
+                    if(item.hasAssociation("ANGLE")) {
+                        value = item.getAssociation("ANGLE"); 
+                    }
+                    InfluxDB.sendInflux("F" + P_MODULENUMBER, d, value.getValue());
+                }
+                else {
+                    InfluxDB.sendInflux("F" + P_MODULENUMBER, d, 0.0);
+                }
+            }
+        }
     }
 	
 	private void processActionCommand(String oAction, clsDataContainer oRetVal, boolean nonQueueAction){

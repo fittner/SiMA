@@ -31,6 +31,10 @@ public class clsInfluxDB {
     }
     
 
+    public void sendInflux(String module, String measurement, Integer value) {
+        sendInflux( module,  measurement,  Double.toString(value)); 
+    }
+
     public void sendInflux(String module, String measurement, Double value) {
         sendInflux( module,  measurement,  Double.toString(value)); 
     }

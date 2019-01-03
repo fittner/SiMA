@@ -107,6 +107,8 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	@Override
 	protected void process_basic() {
 		CollectErogenousZones();
+		
+		InfluxDB.sendInflux("F"+P_MODULENUMBER,"Libido",mrLibido);
 	}
 
 	/* (non-Javadoc)

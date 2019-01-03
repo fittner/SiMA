@@ -11,6 +11,7 @@ import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 
 
@@ -313,6 +314,10 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 			moDriveChartData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
 			
 		}
+		
+		for (Entry<String, Double> item : moErogenousZones_IN.entrySet()) {
+            InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getKey(),item.getValue());
+        }
 		
 	}
 	
