@@ -1,0 +1,11 @@
+update_time: 2019-01-21T07:40:22.2575306Z
+event_logs:
+- name: Application
+  record_number: 26847
+  timestamp: 2019-01-21T07:40:16.4183367Z
+  bookmark: "<BookmarkList>\r\n  <Bookmark Channel='Application' RecordId='26847'
+    IsCurrent='true'/>\r\n</BookmarkList>"
+- name: System
+  record_number: 27745
+  timestamp: 2019-01-21T07:09:35.4627174Z
+  bookmark: "<BookmarkList>\r\n  <Bookmark Channel='System' RecordId='27745' IsCurrent='true'/>\r\n</BookmarkList>"

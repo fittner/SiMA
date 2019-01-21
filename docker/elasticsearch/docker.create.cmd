@@ -1,0 +1,1 @@
+docker run --name elasticsearch --detach --publish 9200:9200 --publish 9300:9300 --env "discovery.type=single-node" --volume C:\docker\sima-elasticsearch:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:6.5.4
