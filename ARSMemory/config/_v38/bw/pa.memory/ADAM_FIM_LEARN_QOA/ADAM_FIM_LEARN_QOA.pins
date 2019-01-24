@@ -1,4 +1,4 @@
-; Fri Nov 30 14:27:20 CET 2018
+; Thu Jan 24 06:42:56 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -546,13 +546,6 @@
 		[TPM%3AACTION%3AL1_BITE])
 	(weight 1.0 1.0))
 
-([AD%3AAIM%3ABODO%3AEAT] of  ASSOCIATIONDM
-
-	(element
-		[DM%3AEAT%3ABODO]
-		[TPM%3AACTION%3AL1_EAT])
-	(weight 1.0 1.0))
-
 ([AD%3AAIM%3ACAKE%3ABITE] of  ASSOCIATIONDM
 
 	(element
@@ -697,13 +690,6 @@
 
 	(element
 		[DM%3ABITE%3ABODO]
-		[TPM%3AENTITY%3AARSIN%3ABODO])
-	(weight 1.0 1.0))
-
-([AD%3ADRIVEOBJECT%3ABODO%3AEAT] of  ASSOCIATIONDM
-
-	(element
-		[DM%3AEAT%3ABODO]
 		[TPM%3AENTITY%3AARSIN%3ABODO])
 	(weight 1.0 1.0))
 
@@ -2511,13 +2497,6 @@
 		[DM%3AEXCREMENT%3ASTONE])
 	(weight 1.0 1.0))
 
-([AW%3ADM_NOURISH%3ANOURISHBODO] of  ASSOCIATIONWP
-
-	(element
-		[WP%3ANOURISH]
-		[DM%3AEAT%3ABODO])
-	(weight 1.0 1.0))
-
 ([AW%3ADM_NOURISH%3ANOURISHCAKE] of  ASSOCIATIONWP
 
 	(element
@@ -3072,18 +3051,6 @@
 		[AD%3AAIM%3ACAKE%3ADIVIDE])
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.2)
-	(value "DM:STOMACH:LIBIDINOUS")
-	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
-
-([DM%3AEAT%3ABODO] of  DM_Stomach
-
-	(class_association [TPM%3AORGANS%3ASTOMACH])
-	(drive_component "LIBIDINOUS")
-	(instance_association
-		[AD%3ADRIVEOBJECT%3ABODO%3AEAT]
-		[AD%3AAIM%3ABODO%3AEAT])
-	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -4675,9 +4642,7 @@
 
 ([TPM%3AIMAGE%3AA12_EAT_CAKE_L01] of  TPM%3AIMAGE
 
-	(instance_association
-		[AT%3AA12_EAT_CAKE_L01%3ACAKE]
-		[AT%3AA12_EAT_CAKE_L01%3ABODO])
+	(instance_association [AT%3AA12_EAT_CAKE_L01%3ACAKE])
 	(value "A12_EAT_CAKE_L01")
 	(value_type "RI"))
 

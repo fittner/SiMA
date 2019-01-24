@@ -633,7 +633,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
      */
     @Override
     public String getTimeChartTitle() {
-		return "Composition of Emotions";
+		return "Activation Values of Objects";
 	}
 
 	/* (non-Javadoc)
@@ -646,12 +646,16 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	@Override
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oValues = new ArrayList<Double>();
+
+        for (int i=0; i<moArrayObjPairSort.size();i++) {
+            
+            oValues.add(moArrayObjPairSort.get(i).a);
+        }
 		
-		oValues.add(moArrayObjPairSort.get(0).a);
-		oValues.add(moArrayObjPairSort.get(1).a);
-		
-		oValues.add(moArrayObjPairSort.get(2).a);
-		
+		//oValues.add(moArrayObjPairSort.get(0).a);
+		//oValues.add(moArrayObjPairSort.get(1).a);
+        //oValues.add(moArrayObjPairSort.get(2).a);
+        		
 		return oValues;
 	}
 
@@ -664,7 +668,13 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	 */
 	@Override
 	public ArrayList<String> getTimeChartCaptions() {
-		return new ArrayList<String>(Arrays.asList(moArrayObjPairSort.get(0).b.getContent(),moArrayObjPairSort.get(1).b.getContent(), moArrayObjPairSort.get(2).b.getContent()));
+	    ArrayList<String> retArray=new ArrayList<String>();
+	    new ArrayList<String>(Arrays.asList(moArrayObjPairSort.get(0).b.getContent(),moArrayObjPairSort.get(1).b.getContent(), moArrayObjPairSort.get(2).b.getContent()));
+	    for (int i=0; i<moArrayObjPairSort.size();i++) {
+            
+	        retArray.add(moArrayObjPairSort.get(i).b.getContent());
+        }
+	    return retArray;
 	}
 
 
