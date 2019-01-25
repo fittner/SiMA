@@ -12,5 +12,9 @@ influxdb and grafana docker environment
 ** Name: sima, URL: http://influxdb:8086, Database: sima
 ** Name: telegraf, URL: http://influxdb:8086, Database: telegraf
 
-* open grafana: http://localhost:5601/
-** create index
+* start Filebeat to ship logs from SiMA to Elasticsearch
+** create kibana index
+*** cd S:\ARSIN_V01\docker\filebeat
+*** filebeat.exe setup
+** run filebeat to ship SiMA logs
+*** S:\ARSIN_V01\docker\filebeat\run.sh

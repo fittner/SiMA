@@ -1,0 +1,86 @@
+---
+version: '3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+    container_name: elasticsearch
+    ports: ['9200:9200', '9300:9300']
+    networks: ['stack']
+    environment:
+     - discovery.type=single-node
+    volumes:
+     - 'C:\docker\sima-elasticsearch:/usr/share/elasticsearch/data'
+    healthcheck:
+      test: curl -s http://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+#docker run --name elasticsearch --detach --publish 9200:9200 --publish 9300:9300 --env "discovery.type=single-node" --volume C:\docker\sima-elasticsearch:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    ports: ['8086:8086', '8088:8088']
+    networks: ['stack']
+    volumes:
+      - 'C:\docker\sima-influxdb:/var/lib/influxdb'
+    healthcheck:
+      test: curl -s http://localhost:8086 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+#docker run --name influxdb --detach --publish 8086:8086 --publish 8088:8088 --volume C:\docker\sima-influxdb:/var/lib/influxdb influxdb
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.5.4
+    container_name: kibana
+    ports: ['5601:5601']
+    networks: ['stack']
+    depends_on: ['elasticsearch']
+    healthcheck:
+      test: curl -s http://localhost:5601 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+#docker run --name kibana --detach --publish 5601:5601 --link=elasticsearch:elasticsearch docker.elastic.co/kibana/kibana:6.5.4
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports: ['3000:3000']
+    networks: ['stack']
+    environment:
+     - GF_INSTALL_PLUGINS=natel-influx-admin-panel
+    depends_on: ['elasticsearch','influxdb']
+    volumes:
+     - 'C:\docker\sima-grafana:/var/lib/grafana'
+    healthcheck:
+      test: curl -s http://localhost:3000 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+#docker run --name grafana --detach --publish 3000:3000 --link=influxdb:influxdb --link=elasticsearch:elasticsearch --volume C:\docker\sima-grafana:/var/lib/grafana grafana/grafana
+#docker exec -it grafana grafana-cli plugins install natel-influx-admin-panel
+#docker restart grafana
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:6.5.4
+    container_name: filebeat
+    command: --strict.perms=false -e  # -e flag to log to stderr and disable syslog/file output
+    volumes:
+     - 'C:\GIT\ARSIN_V01\docker\filebeat.yml:/usr/share/filebeat/filebeat.yml:ro'
+     - 'C:\GIT\ARSIN_V01\Simulation\logs:/var/lib/docker/sima:ro' 
+    networks: ['stack']
+    depends_on: ['elasticsearch', 'kibana']
+    healthcheck:
+      test: filebeat test config
+      interval: 30s
+      timeout: 15s
+      retries: 5
+#docker run --name filebeat --detach --link=kibana:kibana --link=elasticsearch:elasticsearch --volume C:\GIT\ARSIN_V01\docker\filebeat\filebeat.yml:/usr/share/filebeat/filebeat.yml:ro --volume C:\GIT\ARSIN_V01\Simulation\logs:/var/lib/docker/sima:ro docker.elastic.co/beats/filebeat:6.5.4 
+#rem filebeat -e -strict.perms=false
+
+networks: {stack: {}}
+
+# reference:
+# https://github.com/elastic/stack-docker/blob/master/docker-compose.yml

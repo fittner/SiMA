@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="lib/mason.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry kind="lib" path="lib/java-json.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

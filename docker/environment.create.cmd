@@ -1,5 +1,7 @@
-call S:\ARSIN_V01\docker\influxdb\docker.create.cmd
-call S:\ARSIN_V01\docker\elasticsearch\docker.create.cmd
-call S:\ARSIN_V01\docker\grafana\docker.create.cmd
-call S:\ARSIN_V01\docker\kibana\docker.create.cmd
-docker ps
+mkdir C:\docker
+mkdir C:\docker\sima-elasticsearch
+mkdir C:\docker\sima-grafana
+mkdir C:\docker\sima-influxdb
+
+cd /d S:\ARSIN_V01\docker
+docker stack deploy -c docker-compose.yml sima

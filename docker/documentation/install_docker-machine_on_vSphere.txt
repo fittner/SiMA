@@ -1,0 +1,20 @@
+set user=administrator
+set pass="xxxxx"
+set vcenter=vcsa65.rosengasse4.at
+set datacenter=Rosengasse4
+set datastore=ds1812_vmware
+set network="VLAN 001 default"
+set folder=online
+
+rem create machine
+set auth=--vmwarevsphere-username=%user% --vmwarevsphere-password=%pass%
+set vmware=--driver vmwarevsphere  --vmwarevsphere-vcenter=%vcenter% --vmwarevsphere-datastore=%datastore% --vmwarevsphere-network=%network% --vmwarevsphere-datacenter=%datacenter% --vmwarevsphere-folder=%folder%
+docker-machine create %vmware% %auth% docker-vSphere
+docker-machine env docker-vSphere
+@FOR /f "tokens=*" %i IN ('docker-machine env docker-vSphere') DO @%i
+
+rem list machines
+docker-machine ls
+
+rem delete machine
+docker-machine rm docker-vSphere

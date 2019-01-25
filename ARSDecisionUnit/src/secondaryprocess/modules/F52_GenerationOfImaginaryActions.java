@@ -267,7 +267,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		    moGoalList_OUT = moGoalList_IN;
 		    
 			//--- System printout of all important action dates ---//
-			log.info("\n=============================\nActions added to the goals " + PrintTools.printArrayListWithLineBreaks(moGoalList_OUT) + "\n=============================");
+			log.info("Actions added to the goals " + PrintTools.printArrayListWithLineBreaks(moGoalList_OUT));
 			//System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Preconditions: " + clsGoalTools.getTaskStatus(moGoalList_IN.get(0)).toString() + "; Action: " + moPlans_Output.toString());
 			//System.out.println("Environmental Storage: " + this.moEnvironmentalImageStorage.toString());
 				
