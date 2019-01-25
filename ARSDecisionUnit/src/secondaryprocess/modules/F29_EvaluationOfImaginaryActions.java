@@ -268,7 +268,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
         // Save old and new PlanGoal to detect Goal Change
         clsWordPresentationMeshPossibleGoal OldPlanGoal;
-        clsWordPresentationMeshPossibleGoal NewPlanGoal;
+        clsWordPresentationMeshPossibleGoal NewPlanGoal = null;
         // Save Plan Goal
         OldPlanGoal = this.moDecisionEngine.getPlanGoal(moSelectableGoals);
         // Select the best goal
@@ -481,7 +481,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
 //            ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue();
 
-        
+        final Logger logFim = logger.clsLogger.getLog("Fim");
+        logFim.info("\n"+setDecisionString(planGoal));
         // //=== TEST ONLY ONE ACTION === //
         // if (clsTester.getTester().isActivated()) {
         // try {
@@ -578,14 +579,14 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         StringBuilder sb = new StringBuilder();
 
         // Set the current decision string
-        sb.append("============================================================================================\n");
-        sb.append("[GOAL NAME]\n   " + oGoalString + "\n\n");
-        sb.append("[GOAL OBJECT]\n   " + oGoalObjectString + "\n\n");
-        sb.append("[GOAL SOURCE]\n   " + oGoalSource + "\n\n");
-        sb.append("[IMPORTANCE/PLEASURELEVEL]\n   " + oAffectLevel + "\n\n");
-        sb.append("[GOAL CONDITIONS]\n   " + oGoalConditions + "\n\n");
-        sb.append("[SUPPORTIVE DATASTRUCTURE]\n   " + oSupportiveDataStructureString + "\n");
-        sb.append("============================================================================================\n");
+        //sb.append("============================================================================================\n");
+        sb.append("[GOAL NAME]:   " + oGoalString + "\n");
+        sb.append("[GOAL OBJECT]: " + oGoalObjectString + "\n");
+        sb.append("[GOAL SOURCE]: " + oGoalSource + "\n");
+        sb.append("[IMPORTANCE/PLEASURELEVEL]: " + oAffectLevel + "\n");
+        sb.append("[GOAL CONDITIONS]:          " + oGoalConditions + "\n");
+        sb.append("[SUPPORTIVE DATASTRUCTURE]: " + oSupportiveDataStructureString);
+        //sb.append("============================================================================================\n");
 
         oResult = sb.toString();
 

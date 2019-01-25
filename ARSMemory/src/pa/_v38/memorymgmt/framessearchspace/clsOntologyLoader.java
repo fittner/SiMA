@@ -481,7 +481,7 @@ public class clsOntologyLoader implements itfModuleMemoryAccess {
 		try{
 			rPsychicSatisfactionValue = ((Float) poElement
 				.getOwnSlotValue(poDataContainer.a.getSlot("psychic_satisfaction")));
-			System.out.println("");
+			//System.out.println("");
 		}
 		catch(Exception e){
 			//no QoA_P available 

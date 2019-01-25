@@ -260,7 +260,7 @@ public class clsInventory {
 			posX = posXCarry + (xMaxCarry + xMaxDrop);
 			posY = posYCarry - (xMaxCarry + xMaxDrop) * Math.tan(2*Math.PI - orientation);
 		}
-		System.out.println(posX+" - "+posX);
+		//System.out.println(posX+" - "+posX);
 		
 		
 		return new clsPose(posX,posY,poDropEntity.getPose().getAngle().radians);

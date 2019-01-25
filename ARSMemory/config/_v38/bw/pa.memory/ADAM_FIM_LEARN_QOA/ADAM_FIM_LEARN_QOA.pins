@@ -1,4 +1,4 @@
-; Thu Jan 24 06:42:56 CET 2019
+; Fri Jan 25 17:11:46 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -546,6 +546,13 @@
 		[TPM%3AACTION%3AL1_BITE])
 	(weight 1.0 1.0))
 
+([AD%3AAIM%3ABODO%3AEAT] of  ASSOCIATIONDM
+
+	(element
+		[DM%3AEAT%3ABODO]
+		[TPM%3AACTION%3AL1_EAT])
+	(weight 1.0 1.0))
+
 ([AD%3AAIM%3ACAKE%3ABITE] of  ASSOCIATIONDM
 
 	(element
@@ -690,6 +697,13 @@
 
 	(element
 		[DM%3ABITE%3ABODO]
+		[TPM%3AENTITY%3AARSIN%3ABODO])
+	(weight 1.0 1.0))
+
+([AD%3ADRIVEOBJECT%3ABODO%3AEAT] of  ASSOCIATIONDM
+
+	(element
+		[DM%3AEAT%3ABODO]
 		[TPM%3AENTITY%3AARSIN%3ABODO])
 	(weight 1.0 1.0))
 
@@ -1131,14 +1145,6 @@
 	(element
 		[WPM%3AIMAGE%3AA12_EAT_CAKE_L01]
 		[WP%3ACONDITION%3ACYCLIC_ACT])
-	(predicate "HASCONDITION")
-	(weight 1.0 1.0))
-
-([AS%3AHASCONDITION%3AA12_EAT_CAKE_L01%3ASTART_WITH_FIRST_IMAGE] of  ASSOCIATIONSEC
-
-	(element
-		[WPM%3AIMAGE%3AA12_EAT_CAKE_L01]
-		[WP%3ACONDITION%3ASTART_WITH_FIRST_IMAGE])
 	(predicate "HASCONDITION")
 	(weight 1.0 1.0))
 
@@ -2133,6 +2139,13 @@
 		[PRI%3AA12_EAT_CAKE_L01%3ACAKE])
 	(weight 1.0 1.0))
 
+([AT%3AA12_EAT_CAKE_L01%3ACARROT] of  ASSOCIATIONTEMP
+
+	(element
+		[TPM%3AIMAGE%3AA12_EAT_CAKE_L01]
+		[PRI%3AA12_EAT_CAKE_L01%3ACARROT])
+	(weight 1.0 1.0))
+
 ([AT%3AA12_EAT_CAKE_L01_I01%3ABODO] of  ASSOCIATIONTEMP
 
 	(element
@@ -2495,6 +2508,13 @@
 	(element
 		[WP%3ADEPOSIT]
 		[DM%3AEXCREMENT%3ASTONE])
+	(weight 1.0 1.0))
+
+([AW%3ADM_NOURISH%3ANOURISHBODO] of  ASSOCIATIONWP
+
+	(element
+		[WP%3ANOURISH]
+		[DM%3AEAT%3ABODO])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHCAKE] of  ASSOCIATIONWP
@@ -2946,8 +2966,8 @@
 		[AD%3AAIM%3ABODO%3ABEAT%3AANAL]
 		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3AANAL])
 	(partial_drive "ANAL")
-	(psychic_satisfaction 0.2)
-	(quotaOfAffect 0.2)
+	(psychic_satisfaction 0.0)
+	(quotaOfAffect 0.0)
 	(value "DM:ANAL:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3050,7 +3070,19 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ADIVIDE]
 		[AD%3AAIM%3ACAKE%3ADIVIDE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.2)
+	(quotaOfAffect 0.15)
+	(value "DM:STOMACH:LIBIDINOUS")
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
+
+([DM%3AEAT%3ABODO] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "LIBIDINOUS")
+	(instance_association
+		[AD%3ADRIVEOBJECT%3ABODO%3AEAT]
+		[AD%3AAIM%3ABODO%3AEAT])
+	(partial_drive "UNDEFINED")
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3062,7 +3094,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3AEAT]
 		[AD%3AAIM%3ACAKE%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.05)
+	(quotaOfAffect 0.2)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3074,7 +3106,7 @@
 		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3AEAT]
 		[AD%3AAIM%3ACARROT%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.05)
+	(quotaOfAffect 0.22)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3238,10 +3270,10 @@
 
 	(emotionIntensity 0.5)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.6)
+	(sourceAggr 1.0)
 	(sourceLibid 0.2)
 	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
+	(sourceUnpleasure 0.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -3280,84 +3312,84 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
@@ -3368,67 +3400,67 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.0)
+	(value "JOY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.39)
+	(emotionIntensity 0.37)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.51)
-	(sourceLibid 0.21)
-	(sourcePleasure 0.32)
-	(sourceUnpleasure 0.39)
+	(sourceAggr 0.28)
+	(sourceLibid 0.17)
+	(sourcePleasure 0.21)
+	(sourceUnpleasure 0.37)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.39)
+	(emotionIntensity 0.37)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.51)
-	(sourceLibid 0.21)
-	(sourcePleasure 0.32)
-	(sourceUnpleasure 0.39)
+	(sourceAggr 0.28)
+	(sourceLibid 0.17)
+	(sourcePleasure 0.21)
+	(sourceUnpleasure 0.37)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I02%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.37)
+	(emotionIntensity 0.35)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.25)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.2)
-	(sourceUnpleasure 0.37)
+	(sourceLibid 0.17)
+	(sourcePleasure 0.17)
+	(sourceUnpleasure 0.35)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01_I03%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.26)
+	(emotionIntensity 0.25)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.44)
-	(sourceLibid 0.09)
-	(sourcePleasure 0.36)
-	(sourceUnpleasure 0.2)
+	(sourceAggr 0.2)
+	(sourceLibid 0.12)
+	(sourcePleasure 0.15)
+	(sourceUnpleasure 0.25)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3831,6 +3863,10 @@
 ([PRI%3AA12_EAT_CAKE_L01%3ACAKE] of  PRIMARYINSTANCEOBJECT
 
 	(instance_type [TPM%3AENTITY%3ACAKE%3ABASIC]))
+
+([PRI%3AA12_EAT_CAKE_L01%3ACARROT] of  PRIMARYINSTANCEOBJECT
+
+	(instance_type [TPM%3AENTITY%3ACARROT%3ABASIC]))
 
 ([PRI%3AA12_EAT_CAKE_L01_I01%3ABODO] of  PRIMARYINSTANCEOBJECT
 
@@ -4642,7 +4678,9 @@
 
 ([TPM%3AIMAGE%3AA12_EAT_CAKE_L01] of  TPM%3AIMAGE
 
-	(instance_association [AT%3AA12_EAT_CAKE_L01%3ACAKE])
+	(instance_association
+		[AT%3AA12_EAT_CAKE_L01%3ACAKE]
+		[AT%3AA12_EAT_CAKE_L01%3ACARROT])
 	(value "A12_EAT_CAKE_L01")
 	(value_type "RI"))
 
@@ -4650,16 +4688,14 @@
 
 	(instance_association
 		[AT%3AA12_EAT_CAKE_L01_I01%3ACAKE]
-		[AT%3AA12_EAT_CAKE_L01_I01%3ABODO]
+		[AT%3AA12_EAT_CAKE_L01%3ACARROT]
 		[AT%3AA12_EAT_CAKE_L01_I01%3ASELF])
 	(value "A12_EAT_CAKE_L01_I01")
 	(value_type "RI"))
 
 ([TPM%3AIMAGE%3AA12_EAT_CAKE_L01_I02] of  TPM%3AIMAGE
 
-	(instance_association
-		[AT%3AA12_EAT_CAKE_L01_I02%3ACAKE]
-		[AT%3AA12_EAT_CAKE_L01_I02%3ABODO])
+	(instance_association [AT%3AA12_EAT_CAKE_L01_I02%3ACAKE])
 	(value "A12_EAT_CAKE_L01_I02")
 	(value_type "RI"))
 

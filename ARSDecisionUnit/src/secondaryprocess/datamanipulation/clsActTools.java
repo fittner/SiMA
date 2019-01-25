@@ -8,6 +8,8 @@ package secondaryprocess.datamanipulation;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eCondition;
 import memorymgmt.enums.eContentType;
@@ -44,6 +46,8 @@ public class clsActTools {
 	 * @param poSingleList
 	 * @return
 	 */
+    
+    protected final static Logger logFim = logger.clsLogger.getLog("Fim");
 	public static ArrayList<clsWordPresentationMesh> organizeImagesInActs(ArrayList<clsWordPresentationMesh> poSingleList) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
@@ -162,6 +166,10 @@ public class clsActTools {
 		if (oTPMPart!=null) {
 			rRetVal = getPrimaryMatchValueToPI(oTPMPart);
 		}
+		else
+		{
+		    rRetVal = 0;
+		}
 		
 		return rRetVal;
 	}
@@ -206,6 +214,10 @@ public class clsActTools {
 		if (rPIMatchValue>0.0) {
 			//Add new WP to image
 			clsMeshTools.setUniquePredicateWP(poImage, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(rPIMatchValue), false);
+		}
+		else
+		{
+		    rPIMatchValue = 0;
 		}
 	}
 	
@@ -523,6 +535,11 @@ public class clsActTools {
 		
 		if (oWP!=null) {
 			rResult = Double.valueOf(oWP.getContent());
+		}
+		else
+		{
+		    rResult = -1.01;
+//		    logFim.info("IMAGE-WITHOUT PIMATCH: "+poImage.getContent());
 		}
 		
 		return rResult;

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import org.slf4j.Logger;
+
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -68,7 +70,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	
 	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_OUT;
-	
+	protected final static Logger logFim = logger.clsLogger.getLog("Fim");
 	private ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDrives;
 	
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:35 */
@@ -238,15 +240,21 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		
 		//Extract all possible goals in the perception
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromPerception(moPerceptionalMesh_IN));
-		
+		logFim.info("extractSelectableGoalsFromPerception: "+moReachableGoalList_OUT.toString());
+		int i;
+		i = moReachableGoalList_OUT.size() -1;
 		//Extract all possible goals from the images (memories)
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromActs(moAssociatedMemories_IN));
-		
+		logFim.info("extractSelectableGoalsFromActs: "+moReachableGoalList_OUT.subList(i, moReachableGoalList_OUT.size() -1).toString());
+		i = moReachableGoalList_OUT.size() -1;
 		//Extract basic goals directly from the drives, to be used if there is nothing in perception
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromAimOfDrives(aimOfDrives));
-		
-        //identifies context there and sets condition to context source 
+		logFim.info("extractSelectableGoalsFromAimOfDrives: "+moReachableGoalList_OUT.subList(i, moReachableGoalList_OUT.size() -1).toString());
+		i = moReachableGoalList_OUT.size() -1;
+		//identifies context there and sets condition to context source 
          GoalHandlingFunctionality.extractGoalFromContext(moReachableGoalList_OUT);
+         logFim.info("extractGoalFromContext: "+moReachableGoalList_OUT.subList(i, moReachableGoalList_OUT.size() -1).toString());
+         i = moReachableGoalList_OUT.size() -1;
          //sets Context to ContextSource for Calculation  
         // GoalHandlingFunctionality.setConditionToContextSource(moReachableGoalList_OUT);
          

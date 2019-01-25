@@ -1,58 +1,58 @@
-; Thu Jan 24 06:42:56 CET 2019
+; Fri Jan 25 17:11:46 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
 
-([ADAM_FIM_LEARN_QOA_ProjectKB_Class10156] of  String
+([ADAM_FIM_LEARN_QOA_ProjectKB_Class10244] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([ADAM_FIM_LEARN_QOA_ProjectKB_Class10157] of  String
+([ADAM_FIM_LEARN_QOA_ProjectKB_Class10245] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([ADAM_FIM_LEARN_QOA_ProjectKB_Class10158] of  String
+([ADAM_FIM_LEARN_QOA_ProjectKB_Class10246] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([ADAM_FIM_LEARN_QOA_ProjectKB_Class10159] of  String
+([ADAM_FIM_LEARN_QOA_ProjectKB_Class10247] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ADAM_FIM_LEARN_QOA_ProjectKB_Class10160] of  String
+([ADAM_FIM_LEARN_QOA_ProjectKB_Class10248] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_FIM_LEARN_QOA_ProjectKB_Class10161] of  Map_Entry
+([ADAM_FIM_LEARN_QOA_ProjectKB_Class10249] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_FIM_LEARN_QOA_ProjectKB_Class10162] of  Map
+([ADAM_FIM_LEARN_QOA_ProjectKB_Class10250] of  Map
 )
 
-([ADAM_FIM_LEARN_QOA_ProjectKB_Class10163] of  Map_Entry
+([ADAM_FIM_LEARN_QOA_ProjectKB_Class10251] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_FIM_LEARN_QOA_ProjectKB_Class10162")
+	(value "ADAM_FIM_LEARN_QOA_ProjectKB_Class10250")
 	(value_class "java.util.Map"))
 
-([ADAM_FIM_LEARN_QOA_ProjectKB_Class10164] of  Map_Entry
+([ADAM_FIM_LEARN_QOA_ProjectKB_Class10252] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_FIM_LEARN_QOA_ProjectKB_Class10165] of  Map_Entry
+([ADAM_FIM_LEARN_QOA_ProjectKB_Class10253] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
@@ -113,11 +113,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10156]
-		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10157]
-		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10158]
-		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10159]
-		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10160]))
+		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10244]
+		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10245]
+		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10246]
+		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10247]
+		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10248]))
 
 ([CLSES_TAB] of  Widget
 
@@ -162,9 +162,6 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_521540_Class5] of  Map
-)
-
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -173,11 +170,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10161]
-		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10163]
-		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10164]
-		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10165])
-	(referenced_maps [ADAM_FIM_LEARN_QOA_ProjectKB_Class10162]))
+		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10249]
+		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10251]
+		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10252]
+		[ADAM_FIM_LEARN_QOA_ProjectKB_Class10253])
+	(referenced_maps [ADAM_FIM_LEARN_QOA_ProjectKB_Class10250]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -629,6 +626,9 @@
 )
 
 ([KB_610615_Class99] of  Property_List
+)
+
+([KB_976102_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List

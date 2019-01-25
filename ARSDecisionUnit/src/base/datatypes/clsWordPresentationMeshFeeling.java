@@ -214,7 +214,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         oText +=" Aggression=" + new DecimalFormat("0.00").format(getAggression());
         oText +=" Pleasure=" + new DecimalFormat("0.00").format(getPleasure());
         oText +=" Unpleasure=" + new DecimalFormat("0.00").format(getUnpleasure());
-        oText += "\n";
+        //oText += "\n";
         return oText;
     }
     

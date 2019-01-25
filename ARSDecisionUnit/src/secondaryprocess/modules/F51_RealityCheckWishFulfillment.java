@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import org.slf4j.Logger;
+
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -73,6 +75,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_IN;
 	
 	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_OUT;
+	protected final static Logger logFim = logger.clsLogger.getLog("Fim");
 	
 	/** A threshold for images, which are only set moment if the match factor is higher or equal this value */
 	private double mrMomentActivationThreshold;
@@ -269,7 +272,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
         //1. Remove non reachable goals
         ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_OUT);
         moReachableGoalList_OUT = GoalHandlingFunctionality.removeNonReachableGoals(moReachableGoalList_OUT, this.moShortTimeMemory);
-        
+        logFim.info("REMOVED_UNREACHABLE_GOALS:");
 		log.info("Provided selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		log.info("Provided continued goals: {}", PrintTools.printArrayListWithLineBreaks(this.moDecisionEngine.getContinuedGoals(moReachableGoalList_OUT)));
 		log.info("Provided plan goal: {}", this.moDecisionEngine.getPlanGoal(moReachableGoalList_OUT));

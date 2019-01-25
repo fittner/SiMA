@@ -298,6 +298,6 @@ public class GoalData {
             //go through the tree
 //            printTree(data.getRoot());
             
-            System.out.println("done");
+            //System.out.println("done");
         }
 }

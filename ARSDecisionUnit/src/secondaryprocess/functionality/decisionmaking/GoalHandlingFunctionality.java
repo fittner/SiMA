@@ -46,6 +46,7 @@ import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 public class GoalHandlingFunctionality {
     private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
     private static Logger moFeelingLog = clsLogger.getLog("Feelings");
+    protected final static Logger logFim = logger.clsLogger.getLog("Fim");
     
     
     
@@ -106,6 +107,7 @@ public class GoalHandlingFunctionality {
         
         for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
             moFeelingLog.debug(oFeeling.toString());
+            logFim.info(oFeeling.toString());
         }
         
         for (clsWordPresentationMeshPossibleGoal goal : reachableGoalList) {
@@ -126,10 +128,21 @@ public class GoalHandlingFunctionality {
                 
                 if (receivedPsychicIntensity>=goalsByReservedFeelingThreshold) {
                     goal.setFeelingsMatchImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByReservedFeelings(goal, currentFeelings));
-                    
                 }
            }
         }
+        if(receivedPsychicIntensity >= goalsByTriggeredFeelingThreshold && receivedPsychicIntensity < goalsByExpectedFeelingThreshold){
+            logFim.info("evaluateGoalByTriggeredFeelings");
+        }
+        
+        if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold && receivedPsychicIntensity < goalsByReservedFeelingThreshold){
+            logFim.info("evaluateGoalByExpectedFeelings");
+        }
+        
+        if (receivedPsychicIntensity>=goalsByReservedFeelingThreshold) {
+            logFim.info("evaluateGoalByReservedFeelings");
+        }
+        
         
     }
     

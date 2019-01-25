@@ -1253,7 +1253,7 @@ public abstract class clsDataStructureComparisonTools {
 					        df = DateTimeFormatter.ofPattern("_yyyyMMdd");     // 31.01.2016 20:07
 					        String date = now.format(df);
 							
-							File f1 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT_Learning.pins");
+							File f1 = new File("C:/Users/nocks/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT_Learning.pins");
 							//File f2 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT.pins");
 							FileReader fr = new FileReader(f1);
 					        BufferedReader br = new BufferedReader(fr);
@@ -1323,7 +1323,7 @@ public abstract class clsDataStructureComparisonTools {
 			        df = DateTimeFormatter.ofPattern("_yyyyMMdd");     // 31.01.2016 20:07
 			        String date = now.format(df);
 					
-					File f1 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT_Learning.pins");
+					File f1 = new File("C:/Users/nocks/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT_Learning.pins");
 					//File f2 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT.pins");
 					FileReader fr = new FileReader(f1);
 			        BufferedReader br = new BufferedReader(fr);

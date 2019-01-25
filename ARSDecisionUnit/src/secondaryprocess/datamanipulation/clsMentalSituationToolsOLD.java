@@ -103,6 +103,7 @@ public class clsMentalSituationToolsOLD {
 	
 	public static void setExcludedGoal(clsWordPresentationMesh poMentalSituation, clsWordPresentationMesh poGoal) {
 		clsMeshTools.setNonUniquePredicateWPM(poMentalSituation, ePredicate.HASEXCLUDEDGOAL, poGoal, true);
+		//FIM HASEXCLUDEDGOAL
 	}
 	
 	

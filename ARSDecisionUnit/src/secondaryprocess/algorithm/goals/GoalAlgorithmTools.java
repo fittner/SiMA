@@ -41,6 +41,7 @@ import secondaryprocess.datamanipulation.clsImportanceTools;
 public class GoalAlgorithmTools {
 
 	private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
+	protected final static Logger logFim = logger.clsLogger.getLog("Fim");
 	
        /**
      * Get the goal condition from the goal and set it
@@ -349,6 +350,7 @@ public class GoalAlgorithmTools {
              
             oRemoveList.addAll(oTEMPLIST);
         }
+        logFim.info("Excluded Goals: "+oRemoveList.toString());
         
         for (clsWordPresentationMeshPossibleGoal goal : poGoalList) { 
             boolean isFound=false;
