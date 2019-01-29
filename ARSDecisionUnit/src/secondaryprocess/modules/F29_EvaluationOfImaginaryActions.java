@@ -79,6 +79,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     public static final String P_INTERACTION_DEBUG  = "INTERACTION_DEBUG";
     
     private static Logger moLearningLogger = clsLogger.getLog("Learning");
+    private static Logger logFim = clsLogger.getLog("Fim");
     
     public ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
     HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moArrayFeelingsInMomentsMap = new HashMap<>();
@@ -332,7 +333,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             }
             moArrayFeelingsInMomentsMap.put(oMoment.getContent(), F26_DecisionMaking.moFeeling_IN);   
         }
-        else
+        else if(oMoment.isNullObject()==false)
         {
             ArrayList<clsWordPresentationMeshFeeling> oOldFeelings =  moArrayFeelingsInMomentsMap.get(oMoment.getContent());
             //Compare the feelings
@@ -405,9 +406,12 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             }
             moArrayFeelingsInMomentsMap.put(oIntention.getContent(),oOldFeelings);
         }
+        logFim.info("moArrayFeelingsInMoments: "+moArrayFeelingsInMomentsMap.toString());
+        logFim.info("moArrayFeelingsInMoments: "+moArrayFeelingsInMoments.toString());
         
         moArrayFeelingsInMoments.add("FEELINGS::" + F26_DecisionMaking.moFeeling_IN.toString());
-        moLearningLogger.debug("\nLEARNING: {}",moArrayFeelingsInMomentsMap);
+        moLearningLogger.debug("\nLEARNING: {}",moArrayFeelingsInMomentsMap.toString());
+        
         
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
         log.info("\n+++++++++++++++++++++++++++++\n Feelings in Moments: " + moArrayFeelingsInMoments + "\n++++++++++++++++++++++++++++++");

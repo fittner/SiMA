@@ -1,4 +1,4 @@
-; Fri Jan 25 17:11:46 CET 2019
+; Fri Jan 25 20:22:26 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3094,7 +3094,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3AEAT]
 		[AD%3AAIM%3ACAKE%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.2)
+	(quotaOfAffect 0.01)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
