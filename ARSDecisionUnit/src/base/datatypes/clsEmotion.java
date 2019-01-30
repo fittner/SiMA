@@ -10,6 +10,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -37,6 +39,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private double mrSourceAggr = 0.0;
 	private double mrRelativeThreshold = 0.0;
 	private double mrThresholdRange = 0.0;
+	protected final static Logger logFim = logger.clsLogger.getLog("Fim");
 	
 	public clsEmotion(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prEmotionIntensity, double prIntensityDeviation, 
 	        eEmotionType poContent, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
@@ -95,19 +98,67 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	}
 	
 	static protected double doubleMatch(double rLHV, double rRHV) {
-	    double rMatch = 1 - Math.abs(rLHV - rRHV);
-        
+	    double rMatch;
+	    if (Math.abs(rLHV - rRHV)>0.9)
+	    {
+	        rMatch = 0.1;
+	    }
+        else if(Math.abs(rLHV - rRHV)>0.8)
+        {
+            rMatch = 0.2;
+        }
+        else if(Math.abs(rLHV - rRHV)>0.7)
+        {
+            rMatch = 0.3;
+        }
+        else if(Math.abs(rLHV - rRHV)>0.6)
+        {
+            rMatch = 0.4;
+        }
+        else if(Math.abs(rLHV - rRHV)>0.5)
+        {
+            rMatch = 0.5;
+        }
+        else if(Math.abs(rLHV - rRHV)>0.4)
+        {
+            rMatch = 0.6;
+        }
+        else if(Math.abs(rLHV - rRHV)>0.3)
+        {
+            rMatch = 0.7;
+        }
+        else if(Math.abs(rLHV - rRHV)>0.2)
+        {
+            rMatch = 0.8;
+        }
+        else if(Math.abs(rLHV - rRHV)>0.1)
+        {
+            rMatch = 0.9;
+        }
+        else
+        {
+            rMatch = 1;
+        }
+	    
         return rMatch;
 	}
 	
 	static protected double matchingFunction(clsEmotion oLHV, clsEmotion oRHV) {
 	    double rMatch = 0;
+	    double rMatch1 = 0;
+	    double rMatch2 = 0;
+	    double rMatch3 = 0;
+	    double rMatch4 = 0;
 	    
-	    rMatch += doubleMatch(oLHV.getSourceAggr(), oRHV.getSourceAggr());
-	    rMatch += doubleMatch(oLHV.getSourceLibid(), oRHV.getSourceLibid());
-	    rMatch += doubleMatch(oLHV.getSourcePleasure(), oRHV.getSourcePleasure());
-	    rMatch += doubleMatch(oLHV.getSourceUnpleasure(), oRHV.getSourceUnpleasure());
-	    
+	    rMatch1 = doubleMatch(oLHV.getSourceAggr(), oRHV.getSourceAggr());
+	    logFim.info("Emotion Aggr Div: "+rMatch1);
+	    rMatch2 = doubleMatch(oLHV.getSourceLibid(), oRHV.getSourceLibid());
+	    logFim.info("Emotion Lib  Div: "+rMatch2);
+	    rMatch3 = doubleMatch(oLHV.getSourcePleasure(), oRHV.getSourcePleasure());
+	    logFim.info("Emotion Plea Div: "+rMatch3);
+	    rMatch4 = doubleMatch(oLHV.getSourceUnpleasure(), oRHV.getSourceUnpleasure());
+	    logFim.info("Emotion Unpl Div: "+rMatch4);
+	    rMatch = rMatch1 + rMatch2 + rMatch3 + rMatch4;
 	    return rMatch / 4;
 	}
 	

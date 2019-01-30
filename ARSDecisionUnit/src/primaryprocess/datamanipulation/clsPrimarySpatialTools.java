@@ -39,6 +39,7 @@ import testfunctions.clsTester;
 public class clsPrimarySpatialTools {
 		
     private static final Logger log = clsLogger.getLog("Tools");
+    final static Logger logFim = logger.clsLogger.getLog("Fim");
     
 	/**
 	 * This function calculates the match between 2 images and returns the matching value. In this process also the RI (Remembered Image) is modified as 
@@ -133,7 +134,8 @@ public class clsPrimarySpatialTools {
         double rRetValAc = 0;
         //Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
         //Only references in the array
-        
+        logFim.info("PI: "+poPI);
+        logFim.info("RI: "+poRI);
         
         ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
         
@@ -187,6 +189,7 @@ public class clsPrimarySpatialTools {
                 rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
             }
         }
+        logFim.info("Distance Match: "+rRetVal);
         //=== Perform system tests ===//
         if (clsTester.getTester().isActivated()) {
             try {
@@ -221,12 +224,18 @@ public class clsPrimarySpatialTools {
             	}
             }
         }
+        logFim.info("Emotion PI: "+oEmotionPI);
+        logFim.info("Emotion RI: "+oEmotionRI);
         //get match value for the two emotions
         if(oEmotionPI != null && oEmotionRI != null) {
             rEmotionMatch = oEmotionPI.compareTo(oEmotionRI);
         }
         // Return Recognized Images in non proportional  aggregation with emotions
-        return (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
+        
+        logFim.info("Emotion Match: "+rEmotionMatch);
+        rRetVal = (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
+        logFim.info("PI-Match: "+rRetVal);
+        return (rRetVal);
     }
     
     private static clsEmotion getRecognizedEmotionFromMemorizedImage(clsThingPresentationMesh poImage) {
@@ -791,6 +800,7 @@ public class clsPrimarySpatialTools {
 	        }
 	        
 	        rRetVal = rWeightSum/rNormalizefactor;
+	        logFim.info("Distance Weight: "+rRetVal);
 	        
 	        return rRetVal;
 	    }

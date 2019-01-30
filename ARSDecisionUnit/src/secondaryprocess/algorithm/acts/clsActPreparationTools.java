@@ -178,7 +178,10 @@ public class clsActPreparationTools {
 	            oResult.add(eCondition.SET_FOLLOW_ACT);
 	        }
 		} else {
-			oResult.add(eCondition.GOAL_NOT_REACHABLE);
+		    if (clsActTools.checkIfConditionExists(oCurrentIntention, eCondition.START_WITH_FIRST_IMAGE)==true)
+		    {
+		        oResult.add(eCondition.GOAL_NOT_REACHABLE);
+		    }
 		}
 		
 		oResult.add(eCondition.SET_BASIC_ACT_ANALYSIS);
