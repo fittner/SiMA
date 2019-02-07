@@ -234,7 +234,10 @@ public class F71_CompositionOfExtendedEmotion extends clsModuleBase implements I
         }
         
         oNewGuilt = generateGuilt(dGuilt);
-        moEmotions_Output.add(oNewGuilt);
+        if(oNewGuilt.getEmotionIntensity()>0)
+        {
+            moEmotions_Output.add(oNewGuilt);
+        }
         
         moPsychicEnergyStorage.informIntensityValues(mnModuleNumber, mrModuleStrength, mrInitialRequestIntensity, rConsumedPsychicIntensity);
         

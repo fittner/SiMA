@@ -285,6 +285,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		// aggregate values from drive- and perception track
 		// normalize grundkategorien
+		// important sentence
 		// (if agent sees many objects the perception has more influence, otherwise drives have more influence on emotions)
 		rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, oPerceptionExtractedValues.get("rPerceptionDriveMeshUnpleasure"));
 		rSystemPleasure = nonProportionalAggregation(rSystemPleasure, oPerceptionExtractedValues.get("rPerceptionDriveMeshPleasure"));

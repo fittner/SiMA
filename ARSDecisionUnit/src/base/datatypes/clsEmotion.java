@@ -659,7 +659,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
                 oExtEmotions.add(generateEmotion(eEmotionType.MOURNING,  mrSourceLibid));
             }
         }
-	    
+        logFim.info("ExtEmotion"+oExtEmotions);
 	    return oExtEmotions;
 	}
 	

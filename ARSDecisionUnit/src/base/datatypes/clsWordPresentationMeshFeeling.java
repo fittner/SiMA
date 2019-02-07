@@ -239,6 +239,12 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     
     @Override
     public String toString() {
-        return debugString();
+        String oText = null;
+        oText +=" Libido=" + new DecimalFormat("0.00").format(getLibido());
+        oText +=" Aggression=" + new DecimalFormat("0.00").format(getAggression());
+        oText +=" Pleasure=" + new DecimalFormat("0.00").format(getPleasure());
+        oText +=" Unpleasure=" + new DecimalFormat("0.00").format(getUnpleasure());
+        oText += "::";
+        return oText+debugString();
     }
 }

@@ -324,7 +324,7 @@ public class GoalHandlingFunctionality {
                             } else {
                                 log.debug("Entity {} has no bodystates associated", oPair.b);
                             }
-                            
+                            // Compare PI (preceived Image) to RI (received Image)
                             rValuationMatch += oValuationPI.getEmotion().compareTo(oValuationRI.getEmotion());
                             
                             rAttributedMatch += oAttributedPI.getEmotion().compareTo(oAttributedRI.getEmotion());

@@ -9,7 +9,7 @@ package secondaryprocess.datamanipulation;
 import java.util.ArrayList;
 
 import logger.clsLogger;
-import memorymgmt.enums.eCondition;
+
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.ePredicate;
@@ -355,7 +355,7 @@ public class clsActDataStructureTools {
 		
 		for (clsWordPresentationMesh oSubImage : oSubImageList) {
 			double rCurrentPIMatch = clsActTools.getPIMatch(oSubImage);
-			double rFirstImagePIMatc = clsActTools.getPIMatch(clsActTools.getFirstImageFromIntention(oIntention));
+			//double rFirstImagePIMatc = clsActTools.getPIMatch(clsActTools.getFirstImageFromIntention(oIntention));
             //Fittner: Debug to get first image of Act A12 EAT
     			if (rCurrentPIMatch>=rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
     				rMaxPIMatch = rCurrentPIMatch;
@@ -364,12 +364,12 @@ public class clsActDataStructureTools {
     			} else if (rCurrentPIMatch==rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
     				oResult.add(oSubImage);
     			}
-    	       if((clsActTools.checkIfConditionExists(oIntention, eCondition.START_WITH_FIRST_IMAGE)==true)
-    	        && (rFirstImagePIMatc>=(rMaxPIMatch-0.02)))
-               {
-    	           oResult.clear();
-    	           oResult.add(clsActTools.getFirstImageFromIntention(oIntention));  
-               }
+//    	       if((clsActTools.checkIfConditionExists(oIntention, eCondition.START_WITH_FIRST_IMAGE)==true)
+//    	        && (rFirstImagePIMatc>=(rMaxPIMatch-0.02)))
+//               {
+//    	           oResult.clear();
+//    	           oResult.add(clsActTools.getFirstImageFromIntention(oIntention));  
+//               }
 			
 		}
 		
