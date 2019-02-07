@@ -1,0 +1,34 @@
+{A06_BEAT_ADAM_L01_I02=[JOY: Intensity=0,40 Libido=0,22 Aggression=0,64 Pleasure=0,34 Unpleasure=0,43
+, ELATION: Intensity=0,61 Libido=0,22 Aggression=0,64 Pleasure=0,34 Unpleasure=0,43
+, ANXIETY: Intensity=0,51 Libido=0,22 Aggression=0,64 Pleasure=0,34 Unpleasure=0,43
+, ANGER: Intensity=0,61 Libido=0,22 Aggression=0,64 Pleasure=0,34 Unpleasure=0,43
+, GUILT: Intensity=0,00 Libido=0,00 Aggression=0,00 Pleasure=0,00 Unpleasure=0,00
+], A06_BEAT_ADAM_L01_I01=[JOY: Intensity=0,34 Libido=0,21 Aggression=0,41 Pleasure=0,35 Unpleasure=0,41
+, SATURATION: Intensity=0,21 Libido=0,21 Aggression=0,41 Pleasure=0,35 Unpleasure=0,41
+, ELATION: Intensity=0,58 Libido=0,21 Aggression=0,41 Pleasure=0,35 Unpleasure=0,41
+, ANXIETY: Intensity=0,42 Libido=0,21 Aggression=0,41 Pleasure=0,35 Unpleasure=0,41
+, ANGER: Intensity=0,58 Libido=0,21 Aggression=0,41 Pleasure=0,35 Unpleasure=0,41
+, MOURNING: Intensity=0,21 Libido=0,21 Aggression=0,41 Pleasure=0,35 Unpleasure=0,41
+, GUILT: Intensity=0,00 Libido=0,00 Aggression=0,00 Pleasure=0,00 Unpleasure=0,00
+], A12_EAT_CAKE_L01=[JOY: Intensity=0,35 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, SATURATION: Intensity=0,21 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, ELATION: Intensity=0,42 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, ANXIETY: Intensity=0,41 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, ANGER: Intensity=0,42 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, MOURNING: Intensity=0,21 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, GUILT: Intensity=0,00 Libido=0,00 Aggression=0,00 Pleasure=0,00 Unpleasure=0,00
+], NULLOBJECT=[JOY: Intensity=0,35 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, SATURATION: Intensity=0,21 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, ELATION: Intensity=0,42 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, ANXIETY: Intensity=0,41 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, ANGER: Intensity=0,42 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, MOURNING: Intensity=0,21 Libido=0,21 Aggression=0,43 Pleasure=0,35 Unpleasure=0,41
+, GUILT: Intensity=0,00 Libido=0,00 Aggression=0,00 Pleasure=0,00 Unpleasure=0,00
+], A06_BEAT_ADAM_L01=[JOY: Intensity=0,39 Libido=0,21 Aggression=0,42 Pleasure=0,35 Unpleasure=0,41
+, SATURATION: Intensity=0,26 Libido=0,21 Aggression=0,42 Pleasure=0,35 Unpleasure=0,41
+, ELATION: Intensity=0,60 Libido=0,21 Aggression=0,42 Pleasure=0,35 Unpleasure=0,41
+, ANXIETY: Intensity=0,50 Libido=0,21 Aggression=0,42 Pleasure=0,35 Unpleasure=0,41
+, ANGER: Intensity=0,60 Libido=0,21 Aggression=0,42 Pleasure=0,35 Unpleasure=0,41
+, MOURNING: Intensity=0,26 Libido=0,21 Aggression=0,42 Pleasure=0,35 Unpleasure=0,41
+, GUILT: Intensity=0,00 Libido=0,00 Aggression=0,00 Pleasure=0,00 Unpleasure=0,00
+]}
