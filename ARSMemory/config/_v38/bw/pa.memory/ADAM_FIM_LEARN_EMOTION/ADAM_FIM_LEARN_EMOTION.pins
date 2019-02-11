@@ -1,4 +1,4 @@
-; Thu Feb 07 16:38:20 CET 2019
+; Mon Feb 11 14:26:10 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -4675,9 +4675,7 @@
 
 ([TPM%3AIMAGE%3AA12_EAT_CAKE_L01] of  TPM%3AIMAGE
 
-	(instance_association
-		[AT%3AA12_EAT_CAKE_L01%3ACAKE]
-		[AT%3AA12_EAT_CAKE_L01%3ABODO])
+	(instance_association [AT%3AA12_EAT_CAKE_L01%3ACAKE])
 	(value "A12_EAT_CAKE_L01")
 	(value_type "RI"))
 
@@ -4685,16 +4683,13 @@
 
 	(instance_association
 		[AT%3AA12_EAT_CAKE_L01_I01%3ACAKE]
-		[AT%3AA12_EAT_CAKE_L01_I01%3ABODO]
 		[AT%3AA12_EAT_CAKE_L01_I01%3ASELF])
 	(value "A12_EAT_CAKE_L01_I01")
 	(value_type "RI"))
 
 ([TPM%3AIMAGE%3AA12_EAT_CAKE_L01_I02] of  TPM%3AIMAGE
 
-	(instance_association
-		[AT%3AA12_EAT_CAKE_L01_I02%3ACAKE]
-		[AT%3AA12_EAT_CAKE_L01_I02%3ABODO])
+	(instance_association [AT%3AA12_EAT_CAKE_L01_I02%3ACAKE])
 	(value "A12_EAT_CAKE_L01_I02")
 	(value_type "RI"))
 

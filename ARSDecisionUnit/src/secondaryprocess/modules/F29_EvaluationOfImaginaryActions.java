@@ -83,6 +83,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     
     public ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
     HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moArrayFeelingsInMomentsMap = new HashMap<>();
+    ArrayList<clsWordPresentationMeshFeeling> moArrayFeelingsInMomentsArray = new ArrayList<>();
         
     private double mrWaitThreshold;
     private boolean mbInteractionDebug;
