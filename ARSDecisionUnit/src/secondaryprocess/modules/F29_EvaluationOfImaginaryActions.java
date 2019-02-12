@@ -84,7 +84,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     public ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
     HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moArrayFeelingsInMomentsMap = new HashMap<>();
     ArrayList<clsWordPresentationMeshFeeling> moArrayFeelingsInMomentsArray = new ArrayList<>();
-        
+    HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moCurrentMoment = new HashMap<>();
+    String moCurrentMoment_String;
     private double mrWaitThreshold;
     private boolean mbInteractionDebug;
     
@@ -165,6 +166,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
         text += toText.listToTEXT("moSelectableGoals", moSelectableGoals);
         text += toText.valueToTEXT("moActionCommand", moActionCommand);
+        text += moCurrentMoment_String;
         text += toText.listToTEXT("moAnxiety_Input", moAnxiety_Input);
         text += toText.valueToTEXT("CURRENT DECISION", this.moTEMPDecisionString);
         text += toText.listToTEXT("Goals and actions", moTEMPWriteLastActions);
@@ -412,7 +414,15 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         
         moArrayFeelingsInMoments.add("FEELINGS::" + F26_DecisionMaking.moFeeling_IN.toString());
         moLearningLogger.debug("\nLEARNING: {}",moArrayFeelingsInMomentsMap.toString());
-        
+        moCurrentMoment.put(oIntention.getContent(),moArrayFeelingsInMomentsMap.get(oIntention.getContent()));
+        moCurrentMoment_String ="";
+        moCurrentMoment_String += oIntention.getContent() +"\n";
+        ArrayList<clsWordPresentationMeshFeeling> List = moArrayFeelingsInMomentsMap.get(oIntention.getContent());
+        moCurrentMoment_String += oIntention.getContent() +"\n";
+        for(clsWordPresentationMeshFeeling ListElement:List)
+        {
+            moCurrentMoment_String += ListElement +"\n";
+        }
         
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
         log.info("\n+++++++++++++++++++++++++++++\n Feelings in Moments: " + moArrayFeelingsInMoments + "\n++++++++++++++++++++++++++++++");

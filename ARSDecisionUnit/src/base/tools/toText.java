@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -43,6 +44,26 @@ public class toText {
 		
 		return text;
 	}
+	
+//	   public static <E,V> String mapMomentToTEXT(String poName, Map<E,V> poMap) {
+//	        String text = h1(poName);
+//	        
+//	        if (poMap == null) {
+//	            text += p(i("null"));
+//	        } else if (poMap.size() == 0) {
+//	            text += p(i("empty"));
+//	        } else {
+//	            for (@SuppressWarnings("rawtypes") Map.Entry e:poMap.entrySet()) {
+//	                text += p(e.getKey().toString());
+//	                for (@SuppressWarnings("rawtypes") clsWordPresentationMeshFeeling wpm:e.getValue()) {
+//	                    text += li(wpm.toString());
+//	                }
+//	            }
+//	        }
+//	        
+//	        return text;
+//	    }
+
 	
 	public static String listToTEXT(String poName, @SuppressWarnings("rawtypes") List poList) {
 		String text =h2(poName);
