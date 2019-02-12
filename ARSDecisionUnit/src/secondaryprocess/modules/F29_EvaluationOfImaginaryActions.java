@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 
 import org.slf4j.Logger;
@@ -86,6 +87,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     ArrayList<clsWordPresentationMeshFeeling> moArrayFeelingsInMomentsArray = new ArrayList<>();
     HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moCurrentMoment = new HashMap<>();
     String moCurrentMoment_String;
+    String moCurrentMoments_String;
     private double mrWaitThreshold;
     private boolean mbInteractionDebug;
     
@@ -167,6 +169,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         text += toText.listToTEXT("moSelectableGoals", moSelectableGoals);
         text += toText.valueToTEXT("moActionCommand", moActionCommand);
         text += moCurrentMoment_String;
+        text += moCurrentMoments_String;
         text += toText.listToTEXT("moAnxiety_Input", moAnxiety_Input);
         text += toText.valueToTEXT("CURRENT DECISION", this.moTEMPDecisionString);
         text += toText.listToTEXT("Goals and actions", moTEMPWriteLastActions);
@@ -414,15 +417,28 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         
         moArrayFeelingsInMoments.add("FEELINGS::" + F26_DecisionMaking.moFeeling_IN.toString());
         moLearningLogger.debug("\nLEARNING: {}",moArrayFeelingsInMomentsMap.toString());
-        moCurrentMoment.put(oIntention.getContent(),moArrayFeelingsInMomentsMap.get(oIntention.getContent()));
-        moCurrentMoment_String ="";
-        moCurrentMoment_String += oIntention.getContent() +"\n";
-        ArrayList<clsWordPresentationMeshFeeling> List = moArrayFeelingsInMomentsMap.get(oIntention.getContent());
-        moCurrentMoment_String += oIntention.getContent() +"\n";
+        moCurrentMoment.put(oMoment.getContent(),moArrayFeelingsInMomentsMap.get(oMoment.getContent()));
+        moCurrentMoment_String ="*** ACTUAL MOMENT ***\n";
+        ArrayList<clsWordPresentationMeshFeeling> List = moArrayFeelingsInMomentsMap.get(oMoment.getContent());
+        moCurrentMoment_String += oMoment.getContent() +"\n";
         for(clsWordPresentationMeshFeeling ListElement:List)
         {
             moCurrentMoment_String += ListElement +"\n";
         }
+        
+        moCurrentMoment.put(oMoment.getContent(),moArrayFeelingsInMomentsMap.get(oMoment.getContent()));
+        moCurrentMoments_String ="*** ALL MOMENTS ***\n";
+        for (@SuppressWarnings("rawtypes") Map.Entry e:moArrayFeelingsInMomentsMap.entrySet()) {
+         
+            List = moArrayFeelingsInMomentsMap.get(e.getKey());
+            moCurrentMoments_String += e.getKey().toString() +"\n";
+            for(clsWordPresentationMeshFeeling ListElement:List)
+            {
+                moCurrentMoments_String += ListElement +"\n";
+            }
+        }
+       
+        
         
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
         log.info("\n+++++++++++++++++++++++++++++\n Feelings in Moments: " + moArrayFeelingsInMoments + "\n++++++++++++++++++++++++++++++");
