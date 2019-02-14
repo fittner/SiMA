@@ -1,4 +1,4 @@
-; Thu Feb 14 16:51:39 CET 2019
+; Thu Feb 14 17:01:03 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3152,7 +3152,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ADIVIDE]
 		[AD%3AAIM%3ACAKE%3ADIVIDE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.1)
+	(quotaOfAffect 0.29)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3564,7 +3564,7 @@
 	(sourceAggr 0.22)
 	(sourceLibid 0.11)
 	(sourcePleasure 0.17)
-	(sourceUnpleasure 0.23)
+	(sourceUnpleasure 0.24)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
