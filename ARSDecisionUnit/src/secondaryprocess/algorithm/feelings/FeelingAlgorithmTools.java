@@ -314,11 +314,11 @@ public class FeelingAlgorithmTools {
                     //kollmann: if the act has a moment, use the current moment for comparison with the current feelings, otherwise use the first image
                     oMoment = clsActDataStructureTools.getMoment(oSupp);
                     
-                    if(oMoment != null && !oMoment.isNullObject()) {
-                        rEmotionStateSimilarity = getFeelingMatch(oMoment, poFeltFeelingList) * EMOTION_STATE_SIMILARITY_IMPACT;
-                    } else {
+//                    if(oMoment != null && !oMoment.isNullObject()) {
+//                        rEmotionStateSimilarity = getFeelingMatch(oMoment, poFeltFeelingList) * EMOTION_STATE_SIMILARITY_IMPACT;
+//                    } else {
                         rEmotionStateSimilarity = getFeelingMatch(oFirstImage, poFeltFeelingList) * EMOTION_STATE_SIMILARITY_IMPACT;
-                    }
+//                    }
                     
                     moLogger.info("Evaluating feeling expactation for goal:{}\n\tFirst image: {}\n\t\thas emotion: {}\n\tSecond image: {}\n\t\thasemotion: {}\n\tExpected change: {} ({})\n\tBy valuated similarity: {}\n\tResults in importance: {}",
                     poGoal, oFirstImage.getContent(), oFirstEmotions, oLastImage.getContent(), oLastEmotions, oExpectedChanges, rImportanceChange, rEmotionStateSimilarity, rImportanceChange * rEmotionStateSimilarity);

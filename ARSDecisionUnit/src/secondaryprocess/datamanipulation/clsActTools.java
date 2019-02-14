@@ -538,7 +538,7 @@ public class clsActTools {
 		}
 		else
 		{
-		    rResult = -1.01;
+		    rResult = -1.02;
 //		    logFim.info("IMAGE-WITHOUT PIMATCH: "+poImage.getContent());
 		}
 		

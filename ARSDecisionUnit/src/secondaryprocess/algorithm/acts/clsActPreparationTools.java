@@ -39,7 +39,7 @@ public class clsActPreparationTools {
 	 * haben und er ist da damit der Agent in keinem Deadlock verfällt. Wenn der Timeout nur=3 Bewegungen lang ist, 
 	 * bricht er den Akt ab, fügt ein Condition „GOAL_NOT_REACHABLE“ dazu und sortiert den Akt für ca 7 Runden 
 	 * (Länge des Working Memorys) aus.  @since 15.05.2014 09:50:38 */
-	private static final int mnMovementTimeoutStartValue = 20;
+	private static final int mnMovementTimeoutStartValue = 50;
 	/** DOCUMENT (wendt) - insert description; @since 15.05.2014 09:52:12 */
 	private static final int mnMovementTimeoutEstalishValue = 10;
 	
