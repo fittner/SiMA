@@ -1,4 +1,4 @@
-; Thu Feb 14 11:52:45 CET 2019
+; Thu Feb 14 13:03:50 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3394,122 +3394,122 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.36)
+	(emotionIntensity 0.39)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.96)
-	(sourceLibid 0.18)
-	(sourcePleasure 0.29)
+	(sourceAggr 0.94)
+	(sourceLibid 0.23)
+	(sourcePleasure 0.3)
 	(sourceUnpleasure 0.37)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.36)
+	(emotionIntensity 0.37)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.96)
-	(sourceLibid 0.18)
+	(sourceAggr 0.93)
+	(sourceLibid 0.23)
 	(sourcePleasure 0.29)
-	(sourceUnpleasure 0.37)
+	(sourceUnpleasure 0.36)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.36)
+	(emotionIntensity 0.38)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.9)
-	(sourceLibid 0.15)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.35)
+	(sourceAggr 0.87)
+	(sourceLibid 0.24)
+	(sourcePleasure 0.28)
+	(sourceUnpleasure 0.38)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.55)
+	(emotionIntensity 0.42)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.87)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.4)
-	(sourceUnpleasure 0.5)
+	(sourceLibid 0.24)
+	(sourcePleasure 0.29)
+	(sourceUnpleasure 0.38)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.6)
+	(emotionIntensity 0.46)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.69)
-	(sourceLibid 0.24)
-	(sourcePleasure 0.55)
-	(sourceUnpleasure 0.6)
+	(sourceAggr 0.87)
+	(sourceLibid 0.3)
+	(sourcePleasure 0.35)
+	(sourceUnpleasure 0.45)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.43)
+	(emotionIntensity 0.4)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.71)
-	(sourceLibid 0.21)
+	(sourceAggr 0.87)
+	(sourceLibid 0.27)
 	(sourcePleasure 0.31)
-	(sourceUnpleasure 0.43)
+	(sourceUnpleasure 0.41)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.4)
+	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.71)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.28)
-	(sourceUnpleasure 0.4)
+	(sourceAggr 0.87)
+	(sourceLibid 0.25)
+	(sourcePleasure 0.29)
+	(sourceUnpleasure 0.39)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.55)
+	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.75)
-	(sourceLibid 0.26)
-	(sourcePleasure 0.45)
-	(sourceUnpleasure 0.55)
+	(sourceAggr 0.87)
+	(sourceLibid 0.29)
+	(sourcePleasure 0.33)
+	(sourceUnpleasure 0.43)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.4)
+	(emotionIntensity 0.37)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.46)
-	(sourceLibid 0.2)
-	(sourcePleasure 0.22)
-	(sourceUnpleasure 0.4)
+	(sourceAggr 0.36)
+	(sourceLibid 0.24)
+	(sourcePleasure 0.2)
+	(sourceUnpleasure 0.39)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.1)
+	(emotionIntensity 0.2)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.9)
-	(sourceUnpleasure 0.0)
+	(sourceAggr 0.18)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.17)
+	(sourceUnpleasure 0.27)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I10%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.1)
+	(emotionIntensity 0.14)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.9)
-	(sourceUnpleasure 0.0)
+	(sourceAggr 0.12)
+	(sourceLibid 0.07)
+	(sourcePleasure 0.16)
+	(sourceUnpleasure 0.14)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 

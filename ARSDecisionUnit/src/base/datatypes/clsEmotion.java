@@ -99,46 +99,47 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	
 	static protected double doubleMatch(double rLHV, double rRHV) {
 	    double rMatch;
-	    if (Math.abs(rLHV - rRHV)>0.9)
-	    {
-	        rMatch = 0.1;
-	    }
-        else if(Math.abs(rLHV - rRHV)>0.8)
-        {
-            rMatch = 0.2;
-        }
-        else if(Math.abs(rLHV - rRHV)>0.7)
-        {
-            rMatch = 0.3;
-        }
-        else if(Math.abs(rLHV - rRHV)>0.6)
-        {
-            rMatch = 0.4;
-        }
-        else if(Math.abs(rLHV - rRHV)>0.5)
-        {
-            rMatch = 0.5;
-        }
-        else if(Math.abs(rLHV - rRHV)>0.4)
-        {
-            rMatch = 0.6;
-        }
-        else if(Math.abs(rLHV - rRHV)>0.3)
-        {
-            rMatch = 0.7;
-        }
-        else if(Math.abs(rLHV - rRHV)>0.2)
-        {
-            rMatch = 0.8;
-        }
-        else if(Math.abs(rLHV - rRHV)>0.1)
-        {
-            rMatch = 0.9;
-        }
-        else
-        {
-            rMatch = 1;
-        }
+	    rMatch = 1 - Math.abs(rLHV - rRHV);
+//	    if (Math.abs(rLHV - rRHV)>0.9)
+//	    {
+//	        rMatch = 0.1;
+//	    }
+//        else if(Math.abs(rLHV - rRHV)>0.8)
+//        {
+//            rMatch = 0.2;
+//        }
+//        else if(Math.abs(rLHV - rRHV)>0.7)
+//        {
+//            rMatch = 0.3;
+//        }
+//        else if(Math.abs(rLHV - rRHV)>0.6)
+//        {
+//            rMatch = 0.4;
+//        }
+//        else if(Math.abs(rLHV - rRHV)>0.5)
+//        {
+//            rMatch = 0.5;
+//        }
+//        else if(Math.abs(rLHV - rRHV)>0.4)
+//        {
+//            rMatch = 0.6;
+//        }
+//        else if(Math.abs(rLHV - rRHV)>0.3)
+//        {
+//            rMatch = 0.7;
+//        }
+//        else if(Math.abs(rLHV - rRHV)>0.2)
+//        {
+//            rMatch = 0.8;
+//        }
+//        else if(Math.abs(rLHV - rRHV)>0.1)
+//        {
+//            rMatch = 0.9;
+//        }
+//        else
+//        {
+//            rMatch = 1;
+//        }
 	    
         return rMatch;
 	}
