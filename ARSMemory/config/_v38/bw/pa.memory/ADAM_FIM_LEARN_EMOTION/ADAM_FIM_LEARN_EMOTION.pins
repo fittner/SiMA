@@ -1,4 +1,4 @@
-; Tue Feb 12 18:25:53 CET 2019
+; Wed Feb 13 16:02:33 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3350,112 +3350,112 @@
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.36)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.96)
+	(sourceLibid 0.18)
+	(sourcePleasure 0.29)
+	(sourceUnpleasure 0.37)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.36)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.96)
+	(sourceLibid 0.18)
+	(sourcePleasure 0.29)
+	(sourceUnpleasure 0.37)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I02%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.36)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
+	(sourceAggr 0.9)
+	(sourceLibid 0.15)
 	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceUnpleasure 0.35)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I03%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.35)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.8)
+	(sourceLibid 0.1)
+	(sourcePleasure 0.4)
+	(sourceUnpleasure 0.5)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I04%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.56)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.69)
+	(sourceLibid 0.24)
+	(sourcePleasure 0.44)
+	(sourceUnpleasure 0.56)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I05%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.43)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.71)
+	(sourceLibid 0.21)
+	(sourcePleasure 0.31)
+	(sourceUnpleasure 0.43)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I06%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.4)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.71)
+	(sourceLibid 0.2)
+	(sourcePleasure 0.28)
+	(sourceUnpleasure 0.4)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I07%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.55)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.75)
+	(sourceLibid 0.26)
+	(sourcePleasure 0.45)
+	(sourceUnpleasure 0.55)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I08%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.55)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.3)
-	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourceAggr 0.75)
+	(sourceLibid 0.26)
+	(sourcePleasure 0.44)
+	(sourceUnpleasure 0.55)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_CAKE_L01_I09%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.3)
+	(emotionIntensity 0.1)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.4)
-	(sourcePleasure 0.1)
-	(sourceUnpleasure 0.6)
-	(value "GUILT")
+	(sourcePleasure 0.9)
+	(sourceUnpleasure 0.0)
+	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_CAKE_L01%3AANXIETY] of  EMOTION

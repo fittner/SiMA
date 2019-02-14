@@ -29,7 +29,7 @@ import secondaryprocess.datamanipulation.clsMeshTools;
  */
 public class clsActPreparationTools {
 	
-	private static final double mrMomentActivationThreshold = 0.5;
+	private static final double mrMomentActivationThreshold = 0.3;
 	private static final double mrMomentConfidenceThreshold = 0.0;
 	private static final double mrDefaultConfidenceIncreasement = 0.5;
 	private static final double mrActConfidenceThreshold = 0.5;
@@ -219,6 +219,12 @@ public class clsActPreparationTools {
 		//3. If moment is the last image in the act, set "GOAL_REACHED"
 		
 		// --- PREPARE IMAGES --- //
+	    clsWordPresentationMesh oPreviousExpectation1 = clsActDataStructureTools.getExpectation(poCurrentAct);
+	    double rCurrentPIMatch = clsActTools.getPIMatch(oPreviousExpectation1);//oPreviousExpectation.set
+	    if(rCurrentPIMatch > 0.95)
+	    { 
+	        clsActTools.setPIMatch(oPreviousExpectation1, 1.0);
+	    }
 		//Get the image from an act with the highest PI-match according to the primary process and consider the moment activation threshold
 		ArrayList<clsWordPresentationMesh> oCurrentMomentCandidateList = clsActDataStructureTools.getMomentWithHighestPIMatch(poCurrentAct, mrMomentActivationThreshold);
 		
