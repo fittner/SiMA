@@ -39,7 +39,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private double mrSourceAggr = 0.0;
 	private double mrRelativeThreshold = 0.0;
 	private double mrThresholdRange = 0.0;
-	protected final static Logger logFim = logger.clsLogger.getLog("Fim");
+	protected final static Logger logFim1 = logger.clsLogger.getLog("Fim");
 	
 	public clsEmotion(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prEmotionIntensity, double prIntensityDeviation, 
 	        eEmotionType poContent, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
@@ -152,13 +152,13 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	    double rMatch4 = 0;
 	    
 	    rMatch1 = doubleMatch(oLHV.getSourceAggr(), oRHV.getSourceAggr());
-	    logFim.info("Emotion Aggr Div: "+rMatch1);
+	    logFim1.info("Emotion Aggr Div: "+rMatch1);
 	    rMatch2 = doubleMatch(oLHV.getSourceLibid(), oRHV.getSourceLibid());
-	    logFim.info("Emotion Lib  Div: "+rMatch2);
+	    logFim1.info("Emotion Lib  Div: "+rMatch2);
 	    rMatch3 = doubleMatch(oLHV.getSourcePleasure(), oRHV.getSourcePleasure());
-	    logFim.info("Emotion Plea Div: "+rMatch3);
+	    logFim1.info("Emotion Plea Div: "+rMatch3);
 	    rMatch4 = doubleMatch(oLHV.getSourceUnpleasure(), oRHV.getSourceUnpleasure());
-	    logFim.info("Emotion Unpl Div: "+rMatch4);
+	    logFim1.info("Emotion Unpl Div: "+rMatch4);
 	    rMatch = rMatch1 + rMatch2 + rMatch3 + rMatch4;
 	    return rMatch / 4;
 	}
@@ -660,7 +660,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
                 oExtEmotions.add(generateEmotion(eEmotionType.MOURNING,  mrSourceLibid));
             }
         }
-        logFim.info("ExtEmotion"+oExtEmotions);
+        logFim1.info("ExtEmotion"+oExtEmotions);
 	    return oExtEmotions;
 	}
 	
