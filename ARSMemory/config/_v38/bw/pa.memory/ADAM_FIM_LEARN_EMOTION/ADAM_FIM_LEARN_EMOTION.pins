@@ -1,4 +1,4 @@
-; Fri Feb 15 06:40:38 CET 2019
+; Fri Feb 15 06:42:13 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3048,7 +3048,7 @@
 		[AD%3AAIM%3ABODO%3ABEAT%3AANAL]
 		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3AANAL])
 	(partial_drive "ANAL")
-	(psychic_satisfaction 0.0)
+	(psychic_satisfaction 0.01)
 	(quotaOfAffect 0.0)
 	(value "DM:ANAL:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
@@ -3061,7 +3061,7 @@
 		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3APHALLIC]
 		[AD%3AAIM%3ABODO%3ABEAT%3APHALLIC])
 	(partial_drive "PHALLIC")
-	(psychic_satisfaction 0.0)
+	(psychic_satisfaction 0.01)
 	(quotaOfAffect 0.0)
 	(value "DM:PHALIC:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
@@ -3074,7 +3074,7 @@
 		[AD%3ADRIVEOBJECT%3ABODO%3ABITE]
 		[AD%3AAIM%3ABODO%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.01)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3086,7 +3086,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3ABITE]
 		[AD%3AAIM%3ACAKE%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.01)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3164,7 +3164,7 @@
 		[AD%3ADRIVEOBJECT%3ABODO%3AEAT]
 		[AD%3AAIM%3ABODO%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.02)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3246,7 +3246,7 @@
 		[AD%3AAIM%3ACAKE%3ALEECH]
 		[AD%3ADRIVEOBJECT%3ACAKE%3ALEECH])
 	(partial_drive "ORAL")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.01)
 	(value "DM:ORAL:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3344,7 +3344,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ASUCK]
 		[AD%3AAIM%3ACAKE%3ASUCK])
 	(partial_drive "ORAL")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.01)
 	(value "DM:ORAL:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
