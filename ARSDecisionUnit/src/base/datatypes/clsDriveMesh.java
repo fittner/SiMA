@@ -512,20 +512,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	
 	public String toString(){
-	    String oRetval = "|DM:";
-	    oRetval += ":Organ="+this.getActualDriveSourceAsENUM();
-	    oRetval += ":DComponent="+this.moDriveComponent.toString();
-	    oRetval += ":PleSumMax= " + GetQuotaOfAffectAsMyString(this.getPleasureSumMax());
-        oRetval += ":R="+this.getRisingQoA();
-	    oRetval += ":L="+this.getLearning();
-        oRetval += ":Action="+(this.getActualDriveAim()!=null?this.getActualDriveAim().getContent():"no action");
-        oRetval += ":Object="+(this.getActualDriveObject()!=null?this.getActualDriveObject().getContent():"no object");
-	    oRetval += ":BE="+ this.getBE();
-	    oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
-        oRetval += ":QoASum="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
-        oRetval += ":PleSum= " + GetQuotaOfAffectAsMyString(this.getActPleasure());
-        oRetval += ":LeaCnt= " + GetQuotaOfAffectAsMyString(this.getLearningCnt());
-        oRetval += ":PartialD="+this.moPartialDrive.toString();
+		String oRetval = "|DM:";
+		oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
+		oRetval += ":DComponent="+this.moDriveComponent.toString();
+		oRetval += ":PartialD="+this.moPartialDrive.toString();
+		oRetval += ":Organ="+this.getActualDriveSourceAsENUM();
 		oRetval += ":Orifice="+this.getActualBodyOrificeAsENUM();
 		oRetval += ":Aim=" + (this.getActualDriveAim()!=null?this.getActualDriveAim().getContent():"no action");
 		//if(this.moInternalAssociatedContent!=null){

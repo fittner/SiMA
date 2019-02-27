@@ -1052,10 +1052,22 @@ public class clsGraph extends JGraph {
 		
 		String oDescription = 	poMemoryObject.getContentType().name() + "\n" +
 				poMemoryObject.getContent();
-		oDescription += poMemoryObject.getActivations().get(eActivationType.EMBODIMENT_ACTIVATION)!=null 
-				?"\n"+(Math.round(poMemoryObject.getActivations().get(eActivationType.EMBODIMENT_ACTIVATION)*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces))
+		oDescription += poMemoryObject.getActivations().get(eActivationType.SIMILARITY_ACTIVATION)!=null 
+				?"\nSIM: "+(Math.round(poMemoryObject.getActivations().get(eActivationType.SIMILARITY_ACTIVATION)*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces))
 				:"";
-		
+		oDescription += poMemoryObject.getActivations().get(eActivationType.EMBODIMENT_ACTIVATION)!=null 
+				?"\nEMB: "+(Math.round(poMemoryObject.getActivations().get(eActivationType.EMBODIMENT_ACTIVATION)*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces))
+				:"";
+		oDescription += poMemoryObject.getActivations().get(eActivationType.CATHEXIS)!=null 
+				?"\nCAT: "+(Math.round(poMemoryObject.getActivations().get(eActivationType.CATHEXIS)*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces))
+				:"";
+		oDescription += poMemoryObject.getActivations().get(eActivationType.ASSOCIATIVE_ACTIVATION)!=null 
+				?"\nASS: "+(Math.round(poMemoryObject.getActivations().get(eActivationType.ASSOCIATIVE_ACTIVATION)*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces))
+				:"";
+//		oDescription += poMemoryObject.getMoListMissing()!=null 
+//				?"\nMISSING: "+poMemoryObject.getMoListMissing()
+//				:"";
+						
 		//oDescription +="\n" + poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION);
 		if(!UseSimpleView()) 
 		{

@@ -12,6 +12,7 @@ import inspector.interfaces.itfInspectorAdvancedStackedBarChart;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 import logger.clsLogger;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,6 +25,7 @@ import org.slf4j.Logger;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentationMesh;
 //import base.datatypes.clsAssociation;
 import base.datatypes.clsWordPresentationMesh;
@@ -82,7 +84,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     private static Logger moLearningLogger = clsLogger.getLog("Learning");
     private static Logger logFim = clsLogger.getLog("Fim");
     
-    public ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
+    public static ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
     HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moArrayFeelingsInMomentsMap = new HashMap<>();
     ArrayList<clsWordPresentationMeshFeeling> moArrayFeelingsInMomentsArray = new ArrayList<>();
     HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moCurrentMoment = new HashMap<>();
@@ -328,8 +330,10 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             log.error("Cannot declare goal as plan goal", e1);
         }
         clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(planGoal.getSupportiveDataStructure());
+        int Steps = clsShortTermMemoryMF.getActualStep();
+        DecimalFormat format = new DecimalFormat("##00000.##");
         if (oMoment.isNullObject()==false) {
-            moArrayFeelingsInMoments.add("\nMOMENT: " + oMoment.getContent());
+            moArrayFeelingsInMoments.add("\nStep: "+format.format(Steps)+" MOMENT: " + oMoment.getContent());
         }
         if (!moArrayFeelingsInMomentsMap.containsKey(oMoment.getContent()))
         {

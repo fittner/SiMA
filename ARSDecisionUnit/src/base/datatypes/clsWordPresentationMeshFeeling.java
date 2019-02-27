@@ -210,11 +210,10 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     public String debugString() {
         String oText = getContent() + ":";
         oText +=" Intensity=" + new DecimalFormat("0.00").format(getIntensity());
-        //oText +=" Libido=" + new DecimalFormat("0.00").format(getLibido());
-        //oText +=" Aggression=" + new DecimalFormat("0.00").format(getAggression());
-        //oText +=" Pleasure=" + new DecimalFormat("0.00").format(getPleasure());
-        //oText +=" Unpleasure=" + new DecimalFormat("0.00").format(getUnpleasure());
-        //oText += "\n";
+        oText +=" Libido=" + new DecimalFormat("0.00").format(getLibido());
+        oText +=" Aggression=" + new DecimalFormat("0.00").format(getAggression());
+        oText +=" Pleasure=" + new DecimalFormat("0.00").format(getPleasure());
+        oText +=" Unpleasure=" + new DecimalFormat("0.00").format(getUnpleasure());
         return oText;
     }
     
@@ -239,12 +238,6 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     
     @Override
     public String toString() {
-        String oText = null;
-        oText +=" Libido=" + new DecimalFormat("0.00").format(getLibido());
-        oText +=" Aggression=" + new DecimalFormat("0.00").format(getAggression());
-        oText +=" Pleasure=" + new DecimalFormat("0.00").format(getPleasure());
-        oText +=" Unpleasure=" + new DecimalFormat("0.00").format(getUnpleasure());
-        oText += "::";
-        return oText+debugString();
+        return debugString();
     }
 }

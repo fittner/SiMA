@@ -242,19 +242,19 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromPerception(moPerceptionalMesh_IN));
 		logFim.info("extractSelectableGoalsFromPerception: "+moReachableGoalList_OUT.toString());
 		int i;
-		i = moReachableGoalList_OUT.size() -1;
+		i = moReachableGoalList_OUT.size();
 		//Extract all possible goals from the images (memories)
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromActs(moAssociatedMemories_IN));
-		logFim.info("extractSelectableGoalsFromActs: "+moReachableGoalList_OUT.subList(i, moReachableGoalList_OUT.size() -1).toString());
-		i = moReachableGoalList_OUT.size() -1;
+		logFim.info("extractSelectableGoalsFromActs: "+moReachableGoalList_OUT.subList(i, moReachableGoalList_OUT.size()).toString());
+		i = moReachableGoalList_OUT.size() ;
 		//Extract basic goals directly from the drives, to be used if there is nothing in perception
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromAimOfDrives(aimOfDrives));
-		logFim.info("extractSelectableGoalsFromAimOfDrives: "+moReachableGoalList_OUT.subList(i, moReachableGoalList_OUT.size() -1).toString());
-		i = moReachableGoalList_OUT.size() -1;
+		logFim.info("extractSelectableGoalsFromAimOfDrives: "+moReachableGoalList_OUT.subList(i, moReachableGoalList_OUT.size()).toString());
+		i = moReachableGoalList_OUT.size();
 		//identifies context there and sets condition to context source 
          GoalHandlingFunctionality.extractGoalFromContext(moReachableGoalList_OUT);
-         logFim.info("extractGoalFromContext: "+moReachableGoalList_OUT.subList(i, moReachableGoalList_OUT.size() -1).toString());
-         i = moReachableGoalList_OUT.size() -1;
+         logFim.info("extractGoalFromContext: "+moReachableGoalList_OUT.subList(i, moReachableGoalList_OUT.size()).toString());
+         i = moReachableGoalList_OUT.size();
          //sets Context to ContextSource for Calculation  
         // GoalHandlingFunctionality.setConditionToContextSource(moReachableGoalList_OUT);
          
