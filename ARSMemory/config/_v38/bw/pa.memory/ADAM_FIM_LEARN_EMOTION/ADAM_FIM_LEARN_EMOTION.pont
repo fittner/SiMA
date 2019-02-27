@@ -1,4 +1,4 @@
-; Fri Feb 15 06:42:13 CET 2019
+; Wed Feb 27 08:16:17 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -98,9 +98,17 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
+	(single-slot ADAM_FIM_LEARN_EMOTION_Class4
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot sourceUnpleasure
 		(type FLOAT)
 		(default 0.0)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot ADAM_FIM_LEARN_EMOTION_Class3
+		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot consequence
@@ -296,11 +304,6 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 ;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE] [TP%3AINTENSITY%3AMEDIUM])
-		(create-accessor read-write))
-	(single-slot value
-		(type STRING)
-;+		(value "CAKE")
-;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass CAN

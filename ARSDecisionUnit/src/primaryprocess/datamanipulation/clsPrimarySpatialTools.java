@@ -134,8 +134,8 @@ public class clsPrimarySpatialTools {
         double rRetValAc = 0;
         //Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
         //Only references in the array
-        logFim.info("PI: "+poPI);
-        logFim.info("RI: "+poRI);
+        logFim.info("FIM PI: "+poPI);
+        logFim.info("FIM RI: "+poRI);
         
         ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
         

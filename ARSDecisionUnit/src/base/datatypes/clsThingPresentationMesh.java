@@ -426,7 +426,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 				for (clsAssociation oExtAss : this.moExternalAssociatedContent) {
 					if (oExtAss instanceof clsAssociationDriveMesh) {
 						// if a drive is the same (has the same aim, object and source) and has the same QoA -> the matchingfactor is 1. hence the driveobject with this drive would satisfy the actual drive in the best possible way
-						rMatchDMs = ((clsDriveMesh)oExtAss.getAssociationElementA()).compareToDriveCandidate(oActualDM);
+						// Prozentuelle Triebbefriedigung
+					    rMatchDMs = ((clsDriveMesh)oExtAss.getAssociationElementA()).compareToDriveCandidate(oActualDM);
 						// take the best match
 						if(rMatchDMs>rSatisfactionOfActualDM) {
 							rSatisfactionOfActualDM = rMatchDMs;
@@ -434,6 +435,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 					}
 					
 				}
+				// Prozentuelle Triebbefriedigung * Affektbetrag => Wertebereich = 0 --- Affektbetrag
 				rTotSatisfactionOfActualDMs += rSatisfactionOfActualDM*oActualDM.getQuotaOfAffect();
 				extendCriterionMaxValue(eActivationType.EMBODIMENT_ACTIVATION, oActualDM.getQuotaOfAffect());
 				if(rSatisfactionOfActualDM > 0) {
@@ -496,26 +498,27 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 					oOverallActivation += moActivations.get(oActivationType) *1;
 					oOverallWeights += 1;
 				}
-				else if(oActivationType == eActivationType.EMBODIMENT_ACTIVATION) {
-					try{
-					    oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType);	
-					    oOverallWeights += moCriterionWeights.get(oActivationType);
-					}
-					catch(Exception e){
-					   // System.out.println("sad");
-					}
-				}
-				else
-				{
-                    try{
-                        oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType); 
-                        oOverallWeights += moCriterionWeights.get(oActivationType);
-                    }
-                    catch(Exception e){
-                       // System.out.println("sad");
-                    }
-				    
-				}
+				// TODO: Fix implementation of additional valuations
+//				else if(oActivationType == eActivationType.EMBODIMENT_ACTIVATION) {
+//					try{
+//					    oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType);	
+//					    oOverallWeights += moCriterionWeights.get(oActivationType);
+//					}
+//					catch(Exception e){
+//					   // System.out.println("sad");
+//					}
+//				}
+//				else
+//				{
+//                    try{
+//                        oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType); 
+//                        oOverallWeights += moCriterionWeights.get(oActivationType);
+//                    }
+//                    catch(Exception e){
+//                       // System.out.println("sad");
+//                    }
+//				    
+//				}
 			}
 			mrAggregatedActivationValue = oOverallActivation/oOverallWeights;
 		}

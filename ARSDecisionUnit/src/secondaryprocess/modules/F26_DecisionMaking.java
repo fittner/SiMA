@@ -460,10 +460,17 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
         {
             try
             {
-                if(arrayObjPairSort.get(i).b.getContent().equals("SELF"))
+                if(i >= arrayObjPairSort.size())
                 {
-                    arrayObjPairSort.remove(i);
                     break;
+                }
+                else
+                {
+                    if(arrayObjPairSort.get(i).b.getContent().equals("SELF"))
+                    {
+                        arrayObjPairSort.remove(i);
+                        break;
+                    }
                 }
             } catch (Exception e) {
                 log.error("Error ", e);

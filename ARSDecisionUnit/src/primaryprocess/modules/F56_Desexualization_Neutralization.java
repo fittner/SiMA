@@ -123,7 +123,7 @@ implements I5_3_receive, I5_4_send, I5_22_send, itfInspectorBarChart {
 		String text ="";
 		text += toText.listToTEXT("moDrives_IN", moDrives_IN);	
 		text += toText.listToTEXT("moDrives_OUT", moDrives_OUT);
-		text += toText.valueToTEXT("moPsychicIntensityStorage", moPsychicIntensityStorage);
+		text += toText.valueToTEXT("moPsychicIntensityStorage", moPsychicIntensityStorage.getFreePsychicIntensityInStorage());
 		
 		return text;
 	}
