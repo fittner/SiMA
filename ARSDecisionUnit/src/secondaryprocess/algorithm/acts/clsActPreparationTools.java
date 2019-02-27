@@ -19,6 +19,7 @@ import base.datatypes.clsWordPresentationMeshMentalSituation;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import secondaryprocess.modules.F29_EvaluationOfImaginaryActions;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -167,12 +168,15 @@ public class clsActPreparationTools {
 	            if (clsActTools.checkIfConditionExists(oCurrentIntention, eCondition.CYCLIC_ACT)==true) {
 	                //Goal completed but the last action shall be done again
 	                oResult.add(eCondition.RESET_GOAL);
+	                F29_EvaluationOfImaginaryActions.moArrayFeelingsInMoments.add("\nRESET_GOAL");
 	            } else {
 	                //Goal completed, close goal
 	                oResult.add(eCondition.GOAL_COMPLETED);
+	                F29_EvaluationOfImaginaryActions.moArrayFeelingsInMoments.add("\nGOAL_COMPLETED");
 	            }
 	            // Act finished --> Get Emotions for last image + (Please for finishing the act?)
 	            oResult.add(eCondition.ACT_FINISHED);
+	            F29_EvaluationOfImaginaryActions.moArrayFeelingsInMoments.add("\nACT_FINISHED");
 	        } else {
 	            //If not the last image
 	            oResult.add(eCondition.SET_FOLLOW_ACT);
@@ -181,6 +185,7 @@ public class clsActPreparationTools {
 		    if (clsActTools.checkIfConditionExists(oCurrentIntention, eCondition.START_WITH_FIRST_IMAGE)==true)
 		    {
 		        oResult.add(eCondition.GOAL_NOT_REACHABLE);
+		        F29_EvaluationOfImaginaryActions.moArrayFeelingsInMoments.add("\nGOAL_NOT_REACHABLE");
 		    }
 		}
 		

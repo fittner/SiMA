@@ -33,6 +33,7 @@ import primaryprocess.datamanipulation.clsPrimarySpatialTools;
 public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	
 	private String moContent = "UNDEFINED";
+	private String moListMissing = "";
 	
 	// 
 	private double mrAggregatedActivationValue ;
@@ -62,6 +63,26 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	public void setMoContent(String moContent) {
 		this.moContent = moContent;
 	}
+	
+	   /**
+     * @author zeilinger
+     * 17.03.2011, 00:52:29
+     * 
+     * @return the moContent
+     */
+    public String getMoListMissing() {
+        return moListMissing;
+    }
+
+    /**
+     * @author zeilinger
+     * 17.03.2011, 00:52:29
+     * 
+     * @param moContent the moContent to set
+     */
+    public void setMoListMissing(String moContent) {
+        this.moListMissing = moContent;
+    }
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -174,6 +195,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 				oRetVal=1.0;
 			} else {
 				oRetVal = getMatchScore(this, oDataStructure);
+				this.setMoListMissing(oDataStructure.getMoListMissing());
 			}
 			
 		}
@@ -190,6 +212,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 		        oRetVal = getMatchScore(oDataStructure, this);
 		    } else {
 		        oRetVal = getMatchScore(this, oDataStructure);
+		        this.setMoListMissing(oDataStructure.getMoListMissing());
 		    }
 		}
 		

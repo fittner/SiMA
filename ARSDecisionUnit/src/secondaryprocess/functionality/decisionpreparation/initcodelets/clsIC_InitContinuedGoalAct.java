@@ -20,6 +20,7 @@ import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsCommonCodeletTools;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
+import secondaryprocess.modules.F29_EvaluationOfImaginaryActions;
 import testfunctions.clsTester;
 
 /**
@@ -144,9 +145,11 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
             ArrayList<eCondition> conditionList = new ArrayList<eCondition>();
             if (oMoment.isNullObject()==false && clsActTools.isLastImage(oMoment)==true) {
                 conditionList.add(eCondition.GOAL_COMPLETED);
+                F29_EvaluationOfImaginaryActions.moArrayFeelingsInMoments.add("\nGOAL_COMPLETED2");
                 //this.moGoal.setCondition(eCondition.GOAL_COMPLETED);
             } else if (oMoment.isNullObject()==false && clsActTools.getMovementTimeoutValue(oMoment)<=0) {
                 conditionList.add(eCondition.GOAL_NOT_REACHABLE);
+                F29_EvaluationOfImaginaryActions.moArrayFeelingsInMoments.add("\nGOAL_NOT_REACHABLE2");
                 //this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
             } 
             

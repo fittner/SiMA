@@ -15,7 +15,6 @@ import memorymgmt.enums.eDataType;
 
 import org.slf4j.Logger;
 
-import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 
 /**
@@ -234,6 +233,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 		
 		ArrayList<E> oContentListTemplate = (ArrayList<E>)poDSTemplate.getInternalAssociatedContent();
 		ArrayList<E> oContentListUnknown = (ArrayList<E>)poDSUnknown.getInternalAssociatedContent();
+		ArrayList<Integer> oMatch_c = new ArrayList<Integer>();
 		
 		double oMatchScore = 0.0;
 		double oMatchScoreNorm = 0.0;
@@ -258,16 +258,18 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 		
 		//An attribute is considered as found, if they share the same CONTENTTYPE
 		//oProp.setProperty(pre+P_SOURCE_NAME, "/DecisionUnits/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC_AW.pprj"); in clsInformationRepresentationManager.java
-		
-			for(E oUnknownDS : oContentListUnknown){
+
+		for(E oUnknownDS : oContentListUnknown){
 				/*oMatch defines an object of clsPair that contains the match-score (Double value) between two objects (moAssociationElementB of 
 				 * oAssociationUnknown and oAssociationTemplate) and the entry number where the best matching element is found in 
 				 * oClonedTemplateList. After it is selected as best match it is removed from the list in order to admit that the 
 				 * association element of the next association in poContentListUnknown is compared again with the same element.*/
-				clsPair <Double, Integer> oMatch = new clsPair<Double, Integer>(0.0,-1);
+                clsTriple<Double, Integer, ArrayList<Integer>> oMatch = new clsTriple<Double, Integer, ArrayList<Integer>>(0.0,-1, new ArrayList<Integer>());
+        
 					
 				for(E oClonedKnownDS : oClonedTemplateList){				
-					//Check data types
+				    
+				    //Check data types
 					if( oClonedKnownDS instanceof clsAssociation ){
 						rWeight = ((clsAssociation)oClonedKnownDS).getMrWeight();
 						
@@ -286,6 +288,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
                         }
 						
 						rMatchScoreTemp = oKnownLeaf.compareTo(oUnknownLeaf) *  rWeight; // In non-definitional representations no imperative factor is used (TPMs are experienced objects and not definitions of object-classes) ; 
+						
+						
 					}
 					else if (oClonedKnownDS instanceof clsSecondaryDataStructure){
 						rMatchScoreTemp = oClonedKnownDS.compareTo(oUnknownDS);
@@ -298,21 +302,53 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 						oMatch.a = rMatchScoreTemp; 
 						oMatch.b = oClonedTemplateList.indexOf(oClonedKnownDS);
 					}
-				}				
+//					else
+//					{
+////					    oMatch.c = ((clsThingPresentation)oUnknownLeaf).getMoListMissing();
+//					   // ((clsThingPresentationMesh)oUnknownDS).setMoListMissing(((clsThingPresentationMesh)oUnknownDS).getMoListMissing()+((clsThingPresentation)oUnknownLeaf).getMoListMissing());
+//					}
+					
+				}
+
 				//Sums up the match score; Takes always the highest possible score 
 				oMatchScore += oMatch.a;
-			
-				
-
 				
 				if(oMatch.a > 0.0){
 					try{
 						oClonedTemplateList.remove((int)oMatch.b);
 					}catch(Exception e){System.out.println("oMatch.b was set to an incorrect value " + e.toString());}
+                    oMatch.c.add(oContentListUnknown.indexOf(oUnknownDS));
+                    oMatch_c.add(oContentListUnknown.indexOf(oUnknownDS));
 				}
+//				else
+//				{
+//				    if ((poDSUnknown instanceof clsThingPresentationMesh)&& (oUnknownDS instanceof clsThingPresentation))
+//				    {
+//				        ((clsThingPresentationMesh) poDSUnknown).setMoListMissing(((clsThingPresentation)oUnknownDS).getMoListMissing());
+//				    }
+//				}
 			
 			
 		}
+			
+//            for(Integer matchI: oMatch.c)
+//            {
+//                try{
+//                     oContentListUnknown.remove((int)matchI);
+//                 }catch(Exception e){System.out.println("oMatch.c was set to an incorrect value " + e.toString());}
+//            }
+		for(int i = oMatch_c.size()-1; i >= 0;i--)
+		{
+		    oContentListUnknown.remove(((int)(oMatch_c.get(i))));
+		}
+	    for(int i = 0; i < oContentListUnknown.size(); i++)
+	    {
+	        if (poDSUnknown instanceof clsThingPresentationMesh)
+	        {
+	            clsDataStructurePA oUnknownLeaf = ((clsAssociation)oContentListUnknown.get(i)).getTheOtherElement((clsDataStructurePA)poDSUnknown);
+	            ((clsThingPresentationMesh)poDSUnknown).setMoListMissing(oUnknownLeaf.getContentType().toString());
+	        }
+	    }
 				
 		//Norm the output
 		if (nAssociationCount>0) {
@@ -321,8 +357,22 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 			oMatchScoreNorm = 0;
 		}
 			
-				
-		
+//		if((nAssociationCount>0) && (oMatchScoreNorm > ((double)(nAssociationCount-1)/nAssociationCount)))
+//		{
+//    		if (poDSUnknown instanceof clsThingPresentationMesh)
+//    		{
+//    		    for(E oUnknownDS : oContentListUnknown)
+//    		    {
+//    		        if (oUnknownDS instanceof clsThingPresentationMesh)
+//    		        {
+//    		            oUnknownLeaf = ((clsAssociation)oUnknownDS).getTheOtherElement((clsDataStructurePA)poDSUnknown);
+//                        if(oUnknownLeaf == null) {
+//    		            ((clsThingPresentationMesh)poDSUnknown).setMoListMissing(((clsThingPresentation)oUnknownLeaf).getMoListMissing());
+//                        }
+//    		        }
+//    		    }
+//    		}
+//    	}
 		//return oMatchScore;
 		return oMatchScoreNorm;
 	}

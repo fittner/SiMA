@@ -31,6 +31,7 @@ import base.datatypes.helpstructures.clsTriple;
 public class clsThingPresentation extends clsPhysicalRepresentation{
 	
 	private Object moContent = null;
+	private String moListMissing;
 	/**
 	 * @author zeilinger
 	 * 17.03.2011, 00:52:10
@@ -49,6 +50,27 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	public void setMoContent(Object moContent) {
 		this.moContent = moContent;
 	}
+	
+    /**
+  * @author zeilinger
+  * 17.03.2011, 00:52:29
+  * 
+  * @return the moContent
+  */
+ public String getMoListMissing() {
+     return moListMissing;
+ }
+
+ /**
+  * @author zeilinger
+  * 17.03.2011, 00:52:29
+  * 
+  * @param moContent the moContent to set
+  */
+ public void setMoListMissing(String moContent) {
+     this.moListMissing = moContent;
+ }
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -97,7 +119,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 		//				and in between the simulator and the ontology regarding the current naming 
 		//				of SymbolTypes, the content types are compared without case sensitivity. 
 		if(moContentType == oDataStructure.moContentType){
-							
+				boolean no=false;			
 				if(this.moContent instanceof Boolean && oDataStructure.moContent instanceof Boolean) {
 					oRetVal = compare((Boolean)this.moContent, (Boolean)oDataStructure.moContent );
 				}
@@ -106,7 +128,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 				}
 				else if(this.moContent instanceof String && oDataStructure.moContent instanceof Boolean ) {
 					oRetVal = compare((Boolean) Boolean.parseBoolean(this.moContent.toString()), (Boolean)oDataStructure.moContent );
-				}
+                }
 				else if(this.moContent instanceof String && oDataStructure.moContent instanceof Enum) {
 					oRetVal = compare((String)this.moContent, ((Enum<?>)oDataStructure.moContent).name());
 				}
@@ -115,6 +137,16 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 				}
 				else if(this.moContent instanceof Double && oDataStructure.moContent instanceof Double) {
 					oRetVal = compare((Double)this.moContent, (Double)oDataStructure.moContent);
+				}
+				else
+				{ no = true;
+				}
+				if(!no)
+				{
+				    if(oRetVal < 1)
+			        {
+				        oDataStructure.setMoListMissing(oDataStructure.getMoListMissing()+oDataStructure.moContentType.toString()+";");
+			        }
 				}
 		}
 		return oRetVal;

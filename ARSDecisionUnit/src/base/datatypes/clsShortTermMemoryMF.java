@@ -83,6 +83,11 @@ public class clsShortTermMemoryMF {
         }
         pevMoment=actMoment;
     }
+    public static int getActualStep()
+    {
+        return Steps;
+    }
+    
     
     public void setLearningDMs(clsDriveMesh DMs)
     {
