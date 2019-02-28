@@ -107,7 +107,7 @@ public class GoalHandlingFunctionality {
         
         for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
             moFeelingLog.debug(oFeeling.toString());
-            logFim.info(oFeeling.toString());
+            //logFim.info(oFeeling.toString());
         }
         
         for (clsWordPresentationMeshPossibleGoal goal : reachableGoalList) {

@@ -350,7 +350,7 @@ public class GoalAlgorithmTools {
              
             oRemoveList.addAll(oTEMPLIST);
         }
-        logFim.info("Excluded Goals: "+oRemoveList.toString());
+        //logFim.info("Excluded Goals: "+oRemoveList.toString());
         
         for (clsWordPresentationMeshPossibleGoal goal : poGoalList) { 
             boolean isFound=false;

@@ -144,7 +144,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		moErogenousZonesSave.put(eDrive.STOMACH, -1.0);
 		moErogenousZonesSave.put(eDrive.STAMINA, -1.0);
 		moErogenousZonesSave.put(eDrive.RECTUM, -1.0);
-		
+		moErogenousZonesSave.put(eDrive.HEALTH, -1.0);
+        
 		moDriveChartData = new HashMap<String,Double>();
 	}
 	
@@ -170,6 +171,12 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         moStamina.put(eDriveProperty.ORIFICE, "TRACHEA");
         moStamina.put(eDriveProperty.PERSONALITY_PARAMETERS, fillPersonalityStamina(poPersonalityParameterContainer));
         moMapping.put("STAMINA", moStamina);
+        
+        HashMap<eDriveProperty, Object> moHealth = new HashMap<eDriveProperty,Object>();
+        moHealth.put(eDriveProperty.ORGAN, "HEALTH");
+        moHealth.put(eDriveProperty.ORIFICE, "TRACHEA");
+        moHealth.put(eDriveProperty.PERSONALITY_PARAMETERS, fillPersonalityStamina(poPersonalityParameterContainer));
+        moMapping.put("HEALTH", moHealth);
         
     }
     
@@ -789,7 +796,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 			//Special HEALTH
 			if(oEntry.getKey() == "HEALTH")
 			{
-				rEntryTension /= 100;
+				rEntryTension = 1 - (rEntryTension / 100);
 			}
 			
 			//Special STOMACH

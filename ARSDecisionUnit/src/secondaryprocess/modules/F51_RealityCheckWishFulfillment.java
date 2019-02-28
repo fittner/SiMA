@@ -272,7 +272,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
         //1. Remove non reachable goals
         ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_OUT);
         moReachableGoalList_OUT = GoalHandlingFunctionality.removeNonReachableGoals(moReachableGoalList_OUT, this.moShortTimeMemory);
-        logFim.info("REMOVED_UNREACHABLE_GOALS:");
+        //logFim.info("REMOVED_UNREACHABLE_GOALS:");
 		log.info("Provided selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		log.info("Provided continued goals: {}", PrintTools.printArrayListWithLineBreaks(this.moDecisionEngine.getContinuedGoals(moReachableGoalList_OUT)));
 		log.info("Provided plan goal: {}", this.moDecisionEngine.getPlanGoal(moReachableGoalList_OUT));

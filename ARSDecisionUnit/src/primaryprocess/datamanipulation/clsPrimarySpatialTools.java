@@ -134,8 +134,8 @@ public class clsPrimarySpatialTools {
         double rRetValAc = 0;
         //Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
         //Only references in the array
-        logFim.info("PI: "+poPI);
-        logFim.info("RI: "+poRI);
+        //logFim.info("PI: "+poPI);
+        //logFim.info("RI: "+poRI);
         
         ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
         
@@ -189,7 +189,7 @@ public class clsPrimarySpatialTools {
                 rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
             }
         }
-        logFim.info("Distance Match: "+rRetVal);
+        //logFim.info("Distance Match: "+rRetVal);
         //=== Perform system tests ===//
         if (clsTester.getTester().isActivated()) {
             try {
@@ -224,17 +224,17 @@ public class clsPrimarySpatialTools {
             	}
             }
         }
-        logFim.info("Emotion PI: "+oEmotionPI);
-        logFim.info("Emotion RI: "+oEmotionRI);
+        //logFim.info("Emotion PI: "+oEmotionPI);
+        //logFim.info("Emotion RI: "+oEmotionRI);
         //get match value for the two emotions
         if(oEmotionPI != null && oEmotionRI != null) {
             rEmotionMatch = oEmotionPI.compareTo(oEmotionRI);
         }
         // Return Recognized Images in non proportional  aggregation with emotions
         
-        logFim.info("Emotion Match: "+rEmotionMatch);
+        //logFim.info("Emotion Match: "+rEmotionMatch);
         rRetVal = (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
-        logFim.info("PI-Match: "+rRetVal);
+        //logFim.info("PI-Match: "+rRetVal);
         return (rRetVal);
     }
     
@@ -800,7 +800,7 @@ public class clsPrimarySpatialTools {
 	        }
 	        
 	        rRetVal = rWeightSum/rNormalizefactor;
-	        logFim.info("Distance Weight: "+rRetVal);
+	        //logFim.info("Distance Weight: "+rRetVal);
 	        
 	        return rRetVal;
 	    }

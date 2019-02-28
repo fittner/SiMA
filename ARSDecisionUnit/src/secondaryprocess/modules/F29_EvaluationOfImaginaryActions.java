@@ -84,7 +84,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     private static Logger moLearningLogger = clsLogger.getLog("Learning");
     private static Logger logFim = clsLogger.getLog("Fim");
     
-    public static ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
+    ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
     HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moArrayFeelingsInMomentsMap = new HashMap<>();
     ArrayList<clsWordPresentationMeshFeeling> moArrayFeelingsInMomentsArray = new ArrayList<>();
     HashMap<String, ArrayList<clsWordPresentationMeshFeeling>> moCurrentMoment = new HashMap<>();
@@ -324,6 +324,25 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             
         logger.clsLogger.getLog("EmotionRange").info("Emotion Match on plangoal: {}", planGoal.getFeelingsMatchImportance());
         
+        ArrayList<clsWordPresentationMeshFeeling> moFeeling_IN_F26_before = (ArrayList<clsWordPresentationMeshFeeling>) F26_DecisionMaking.moFeeling_IN.clone();
+        ArrayList<clsWordPresentationMeshFeeling> moFeeling_IN_F26 = new ArrayList<>();
+
+        for(clsWordPresentationMeshFeeling Feeling:moFeeling_IN_F26_before)
+        {
+            if (Feeling.getContent().toString().equals("ANXIETY"))
+            {
+                moFeeling_IN_F26.add(Feeling);
+            }
+        }
+        for(clsWordPresentationMeshFeeling Feeling:moFeeling_IN_F26_before)
+        {
+            if (!Feeling.getContent().toString().equals("ANXIETY"))
+            {
+                moFeeling_IN_F26.add(Feeling);
+            }
+        }
+        //ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
+        
         try {
             this.moDecisionEngine.declareGoalAsPlanGoal(planGoal);
         } catch (Exception e1) {
@@ -337,11 +356,11 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
         if (!moArrayFeelingsInMomentsMap.containsKey(oMoment.getContent()))
         {
-            for(int i=0; i < F26_DecisionMaking.moFeeling_IN.size(); i++)
+            for(int i=0; i < moFeeling_IN_F26.size(); i++)
             {
-                F26_DecisionMaking.moFeeling_IN.get(i).setCounter(1);
+                moFeeling_IN_F26.get(i).setCounter(1);
             }
-            moArrayFeelingsInMomentsMap.put(oMoment.getContent(), F26_DecisionMaking.moFeeling_IN);   
+            moArrayFeelingsInMomentsMap.put(oMoment.getContent(), moFeeling_IN_F26);   
         }
         else if(oMoment.isNullObject()==false)
         {
@@ -354,12 +373,16 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             
                     clsWordPresentationMeshFeeling oCurrentFeeling1 = null;
                     boolean found=false;
-                    for (clsWordPresentationMeshFeeling oCurrentFeeling : F26_DecisionMaking.moFeeling_IN)
+                    for (clsWordPresentationMeshFeeling oCurrentFeeling : moFeeling_IN_F26)
                     {
                         if(oOldFeeling.getContent().contentEquals(oCurrentFeeling.getContent()))
                         {
                             oOldFeeling.setCounter(oOldFeeling.getCounter()+1);
                             oOldFeeling.setIntensity(((oOldFeeling.getIntensity() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getIntensity())/oOldFeeling.getCounter()));
+                            oOldFeeling.setAggression((((oOldFeeling.getAggression() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getAggression())/oOldFeeling.getCounter())));
+                            oOldFeeling.setLibido((((oOldFeeling.getLibido() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getLibido())/oOldFeeling.getCounter())));
+                            oOldFeeling.setPleasure((((oOldFeeling.getPleasure() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getPleasure())/oOldFeeling.getCounter())));
+                            oOldFeeling.setUnpleasure((((oOldFeeling.getUnpleasure() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getUnpleasure())/oOldFeeling.getCounter())));
                             found = true;
                         }
                         oCurrentFeeling1 = oCurrentFeeling;
@@ -381,11 +404,11 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
         if (!moArrayFeelingsInMomentsMap.containsKey(oIntention.getContent()))
         {
-            for(int i=0; i < F26_DecisionMaking.moFeeling_IN.size(); i++)
+            for(int i=0; i < moFeeling_IN_F26.size(); i++)
             {
-                F26_DecisionMaking.moFeeling_IN.get(i).setCounter(1);
+                moFeeling_IN_F26.get(i).setCounter(1);
             }
-            moArrayFeelingsInMomentsMap.put(oIntention.getContent(), F26_DecisionMaking.moFeeling_IN);   
+            moArrayFeelingsInMomentsMap.put(oIntention.getContent(), moFeeling_IN_F26);   
         }
         else
         {
@@ -395,11 +418,15 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             for (clsWordPresentationMeshFeeling oOldFeeling : oOldFeelings) {
                 clsWordPresentationMeshFeeling oCurrentFeeling1 = null;
                 boolean found=false;
-                for (clsWordPresentationMeshFeeling oCurrentFeeling : F26_DecisionMaking.moFeeling_IN) {
+                for (clsWordPresentationMeshFeeling oCurrentFeeling : moFeeling_IN_F26) {
                     if(oOldFeeling.getContent().contentEquals(oCurrentFeeling.getContent()))
                     {
                         oOldFeeling.setCounter(oOldFeeling.getCounter()+1);
                         oOldFeeling.setIntensity(((oOldFeeling.getIntensity() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getIntensity())/oOldFeeling.getCounter()));
+                        oOldFeeling.setAggression((((oOldFeeling.getAggression() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getAggression())/oOldFeeling.getCounter())));
+                        oOldFeeling.setLibido((((oOldFeeling.getLibido() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getLibido())/oOldFeeling.getCounter())));
+                        oOldFeeling.setPleasure((((oOldFeeling.getPleasure() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getPleasure())/oOldFeeling.getCounter())));
+                        oOldFeeling.setUnpleasure((((oOldFeeling.getUnpleasure() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getUnpleasure())/oOldFeeling.getCounter())));
                         found = true;
                     }
                     oCurrentFeeling1 = oCurrentFeeling;
@@ -416,10 +443,34 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             }
             moArrayFeelingsInMomentsMap.put(oIntention.getContent(),oOldFeelings);
         }
-        logFim.info("moArrayFeelingsInMoments: "+moArrayFeelingsInMomentsMap.toString());
-        logFim.info("moArrayFeelingsInMoments: "+moArrayFeelingsInMoments.toString());
         
-        moArrayFeelingsInMoments.add("FEELINGS::" + F26_DecisionMaking.moFeeling_IN.toString());
+        //Better readable String
+        String ouput="";
+        for (String key :moArrayFeelingsInMomentsMap.keySet())
+        {
+            if(!(key.equals("NULLOBJECT")))
+            {   
+                ouput+= "\n";
+                for(int i = key.length()-1; i < 30;i++)
+                {
+                    ouput+=" ";    
+                }
+                ouput+= key+"=";
+                ouput+= moArrayFeelingsInMomentsMap.get(key);
+            }
+        }
+        log.info("moArrayFeelingsInMomentsMap: "+ouput);
+        log.info("moArrayFeelingsInMomentsMap: "+moArrayFeelingsInMomentsMap.toString());
+        
+        
+        //logFim.info("moArrayFeelingsInMoments: "+moArrayFeelingsInMomentsMap.toString());
+        //logFim.info("moArrayFeelingsInMoments: "+moArrayFeelingsInMoments.toString());
+        
+        moArrayFeelingsInMoments.add("FEELINGS::" + moFeeling_IN_F26.toString());
+        
+        log.info("moArrayFeelingsInMoments: "+moArrayFeelingsInMoments.toString());
+        
+        
         moLearningLogger.debug("\nLEARNING: {}",moArrayFeelingsInMomentsMap.toString());
         moCurrentMoment.put(oMoment.getContent(),moArrayFeelingsInMomentsMap.get(oMoment.getContent()));
         moCurrentMoment_String ="*** ACTUAL MOMENT ***\n";
@@ -445,7 +496,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         
         
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
-        log.info("\n+++++++++++++++++++++++++++++\n Feelings in Moments: " + moArrayFeelingsInMoments + "\n++++++++++++++++++++++++++++++");
+        //log.info("\n+++++++++++++++++++++++++++++\n Feelings in Moments: " + moArrayFeelingsInMoments + "\n++++++++++++++++++++++++++++++");
         log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: "
                 + planGoal.getSupportiveDataStructure().toString() + "\n==============================");
         this.moTEMPDecisionString = setDecisionString(planGoal);
@@ -516,8 +567,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
 //            ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue();
 
-        final Logger logFim = logger.clsLogger.getLog("Fim");
-        logFim.info("\n"+setDecisionString(planGoal));
+        //final Logger logFim = logger.clsLogger.getLog("Fim");
+        //logFim.info("\n"+setDecisionString(planGoal));
         // //=== TEST ONLY ONE ACTION === //
         // if (clsTester.getTester().isActivated()) {
         // try {

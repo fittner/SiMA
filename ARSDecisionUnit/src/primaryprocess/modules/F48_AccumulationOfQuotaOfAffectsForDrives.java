@@ -140,7 +140,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	        moOrificeMap.put(eDrive.RECTUM, eOrifice.RECTAL_MUCOSA);
 	        moOrificeMap.put(eDrive.STAMINA, eOrifice.TRACHEA);
 	        moOrificeMap.put(eDrive.STOMACH, eOrifice.ORAL_MUCOSA);
-	        moOrificeMap.put(eDrive.ANAL, eOrifice.RECTAL_MUCOSA);
+	        moOrificeMap.put(eDrive.HEALTH, eOrifice.TRACHEA);
+            moOrificeMap.put(eDrive.ANAL, eOrifice.RECTAL_MUCOSA);
 	        moOrificeMap.put(eDrive.ORAL, eOrifice.ORAL_MUCOSA);
 	        moOrificeMap.put(eDrive.PHALLIC, eOrifice.PHALLUS);
 	        moOrificeMap.put(eDrive.GENITAL, eOrifice.MALE_GENITAL);
@@ -152,6 +153,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
            moOrganMap.put(eDrive.STOMACH, eOrgan.STOMACH);
            moOrganMap.put(eDrive.RECTUM, eOrgan.RECTUM);
            moOrganMap.put(eDrive.STAMINA, eOrgan.STAMINA);
+           moOrganMap.put(eDrive.HEALTH, eOrgan.HEALTH);
            moOrganMap.put(eDrive.ANAL, eOrgan.LIBIDO);
            moOrganMap.put(eDrive.ORAL, eOrgan.LIBIDO);
            moOrganMap.put(eDrive.PHALLIC, eOrgan.LIBIDO);
@@ -165,6 +167,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
            moPartialDriveMapping.put(eDrive.STOMACH, ePartialDrive.UNDEFINED);
            moPartialDriveMapping.put(eDrive.RECTUM, ePartialDrive.UNDEFINED);
            moPartialDriveMapping.put(eDrive.STAMINA, ePartialDrive.UNDEFINED);
+           moPartialDriveMapping.put(eDrive.HEALTH, ePartialDrive.UNDEFINED);
            moPartialDriveMapping.put(eDrive.ANAL, ePartialDrive.ANAL);
            moPartialDriveMapping.put(eDrive.ORAL, ePartialDrive.ORAL);
            moPartialDriveMapping.put(eDrive.PHALLIC, ePartialDrive.PHALLIC);
@@ -291,8 +294,13 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		//add chart data for all drives:
 		for (clsDriveMesh oDriveMeshEntry : moAllDriveComponents_OUT )
 		{
-			//add some time chart data
+
+		    //add some time chart data
 			String oaKey = oDriveMeshEntry.getChartShortString();
+	         if(oDriveMeshEntry.getActualDriveSource().equals(eOrgan.HEALTH))
+	            {
+	                oaKey = oDriveMeshEntry.getChartShortString();
+	            }
 			if ( !moDriveChartData.containsKey(oaKey) ) {
 				mnChartColumnsChanged = true;
 			}
@@ -476,8 +484,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
         
         eOrgan oOrgan = moOrganMap.get(poDrive);
         eOrifice oOrifice = moOrificeMap.get(poDrive);
-       
-        
+                
         //create a TPM for the organ
         clsThingPresentationMesh oOrganTPM = 
             (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 

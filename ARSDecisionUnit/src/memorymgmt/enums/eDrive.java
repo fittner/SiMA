@@ -17,6 +17,7 @@ public enum eDrive {
     STOMACH,
     RECTUM,
     STAMINA,
+    HEALTH,
     
 	ORAL,
 	ANAL,

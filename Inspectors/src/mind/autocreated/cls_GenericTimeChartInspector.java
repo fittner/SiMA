@@ -129,6 +129,7 @@ public class cls_GenericTimeChartInspector extends cls_AbstractTimeChartInspecto
     	oColors.add(new Color(0, 0, 0));
     	oColors.add(new Color(0, 0, 0));
     	oColors.add(new Color(0, 0, 0));
+    	oColors.add(new Color(0, 0, 0));
         
         return oColors;
     }

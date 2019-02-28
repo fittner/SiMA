@@ -1419,6 +1419,25 @@ public abstract class clsDataStructureComparisonTools {
 				clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a;
 				//InstanceID has to be 0, in the search part, in order to compare the structure
 				//if (oSearchSpaceElement.getMoDSInstance_ID()==0) {
+				if(oSearchSpaceElement instanceof clsDriveMesh)
+				{
+					if (((clsDriveMesh)oSearchSpaceElement).getActualDriveSource() != null)
+					{
+						if (((clsDriveMesh)oSearchSpaceElement).getActualDriveSource().getContent().toString().equals("HEALTH"))
+						{
+							if(poDataStructureUnknown instanceof clsDriveMesh)
+							{
+								if (((clsDriveMesh)poDataStructureUnknown).getActualDriveSource() != null)
+								{
+									if (((clsDriveMesh)poDataStructureUnknown).getActualDriveSource().getContent().toString().equals("HEALTH"))
+									{
+										rMatchScore = 0.0;
+									}
+								}
+							}
+						}
+					}
+				}
 					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
 					if(rMatchScore > THRESHOLDMATCH){
 						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
