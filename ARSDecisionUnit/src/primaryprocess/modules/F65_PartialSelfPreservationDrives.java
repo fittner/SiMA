@@ -793,10 +793,18 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 			{
 				rEntryTension /= 7;
 			}
+			
+			if(oEntry.getKey() == "RECTUM" )
+            {
+                rEntryTension /= 1;
+            }
 			//Special HEALTH
 			if(oEntry.getKey() == "HEALTH")
 			{
-				rEntryTension = 1 - (rEntryTension / 100);
+				rEntryTension = (1 - (rEntryTension / 100)) * 6.0;
+				if(rEntryTension>1)
+				{ rEntryTension = 1;
+				}
 			}
 			
 			//Special STOMACH
@@ -815,7 +823,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 			//Special STAMINA
 			if(oEntry.getKey() == "STAMINA")
 			{
-				rEntryTension = 1-rEntryTension ;
+				rEntryTension = (1-rEntryTension)*2 ;
 			}
 			
 			

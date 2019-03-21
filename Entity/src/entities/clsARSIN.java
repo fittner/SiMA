@@ -405,7 +405,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		if(pfForce >= rBeatThreshold){
 			if(moBody instanceof clsComplexBody){
 				clsComplexBody oBody = (clsComplexBody) moBody;
-				oBody.getInternalSystem().getHealthSystem().hurt(pfForce * rHurtFactor);
+				oBody.getInternalSystem().getHealthSystem().hurt(pfForce * rHurtFactor* 0.1);
 				
 				
 			}

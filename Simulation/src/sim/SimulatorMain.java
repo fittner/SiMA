@@ -71,6 +71,9 @@ public class SimulatorMain extends GUIState {
     public static final String P_MAINWINDOWTITLE = "mainwindowtitle";
     /** turn logging to file on-off */
     public static final String P_USELOGGER = "useLogger";
+    /** turn system wide anti aliasing in inspectors on or off **/
+    public static final String P_ANTIALIASING_BASE_SETTING = "antialiasing_base_setting";
+
     /** filename of the system properties file. contains all the P_* params defined in this class. */
     
     public static final String  F_CONFIGFILENAME = "system.properties";
@@ -239,6 +242,8 @@ public class SimulatorMain extends GUIState {
 		moDisplay.attach(moTPMNodePortrayal, "TPM Node Portrayal");
 		
 		clsSingletonMasonGetter.setDisplay2D(moDisplay);
+		
+		clsSingletonProperties.setAntiAliasing(oProp.getPropertyBoolean(pre+P_ANTIALIASING_BASE_SETTING));
 		
 		// add another window for test
 		//Display2D test = new Display2D(300, 300,this, 22);

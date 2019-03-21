@@ -3618,7 +3618,7 @@
 	(sourceAggr 0.72)
 	(sourceLibid 0.21)
 	(sourcePleasure 0.22)
-	(sourceUnpleasure 0.51)
+	(sourceUnpleasure 0.16)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 

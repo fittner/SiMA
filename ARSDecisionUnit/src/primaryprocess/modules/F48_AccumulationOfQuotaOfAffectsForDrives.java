@@ -315,34 +315,34 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		}
 		moDriveChartData.put(olKey, mnCurrentPleasure);
 		
-		//now add chart for pleasure
-        olKey = "AGGR";
-        if ( !moDriveChartData.containsKey(olKey) ) {
-            mnChartColumnsChanged = true;
-        }
-        moDriveChartData.put(olKey, mnCurrentAggr);
-        
-        //now add chart for pleasure
-        olKey = "LIBIDO";
-        if ( !moDriveChartData.containsKey(olKey) ) {
-            mnChartColumnsChanged = true;
-        }
-        moDriveChartData.put(olKey, mnCurrentLibido);
-        
-        //now add chart for pleasure
-        olKey = "UNPLEASURE";
-        if ( !moDriveChartData.containsKey(olKey) ) {
-            mnChartColumnsChanged = true;
-        }
-        moDriveChartData.put(olKey, mnCurrentUnpleasure); 
-        
-        mnCurrentLearningIntensity = mnCurrentUnpleasure + mnCurrentPleasure;
-        //now add chart for pleasure
-        olKey = "LEARNING";
-        if ( !moDriveChartData.containsKey(olKey) ) {
-            mnChartColumnsChanged = true;
-        }
-        moDriveChartData.put(olKey, mnCurrentLearningIntensity);
+//		//now add chart for pleasure
+//        olKey = "AGGR";
+//        if ( !moDriveChartData.containsKey(olKey) ) {
+//            mnChartColumnsChanged = true;
+//        }
+//        moDriveChartData.put(olKey, mnCurrentAggr);
+//        
+//        //now add chart for pleasure
+//        olKey = "LIBIDO";
+//        if ( !moDriveChartData.containsKey(olKey) ) {
+//            mnChartColumnsChanged = true;
+//        }
+//        moDriveChartData.put(olKey, mnCurrentLibido);
+//        
+//        //now add chart for pleasure
+//        olKey = "UNPLEASURE";
+//        if ( !moDriveChartData.containsKey(olKey) ) {
+//            mnChartColumnsChanged = true;
+//        }
+//        moDriveChartData.put(olKey, mnCurrentUnpleasure); 
+//        
+//        mnCurrentLearningIntensity = mnCurrentUnpleasure + mnCurrentPleasure;
+//        //now add chart for pleasure
+//        olKey = "LEARNING";
+//        if ( !moDriveChartData.containsKey(olKey) ) {
+//            mnChartColumnsChanged = true;
+//        }
+//        moDriveChartData.put(olKey, mnCurrentLearningIntensity);
         
         moLearningIntensityBuffer = mnCurrentLearningIntensity; 
         
@@ -398,11 +398,16 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
             }
         }
         
-        olKey = "L.-.STOMACH_PLE_MAX";
-        if ( !moDriveChartData.containsKey(olKey) ) {
-            mnChartColumnsChanged = true;
-        }
-        moDriveChartData.put(olKey, mnCurrentMaxPleasureLiSto);
+//        olKey = "L.-.STOMACH_PLE_MAX";
+//        if ( !moDriveChartData.containsKey(olKey) ) {
+//            mnChartColumnsChanged = true;
+//        }
+//        moDriveChartData.put(olKey, mnCurrentMaxPleasureLiSto);
+        
+        moDriveChartData.remove("L.-.RECTUM");
+        moDriveChartData.remove("A.-.RECTUM");
+        moDriveChartData.put("A.-.RECTUM",0.0);
+        moDriveChartData.put("L.-.RECTUM",0.0);
         
 		ArrayList<clsDriveMesh> moAllDrivesLastStep;
 		
@@ -546,7 +551,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		//set the actual drive list to DT4, this automatically calculates the pleasure and this value can the be used everywhere
 		moPleasureStorage.receive_D4_1(moAllDriveComponents_OUT);
 		
-		mnPsychicIntensityPleasure = getMoPsychicIntensityStorage().calculatePleasureProduction();
+		//mnPsychicIntensityPleasure = getMoPsychicIntensityStorage().calculatePleasureProduction();
 	    
 	    mnCurrentPleasure = moPleasureStorage.send_D4_1() + mnPsychicIntensityPleasure;
 	    logger.clsLogger.getLog("NeutralizedIntensity").debug("ProcessPleasureCalculation::mnPsychicIntensityPleasure = " + Double.toString(mnPsychicIntensityPleasure));
