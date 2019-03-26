@@ -73,7 +73,7 @@ public class cls_GenericTimeChartInspector extends cls_AbstractTimeChartInspecto
     	moLowerLimit = new XYSeries("");
     	moLowerLimit.setMaximumItemCount(mnHistoryLength);
     	moLowerLimit.add(mnCurrentTime, mrLower);
-    	poDataset.addSeries(moLowerLimit);  
+    	//poDataset.addSeries(moLowerLimit);  
     }
     
     @Override
