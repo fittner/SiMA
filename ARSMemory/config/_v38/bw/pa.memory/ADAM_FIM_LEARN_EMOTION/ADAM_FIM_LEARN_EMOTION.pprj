@@ -1,58 +1,48 @@
-; Tue Mar 26 14:38:26 CET 2019
+; Tue Mar 26 15:08:42 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
 
-([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10111] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10112] of  String
-
-	(name "ANTENNA_LEFT")
-	(string_value "instance_association"))
-
-([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10113] of  String
+([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10114] of  String
+([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class11] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10115] of  String
+([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class12] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10116] of  Map_Entry
+([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class13] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10117] of  Map
+([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class14] of  Map
 )
 
-([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10118] of  Map_Entry
+([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class15] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10117")
+	(value "ADAM_FIM_LEARN_EMOTION_ProjectKB_Class14")
 	(value_class "java.util.Map"))
 
-([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10119] of  Map_Entry
+([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class16] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10120] of  Map_Entry
+([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class17] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
@@ -67,6 +57,16 @@
 
 ([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class7] of  Property_List
 )
+
+([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class8] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([ADAM_FIM_LEARN_EMOTION_ProjectKB_Class9] of  String
+
+	(name "ANTENNA_LEFT")
+	(string_value "instance_association"))
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
 
@@ -113,11 +113,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10111]
-		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10112]
-		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10113]
-		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10114]
-		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10115]))
+		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class8]
+		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class9]
+		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10]
+		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class11]
+		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class12]))
 
 ([CLSES_TAB] of  Widget
 
@@ -170,11 +170,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10116]
-		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10118]
-		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10119]
-		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10120])
-	(referenced_maps [ADAM_FIM_LEARN_EMOTION_ProjectKB_Class10117]))
+		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class13]
+		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class15]
+		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class16]
+		[ADAM_FIM_LEARN_EMOTION_ProjectKB_Class17])
+	(referenced_maps [ADAM_FIM_LEARN_EMOTION_ProjectKB_Class14]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -628,7 +628,7 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_987856_Class5] of  Map
+([KB_965779_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List

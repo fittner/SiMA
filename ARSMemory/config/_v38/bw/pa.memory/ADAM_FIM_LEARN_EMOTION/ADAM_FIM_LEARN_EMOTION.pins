@@ -1,4 +1,4 @@
-; Tue Mar 26 14:38:26 CET 2019
+; Tue Mar 26 15:08:42 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -4655,13 +4655,6 @@
 
 	(value "CARL"))
 
-([TPM%3AENTITY%3AMEAT%3ABASIC] of  MEAT
-
-	(class_association [TP%3ASENSOR_EXT%3AALIVE%3AFALSE])
-	(instance_association
-		[AA%3AMEAT_BASIC%3ASWEET]
-		[AA%3AMEAT_BASIC%3APINK]))
-
 ([TPM%3AENTITY%3ACAN%3ABASIC] of  CAN
 
 	(instance_association [AA%3ACAN_BASIC%3ACOLOR_BLUE]))
@@ -4677,6 +4670,13 @@
 ([TPM%3AENTITY%3AEMPTYSPACE01] of  EMPTYSPACE
 
 	(value "EMPTYSPACE"))
+
+([TPM%3AENTITY%3AMEAT%3ABASIC] of  MEAT
+
+	(class_association [TP%3ASENSOR_EXT%3AALIVE%3AFALSE])
+	(instance_association
+		[AA%3AMEAT_BASIC%3ASWEET]
+		[AA%3AMEAT_BASIC%3APINK]))
 
 ([TPM%3AENTITY%3APLANT] of  PLANT
 

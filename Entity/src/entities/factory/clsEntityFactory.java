@@ -21,7 +21,7 @@ import properties.clsProperties;
 import entities.clsARSIN;
 import entities.clsApple;
 import entities.clsAppleGreen;
-import entities.clsCake;
+import entities.clsMeat;
 import entities.clsCan;
 import entities.clsCarrot;
 import entities.clsFungus;
@@ -65,7 +65,7 @@ public class clsEntityFactory {
 		moEntities.put(eEntityType.HARE, clsHare.class);
 		moEntities.put(eEntityType.LYNX, clsLynx.class);
 		moEntities.put(eEntityType.CAN, clsCan.class);
-		moEntities.put(eEntityType.CAKE, clsCake.class);
+		moEntities.put(eEntityType.MEAT, clsMeat.class);
 		moEntities.put(eEntityType.APPLE, clsApple.class);
 		moEntities.put(eEntityType.TOMATO, clsTomato.class);
 		moEntities.put(eEntityType.STONE, clsStone.class);

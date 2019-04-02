@@ -38,7 +38,7 @@ public class TestDataCreator {
 		 */
 
 		// EAT CAKE
-		eEntity oEntity = eEntity.CAKE;
+		eEntity oEntity = eEntity.MEAT;
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.MOVE_FORWARD), new clsImage(eDistance.FAR, eDirection.CENTER, oEntity),
 		    new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
 
@@ -303,7 +303,7 @@ public class TestDataCreator {
 		 */
 
 		// EAT CAKE
-		eEntity oEntity = eEntity.CAKE;
+		eEntity oEntity = eEntity.MEAT;
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.EAT), new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity),
 		    new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), "EAT"));
 

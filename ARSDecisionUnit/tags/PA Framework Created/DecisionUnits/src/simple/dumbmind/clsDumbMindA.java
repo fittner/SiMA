@@ -76,7 +76,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		
 		for( clsVisionEntry oVisionObj : oVision.getList() ) {
 			
-				if( oVisionObj.mnEntityType == eEntityType.CAKE)
+				if( oVisionObj.mnEntityType == eEntityType.MEAT)
 				{
 
 					double rAngle = oVisionObj.moPolarcoordinate.moAzimuth.mrAlpha;
@@ -115,7 +115,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		if(oEatArea.mnNumEntitiesPresent > 0)
 		{
 
-				if( oEatArea.mnTypeOfFirstEntity == eEntityType.CAKE )
+				if( oEatArea.mnTypeOfFirstEntity == eEntityType.MEAT )
 				{
 						//clsEatAction oEatAction = new clsEatAction();
 						//poActionList.addEatAction(oEatAction);

@@ -45,14 +45,14 @@ import utils.exceptions.exFoodWeightBelowZero;
  * Jul 24, 2009, 10:15:27 PM
  * 
  */
-public class clsCake extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable, itfAPDivideable {
-	public static final String CONFIG_FILE_NAME ="cake.default.properties";
+public class clsMeat extends clsOrganic implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable, itfAPDivideable {
+	public static final String CONFIG_FILE_NAME ="meat.default.properties";
 	
 	private boolean mnDestroyed = false;
 	
 	public final clsProperties moCreationProperties;
 	
-	public clsCake(String poPrefix, clsProperties poProp, int uid)
+	public clsMeat(String poPrefix, clsProperties poProp, int uid)
     {
 		super(poPrefix, poProp, uid);		
 		applyProperties(poPrefix, poProp);
@@ -86,7 +86,7 @@ public class clsCake extends clsOrganic implements itfGetFlesh, itfAPEatable, it
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 6.0);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.pink);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "schnitzl.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "meat.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());	
 		
 	
@@ -124,7 +124,7 @@ public class clsCake extends clsOrganic implements itfGetFlesh, itfAPEatable, it
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.CAKE;
+		meEntityType = eEntityType.MEAT;
 		
 	}
 
@@ -202,7 +202,7 @@ public class clsCake extends clsOrganic implements itfGetFlesh, itfAPEatable, it
 	 */
 	@Override
 	public void devide(double pfSplitFactor){
-		clsCake oNewEntity= (clsCake)dublicate(moCreationProperties,0,pfSplitFactor);
+		clsMeat oNewEntity= (clsMeat)dublicate(moCreationProperties,0,pfSplitFactor);
 		double oActualWeight= getFlesh().getWeight();
 		try {
 			this.getFlesh().setWeight(oActualWeight*pfSplitFactor);

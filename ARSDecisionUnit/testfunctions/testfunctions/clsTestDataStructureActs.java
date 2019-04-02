@@ -55,13 +55,13 @@ public class clsTestDataStructureActs {
 	    for (clsWordPresentationMeshGoal oG : moReachableGoalList_IN) {
 	        eGoalType oGoalType = oG.getGoalSource();
 	        
-	        if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getContent().equals("CAKE")) {
+	        if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getContent().equals("MEAT")) {
 	            oReplaceList.add(oG);
 	            bPerceivedFound=true;
-	        } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getContent().equals("CAKE")) {
+	        } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getContent().equals("MEAT")) {
                 oReplaceList.add(oG);
                 bActFound=true;
-            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getContent().equals("CAKE")) {
+            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getContent().equals("MEAT")) {
                 oReplaceList.add(oG);
                 bDriveFound=true;
             }

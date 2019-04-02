@@ -1,4 +1,4 @@
-; Fri Nov 30 16:32:29 CET 2018
+; Fri Mar 22 15:34:44 CET 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3562,12 +3562,12 @@
 
 ([EMOTION%3AA14_FLEE_ADAM_L01_I02%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.36)
+	(emotionIntensity 0.42)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.97)
 	(sourceLibid 0.18)
 	(sourcePleasure 0.29)
-	(sourceUnpleasure 0.36)
+	(sourceUnpleasure 0.42)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 

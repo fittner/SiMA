@@ -409,7 +409,7 @@ public class clsTEMPPlannerAW {
 
 		ArrayList<clsPlanFragment> tempPlanningNodes = new ArrayList<clsPlanFragment>();
 		tempPlanningNodes.add(new clsPlanFragment(new clsAct(eAction.SEARCH1), new clsImage(eEntity.NONE), new clsImage(eDirection.CENTER, eDistance.NEAR,
-		    eEntity.CAKE)));
+		    eEntity.MEAT)));
 		oRetVal.addAll(copyPlanFragments(tempPlanningNodes));
 
 		return oRetVal;

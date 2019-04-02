@@ -110,7 +110,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     	case 65: //'A'
     		break;
     	case 69: //'E'
-    		eat(poActionProcessor, eEntityType.CAKE);
+    		eat(poActionProcessor, eEntityType.MEAT);
     		break;
     	case 107: // '+'
     		if(moPrevKeyPressed != 107){	// the '+' key has to be released 

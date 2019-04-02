@@ -72,8 +72,8 @@ public class clsInspectorMappingEntity {
 	    	else if( poEntity instanceof clsFungusEater) {
 	    		oRetVal.addInspector( new clsInspectorFungusEater(poSuperInspector, poWrapper, poState, (clsFungusEater)poEntity), "Fungus Eater");
 	    	}
-	    	else if( poEntity instanceof clsCake) {
-	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Cake");
+	    	else if( poEntity instanceof clsMeat) {
+	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Meat");
 	    	}
 	    	else if( poEntity instanceof clsCan) {
 	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Can");	    		

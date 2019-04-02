@@ -1054,13 +1054,13 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oDisplaceDriveObjectList.put("HARE","LYNX");	
 		oDisplaceDriveObjectList.put("LYNX","HARE");	
 		oDisplaceDriveObjectList.put("PLANT","FUNGUS_EATER");
-		oDisplaceDriveObjectList.put("CAKE","SCHNIZL");
+		oDisplaceDriveObjectList.put("MEAT","SCHNIZL");
 		oDisplaceDriveObjectList.put("FUNGUS_EATER","ANIMAL");
 		
 		
 		//INANIMATE
 		oDisplaceDriveObjectList.put("FUNGUS_EATER","ANIMAL");
-		oDisplaceDriveObjectList.put("BASE","CAKE"); 
+		oDisplaceDriveObjectList.put("BASE","MEAT"); 
 		oDisplaceDriveObjectList.put("CAN","BASE");
 		oDisplaceDriveObjectList.put("SCHNITZL","BASE");
 		oDisplaceDriveObjectList.put("STONE","WALL");
@@ -1068,7 +1068,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oDisplaceDriveObjectList.put("FOOD","STONE");
 		oDisplaceDriveObjectList.put("FUNGUS","CARROT");
 		oDisplaceDriveObjectList.put("URANIUM","SMARTEXCREMENT");
-		oDisplaceDriveObjectList.put("CARROT","CAKE");
+		oDisplaceDriveObjectList.put("CARROT","MEAT");
 		oDisplaceDriveObjectList.put("SMARTEXCREMENT","TOILET");
 		oDisplaceDriveObjectList.put("EXCREMENT","RECTANGLE_MOBILE");
 		oDisplaceDriveObjectList.put("TOILET","EXCREMENT");	
@@ -1099,7 +1099,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oDisplaceDriveObjectList.put("SHOCKRIFLE_WEAPON","SHOCKRIFLE_AMMO");
 		oDisplaceDriveObjectList.put("SHOCKRIFLE_AMMO","SNIPER_AMMO");
 		
-		oDisplaceDriveObjectList.put("BODO","CAKE");
+		oDisplaceDriveObjectList.put("BODO","MEAT");
 		
 		String oOriginalDOContent = poOriginalDM.getActualDriveObject().getContent();
 		

@@ -48,13 +48,13 @@ public class HackMethods {
         for (clsWordPresentationMeshGoal oG : moReachableGoalList_IN) {
             eGoalType oGoalType = oG.getGoalSource();
             
-            if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
+            if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getContent().equals("MEAT") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
                 oReplaceList.add(oG);
                 bPerceivedFound=true;
-            } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
+            } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getContent().equals("MEAT") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
                 oReplaceList.add(oG);
                 bActFound=true;
-            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
+            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getContent().equals("MEAT") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
                 oReplaceList.add(oG);
                 bDriveFound=true;
             }
@@ -130,15 +130,15 @@ public class HackMethods {
         }
     }
     
-    public static ArrayList<clsDriveMesh> JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE(ArrayList<clsDriveMesh> driveList_Input, itfModuleMemoryAccess memoryAccess) {
-        log.warn("HACKMETHOD JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE ACTIVATED");
+    public static ArrayList<clsDriveMesh> JACKBAUERHASHACKEDHERETOGETTHENOURISHMEATDRIVEASASINGLEDRIVE(ArrayList<clsDriveMesh> driveList_Input, itfModuleMemoryAccess memoryAccess) {
+        log.warn("HACKMETHOD JACKBAUERHASHACKEDHERETOGETTHENOURISHMEATDRIVEASASINGLEDRIVE ACTIVATED");
         //FIXME AW .::::::: FAKE Prepare Drive input
                 ArrayList<clsDriveMesh> oOnlyDriveMesh = new ArrayList<clsDriveMesh>();
                 for (clsDriveMesh oDM : driveList_Input) {
                     //if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
                         //Change to cake
                         
-                        clsThingPresentationMesh oTPM = memoryAccess.searchExactEntityFromInternalAttributes("CAKE", "CIRCLE", "FFAFAF");
+                        clsThingPresentationMesh oTPM = memoryAccess.searchExactEntityFromInternalAttributes("MEAT", "CIRCLE", "FFAFAF");
                         //clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CARROT", eShapeType.CIRCLE.toString(), "FFC800");
                         
                         

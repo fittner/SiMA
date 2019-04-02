@@ -58,7 +58,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;
 
 	private ArrayList<String> moCaptions = new ArrayList<String>(Arrays.asList(
-			"V_ARSIN","V_CAKE","V_CAN","V_CARROT","V_EXCREMENT","V_PLANT","V_REMOTEBOT",
+			"V_ARSIN","V_MEAT","V_CAN","V_CARROT","V_EXCREMENT","V_PLANT","V_REMOTEBOT",
 			"V_STONE","V_WALL","MAN_AREA","EAT_AREA","BUMP")); 
 
 	/**
