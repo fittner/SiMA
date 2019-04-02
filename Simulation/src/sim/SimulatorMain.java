@@ -232,6 +232,7 @@ public class SimulatorMain extends GUIState {
 		
 		// specify the backdrop color  -- what gets painted behind the displays
 		moDisplay.setBackdrop( oProp.getPropertyColor(pre+P_BACKGROUNDCOLOR) );
+
 		moDisplayGamegridFrame.setVisible( !mbHideGui );
 		moDisplay.attach(moGameGridPortrayal, oProp.getPropertyString(pre+P_PORTRAYALTITLE) ); //attach the Portrayal to the Display2D to display it 
 		
