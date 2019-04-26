@@ -39,6 +39,7 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
@@ -145,12 +146,17 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	
 	private final Logger log = clsLogger.getLog("F" + P_MODULENUMBER);
 	
+	private clsShortTermMemoryMF moSTM_Learning;
+	
 	public F63_CompositionOfEmotions(String poPrefix,
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			DT4_PleasureStorage poPleasureStorage,
-			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
+			DT3_PsychicIntensityStorage poPsychicEnergyStorage,
+			clsShortTermMemoryMF poSTM_Learning,
+			clsPersonalityParameterContainer poPersonalityParameterContainer,
+			int pnUid)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, pnUid);
 		
@@ -179,6 +185,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         mrInfluenceCurrentDrives = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_DRIVEDEMAND_IMPACT_FACTOR).getParameterDouble();
         
         moLastEmotion = null;
+        
+        moSTM_Learning = poSTM_Learning;
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -367,6 +375,19 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         //Analysis logging
         clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F63_emotionContributors(oFromDrives, oFromPerceptionDrive, oFromPerceptionExperiences, oFromPerceptionBodystates, oFromMemorizedValuations);
         clsSingletonAnalysisAccessor.getAnalyzerForGroupId(getAgentIndex()).put_F63_basicEmotion(moTargetEmotion);
+	
+        for(clsEmotion oEmotion: moEmotions_OUT)
+        {
+            for(clsEmotion oEmotionSTM: moSTM_Learning.getEmotions())
+            {
+                if(oEmotionSTM.compareTo(oEmotion) > 0.9)
+                {
+                    moSTM_Learning.setEmotions(oEmotion);
+                }
+            }
+                
+        }
+        clsShortTermMemoryMF.addNewMoment(moSTM_Learning);
 	}
 	
 	/**

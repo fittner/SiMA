@@ -289,7 +289,7 @@
 ;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE])
 		(create-accessor read-write)))
 
-(defclass CAKE
+(defclass MEAT
 	(is-a TPM%3AENTITY)
 	(role concrete)
 	(multislot class_association
@@ -299,7 +299,7 @@
 		(create-accessor read-write))
 	(single-slot value
 		(type STRING)
-;+		(value "CAKE")
+;+		(value "MEAT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 

@@ -42,6 +42,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	private HashMap<eActivationType, Double> moCriterionWeights = new HashMap<eActivationType, Double>();
 	private HashMap<eActivationType, Double> moCriterionMaxValues = new HashMap<eActivationType, Double>();
 	private double mrCathexis;
+	private int mnActiveTime = 0;
+	private double mrWeightPI;
 	
 	/**
 	 * @author zeilinger
@@ -95,6 +97,30 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 		}
 	}
 	
+	   /**
+     * DOCUMENT (zeilinger) - insert description
+     *
+     * @author zeilinger
+     * 16.08.2010, 22:10:28
+     *
+     * @param poContent
+     */
+    public void setActiveTime() {
+        mnActiveTime++;
+    }
+    
+    /**
+     * DOCUMENT (zeilinger) - insert description
+     *
+     * @author zeilinger
+     * 16.08.2010, 22:10:28
+     *
+     * @param poContent
+     */
+    public int getmnActiveTime() {
+        return mnActiveTime;
+    }
+
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -496,26 +522,26 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 					oOverallActivation += moActivations.get(oActivationType) *1;
 					oOverallWeights += 1;
 				}
-				else if(oActivationType == eActivationType.EMBODIMENT_ACTIVATION) {
-					try{
-					    oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType);	
-					    oOverallWeights += moCriterionWeights.get(oActivationType);
-					}
-					catch(Exception e){
-					   // System.out.println("sad");
-					}
-				}
-				else
-				{
-                    try{
-                        oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType); 
-                        oOverallWeights += moCriterionWeights.get(oActivationType);
-                    }
-                    catch(Exception e){
-                       // System.out.println("sad");
-                    }
-				    
-				}
+//				else if(oActivationType == eActivationType.EMBODIMENT_ACTIVATION) {
+//					try{
+//					    oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType);	
+//					    oOverallWeights += moCriterionWeights.get(oActivationType);
+//					}
+//					catch(Exception e){
+//					   // System.out.println("sad");
+//					}
+//				}
+//				else
+//				{
+//                    try{
+//                        oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType); 
+//                        oOverallWeights += moCriterionWeights.get(oActivationType);
+//                    }
+//                    catch(Exception e){
+//                       // System.out.println("sad");
+//                    }
+//				    
+//				}
 			}
 			mrAggregatedActivationValue = oOverallActivation/oOverallWeights;
 		}
@@ -775,4 +801,22 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 		
 		return oResult; 
 	}
+
+    /**
+     * @since 25.04.2019 07:08:56
+     * 
+     * @return the mrWeightPI
+     */
+    public double getMrWeightPI() {
+        return mrWeightPI;
+    }
+
+    /**
+     * @since 25.04.2019 07:08:56
+     * 
+     * @param mrWeightPI the mrWeightPI to set
+     */
+    public void setMrWeightPI(double mrWeightPI) {
+        this.mrWeightPI = mrWeightPI;
+    }
 }

@@ -51,6 +51,7 @@ import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsPrimaryDataStructureContainer;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
@@ -131,6 +132,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     private double mrEmotionrecognitionPrimingLibido;
     private double mrEmotionrecognitionPrimingIntensity;
     
+    private clsShortTermMemoryMF moSTM_Learning;
+    
     //Kollmann: WORKAROUND: this is a helper instance that will hold a flat copy of the last used emotion state on the self
     //          It is a workaround for a bug in priming where the bodystate recognized on the self is, for some reason, not associated with
     //          an emotion - in that cases, use the last known emotion for priming
@@ -155,7 +158,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F14_ExternalPerception(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory, clsShortTermMemoryMF poSTM_Learning, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory, pnUid);
 		applyProperties(poPrefix, poProp);
 		
@@ -164,6 +167,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         mrEmotionrecognitionPrimingAggression =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_AGGRESSION).getParameterDouble();
         mrEmotionrecognitionPrimingLibido =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_LIBIDO).getParameterDouble();
         mrEmotionrecognitionPrimingIntensity =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_INTENSITY).getParameterDouble();
+        moSTM_Learning = poSTM_Learning;
 	}
 
 	/* (non-Javadoc)
@@ -182,8 +186,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		text += toText.mapToTEXT("§§§§§§§§§§§§3333333333moEnvironmentalData", moEnvironmentalData);
 		text += toText.mapToTEXT("moBodyData", moBodyData);
 		text += toText.listToTEXT("moCompleteThingPresentationMeshList", moCompleteThingPresentationMeshList);
-
-		text += "\n---------------------------------------------------------------------------------------------\n";
+		text += "--- this.moSTM_Learning.getLearningObjectsString() ----\n";
+		text += this.moSTM_Learning.getLearningObjectsString();
+		text += "---------------------------------------------------------------------------------------------\n";
 		text += "Search pattern:\n";
 		
 		for(clsThingPresentationMesh oPattern : moSearchPattern) {
@@ -434,6 +439,24 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 attachBodyPerceptionValuesToSelf(oEntity);
             }
             else continue;
+        }
+        boolean found=false;
+        for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList){
+            
+            for(clsThingPresentationMesh oLearningObject : this.moSTM_Learning.getLearningObjects()){
+                if(  oLearningObject.compareTo(oEntity) == 1.0)
+                {
+                    found=true;
+                    if(this.moSTM_Learning.getChangedMoment())
+                    {
+                        oLearningObject.setActiveTime();
+                    }
+                }
+            }
+            if(!found)
+            {
+                this.moSTM_Learning.setLearningObjects(oEntity);
+            }
         }
 	}
 	

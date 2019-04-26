@@ -64,6 +64,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
 	public String moBE = "NO";
 	private double learingIntensity;
+	private int mnActiveTime = 0;
+	private double mrQoAchange = 0.0;               //0-1
     
 	
 	//private clsThingPresentationMesh moDriveObject;	//Triebobjekt contenttype entity
@@ -558,6 +560,23 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		return oRetval;
 	}
 	
+	   //this is used for chart data short lables only!
+    public String getChartString(){
+        String oRetval = "";
+        
+        if(this.moDriveComponent==eDriveComponent.AGGRESSIVE){
+            oRetval += "AGGR.";
+        }
+        else if(this.moDriveComponent==eDriveComponent.LIBIDINOUS){
+            oRetval += "LIBI.";
+        }
+        
+        oRetval +=getPartialString(this.moPartialDrive)+".";
+        oRetval += this.getActualDriveSourceAsENUM();
+
+        return oRetval;
+    }
+	
 	private String getPartialShortString(ePartialDrive oPartialDrive){
 		String oRetVal = "-"; //aka UNDEFINED,
 		
@@ -577,6 +596,26 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		}
 		return oRetVal;
 	}
+	
+	   private String getPartialString(ePartialDrive oPartialDrive){
+	        String oRetVal = "-"; //aka UNDEFINED,
+	        
+	        switch (oPartialDrive){
+	        case ANAL:
+	            oRetVal = "ANAL";
+	            break;
+	        case ORAL:
+	            oRetVal = "ORAL";
+	            break;
+	        case PHALLIC:
+	            oRetVal = "PHALLIC";
+	            break;
+	        case GENITAL:
+	            oRetVal = "GENITAL";
+	            break;
+	        }
+	        return oRetVal;
+	    }
 	
 	
 	/**
@@ -1430,6 +1469,42 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
     public int hashCode() {
         // TODO (Kollmann) - Auto-generated method stub
         return moDS_ID;
+    }
+
+    /**
+     * @since 10.04.2019 16:01:42
+     * 
+     * @return the mnActiveTime
+     */
+    public int getActiveTime() {
+        return mnActiveTime;
+    }
+
+    /**
+     * @since 10.04.2019 16:01:42
+     * 
+     * @param mnActiveTime the mnActiveTime to set
+     */
+    public void setActiveTime() {
+        this.mnActiveTime++;
+    }
+
+    /**
+     * @since 10.04.2019 16:10:10
+     * 
+     * @return the mrQoAchange
+     */
+    public double getQoAchange() {
+        return mrQoAchange;
+    }
+
+    /**
+     * @since 10.04.2019 16:10:10
+     * 
+     * @param mrQoAchange the mrQoAchange to set
+     */
+    public void setQoAchange(double mrQoAchange) {
+        this.mrQoAchange = mrQoAchange;
     }
 }
 

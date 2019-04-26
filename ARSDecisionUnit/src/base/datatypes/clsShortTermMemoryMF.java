@@ -8,8 +8,10 @@
 package base.datatypes;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 
 import base.datatypes.helpstructures.clsPair;
+import memorymgmt.enums.eActivationType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 
 
@@ -25,17 +27,24 @@ public class clsShortTermMemoryMF {
     private double QoAactivation;
     private ArrayList<clsDriveMesh> DMs;
     public static ArrayList<clsPair<Integer, ArrayList<clsDriveMesh>>> snapshots = new ArrayList<clsPair<Integer, ArrayList<clsDriveMesh>>>();;
-    private static int Steps;
+    private static int Steps=0;
     private static int Moment;
-    private static int actMoment=0;    
-    private static int pevMoment=0;
+    private static int actMoment=0;
+    private static int MomentCnt=0;
+    private static int prevMoment=0;
     private static boolean changeMoment=false;
+    private static int moSTMMaxSize=5;
     
-    private static ArrayList<clsDriveMesh> LearningDMs;
-    private static ArrayList<clsDriveMesh> MemoryDMs;
-    private static ArrayList<clsDriveMesh> ChangedDMs;
-    private static boolean learning=false;
+    private ArrayList<clsDriveMesh> LearningPartDMs = new ArrayList<clsDriveMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningObjects = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningImage = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsDriveMesh> LearningDMs = new ArrayList<clsDriveMesh>();
+    private ArrayList<clsDriveMesh> MemoryDMs = new ArrayList<clsDriveMesh>();
+    private ArrayList<clsDriveMesh> ChangedDMsv = new ArrayList<clsDriveMesh>();
+    private ArrayList<clsEmotion> Emotions = new ArrayList<clsEmotion>();
+    private boolean learning=false;
     
+    public static ArrayList<clsPair<Integer, clsShortTermMemoryMF>> moShortTimeMemoryMF1;
 	/**
 	 * DOCUMENT (fittner)
 	 * 
@@ -48,6 +57,7 @@ public class clsShortTermMemoryMF {
 	 */
 	public clsShortTermMemoryMF(itfModuleMemoryAccess poLongTermMemory	) {
 	    QoAactivation = 0.0;
+	    moShortTimeMemoryMF1 = new ArrayList<clsPair<Integer, clsShortTermMemoryMF>>();
 	}
 	
     public double getActualQoAactivation()
@@ -72,166 +82,157 @@ public class clsShortTermMemoryMF {
     public static void setActualStep(int step)
     {
         Steps = step;
-        actMoment = step/10;
-        if(actMoment!=pevMoment)
+        actMoment = step%10;
+        if(actMoment==0)
         {
-            changeMoment = true;    
+            changeMoment = true;
+            if(step==0)
+            {
+                MomentCnt++;
+                changeMoment();
+            }
         }
         else
         {
             changeMoment = false;
         }
-        pevMoment=actMoment;
+
     }
     public static int getActualStep()
     {
         return Steps;
     }
     
+    public static void changeMoment()
+    {
+        // remove last Object
+        if(moShortTimeMemoryMF1.size()>=moSTMMaxSize)
+        {
+            int index=moSTMMaxSize-1;
+            
+            moShortTimeMemoryMF1.remove(index);
+            
+            for(; index > 0; index--)
+            {
+                moShortTimeMemoryMF1.add(index, moShortTimeMemoryMF1.get(index-1));
+            }
+        }
+    }
+    
+    public static void addNewMoment(clsShortTermMemoryMF Moment)
+    {
+        moShortTimeMemoryMF1.add(new clsPair<Integer, clsShortTermMemoryMF>(0, Moment));
+    }
+    
+    public void setLearningObjects(clsThingPresentationMesh TPM_Object)
+    {
+        LearningObjects.add(TPM_Object);
+    }
+    
+    public ArrayList<clsThingPresentationMesh> getLearningObjects()
+    {
+        return LearningObjects;
+    }
+    public String getLearningObjectsString()
+    {
+        String out="";
+        for(clsThingPresentationMesh LearningObject : LearningObjects)
+        {
+            out += LearningObject.getContent()+"::Act:"+LearningObject.getmnActiveTime()+"::Foc:"+LearningObject.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION)+"\n";
+        }
+        return out;
+    }
+    
+    public void setLearningPartDMs(clsDriveMesh PartDMs)
+    {
+        LearningPartDMs.add(PartDMs);
+    }
     
     public void setLearningDMs(clsDriveMesh DMs)
     {
-//        ArrayList<clsDriveMesh> poLerningCandidates = clsShortTermMemoryMF.getLearningDMs();
-//        if(  poLerningCandidates != null
-//          && (!poLerningCandidates.isEmpty())
-//          && clsShortTermMemoryMF.getLearning())
-//        {
-//            for (clsDriveMesh oLearningDM : poLerningCandidates) {
-//                
-//                ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-//                        new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-//                
-//                ArrayList<clsDriveMesh> poSearchPattern = new ArrayList<clsDriveMesh>();
-//                poSearchPattern.add(oLearningDM);
-//                
-//                // search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
-//                oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TPM, poSearchPattern);
-//                clsDriveMesh oMemoryDM = null;
-//                
-//                // get rSumSimilarDMsQoA to calculate cathexis (see below)
-//                for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
-//                    // for results of similar memory-DMs (should be various similar DMs)
-//                    for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
-//                        oMemoryDM = ((clsDriveMesh)oSearchPair.b.getMoDataStructure());
-//                        if (oMemoryDM.getContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)){
-//                            rSumSimilarDMsQoA += oMemoryDM.getQuotaOfAffect();
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        
-//        if(moAllDrivesXSteps!=null && !moAllDrivesXSteps.isEmpty() )
-//        {
-//            double nNewPleasureValue = 0.0;
-//            //go through the list of drives from last step, and calculate the pleasure out of the reduction
-//            int i=0;
-//            
-//            for( clsDriveMesh oOldDMEntry : moAllDrivesXSteps)
-//            {
-//                //find the drive from the list from last step
-//                for( clsDriveMesh oNewDMEntry : moAllDrivesActualStep)
-//                {
-//                    if(    oOldDMEntry.getActualDriveSourceAsENUM() == oNewDMEntry.getActualDriveSourceAsENUM()
-//                        && oOldDMEntry.getContentType() == oNewDMEntry.getContentType()
-//                        && oOldDMEntry.getPartialDrive() == oNewDMEntry.getPartialDrive()
-//                           // drive component have to be considered to
-//                        && oOldDMEntry.getDriveComponent() == oNewDMEntry.getDriveComponent()
-//                      )
-//                    {
-//                        //old drive is the same as the new one, found a match... calculate pleasure
-//                    
-//                        double mrQuotaOfAffect = oOldDMEntry.getQuotaOfAffect();
-//                        double tmpCalc = mrQuotaOfAffect - oNewDMEntry.getQuotaOfAffect();
-//                        
-//                        
-//                        //Pleasure cannot be negative
-//                        // If Pleasure is negativ --> No pleasure any more
-//                        if(tmpCalc < 0)
-//                        {
-//                            tmpCalc = 0;
-//                            moAllDrivesXSteps.get(i).setQuotaOfAffect(mrQuotaOfAffect);
-//                            moPleasure = moAllDrivesXSteps.get(i).getPleasureSumMax();
-//                            moPleasures.add(moAllDrivesXSteps.get(i).getPleasureSum());
-//                            if(!moAllDrivesXSteps.get(i).getRisingQoA())
-//                            {
-//                                moAllDrivesXSteps.get(i).setLearning();
-//                            }
-//                            else
-//                            {
-//                                moAllDrivesXSteps.get(i).resetLearning();
-//                            }
-//                            moAllDrivesXSteps.get(i).setRisingQoA();
-//                        }
-//                        
-//                        if(tmpCalc == 0)
-//                        {
-//                            moAllDrivesXSteps.get(i).setLearningCnt(moAllDrivesXSteps.get(i).getLearningCnt()+1);
-//                        }
-//                        else
-//                        {
-//                            moAllDrivesXSteps.get(i).resetLearning();
-//                            moAllDrivesXSteps.get(i).resetRisingQoA();
-//                            if(moAllDrivesXSteps.get(i).getLearningCnt() > 0)
-//                            {
-//                                moAllDrivesXSteps.get(i).setQuotaOfAffect(mrQuotaOfAffect);
-//                            }
-//                            moAllDrivesXSteps.get(i).setLearningCnt(0);
-//                            moAllDrivesXSteps.get(i).setPleasureSum(tmpCalc);
-//                        }
-//                        
-//                        if( moAllDrivesXSteps.get(i).getPleasureSum() > moAllDrivesXSteps.get(i).getPleasureSumMax())
-//                        {
-//                            moAllDrivesXSteps.get(i).setPleasureSumMax(moAllDrivesXSteps.get(i).getPleasureSum());
-//                        }
-//                        else if( moAllDrivesXSteps.get(i).getPleasureSum() < moAllDrivesXSteps.get(i).getPleasureSumMax())
-//                        {
-//                            tmpCalc = 0;
-//                        }
-//                        
-//                        //if (oDMEntryPleasure.getLearningCnt() > 5)
-//                        //{
-//                        //    
-//                        //}
-//                    }
-//                }
-//                moAllDrivesActualStep.get(i).setPleasureSumMax(moAllDrivesXSteps.get(i).getPleasureSumMax());
-//                i++;
-//            }
-//        }
-
+        LearningDMs.add(DMs);
     }
     
-    public static void setLearning()
+    public ArrayList<clsDriveMesh> getLearningPartDMs()
+    {
+        return LearningPartDMs;
+    }
+    
+    public ArrayList<clsDriveMesh> getLearningDMs()
+    {
+        return LearningDMs;
+    }
+    
+    public String getLearningDMsString()
+    {
+        String out="";
+        for(clsDriveMesh LearningObject : LearningPartDMs)
+        {
+//          out += LearningObject.getContent()+"::Act:"+LearningObject.getmnActiveTime()+"::Foc:"+LearningObject.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION)+"\n";
+            out += LearningObject.getChartString();
+            Formatter oDoubleFormatter = new Formatter();
+            out += "::QoA:"+oDoubleFormatter.format("%.2f",LearningObject.getQuotaOfAffect());
+            out += "::ActTime:"+LearningObject.getActiveTime()+"\n";
+        }
+        return out;
+    }
+    
+    public void setLearning()
     {
         learning = true;
     }
     
-    public static boolean getLearning()
+    public boolean getLearning()
     {
         return learning;
     }
     
-    public static void resetLearning()
+    public void resetLearning()
     {
         learning = false;
     }
     
-    public static ArrayList<clsDriveMesh> getLearningDMs()
+    public void setLearningImage(clsThingPresentationMesh TPM_Object)
     {
-        if(!snapshots.isEmpty())
-        {
-            LearningDMs = snapshots.get(snapshots.size()-1).b;
-        }
-
-        
-        return LearningDMs;
+        LearningImage.add(TPM_Object);
     }
     
+    public ArrayList<clsThingPresentationMesh> getLearningImage()
+    {
+        return LearningImage;
+    }
+    public String getLearningImagesString()
+    {
+        String out="";
+        for(clsThingPresentationMesh LearningImage : LearningImage)
+        {
+            out += LearningImage.getContent()+"::Act:"+LearningImage.getmnActiveTime()+"::Foc:"+LearningImage.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION)+"::Foc:"+LearningImage.getMrWeightPI()+"\n";
+        }
+        return out;
+    }
+    
+  
     public boolean getChangedMoment()
     {
         return changeMoment;
+    }
+
+    /**
+     * @since 25.04.2019 09:43:16
+     * 
+     * @return the emotions
+     */
+    public ArrayList<clsEmotion> getEmotions() {
+        return Emotions;
+    }
+
+    /**
+     * @since 25.04.2019 09:43:16
+     * 
+     * @param emotions the emotions to set
+     */
+    public void setEmotions(clsEmotion emotions) {
+        Emotions.add(emotions);
     }
 	
 }

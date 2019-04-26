@@ -68,6 +68,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moTimeChartData;
 	
+	private clsShortTermMemoryMF moSTM_Learning;
+	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
@@ -86,7 +88,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public F57_MemoryTracesForDrives(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+			itfModuleMemoryAccess poLongTermMemory, clsShortTermMemoryMF poSTM_Learning, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 			super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
 		applyProperties(poPrefix, poProp); 
@@ -98,6 +100,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		
 		moDrivesAndTraces_OUT = new  ArrayList<clsDriveMesh>();	//If no drive candidate is there, then it is initialized
 		moTimeChartData =  new HashMap<String, Double>(); //initialize charts
+		moSTM_Learning = poSTM_Learning;
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -248,6 +251,30 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		double rSumSimilarDMsQoA = 0;
 		double rQoA = 0;
 		
+        boolean found = false;
+        for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
+            
+            for(clsDriveMesh oLearningObject : this.moSTM_Learning.getLearningPartDMs()){
+                if(  oLearningObject.compareTo(oSimulatorDM) == 1.0)
+                {
+                    found=true;
+//                    if(this.moSTM_Learning.getChangedMoment())
+//                    {
+//                        oLearningObject.setActiveTime();
+//                    }
+                    if(oSimulatorDM.getQuotaOfAffect() != oLearningObject.getQuotaOfAffect())
+                    {
+                        oLearningObject.setQoAchange(oSimulatorDM.getQuotaOfAffect() - oLearningObject.getQuotaOfAffect());
+                    }
+                    oLearningObject.setQuotaOfAffect(oSimulatorDM.getQuotaOfAffect());
+                }
+            }
+            if(!found)
+            {
+                this.moSTM_Learning.setLearningPartDMs(oSimulatorDM);
+            }
+        }
+		
 	
 		// for each simulator-DM (should be 16 for now)
 		for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
@@ -377,14 +404,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				
 				
 		}
-
-				
-		
 		return oRetVal;
-		
 	}
-	
-
 	
 	/* (non-Javadoc)
 	 *

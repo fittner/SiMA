@@ -11,6 +11,7 @@ import java.util.List;
 
 import logger.clsLogger;
 import memorymgmt.enums.eAction;
+import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eCondition;
 import memorymgmt.enums.eContent;
 import memorymgmt.enums.eContentType;
@@ -23,6 +24,7 @@ import org.slf4j.Logger;
 import base.datatypes.clsAct;
 import base.datatypes.clsAssociationSecondary;
 import base.datatypes.clsDataStructurePA;
+import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
 import base.datatypes.clsWordPresentationMeshAimOfDrive;
 import base.datatypes.clsWordPresentationMeshFeeling;
@@ -243,7 +245,12 @@ public class GoalHandlingFunctionality {
             
             if(oRawDS instanceof clsWordPresentationMesh && !((clsWordPresentationMesh) oRawDS).getContent().equals("SELF")) {
                 oPerceivedEntities.add((clsWordPresentationMesh)oRawDS);
+                clsThingPresentationMesh oRawDS_TPM;
+                oRawDS_TPM = (clsThingPresentationMesh) ((clsWordPresentationMesh)oRawDS).getAssociationWPOfWPM().getAssociationElementB();
+                oRawDS_TPM.setCriterionActivationValue(eActivationType.FOCUS_ACTIVATION, 1.0);
             }
+           
+            
         }
         
         for(clsWordPresentationMeshPossibleGoal oGoal : poReachableGoals) {
@@ -267,6 +274,15 @@ public class GoalHandlingFunctionality {
                         log.error("Intention has a HASPART association that does not point to a WPM:\nIntention: {}\nAssociation:{}", oIntention, oRawDS);
                     }
                 }
+//                for(clsPair<clsWordPresentationMesh, clsWordPresentationMesh> oPair : oPairs) {
+//                    for(clsAssociationSecondary oEntityAssociation : clsAssociationSecondary.filterListByPredicate(poFocusedPerception.getInternalAssociatedContent(), ePredicate.HASPART))
+//                    {
+//                        if (oEntityAssociation.equals(oPair.a))
+//                        {
+//
+//                        }
+//                    }
+//                }
                 
                 nNumValidMatchings = 0;
                 

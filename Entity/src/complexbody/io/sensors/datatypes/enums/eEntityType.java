@@ -18,6 +18,7 @@ public enum eEntityType {
 	RECTANGLE,
 	CAN,
 	MEAT,
+	CAKE,
 	APPLE,
 	TOMATO,
 	SCHNITZL,

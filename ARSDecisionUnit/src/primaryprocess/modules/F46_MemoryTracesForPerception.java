@@ -13,7 +13,6 @@ import inspector.interfaces.itfGraphInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import memorymgmt.enums.eContent;
 import memorymgmt.enums.eContentType;
@@ -36,6 +35,7 @@ import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsPrimaryDataStructureContainer;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
@@ -104,6 +104,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	// so they can be used during spreading activation. After spreading activation, they need to be removed from the perceived image again - therefore
 	// we hold the references.
 	private ArrayList<clsThingPresentationMesh> moTempEntities = new ArrayList<>();
+	
+	private clsShortTermMemoryMF moSTM_Learning;
 
 	/* Module-Parameters */
 	
@@ -122,7 +124,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 */
 	public F46_MemoryTracesForPerception(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 	        SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory,
-	        clsEnvironmentalImageMemory poTempLocalizationStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+	        clsEnvironmentalImageMemory poTempLocalizationStorage, clsShortTermMemoryMF poSTM_Learning, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		
 		applyProperties(poPrefix, poProp);
@@ -131,6 +133,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		moTempLocalizationStorage = poTempLocalizationStorage;
 		moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();		//Set Input!=null
 		this.psychicSpreadingActivationMode=psychicSpreadingActivationMode.NONE;
+		moSTM_Learning = poSTM_Learning;
 	}
 	
 	/* (non-Javadoc)
@@ -152,9 +155,12 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		//text += toText.valueToTEXT("moEnhancedPerception", moEnhancedPerception);
 		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 		//text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
+		text += "---------------------------------------------------------------------------------------------\n";
+        text += this.moSTM_Learning.getLearningImagesString();
+        text += "---------------------------------------------------------------------------------------------\n";
 		
 		text += toText.listToTEXT("moTempLocalizationStorage", moTempLocalizationStorage.getMoShortTimeMemory());
-		
+        
 		return text;
 	}		
 	
@@ -298,6 +304,36 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
+		
+        boolean found=false;
+        double return123;
+        ArrayList<clsAssociation> AssPris= new ArrayList<clsAssociation>();
+        AssPris = oPerceivedImage.getExternalAssociatedContent();
+        
+        for(clsAssociation AssPri : AssPris)
+        {
+            if(AssPri instanceof clsAssociationPrimary)
+            {
+                clsThingPresentationMesh AssImage;
+                AssImage = (clsThingPresentationMesh)AssPri.getTheOtherElement(oPerceivedImage);
+                AssImage.setMrWeightPI(AssPri.getMrWeight());
+                for(clsThingPresentationMesh oLearningObject : this.moSTM_Learning.getLearningImage()){
+                    if(  oLearningObject.compareTo(AssImage) == 1.0)
+                    {
+                        found=true;
+                        if(this.moSTM_Learning.getChangedMoment())
+                        {
+                            oLearningObject.setActiveTime();
+                        }
+                        oLearningObject.setMrWeightPI((oLearningObject.getMrWeightPI() + AssImage.getMrWeightPI())/2);
+                    }
+                }
+                if(!found)
+                {
+                    this.moSTM_Learning.setLearningImage(AssImage);
+                }
+            }
+        }
 	}
 
 	/* (non-Javadoc)

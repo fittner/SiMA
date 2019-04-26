@@ -161,7 +161,8 @@ public class clsSuperEgoRulesCheck {
                 nStelle = nListe;
                 String[] oSplitFileLine = oFileLine.split("#"); //Zeilenweise wird der String zuerst nach '#' geteilt, weil mit '#' sind die Verbote definiert und diese behandele ich später
                 String[] oLineConditions = oSplitFileLine[0].split(";"); //Bis zum ersten '#' = [0] sind Bedingungen und wird nach Regelwerken/Syntax bearbeitet
-                
+                // File: SuperEgoRules_EC2
+                // SuperEgoSuperEgoStrength 1,0;eEmotionType ANGER;QoA 0.1 0.99#eEmotionType ANGER
                 String[] oSuperEgo = oLineConditions[0].split(" ");
                 double nSuperEgo;
                 if (oSuperEgo[0].equalsIgnoreCase("SuperEgoStrength")) {

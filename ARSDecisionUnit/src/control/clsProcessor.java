@@ -256,7 +256,8 @@ public class clsProcessor implements itfProcessor  {
 	    }
 	    moPsyApp.moLibidoBuffer.saveOld();
 	    
-		moPsyApp.moF01_SensorsMetabolism.step();
+	    moPsyApp.moF90_Learning.step();
+        moPsyApp.moF01_SensorsMetabolism.step();
 		moPsyApp.moF02_NeurosymbolizationOfNeeds.step();
 
 		moPsyApp.moF10_SensorsEnvironment.step();
@@ -286,7 +287,7 @@ public class clsProcessor implements itfProcessor  {
 
 		
 		moPsyApp.moF57_MemoryTracesForDrives.step(); 
-		moPsyApp.moF90_LearningQoA.step(); 
+		 
         		
 		//perception to memory and repression
 		moPsyApp.moF14_ExternalPerception.step();

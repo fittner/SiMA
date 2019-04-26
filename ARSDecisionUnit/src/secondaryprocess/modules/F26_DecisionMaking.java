@@ -354,15 +354,15 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
             {
                 tmpObject = ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB());
                 aggregatedActivationValue = ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue();
-                embodimentActivationValue = ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION);
+                embodimentActivationValue = ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION);
                 
-                log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i, tmpObject, aggregatedActivationValue);
+                log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i, tmpObject, aggregatedActivationValue+embodimentActivationValue);
                 //log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i, moReachableGoalList_IN.get(i).getGoalObject(),((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
             
             }
             if(!arrayObj.containsKey(tmpObject)) {
-                arrayObj.put(tmpObject, aggregatedActivationValue);
-                arrayObjPair.add(new clsPair<Double, clsThingPresentationMesh>(aggregatedActivationValue, tmpObject));
+                arrayObj.put(tmpObject, aggregatedActivationValue+embodimentActivationValue);
+                arrayObjPair.add(new clsPair<Double, clsThingPresentationMesh>(aggregatedActivationValue+embodimentActivationValue, tmpObject));
             }
 
             // .getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue());

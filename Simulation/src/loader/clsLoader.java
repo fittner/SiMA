@@ -35,7 +35,7 @@ public abstract class clsLoader {
 	public static final String P_SHORTDESC = "short_description";
 	/** a long version of what is this setup all about */
 	public static final String P_DESCRIPTION = "description";
-	/** url to a website. e.g. http://ars.ict.tuwien.ac.at */
+	/** url to a website. e.g. http://sima.ict.tuwien.ac.at */
 	public static final String P_LINK = "url";
 	/** icon/picture that represents the setup */
 	public static final String P_IMAGE = "image";
@@ -148,7 +148,7 @@ public abstract class clsLoader {
 		oProp.setProperty(pre+P_LOADER_TYPE, eLoader.UNDEFINED.name());
 		oProp.setProperty(pre+P_LOADER_VERSION, -1);
 		
-		oProp.setProperty(pre+P_LINK, "http://ars.ict.tuwien.ac.at");
+		oProp.setProperty(pre+P_LINK, "http://sima.ict.tuwien.ac.at");
 		
 		return oProp;
 	}    

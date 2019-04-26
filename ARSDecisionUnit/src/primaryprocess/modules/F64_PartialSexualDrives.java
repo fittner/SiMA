@@ -31,6 +31,7 @@ import modules.interfaces.I3_3_send;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.enums.eDriveComponent;
@@ -94,6 +95,8 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 
 	private HashMap<String, Double> moDriveChartData;
 	
+	private clsShortTermMemoryMF moSTM_Learning;
+	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
@@ -111,6 +114,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			DT1_PsychicIntensityBuffer poLibidoBuffer,
+			clsShortTermMemoryMF poSTM_Learning,
 			clsPersonalityParameterContainer poPersonalityParameterContainer,
 			DT4_PleasureStorage poPleasureStorage, int pnUid)
 			throws Exception {
@@ -141,6 +145,8 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
         moPersonalitySplitFactors.put("PHALLIC", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERSONALITY_SPLIT_PHALLIC).getParameterDouble());
         
 		moDriveChartData = new HashMap<String,Double>();
+		
+		moSTM_Learning = poSTM_Learning;
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -178,6 +184,9 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		text += "Libido Input: " + moLibidoInput + "\n";
 		text += toText.mapToTEXT("Erogenous Zones Input", moErogenousZones_IN);
 		text += toText.listToTEXT("Drives_OUT", moOutput);
+		text += "--- this.moSTM_Learning.getLearningDMsString() ----\n";
+        text += this.moSTM_Learning.getLearningDMsString();
+        text += "---------------------------------------------------------------------------------------------\n";
 		return text;
 	}
 
@@ -310,10 +319,35 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 			if ( !moDriveChartData .containsKey(oaKey) ) {
 				mnChartColumnsChanged = true;
 			}
-			moDriveChartData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
-			
+			moDriveChartData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());
 		}
 		
+        boolean found=false;
+        double return123;
+        for(clsDriveMesh oEntity : moOutput)
+        {
+            for(clsDriveMesh oLearningObject : this.moSTM_Learning.getLearningPartDMs()){
+                if(  oLearningObject.compareTo(oEntity) == 1.0)
+                {
+                    found=true;
+                    if(this.moSTM_Learning.getChangedMoment())
+                    {
+                        oLearningObject.setActiveTime();
+                    }
+                }
+                else
+                {
+                    if(oEntity.getChartShortString() == oLearningObject.getChartShortString())
+                    {
+                        return123 = oLearningObject.compareTo(oEntity);
+                    }
+                }
+            }
+            if(!found)
+            {
+                this.moSTM_Learning.setLearningPartDMs(oEntity);
+            }
+        }
 	}
 	
 	

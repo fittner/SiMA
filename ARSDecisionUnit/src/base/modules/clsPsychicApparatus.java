@@ -44,9 +44,10 @@ import primaryprocess.modules.F63_CompositionOfEmotions;
 import primaryprocess.modules.F64_PartialSexualDrives;
 import primaryprocess.modules.F65_PartialSelfPreservationDrives;
 import primaryprocess.modules.F71_CompositionOfExtendedEmotion;
-import primaryprocess.modules.F90_LearningQoA;
+import primaryprocess.modules.F90_Learning;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsWordPresentationMeshMentalSituation;
 import base.datatypes.helpstructures.clsPair;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -106,6 +107,7 @@ public class clsPsychicApparatus {
 	public static final String P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME="default.properties";
 	public static final String P_DEFAULT_PERSONALITY_PARAMETER_DEFAULT_FILE_NAME="default.properties";
 	
+	public F01_SensorsMetabolism moF90_SensorsMetabolism;
 	public F01_SensorsMetabolism moF01_SensorsMetabolism;
 	public F02_NeurosymbolizationOfNeeds moF02_NeurosymbolizationOfNeeds;
 	//public F03_GenerationOfSelfPreservationDrives moF03_GenerationOfSelfPreservationDrives;
@@ -136,7 +138,7 @@ public class clsPsychicApparatus {
 	public F40_NeurosymbolizationOfLibido moF40_NeurosymbolizationOfLibido;
 	public F48_AccumulationOfQuotaOfAffectsForDrives moF48_AccumulationOfQuotaOfAffectsForDrives;
 	public F57_MemoryTracesForDrives moF57_MemoryTracesForDrives;
-	public F90_LearningQoA moF90_LearningQoA;
+	public F90_Learning moF90_Learning;
     public F49_PrimalRepressionForDrives moF49_PrimalRepressionForDrives;
 	public F54_EmersionOfBlockedDriveContent moF54_EmersionOfBlockedDriveContent;
 	public F56_Desexualization_Neutralization moF56_Desexualization_Neutralization;
@@ -192,6 +194,9 @@ public class clsPsychicApparatus {
 	/** (wendt) This is a temporary localization storage, which will save the last perceived objects for some steps; @since 15.11.2011 14:36:56 */
 	public clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
+	/** (wendt) This is a temporary localization storage, which will save the last perceived objects for some steps; @since 15.11.2011 14:36:56 */
+    public clsShortTermMemoryMF moSTM_Learning;
+    
 	/** List of the currently transfered data via the interfaces. Has to be refilled each round at each send_I?_? method manually!; @since 13.07.2011 17:49:33 */
 	public SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData;
 	/** List of the modules defined above. Needed for references within them.; @since 13.07.2011 17:49:56 */
@@ -243,7 +248,8 @@ public class clsPsychicApparatus {
 		moShortTimeMemory = new clsShortTermMemory<clsWordPresentationMeshMentalSituation>(60, 7, clsWordPresentationMeshMentalSituation.getNullObject());
 		moEnvironmentalImageStorage = new clsEnvironmentalImageMemory(4, 30);	//Memorize 3 turns, 30 entities
 		moConceptMemory = new clsShortTermMemory<clsWordPresentationMeshMentalSituation>(60, 7, clsWordPresentationMeshMentalSituation.getNullObject());
-		
+		moSTM_Learning = new clsShortTermMemoryMF(poMemory);
+        
 		//Init codelethandler
 		moDecisionEngine = new DecisionEngine(moEnvironmentalImageStorage, moShortTimeMemory, moLibidoBuffer, new GoalInitiator());
 		//moCodeletHandler = new clsCodeletHandler(moEnvironmentalImageStorage, moShortTimeMemory);
@@ -325,7 +331,7 @@ public class clsPsychicApparatus {
 		oProp.putAll( F40_NeurosymbolizationOfLibido.getDefaultProperties( pre + F40_NeurosymbolizationOfLibido.P_MODULENUMBER ));
 		oProp.putAll( F48_AccumulationOfQuotaOfAffectsForDrives.getDefaultProperties( pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER ));
 		oProp.putAll( F57_MemoryTracesForDrives.getDefaultProperties( pre + F57_MemoryTracesForDrives.P_MODULENUMBER ));
-		oProp.putAll( F90_LearningQoA.getDefaultProperties( pre + F90_LearningQoA.P_MODULENUMBER ));
+		oProp.putAll( F90_Learning.getDefaultProperties( pre + F90_Learning.P_MODULENUMBER ));
         oProp.putAll( F49_PrimalRepressionForDrives.getDefaultProperties( pre + F49_PrimalRepressionForDrives.P_MODULENUMBER ));
 		oProp.putAll( F54_EmersionOfBlockedDriveContent.getDefaultProperties( pre +  F54_EmersionOfBlockedDriveContent.P_MODULENUMBER ));
 		oProp.putAll( F56_Desexualization_Neutralization.getDefaultProperties( pre + F56_Desexualization_Neutralization.P_MODULENUMBER ));
@@ -383,7 +389,7 @@ public class clsPsychicApparatus {
 			moF11_NeuroSymbolizationEnvironment = new F11_NeuroSymbolizationEnvironment(pre + F11_NeuroSymbolizationEnvironment.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moF12_SensorsBody = new F12_SensorsBody(pre + F12_SensorsBody.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moF13_NeuroSymbolizationBody = new F13_NeuroSymbolizationBody(pre + F13_NeuroSymbolizationBody.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
-            moF14_ExternalPerception = new F14_ExternalPerception(pre + F14_ExternalPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer, uid); //koller
+            moF14_ExternalPerception = new F14_ExternalPerception(pre + F14_ExternalPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moSTM_Learning, moPersonalityParameterContainer, uid); //koller
 			moF18_CompositionOfAffectsForPerception = new F18_CompositionOfQuotaOfAffectsForPerception(pre + F18_CompositionOfQuotaOfAffectsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moF19_DefenseMechanismsForPerception = new F19_DefenseMechanismsForPerception(pre + F19_DefenseMechanismsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage, moLongTermMemory, moPersonalityParameterContainer, uid);
 			
@@ -392,7 +398,7 @@ public class clsPsychicApparatus {
 			//-------------------
 			
 			moF21_ConversionToSecondaryProcessForPerception = new F21_ConversionToSecondaryProcessForPerception(pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moEnvironmentalImageStorage, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
-			moF23_ExternalPerception_focused = new F23_ExternalPerception_focused(pre + F23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
+			moF23_ExternalPerception_focused = new F23_ExternalPerception_focused(pre + F23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moSTM_Learning, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
 			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moDecisionEngine, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
 			moF26_DecisionMaking = new F26_DecisionMaking(pre + F26_DecisionMaking.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moDecisionEngine, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
 			moF29_EvaluationOfImaginaryActions = new F29_EvaluationOfImaginaryActions(pre + F29_EvaluationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moDecisionEngine, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
@@ -405,8 +411,8 @@ public class clsPsychicApparatus {
 			moF39_SeekingSystem_LibidoSource = new F39_SeekingSystem_LibidoSource(pre + F39_SeekingSystem_LibidoSource.P_MODULENUMBER, poProp, moModules, moInterfaceData,  moPersonalityParameterContainer, uid);
 			moF40_NeurosymbolizationOfLibido = new F40_NeurosymbolizationOfLibido(pre + F40_NeurosymbolizationOfLibido.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moF48_AccumulationOfQuotaOfAffectsForDrives = new F48_AccumulationOfQuotaOfAffectsForDrives(pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moLibidoBuffer, moPersonalityParameterContainer, moPsychicEnergyStorage, uid);
-			moF57_MemoryTracesForDrives = new F57_MemoryTracesForDrives(pre + F57_MemoryTracesForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer, uid);
-			moF90_LearningQoA = new F90_LearningQoA(pre + F90_LearningQoA.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer, uid);
+			moF57_MemoryTracesForDrives = new F57_MemoryTracesForDrives(pre + F57_MemoryTracesForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moSTM_Learning, moPersonalityParameterContainer, uid);
+			moF90_Learning = new F90_Learning(pre + F90_Learning.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moSTM_Learning, moPersonalityParameterContainer, uid);
             moF49_PrimalRepressionForDrives = new F49_PrimalRepressionForDrives(pre + F49_PrimalRepressionForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer, uid);
 			moF54_EmersionOfBlockedDriveContent = new F54_EmersionOfBlockedDriveContent(pre + F54_EmersionOfBlockedDriveContent.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moF56_Desexualization_Neutralization = new F56_Desexualization_Neutralization(pre + F56_Desexualization_Neutralization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
@@ -414,11 +420,11 @@ public class clsPsychicApparatus {
 			moF07_SuperEgoReactive = new F07_SuperEgoReactive(pre + F07_SuperEgoReactive.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
 			moF52_GenerationOfImaginaryActions = new F52_GenerationOfImaginaryActions(pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moShortTimeMemory, moEnvironmentalImageStorage, moDecisionEngine, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
 			moF45_LibidoDischarge = new F45_DischargeOfPsychicIntensity(pre + F45_DischargeOfPsychicIntensity.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moLongTermMemory, moPersonalityParameterContainer, uid);
-			moF46_MemoryTracesForPerception = new F46_MemoryTracesForPerception(pre + F46_MemoryTracesForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moEnvironmentalImageStorage, moPersonalityParameterContainer, uid);
+			moF46_MemoryTracesForPerception = new F46_MemoryTracesForPerception(pre + F46_MemoryTracesForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moEnvironmentalImageStorage, moSTM_Learning, moPersonalityParameterContainer, uid);
 			moF47_ConversionToPrimaryProcess = new F47_ConversionToPrimaryProcess(pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData, moShortTimeMemory, uid);
-			moF63_CompositionOfEmotions = new F63_CompositionOfEmotions(pre + F63_CompositionOfEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
+			moF63_CompositionOfEmotions = new F63_CompositionOfEmotions(pre + F63_CompositionOfEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moPsychicEnergyStorage, moSTM_Learning, moPersonalityParameterContainer, uid);
 			moF61_Localization = new F61_Localization(pre + F61_Localization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, uid);
-			moF64_PartialSexualDrives = new F64_PartialSexualDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moPersonalityParameterContainer, moPleasureStorage, uid);
+			moF64_PartialSexualDrives = new F64_PartialSexualDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moSTM_Learning, moPersonalityParameterContainer, moPleasureStorage, uid);
 			moF65_PartialSelfPreservationDrives = new F65_PartialSelfPreservationDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer, moLibidoBuffer, moPleasureStorage, uid);
 			moF66_SpeechProduction = new F66_SpeechProduction(pre + F66_SpeechProduction.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, moConceptMemory, uid);
 			moF67_BodilyReactionOnEmotions =  new F67_BodilyReactionsOnEmotions(pre + F67_BodilyReactionsOnEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);

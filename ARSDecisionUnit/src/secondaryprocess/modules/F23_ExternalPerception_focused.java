@@ -7,6 +7,8 @@
 package secondaryprocess.modules;
 
 import general.datamanipulation.PrintTools;
+import base.datatypes.clsShortTermMemoryMF;
+import base.datatypes.clsThingPresentationMesh;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import java.util.SortedMap;
 
 import org.slf4j.Logger;
 
+import memorymgmt.enums.eActivationType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -72,6 +75,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	private ArrayList<clsWordPresentationMeshPossibleGoal> moReachableGoalList_OUT;
 	protected final static Logger logFim = logger.clsLogger.getLog("Fim");
 	private ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDrives;
+	private ArrayList<clsWordPresentationMesh> ActivatedObjects = new ArrayList<clsWordPresentationMesh>();
 	
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:35 */
 //	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
@@ -86,6 +90,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_OUT;
 	
 	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
+	private clsShortTermMemoryMF moSTM_Learning;
 	
 	/** As soon as DT3 is implemented, replace this variable and value */
 	private double mrConversionRateIntensityObjectsNumber = 10;
@@ -106,7 +111,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * @throws Exception
 	 */
 	public F23_ExternalPerception_focused(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsShortTermMemoryMF poSTM_Learning,
 			DT3_PsychicIntensityStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
@@ -120,7 +125,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		applyProperties(poPrefix, poProp);	
 		
 		//Get short time memory
-		moShortTimeMemory = poShortTimeMemory;		
+		moShortTimeMemory = poShortTimeMemory;
+		moSTM_Learning = poSTM_Learning;
 	}
 
 	/* (non-Javadoc)
@@ -140,7 +146,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
-		
+		text += toText.valueToTEXT("ActivatedObjects:", ActivatedObjects);
 		return text;
 	}	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -294,8 +300,28 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
             
         }
         
+        if(!oFocusOnGoalList.isEmpty())
+        {
+            oAction = ShortTermMemoryFunctionality.extractPreviousPlannedActionFromSTM(this.moShortTimeMemory);
+        }
+        
         double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
-		
+      
+        ArrayList<clsThingPresentationMesh> STM_Objects = this.moSTM_Learning.getLearningObjects();
+        for(clsThingPresentationMesh STM_Object:STM_Objects)
+        {
+            for(clsPair<Double, clsWordPresentationMesh> oFocusOnGoal:oFocusOnGoalList)
+            {
+                if(  STM_Object.getContent().equals(oFocusOnGoal.b.getContent())
+                  && oFocusOnGoal.b.getContent() != "EMPTYSPACE"
+                  )
+                {
+                    STM_Object.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION);
+                    STM_Object.setCriterionActivationValue(eActivationType.FOCUS_ACTIVATION, STM_Object.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION) + 1.0);
+                }
+            }
+            
+        }
 		//=== Filter the perception === // 
         // We assume that there is a conversion rate that allows to translate psychic intensity to a number of allowed objects to be perceived.
 		int nNumberOfAllowedObjects = (int) Math.round(mrConversionRateIntensityObjectsNumber*rReceivedPsychicEnergy);	
