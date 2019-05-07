@@ -43,7 +43,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	private HashMap<eActivationType, Double> moCriterionMaxValues = new HashMap<eActivationType, Double>();
 	private double mrCathexis;
 	private int mnActiveTime = 0;
-	private double mrWeightPI;
+	private double mnLearningWeight = 0;
+    private double mrWeightPI;
 	
 	/**
 	 * @author zeilinger
@@ -105,8 +106,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
      *
      * @param poContent
      */
-    public void setActiveTime() {
-        mnActiveTime++;
+    public void setActiveTime(int ActiveTime) {
+        mnActiveTime=ActiveTime;
     }
     
     /**
@@ -117,7 +118,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
      *
      * @param poContent
      */
-    public int getmnActiveTime() {
+    public int getActiveTime() {
         return mnActiveTime;
     }
 
@@ -751,7 +752,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	@Override
 	public String toString() {
 		//Add by AW
-		String oResult = "";
+		String oResult = "\n";
 		if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.PHI)) {
 			//"::"+this.moDataStructureType+"::"; 
 		    oResult += this.moContentType + ":" + this.moContent;
@@ -818,5 +819,23 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
      */
     public void setMrWeightPI(double mrWeightPI) {
         this.mrWeightPI = mrWeightPI;
+    }
+
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @return the learningWeight
+     */
+    public double getLearningWeight() {
+        return mnLearningWeight;
+    }
+
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @param learningWeight the learningWeight to set
+     */
+    public void setLearningWeight(double learningWeight) {
+        mnLearningWeight = learningWeight;
     }
 }

@@ -269,6 +269,36 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
         return oEmotionDiff;
     }
 	
+	   /**
+     * DOCUMENT (Kollmann) - calculates the difference of two emotions as resulting emotion 
+     * 
+     * @author Kollmann
+     * 
+     * 27.02.2015, 00:00:00
+     * 
+     */
+    public clsEmotion merge(clsEmotion poEmotion) {
+        clsEmotion oEmotionDiff = null;
+        
+        //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a math of 0
+        if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {
+            switch(getContentType()) {
+            case MEMORIZEDEMOTION:
+            case BASICEMOTION:
+                oEmotionDiff = clsDataStructureGenerator.generateEMOTION(
+                    new clsTriple <eContentType, eEmotionType, Object>(
+                            getContentType(),
+                            getContent(),
+                            (getEmotionIntensity() + poEmotion.getEmotionIntensity())/2),
+                            (getSourcePleasure() + poEmotion.getSourcePleasure())/2,
+                            (getSourceUnpleasure() + poEmotion.getSourceUnpleasure())/2,
+                            (getSourceLibid() + poEmotion.getSourceLibid())/2,
+                            (getSourceAggr() + poEmotion.getSourceAggr())/2);
+            }
+        }
+        return oEmotionDiff;
+    }
+	
 	public void add(clsEmotion poEmotion) {
 	  //kollmann: emotions that are not of the same type (e.g. BASICEMOTION) and content (e.g. ANXIETY) always produce a math of 0
         if(getContentType().equals(poEmotion.getContentType()) && getContent().equals(poEmotion.getContent())) {

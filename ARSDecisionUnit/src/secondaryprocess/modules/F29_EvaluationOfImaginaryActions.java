@@ -43,6 +43,7 @@ import base.tools.ElementNotFoundException;
 import base.tools.clsSingletonAnalysisAccessor;
 import base.tools.toText;
 import memorymgmt.enums.eAction;
+import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eCondition;
 //import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eGoalType;
@@ -120,6 +121,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     public static clsWordPresentationMesh moAction;
     public static clsThingPresentationMesh moTPM_Action;
     public static clsThingPresentationMesh moTPM_Object;
+    
+    private clsShortTermMemoryMF moSTM_Learning;
 
     /**
      * DOCUMENT (perner) - insert description
@@ -134,6 +137,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     public F29_EvaluationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
             SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory,
             clsEnvironmentalImageMemory poTempLocalizationStorage, DecisionEngine decisionEngine, DT3_PsychicIntensityStorage poPsychicEnergyStorage,
+            clsShortTermMemoryMF poSTM_Learning,
             clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
         super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 
@@ -154,6 +158,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         this.moShortTermMemory = poShortTermMemory;
         this.moEnvironmentalImageStorage = poTempLocalizationStorage;
         this.moDecisionEngine = decisionEngine;
+        
+        moSTM_Learning = poSTM_Learning;
 
     }
 
@@ -474,6 +480,17 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         moLearningLogger.debug("\nLEARNING: {}",moArrayFeelingsInMomentsMap.toString());
         moCurrentMoment.put(oMoment.getContent(),moArrayFeelingsInMomentsMap.get(oMoment.getContent()));
         moCurrentMoment_String ="*** ACTUAL MOMENT ***\n";
+        
+        clsThingPresentationMesh oMomentTPM = clsMeshTools.getPrimaryDataStructureOfWPM(oMoment);
+        
+       for(clsThingPresentationMesh ImageSTM : this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImage())
+       {
+            if(  oMomentTPM.compareTo(ImageSTM) == 1.0)
+            {
+                    ImageSTM.setCriterionActivationValue(eActivationType.MOMENT_ACTIVATION, ImageSTM.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION) + 1.0);
+            }
+        }
+        
         ArrayList<clsWordPresentationMeshFeeling> List = moArrayFeelingsInMomentsMap.get(oMoment.getContent());
         moCurrentMoment_String += oMoment.getContent() +"\n";
         for(clsWordPresentationMeshFeeling ListElement:List)

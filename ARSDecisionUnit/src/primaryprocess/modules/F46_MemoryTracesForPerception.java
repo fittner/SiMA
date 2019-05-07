@@ -156,7 +156,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 		//text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
 		text += "---------------------------------------------------------------------------------------------\n";
-        text += this.moSTM_Learning.getLearningImagesString();
+        text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImagesString();
         text += "---------------------------------------------------------------------------------------------\n";
 		
 		text += toText.listToTEXT("moTempLocalizationStorage", moTempLocalizationStorage.getMoShortTimeMemory());
@@ -306,7 +306,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		}
 		
         boolean found=false;
-        double return123;
         ArrayList<clsAssociation> AssPris= new ArrayList<clsAssociation>();
         AssPris = oPerceivedImage.getExternalAssociatedContent();
         
@@ -317,20 +316,19 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
                 clsThingPresentationMesh AssImage;
                 AssImage = (clsThingPresentationMesh)AssPri.getTheOtherElement(oPerceivedImage);
                 AssImage.setMrWeightPI(AssPri.getMrWeight());
-                for(clsThingPresentationMesh oLearningObject : this.moSTM_Learning.getLearningImage()){
-                    if(  oLearningObject.compareTo(AssImage) == 1.0)
-                    {
-                        found=true;
-                        if(this.moSTM_Learning.getChangedMoment())
-                        {
-                            oLearningObject.setActiveTime();
-                        }
-                        oLearningObject.setMrWeightPI((oLearningObject.getMrWeightPI() + AssImage.getMrWeightPI())/2);
-                    }
-                }
-                if(!found)
+                this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningImage(AssImage);
+            }
+        }
+		for(clsThingPresentationMesh ImageOld : this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningImage())
+        {
+            for(clsThingPresentationMesh ImageNew : this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImage()){
+                if(  ImageNew.compareTo(ImageOld) == 1.0)
                 {
-                    this.moSTM_Learning.setLearningImage(AssImage);
+                    found=true;
+                    //if(this.moSTM_Learning.getChangedMoment())
+                    {
+                        ImageNew.setActiveTime(ImageOld.getActiveTime()+1);
+                    }
                 }
             }
         }

@@ -411,13 +411,6 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
         
 		ArrayList<clsDriveMesh> moAllDrivesLastStep;
 		
-		if(test.getChangedMoment())
-        {
-            test.setActualSnapShot(moDriveCanditates_OUT);
-        }
-        snapshot = test.getActualSnapShot();
-        log.info("\nFITTNER SNAPSHOT: {}",snapshot);
-		
 		log.debug("Generated Drives: \n"+loggingData.toString());
 	}
 	

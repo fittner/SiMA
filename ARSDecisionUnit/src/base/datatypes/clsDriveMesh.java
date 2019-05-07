@@ -1485,8 +1485,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
      * 
      * @param mnActiveTime the mnActiveTime to set
      */
-    public void setActiveTime() {
-        this.mnActiveTime++;
+    public void setActiveTime(int time) {
+        this.mnActiveTime += time;
     }
 
     /**

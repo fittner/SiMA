@@ -252,31 +252,30 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		double rQoA = 0;
 		
         boolean found = false;
-        for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
-            
-            for(clsDriveMesh oLearningObject : this.moSTM_Learning.getLearningPartDMs()){
-                if(  oLearningObject.compareTo(oSimulatorDM) == 1.0)
+        for (clsDriveMesh oSimulatorDM : poDriveCandidates)
+        {
+            this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningPartDMs(oSimulatorDM);
+        }
+		for(clsDriveMesh DMold : this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningPartDMs())
+        {
+            for(clsDriveMesh DMnew : this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningPartDMs()){
+                if(  DMnew.compareTo(DMold) > 0.0)
                 {
-                    found=true;
-//                    if(this.moSTM_Learning.getChangedMoment())
-//                    {
-//                        oLearningObject.setActiveTime();
-//                    }
-                    if(oSimulatorDM.getQuotaOfAffect() != oLearningObject.getQuotaOfAffect())
+                    DMnew.setActiveTime(DMold.getActiveTime()+1);
+                    if(DMnew.getQuotaOfAffect() != DMold.getQuotaOfAffect())
                     {
-                        oLearningObject.setQoAchange(oSimulatorDM.getQuotaOfAffect() - oLearningObject.getQuotaOfAffect());
+                        rQoA = DMnew.getQuotaOfAffect() - DMold.getQuotaOfAffect();
+                        DMnew.setQoAchange(rQoA);
+                        if (  (rQoA >  0.015)
+                           || (rQoA < -0.015))
+                        {
+                            found = true;
+                        }
                     }
-                    oLearningObject.setQuotaOfAffect(oSimulatorDM.getQuotaOfAffect());
                 }
             }
-            if(!found)
-            {
-                this.moSTM_Learning.setLearningPartDMs(oSimulatorDM);
-            }
         }
-		
-	
-		// for each simulator-DM (should be 16 for now)
+        // for each simulator-DM (should be 16 for now)
 		for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
 				
 			 	oDriveObject = null;

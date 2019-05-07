@@ -187,7 +187,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		text += toText.mapToTEXT("moBodyData", moBodyData);
 		text += toText.listToTEXT("moCompleteThingPresentationMeshList", moCompleteThingPresentationMeshList);
 		text += "--- this.moSTM_Learning.getLearningObjectsString() ----\n";
-		text += this.moSTM_Learning.getLearningObjectsString();
+		text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjectsString();
 		text += "---------------------------------------------------------------------------------------------\n";
 		text += "Search pattern:\n";
 		
@@ -442,20 +442,19 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         }
         boolean found=false;
         for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList){
-            
-            for(clsThingPresentationMesh oLearningObject : this.moSTM_Learning.getLearningObjects()){
+            this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningObjects(oEntity);
+        }
+        
+        for(clsThingPresentationMesh oEntity : this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningObjects())
+        {
+            for(clsThingPresentationMesh oLearningObject : this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects()){
                 if(  oLearningObject.compareTo(oEntity) == 1.0)
                 {
-                    found=true;
-                    if(this.moSTM_Learning.getChangedMoment())
+                    //if(this.moSTM_Learning.getChangedMoment())
                     {
-                        oLearningObject.setActiveTime();
+                        oLearningObject.setActiveTime(oEntity.getActiveTime()+1);
                     }
                 }
-            }
-            if(!found)
-            {
-                this.moSTM_Learning.setLearningObjects(oEntity);
             }
         }
 	}

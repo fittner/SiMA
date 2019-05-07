@@ -98,6 +98,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	
 	private final  DT3_PsychicIntensityStorage moPsychicEnergyStorage;
 	private static final double P_STRONGEST_GOAL_THRESHOLD = 0.8;
+	private ArrayList<clsPair<Double, clsWordPresentationMesh>> oFocusOnGoalListSTM = new ArrayList<clsPair<Double, clsWordPresentationMesh>>();
+    
 	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -307,21 +309,38 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
         
         double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
       
-        ArrayList<clsThingPresentationMesh> STM_Objects = this.moSTM_Learning.getLearningObjects();
+        ArrayList<clsThingPresentationMesh> STM_Objects = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects();
+        
+        if(this.moSTM_Learning.getChangedMoment())
+        {
+            oFocusOnGoalListSTM.clear();
+        }
+        if(oFocusOnGoalList.isEmpty())
+        {
+            oFocusOnGoalList = oFocusOnGoalListSTM;
+        }
+        else
+        {
+            if (oFocusOnGoalListSTM.isEmpty())
+            {
+                oFocusOnGoalListSTM = oFocusOnGoalList;            
+            }
+        }
+
+        
         for(clsThingPresentationMesh STM_Object:STM_Objects)
         {
             for(clsPair<Double, clsWordPresentationMesh> oFocusOnGoal:oFocusOnGoalList)
             {
                 if(  STM_Object.getContent().equals(oFocusOnGoal.b.getContent())
-                  && oFocusOnGoal.b.getContent() != "EMPTYSPACE"
+//                  && oFocusOnGoal.b.getContent() != "EMPTYSPACE"
                   )
                 {
-                    STM_Object.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION);
                     STM_Object.setCriterionActivationValue(eActivationType.FOCUS_ACTIVATION, STM_Object.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION) + 1.0);
                 }
             }
-            
         }
+             
 		//=== Filter the perception === // 
         // We assume that there is a conversion rate that allows to translate psychic intensity to a number of allowed objects to be perceived.
 		int nNumberOfAllowedObjects = (int) Math.round(mrConversionRateIntensityObjectsNumber*rReceivedPsychicEnergy);	

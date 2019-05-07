@@ -12,13 +12,21 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
+import memorymgmt.enums.eActivationType;
+import memorymgmt.enums.eContentType;
+import memorymgmt.enums.eDataType;
+import memorymgmt.enums.eEmotionType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import modules.interfaces.eInterfaces;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
+import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsDriveMesh;
+import base.datatypes.clsEmotion;
+import base.datatypes.clsShortTermMemoryEntry;
 import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
@@ -40,6 +48,8 @@ public class F90_Learning extends clsModuleBaseKB {
 	ArrayList<clsDriveMesh> moLearningLTM_DM = new ArrayList<clsDriveMesh>();
 	ArrayList<clsDriveMesh> moLearningLTMred_DM = new ArrayList<clsDriveMesh>();
 	private clsShortTermMemoryMF moSTM_Learning;
+	private clsShortTermMemoryEntry moLTM_Learning;
+	private clsShortTermMemoryEntry moSTM_LearningEntry;
 	/**
 	 * DOCUMENT (fittner) 
 	 * 
@@ -59,10 +69,12 @@ public class F90_Learning extends clsModuleBaseKB {
 			itfModuleMemoryAccess poLongTermMemory, 
 			clsShortTermMemoryMF poSTM_Learning,
 			clsPersonalityParameterContainer poPersonalityParameterContainer,
-			int pnUid) throws Exception {
+			int pnUid) throws Exception
+	{
 			super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
 		    applyProperties(poPrefix, poProp);
 		    moSTM_Learning = poSTM_Learning;
+		    moLTM_Learning = new clsShortTermMemoryEntry();
 	}
 	   
 	private void applyProperties(String poPrefix, clsProperties poProp)
@@ -107,9 +119,94 @@ public class F90_Learning extends clsModuleBaseKB {
 	protected void process_basic()
 	{
 	    // STM to LTM
-	    
 	    // STM new Step
 	    //moSTM_Learning.setActualStep(moSTM_Learning.getActualStep()+1);
+	    moSTM_LearningEntry = new clsShortTermMemoryEntry();
+        
+	    if(moSTM_Learning.moShortTermMemoryMF.size()==0)
+        {
+            moSTM_Learning.moShortTermMemoryMF.add(0,new clsShortTermMemoryEntry());
+        }
+	    if(moSTM_Learning.getChangedMoment())
+	    {   
+	        String moLTM_Learning1;
+	        for(clsThingPresentationMesh TPM_Object : moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImage())
+	        {
+	            double MomentActivation = TPM_Object.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION);
+	            double LearningIntensity = 1.0;
+	            double LearningWeight;
+	            LearningWeight = MomentActivation * LearningIntensity;
+	            
+	            clsThingPresentationMesh TPM_Object_LTM = null;
+	            try {
+                    TPM_Object_LTM = (clsThingPresentationMesh) TPM_Object.clone();
+                } catch (CloneNotSupportedException e) {
+                    // TODO (nocks) - Auto-generated catch block
+                    e.printStackTrace();
+                }
+	            if(LearningWeight > 0.1)
+	            {
+	                for(clsThingPresentationMesh Image:moLTM_Learning.getLearningImage())
+	                {
+	                    if(Image.compareTo(TPM_Object) == 1.0)
+	                    {
+	                        TPM_Object = Image;
+	                    }
+	                }
+	                if(LearningWeight > 1.0)
+	                {
+	                    LearningWeight = 1.0;
+	                }
+	                TPM_Object.setLearningWeight(LearningWeight);
+	                clsAssociation poAssociation;
+                    
+	                clsEmotion EmotionRI = null;
+                    for(clsAssociation Ass:TPM_Object.getExternalAssociatedContent())
+                    {
+                        if (Ass instanceof clsAssociationEmotion)
+                        {
+                            EmotionRI = (clsEmotion) Ass.getTheOtherElement(TPM_Object);
+                        }
+                    }
+	                
+	                clsEmotion Emotion =  moSTM_Learning.moShortTermMemoryMF.get(0).getEmotions().get(0);
+//	                TPM_Object.addExternalAssociation(new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONEMOTION, eContentType.ASSOCIATIONEMOTION), 
+//	                        Emotion, 
+//	                        TPM_Object));
+	                //Emotion.merge(EmotionRI);
+	                clsEmotion EmotionMerge;
+	                EmotionMerge = clsDataStructureGenerator.generateEMOTION(
+	                        new clsTriple <eContentType, eEmotionType, Object>(
+	                                Emotion.getContentType(),
+	                                Emotion.getContent(),
+	                                Emotion.getEmotionIntensity()),
+	                                (Emotion.getSourcePleasure() + EmotionRI.getSourcePleasure())/2,
+	                                (Emotion.getSourceUnpleasure() + EmotionRI.getSourceUnpleasure())/2,
+	                                (Emotion.getSourceLibid() + EmotionRI.getSourceLibid())/2,
+	                                (Emotion.getSourceAggr() + EmotionRI.getSourceAggr())/2);
+	                TPM_Object_LTM.addExternalAssociation(new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONEMOTION, eContentType.ASSOCIATIONEMOTION), 
+                            EmotionMerge, 
+                            TPM_Object_LTM));
+	                
+	                moLTM_Learning.setLearningImage(TPM_Object_LTM);
+	             }
+	        }
+	        moSTM_Learning.moShortTermMemoryMF.add(0,moSTM_LearningEntry);
+	    }
+	    else
+	    {
+	        moSTM_Learning.moShortTermMemoryMF.set(0,moSTM_LearningEntry);
+	    }
+
+	    // LTM load + Change from STM (new assoziations)
+	    //this.getLongTermMemory().searchCompleteMesh(poInput, pnLevel)
+	    // Image + Emotions
+	    
+	    // IMAGE + Emotions new
+	    //moSTM_Learning
+	    
+
+	    
 	}
 	
     /**

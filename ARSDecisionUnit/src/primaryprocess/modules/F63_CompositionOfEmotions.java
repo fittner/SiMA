@@ -39,6 +39,7 @@ import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationEmotion;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
+import base.datatypes.clsShortTermMemoryEntry;
 import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
@@ -245,6 +246,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
+	    
+	    clsShortTermMemoryEntry STMentry;
 		moEmotions_OUT = new ArrayList<clsEmotion>() ;
 		
 		
@@ -378,17 +381,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	
         for(clsEmotion oEmotion: moEmotions_OUT)
         {
-            for(clsEmotion oEmotionSTM: moSTM_Learning.getEmotions())
-            {
-                if(oEmotionSTM.compareTo(oEmotion) > 0.9)
-                {
-                    moSTM_Learning.setEmotions(oEmotion);
-                }
-            }
-                
+            moSTM_Learning.moShortTermMemoryMF.get(0).setEmotions(oEmotion);
         }
-        clsShortTermMemoryMF.addNewMoment(moSTM_Learning);
-	}
+    }
 	
 	/**
 	 * DOCUMENT - 

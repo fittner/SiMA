@@ -185,7 +185,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		text += toText.mapToTEXT("Erogenous Zones Input", moErogenousZones_IN);
 		text += toText.listToTEXT("Drives_OUT", moOutput);
 		text += "--- this.moSTM_Learning.getLearningDMsString() ----\n";
-        text += this.moSTM_Learning.getLearningDMsString();
+        text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMsString();
         text += "---------------------------------------------------------------------------------------------\n";
 		return text;
 	}
@@ -310,7 +310,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		moOutput.add(oLGDM);
 
 		log.debug("After procession F64: "+receive_D1_5().toString());
-		
+		this.moSTM_Learning.moShortTermMemoryMF.get(0).setStep(this.moSTM_Learning.getActualStep());
 		//add chart data for all drives:
 		for (clsDriveMesh oDriveMeshEntry : moOutput )
 		{
@@ -321,33 +321,12 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 			}
 			moDriveChartData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());
 		}
-		
-        boolean found=false;
-        double return123;
+       
         for(clsDriveMesh oEntity : moOutput)
         {
-            for(clsDriveMesh oLearningObject : this.moSTM_Learning.getLearningPartDMs()){
-                if(  oLearningObject.compareTo(oEntity) == 1.0)
-                {
-                    found=true;
-                    if(this.moSTM_Learning.getChangedMoment())
-                    {
-                        oLearningObject.setActiveTime();
-                    }
-                }
-                else
-                {
-                    if(oEntity.getChartShortString() == oLearningObject.getChartShortString())
-                    {
-                        return123 = oLearningObject.compareTo(oEntity);
-                    }
-                }
-            }
-            if(!found)
-            {
-                this.moSTM_Learning.setLearningPartDMs(oEntity);
-            }
+            this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningPartDMs(oEntity);
         }
+        log.debug(".");
 	}
 	
 	
