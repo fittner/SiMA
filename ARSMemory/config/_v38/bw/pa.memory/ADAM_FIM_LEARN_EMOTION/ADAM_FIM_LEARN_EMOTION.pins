@@ -1,4 +1,4 @@
-; Mon Apr 08 11:56:44 CEST 2019
+; Wed May 08 15:27:05 CEST 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3360,7 +3360,8 @@
 		[AD%3ADRIVEOBJECT%3AMEAT%3ASHARE_FOOD]
 		[AD%3AAIM%3AMEAT%3ASHARE_FOOD])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.04)
+	(psychic_satisfaction 0.2)
+	(quotaOfAffect 0.2)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3460,7 +3461,7 @@
 
 	(emotionIntensity 0.37)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.93)
+	(sourceAggr 0.24)
 	(sourceLibid 0.23)
 	(sourcePleasure 0.29)
 	(sourceUnpleasure 0.36)
@@ -3471,7 +3472,7 @@
 
 	(emotionIntensity 0.38)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.87)
+	(sourceAggr 0.24)
 	(sourceLibid 0.24)
 	(sourcePleasure 0.28)
 	(sourceUnpleasure 0.38)
@@ -3482,7 +3483,7 @@
 
 	(emotionIntensity 0.42)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.87)
+	(sourceAggr 0.24)
 	(sourceLibid 0.24)
 	(sourcePleasure 0.29)
 	(sourceUnpleasure 0.38)
@@ -3493,7 +3494,7 @@
 
 	(emotionIntensity 0.46)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.87)
+	(sourceAggr 0.24)
 	(sourceLibid 0.3)
 	(sourcePleasure 0.35)
 	(sourceUnpleasure 0.45)
@@ -3504,7 +3505,7 @@
 
 	(emotionIntensity 0.4)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.87)
+	(sourceAggr 0.24)
 	(sourceLibid 0.27)
 	(sourcePleasure 0.31)
 	(sourceUnpleasure 0.41)
@@ -3515,7 +3516,7 @@
 
 	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.87)
+	(sourceAggr 0.24)
 	(sourceLibid 0.25)
 	(sourcePleasure 0.29)
 	(sourceUnpleasure 0.39)
@@ -3526,7 +3527,7 @@
 
 	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.87)
+	(sourceAggr 0.24)
 	(sourceLibid 0.29)
 	(sourcePleasure 0.33)
 	(sourceUnpleasure 0.43)
@@ -3537,7 +3538,7 @@
 
 	(emotionIntensity 0.37)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.36)
+	(sourceAggr 0.24)
 	(sourceLibid 0.24)
 	(sourcePleasure 0.2)
 	(sourceUnpleasure 0.39)
@@ -3557,12 +3558,12 @@
 
 ([EMOTION%3AA10_DIVIDE_MEAT_L01_I10%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.14)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.12)
 	(sourceLibid 0.07)
 	(sourcePleasure 0.16)
-	(sourceUnpleasure 0.14)
+	(sourceUnpleasure 0.0)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3603,21 +3604,21 @@
 
 	(emotionIntensity 0.2)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.88)
-	(sourceLibid 0.14)
-	(sourcePleasure 0.2)
-	(sourceUnpleasure 0.2)
+	(sourceAggr 0.23)
+	(sourceLibid 0.13)
+	(sourcePleasure 0.24)
+	(sourceUnpleasure 0.37)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA12_EAT_MEAT_L01_I04%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.16)
+	(emotionIntensity 0.51)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.72)
-	(sourceLibid 0.21)
-	(sourcePleasure 0.22)
-	(sourceUnpleasure 0.55)
+	(sourceAggr 0.33)
+	(sourceLibid 0.16)
+	(sourcePleasure 0.23)
+	(sourceUnpleasure 0.51)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 

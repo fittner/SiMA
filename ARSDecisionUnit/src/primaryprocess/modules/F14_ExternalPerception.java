@@ -24,10 +24,12 @@ import memorymgmt.enums.eAction;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
+import memorymgmt.enums.eDrive;
 import memorymgmt.enums.eEmotionExpression;
 import memorymgmt.enums.eEntityExternalAttributes;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
+import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import memorymgmt.enums.eEmotionType;
 import modules.interfaces.I2_3_receive;
 import modules.interfaces.I2_4_receive;
@@ -146,6 +148,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     
     private ArrayList<clsThingPresentationMesh> oCurrentActions = new ArrayList<clsThingPresentationMesh>();
     
+    private DT1_PsychicIntensityBuffer moLibidoBuffer;
+    
 	/**
 	 * Constructor of F14, nothing unusual
 	 * 
@@ -158,7 +162,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F14_ExternalPerception(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory, clsShortTermMemoryMF poSTM_Learning, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT1_PsychicIntensityBuffer poLibidoBuffer, itfModuleMemoryAccess poMemory, clsShortTermMemoryMF poSTM_Learning, clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory, pnUid);
 		applyProperties(poPrefix, poProp);
 		
@@ -168,6 +172,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         mrEmotionrecognitionPrimingLibido =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_LIBIDO).getParameterDouble();
         mrEmotionrecognitionPrimingIntensity =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_INTENSITY).getParameterDouble();
         moSTM_Learning = poSTM_Learning;
+        moLibidoBuffer = poLibidoBuffer;
 	}
 
 	/* (non-Javadoc)
@@ -724,7 +729,30 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         // zhukova attributed ownership
         oOutputTPMs = determineObjectsOwnership(oOutputTPMs);
         determineActionsOfAnAgents(oOutputTPMs);
-        
+        if(!oOutputTPMs.isEmpty())
+        {
+            for(clsThingPresentationMesh oOutputTPM:oOutputTPMs)
+            {
+                if (oOutputTPM.getContentType().equals(eContentType.ACTION))
+                {
+                    if (  oOutputTPM.getContent() == "DIVIDE"
+                       || oOutputTPM.getContent() == "PICK_UP"
+                       || oOutputTPM.getContent() == "GIVE"
+                       || oOutputTPM.getContent() == "DROP"
+                       || oOutputTPM.getContent() == "SHARE_FOOD"
+                       )
+                    {
+                        moLibidoBuffer.receive_D1_3(eDrive.STOMACH,
+                                new clsPair<Double, Double>(1.0, 1.0));
+                    }
+                    else
+                    {
+                        moLibidoBuffer.receive_D1_3(eDrive.STOMACH,
+                                new clsPair<Double, Double>(0.0, 0.0));
+                    }
+                }
+            }
+        }
         
         return oOutputTPMs;
 	}

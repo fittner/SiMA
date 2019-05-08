@@ -8,6 +8,9 @@ package base.datatypes;
 
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
+
+import java.text.DecimalFormat;
+
 import base.datatypes.helpstructures.clsTriple;
 
 /** 
@@ -95,6 +98,42 @@ public class clsAssociationEmotion  extends clsAssociation{
 		//Element A is the emotion 
 		return (clsEmotion)moAssociationElementA; 
 	}
+	
+   @Override
+    public String toString(){
+        String oResult = "::"+this.moDataStructureType+"::";  
+        oResult += this.moDS_ID + ":" + this.moContentType + "|";
+        
+        oResult += associationToString("elementA:", moAssociationElementA);
+        if(moAssociationElementA instanceof clsEmotion)
+        {
+            ((clsEmotion)moAssociationElementA).getSourcePleasure();
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+            
+            oResult += " int: " + df.format(((clsEmotion)moAssociationElementA).getEmotionIntensity());
+            oResult += " U: " + df.format(((clsEmotion)moAssociationElementA).getSourceUnpleasure());
+            oResult += " A: "+ df.format(((clsEmotion)moAssociationElementA).getSourceAggr());
+            oResult += " L: "+ df.format(((clsEmotion)moAssociationElementA).getSourceLibid());
+            oResult += " P: "+ df.format(((clsEmotion)moAssociationElementA).getSourcePleasure());
+        }
+        oResult += ":"; 
+        oResult += associationToString("elementB:", moAssociationElementB);
+        if(moAssociationElementB instanceof clsEmotion)
+        {
+            ((clsEmotion)moAssociationElementB).getSourcePleasure();
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+            
+            oResult += " int: " + df.format(((clsEmotion)moAssociationElementB).getEmotionIntensity());
+            oResult += " U: " + df.format(((clsEmotion)moAssociationElementB).getSourceUnpleasure());
+            oResult += " A: "+ df.format(((clsEmotion)moAssociationElementB).getSourceAggr());
+            oResult += " L: "+ df.format(((clsEmotion)moAssociationElementB).getSourceLibid());
+            oResult += " P: "+ df.format(((clsEmotion)moAssociationElementB).getSourcePleasure());
+        }
+        
+        return oResult; 
+    }
 }
 
 

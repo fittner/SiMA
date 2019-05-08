@@ -421,7 +421,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	
 	@Override
 	public String toString(){
-		String oResult = "::"+this.moDataStructureType+"::";
+		String oResult = "\n::"+this.moDataStructureType+"::";
 		oResult += this.moDS_ID + ":";
 		try{
 		//oResult += this.moContentType + ":";
@@ -448,15 +448,15 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 			log.error(e + "\n" + e.getStackTrace().toString());
 		}
 		
-		if(getContent().equals(eEmotionType.UNDEFINED))
-		{
-    		oResult += "\nEmotions with undefined type are normally used to create extended emotions.\nCurrent extended emotions:";
-    		for(clsEmotion oEmotion : generateExtendedEmotions()) {
-    		    if(!oEmotion.getContent().equals(eEmotionType.UNDEFINED)) {
-    		        oResult += "\n" + oEmotion.toString();
-    		    }
-    		}
-		}
+//		if(getContent().equals(eEmotionType.UNDEFINED))
+//		{
+//    		oResult += "\nEmotions with undefined type are normally used to create extended emotions.\nCurrent extended emotions:";
+//    		for(clsEmotion oEmotion : generateExtendedEmotions()) {
+//    		    if(!oEmotion.getContent().equals(eEmotionType.UNDEFINED)) {
+//    		        oResult += "\n" + oEmotion.toString();
+//    		    }
+//    		}
+//		}
 		
 		return oResult; 
 	}

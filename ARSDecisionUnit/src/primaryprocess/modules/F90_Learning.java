@@ -130,16 +130,18 @@ public class F90_Learning extends clsModuleBaseKB {
 	    if(moSTM_Learning.getChangedMoment())
 	    {   
 	        String moLTM_Learning1;
-	        for(clsThingPresentationMesh TPM_Object : moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImage())
+	        for(clsThingPresentationMesh STM_Image : moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImage())
 	        {
-	            double MomentActivation = TPM_Object.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION);
+	            double MomentActivation = STM_Image.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION);
 	            double LearningIntensity = 1.0;
+	            double TimeIntensity = 0.1;
+                
 	            double LearningWeight;
 	            LearningWeight = MomentActivation * LearningIntensity;
 	            
-	            clsThingPresentationMesh TPM_Object_LTM = null;
+	            clsThingPresentationMesh LTM_Image = null;
 	            try {
-                    TPM_Object_LTM = (clsThingPresentationMesh) TPM_Object.clone();
+                    LTM_Image = (clsThingPresentationMesh) STM_Image.clone();
                 } catch (CloneNotSupportedException e) {
                     // TODO (nocks) - Auto-generated catch block
                     e.printStackTrace();
@@ -148,25 +150,24 @@ public class F90_Learning extends clsModuleBaseKB {
 	            {
 	                for(clsThingPresentationMesh Image:moLTM_Learning.getLearningImage())
 	                {
-	                    if(Image.compareTo(TPM_Object) == 1.0)
+	                    if(Image.compareTo(STM_Image) == 1.0)
 	                    {
-	                        TPM_Object = Image;
+	                        STM_Image = Image;
 	                    }
 	                }
 	                if(LearningWeight > 1.0)
 	                {
 	                    LearningWeight = 1.0;
 	                }
-	                TPM_Object.setLearningWeight(LearningWeight);
-	                clsAssociation poAssociation;
-                    
+	                STM_Image.setLearningWeight(LearningWeight);
+	                
 	                clsEmotion EmotionRI = null;
-                    for(clsAssociation Ass:TPM_Object.getExternalAssociatedContent())
+                    for(clsAssociation Ass:STM_Image.getExternalAssociatedContent())
                     {
                         if (Ass instanceof clsAssociationEmotion)
                         {
-                            EmotionRI = (clsEmotion) Ass.getTheOtherElement(TPM_Object);
-                        }
+                            EmotionRI = (clsEmotion) Ass.getTheOtherElement(STM_Image);
+                        }    
                     }
 	                
 	                clsEmotion Emotion =  moSTM_Learning.moShortTermMemoryMF.get(0).getEmotions().get(0);
@@ -174,23 +175,94 @@ public class F90_Learning extends clsModuleBaseKB {
 //	                        Emotion, 
 //	                        TPM_Object));
 	                //Emotion.merge(EmotionRI);
+	                LTM_Image.addExternalAssociation(new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONEMOTION, eContentType.ASSOCIATIONEMOTION), 
+                            Emotion, 
+                            LTM_Image));
 	                clsEmotion EmotionMerge;
 	                EmotionMerge = clsDataStructureGenerator.generateEMOTION(
 	                        new clsTriple <eContentType, eEmotionType, Object>(
 	                                Emotion.getContentType(),
 	                                Emotion.getContent(),
 	                                Emotion.getEmotionIntensity()),
-	                                (Emotion.getSourcePleasure() + EmotionRI.getSourcePleasure())/2,
-	                                (Emotion.getSourceUnpleasure() + EmotionRI.getSourceUnpleasure())/2,
-	                                (Emotion.getSourceLibid() + EmotionRI.getSourceLibid())/2,
-	                                (Emotion.getSourceAggr() + EmotionRI.getSourceAggr())/2);
-	                TPM_Object_LTM.addExternalAssociation(new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONEMOTION, eContentType.ASSOCIATIONEMOTION), 
+	                                (EmotionRI.getSourcePleasure() + Emotion.getSourcePleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity),
+	                                (EmotionRI.getSourceUnpleasure() + Emotion.getSourceUnpleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity),
+	                                (EmotionRI.getSourceLibid() + Emotion.getSourceLibid()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity),
+	                                (EmotionRI.getSourceAggr() + Emotion.getSourceAggr()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity));
+	                LTM_Image.addExternalAssociation(new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONEMOTION, eContentType.ASSOCIATIONEMOTION), 
                             EmotionMerge, 
-                            TPM_Object_LTM));
+                            LTM_Image));
 	                
-	                moLTM_Learning.setLearningImage(TPM_Object_LTM);
+	                moLTM_Learning.setLearningImage(LTM_Image);
 	             }
 	        }
+	            
+            for(clsThingPresentationMesh TPM_Object : moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects())
+            {
+            
+                double ObjectWeight;
+                double LearningIntensity = 1.0;
+                double TimeIntensity = 0.1;
+                
+                clsThingPresentationMesh TPM_Object_LTM = null;
+                try {
+                    TPM_Object_LTM = (clsThingPresentationMesh) TPM_Object.clone();
+                } catch (CloneNotSupportedException e) {
+                    // TODO (nocks) - Auto-generated catch block
+                    e.printStackTrace();
+                }
+                
+                for(clsThingPresentationMesh Object:moLTM_Learning.getLearningObjects())
+                {
+                    if(Object.compareTo(TPM_Object) == 1.0)
+                    {
+                        TPM_Object = Object;
+                    }
+                }
+                
+                //TPM_Object.setLearningWeight(LearningWeight);
+                    
+                clsEmotion Emotion =  moSTM_Learning.moShortTermMemoryMF.get(0).getEmotions().get(0);
+//	                  TPM_Object.addExternalAssociation(new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONEMOTION, eContentType.ASSOCIATIONEMOTION), 
+//	                          Emotion, 
+//	                          TPM_Object));
+                    //Emotion.merge(EmotionRI);
+                clsEmotion EmotionRI = null;
+                for(clsAssociation Ass:TPM_Object.getExternalAssociatedContent())
+                {
+                    if (Ass instanceof clsAssociationEmotion)
+                    {
+                        EmotionRI = (clsEmotion) Ass.getTheOtherElement(TPM_Object);
+                    }    
+                }
+                
+                Emotion =  moSTM_Learning.moShortTermMemoryMF.get(0).getEmotions().get(0);
+//              TPM_Object.addExternalAssociation(new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONEMOTION, eContentType.ASSOCIATIONEMOTION), 
+//                      Emotion, 
+//                      TPM_Object));
+                //Emotion.merge(EmotionRI);
+                TPM_Object_LTM.addExternalAssociation(new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONEMOTION, eContentType.ASSOCIATIONEMOTION), 
+                        Emotion, 
+                        TPM_Object_LTM));
+                clsEmotion EmotionMerge;
+                if(EmotionRI != null)
+                {
+                EmotionMerge = clsDataStructureGenerator.generateEMOTION(
+                        new clsTriple <eContentType, eEmotionType, Object>(
+                                Emotion.getContentType(),
+                                Emotion.getContent(),
+                                Emotion.getEmotionIntensity()),
+                                (EmotionRI.getSourcePleasure() + Emotion.getSourcePleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity),
+                                (EmotionRI.getSourceUnpleasure() + Emotion.getSourceUnpleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity),
+                                (EmotionRI.getSourceLibid() + Emotion.getSourceLibid()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity),
+                                (EmotionRI.getSourceAggr() + Emotion.getSourceAggr()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity));
+                TPM_Object_LTM.addExternalAssociation(new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONEMOTION, eContentType.ASSOCIATIONEMOTION), 
+                        EmotionMerge, 
+                        TPM_Object_LTM));
+                }
+                
+                moLTM_Learning.setLearningObjects(TPM_Object_LTM);
+
+            }
 	        moSTM_Learning.moShortTermMemoryMF.add(0,moSTM_LearningEntry);
 	    }
 	    else
