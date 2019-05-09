@@ -126,7 +126,16 @@ public class GoalHandlingFunctionality {
                 }
                 
                 if (receivedPsychicIntensity>=goalsByExpectedFeelingThreshold && receivedPsychicIntensity < goalsByReservedFeelingThreshold){
+                    if(goal.getSupportiveDataStructure().getContent().equals("A12_EAT_MEAT_L01"))
+                    {
+                        double test = FeelingAlgorithmTools.evaluateGoalByExpectedFeelings(goal, currentFeelings);
+                        if (test > 0.00)
+                        {
+                            goalsByTriggeredFeelingThreshold = 0.00;
+                        }
+                    }
                     goal.setFeelingsExpactationImportance(prFeelingsMatchImpact * FeelingAlgorithmTools.evaluateGoalByExpectedFeelings(goal, currentFeelings));
+
                 }
                 
                 if (receivedPsychicIntensity>=goalsByReservedFeelingThreshold) {
