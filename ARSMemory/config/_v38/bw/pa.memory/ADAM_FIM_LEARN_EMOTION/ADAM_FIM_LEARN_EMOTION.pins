@@ -1,4 +1,4 @@
-; Thu May 09 10:56:27 CEST 2019
+; Thu May 09 11:43:40 CEST 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3613,12 +3613,12 @@
 
 ([EMOTION%3AA12_EAT_MEAT_L01_I04%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.51)
+	(emotionIntensity 0.16)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.33)
+	(sourceAggr 0.72)
 	(sourceLibid 0.16)
 	(sourcePleasure 0.23)
-	(sourceUnpleasure 0.51)
+	(sourceUnpleasure 0.16)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
