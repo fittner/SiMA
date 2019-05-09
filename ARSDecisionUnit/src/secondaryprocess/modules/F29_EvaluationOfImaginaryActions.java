@@ -274,6 +274,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * 
      * @see pa.modules.clsModuleBase#process()
      */
+    @SuppressWarnings("deprecation")
     @Override
     protected void process_basic()
     {
@@ -561,22 +562,28 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         moAction = moSelectableGoals.get(0).getAssociatedPlanAction();
         try
         {
-            for(int i=0;i< ((clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().size();i++)
+            if (  ( planGoal.getInternalAssociatedContent().size() > 0)
+               && !(((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).isNullObject())
+               )
             {
-                clsDriveMesh DM;
-                DM = (clsDriveMesh)((clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(i).getAssociationElementA();
-                String moActionString = moAction.getContent();
-                String moDMString = DM.getActualDriveAim().getContent();
-                if(moActionString == moDMString)
+                for(int i=0;i< ((clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().size();i++)
                 {
-                    moTPM_Action = DM.getActualDriveAim();
-                    moTPM_Object = (clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB();
-                }
-                else
-                {
-                    moActionString = null;
+                    clsDriveMesh DM;
+                    DM = (clsDriveMesh)((clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(i).getAssociationElementA();
+                    String moActionString = moAction.getContent();
+                    String moDMString = DM.getActualDriveAim().getContent();
+                    if(moActionString == moDMString)
+                    {
+                        moTPM_Action = DM.getActualDriveAim();
+                        moTPM_Object = (clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB();
+                    }
+                    else
+                    {
+                        moActionString = null;
+                    }
                 }
             }
+
         }
         catch (Exception e)
         {

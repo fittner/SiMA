@@ -21,7 +21,7 @@ import memorymgmt.shorttermmemory.clsShortTermMemory;
 
 import org.slf4j.Logger;
 
-import base.datatypes.clsAct;
+//import base.datatypes.clsAct;
 import base.datatypes.clsAssociationSecondary;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.clsThingPresentationMesh;
@@ -49,6 +49,7 @@ public class GoalHandlingFunctionality {
     private static Logger log = clsLogger.getLog("SecondaryProcessFunctionality");
     private static Logger moFeelingLog = clsLogger.getLog("Feelings");
     protected final static Logger logFim = logger.clsLogger.getLog("Fim");
+    private static int counter=0;
     
     
     
@@ -161,8 +162,34 @@ public class GoalHandlingFunctionality {
      * @param reachableGoalList
      * @param poRuleList
      */
-    public static void applySocialRulesOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, ArrayList<clsAct> poRuleList) {
+    public static void applySocialRulesOnReachableGoals(ArrayList<clsWordPresentationMeshPossibleGoal> reachableGoalList, String poRuleList) {
         //TODO FG and/or SSch!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // TODO FITTNER
+        for( clsWordPresentationMeshPossibleGoal reachableGoal:reachableGoalList)
+        {
+            if(reachableGoal.getSupportiveDataStructure().getContent().equals("A11_GET_DIVIDE_MEAT_L01"))
+            {
+                for( clsWordPresentationMeshPossibleGoal reachableGoal2:reachableGoalList)
+                {
+                    if(reachableGoal2.getSupportiveDataStructure().getContent().equals("A06_BEAT_ADAM_L01"))
+                    {
+                        if(poRuleList == "NO_DEVIDE")
+                        {
+                            reachableGoal2.setSocialRulesImportance(0.2);
+                        }
+                        else
+                        {
+                            counter++ ;
+                            if (counter >= 10)
+                            {   reachableGoal.setFeelingsExpactationImportance(0.01);
+                                reachableGoal.setDriveAimImportance(0.01);
+                                reachableGoal.setDriveDemandImportance(0.02);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     /**

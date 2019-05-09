@@ -1,4 +1,4 @@
-; Wed May 08 15:27:05 CEST 2019
+; Thu May 09 10:56:27 CEST 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3492,18 +3492,18 @@
 
 ([EMOTION%3AA10_DIVIDE_MEAT_L01_I04%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.46)
+	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.24)
-	(sourceLibid 0.3)
+	(sourceLibid 0.23)
 	(sourcePleasure 0.35)
-	(sourceUnpleasure 0.45)
+	(sourceUnpleasure 0.37)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_MEAT_L01_I05%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.4)
+	(emotionIntensity 0.29)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.24)
 	(sourceLibid 0.27)
@@ -3514,7 +3514,7 @@
 
 ([EMOTION%3AA10_DIVIDE_MEAT_L01_I06%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.41)
+	(emotionIntensity 0.28)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.24)
 	(sourceLibid 0.25)
@@ -3525,23 +3525,23 @@
 
 ([EMOTION%3AA10_DIVIDE_MEAT_L01_I07%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.41)
+	(emotionIntensity 0.48)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.24)
-	(sourceLibid 0.29)
-	(sourcePleasure 0.33)
-	(sourceUnpleasure 0.43)
+	(sourceAggr 0.26)
+	(sourceLibid 0.22)
+	(sourcePleasure 0.25)
+	(sourceUnpleasure 0.48)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AA10_DIVIDE_MEAT_L01_I08%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.37)
+	(emotionIntensity 0.49)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.24)
 	(sourceLibid 0.24)
-	(sourcePleasure 0.2)
-	(sourceUnpleasure 0.39)
+	(sourcePleasure 0.24)
+	(sourceUnpleasure 0.49)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 

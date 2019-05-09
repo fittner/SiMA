@@ -1,4 +1,4 @@
-; Tue May 07 07:04:42 CEST 2019
+; Thu May 09 09:31:01 CEST 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -45,56 +45,56 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BODO_FIM_LEARN_EMOTION_ProjectKB_Class10039] of  String
+([BODO_FIM_LEARN_EMOTION_ProjectKB_Class318] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([BODO_FIM_LEARN_EMOTION_ProjectKB_Class10040] of  String
+([BODO_FIM_LEARN_EMOTION_ProjectKB_Class319] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([BODO_FIM_LEARN_EMOTION_ProjectKB_Class10041] of  String
+([BODO_FIM_LEARN_EMOTION_ProjectKB_Class320] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([BODO_FIM_LEARN_EMOTION_ProjectKB_Class10042] of  String
+([BODO_FIM_LEARN_EMOTION_ProjectKB_Class321] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([BODO_FIM_LEARN_EMOTION_ProjectKB_Class10043] of  String
+([BODO_FIM_LEARN_EMOTION_ProjectKB_Class322] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BODO_FIM_LEARN_EMOTION_ProjectKB_Class10044] of  Map_Entry
+([BODO_FIM_LEARN_EMOTION_ProjectKB_Class323] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_FIM_LEARN_EMOTION_ProjectKB_Class10045] of  Map
+([BODO_FIM_LEARN_EMOTION_ProjectKB_Class324] of  Map
 )
 
-([BODO_FIM_LEARN_EMOTION_ProjectKB_Class10046] of  Map_Entry
+([BODO_FIM_LEARN_EMOTION_ProjectKB_Class325] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BODO_FIM_LEARN_EMOTION_ProjectKB_Class10045")
+	(value "BODO_FIM_LEARN_EMOTION_ProjectKB_Class324")
 	(value_class "java.util.Map"))
 
-([BODO_FIM_LEARN_EMOTION_ProjectKB_Class10047] of  Map_Entry
+([BODO_FIM_LEARN_EMOTION_ProjectKB_Class326] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BODO_FIM_LEARN_EMOTION_ProjectKB_Class10048] of  Map_Entry
+([BODO_FIM_LEARN_EMOTION_ProjectKB_Class327] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
@@ -113,11 +113,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class10039]
-		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class10040]
-		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class10041]
-		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class10042]
-		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class10043]))
+		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class318]
+		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class319]
+		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class320]
+		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class321]
+		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class322]))
 
 ([CLSES_TAB] of  Widget
 
@@ -162,7 +162,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_446789_Class5] of  Map
+([KB_278203_Class5] of  Map
 )
 
 ([KB_610615_Class0] of  String
@@ -173,11 +173,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class10044]
-		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class10046]
-		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class10047]
-		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class10048])
-	(referenced_maps [BODO_FIM_LEARN_EMOTION_ProjectKB_Class10045]))
+		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class323]
+		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class325]
+		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class326]
+		[BODO_FIM_LEARN_EMOTION_ProjectKB_Class327])
+	(referenced_maps [BODO_FIM_LEARN_EMOTION_ProjectKB_Class324]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -719,9 +719,9 @@
 
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
-		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
+		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
 		[PAL_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")

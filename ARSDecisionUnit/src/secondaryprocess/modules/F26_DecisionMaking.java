@@ -33,7 +33,8 @@ import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.decisionpreparation.DecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import testfunctions.clsTester;
-import base.datatypes.clsAct;
+import base.datatypes.clsShortTermMemoryMF;
+//import base.datatypes.clsAct;
 //import base.datatypes.clsDriveMesh;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.clsWordPresentationMesh;
@@ -93,7 +94,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	private clsWording moSpeechList_IN;
 	private clsWordPresentationMesh moPerceptionAssociations;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:01 */
-	private ArrayList<clsAct> moRuleList; 
+	private String moRuleList; 
 	
 	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;
 	
@@ -121,6 +122,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	
 	public static ArrayList<clsPair<Double, clsThingPresentationMesh>> moArrayObjPairSort = new ArrayList<clsPair<Double, clsThingPresentationMesh>>();
 	public static clsThingPresentationMesh moAction;
+	
+	private clsShortTermMemoryMF moSTM_Learning;
     
 	
 	/**
@@ -139,6 +142,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTimeMemory,
 			clsShortTermMemory poTempLocalizationStorage, DecisionEngine poDecisionEngine,
 			DT3_PsychicIntensityStorage poPsychicEnergyStorage,
+			clsShortTermMemoryMF poSTM_Learning,
 			clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid) throws Exception {
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory, pnUid);
@@ -163,6 +167,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		moShortTermMemory = poShortTimeMemory;
 		
 		moDecisionEngine = poDecisionEngine;
+		
+		moSTM_Learning = poSTM_Learning;
 	
 	}
 	
@@ -180,7 +186,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		
 		text += toText.listToTEXT("moReachableGoalList_IN", moReachableGoalList_IN);
 		//text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
-		text += toText.listToTEXT("moRuleList", moRuleList);
+		//text += toText.listToTEXT("moRuleList", moRuleList);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.listToTEXT("moDriveGoalList_IN", moDriveGoalList_IN);
 		//text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
@@ -329,6 +335,18 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		log.debug("Sorted Goals after aplying aim importance:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
 		
 		//Apply social rules on goals
+		for( String socialRule: moSTM_Learning.moShortTermMemoryMF.get(0).getSocialRules())
+		{
+		    if (socialRule == "NO_DEVIDE" && moRuleList != "DEVIDE")
+		    {
+		        moRuleList = "NO_DEVIDE";
+		    }
+		    else
+		    {
+		        moRuleList = "DEVIDE";
+		    }
+		}
+		
 		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);
 	    log.debug("Social rules: {}", moRuleList);
 	    log.debug("Social rules on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));

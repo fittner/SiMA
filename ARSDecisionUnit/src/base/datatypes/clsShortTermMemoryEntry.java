@@ -33,6 +33,7 @@ public class clsShortTermMemoryEntry {
     private ArrayList<clsDriveMesh> MemoryDMs = new ArrayList<clsDriveMesh>();
     private ArrayList<clsDriveMesh> ChangedDMsv = new ArrayList<clsDriveMesh>();
     private ArrayList<clsEmotion> Emotions = new ArrayList<clsEmotion>();
+    private ArrayList<String> socialRules = new ArrayList<String>();
     private boolean learning=false;
     private int step=0;
     
@@ -163,6 +164,8 @@ public class clsShortTermMemoryEntry {
     public void setEmotions(clsEmotion emotions) {
         Emotions.add(emotions);
     }
+    
+    
 
     /**
      * @since 26.04.2019 10:32:00
@@ -202,6 +205,24 @@ public class clsShortTermMemoryEntry {
         DecimalFormat threeDec = new DecimalFormat("0.000");
         String shortString = (threeDec.format(rQoA));
         return shortString;
+    }
+
+    /**
+     * @since 09.05.2019 08:39:52
+     * 
+     * @return the socialRules
+     */
+    public ArrayList<String> getSocialRules() {
+        return socialRules;
+    }
+
+    /**
+     * @since 09.05.2019 08:39:52
+     * 
+     * @param socialRules the socialRules to set
+     */
+    public void setSocialRules(String socialRules) {
+        this.socialRules.add(socialRules);
     }
 }
 

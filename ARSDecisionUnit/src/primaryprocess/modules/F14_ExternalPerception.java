@@ -24,7 +24,6 @@ import memorymgmt.enums.eAction;
 import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
-import memorymgmt.enums.eDrive;
 import memorymgmt.enums.eEmotionExpression;
 import memorymgmt.enums.eEntityExternalAttributes;
 import properties.personality_parameter.clsPersonalityParameterContainer;
@@ -735,22 +734,21 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
             {
                 if (oOutputTPM.getContentType().equals(eContentType.ACTION))
                 {
-                    if (  oOutputTPM.getContent() == "DIVIDE"
-                       || oOutputTPM.getContent() == "PICK_UP"
+                    if (  
+                          oOutputTPM.getContent() == "PICK_UP"
                        || oOutputTPM.getContent() == "GIVE"
                        || oOutputTPM.getContent() == "DROP"
                        || oOutputTPM.getContent() == "SHARE_FOOD"
                        )
                     {
-                        moLibidoBuffer.receive_D1_3(eDrive.STOMACH,
-                                new clsPair<Double, Double>(1.0, 1.0));
+                        moSTM_Learning.moShortTermMemoryMF.get(0).setSocialRules("DEVIDE");
                     }
-                    else
-                    {
-                        moLibidoBuffer.receive_D1_3(eDrive.STOMACH,
-                                new clsPair<Double, Double>(0.0, 0.0));
-                    }
+
                 }
+            }
+            if(moSTM_Learning.moShortTermMemoryMF.get(0).getSocialRules().isEmpty())
+            {
+                moSTM_Learning.moShortTermMemoryMF.get(0).setSocialRules("NO_DEVIDE");
             }
         }
         
