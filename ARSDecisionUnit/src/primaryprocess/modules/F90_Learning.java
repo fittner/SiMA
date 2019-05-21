@@ -179,7 +179,13 @@ public class F90_Learning extends clsModuleBaseKB {
                             Emotion, 
                             LTM_Image));
 	                clsEmotion EmotionMerge;
-	                EmotionMerge = clsDataStructureGenerator.generateEMOTION(
+	                double merdgePleasure;
+	                double merdgeUnlpeasure;
+	                double merdgeLib;
+	                double merdgeAggr;
+	                
+	                merdgePleasure= (EmotionRI.getSourcePleasure() + Emotion.getSourcePleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity);
+                    EmotionMerge = clsDataStructureGenerator.generateEMOTION(
 	                        new clsTriple <eContentType, eEmotionType, Object>(
 	                                Emotion.getContentType(),
 	                                Emotion.getContent(),
@@ -193,6 +199,7 @@ public class F90_Learning extends clsModuleBaseKB {
                             LTM_Image));
 	                
 	                moLTM_Learning.setLearningImage(LTM_Image);
+	                
 	             }
 	        }
 	            
