@@ -363,7 +363,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		}
 		//clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
 		ArrayList<clsPair<Integer, ArrayList<clsDriveMesh>>> snapshot;
-
+		InfluxDB.sendInflux("F"+P_MODULENUMBER,"Pleasure",mnCurrentPleasure);
 		try {
 		    clsThingPresentationMesh moObject = F29_EvaluationOfImaginaryActions.moTPM_Object;
 		    clsThingPresentationMesh moAction = F46_MemoryTracesForPerception.moAction;

@@ -8,6 +8,7 @@ package base.datatypes.helpstructures;
 
 import java.lang.reflect.Method;
 
+
 /**
  * DOCUMENT (langr) - insert description 
  * 
@@ -32,6 +33,8 @@ public class clsPair<A, B> implements Cloneable {
         this.b = right;
     }
     
+
+
     public static <L, R> clsPair<L, R> create(L left, R right) {
         return new clsPair<L, R>(left, right);
     }

@@ -323,14 +323,12 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		return this.moSearchSpaceMethods.searchMesh(poPattern, poSearchContentType, prThreshold, pnLevel);
 	}
 
-
-
+	/*@Override
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
 		return clsOntologyLoader.DS_ID++;
 	}
-
 
 	
 }

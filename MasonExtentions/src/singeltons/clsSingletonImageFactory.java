@@ -10,9 +10,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import logger.clsLogger;
 import utils.clsGetARSPath;
 
 /**
@@ -76,13 +78,15 @@ public class clsSingletonImageFactory {
 		String oFilename = clsGetARSPath.getImagePath() + pnImage.getFilename();
 		
 //		System.out.println("loading image into image buffer "+oFilename);
+		clsLogger.getLog("sim").info("loading image {} into image buffer ", oFilename);
 		BufferedImage oBI = null;	
 
 		try {
 			File oFile = new File( oFilename ); 			
 			oBI = ImageIO.read( oFile );
 		} catch (IOException e) {
-			System.out.println("clsSingletonImageFactory.loadImage: "+e);
+			//System.out.println("clsSingletonImageFactory.loadImage: "+e);
+			clsLogger.getLog("sim").info("clsSingletonImageFactory.loadImage: "+e);
 		}
 		
 		moImageBuffer.put(pnImage, oBI);		

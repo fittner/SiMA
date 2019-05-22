@@ -21,6 +21,7 @@ import modules.interfaces.eInterfaces;
 
 import org.slf4j.Logger;
 
+import base.tools.clsInfluxDB;
 import properties.clsProperties;
 import externalmessager.MonitorExecutor;
 import externalmessager.MonitorExecutorForModuleBaseInterface;
@@ -70,6 +71,7 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 	protected final Logger log;
 	private final Logger logTiming;
 	private final int mnAgentIndex;
+	protected final clsInfluxDB InfluxDB;
 	
 	/**
 	 * This constructor creates all functional modules with the provided properties. Further, all attributes of the module like process type, 
@@ -111,6 +113,9 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 		
 		//Create timecollectors
 		//this.monitor.createProbe("F"+this.mnModuleNumber);
+		
+		//create connection to influxDB
+		InfluxDB = new clsInfluxDB();
 	}	
 
 	/**

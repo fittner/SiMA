@@ -6,6 +6,7 @@
  */
 package primaryprocess.modules;
 
+//import inspector.interfaces.Singleton;
 import inspector.interfaces.itfInspectorBarChartF19;
 import inspector.interfaces.itfInspectorCombinedTimeChart;
 
@@ -62,11 +63,11 @@ import testfunctions.clsTester;
  * If F19 decided to defend the forbidden perceptions F19 chooses the defense mechanism (denial, projection, depreciation, ...).
  * 
  * Implemented defense mechanisms for perception:
- * - denial (Verdrängung)
+ * - denial (Verdrï¿½ngung)
  * - idealization (Idealisierung): only positive associations are perceived with an object
  * - depreciation (Entwertung): only negative associations are perceived with an object
  * - not yet implemented: projektive Identifizierung: Adam bringt es Lust, wenn er Bodo beim Essen zuschaut (mit KD besprochen)
- * - not yet implemeted (ist auch nicht im Funktionsmodell vorgesehen, wäre aber leicht zu implementieren): isolation (Isolierung) Isolierung trennt den Affektbetrag vom Wahrnehmungsinhalt
+ * - not yet implemeted (ist auch nicht im Funktionsmodell vorgesehen, wï¿½re aber leicht zu implementieren): isolation (Isolierung) Isolierung trennt den Affektbetrag vom Wahrnehmungsinhalt
  * 
  * Implemented defense mechanisms for emotions
  * - Reversal of affect: changes for the forbidden emotion into the emotion fear
@@ -92,6 +93,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_Input;
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Input;
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
+	
+	//delacruz 27.4.2019: add type for stateToText print
+	private ArrayList<clsPair<Double, clsDataStructurePA>>  oResultSearchMesh;
 	
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_Output;
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
@@ -168,7 +172,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		applyProperties(poPrefix, poProp);
 		
 	    // for use case 1: the Ego strength is equal to the neutralization rate
-        // (normalerweise wird sie über receive_I5_22 empfangen - siehe vorletzte Zeile in diesem File)
+        // (normalerweise wird sie ï¿½ber receive_I5_22 empfangen - siehe vorletzte Zeile in diesem File)
         //moEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F56", P_INTENSITY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
  		
  		//Get Blocked content storage
@@ -176,6 +180,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 		//Fill the blocked content storage with initial data from protege
 		moBlockedContentStorage.addAll(initialFillRepressedContent());
+		//27.4.2019 delacruz: add match to return value
+		oResultSearchMesh = initialFillRepressedContentWithPIMatch();
 		moTimeChartData =  new HashMap<String, Double>(); 		
 	}
 
@@ -187,7 +193,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToTEXT() {		
+	public String stateToTEXT() {	
+	   
 		String text = "";
 		
 		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
@@ -204,6 +211,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		text += toText.valueToTEXT("moAffect", moAffect);
 		text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
 		text += toText.listToTEXT("moEmotions_Output", moEmotions_Output);
+		
 
 		return text;
 	}
@@ -343,6 +351,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
+		
+		
 		
 		
 	}
@@ -584,7 +594,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
             else {
                          // ACHTUNG !!!: Projektion ist nur implementiert fuer drives.
                          // Ist aber ganz einfach fuer perceptions:
-                         // Einfach das Thing presentation and das andere Objekt als Assoziation dranhängen und beim origianlobjekt löschen.
+                         // Einfach das Thing presentation and das andere Objekt als Assoziation dranhï¿½ngen und beim origianlobjekt lï¿½schen.
                          // Genauso funktioniert Projektion fuer drives und fuer emotions  
                          //defenseMechanism_Projection(moForbiddenPerceptions_Input);
             }
@@ -604,7 +614,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
             else {
                          // ACHTUNG !!!: Projektion ist nur implementiert fuer drives.
                          // Ist aber ganz einfach fuer perceptions:
-                         // Einfach das Thing presentation and das andere Objekt als Assoziation dranhängen und beim origianlobjekt löschen.
+                         // Einfach das Thing presentation and das andere Objekt als Assoziation dranhï¿½ngen und beim origianlobjekt lï¿½schen.
                          // Genauso funktioniert Projektion fuer drives und fuer emotions  
                          //defenseMechanism_Projection(moForbiddenPerceptions_Input);
             }
@@ -1377,6 +1387,22 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 		return oRetVal;
 	}
+
+	private ArrayList<clsPair<Double, clsDataStructurePA>> initialFillRepressedContentWithPIMatch() {
+	    ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+        
+        ArrayList<clsPair<Double, clsDataStructurePA>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+        
+        clsThingPresentationMesh newTPMImage = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.TPM, moBlockedContentType), new ArrayList<clsAssociation>(), "EMPTY");
+        //clsPrimaryDataStructureContainer oPattern = new clsPrimaryDataStructureContainer(newTI, new ArrayList<clsAssociation>());
+        
+        oSearchResult = this.getLongTermMemory().searchMesh(newTPMImage, moBlockedContentType, 0.0, 2); //Set pnLevel=2, in order to add direct matches
+        
+        for (clsPair<Double, clsDataStructurePA> oPair : oSearchResult) {
+            oRetVal.add(oPair);
+        }
+        return oRetVal;
+    }
 	
 	
 	/* (non-Javadoc)

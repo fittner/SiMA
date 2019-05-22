@@ -10,12 +10,16 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.helpstructures.clsTriple;
+import inspector.interfaces.Singleton;
 
 /**
  * DOCUMENT (schaat) - insert description 
@@ -101,14 +105,40 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	}
 	
 	static protected double matchingFunction(clsEmotion oLHV, clsEmotion oRHV) {
+	    //delacruz: division of Aggression, Libido, Pleasure and Unpleasure Emotion Matches 
+	    Logger datalogger = LogManager.getLogger("GetImageMatch");
 	    double rMatch = 0;
+	    double AggrMatch = 0;
+	    double LibMatch = 0;
+	    double PleasMatch = 0;
+	    double UnpleasMatch = 0;
+	    double totalMatch = 0;
+	    Singleton PIEmotionMatch = Singleton.getInstance();
 	    
-	    rMatch += doubleMatch(oLHV.getSourceAggr(), oRHV.getSourceAggr());
-	    rMatch += doubleMatch(oLHV.getSourceLibid(), oRHV.getSourceLibid());
-	    rMatch += doubleMatch(oLHV.getSourcePleasure(), oRHV.getSourcePleasure());
-	    rMatch += doubleMatch(oLHV.getSourceUnpleasure(), oRHV.getSourceUnpleasure());
+	    AggrMatch= doubleMatch(oLHV.getSourceAggr(), oRHV.getSourceAggr());
+	    LibMatch = doubleMatch(oLHV.getSourceLibid(), oRHV.getSourceLibid());
+	    PleasMatch= doubleMatch(oLHV.getSourcePleasure(), oRHV.getSourcePleasure());
+	    UnpleasMatch= doubleMatch(oLHV.getSourceUnpleasure(), oRHV.getSourceUnpleasure());
+	       
+	    rMatch = AggrMatch + LibMatch + PleasMatch + UnpleasMatch;
+	    totalMatch = rMatch / 4; 
+	    //delacruz: add Emotion Matches to singleton
 	    
-	    return rMatch / 4;
+	    try {
+	        PIEmotionMatch.setEmotionMatch(totalMatch, AggrMatch, LibMatch, PleasMatch, UnpleasMatch);
+	    }
+	    catch(Exception e) {
+	        datalogger.debug("Error while setting Emotion Match" + e + "\n");
+	    }
+	   
+	   
+	    //PIEmotionMatch.addToPIMatchList();
+	    datalogger.debug("Aggression Match: " + AggrMatch);
+	    datalogger.debug("Libido Match: " + LibMatch);
+	    datalogger.debug("Pleasure Match: " + PleasMatch);
+	    datalogger.debug("Unpleasure Match: " + UnpleasMatch);
+	    
+	    return totalMatch;
 	}
 	
 	/* (non-Javadoc) Kollmann: calculates match between two emotions as single value

@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import communication.datatypes.clsDataContainer;
-
+import communication.datatypes.clsDataPoint;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 
@@ -130,7 +130,10 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		//collect all zones together
 	//	CollectErogenousZoneStimuliAndReduceLibido();
 
-		
+        for (clsDataPoint item : moSensorSystems_IN.getData()) {
+            InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getType(),item.getValue());
+        }
+        
 		mrOutgoingLibido = mrIncomingLibido_I0_1*libidoImpactFactor;
 		moSensorSystems_OUT =moSensorSystems_IN;
 

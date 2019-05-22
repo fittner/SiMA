@@ -17,6 +17,8 @@ import base.datatypes.clsDriveMesh;
 import base.datatypes.clsPrimaryDataStructure;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsPair;
+//delacruz: add clsTriple data structure
+//import base.datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -78,7 +80,9 @@ public interface itfModuleMemoryAccess {
 	 * @param pnLevel
 	 * @return
 	 */
-	public ArrayList<clsPair<Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel);
+	//delacruz: change type to clsTriple
+	//public ArrayList<clsTriple<Double, Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel);
+	public ArrayList<clsPair<Double,clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel);
 	/**
 	 * Search a whole mesh, i. e. for an input image, search for the associated data structures for this mesh
 	 * 

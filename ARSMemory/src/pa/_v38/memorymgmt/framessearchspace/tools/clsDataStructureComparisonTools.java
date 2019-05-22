@@ -17,10 +17,13 @@ import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 
 import base.datatypes.clsAssociation;
@@ -47,6 +50,7 @@ import base.datatypes.itfInternalAssociatedDataStructure;
 import base.datatypes.enums.eConnectionType;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
+import inspector.interfaces.Singleton;
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -258,10 +262,12 @@ public abstract class clsDataStructureComparisonTools {
 	 * @param poContainerUnknown
 	 * @return
 	 */
+	
 	public static ArrayList<clsPair<Double, clsDataStructurePA>> compareDataStructuresMesh(clsSearchSpaceHandler poSearchSpaceHandler, clsDataStructurePA poDSUnknown, double prThreshold, int pnLevel) {
 		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		ArrayList<clsPair<Double, clsDataStructurePA>> oPreliminaryRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
-		
+	    
+		org.apache.log4j.Logger datalogger = LogManager.getLogger("GetImageMatch");
 		//Get searchspace
 		clsSearchSpaceBase poSearchSpace = poSearchSpaceHandler.returnSearchSpace();
 		//Get all objects of a certain type
@@ -270,7 +276,8 @@ public abstract class clsDataStructureComparisonTools {
 		
 		//Get Searchspace for a certain datatype
 		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poDSUnknown.getContentType());
-		
+		ArrayList<HashMap<String, HashMap<String, Double>>> PIMatchList = new ArrayList<HashMap<String, HashMap<String, Double>>>();
+
 		if(oMapWithType == null) {
 			log.error("Could not get searchspace for content type " + poDSUnknown.getContentType().toString());
 			return oRetVal;
@@ -282,10 +289,12 @@ public abstract class clsDataStructureComparisonTools {
 		//pnLevel 2: Load the first order of indirect associations to other images
 		
 		log.trace("Input image, which shall be compared: {}", poDSUnknown);
-		
+		datalogger.debug("Input image, which shall be compared: {}" + poDSUnknown);
 		if (pnLevel>=1) {
 			//For each template image in the storage compare with the input image
 			//1. First search to get all matches
+			datalogger.debug("Number of Images which will be compared: " + oMapWithType.size());
+		    Singleton.numberImagesPIMatch = oMapWithType.size();
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oMapWithType.entrySet()){
 				clsDataStructurePA oCompareElement = oEntry.getValue().a;
 				
@@ -318,15 +327,24 @@ public abstract class clsDataStructureComparisonTools {
 						}
 					}
 					
-					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
-					log.debug("Compared image {}, match: {}", oClonedCompareElement, oMatch);
 					
+					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
+					//clear list after step to prepare for next round
+					
+					
+					log.debug("Compared image {}, match: {}", oClonedCompareElement, oMatch);
+					 //delacruz: add PIMatch node to PIMatch list. End of cycle.
+				    //Singleton PIMatch = Singleton.getInstance();
+					//PIMatch.addToPIMatchList();
+					//Singleton.stepGlobalPIMatch++;
+					//Singleton.clearPIMatchList = true;
 					//=== Perform system tests ===//
 					if (clsTester.getTester().isActivated()) {
 						try {
 							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
 						} catch (Exception e) {
 							log.error("Systemtester has an error in clsDataStructureComparison after getImageMatch, clonedCompareElement", e);
+							datalogger.error("Systemtester has an error in clsDataStructureComparison after getImageMatch, clonedCompareElement" +  e);
 						}
 					}
 					
@@ -341,10 +359,24 @@ public abstract class clsDataStructureComparisonTools {
 					//Set moInstanceID for all structures in the container
 					//FIXME AW: NOTE: No instanceIDs are allowed to be set here. InstanceIDs must be set "ausserhalb" from the memory
 					//clsDataStructureTools.createInstanceFromType(oCompareContainer);
-					//Add results
+					
+					//Print results
+										
+					//if((Singleton.stepPIMatch % 10) == 0)
+			        //{
+			            
+			            //Singleton.PIMatchList.add(PIMatchInstance.PIMatch);
+						//PIMatchList.add(PIMatchInstance.PIMatch);
+						//Singleton.PIMatchList = PIMatchList;
+			            //datalogger.debug("Total Match List after " + Singleton.stepPIMatch + 1  + " step(s): " + Singleton.PIMatchList);
+			        //}
+					
 					oPreliminaryRetVal.add(i, new clsPair<Double, clsDataStructurePA>(oMatch, oClonedCompareElement));
+					
 				}
 			}
+			
+			//Singleton.stepPIMatch = 0;
 			//2. Second search, where the best matches are newly ordered. This newly ordered list is given back as a result
 			
 			//FIXME AW. Get different matches, for even better matches
@@ -369,6 +401,134 @@ public abstract class clsDataStructureComparisonTools {
 	
 	
 	
+	//27.4.2019 delacruz: return both spatial and emotion match 
+//	public static ArrayList<clsTriple<Double, Double, clsDataStructurePA>>   compareDataStructuresMesh(clsSearchSpaceHandler poSearchSpaceHandler, clsDataStructurePA poDSUnknown, double prThreshold, int pnLevel) {
+//		ArrayList<clsTriple<Double, Double, clsDataStructurePA>> oRetVal = new ArrayList<clsTriple<Double, Double, clsDataStructurePA>>();
+//		ArrayList<clsTriple<Double, Double, clsDataStructurePA>> oPreliminaryRetVal = new ArrayList<clsTriple<Double, Double, clsDataStructurePA>>();
+//		double oMatch[] = {0.0,0.0};
+//		//Get searchspace
+//				clsSearchSpaceBase poSearchSpace = poSearchSpaceHandler.returnSearchSpace();
+//				//Get all objects of a certain type
+//				HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oMap 
+//													= poSearchSpace.returnSearchSpaceTable().get(poDSUnknown.getMoDataStructureType());	//Nehme nur nach Typ Image oder TI
+//				
+//				//Get Searchspace for a certain datatype
+//				HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poDSUnknown.getContentType().toString());
+//		
+//		if(oMapWithType == null) {
+//			log.error("Could not get searchspace for content type " + poDSUnknown.getContentType().toString());
+//			return oRetVal;
+//		}
+//		
+//		//Check, which search depth is used. 
+//		//pnLevel 0: Nothing is done with the image
+//		//pnLevel 1: Load only indirect associations
+//		//pnLevel 2: Load the first order of indirect associations to other images
+//		
+//		log.trace("Input image, which shall be compared: {}", poDSUnknown);
+//		
+//		if (pnLevel>=1) {
+//			//For each template image in the storage compare with the input image
+//			//1. First search to get all matches
+//			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oMapWithType.entrySet()){
+//				clsDataStructurePA oCompareElement = oEntry.getValue().a;
+//				
+//				if (oCompareElement instanceof clsThingPresentationMesh) {
+//					//Clone the structure as here often the structure comes directly from the memory
+//					
+//					clsThingPresentationMesh oClonedCompareElement = null;
+//					try {
+//						//oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).cloneGraph();
+//						oClonedCompareElement = (clsThingPresentationMesh) ((clsThingPresentationMesh) oCompareElement).clone();
+//					} catch (CloneNotSupportedException e) {
+//						// TODO (wendt) - Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					
+//					//INFO: In the image function, the inverse associations are also created.
+//					try {
+//						getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
+//					} catch (Exception e) {
+//						// TODO (wendt) - Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					
+//					//=== Perform system tests ===//
+//					if (clsTester.getTester().isActivated()) {
+//						try {
+//							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
+//						} catch (Exception e) {
+//							log.error("Systemtester has an error in clsDataStructureComparison after getCompleteMesh, clonedCompareElement", e);
+//						}
+//					}
+//					
+//					//27.4.2019 delacruz: return emotional and spatial match 					
+//					
+//					//---------------------NEW---------------------------------
+//					oMatch = clsPrimarySpatialTools.getImageMatchSpatialEmotion((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
+//					//--------------------NEW----------------------------------
+//					
+//					log.debug("Compared image {}, match: {}", oClonedCompareElement, oMatch);
+//					
+//					//=== Perform system tests ===//
+//					if (clsTester.getTester().isActivated()) {
+//						try {
+//							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
+//						} catch (Exception e) {
+//							log.error("Systemtester has an error in clsDataStructureComparison after getImageMatch, clonedCompareElement", e);
+//						}
+//					}
+//					
+//					//List<Double> oMatchWrap = new ArrayList<Double>();
+//					Double oMatchSpatial = oMatch[0];
+//					Double oMatchEmotion = oMatch[1];
+//					
+//					//oMatchWrap.add(oMatch[0]);
+//					//oMatchWrap.add(oMatch[1]);
+//					
+//					
+//					if ((oMatch[0] < prThreshold) && (oMatch[1]< prThreshold))
+//						continue;
+//					// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
+//					int i = 0;
+//					while ((i < oPreliminaryRetVal.size()) && oMatch[1] < oPreliminaryRetVal.get(i).a){
+//						//i++;
+//					}
+//					
+//					//Set moInstanceID for all structures in the container
+//					//FIXME AW: NOTE: No instanceIDs are allowed to be set here. InstanceIDs must be set "ausserhalb" from the memory
+//					//clsDataStructureTools.createInstanceFromType(oCompareContainer);
+//					//Add results
+//					
+//				
+//			
+//					oPreliminaryRetVal.add(i, new clsTriple<Double, Double, clsDataStructurePA>(oMatchSpatial, oMatchEmotion, oClonedCompareElement));
+//					
+//				}
+//			}
+//			//2. Second search, where the best matches are newly ordered. This newly ordered list is given back as a result
+//			
+//			//FIXME AW. Get different matches, for even better matches
+//			//oRetVal.addAll(compareBestResults(oPreliminaryRetVal, poDSUnknown, mrBestMatchThreshold, mrAssociationMaxValue));
+//			oRetVal.addAll(oPreliminaryRetVal);
+//			
+//		}
+//		
+//		//3. Sort the list
+//		//TODO AW: Sort the output list
+//		
+//		//=== Perform system tests ===//
+//		if (clsTester.getTester().isActivated()) {
+//			try {
+//				//clsTester.getTester().exeTestAssociationAssignment(oRetVal);
+//			} catch (Exception e) {
+//				log.error("Systemtester has an error in clsDataStructureComparison", e);
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
+//	
 	/**
 	 * DOCUMENT (wendt) - insert description
 	 *

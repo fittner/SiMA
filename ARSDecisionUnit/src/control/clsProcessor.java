@@ -240,8 +240,8 @@ public class clsProcessor implements itfProcessor  {
 	
 	@Override
 	public void step() {
-	    log.info("================== START CYCLE OF ARS ===========================================================================================================================");
-	    log.info("=================== SENSING ========================");
+	    log.info("START CYCLE OF ARS");
+	    log.info("START SENSING");
 	    long start = System.currentTimeMillis();
 		//BODY --------------------------------------------- 
 		//data preprocessing
@@ -268,9 +268,9 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF39_SeekingSystem_LibidoSource.step();
 		moPsyApp.moF40_NeurosymbolizationOfLibido.step();
 
-		logtiming.info("Duration Sensing: {}", System.currentTimeMillis()-start);
+		logtiming.info("Duration Sensing: {} ms", System.currentTimeMillis()-start);
 		//PRIMARY PROCESSES -------------------------------
-		log.info("=================== PRIMARY PROCESS ========================");
+		log.info("START PRIMARY PROCESS");
 		start = System.currentTimeMillis();
 		//Self-PreservationDrive generation
 		moPsyApp.moF65_PartialSelfPreservationDrives.step();
@@ -318,9 +318,9 @@ public class clsProcessor implements itfProcessor  {
 
 		moPsyApp.moF71_CompositionOfExtendedEmotion.step();
 
-        logtiming.info("Duration Primary Process: {}", System.currentTimeMillis()-start);
+        logtiming.info("Duration Primary Process: {} ms", System.currentTimeMillis()-start);
 		//SECONDARY PROCESSES ----------------------------
-		log.info("=================== SECONDARY PROCESS ========================");
+		log.info("START SECONDARY PROCESS");
 		start = System.currentTimeMillis();
 		
 	    //primary to secondary
@@ -350,9 +350,9 @@ public class clsProcessor implements itfProcessor  {
         
 		moPsyApp.moF30_MotilityControl.step();
 		
-		logtiming.info("Duration Secondary Process: {}", System.currentTimeMillis()-start);		
+		logtiming.info("Duration Secondary Process: {} ms", System.currentTimeMillis()-start);		
 		//BODY --------------------------------------------- 
-		log.info("=================== ACTION EXECUTION ========================");
+		log.info("START ACTION EXECUTION");
 		start = System.currentTimeMillis();
 		//execution
 	      // BODILY REACTIONS ON EMOTIONS
@@ -361,7 +361,7 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF31_NeuroDeSymbolizationActionCommands.step();
 		moPsyApp.moF32_Actuators.step();
 		
-		logtiming.info("Duration action execution: {}", System.currentTimeMillis()-start);
+		logtiming.info("Duration action execution: {} ms", System.currentTimeMillis()-start);
 		
 		//UPDATE DataLogger Entries
 		//moPsyApp.moDataLogger.step();

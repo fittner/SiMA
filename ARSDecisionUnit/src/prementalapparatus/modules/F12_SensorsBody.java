@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import communication.datatypes.clsDataContainer;
-
+import communication.datatypes.clsDataPoint;
 import properties.clsProperties;
 
 import modules.interfaces.I0_5_receive;
@@ -129,7 +129,11 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	 */
 	@Override
 	protected void process_basic() {
-		
+
+        for (clsDataPoint item : moBodyData_IN.getData()) {
+            InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getType(),item.getValue());
+        }
+        
 		moBodyData_OUT = moBodyData_IN;
 		putInterfaceData(I0_5_receive.class, moBodyData_OUT);		
 	}

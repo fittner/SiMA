@@ -177,9 +177,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.listToTEXT("§§§§§§§§§§§§§§Test", Test);
-		text += toText.listToTEXT("§§§§§§§§§§§§§§Test1", Test1);
-		text += toText.mapToTEXT("§§§§§§§§§§§§3333333333moEnvironmentalData", moEnvironmentalData);
+		text += toText.mapToTEXT("moEnvironmentalData", moEnvironmentalData);
 		text += toText.mapToTEXT("moBodyData", moBodyData);
 		text += toText.listToTEXT("moCompleteThingPresentationMeshList", moCompleteThingPresentationMeshList);
 
@@ -434,6 +432,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 attachBodyPerceptionValuesToSelf(oEntity);
             }
             else continue;
+        }
+        
+        for (Entry<String, Double> item : moBodyData.entrySet()) {
+            InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getKey(),item.getValue());
         }
 	}
 	

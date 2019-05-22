@@ -168,12 +168,15 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 		
 		// create a empty map for all the tension the body can create.
 		// here we collect all the information from the body relevant for homeostatic drives in one list <symbol, tendion>
-		
-		
+	      
 		moHomeostaticSymbol_OUT = new HashMap<String, Double>();
 		
 		CollectBodilyDemandsInOneList();
 		
+        for (HashMap.Entry<String, Double> item : moHomeostaticSymbol_OUT.entrySet()) {
+            InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getKey(),item.getValue());
+        }
+        
 		//create some chart of them
 /*		for (String oKey:moHomeostaticSymbol_OUT.keySet()) {
 			if(oKey != eSensorIntType.HEALTH.toString()){ //health can be very large, dotn add it to chart
