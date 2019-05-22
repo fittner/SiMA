@@ -11,7 +11,6 @@ import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.Map.Entry;
 
@@ -356,18 +355,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		}
 */
 		
-        HashMap<eDrive,clsPair<Double,Double>> moDriveBuffer = moLibidoBuffer.send_D1_5();
-        for(Map.Entry<eDrive,clsPair<Double,Double>> oEntry : moDriveBuffer.entrySet()){
-            try{
-                moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(oEntry.getKey(), oEntry.getValue().a,eDriveComponent.AGGRESSIVE));
-                moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(oEntry.getKey(), oEntry.getValue().b,eDriveComponent.LIBIDINOUS));
-            }
-            catch(Exception e){
-                
-            }
-
-            
-        }
+       
 //        clsDriveMesh oAADM = CreateDriveRepresentations(eOrgan.STOMACH, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
 //        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STOMACH).a);
 //        moHomeostaticDriveComponents_OUT.add(oAADM);
