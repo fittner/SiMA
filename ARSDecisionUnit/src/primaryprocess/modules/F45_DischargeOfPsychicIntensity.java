@@ -12,7 +12,6 @@ import inspector.interfaces.itfInspectorGenericTimeChart;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.SortedMap;
 
 import base.datatypes.enums.eOrgan;
@@ -372,9 +371,6 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
         // moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
         log.debug(moLibidoBuffer.send_D1_5().toString());
         
-        for (Entry<String, Double> item : moLibidoBuffer.getLibidoMetrics().entrySet()) {       
-          // InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getKey(),item.getValue());
-        }
     }
 
     public clsThingPresentationMesh getPerceivedSelf(clsThingPresentationMesh poImage) {
@@ -463,7 +459,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
                             eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM);
                     // Create new association drivemesh but with the new root element
                     clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh,
-                            (clsThingPresentationMesh) oAssignmentElement.a);
+                            (clsThingPresentationMesh) oAssignmentElement.a,1.0);
                     // Add the assocation to the input container
                     oAssignmentElement.a.getExternalAssociatedContent().add(oDriveAss);
                     // poAssignment.a.assignDataStructure(oDriveAss);

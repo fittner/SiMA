@@ -10,9 +10,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.apache.log4j.LogManager;
+//import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 
 import logger.clsLogger;
@@ -150,7 +150,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	
 	static protected double matchingFunction(clsEmotion oLHV, clsEmotion oRHV) {
 	    //delacruz: division of Aggression, Libido, Pleasure and Unpleasure Emotion Matches 
-	    Logger datalogger = LogManager.getLogger("GetImageMatch");
+	    Logger datalogger = logger.clsLogger.getLog("GetImageMatch");
 	    double rMatch = 0;
 	    double AggrMatch = 0;
 	    double LibMatch = 0;

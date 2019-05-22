@@ -292,11 +292,11 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
                 
             }
             //Singleton.clearPIMatchList = true;
-            datalogger.debug("number of PI Match calculation rounds: " + Singleton.stepGlobalPIMatch);
+            //datalogger.debug("number of PI Match calculation rounds: " + Singleton.stepGlobalPIMatch);
             
         } catch (Exception e1) {
             log.error("", e1);
-            datalogger.error(e1);
+            //datalogger.error(e1);
         }
 		
 //		Remove the emotion from the perceived image
