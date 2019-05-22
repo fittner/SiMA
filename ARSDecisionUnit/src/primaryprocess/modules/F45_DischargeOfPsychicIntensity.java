@@ -372,7 +372,7 @@ public class F45_DischargeOfPsychicIntensity extends clsModuleBaseKB implements 
         log.debug(moLibidoBuffer.send_D1_5().toString());
         
         for (Entry<String, Double> item : moLibidoBuffer.getLibidoMetrics().entrySet()) {       
-           InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getKey(),item.getValue());
+          // InfluxDB.sendInflux("F"+P_MODULENUMBER,item.getKey(),item.getValue());
         }
     }
 

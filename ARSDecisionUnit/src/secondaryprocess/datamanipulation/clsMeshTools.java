@@ -1381,13 +1381,23 @@ public class clsMeshTools {
 	 * @param poContainerA
 	 * @param poContainerB
 	 * @param prWeight
+	 * 
+	 * 
 	 */
+	public static void createAssociationPrimary(clsThingPresentationMesh poStructureA, clsThingPresentationMesh poStructureB, double prWeight) {
+        eContentType oContentType = eContentType.ASSOCIATIONPRI;
+        clsAssociationPrimary oAssPri = (clsAssociationPrimary)clsDataStructureGenerator.generateASSOCIATIONPRI(oContentType, poStructureA, poStructureB, prWeight);
+        poStructureA.getExternalAssociatedContent().add(oAssPri);
+        poStructureB.getExternalAssociatedContent().add(oAssPri);
+    }
+	/*
 	public static void createAssociationPrimary(clsThingPresentationMesh poStructureA, clsThingPresentationMesh poStructureB, double prWeight) {
 		eContentType oContentType = eContentType.ASSOCIATIONPRI;
 		clsAssociationPrimary oAssPri = (clsAssociationPrimary)clsDataStructureGenerator.generateASSOCIATIONPRI(oContentType, poStructureA, poStructureB, prWeight);
 		poStructureA.getExternalAssociatedContent().add(oAssPri);
 		poStructureB.getExternalAssociatedContent().add(oAssPri);
 	}
+	*/
 	
 	/**
 	 * Create an association between a TPM and a TP

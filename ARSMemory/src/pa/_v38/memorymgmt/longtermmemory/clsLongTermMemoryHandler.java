@@ -297,6 +297,10 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		return this.moSearchSpaceMethods.searchMesh(poPattern, poSearchContentType, prThreshold, pnLevel);
 	}
 
-
+	/*@Override
+	public ArrayList<clsTriple<Double, Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel) {
+		return this.moSearchSpaceMethods.searchMesh(poPattern, poSearchContentType, prThreshold, pnLevel);
+	}
+	*/
 	
 }

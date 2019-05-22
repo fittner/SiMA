@@ -12,6 +12,7 @@ import memorymgmt.enums.eContentType;
 import base.datatypes.clsDataStructureContainer;
 import base.datatypes.clsDataStructurePA;
 import base.datatypes.helpstructures.clsPair;
+import base.datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -42,6 +43,9 @@ public interface itfSearchSpaceAccess {
 	 * @param pnLevel
 	 * @return
 	 */
+	
+	//delacruz: return clsTriple and not clsPair
+	//public ArrayList<clsTriple<Double, Double, clsDataStructurePA>> searchMesh(clsPair<Integer, clsDataStructurePA> poSearchPattern, double prThreshold, int pnLevel);
 	public ArrayList<clsPair<Double, clsDataStructurePA>> searchMesh(clsPair<Integer, clsDataStructurePA> poSearchPattern, double prThreshold, int pnLevel);
 	/**
 	 * DOCUMENT - insert description
@@ -55,7 +59,10 @@ public interface itfSearchSpaceAccess {
 	 * @param pnLevel
 	 * @return
 	 */
+	//delacruz: return clsTriple and not clsPair
+	
 	public ArrayList<clsPair<Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel);
+	//public ArrayList<clsTriple<Double,Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel);
 	/**
 	 * DOCUMENT - insert description
 	 *

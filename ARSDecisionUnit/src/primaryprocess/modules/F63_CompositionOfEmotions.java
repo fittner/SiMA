@@ -514,7 +514,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						
 					}
 					
-					//koller Emotionsuebertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbeträge aus.
+					//koller Emotionsuebertragung. Hier wirken sich die Emotionen wahrgenommener Bodystates anderer Agenten auf die eigenen Affektbetrï¿½ge aus.
 
                     if ( oEntityAss.getContentType() == eContentType.ASSOCIATIONATTRIBUTE && !(( clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equalsIgnoreCase("EMPTYSPACE")   ) {
                         if(oEntityAss.getAssociationElementA().getContentType() == eContentType.ENTITY){
@@ -534,7 +534,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                              *  getting happier while being angry - the result will probably stabilize somewhere between these two emotions.
                              */
                             
-                            if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehängt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
+                            if(!(oTPMA.getContent().equals("SELF"))){ //koller wenn der bodystate am TPM Self angehï¿½ngt ist, wird er ignoriert. Es kann duch Entfernen dieses ifs wieder Einfluss bekommen. 
                                 if(oEntityAss.getAssociationElementB().getContentType() == eContentType.ENTITY){
                             
                                     clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oEntityAss.getAssociationElementB();

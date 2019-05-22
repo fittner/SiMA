@@ -536,7 +536,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     		//overwrite decision unit values
     		oDecisionUnitProperties.putAll( oOverwriteDecisionUnitDefaults );
     		
-    		//create entity wiht resulting configuration for entity and decision unit type
+    		//create entity with resulting configuration for entity and decision unit type
     		createEntity(oEntityProperties, oDecisionUnitProperties,oPropMemory, nEntityType, nDecisionType, uid);
     	}
     }

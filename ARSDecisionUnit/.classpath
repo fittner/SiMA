@@ -14,5 +14,9 @@
 	<classpathentry kind="lib" path="/GeneralTools/lib/mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CommunicationInterface"/>
 	<classpathentry kind="lib" path="/GeneralTools/lib/java-json.jar"/>
+	<classpathentry kind="lib" path="/Users/delacruz/sima-workspace/SiS_SiMA_V01/Simulation/slf4j-1.7.26"/>
+	<classpathentry kind="lib" path="/Users/delacruz/sima-workspace/SiS_SiMA_V01/Simulation/apache-log4j-2.11.2-bin/log4j-1.2-api-2.11.2.jar"/>
+	<classpathentry kind="lib" path="/Users/delacruz/sima-workspace/SiS_SiMA_V01/Simulation/apache-log4j-2.11.2-bin/log4j-core-2.11.2.jar"/>
+	<classpathentry kind="lib" path="/Users/delacruz/sima-workspace/SiS_SiMA_V01/Simulation/apache-log4j-2.11.2-bin"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

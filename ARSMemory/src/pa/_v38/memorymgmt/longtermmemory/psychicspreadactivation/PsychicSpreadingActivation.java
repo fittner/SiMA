@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.longtermmemory.psychicspreadactivation;
 
 import general.datamanipulation.PrintTools;
+import base.datatypes.helpstructures.clsTriple;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -139,6 +140,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 		oSearchResultMesh = moModuleBase.searchMesh(poOriginImage, eContentType.RI, prThreshold, 1);
 		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPI, prThreshold, 1));
 		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPA, prThreshold, 1));
+		
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {
@@ -153,14 +155,45 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 		
 		log.debug("Create direct associations between " + poOriginImage.getContent() + " and ");
 		if (poOriginImage.getContentType().equals(eContentType.PI) || poOriginImage.getContentType().equals(eContentType.PHI)) {
-			for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
+			for (clsPair<Double, clsDataStructurePA> oPair : oSearchResultMesh) {
 				clsMeshTools.createAssociationPrimary(poOriginImage, (clsThingPresentationMesh) oPair.b, oPair.a);
 				//Now all matched images are linked with the PI
-				log.debug(((clsThingPresentationMesh)oPair.b).getContent() + ", matching value: " + oPair.a + ", ");
+				//log.debug(((clsThingPresentationMesh)oPair.b).getContent() + ", matching value: " + oPair.a + ", ");
 			}
 		}
 	}
 	
+	/*private void getAssociatedImagesPerception(clsThingPresentationMesh poOriginImage, double prThreshold) {
+		ArrayList<clsTriple<Double,Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsTriple<Double,Double,clsDataStructurePA>>();
+	    ArrayList<clsTriple<Double,Double,clsDataStructurePA>> oSearchResultMesh2 = new ArrayList<clsTriple<Double,Double,clsDataStructurePA>>();
+
+		//moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, prThreshold, 1);
+		oSearchResultMesh = moModuleBase.searchMesh(poOriginImage, eContentType.RI, prThreshold, 1);
+		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPI, prThreshold, 1));
+		oSearchResultMesh.addAll(moModuleBase.searchMesh(poOriginImage, eContentType.RPA, prThreshold, 1));
+		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(poOriginImage);
+			} catch (Exception e) {
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
+		}
+		
+		//This is a hack method that can be used to focus the list of activate able entries 
+//		HackMethods.filterTPMSearchResultList(Collections.singleton("A10"), oSearchResultMesh);
+		
+		log.debug("Create direct associations between " + poOriginImage.getContent() + " and ");
+		if (poOriginImage.getContentType().equals(eContentType.PI) || poOriginImage.getContentType().equals(eContentType.PHI)) {
+			for (clsDouble<Double, clsDataStructurePA> oPair : oSearchResultMesh) {
+				clsMeshTools.createAssociationPrimary(poOriginImage, (clsThingPresentationMesh) oPair.b, oPair.a);
+				//Now all matched images are linked with the PI
+				//log.debug(((clsThingPresentationMesh)oPair.b).getContent() + ", matching value: " + oPair.a + ", ");
+			}
+		}
+	}
+	*/
 	/**
 	 * For a stored image, content type RI, search all direct associated memories
 	 * 
@@ -258,6 +291,7 @@ public class PsychicSpreadingActivation implements PsychicSpreadingActivationInt
 				double rDivider = rP + rPsychicPotential;
 				
 				//Add to the list, sort after psychic potential
+		
 				PsychicSpreadActivationNode oNode = new PsychicSpreadActivationNode();
 				oNode.setBaseImage(oImage);
 				oNode.setPsychicPotential(rPsychicPotential);
