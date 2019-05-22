@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import memorymgmt.enums.eContent;
 import memorymgmt.enums.eContentType;
