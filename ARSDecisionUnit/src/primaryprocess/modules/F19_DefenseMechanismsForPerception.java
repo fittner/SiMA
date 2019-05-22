@@ -93,6 +93,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Input;
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
 	
+	//delacruz 27.4.2019: add type for stateToText print
+	private ArrayList<clsPair<Double, clsDataStructurePA>>  oResultSearchMesh;
+	
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_Output;
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
@@ -176,6 +179,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 		//Fill the blocked content storage with initial data from protege
 		moBlockedContentStorage.addAll(initialFillRepressedContent());
+		//27.4.2019 delacruz: add match to return value
+		oResultSearchMesh = initialFillRepressedContentWithPIMatch();
 		moTimeChartData =  new HashMap<String, Double>(); 		
 	}
 
@@ -1377,6 +1382,22 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 		return oRetVal;
 	}
+
+	private ArrayList<clsPair<Double, clsDataStructurePA>> initialFillRepressedContentWithPIMatch() {
+	    ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+        
+        ArrayList<clsPair<Double, clsDataStructurePA>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+        
+        clsThingPresentationMesh newTPMImage = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.TPM, moBlockedContentType), new ArrayList<clsAssociation>(), "EMPTY");
+        //clsPrimaryDataStructureContainer oPattern = new clsPrimaryDataStructureContainer(newTI, new ArrayList<clsAssociation>());
+        
+        oSearchResult = this.getLongTermMemory().searchMesh(newTPMImage, moBlockedContentType, 0.0, 2); //Set pnLevel=2, in order to add direct matches
+        
+        for (clsPair<Double, clsDataStructurePA> oPair : oSearchResult) {
+            oRetVal.add(oPair);
+        }
+        return oRetVal;
+    }
 	
 	
 	/* (non-Javadoc)

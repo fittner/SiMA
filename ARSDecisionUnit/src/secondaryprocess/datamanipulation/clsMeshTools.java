@@ -1231,7 +1231,7 @@ public class clsMeshTools {
 		        try {
                     throw new Exception("Erroneous mesh structure. The element " + poMesh.getContent() + " hashcode " +  poMesh.hashCode() + " already exists but is not the same instance with the structure " + mesh.getContent() + " hashcode " +  mesh.hashCode());
                 } catch (Exception e) {
-//                    log.error("Error in mesh structure", e);
+                    log.error("Error in mesh structure", e);
                 }
 		    }
 		}

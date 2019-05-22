@@ -7,9 +7,12 @@
 package base.tools;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import base.datatypes.clsDataStructurePA;
+import base.datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -45,25 +48,24 @@ public class toText {
 		return text;
 	}
 	
-//	   public static <E,V> String mapMomentToTEXT(String poName, Map<E,V> poMap) {
-//	        String text = h1(poName);
-//	        
-//	        if (poMap == null) {
-//	            text += p(i("null"));
-//	        } else if (poMap.size() == 0) {
-//	            text += p(i("empty"));
-//	        } else {
-//	            for (@SuppressWarnings("rawtypes") Map.Entry e:poMap.entrySet()) {
-//	                text += p(e.getKey().toString());
-//	                for (@SuppressWarnings("rawtypes") clsWordPresentationMeshFeeling wpm:e.getValue()) {
-//	                    text += li(wpm.toString());
-//	                }
-//	            }
-//	        }
-//	        
-//	        return text;
-//	    }
-
+	//26.4.2019 delacruz: print ArrayList<clsPair<Double, clsDataStructurePA>> for F19Module
+	public static String doubleListToText(String poName, ArrayList<clsPair<Double, clsDataStructurePA>> poDoubleList)
+	{
+	    String text = h2(poName);
+	    
+	    if (poDoubleList == null) {
+            text += p(i("null"));
+        } else if (poDoubleList.size() == 0) {
+            text += p(i("empty"));
+        } else {        
+	    
+    	    for(Object e:poDoubleList) {
+    	        text+=li(e.toString());
+    	    }
+        }
+	    return text;
+	    
+	}
 	
 	public static String listToTEXT(String poName, @SuppressWarnings("rawtypes") List poList) {
 		String text =h2(poName);

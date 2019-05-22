@@ -8,11 +8,16 @@
 package primaryprocess.modules;
 
 import general.datamanipulation.PrintTools;
+import inspector.interfaces.Singleton;
 import inspector.interfaces.itfGraphInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import memorymgmt.enums.PsychicSpreadingActivationMode;
 import memorymgmt.enums.eContent;
 import memorymgmt.enums.eContentType;
@@ -151,6 +156,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		text += toText.valueToTEXT("moReturnedPhantasy_IN", moReturnedPhantasy_IN);
 		text += toText.listToTEXT("Internal associations of moPerceptionalMesh_OUT (entities)", moPerceptionalMesh_OUT.getInternalAssociatedContent());
 		text += toText.listToTEXT("Directly activated associations of moPerceptionalMesh_OUT", moPerceptionalMesh_OUT.getExternalAssociatedContent());
+        text += toText.valueToTEXT("PI Match Analysis", PrintTools.printActivatedMeshWithPIMatch(moPerceptionalMesh_OUT));
 		text += toText.valueToTEXT("Activated images", PrintTools.printActivatedMeshWithPIMatch(moPerceptionalMesh_OUT));
 		//text += toText.valueToTEXT("moEnhancedPerception", moEnhancedPerception);
 		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
@@ -260,15 +266,46 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
             }
 		}
 		
+        Singleton.PIList.add(oPerceivedImage);
 		//Activate memories (Spread activation)
 		try {
             activateMemories(oPerceivedImage, moReturnedPhantasy_IN, this.psychicSpreadingActivationMode);
+            Singleton.stepGlobalPIMatch++;
+            Singleton PIMatch = Singleton.getInstance();
+            //PIMatch.addToPIMatchList();
+          //delacruz: add Perceived image to Singleton PI List
+            
+           
+            if((Singleton.stepGlobalPIMatch % 2)==0) {
+                Singleton.PIMatchList.clear(); 
+                Singleton.RIList.clear();
+                //Singleton.PIList.clear();
+                //Singleton.PIEmotionList.clear();
+                
+                //Singleton.oRIPIMatchList.clear();
+                //set to -1 since step will be then inside method addToPIMatchList incremented
+                Singleton.stepPIMatch=-1;
+                Singleton.numberImagesPIMatch = 0;
+                PIMatch.addToPIMatchList();
+                Singleton.RIList.add(null);
+                
+                
+            }
+            //Singleton.clearPIMatchList = true;
+            datalogger.debug("number of PI Match calculation rounds: " + Singleton.stepGlobalPIMatch);
+            
         } catch (Exception e1) {
             log.error("", e1);
+            datalogger.error(e1);
         }
 		
 //		Remove the emotion from the perceived image
 		for(clsAssociationEmotion oAss : clsAssociation.filterListByType(oPerceivedImage.getExternalAssociatedContent(), clsAssociationEmotion.class)) {
+            //retrieve emotion from PI Image and set to global Singleton
+            //clsAssociation oAssTmp = null;
+            //Singleton.PIEmotionList.add(oAssTmp);
+            Singleton.PIEmotionList.add(oAss.getAssociationElementA());
+            //datalogger.debug("External Associated Emotions from PI: " + Singleton.PIList.get(Singleton.stepGlobalPIMatch));
 		    oPerceivedImage.getExternalAssociatedContent().remove(oAss);
 		}
 		
