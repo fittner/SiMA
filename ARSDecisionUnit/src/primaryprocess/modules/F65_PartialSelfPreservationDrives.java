@@ -128,6 +128,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		moHomeostaisImpactFactors.put("BLOODSUGAR",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_BLOODSUGAR).getParameterDouble());
 		moHomeostaisImpactFactors.put("RECTUM",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_RECTUM).getParameterDouble());
 		moHomeostaisImpactFactors.put("STAMINA",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_STAMINA).getParameterDouble());
+//		moHomeostaisImpactFactors.put("HEALTH",0.8);
 
 		oQoA_LastStep = new HashMap<eDrive,Double>();
 		
@@ -356,42 +357,42 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 */
 		
        
-//        clsDriveMesh oAADM = CreateDriveRepresentations(eOrgan.STOMACH, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
-//        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STOMACH).a);
-//        moHomeostaticDriveComponents_OUT.add(oAADM);
-//        oAADM = CreateDriveRepresentations(eOrgan.STOMACH, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
-//        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STOMACH).b);
-//        moHomeostaticDriveComponents_OUT.add(oAADM);
-//        
-//        oAADM = CreateDriveRepresentations(eOrgan.STAMINA, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
-//        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STAMINA).a);
-//        moHomeostaticDriveComponents_OUT.add(oAADM);
-//        oAADM = CreateDriveRepresentations(eOrgan.STAMINA, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
-//        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STAMINA).b);
-//        moHomeostaticDriveComponents_OUT.add(oAADM);
-//        
-//        eOrgan oOrgan = eOrgan.HEALTH;
-//        eDrive oDrive = eDrive.HEALTH;
-//        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
-//        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).a);
-//        moHomeostaticDriveComponents_OUT.add(oAADM);
-//        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
-//        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).b);
-//        moHomeostaticDriveComponents_OUT.add(oAADM);
-//        
-//        oOrgan = eOrgan.RECTUM;
-//        oDrive = eDrive.RECTUM;
-//        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
-//        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).a);
-//        moHomeostaticDriveComponents_OUT.add(oAADM);
-//        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
-//        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).b);
-//        moHomeostaticDriveComponents_OUT.add(oAADM);
-//        
-//        //fill charts 
-//        for (clsDriveMesh oMesh :moHomeostaticDriveComponents_OUT){
-//            moDriveChartData.put(oMesh.getChartShortString(), oMesh.getQuotaOfAffect());
-//        }
+        clsDriveMesh oAADM = CreateDriveRepresentations(eOrgan.STOMACH, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
+        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STOMACH).a);
+        moHomeostaticDriveComponents_OUT.add(oAADM);
+        oAADM = CreateDriveRepresentations(eOrgan.STOMACH, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
+        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STOMACH).b);
+        moHomeostaticDriveComponents_OUT.add(oAADM);
+        
+        oAADM = CreateDriveRepresentations(eOrgan.STAMINA, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
+        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STAMINA).a);
+        moHomeostaticDriveComponents_OUT.add(oAADM);
+        oAADM = CreateDriveRepresentations(eOrgan.STAMINA, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
+        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STAMINA).b);
+        moHomeostaticDriveComponents_OUT.add(oAADM);
+        
+        eOrgan oOrgan = eOrgan.HEALTH;
+        eDrive oDrive = eDrive.HEALTH;
+        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
+        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).a);
+        moHomeostaticDriveComponents_OUT.add(oAADM);
+        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
+        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).b);
+        moHomeostaticDriveComponents_OUT.add(oAADM);
+        
+        oOrgan = eOrgan.RECTUM;
+        oDrive = eDrive.RECTUM;
+        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
+        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).a);
+        moHomeostaticDriveComponents_OUT.add(oAADM);
+        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
+        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).b);
+        moHomeostaticDriveComponents_OUT.add(oAADM);
+        
+        //fill charts 
+        for (clsDriveMesh oMesh :moHomeostaticDriveComponents_OUT){
+            moDriveChartData.put(oMesh.getChartShortString(), oMesh.getQuotaOfAffect());
+        }
         
    	}
     /* (non-Javadoc)

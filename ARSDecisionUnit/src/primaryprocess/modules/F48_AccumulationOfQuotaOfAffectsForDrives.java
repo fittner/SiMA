@@ -290,6 +290,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
             }
         }
 		mnCurrentUnpleasure = mnCurrentLibido + mnCurrentAggr;
+	    //mnCurrentUnpleasure = moPleasureStorage.send_D4_3();
 		
 		//add chart data for all drives:
 		for (clsDriveMesh oDriveMeshEntry : moAllDriveComponents_OUT )
@@ -313,7 +314,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		if ( !moDriveChartData.containsKey(olKey) ) {
 			mnChartColumnsChanged = true;
 		}
-		moDriveChartData.put(olKey, mnCurrentPleasure);
+		moDriveChartData.put(olKey, mnCurrentPleasure*10);
 		
 //		//now add chart for pleasure
 //        olKey = "AGGR";
@@ -329,12 +330,12 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 //        }
 //        moDriveChartData.put(olKey, mnCurrentLibido);
 //        
-//        //now add chart for pleasure
-//        olKey = "UNPLEASURE";
-//        if ( !moDriveChartData.containsKey(olKey) ) {
-//            mnChartColumnsChanged = true;
-//        }
-//        moDriveChartData.put(olKey, mnCurrentUnpleasure); 
+        //now add chart for pleasure
+        olKey = "unpleasure";
+        if ( !moDriveChartData.containsKey(olKey) ) {
+            mnChartColumnsChanged = true;
+        }
+        moDriveChartData.put(olKey, mnCurrentUnpleasure); 
 //        
 //        mnCurrentLearningIntensity = mnCurrentUnpleasure + mnCurrentPleasure;
 //        //now add chart for pleasure
