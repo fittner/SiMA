@@ -146,8 +146,8 @@ public class PrintTools extends clsPrimarySpatialTools{
             //double pimatch = clsActTools.getPrimaryMatchValueToPI(tpm);
             
            
-            oResult += "Perceived Image: " + Singleton.PIList.get(Singleton.stepGlobalPIMatch-1) + "\n";
-            oResult+= "Perceived Image Emotions: " + Singleton.PIEmotionList.get(Singleton.stepGlobalPIMatch-1) + "\n\n";
+            oResult += "Perceived Image: " + Singleton.getInstance().PIList.get(Singleton.getInstance().stepGlobalPIMatch-1) + "\n";
+            oResult+= "Perceived Image Emotions: " + Singleton.getInstance().PIEmotionList.get(Singleton.getInstance().stepGlobalPIMatch-1) + "\n\n";
             
             /*clsEmotion PIEmotion = null;      
             for(int i=0;i<Singleton.PIList.size();i++) {
@@ -166,12 +166,12 @@ public class PrintTools extends clsPrimarySpatialTools{
             */
             
             //oResult+= "Perceived Image Emotions: " + PIEmotion + "\n";
-            oResult += "Number of Images which will be compared: " + Singleton.stepPIMatch + "\n\n";
+            oResult += "Number of Images which will be compared: " + Singleton.getInstance().stepPIMatch + "\n\n";
            //for(Map<String, Map<String, Double>> entry : Singleton.getInstance().getList()) {
             
-            for(int i=0;i<Singleton.PIMatchList.size();i++) {
+            for(int i=0;i<Singleton.getInstance().PIMatchList.size();i++) {
                 
-                oResult += "Received Image: " + Singleton.RIList.get(i) + "\n";
+                oResult += "Received Image: " + Singleton.getInstance().RIList.get(i) + "\n";
             
                 //for(int j=0;i<Singleton.PIMatchList.size();j++) {
                 oResult += "\n";              
@@ -179,8 +179,8 @@ public class PrintTools extends clsPrimarySpatialTools{
                 //oResult += "Position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them: \n";
                 //oResult +=  Singleton.RIPIMatchList + "\n";
                 //oResult +=  Singleton.PIMatchList.get(i);
-                oResult +=  Singleton.getPISpatialMatch(i) + "\n";
-                oResult +=  Singleton.getPIEmotionMatch(i) + "\n\n";
+                oResult +=  Singleton.getInstance().getPISpatialMatch(i) + "\n";
+                oResult +=  Singleton.getInstance().getPIEmotionMatch(i) + "\n\n";
                 
                 //}
             }

@@ -198,8 +198,8 @@ public class clsPrimarySpatialTools {
         
         //add Received Image to Singleton global variable RIList
         try {
-               Singleton.RIList.add(poRI);
-               datalogger.debug("RI Image : " + Singleton.RIList.get(Singleton.stepPIMatch));
+               Singleton.getInstance().RIList.add(poRI);
+               datalogger.debug("RI Image : " + Singleton.getInstance().RIList.get(Singleton.getInstance().stepPIMatch));
         }
         catch(Exception e){
               datalogger.error("Error while adding RI in RIList: " + e);
@@ -305,7 +305,7 @@ public class clsPrimarySpatialTools {
         datalogger.debug("Total Match: " + rTotalMatch);
         
         //delacruz logger
-        datalogger.debug("Total Match List after " + Singleton.stepGlobalPIMatch + " steps: " + Singleton.PIMatchList);
+        datalogger.debug("Total Match List after " + Singleton.getInstance().stepGlobalPIMatch + " steps: " + Singleton.getInstance().PIMatchList);
         return rTotalMatch;
        
     }

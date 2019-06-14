@@ -6,6 +6,7 @@
  */
 package primaryprocess.modules;
 
+import inspector.interfaces.Singleton;
 import inspector.interfaces.itfInspectorBarChartF19;
 import inspector.interfaces.itfInspectorCombinedTimeChart;
 
@@ -168,6 +169,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory, pnUid);
 		
+		//Set current Singleton instance
+        Singleton.setCurrentAgent(getAgentIndex());
+        
 		applyProperties(poPrefix, poProp);
 		
 	    // for use case 1: the Ego strength is equal to the neutralization rate

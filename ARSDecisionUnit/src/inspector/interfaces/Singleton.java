@@ -5,7 +5,9 @@
  *
  */
 package inspector.interfaces;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 //import base.datatypes.clsAssociation;
 import base.datatypes.clsDataStructurePA;
@@ -14,8 +16,6 @@ import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import memorymgmt.enums.ePhiPosition;
 import memorymgmt.enums.eRadius;
-
-import java.util.ArrayList;
 
 /**
  * DOCUMENT (delacruz) - insert description 
@@ -26,20 +26,21 @@ import java.util.ArrayList;
  */
 public class Singleton {
 		
-	private static Singleton piMatch_instance = null;
-	public static boolean clearPIMatchList = false;
+	private static Map<Integer, Singleton> piMatch_instance = new HashMap<>();
+	private static int currentAgent = Integer.MIN_VALUE;
+	public boolean clearPIMatchList = false;
 	//public HashMap<String, HashMap<String, Double>> PIMatch = new HashMap<String, HashMap<String, Double>>();	
-	public static ArrayList<HashMap<String, HashMap<String, Double>>> PIMatchList = new ArrayList<HashMap<String, HashMap<String, Double>>>();
-	public static ArrayList<HashMap<String, ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>>>> RIPIMatchList= new ArrayList<>();
+	public ArrayList<HashMap<String, HashMap<String, Double>>> PIMatchList = new ArrayList<HashMap<String, HashMap<String, Double>>>();
+	public ArrayList<HashMap<String, ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>>>> RIPIMatchList= new ArrayList<>();
 	
-	public static ArrayList<clsThingPresentationMesh> RIList = new ArrayList<>();
-	public static ArrayList<clsThingPresentationMesh> PIList = new ArrayList<>();
-	public static ArrayList<clsDataStructurePA> PIEmotionList = new ArrayList<>();
+	public ArrayList<clsThingPresentationMesh> RIList = new ArrayList<>();
+	public ArrayList<clsThingPresentationMesh> PIList = new ArrayList<>();
+	public ArrayList<clsDataStructurePA> PIEmotionList = new ArrayList<>();
 	
 
-    public static int stepPIMatch = 0;
-    public static int stepGlobalPIMatch = 0;
-    public static int numberImagesPIMatch = 0;
+    public int stepPIMatch = 0;
+    public int stepGlobalPIMatch = 0;
+    public int numberImagesPIMatch = 0;
     
     //private constructor restricted to this class itself
 	private Singleton()
@@ -113,23 +114,23 @@ public class Singleton {
 	    //tmpPIMatch.put("PIMatch", new HashMap<>());
 	    PIMatchList.add(tmpPIMatch);
 	    //update step
-	    Singleton.stepPIMatch++;
+	    stepPIMatch++;
 	   
 	    //clear RIPIArray for update
 	    //oRIPIMatchList.clear();
 	}
 	
-	public static ArrayList<HashMap<String, HashMap<String, Double>>> getPIMatchList() {
-	    
-	    return PIMatchList;
-	}
-	
-	public static HashMap<String, Double> getPISpatialMatch(int step) {
+//	public static ArrayList<HashMap<String, HashMap<String, Double>>> getPIMatchList() {
+//	    
+//	    return PIMatchList;
+//	}
+//	
+	public HashMap<String, Double> getPISpatialMatch(int step) {
 	    	    
 	    return PIMatchList.get(step).get("SpatialMatches");
 	}
 	
-	public static HashMap<String, Double> getPIEmotionMatch(int step) {
+	public HashMap<String, Double> getPIEmotionMatch(int step) {
           
 	   return PIMatchList.get(step).get("EmotionMatches");
 	}
@@ -137,12 +138,16 @@ public class Singleton {
     // static method to create instance of Singleton class 
     public static synchronized Singleton getInstance() 
     { 
-    	
-        if (piMatch_instance == null) 
-        	piMatch_instance = new Singleton(); 
+        if (!piMatch_instance.containsKey(currentAgent)) 
+            piMatch_instance.put(currentAgent, new Singleton()); 
   
-        return piMatch_instance; 
+        return piMatch_instance.get(currentAgent);
+         
     } 
+    
+    public static void setCurrentAgent(int index) {
+        currentAgent = index;
+    }
     
     //public HashMap<String, HashMap<String, Double>> getPIMatchNode(){
         
