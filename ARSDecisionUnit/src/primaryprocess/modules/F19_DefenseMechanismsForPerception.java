@@ -168,7 +168,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			clsPersonalityParameterContainer poPersonalityParameterContainer, int pnUid)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory, pnUid);
-		
+
 		//Set current Singleton instance
         Singleton.setCurrentAgent(getAgentIndex());
         

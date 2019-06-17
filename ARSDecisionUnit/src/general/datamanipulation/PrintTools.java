@@ -123,13 +123,7 @@ public class PrintTools extends clsPrimarySpatialTools{
         
     }
     
-    //delacruz: this function returns a string array with pi Match important factors
-    //and final pi match result. 
-    
-   
-   
-    
-    
+
     
     /*This function takes a Thing Presentation Mesh Image List and retrieves the PI Match
      * value from a TPM Array List of 5 Images. It retrieves the PI Match from function
@@ -138,53 +132,20 @@ public class PrintTools extends clsPrimarySpatialTools{
      * Output: string pi match  */
     public static String printActivatedMeshWithPIMatch(clsThingPresentationMesh poImage) {
         
-        String oResult = "\n";
-        //Singleton PIMatchInstance = Singleton.getInstance();
-        //ArrayList<clsThingPresentationMesh> oList = clsMeshTools.getAllTPMImages(poImage, 5);
-        //for (clsThingPresentationMesh tpm : oList) {
-           // oResult += tpm.getContent();
-            //double pimatch = clsActTools.getPrimaryMatchValueToPI(tpm);
-            
-           
+            String oResult = "\n";           
             oResult += "Perceived Image: " + Singleton.getInstance().PIList.get(Singleton.getInstance().stepGlobalPIMatch-1) + "\n";
             oResult+= "Perceived Image Emotions: " + Singleton.getInstance().PIEmotionList.get(Singleton.getInstance().stepGlobalPIMatch-1) + "\n\n";
-            
-            /*clsEmotion PIEmotion = null;      
-            for(int i=0;i<Singleton.PIList.size();i++) {
-                
-                
-                for(clsAssociation AssEmotion: Singleton.PIList.get(i).getExternalAssociatedContent())
-                {                
-                    if(AssEmotion instanceof clsAssociationEmotion) {
-                        PIEmotion = (clsEmotion) AssEmotion.getTheOtherElement(Singleton.PIList.get(Singleton.stepGlobalPIMatch-1));
-                        
-                    }                    
-                       
-                }
-                
-            }
-            */
-            
-            //oResult+= "Perceived Image Emotions: " + PIEmotion + "\n";
             oResult += "Number of Images which will be compared: " + Singleton.getInstance().stepPIMatch + "\n\n";
-           //for(Map<String, Map<String, Double>> entry : Singleton.getInstance().getList()) {
             
             for(int i=0;i<Singleton.getInstance().PIMatchList.size();i++) {
                 
                 oResult += "Received Image: " + Singleton.getInstance().RIList.get(i) + "\n";
-            
-                //for(int j=0;i<Singleton.PIMatchList.size();j++) {
                 oResult += "\n";              
                 oResult += "Image: " + (i+1) + "\n";
-                //oResult += "Position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them: \n";
-                //oResult +=  Singleton.RIPIMatchList + "\n";
-                //oResult +=  Singleton.PIMatchList.get(i);
                 oResult +=  Singleton.getInstance().getPISpatialMatch(i) + "\n";
                 oResult +=  Singleton.getInstance().getPIEmotionMatch(i) + "\n\n";
-                
-                //}
+
             }
-        //}
         
         return oResult;
         
