@@ -47,6 +47,7 @@ import base.datatypes.itfInternalAssociatedDataStructure;
 import base.datatypes.enums.eConnectionType;
 import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
+import inspector.interfaces.Singleton;
 import logger.clsLogger;
 import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eDataType;
@@ -285,8 +286,13 @@ public abstract class clsDataStructureComparisonTools {
 		
 		if (pnLevel>=1) {
 			//For each template image in the storage compare with the input image
+			
+			
 			//1. First search to get all matches
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oMapWithType.entrySet()){
+				
+				Singleton.getInstance().addToPIMatchList();
+				
 				clsDataStructurePA oCompareElement = oEntry.getValue().a;
 				
 				if (oCompareElement instanceof clsThingPresentationMesh) {
@@ -296,6 +302,7 @@ public abstract class clsDataStructureComparisonTools {
 					try {
 						//oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).cloneGraph();
 						oClonedCompareElement = (clsThingPresentationMesh) ((clsThingPresentationMesh) oCompareElement).clone();
+						Singleton.getInstance().RIList.add(oClonedCompareElement);
 					} catch (CloneNotSupportedException e) {
 						// TODO (wendt) - Auto-generated catch block
 						e.printStackTrace();

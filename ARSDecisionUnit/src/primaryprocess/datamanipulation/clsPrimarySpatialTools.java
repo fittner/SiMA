@@ -61,75 +61,6 @@ public class clsPrimarySpatialTools {
 	 * @param poRI
 	 * @return
 	 */
-	//public static double getImageMatch(clsThingPresentationMesh poPI, clsThingPresentationMesh poRI) {
-	    /*
-        double rRetVal = 0;
-        double rEmotionImpactFactor = 0.5; // this factor defines how much influence the emotion match between PI and RI has on the total image match
-        double rEmotionMatch = 0;
-	   
-    	//Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
-    	//Only references in the array
-    		
-         ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
-    		
-    	 ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
-    		
-    		//Create position array for the RI
-    	 ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRIPositionArray = getImageEntityPositions(poRI);
-    		
-    		//Sort the RI array for generalization, the least generalized first
-    	 ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
-    		
-    		//Create new modified position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them
-    		//Compare the RI-Array with the PA-Array and search for the closest matches between them
-    		//In RI and in PI position elements with null are allowed to occur
-    	 ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> oRIPIMatchList = findMatchingEntities(oPISortedPositionArray, oRISortedPositionArray);
-	    
-
-    		// Create 
-    	 ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPIActionsArray = getImageEntityActions(poPI);
-    	 ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRIActionsArray = getImageEntityActions(poRI);
-    		
-         ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPISpatialArray = getImageEntitySpatial(poPI);
-         ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRISpatialArray = getImageEntitySpatial(poRI);
-         /*   
-         ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchActionList = findMatchingActionOrSpatial(oRIActionsArray, oPIActionsArray);  
-         ArrayList<clsPair<clsPair<clsThingPresentationMesh,clsThingPresentationMesh>, Double>> oRIPIMatchSpatialContentList = findMatchingActionOrSpatial(oRISpatialArray, oPISpatialArray);  
-          
-         
-         ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchActionList = new ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>>();  
-         ArrayList<clsPair<clsPair<clsThingPresentationMesh,clsThingPresentationMesh>, Double>> oRIPIMatchSpatialContentList = new ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>>();  
-         
-    		//=== Perform system tests ===//oPISpatialArray
-    	if (clsTester.getTester().isActivated()) {
-    			try {
-    				clsTester.getTester().exeTestAssociationAssignment(poRI);
-    			} catch (Exception e) {
-    				log.error("Systemtester has an error in addRIAssociations(oRIPIMatchList), poRI", e);
-    			}
-    	}
-    		
-    		//if the RI contains no entities at all, set the match value to 1, otherwise calculate the match
-    	if(oRIPositionArray.isEmpty() && oRIActionsArray.isEmpty() && oRISpatialArray.isEmpty()) {
-    		    rRetVal = 1;
-    		} else {
-    		    //Calculate the image match
-    		    rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray, oRIPIMatchActionList, oRIPIMatchSpatialContentList);
-    	} 
-	    //}
-		//calculate emotion match of images
-		//get emotions from first image
-		clsEmotion oEmotionPI = clsEmotion.fromTPM(poPI);
-		
-		//get emotions from second image
-		clsEmotion oEmotionRI = clsEmotion.fromTPM(poRI);
-		
-		//get match value for the two emotions
-		if(oEmotionPI != null && oEmotionRI != null) {
-		    rEmotionMatch = oEmotionPI.compareTo(oEmotionRI);
-		}
-		return (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
-	} */
 	
 	
 
@@ -198,7 +129,7 @@ public class clsPrimarySpatialTools {
         
         //add Received Image to Singleton global variable RIList
         try {
-               Singleton.getInstance().RIList.add(poRI);
+               
                datalogger.debug("RI Image : " + Singleton.getInstance().RIList.get(Singleton.getInstance().stepPIMatch));
         }
         catch(Exception e){
@@ -229,7 +160,7 @@ public class clsPrimarySpatialTools {
                 if(!oRIPIMatchActionList.isEmpty() || !oRISpatialArray.isEmpty()) { 
                     rRetVal = (rRetValSp + rRetValAc)/(oRIPIMatchActionList.size() + oRISpatialArray.size()/2);
                     //delacruz: add Spatial Match to singleton 
-                    rRetValInstance.addToPIMatchList();
+                    //rRetValInstance.addToPIMatchList();
                     rRetValInstance.setSpatialMatch(rRetVal);
                     datalogger.debug("Spatial Match " + rRetVal);
                    
@@ -253,8 +184,9 @@ public class clsPrimarySpatialTools {
                    // rRetValInstance.addToPIMatchList();
                 //}
                   try {
+                      //rRetValInstance.addToPIMatchList();
                       rRetValInstance.setSpatialMatch(rRetVal);
-                      rRetValInstance.addToPIMatchList();
+                      
                   }                
                  catch(Exception e){
                      datalogger.debug("Error while setting Spatial Match " + e + "\n");
@@ -311,122 +243,7 @@ public class clsPrimarySpatialTools {
     }
     
     
-    //27.4.2019 delacruz: return spatial and emotion matches
-    
 
-    public static double[] getImageMatchSpatialEmotion(clsThingPresentationMesh poPI, clsThingPresentationMesh poRI) {
-        //Matching: All Objects in RI are searched for in PI, which means that RI is the more generalized image 
-        Double[] rRetValWrapper;
-        double [] rRetVal = {0,0};
-        int indexSpatial = 0;
-        int indexEmotion = 1;
-        double rEmotionImpactFactor = 0.5; // this factor defines how much influence the emotion match between PI and RI has on the total image match
-        double rEmotionMatch = 0;
-        //Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
-        //Only references in the array
-        
-        //delacruz: logging 
-        Logger datalogger = LogManager.getLogger("MyLogger");
-        
-        //Logger datalogger = Logger.getLogger("GetImageMatchLog");
-        datalogger.debug("Perceived Image: " + poPI + "Received Image : " + poRI);
-        
-        datalogger.info("testlogger");
-        datalogger.trace("testlogger");
-        
-        ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
-        
-        ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
-        
-        //Create position array for the RI
-        ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRIPositionArray = getImageEntityPositions(poRI);
-        
-        //Sort the RI array for generalization, the least generalized first
-        ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
-        
-        //Create new modified position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them
-        //Compare the RI-Array with the PA-Array and search for the closest matches between them
-        //In RI and in PI position elements with null are allowed to occur
-        ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> oRIPIMatchList = findMatchingEntities(oPISortedPositionArray, oRISortedPositionArray);
-        datalogger.debug("Compare the RI-Array with the PA-Array and search for the closest matches between them:  " + oRIPIMatchList );
-
-        //Add matching associations to the objects in the RI
-        //Add distanceassociations
-        
-        //addRIAssociations(oRIPIMatchList);
-        
-        // Action and intention images which you get from another agent 
-        
-        if(poRI.getContentType() == eContentType.RPI || poRI.getContentType() == eContentType.RPA)  { 
-            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPIActionsArray = getImageEntityActions(poPI);
-            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRIActionsArray = getImageEntityActions(poRI);
-               
-            //ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oPISpatialArray = getImageEntitySpatial(poPI);
-            ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRISpatialArray = getImageEntitySpatial(poRI);        
-            //ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> oRISpatialArray = getImageEntitySpatial(poRI);
-            if(!oRISpatialArray.isEmpty() || !oRIActionsArray.isEmpty()) {
-                double rRetValSp = calculateImageMatchSpatial(poPI, poRI);
-                ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>, Double>> oRIPIMatchActionList = findMatchingActionOrSpatial(oRIActionsArray, oPIActionsArray);  
-                double rRetValAc =  calculateImageMatchAction(oRIPIMatchActionList);
-                if(!oRIPIMatchActionList.isEmpty() || !oRISpatialArray.isEmpty()) { 
-                    rRetVal[indexSpatial] = (rRetValSp + rRetValAc)/(oRIPIMatchActionList.size() + oRISpatialArray.size()/2);
-                }
-                else { rRetVal[indexSpatial] = 0; }
-            }
-            else { 
-                rRetVal[indexSpatial] = 0;
-            } 
-            // ArrayList<clsPair<clsPair<clsThingPresentationMesh,clsThingPresentationMesh>, Double>> oRIPIMatchSpatialContentList = findMatchingActionOrSpatial(oRISpatialArray, oPISpatialArray);  
-        }
-        else {
-            if(oRIPositionArray.isEmpty()) {
-                rRetVal[indexSpatial]  = 1;
-            } else {
-                //Calculate the image match
-                datalogger.info("image match will be now calculated...");
-                rRetVal[indexSpatial] = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
-            }
-        }
-        //=== Perform system tests ===//
-        if (clsTester.getTester().isActivated()) {
-            try {
-                clsTester.getTester().exeTestAssociationAssignment(poRI);
-            } catch (Exception e) {
-                //log.error("Systemtester has an error in addRIAssociations(oRIPIMatchList), poRI", e);
-            }
-        }
-        
-        //if the RI contains no entities at all, set the match value to 1, otherwise calculate the match
-
-        clsEmotion oEmotionPI = null,  oEmotionRI = null; 
-        //calculate emotion match of images
-        //get emotions from first image
-        if(poRI.getContentType() != eContentType.RPI) { 
-            oEmotionPI = clsEmotion.fromTPM(poPI);
-        
-        //get emotions from second image
-            oEmotionRI = clsEmotion.fromTPM(poRI);
-            
-        }
-        else {
-            oEmotionPI =  getEmotionFromAnotherEntity(poPI);
-            oEmotionRI = getRecognizedEmotionFromMemorizedImage(poRI);
-        }
-        //get match value for the two emotions
-        if(oEmotionPI != null && oEmotionRI != null) {
-            rEmotionMatch = oEmotionPI.compareTo(oEmotionRI);
-            rRetVal[indexEmotion]= rEmotionMatch;
-        }
-        
-      
-        return rRetVal;
-        //return (rRetVal * (1 - rEmotionImpactFactor)) + (rEmotionMatch * rEmotionImpactFactor);
-    }
-    
-    
-    
-    
-  //delacruz 11.3.2018: change visibility function to protected for usability in PrintTools.java
     protected static clsEmotion getRecognizedEmotionFromMemorizedImage(clsThingPresentationMesh poImage) {
         for(clsAssociation oAss : poImage.getExternalAssociatedContent()) { 
             if(oAss instanceof clsAssociationEmotion) {
