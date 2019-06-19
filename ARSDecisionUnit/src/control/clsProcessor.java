@@ -178,7 +178,7 @@ public class clsProcessor implements itfProcessor  {
         oF01Data.put("STOMACH_TENSION", "");
         oF01Data.put("STOMACH_INTESTINE_TENSION", "");
         oF01Data.put("STAMINA", "");
-        oF01Data.put("HEALTH", "");
+        //oF01Data.put("HEALTH", "");
         oF01Data.put("TEMPERATUR", "");
         oF01Data.put("ENERGY_CONSUMPTION", "");
         
@@ -228,6 +228,7 @@ public class clsProcessor implements itfProcessor  {
         oF12Data.put("CRYING_INTENSITY", "");
         oF12Data.put("MUSCLE_TENSION_ARMS_INTENSITY", "");
         oF12Data.put("MUSCLE_TENSION_Legs_INTENSITY", "");
+        oF12Data.put("HEALTH", "");
 
         for(clsDataPoint oDataPoint :poData.getData()){
             if(oF12Data.containsKey(oDataPoint.getType())){

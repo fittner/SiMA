@@ -6,7 +6,9 @@
  */
 package primaryprocess.modules;
 
+import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfGraphCompareInterfaces;
+import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,6 +91,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					I2_6_send,
 					I5_1_receive,
 					I5_19_receive,
+					itfInspectorGenericDynamicTimeChart,
 					itfGraphCompareInterfaces
 					{
 	public static final String P_MODULENUMBER = "14";
@@ -100,13 +103,16 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	/** OUT member of F14, this holds the converted symbols of the two perception paths and the recognized TPMs (OUT I2.6) @since 20.07.2011 10:26:23 */
 	private ArrayList<clsThingPresentationMesh> moCompleteThingPresentationMeshList;
 	
+	private boolean mnChartColumnsChanged = true;
 	//ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP;
-	
+	private HashMap<String, Double> moDriveChartData;
 	ArrayList<String> Test = new ArrayList<String>();
 	ArrayList<String> Test1 = new ArrayList<String>();
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private boolean useAttentionMechanism = false;
+	double health_old=1.0;
+	ArrayList<Double> upleasure_array = new ArrayList<Double>();
 	
 	private HashMap<String, String> composedActions = new HashMap<String, String>();
 	
@@ -172,8 +178,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         mrEmotionrecognitionPrimingIntensity =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_EMOTIONRECOGNITION_PRIMING_INTENSITY).getParameterDouble();
         moSTM_Learning = poSTM_Learning;
         moLibidoBuffer = poLibidoBuffer;
+		
+		moDriveChartData =  new HashMap<String, Double>(); //initialize charts
 	}
-
+		
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -465,10 +473,48 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	
 	private void attachBodyPerceptionValuesToSelf(clsThingPresentationMesh oSelf){
 	    for( Entry<String,Double > oBodyValue : moBodyData.entrySet()){
-	        clsThingPresentation oValue = convertBodyValueSymbolToTPM(oBodyValue);
-	       oSelf.addExternalAssociation(new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
-	               oSelf, 
-	               oValue)); 
+	        if(!(oBodyValue.getKey().equals("HEALTH")) )
+	        {
+	            clsThingPresentation oValue = convertBodyValueSymbolToTPM(oBodyValue);
+	            oSelf.addExternalAssociation(new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
+	                    oSelf, 
+	                    oValue)); 
+	        }
+	        else
+	        {
+	            log.error("HEALTH");
+	            // generate Unpleasure from Pain
+	            double health;
+	            double diff;
+	            double unpleasure;
+	            
+	            health = oBodyValue.getValue();
+	            health = health/100;
+	            diff = 1 - health;
+	            
+	            unpleasure = (health - health_old) * (1-diff) + diff *diff;
+	            unpleasure = unpleasure * 130 * diff ;
+//	            unpleasure = 1 - health;
+	            if(this.moSTM_Learning.getChangedMoment())
+	            {
+	                health_old = health;
+	            }
+	            if (unpleasure > 0.45)
+	            {
+	                unpleasure = 0.46;
+	            }
+                if (unpleasure < 0)
+                {
+                    unpleasure = 0;
+                }
+	            upleasure_array.add(unpleasure);
+	            String olKey = "unpleasure(pain)";
+	            if ( !moDriveChartData.containsKey(olKey) ) {
+	                mnChartColumnsChanged = true;
+	            }
+	            moDriveChartData.put(olKey, unpleasure);
+	            F63_CompositionOfEmotions.rpain = unpleasure;
+	        }
 	    }
 	}
 	
@@ -1840,5 +1886,117 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
         moPsychicSpreadingActivationMode_IN = mode;
         moCurrentEmotions = poCurrentEmotions;
-	}	
+	}
+
+    /* (non-Javadoc)
+     *
+     * @since 18.06.2019 13:58:44
+     * 
+     * @see inspector.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+     */
+    @Override
+    public double getTimeChartUpperLimit() {
+        // TODO (nocks) - Auto-generated method stub
+        return 1.1;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 18.06.2019 13:58:44
+     * 
+     * @see inspector.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+     */
+    @Override
+    public double getTimeChartLowerLimit() {
+        // TODO (nocks) - Auto-generated method stub
+        return -0.1;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 18.06.2019 13:58:44
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+     */
+    @Override
+    public String getTimeChartAxis() {
+        // TODO (nocks) - Auto-generated method stub
+        return "0 to 1";
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 18.06.2019 13:58:44
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+     */
+    @Override
+    public String getTimeChartTitle() {
+        // TODO (nocks) - Auto-generated method stub
+        return "Unpleasure from body pain";
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 18.06.2019 13:58:44
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+     */
+    @Override
+    public ArrayList<Double> getTimeChartData() {
+        // TODO (nocks) - Auto-generated method stub
+		ArrayList<Double> oResult = new ArrayList<Double>();
+		oResult.addAll(moDriveChartData.values());
+		return oResult;
+
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 18.06.2019 13:58:44
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+     */
+    @Override
+    public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.addAll(moDriveChartData.keySet());
+		return oResult;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 18.06.2019 13:58:44
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+     */
+    @Override
+    public clsTimeChartPropeties getProperties() {
+        // TODO (nocks) - Auto-generated method stub
+        return new clsTimeChartPropeties(true);
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 18.06.2019 13:58:44
+     * 
+     * @see inspector.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
+     */
+    @Override
+    public boolean chartColumnsChanged() {
+        // TODO (nocks) - Auto-generated method stub
+        return mnChartColumnsChanged;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 18.06.2019 13:58:44
+     * 
+     * @see inspector.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
+     */
+    @Override
+    public void chartColumnsUpdated() {
+        // TODO (nocks) - Auto-generated method stub
+        mnChartColumnsChanged = false;
+    }	
 }

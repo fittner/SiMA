@@ -176,11 +176,11 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         moStamina.put(eDriveProperty.PERSONALITY_PARAMETERS, fillPersonalityStamina(poPersonalityParameterContainer));
         moMapping.put("STAMINA", moStamina);
         
-        HashMap<eDriveProperty, Object> moHealth = new HashMap<eDriveProperty,Object>();
-        moHealth.put(eDriveProperty.ORGAN, "HEALTH");
-        moHealth.put(eDriveProperty.ORIFICE, "TRACHEA");
-        moHealth.put(eDriveProperty.PERSONALITY_PARAMETERS, fillPersonalityStamina(poPersonalityParameterContainer));
-        moMapping.put("HEALTH", moHealth);
+//        HashMap<eDriveProperty, Object> moHealth = new HashMap<eDriveProperty,Object>();
+//        moHealth.put(eDriveProperty.ORGAN, "HEALTH");
+//        moHealth.put(eDriveProperty.ORIFICE, "TRACHEA");
+//        moHealth.put(eDriveProperty.PERSONALITY_PARAMETERS, fillPersonalityStamina(poPersonalityParameterContainer));
+//        moMapping.put("HEALTH", moHealth);
         
     }
     
@@ -278,7 +278,6 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		    if(moMapping.containsKey(oInputValue)){
 		        changeDriveBuffer(moMapping.get(oInputValue),oEntry.getValue() );
 		    }
-		    
         }
 		
 		log.debug("PI Buffer after processing F65:\n"+moLibidoBuffer.send_D1_5().toString());
@@ -371,17 +370,17 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STAMINA).b);
         moHomeostaticDriveComponents_OUT.add(oAADM);
         
-        eOrgan oOrgan = eOrgan.HEALTH;
-        eDrive oDrive = eDrive.HEALTH;
-        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
-        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).a);
-        moHomeostaticDriveComponents_OUT.add(oAADM);
-        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
-        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).b);
-        moHomeostaticDriveComponents_OUT.add(oAADM);
+//        eOrgan oOrgan = eOrgan.HEALTH;
+//        eDrive oDrive = eDrive.HEALTH;
+//        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
+//        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).a);
+//        moHomeostaticDriveComponents_OUT.add(oAADM);
+//        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
+//        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).b);
+//        moHomeostaticDriveComponents_OUT.add(oAADM);
         
-        oOrgan = eOrgan.RECTUM;
-        oDrive = eDrive.RECTUM;
+        eOrgan oOrgan = eOrgan.RECTUM;
+        eDrive oDrive = eDrive.RECTUM;
         oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
         oAADM.setQuotaOfAffect( receive_D1_4(oDrive).a);
         moHomeostaticDriveComponents_OUT.add(oAADM);
