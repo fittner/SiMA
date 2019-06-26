@@ -3075,8 +3075,8 @@
 		[AD%3AAIM%3AADAM%3ABEAT%3AANAL]
 		[AD%3ADRIVEOBJECT%3AADAM%3ABEAT%3AANAL])
 	(partial_drive "ANAL")
-	(psychic_satisfaction 0.03)
-	(quotaOfAffect 0.03)
+	(psychic_satisfaction 0.2)
+	(quotaOfAffect 0.2)
 	(value "DM:ANAL:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3088,8 +3088,8 @@
 		[AD%3ADRIVEOBJECT%3AADAM%3ABEAT%3APHALLIC]
 		[AD%3AAIM%3AADAM%3ABEAT%3APHALLIC])
 	(partial_drive "PHALLIC")
-	(psychic_satisfaction 0.02)
-	(quotaOfAffect 0.03)
+	(psychic_satisfaction 0.2)
+	(quotaOfAffect 0.2)
 	(value "DM:PHALIC:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3101,7 +3101,7 @@
 		[AD%3ADRIVEOBJECT%3AADAM%3ABITE]
 		[AD%3AAIM%3AADAM%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.01)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3125,7 +3125,7 @@
 		[AD%3ADRIVEOBJECT%3AMEATBASIC%3ABITE]
 		[AD%3AAIM%3AMEAT%3ASHARE_FOOD])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.09)
+	(quotaOfAffect 0.6)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3179,7 +3179,7 @@
 		[AD%3ADRIVEOBJECT%3AMEAT%3ADIVIDE]
 		[AD%3AAIM%3AMEAT%3ASHARE_FOOD])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.05)
+	(quotaOfAffect 0.19)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3191,7 +3191,7 @@
 		[AD%3ADRIVEOBJECT%3AADAM%3AEAT]
 		[AD%3AAIM%3AADAM%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.02)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3215,7 +3215,7 @@
 		[AD%3ADRIVEOBJECT%3AMEATBASIC%3AEAT]
 		[AD%3AAIM%3AMEAT%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.08)
+	(quotaOfAffect 0.01)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3273,7 +3273,7 @@
 		[AD%3AAIM%3AMEAT%3ALEECH]
 		[AD%3ADRIVEOBJECT%3AMEAT%3ALEECH])
 	(partial_drive "ORAL")
-	(quotaOfAffect 0.01)
+	(quotaOfAffect 0.2)
 	(value "DM:ORAL:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3334,7 +3334,7 @@
 		[AD%3AAIM%3AMEAT%3ASHARE_FOOD])
 	(partial_drive "UNDEFINED")
 	(psychic_satisfaction 0.2)
-	(quotaOfAffect 0.2)
+	(quotaOfAffect 0.8)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3358,8 +3358,8 @@
 		[AD%3ADRIVEOBJECT%3AMEAT%3ASPEAK]
 		[AD%3AAIM%3AMEAT%3ASPEAK])
 	(partial_drive "ORAL")
-	(psychic_satisfaction 0.0)
-	(quotaOfAffect 0.0)
+	(psychic_satisfaction 0.2)
+	(quotaOfAffect 0.2)
 	(value "DM:ORAL:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3371,7 +3371,7 @@
 		[AD%3ADRIVEOBJECT%3AMEAT%3ASUCK]
 		[AD%3AAIM%3AMEAT%3ASUCK])
 	(partial_drive "ORAL")
-	(quotaOfAffect 0.01)
+	(quotaOfAffect 0.2)
 	(value "DM:ORAL:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3389,12 +3389,12 @@
 
 ([EMOTION%3AA06_BEAT_DOUG_L01%3AANXIETY] of  EMOTION
 
-	(emotionIntensity 0.4)
+	(emotionIntensity 0.46)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.48)
-	(sourceLibid 0.16)
-	(sourcePleasure 0.4)
-	(sourceUnpleasure 0.42)
+	(sourceAggr 0.19)
+	(sourceLibid 0.18)
+	(sourcePleasure 0.17)
+	(sourceUnpleasure 0.32)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3433,12 +3433,12 @@
 
 ([EMOTION%3AA10_DIVIDE_MEAT_L01%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.46)
+	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.48)
-	(sourceLibid 0.16)
-	(sourcePleasure 0.4)
-	(sourceUnpleasure 0.4)
+	(sourceAggr 0.0)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.6)
+	(sourceUnpleasure 0.0)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3578,10 +3578,10 @@
 
 	(emotionIntensity 0.32)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.48)
-	(sourceLibid 0.16)
-	(sourcePleasure 0.4)
-	(sourceUnpleasure 0.43)
+	(sourceAggr 0.19)
+	(sourceLibid 0.18)
+	(sourcePleasure 0.17)
+	(sourceUnpleasure 0.32)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
