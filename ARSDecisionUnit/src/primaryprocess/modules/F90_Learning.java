@@ -32,6 +32,8 @@ import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
+import inspector.interfaces.clsTimeChartPropeties;
+import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 /**
  * DOCUMENT (fittner)  
@@ -40,7 +42,7 @@ import base.modules.ePsychicInstances;
  * 05.08.2011, 10:23:13
  *  
  */
-public class F90_Learning extends clsModuleBaseKB {
+public class F90_Learning extends clsModuleBaseKB implements itfInspectorGenericDynamicTimeChart {
 
 	public static final String P_MODULENUMBER = "90";
 	private ArrayList<clsDriveMesh> moLearningStorage_DM = new ArrayList<clsDriveMesh>();
@@ -50,6 +52,9 @@ public class F90_Learning extends clsModuleBaseKB {
 	private clsShortTermMemoryMF moSTM_Learning;
 	private clsShortTermMemoryEntry moLTM_Learning;
 	private clsShortTermMemoryEntry moSTM_LearningEntry;
+	private boolean mnChartColumnsChanged = true;
+	private HashMap<String, Double> moDriveChartData;
+
 	/**
 	 * DOCUMENT (fittner) 
 	 * 
@@ -75,6 +80,7 @@ public class F90_Learning extends clsModuleBaseKB {
 		    applyProperties(poPrefix, poProp);
 		    moSTM_Learning = poSTM_Learning;
 		    moLTM_Learning = new clsShortTermMemoryEntry();
+		    moDriveChartData =  new HashMap<String, Double>(); //initialize charts
 	}
 	   
 	private void applyProperties(String poPrefix, clsProperties poProp)
@@ -136,7 +142,7 @@ public class F90_Learning extends clsModuleBaseKB {
 	        {
 	            double MomentActivation = STM_Image.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION);
 	            double LearningIntensity = 1.0;
-	            double TimeIntensity = 0.1;
+	            double TimeIntensity = 1.0;
                 
 	            double LearningWeight;
 	            LearningWeight = MomentActivation * LearningIntensity;
@@ -162,7 +168,6 @@ public class F90_Learning extends clsModuleBaseKB {
 	                {
 	                    LearningWeight = 1.0;
 	                }
-	                STM_Image.setLearningWeight(LearningWeight);
 	                
 	                clsEmotion EmotionRI = null;
                     for(clsAssociation Ass:STM_Image.getExternalAssociatedContent())
@@ -187,24 +192,43 @@ public class F90_Learning extends clsModuleBaseKB {
 	                double merdgeLib;
 	                double merdgeAggr;
 	                double merdgeIntensity;
+	                double EmotionSum;
+	                double EmotionRISum;
+                    
+//	                merdgePleasure= (EmotionRI.getSourcePleasure() + Emotion.getSourcePleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity);
+//	                merdgeUnlpeasure= (EmotionRI.getSourceUnpleasure() + Emotion.getSourceUnpleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity);
+//	                merdgeLib= (EmotionRI.getSourceLibid() + Emotion.getSourceLibid()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity);
+//	                merdgeAggr=  (EmotionRI.getSourceAggr() + Emotion.getSourceAggr()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity);
+//	                merdgeIntensity = merdgeUnlpeasure;
+	                EmotionSum = Emotion.getSourcePleasure() + Emotion.getSourceUnpleasure() + Emotion.getSourceLibid() + Emotion.getSourceAggr();
+	                EmotionRISum = EmotionRI.getSourcePleasure() + EmotionRI.getSourceUnpleasure() + EmotionRI.getSourceLibid() + EmotionRI.getSourceAggr();
 	                
-	                merdgePleasure= (EmotionRI.getSourcePleasure() + Emotion.getSourcePleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity);
-	                merdgeUnlpeasure= (EmotionRI.getSourceUnpleasure() + Emotion.getSourceUnpleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity);
-	                merdgeLib= (EmotionRI.getSourceLibid() + Emotion.getSourceLibid()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity);
-	                merdgeAggr=  (EmotionRI.getSourceAggr() + Emotion.getSourceAggr()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity);
-	                merdgeIntensity = merdgeUnlpeasure;
-	                EmotionMerge = clsDataStructureGenerator.generateEMOTION(
+	                double PleRI,UnpRI,LibRI,AggRI;
+	                double PleEm,UnpEm,AggEm,LibEm;
+	                PleRI = EmotionRI.getSourcePleasure();
+                    UnpRI = EmotionRI.getSourceUnpleasure();
+                    LibRI = EmotionRI.getSourceLibid();
+                    AggRI = EmotionRI.getSourceAggr();
+                    PleEm = Emotion.getSourcePleasure();
+                    UnpEm = Emotion.getSourceUnpleasure();
+                    LibEm = Emotion.getSourceLibid();
+                    AggEm = Emotion.getSourceAggr();
+                    //double Anpassungsfaktor=0.4;
+                    LearningIntensity = (PleEm*PleEm+UnpEm*UnpEm)/((UnpEm+PleEm));
+                    
+                    EmotionMerge = clsDataStructureGenerator.generateEMOTION(
 	                        new clsTriple <eContentType, eEmotionType, Object>(
 	                                Emotion.getContentType(),
 	                                Emotion.getContent(),
 	                                Emotion.getEmotionIntensity()),
-	                                (EmotionRI.getSourcePleasure() + Emotion.getSourcePleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity),
-	                                (EmotionRI.getSourceUnpleasure() + Emotion.getSourceUnpleasure()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity),
-	                                (EmotionRI.getSourceLibid() + Emotion.getSourceLibid()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity),
-	                                (EmotionRI.getSourceAggr() + Emotion.getSourceAggr()*LearningIntensity*TimeIntensity)/(1+1*LearningIntensity*TimeIntensity));
+	                                (PleRI*PleRI*EmotionRISum + PleEm*PleEm*LearningIntensity*TimeIntensity*EmotionSum)/(EmotionRISum*PleRI+LearningIntensity*TimeIntensity*EmotionSum*PleEm),
+	                                (UnpRI*UnpRI*EmotionRISum + UnpEm*UnpEm*LearningIntensity*TimeIntensity*EmotionSum)/(EmotionRISum*UnpRI+LearningIntensity*TimeIntensity*EmotionSum*UnpEm),
+	                                (LibRI*LibRI*EmotionRISum + LibEm*LibEm*LearningIntensity*TimeIntensity*EmotionSum)/(EmotionRISum*LibRI+LearningIntensity*TimeIntensity*EmotionSum*LibEm),
+	                                (AggRI*AggRI*EmotionRISum + AggEm*AggEm*LearningIntensity*TimeIntensity*EmotionSum)/(EmotionRISum*AggRI+LearningIntensity*TimeIntensity*EmotionSum*AggEm));
 	                LTM_Image.addExternalAssociation(new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType> (-1, eDataType.ASSOCIATIONEMOTION, eContentType.ASSOCIATIONEMOTION), 
                             EmotionMerge, 
                             LTM_Image));
+	                LTM_Image.setLearningWeight(LearningIntensity);
 	                if(replace)
 	                {
 	                    moLTM_Learning.setLearningImage(LTM_Image); 
@@ -213,8 +237,12 @@ public class F90_Learning extends clsModuleBaseKB {
 	                {
 	                    moLTM_Learning.setLearningImage(LTM_Image);   
 	                }
-	                
-	                
+	                moLTM_Learning.setLearningLTMStorage(LTM_Image);
+	                String olKey = "Learning intensity";
+	                if ( !moDriveChartData.containsKey(olKey) ) {
+	                    mnChartColumnsChanged = true;
+	                }
+	                moDriveChartData.put(olKey, LearningIntensity);
 	             }
 	        }
 	            
@@ -420,6 +448,118 @@ public class F90_Learning extends clsModuleBaseKB {
     protected void send() {
         // TODO (noName) - Auto-generated method stub
         
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 24.06.2019 16:48:23
+     * 
+     * @see inspector.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+     */
+    @Override
+    public double getTimeChartUpperLimit() {
+        // TODO (nocks) - Auto-generated method stub
+        return 1.1;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 24.06.2019 16:48:23
+     * 
+     * @see inspector.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+     */
+    @Override
+    public double getTimeChartLowerLimit() {
+        // TODO (nocks) - Auto-generated method stub
+        return -0.1;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 24.06.2019 16:48:23
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+     */
+    @Override
+    public String getTimeChartAxis() {
+        // TODO (nocks) - Auto-generated method stub
+        return "0 to 1";
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 24.06.2019 16:48:23
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+     */
+    @Override
+    public String getTimeChartTitle() {
+        // TODO (nocks) - Auto-generated method stub
+        return "Learning intensity";
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 24.06.2019 16:48:23
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+     */
+    @Override
+    public ArrayList<Double> getTimeChartData() {
+        // TODO (nocks) - Auto-generated method stub
+		ArrayList<Double> oResult = new ArrayList<Double>();
+		oResult.addAll(moDriveChartData.values());
+		return oResult;
+
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 24.06.2019 16:48:23
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+     */
+    @Override
+    public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.addAll(moDriveChartData.keySet());
+		return oResult;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 24.06.2019 16:48:23
+     * 
+     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+     */
+    @Override
+    public clsTimeChartPropeties getProperties() {
+        // TODO (nocks) - Auto-generated method stub
+        return new clsTimeChartPropeties(true);
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 24.06.2019 16:48:23
+     * 
+     * @see inspector.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
+     */
+    @Override
+    public boolean chartColumnsChanged() {
+        // TODO (nocks) - Auto-generated method stub
+        return mnChartColumnsChanged;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 24.06.2019 16:48:23
+     * 
+     * @see inspector.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
+     */
+    @Override
+    public void chartColumnsUpdated() {
+        // TODO (nocks) - Auto-generated method stub
+        mnChartColumnsChanged = false;
     }
 
 }

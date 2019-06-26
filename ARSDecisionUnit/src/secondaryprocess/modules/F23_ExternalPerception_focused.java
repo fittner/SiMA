@@ -148,7 +148,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
-		text += toText.valueToTEXT("ActivatedObjects:", ActivatedObjects);
+		text += toText.valueToTEXT("Focused Objects:", ActivatedObjects);
 		return text;
 	}	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -337,6 +337,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
                   )
                 {
                     STM_Object.setCriterionActivationValue(eActivationType.FOCUS_ACTIVATION, STM_Object.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION) + 1.0);
+                    ActivatedObjects.add(oFocusOnGoal.b);
                 }
             }
         }

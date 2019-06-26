@@ -227,7 +227,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		text += toText.valueToTEXT("rPerceptionPleasure", oPerceptionExtractedValues.get("rPerceptionPleasure"));
 		text += toText.valueToTEXT("rPerceptionLibid", oPerceptionExtractedValues.get("rPerceptionLibid"));
 		text += toText.valueToTEXT("rPerceptionAggr", oPerceptionExtractedValues.get("rPerceptionAggr"));
-		
+		text += toText.valueToTEXT("rPerceptionUnpleasurePain", oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
+        
 		text += toText.listToTEXT("moEmotions_OUT", moEmotions_OUT);
 		
 		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getExternalAssociatedContent());
@@ -279,7 +280,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		rDrivePleasure =  moPleasureStorage.send_D4_1();
 		
 		//rSystemUnpleasure = moPleasureStorage.send_D4_3() * mrInfluenceCurrentDrives;
-		rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives + rpain;
+		rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives;
         rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives;
         rSystemLibid = rDriveLibid * mrInfluenceCurrentDrives;
         rSystemAggr = rDriveAggr * mrInfluenceCurrentDrives;
@@ -328,6 +329,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         rSystemPleasure = nonProportionalAggregation(rSystemPleasure, oMemoryExtractedValues.get("rPerceptionPleasure"));
         rSystemLibid = nonProportionalAggregation(rSystemLibid, oMemoryExtractedValues.get("rPerceptionLibid"));
         rSystemAggr = nonProportionalAggregation(rSystemAggr, oMemoryExtractedValues.get("rPerceptionAggr"));
+        
+        rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, rpain);
         
         if(oMemoryExtractedValues.get("rPerceptionUnpleasure") < 0.1) {
             log.debug("Unpleasure missing");
@@ -1241,13 +1244,19 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         double rPerceptionEXP = oPerceptionExtractedValues.get("rPerceptionExperience" + poPostfix);
         double rPerceptionBS = oPerceptionExtractedValues.get("rPerceptionBodystate" + poPostfix);
         double rMemory = oMemoryExtractedValues.get("rPerception" + poPostfix);
-        double rSum = rDrive + rPerceptionDM + rPerceptionEXP + rPerceptionBS + rMemory;
+        double rpaintemp=0;
+        if(poPostfix == "Unpleasure")
+        {
+            rpaintemp = rpain;
+        }
+        double rSum = rDrive + rPerceptionDM + rPerceptionEXP + rPerceptionBS + rMemory + rpaintemp;
         
         rResults.add(prAggregatedValue * rDrive / rSum);
         rResults.add(prAggregatedValue * rPerceptionDM / rSum);
         rResults.add(prAggregatedValue * rPerceptionEXP / rSum);
         rResults.add(prAggregatedValue * rPerceptionBS / rSum);
         rResults.add(prAggregatedValue * rMemory / rSum);
+        rResults.add(prAggregatedValue * rpaintemp / rSum);
         
         return rResults;
     }
@@ -1299,6 +1308,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         oData.add("Memorized Emotions - Entities");
         oData.add("Transferred Emotions");
         oData.add("Memorized Emotions - Situations");
+        oData.add("Pain(Body)");
 
         return oData;
     }
@@ -1364,6 +1374,12 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                 oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
             }
             break;
+//        case "Pain(Body)":
+//                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+//                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceUnpleasure())));
+//                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+//                oOuterData.add(new ArrayList<Double>(Arrays.asList(0.0)));
+//            break;
         default:
             log.warn("Trying to generate bar chart data for non-existant label {}", poLabel);
             break;

@@ -513,7 +513,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	                mnChartColumnsChanged = true;
 	            }
 	            moDriveChartData.put(olKey, unpleasure);
-	            F63_CompositionOfEmotions.rpain = unpleasure;
+	            if ( unpleasure > F63_CompositionOfEmotions.rpain)
+	            {
+	                F63_CompositionOfEmotions.rpain = unpleasure;
+	            }
+
 	        }
 	    }
 	}

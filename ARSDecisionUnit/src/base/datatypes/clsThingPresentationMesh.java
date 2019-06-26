@@ -43,7 +43,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	private HashMap<eActivationType, Double> moCriterionMaxValues = new HashMap<eActivationType, Double>();
 	private double mrCathexis;
 	private int mnActiveTime = 0;
-	private double mnLearningWeight = 0;
+	private double mnLearningIntMom = 0;
+	private double mnLearningIntSum = 0;
     private double mrWeightPI;
 	
 	/**
@@ -799,8 +800,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 			oResult += "::"+this.moDataStructureType+"::";  
 			oResult += this.moContentType + ":" + this.moContent;
 		}
-		
-		return oResult; 
+		oResult += "*** Learning weight= "+this.mnLearningIntMom+"***";
+		oResult += "*** Learning weight Sum= "+this.mnLearningIntSum+"***";
+        return oResult; 
 	}
 
     /**
@@ -827,7 +829,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
      * @return the learningWeight
      */
     public double getLearningWeight() {
-        return mnLearningWeight;
+        return mnLearningIntMom;
     }
 
     /**
@@ -836,6 +838,24 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
      * @param learningWeight the learningWeight to set
      */
     public void setLearningWeight(double learningWeight) {
-        mnLearningWeight = learningWeight;
+        mnLearningIntMom = learningWeight;
+    }
+    
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @return the learningWeight
+     */
+    public double getLearningWeightSum() {
+        return mnLearningIntSum;
+    }
+
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @param learningWeight the learningWeight to set
+     */
+    public void setLearningWeightSum(double learningWeight) {
+        mnLearningIntSum = learningWeight;
     }
 }

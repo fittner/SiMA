@@ -335,17 +335,17 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		log.debug("Sorted Goals after aplying aim importance:\n{}", PrintTools.printArrayListWithLineBreaks(oSortedList));
 		
 		//Apply social rules on goals
-		for( String socialRule: moSTM_Learning.moShortTermMemoryMF.get(0).getSocialRules())
-		{
-		    if (socialRule == "NO_DEVIDE" && moRuleList != "DEVIDE")
-		    {
-		        moRuleList = "NO_DEVIDE";
-		    }
-		    else
-		    {
-		        moRuleList = "DEVIDE";
-		    }
-		}
+//		for( String socialRule: moSTM_Learning.moShortTermMemoryMF.get(0).getSocialRules())
+//		{
+//		    if (socialRule == "NO_DEVIDE" && moRuleList != "DEVIDE")
+//		    {
+//		        moRuleList = "NO_DEVIDE";
+//		    }
+//		    else
+//		    {
+//		        moRuleList = "DEVIDE";
+//		    }
+//		}
 		
 		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);
 	    log.debug("Social rules: {}", moRuleList);

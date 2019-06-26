@@ -10,6 +10,7 @@ package base.datatypes;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.HashMap;
 
 import memorymgmt.enums.eActivationType;
 
@@ -36,6 +37,8 @@ public class clsShortTermMemoryEntry {
     private ArrayList<String> socialRules = new ArrayList<String>();
     private boolean learning=false;
     private int step=0;
+    private HashMap<String, clsThingPresentationMesh> LearningSTMStoreHM = new HashMap<String, clsThingPresentationMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningSTMStore = new ArrayList<clsThingPresentationMesh>();
     
     
 	/**
@@ -130,6 +133,35 @@ public class clsShortTermMemoryEntry {
     public void setLearningImage(clsThingPresentationMesh TPM_Object)
     {
         LearningImage.add(TPM_Object);
+    }
+    
+    public void setLearningLTMStorage(clsThingPresentationMesh TPM_Image)
+    {
+//        clsThingPresentationMesh LI1, LI2, LI3, LI4, LI5;
+//        LI1 = LearningImage.get(LearningImage.size()-1);
+//        LI2 = LearningImage.get(LearningImage.size()-2);
+//        LI3 = LearningImage.get(LearningImage.size()-3);
+//        LI4 = LearningImage.get(LearningImage.size()-4);
+//        LI5 = LearningImage.get(LearningImage.size()-5);
+        double LearningIntensity=0;
+        if(LearningImage.size() > 0)
+        {
+            for(int i=LearningImage.size()-1; i > LearningImage.size()-6 && i > 0; i--)
+            {
+                clsThingPresentationMesh Image = LearningImage.get(i);
+                if(Image.compareTo(TPM_Image) == 1.0)
+                {
+                    LearningIntensity += (Image.getLearningWeight() * 0.2 * (i - (LearningImage.size()-6)));
+                }
+                TPM_Image.setLearningWeightSum(LearningIntensity);
+            }
+            if(LearningIntensity > 1.0)
+            {
+                LearningSTMStore.add(TPM_Image);
+                LearningSTMStoreHM.remove(TPM_Image.getContent());
+                LearningSTMStoreHM.put(TPM_Image.getContent(),TPM_Image);
+            }
+        }
     }
     
     public ArrayList<clsThingPresentationMesh> getLearningImage()
