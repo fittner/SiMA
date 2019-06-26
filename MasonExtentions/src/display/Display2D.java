@@ -82,7 +82,7 @@ public class Display2D extends sim.display.Display2D {
 	        public void mouseReleased(MouseEvent e)
 	            {
 	        		Point oPoint = e.getPoint();
-					moveSelectedObject(oPoint);
+					//moveSelectedObject(oPoint);
 				    repaint();
 	            }
 	        });
