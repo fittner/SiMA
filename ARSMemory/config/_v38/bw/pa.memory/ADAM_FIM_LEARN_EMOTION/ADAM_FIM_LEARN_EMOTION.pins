@@ -1,4 +1,4 @@
-; Tue May 21 11:12:34 CEST 2019
+; Thu Jun 27 07:57:43 CEST 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3114,7 +3114,7 @@
 		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3ABITE]
 		[AD%3AAIM%3ACARROT%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.07)
+	(quotaOfAffect 0.8)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3126,7 +3126,7 @@
 		[AD%3ADRIVEOBJECT%3AMEATBASIC%3ABITE]
 		[AD%3AAIM%3AMEAT%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.06)
+	(quotaOfAffect 0.03)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3138,7 +3138,7 @@
 		[AD%3ADRIVEOBJECT%3AMOTHERS_BREAST%3ABITE]
 		[AD%3AAIM%3AMOTHERS_BREAST%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.01)
+	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3150,7 +3150,7 @@
 		[AD%3ADRIVEOBJECT%3ASTONE%3ABITE]
 		[AD%3AAIM%3ASTONE%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3180,7 +3180,7 @@
 		[AD%3ADRIVEOBJECT%3AMEAT%3ADIVIDE]
 		[AD%3AAIM%3AMEAT%3ADIVIDE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.04)
+	(quotaOfAffect 0.05)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3216,7 +3216,7 @@
 		[AD%3ADRIVEOBJECT%3AMEATBASIC%3AEAT]
 		[AD%3AAIM%3AMEAT%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.05)
+	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -3441,7 +3441,7 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.52)
 	(sourceLibid 0.32)
-	(sourcePleasure 0.14)
+	(sourcePleasure 0.58)
 	(sourceUnpleasure 0.16)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
@@ -3558,12 +3558,12 @@
 
 ([EMOTION%3AA10_DIVIDE_MEAT_L01_I10%3AJOY] of  EMOTION
 
-	(emotionIntensity 0.0)
+	(emotionIntensity 0.14)
 	(intensityDeviation 0.0)
 	(sourceAggr 0.12)
 	(sourceLibid 0.07)
-	(sourcePleasure 0.16)
-	(sourceUnpleasure 0.0)
+	(sourcePleasure 0.38)
+	(sourceUnpleasure 0.15)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3705,7 +3705,7 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.51)
 	(sourceLibid 0.21)
-	(sourcePleasure 0.32)
+	(sourcePleasure 0.15)
 	(sourceUnpleasure 0.39)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
@@ -3716,8 +3716,8 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.36)
 	(sourceLibid 0.23)
-	(sourcePleasure 0.24)
-	(sourceUnpleasure 0.23)
+	(sourcePleasure 0.33)
+	(sourceUnpleasure 0.24)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
