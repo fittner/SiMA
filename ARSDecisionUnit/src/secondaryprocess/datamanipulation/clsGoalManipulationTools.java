@@ -10,6 +10,7 @@ import general.datamanipulation.ImportanceComparatorWPM;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import memorymgmt.enums.eAction;
 import memorymgmt.enums.eActivationType;
@@ -665,12 +666,37 @@ public class clsGoalManipulationTools {
 	    
 	    //Sort the list for importance
 	    Collections.sort(goalList, Collections.reverseOrder(new ImportanceComparatorWPM()));
+	    HashMap<String, Integer> filter = new HashMap<String, Integer>();
+	    for(E goal:goalList)
+	    {   String name;
+	        name=goal.getSupportiveDataStructure().getContent();
+	        int i;
+	        if(name != "NULLOBJECT" && name != "ENTITY2IMAGE")
+	        {
+    	        if(filter.containsKey(name))
+    	        {
+    	            filter.replace(name,filter.get(name)+1);
+    	        }
+    	        else
+    	        {
+    	            filter.put(name,1);
+    	        }
+    	        if(filter.get(name) < 3)
+    	        {
+    	            result.add(goal);
+    	        }
+	        }
+	    }
 	    
 	    //Get the n highest elements
-	    if (numberOfElementsToKeep>-1 && numberOfElementsToKeep<goalList.size()) {
-	        result = new ArrayList<E>(goalList.subList(0, numberOfElementsToKeep));
-	    } else {
-	        result = goalList;
+	    if(result.size()==0)
+	    {
+    	    if (numberOfElementsToKeep>-1 && numberOfElementsToKeep<goalList.size()) {
+    //	        filter = selectSuitableReachableGoals
+    	        result = new ArrayList<E>(goalList.subList(0, numberOfElementsToKeep));
+    	    } else {
+    	        result = goalList;
+    	    }
 	    }
 	    
 	    return result;

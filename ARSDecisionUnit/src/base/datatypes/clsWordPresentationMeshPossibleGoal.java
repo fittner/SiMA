@@ -328,14 +328,18 @@ public class clsWordPresentationMeshPossibleGoal extends clsWordPresentationMesh
     public double getTotalImportance() {
         int nFactors = 0;
         double rTempImportance = 0;
+        double DDCorr,Effort,SocialR,DriveA,PP,EntityV,EntityB;
+        DDCorr  = this.getDriveDemandCorrectionImportance();
+        Effort  = this.getEffortImpactImportance();
+        SocialR = this.getSocialRulesImportance();
+        DriveA  = this.getDriveAimImportance();
+        PP      = this.getPPImportance();
+        EntityV= this.getEntityValuationImportance();
+        EntityB = this.getEntityBodystateImportance();
         
-        double totalImportance = this.getDriveDemandCorrectionImportance()
-                + getEffortImpactImportance()
-                + this.getSocialRulesImportance()
-                + getDriveAimImportance()
-                + getPPImportance()
-                + getEntityValuationImportance()
-                + getEntityBodystateImportance();
+        
+        double totalImportance = DDCorr+Effort+SocialR+DriveA+PP+EntityV+EntityB;
+ 
         
         return totalImportance;
         
