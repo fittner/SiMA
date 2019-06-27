@@ -583,7 +583,7 @@ public class clsImportanceTools {
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_GOAL)) {
-			nResult+= 0.06;
+			nResult+= 0.01;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_PLANGOAL)) {
             nResult+= 0.00;
 		} else if (poCondition.equals(eCondition.ACT_MATCH_TOO_LOW)) {
