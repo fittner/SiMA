@@ -50,6 +50,7 @@ public class GoalHandlingFunctionality {
     private static Logger moFeelingLog = clsLogger.getLog("Feelings");
     protected final static Logger logFim = logger.clsLogger.getLog("Fim");
     private static int counter=0;
+    private static int counter2=0;
     
     
     
@@ -105,8 +106,8 @@ public class GoalHandlingFunctionality {
          * goalsByReservedFeeling more than goalsByTriggeredFeeling and goalsByExpectedFeelingThreshold.
          */
         double goalsByTriggeredFeelingThreshold = 0.00;
-        double goalsByExpectedFeelingThreshold = 0.15;
-        double goalsByReservedFeelingThreshold = 0.3;
+        double goalsByExpectedFeelingThreshold = 0.00;
+        double goalsByReservedFeelingThreshold = 0.9;
         
         for(clsWordPresentationMeshFeeling oFeeling : currentFeelings) {
             moFeelingLog.debug(oFeeling.toString());
@@ -180,11 +181,15 @@ public class GoalHandlingFunctionality {
             {
                 for( clsWordPresentationMeshPossibleGoal reachableGoal2:reachableGoalList)
                 {
-                    if(reachableGoal2.getSupportiveDataStructure().getContent().equals("A06_BEAT_ADAM_L01"))
+                    if(reachableGoal2.getSupportiveDataStructure().getContent().equals("A06_BEAT_DOUG_L01"))
                     {
                         if(poRuleList == "NO_DEVIDE")
                         {
-                            reachableGoal2.setSocialRulesImportance(0.2);
+                            counter2++ ;
+                            if (counter2 >= 20)
+                            {
+                                reachableGoal2.setSocialRulesImportance(0.02);
+                            }
                         }
                         else
                         {

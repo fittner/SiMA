@@ -47,7 +47,10 @@ public class EffortFunctionality {
           
           
           
-          
+          if (oImportanceValue<0)
+          {
+              oImportanceValue = 0;
+          }
           oGoal.addEffortImpactImportance(oImportanceValue);
       }
       

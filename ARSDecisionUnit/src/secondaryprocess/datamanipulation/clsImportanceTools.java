@@ -629,9 +629,9 @@ public class clsImportanceTools {
 		if (rActConfidence==1.0) {
 			nResult += 0;
 		} else if (rActConfidence<1.0 && rActConfidence>=0.5) {
-			nResult += -0.02;
+			nResult += -0.002;
 		} else if (rActConfidence<0.5) {
-			nResult += -0.10;
+			nResult += -0.005;
 		}
 		
 		

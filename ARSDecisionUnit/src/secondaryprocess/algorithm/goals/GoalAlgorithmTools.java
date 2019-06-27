@@ -277,7 +277,7 @@ public class GoalAlgorithmTools {
 		else if (poGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
 			if (poGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)) {
 				//There are only the acts: Check the act confidence. If it is low, then lower the pleasure value
-				nResult -= clsImportanceTools.getEffortValueOfActConfidence(clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure()));
+				nResult += clsImportanceTools.getEffortValueOfActConfidence(clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure()));
 			}
 			
 		}
