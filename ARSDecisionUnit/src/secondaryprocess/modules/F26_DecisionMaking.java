@@ -10,7 +10,7 @@ import general.datamanipulation.PrintTools;
 import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericTimeChart;
 
-
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -99,6 +99,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;
 	
 	private final DecisionEngine moDecisionEngine;
+	ArrayList<String> Importance = new ArrayList();
 	
 	// Anxiety from F20
 	public static ArrayList<clsWordPresentationMeshFeeling> moFeeling_IN;
@@ -194,7 +195,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		text += toText.listToTEXT("moAnxiety_Input", moFeeling_IN);
 		
 		text += toText.valueToTEXT("moSpeechList", moSpeechList_IN);
-		
+		text += Importance;
 		return text;
 	}		
 
@@ -352,7 +353,56 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	    log.debug("Social rules on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 	    
 		//Select the goals to be forwarded
-		moDecidedGoalList_OUT = GoalHandlingFunctionality.selectSuitableReachableGoals(moReachableGoalList_IN, mnNumberOfGoalsToPass);
+	    Importance.clear();
+	    DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        
+		for(clsWordPresentationMeshPossibleGoal Goal:moReachableGoalList_IN)
+		{
+		    String Name ="                    ";
+		    double DDCorr,Effort,SocialR,DriveA,PP,EntityV,EntityB,total;
+		    DDCorr  = Goal.getDriveDemandCorrectionImportance();
+            Effort  = Goal.getEffortImpactImportance();
+            SocialR = Goal.getSocialRulesImportance();
+            DriveA  = Goal.getDriveAimImportance();
+            PP      = Goal.getPPImportance();
+            EntityV = Goal.getEntityValuationImportance();
+            EntityB = Goal.getEntityBodystateImportance();
+            total= DDCorr+Effort+SocialR+DriveA+PP+EntityV+EntityB;
+            Name= Goal.getSupportiveDataStructure().getContent();
+            if(Name.length()>19)
+            {
+                Name=(Name).substring(0, 19);
+            }
+            int lenge = 20 - Name.length();
+            for(int i=0;i<lenge;i++)
+            {
+                Name +=" ";
+            }
+            Importance.add(Name
+                    +":Total="+df.format(total)
+                    +":DDCorr="+df.format(DDCorr)
+                    +":Effort="+df.format(Effort)
+                    +":SocialR="+df.format(SocialR)
+                    +":DriveA="+df.format(DriveA)
+                    +":PP="+df.format(PP)
+                    +":EntityV="+df.format(EntityV)
+                    +":EntityB="+df.format(EntityB)+"\n");
+		}
+//		        DDCorr  = this.getDriveDemandCorrectionImportance();
+//		        Effort  = this.getEffortImpactImportance();
+//		        SocialR = this.getSocialRulesImportance();
+//		        DriveA  = this.getDriveAimImportance();
+//		        PP      = this.getPPImportance();
+//		        EntityV= this.getEntityValuationImportance();
+//		        EntityB = this.getEntityBodystateImportance();
+//		        
+//		        
+//		        double totalImportance = DDCorr+Effort+SocialR+DriveA+PP+EntityV+EntityB;
+//		 
+//		        
+//		        return totalImportance;
+	    moDecidedGoalList_OUT = GoalHandlingFunctionality.selectSuitableReachableGoals(moReachableGoalList_IN, mnNumberOfGoalsToPass);
 		
 		log.info("Selectable goals sorted: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
