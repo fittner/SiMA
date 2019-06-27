@@ -135,6 +135,11 @@ public class F63_CompositionOfEmotions extends clsModuleBase
     
     public static double rpain;
     
+    private int counter2=0;
+    
+    private double socialRule = 0;
+    private String moRuleList = "";
+    
 	// koller 
     private double mrEmotionrecognitionImpactFactor;
 	
@@ -168,7 +173,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber, mrInitialRequestIntensity, mrModuleStrength);
-		
+        
+        
 		applyProperties(poPrefix, poProp);	
 		
 		mrRelativeThreshold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_REALATIV_THRESHOLD).getParameterDouble();
@@ -325,12 +331,36 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         // aggregate values from drive- and perception track
         // normalize grundkategorien
         // (if agent sees many objects the perception has more influence, otherwise drives have more influence on emotions)
-        rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, oMemoryExtractedValues.get("rPerceptionUnpleasure"));
+       
+        for( String socialRule: moSTM_Learning.moShortTermMemoryMF.get(0).getSocialRules())
+        {
+            if (socialRule == "NO_DEVIDE" && moRuleList != "DEVIDE")
+            {
+                moRuleList = "NO_DEVIDE";
+            }
+            else
+            {
+                moRuleList = "DEVIDE";
+            }
+        }
+        if(moRuleList=="NO_DEVIDE")
+        {
+            counter2++ ;
+            if (counter2 >= 31)
+            {
+                socialRule = 0.2;
+            }
+        }
+        else
+        {
+            socialRule = 0.0;
+        }
         rSystemPleasure = nonProportionalAggregation(rSystemPleasure, oMemoryExtractedValues.get("rPerceptionPleasure"));
         rSystemLibid = nonProportionalAggregation(rSystemLibid, oMemoryExtractedValues.get("rPerceptionLibid"));
         rSystemAggr = nonProportionalAggregation(rSystemAggr, oMemoryExtractedValues.get("rPerceptionAggr"));
         
         rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, rpain);
+        rSystemUnpleasure += socialRule;
         
         if(oMemoryExtractedValues.get("rPerceptionUnpleasure") < 0.1) {
             log.debug("Unpleasure missing");
@@ -720,9 +750,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
        
        HashMap<String, Double> oMemoryExtractedValues = new HashMap<String, Double>();
        oMemoryExtractedValues.put("rPerceptionPleasure", rMemoryPleasure);
-       oMemoryExtractedValues.put("rPerceptionUnpleasure", rMemoryUnpleasure);
+       oMemoryExtractedValues.put("rPerceptionUnpleasure", rMemoryUnpleasure + socialRule);
        oMemoryExtractedValues.put("rPerceptionLibid", rMemoryLibid);
-       oMemoryExtractedValues.put("rPerceptionAggr", rMemoryAggr);
+       oMemoryExtractedValues.put("rPerceptionAggr", rMemoryAggr + socialRule);
        
        return oMemoryExtractedValues;
    }
