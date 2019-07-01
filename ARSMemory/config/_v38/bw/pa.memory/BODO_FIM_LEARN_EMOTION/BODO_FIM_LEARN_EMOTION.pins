@@ -1,4 +1,4 @@
-; Thu Jun 27 13:40:27 CEST 2019
+; Thu Jun 27 17:38:50 CEST 2019
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3413,10 +3413,10 @@
 
 	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.23)
-	(sourceLibid 0.14)
-	(sourcePleasure 0.25)
-	(sourceUnpleasure 0.37)
+	(sourceAggr 0.44)
+	(sourceLibid 0.16)
+	(sourcePleasure 0.31)
+	(sourceUnpleasure 0.6)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 

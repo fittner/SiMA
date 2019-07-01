@@ -650,7 +650,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         for(int i=0;i<8;i++) moActionQueue.add("MOVE_FORWARD");
         for(int i=0;i<5;i++) moActionQueue.add("TURN_LEFT10");
   */      
-        for(int i = 0; i < 10; i++) moActionQueue.add("MOVE_BACKWARD");
+        for(int i = 0; i < 100; i++) moActionQueue.add("MOVE_BACKWARD");
         for(int i = 0; i < 1; i++) moActionQueue.add("TURN_RIGHT45");
         for(int i = 0; i < 2; i++) moActionQueue.add("TURN_LEFT45");
         for(int i = 0; i < 1; i++) moActionQueue.add("TURN_RIGHT45");

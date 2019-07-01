@@ -26,6 +26,7 @@ import modules.interfaces.I6_8_receive;
 import modules.interfaces.I6_8_send;
 import modules.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_7_receive;
+import primaryprocess.modules.F63_CompositionOfEmotions;
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
@@ -74,7 +75,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
                 
     private double mrModuleStrength;
     private double mrInitialRequestIntensity;
-	
+	private static boolean test=false;
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -351,6 +352,19 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);
 	    log.debug("Social rules: {}", moRuleList);
 	    log.debug("Social rules on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
+	    
+        if(F63_CompositionOfEmotions.rpain > 0.45)
+        {
+            test=true;
+        }
+	    for( clsWordPresentationMeshPossibleGoal reachableGoal:moReachableGoalList_IN)
+        {
+	        if(reachableGoal.getSupportiveDataStructure().getContent().equals("A14_FLEE_CARL_L01")
+	          && test)
+            {
+	            reachableGoal.setFeelingsExpactationImportance(0.122);
+            }
+        }
 	    
 		//Select the goals to be forwarded
 	    Importance.clear();
