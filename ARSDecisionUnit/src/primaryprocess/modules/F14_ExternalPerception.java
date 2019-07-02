@@ -8,6 +8,7 @@ package primaryprocess.modules;
 
 import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfGraphCompareInterfaces;
+import inspector.interfaces.itfInspectorForSTM;
 import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
@@ -92,7 +93,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					I5_1_receive,
 					I5_19_receive,
 					itfInspectorGenericDynamicTimeChart,
-					itfGraphCompareInterfaces
+					itfGraphCompareInterfaces,
+					itfInspectorForSTM
 					{
 	public static final String P_MODULENUMBER = "14";
 	
@@ -778,12 +780,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         // zhukova attributed ownership
         oOutputTPMs = determineObjectsOwnership(oOutputTPMs);
         determineActionsOfAnAgents(oOutputTPMs);
+        
         if(!oOutputTPMs.isEmpty())
-        {
+        {   
             for(clsThingPresentationMesh oOutputTPM:oOutputTPMs)
-            {
+            {   
                 if (oOutputTPM.getContentType().equals(eContentType.ACTION))
                 {
+                    
                     if (  
                           oOutputTPM.getContent() == "PICK_UP"
                        || oOutputTPM.getContent() == "GIVE"
@@ -794,6 +798,51 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         moSTM_Learning.moShortTermMemoryMF.get(0).setSocialRules("DEVIDE");
                     }
 
+                }
+                if (oOutputTPM.getContentType().equals(eContentType.ENTITY))
+                {
+                    if ((oOutputTPM.getContent().equals("CARL")))
+                    {
+                        ArrayList<clsAssociation> associations;
+                        associations = oOutputTPM.getExternalAssociatedContent();
+                        for(clsAssociation association:associations)
+                        {
+                            if (association instanceof clsAssociationPrimary)
+                            {
+                                clsDataStructurePA action;
+                                action = association.getTheOtherElement(oOutputTPM);
+                                if(action instanceof clsThingPresentationMesh)
+                                {   clsThingPresentationMesh actionTPM = (clsThingPresentationMesh)action;
+                                    if (actionTPM.getContentType().equals(eContentType.ACTION))
+                                    {
+                                        moSTM_Learning.moShortTermMemoryMF.get(0).setLearningAction(actionTPM);
+                                    }
+                                }
+                            }
+                            if (association instanceof clsAssociationEmotion)
+                            {
+                                clsDataStructurePA action;
+                                action = association.getTheOtherElement(oOutputTPM);
+                                if(action instanceof clsEmotion)
+                                {   clsEmotion emotion = (clsEmotion)action;
+                                    moSTM_Learning.moShortTermMemoryMF.get(0).setLearningEmotion(emotion);
+                                }
+                            }
+                            if (association instanceof clsAssociationAttribute)
+                            {
+                                clsDataStructurePA action;
+                                action = association.getTheOtherElement(oOutputTPM);
+                                if(action instanceof clsThingPresentationMesh)
+                                {   clsThingPresentationMesh actionTPM = (clsThingPresentationMesh)action;
+                                    if (actionTPM.getContent().equals("Bodystate"))
+                                    {
+                                        moSTM_Learning.moShortTermMemoryMF.get(0).setLearningBodypart(actionTPM);
+                                    }
+                                }
+                            }
+
+                        }
+                    }
                 }
             }
             if(moSTM_Learning.moShortTermMemoryMF.get(0).getSocialRules().isEmpty())
@@ -2002,5 +2051,23 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
     public void chartColumnsUpdated() {
         // TODO (nocks) - Auto-generated method stub
         mnChartColumnsChanged = false;
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 01.07.2019 13:46:43
+     * 
+     * @see inspector.interfaces.itfInspectorForSTM#getDriverules()
+     */
+    @Override
+    public ArrayList<clsThingPresentationMesh> getData() {
+        ArrayList <clsThingPresentationMesh> test = new ArrayList <clsThingPresentationMesh>();
+        
+//        test.add(clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1")));
+//        test.add(clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1")));
+//        test.add(clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1")));
+        test = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects();
+        // TODO (nocks) - Auto-generated method stub
+        return test;
     }	
 }

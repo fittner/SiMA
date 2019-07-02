@@ -7,6 +7,7 @@
 package secondaryprocess.modules;
 
 import general.datamanipulation.PrintTools;
+import inspector.interfaces.itfInspectorForSTM;
 import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentationMesh;
 
@@ -53,7 +54,7 @@ import base.tools.toText;
  * 11.08.2009, 14:46:53
  * 
  */
-public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I6_12_receive, I6_3_receive, I6_6_send {
+public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I6_12_receive, I6_3_receive, I6_6_send, itfInspectorForSTM {
 	public static final String P_MODULENUMBER = "23";
 	
     private static final String P_MODULE_STRENGTH ="MODULE_STRENGTH";
@@ -453,4 +454,21 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	public void setDescription() {
 		moDescription = " The task of this module is to focus the external perception on ``important'' things. Important things are decided by the plan goal, which is extracted from the Short-Term-Memory.";
 	}
+
+    /* (non-Javadoc)
+     *
+     * @since 01.07.2019 15:28:49
+     * 
+     * @see inspector.interfaces.itfInspectorForSTM#getData()
+     */
+    @Override
+    public ArrayList<clsThingPresentationMesh> getData() {
+        // TODO (nocks) - Auto-generated method stub
+        ArrayList <clsThingPresentationMesh> test = new ArrayList <clsThingPresentationMesh>();
+        
+        test = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects();
+        //test = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImage();
+        
+        return test;
+    }
 }

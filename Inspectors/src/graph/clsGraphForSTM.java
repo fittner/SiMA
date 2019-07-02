@@ -10,9 +10,8 @@ import java.util.ArrayList;
 
 import javax.swing.JSplitPane;
 
-
-import inspector.interfaces.itfInspectorForRules;
-import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;
+import base.datatypes.clsThingPresentationMesh;
+import inspector.interfaces.itfInspectorForSTM;
 
 /**
  * DOCUMENT (Jordakieva) - insert description 
@@ -21,9 +20,9 @@ import primaryprocess.functionality.superegofunctionality.clsSuperEgoRulesCheck;
  * 01.11.2013, 16:05:13
  * 
  */
-public class clsGraphForRules extends clsGraphWindow {
+public class clsGraphForSTM extends clsGraphWindow {
 
-	private ArrayList<clsSuperEgoRulesCheck> moRules;
+	private ArrayList<clsThingPresentationMesh> moRules;
 	
 	/** DOCUMENT (Jordakieva) - insert description; @since 01.11.2013 16:05:50 */
 	private static final long serialVersionUID = -924552491855248160L;
@@ -35,12 +34,12 @@ public class clsGraphForRules extends clsGraphWindow {
 	 *
 	 * @param poOrtientationVertical
 	 */
-	public clsGraphForRules(boolean poOrtientationVertical, itfInspectorForRules poModule) {
+	public clsGraphForSTM(boolean poOrtientationVertical, itfInspectorForSTM oModule) {
 		super(poOrtientationVertical);
 		
-		moRules = poModule.getDriverules();
+		moRules = oModule.getData();
 		
-		moGraphes.get(0).setRootNodeName("saved Rules");
+		moGraphes.get(0).setRootNodeName("Short Term Memory (F90)");
 		updateGraphes();
 	}
 

@@ -98,7 +98,7 @@ public class clsGraph extends JGraph {
 	private final int mnEdgeDecimalPlaces =2;
 	private final boolean mbOrientationVertical;
 	private int mnXLevel = 0;
-	protected ArrayList<Object> moMesh = new ArrayList<Object>();
+	private ArrayList<Object> moMesh = new ArrayList<Object>();
 	private String moRootNodeName = "root";
 	private boolean mbUseSimpleView = false;
 	
@@ -513,9 +513,9 @@ public class clsGraph extends JGraph {
 	private void readInspectorDataAndGenerateGraphCells(clsGraphCell poParent) 
 	{
 		//check for the main list types possible
-		if(moMesh!=null){
-			for(int i=0; i<moMesh.size(); i++){
-				Object oO = moMesh.get(i);
+		if(getMoMesh()!=null){
+			for(int i=0; i<getMoMesh().size(); i++){
+				Object oO = getMoMesh().get(i);
 				generateGraphCell(poParent, oO);
 			}
 		}
@@ -1064,6 +1064,10 @@ public class clsGraph extends JGraph {
 		oDescription += poMemoryObject.getActivations().get(eActivationType.ASSOCIATIVE_ACTIVATION)!=null 
 				?"\nASS: "+(Math.round(poMemoryObject.getActivations().get(eActivationType.ASSOCIATIVE_ACTIVATION)*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces))
 				:"";
+		oDescription += poMemoryObject.getActivations().get(eActivationType.FOCUS_ACTIVATION)!=null 
+				?"\nFOC: "+(Math.round(poMemoryObject.getActivations().get(eActivationType.FOCUS_ACTIVATION)))
+				:"";
+
 //		oDescription += poMemoryObject.getMoListMissing()!=null 
 //				?"\nMISSING: "+poMemoryObject.getMoListMissing()
 //				:"";
@@ -2181,6 +2185,22 @@ public class clsGraph extends JGraph {
 		clearSelection();
 		JGraphLayoutMorphingManager.fitViewport(this);
 		
+	}
+	/**
+	 * @since 01.07.2019 13:16:57
+	 * 
+	 * @return the moMesh
+	 */
+	public ArrayList<Object> getMoMesh() {
+		return moMesh;
+	}
+	/**
+	 * @since 01.07.2019 13:16:57
+	 * 
+	 * @param moMesh the moMesh to set
+	 */
+	public void setMoMesh(ArrayList<Object> moMesh) {
+		this.moMesh = moMesh;
 	} 
       
     

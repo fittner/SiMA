@@ -70,7 +70,7 @@ public class clsGraphCompareInterfaces extends clsGraphWindow {
 	
 			}
 
-			moGraphes.get(0).moMesh =(ArrayList<Object>) oMesh.clone();
+			moGraphes.get(0).setMoMesh((ArrayList<Object>) oMesh.clone());
 		}
 		oMesh = new ArrayList<Object>();
 		for( eInterfaces oInter: moSend){
@@ -79,7 +79,7 @@ public class clsGraphCompareInterfaces extends clsGraphWindow {
 			}
 		}
 
-		moGraphes.get(1).moMesh = oMesh;
+		moGraphes.get(1).setMoMesh(oMesh);
 		
 	}
 	

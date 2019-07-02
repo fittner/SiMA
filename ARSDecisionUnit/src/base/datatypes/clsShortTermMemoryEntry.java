@@ -29,7 +29,12 @@ public class clsShortTermMemoryEntry {
     
     private ArrayList<clsDriveMesh> LearningPartDMs = new ArrayList<clsDriveMesh>();
     private ArrayList<clsThingPresentationMesh> LearningObjects = new ArrayList<clsThingPresentationMesh>();
-    private ArrayList<clsThingPresentationMesh> LearningImage = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningImages = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningAction = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningIntention = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningBodypart = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningLTMImage = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsEmotion> LearningEmotion = new ArrayList<clsEmotion>();
     private ArrayList<clsDriveMesh> LearningDMs = new ArrayList<clsDriveMesh>();
     private ArrayList<clsDriveMesh> MemoryDMs = new ArrayList<clsDriveMesh>();
     private ArrayList<clsDriveMesh> ChangedDMsv = new ArrayList<clsDriveMesh>();
@@ -38,7 +43,10 @@ public class clsShortTermMemoryEntry {
     private boolean learning=false;
     private int step=0;
     private HashMap<String, clsThingPresentationMesh> LearningSTMStoreHM = new HashMap<String, clsThingPresentationMesh>();
+    private HashMap<String, clsThingPresentationMesh> LearningSTMObjectStoreHM = new HashMap<String, clsThingPresentationMesh>();
     private ArrayList<clsThingPresentationMesh> LearningSTMStore = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningSTMStoreRemove = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningSTMObjectStore = new ArrayList<clsThingPresentationMesh>();
     
     
 	/**
@@ -132,58 +140,13 @@ public class clsShortTermMemoryEntry {
     
     public void setLearningImage(clsThingPresentationMesh TPM_Object)
     {
-        LearningImage.add(TPM_Object);
-    }
-    
-    public void setLearningLTMStorage(clsThingPresentationMesh TPM_Image)
-    {
-//        clsThingPresentationMesh LI1, LI2, LI3, LI4, LI5;
-//        LI1 = LearningImage.get(LearningImage.size()-1);
-//        LI2 = LearningImage.get(LearningImage.size()-2);
-//        LI3 = LearningImage.get(LearningImage.size()-3);
-//        LI4 = LearningImage.get(LearningImage.size()-4);
-//        LI5 = LearningImage.get(LearningImage.size()-5);
-        double LearningIntensity=0;
-        if(LearningImage.size() > 0)
-        {
-            for(int i=LearningImage.size()-1; i > LearningImage.size()-6 && i > 0; i--)
-            {
-                clsThingPresentationMesh Image = LearningImage.get(i);
-                if(Image.compareTo(TPM_Image) == 1.0)
-                {
-                    LearningIntensity += (Image.getLearningWeight() * 0.2 * (i - (LearningImage.size()-6)));
-                }
-                TPM_Image.setLearningWeightSum(LearningIntensity);
-            }
-            if(LearningIntensity > 1.0)
-            {
-                LearningSTMStore.add(TPM_Image);
-                LearningSTMStoreHM.remove(TPM_Image.getContent());
-                LearningSTMStoreHM.put(TPM_Image.getContent(),TPM_Image);
-            }
-        }
-    }
-    
-    public ArrayList<clsThingPresentationMesh> getLearningImage()
-    {
-        return LearningImage;
-    }
-    public String getLearningImagesString()
-    {
-        String out="";
-        for(clsThingPresentationMesh LearningImage : LearningImage)
-        {
-            out += LearningImage.getContent()+"::Act:"+LearningImage.getActiveTime()+"::Foc:"+LearningImage.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION)+"::PI_Weight:"+LearningImage.getMrWeightPI()+"\n";
-        }
-        return out;
-    }
-    public ArrayList<clsThingPresentationMesh> getLTMLearningImages()
-    {
-        ArrayList<clsThingPresentationMesh> LearningLTMImage = new ArrayList<clsThingPresentationMesh>();
+        LearningImages.add(TPM_Object);
+        LearningLTMImage.clear();
+        
         clsThingPresentationMesh LearningImageOld = null;
         String out="";
         clsThingPresentationMesh LearningImageTemp = null;
-        for(clsThingPresentationMesh LearningImage : LearningImage)
+        for(clsThingPresentationMesh LearningImage : LearningImages)
         {
             if(LearningImageOld == null)
             {
@@ -200,7 +163,174 @@ public class clsShortTermMemoryEntry {
             LearningImageTemp = LearningImage;
         }
         LearningLTMImage.add(LearningImageTemp);
-        return LearningLTMImage;
+    }
+    
+    public void setLearningLTMStorage(clsThingPresentationMesh TPM_Image)
+    {
+//        clsThingPresentationMesh LI1, LI2, LI3, LI4, LI5;
+//        LI1 = LearningImage.get(LearningImage.size()-1);
+//        LI2 = LearningImage.get(LearningImage.size()-2);
+//        LI3 = LearningImage.get(LearningImage.size()-3);
+//        LI4 = LearningImage.get(LearningImage.size()-4);
+//        LI5 = LearningImage.get(LearningImage.size()-5);
+        double LearningIntensity=0;
+        double LearningIntensityOld=0;
+        clsThingPresentationMesh LearningImageOld = null;
+        clsThingPresentationMesh LearningImageTemp = null;
+        if(LearningImages.size() > 0)
+        {
+            for(int i=LearningImages.size()-1; i > LearningImages.size()-6 && i > 0; i--)
+            {
+                clsThingPresentationMesh Image = LearningImages.get(i);
+                if(Image.compareTo(TPM_Image) == 1.0)
+                {
+                    LearningIntensity += (Image.getLearningWeight() * 0.2 * (i - (LearningImages.size()-6)));
+                }
+                else
+                {
+                    LearningIntensityOld += (Image.getLearningWeight() * 0.2 * (i - (LearningImages.size()-6)));
+                    Image.setLearningWeightSum(LearningIntensityOld);
+                }
+                TPM_Image.setLearningWeightSum(LearningIntensity);
+            }
+            for(int i=LearningImages.size()-6; i >= 0 ; i--)
+            {
+                clsThingPresentationMesh Image = LearningImages.get(i);
+                Image.setLearningWeightSum(0);
+            }
+            if(LearningIntensity > 1.0)
+            {
+//                LearningSTMStoreRemove.clear();
+//                for(clsThingPresentationMesh LearningImage : LearningImages)
+//                {
+//                    if(LearningImageOld == null)
+//                    {
+//                        LearningImageOld = LearningImage;
+//                    }
+//                    else
+//                    {
+//                        if(LearningImage.compareTo(LearningImageOld) == 0)
+//                        {
+//                            LearningSTMStoreRemove.add(LearningImageOld);               
+//                        }
+//                        LearningImageOld = LearningImage;
+//                    }
+//                    LearningImageTemp = LearningImage;
+//                }
+                LearningSTMStore.add(TPM_Image);
+                LearningSTMStoreHM.remove(TPM_Image.getContent());
+                LearningSTMStoreHM.put(TPM_Image.getContent(),TPM_Image);
+                if(LearningSTMStoreRemove.size()>0)
+                {
+                    if(TPM_Image.getContent() == LearningSTMStoreRemove.get(LearningSTMStoreRemove.size()-1).getContent())
+                    {
+                        LearningSTMStoreRemove.remove(LearningSTMStoreRemove.size()-1);
+                    }
+                    LearningSTMStoreRemove.add(TPM_Image);
+                }
+                else
+                {
+                    LearningSTMStoreRemove.add(TPM_Image);
+                }
+            }
+        }
+    }
+    
+    public void setLearningLTMObjectStorage(clsThingPresentationMesh TPM_Object)
+    {
+//        clsThingPresentationMesh LI1, LI2, LI3, LI4, LI5;
+//        LI1 = LearningImage.get(LearningImage.size()-1);
+//        LI2 = LearningImage.get(LearningImage.size()-2);
+//        LI3 = LearningImage.get(LearningImage.size()-3);
+//        LI4 = LearningImage.get(LearningImage.size()-4);
+//        LI5 = LearningImage.get(LearningImage.size()-5);
+        double LearningIntensity=0;
+        if(LearningObjects.size() > 0)
+        {
+            for(int i=LearningObjects.size()-1; i > LearningObjects.size()-6 && i > 0; i--)
+            {
+                clsThingPresentationMesh Object = LearningObjects.get(i);
+                if(Object.compareTo(TPM_Object) == 1.0)
+                {
+                    LearningIntensity += (Object.getLearningWeight() * 0.2 * (i - (LearningImages.size()-6)));
+                }
+                Object.setLearningWeightSum(LearningIntensity);
+            }
+            if(LearningIntensity > 1.0)
+            {
+                LearningSTMObjectStore.add(TPM_Object);
+                LearningSTMObjectStoreHM.remove(TPM_Object.getContent());
+                LearningSTMObjectStoreHM.put(TPM_Object.getContent(),TPM_Object);
+            }
+        }
+    }
+    
+    public ArrayList<clsThingPresentationMesh> getLearningImage()
+    {
+        return LearningImages;
+    }
+    public String getLearningImagesString()
+    {
+        String out="";
+        for(clsThingPresentationMesh LearningImage : LearningImages)
+        {
+            out += LearningImage.getContent()+"::Act:"+LearningImage.getActiveTime()+"::Foc:"+LearningImage.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION)+"::PI_Weight:"+LearningImage.getMrWeightPI()+"\n";
+        }
+        return out;
+    }
+    public ArrayList<clsThingPresentationMesh> getLTMLearningImages()
+    {
+                return LearningLTMImage;
+    }
+    public String getLearningContent()
+    {
+        String out;
+        out= "Learning Content ++++++++++++++++++++++++++++++++++++++++++++";
+        out+="\n--> STM ++++++++++++++++++++++++++++++++++++++++++++";
+        out+="\n--------> ++++++++++++++++++++++++++++++++++++++++++++";
+        Formatter oDoubleFormatter;
+
+        for(clsThingPresentationMesh LearningImage : LearningLTMImage)
+        {   oDoubleFormatter = new Formatter();
+            if(LearningImage.getLearningWeightSum()>0)
+            {
+            out+="\n"+LearningImage.getContent() + ": LearningIntensity: ";
+            out += oDoubleFormatter.format("%.3f",LearningImage.getLearningWeightSum());
+            }
+        }
+        out+="\n--> LTM ++++++++++++++++++++++++++++++++++++++++++++";
+        out+="\n-------->                                                            New learned <EMOTION>         for          <IMAGE>";
+//        for(String key : LearningSTMStoreHM.keySet())
+//        {
+//
+//            clsEmotion EmotionRI = null;
+//            for(clsAssociation Ass:LearningSTMStoreHM.get(key).getExternalAssociatedContent())
+//            {
+//                if (Ass instanceof clsAssociationEmotion)
+//                {
+//                    EmotionRI = (clsEmotion) Ass.getTheOtherElement(LearningSTMStoreHM.get(key));
+//                }    
+//            }
+//            out += EmotionRI + " ----- ";
+//            out += LearningSTMStoreHM.get(key).getContent();
+//        }
+//        out+="\n--> LTM ++++++";
+        for(clsThingPresentationMesh LearningSTMStoreRem : LearningSTMStoreRemove)
+        {
+
+            clsEmotion EmotionRI = null;
+            for(clsAssociation Ass:LearningSTMStoreRem.getExternalAssociatedContent())
+            {
+                if (Ass instanceof clsAssociationEmotion)
+                {
+                    EmotionRI = (clsEmotion) Ass.getTheOtherElement(LearningSTMStoreRem);
+                }    
+            }
+            out += EmotionRI + " ----- ";
+            out += LearningSTMStoreRem.getContent();
+        }
+        
+        return out;
     }
 
 
@@ -300,6 +430,78 @@ public class clsShortTermMemoryEntry {
      */
     public void setSocialRules(String socialRules) {
         this.socialRules.add(socialRules);
+    }
+
+    /**
+     * @since 02.07.2019 07:41:25
+     * 
+     * @return the learningAction
+     */
+    public ArrayList<clsThingPresentationMesh> getLearningAction() {
+        return LearningAction;
+    }
+
+    /**
+     * @since 02.07.2019 07:41:25
+     * 
+     * @param learningAction the learningAction to set
+     */
+    public void setLearningAction(clsThingPresentationMesh learningAction) {
+        LearningAction.add(learningAction);
+    }
+
+    /**
+     * @since 02.07.2019 07:41:37
+     * 
+     * @return the learningIntention
+     */
+    public ArrayList<clsThingPresentationMesh> getLearningIntention() {
+        return LearningIntention;
+    }
+
+    /**
+     * @since 02.07.2019 07:41:37
+     * 
+     * @param learningIntention the learningIntention to set
+     */
+    public void setLearningIntention(clsThingPresentationMesh learningIntention) {
+        LearningIntention.add(learningIntention);
+    }
+
+    /**
+     * @since 02.07.2019 08:42:05
+     * 
+     * @return the learningEmotion
+     */
+    public ArrayList<clsEmotion> getLearningEmotion() {
+        return LearningEmotion;
+    }
+
+    /**
+     * @since 02.07.2019 08:42:05
+     * 
+     * @param learningEmotion the learningEmotion to set
+     */
+    public void setLearningEmotion(clsEmotion learningEmotion) {
+        LearningEmotion.add(learningEmotion);
+    }
+
+    /**
+     * @since 02.07.2019 08:49:35
+     * 
+     * @return the learningBodypart
+     */
+    public ArrayList<clsThingPresentationMesh> getLearningBodypart() {
+        return LearningBodypart;
+    }
+
+    /**
+     * @since 02.07.2019 08:49:35
+     * 
+     * @param learningBodypart the learningBodypart to set
+     */
+    public void setLearningBodypart(clsThingPresentationMesh learningBodypart) {
+        LearningBodypart.add(learningBodypart);
     }
 }
 

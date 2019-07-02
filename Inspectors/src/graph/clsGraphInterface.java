@@ -65,7 +65,7 @@ public class clsGraphInterface extends clsGraphWindow{
 	
 			}
 
-			moGraphes.get(0).moMesh =oMesh;
+			moGraphes.get(0).setMoMesh(oMesh);
 		}
 		
 	}

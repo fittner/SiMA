@@ -48,7 +48,7 @@ public class clsGraphData extends clsGraphWindow{
 	
 	@Override
 	protected void updateInspectorData() {
-		moGraphes.get(0).moMesh = moModule.getGraphData();		
+		moGraphes.get(0).setMoMesh(moModule.getGraphData());		
 	}
 
 }
