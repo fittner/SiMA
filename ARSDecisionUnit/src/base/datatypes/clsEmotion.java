@@ -436,6 +436,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 			
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(2);
+		df.setMinimumFractionDigits(2);
 		
 		oResult += " intensity: " + df.format(mrEmotionIntensity);
 		oResult += " U: " + df.format(mrSourceUnpleasure);

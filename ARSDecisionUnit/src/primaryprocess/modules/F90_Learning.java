@@ -108,7 +108,8 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
 	 */
 	@Override
 	public String stateToTEXT() {
-		String text ="moSTM_Learning.getActualStep():"+moSTM_Learning.getActualStep()+"\n";
+		String text = "";
+		//text ="Step: "+moSTM_Learning.getActualStep()+"\n";
 		//text += moLTM_Learning.getLTMLearningImages();
 		text += moLTM_Learning.getLearningContent();
 		//text += moSTM_Learning.toString();
@@ -320,7 +321,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
                     }
                     
                     moLTM_Learning.setLearningObjects(TPM_Object_LTM);
-                    moLTM_Learning.setLearningLTMStorage(TPM_Object_LTM);
+                    //moLTM_Learning.setLearningLTMStorage(TPM_Object_LTM);
     
                 }
                 

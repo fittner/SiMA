@@ -178,10 +178,10 @@ public class clsShortTermMemoryEntry {
         clsThingPresentationMesh LearningImageOld = null;
         clsThingPresentationMesh LearningImageTemp = null;
         if(LearningImages.size() > 0)
-        {
+        {   clsThingPresentationMesh Image = TPM_Image;
             for(int i=LearningImages.size()-1; i > LearningImages.size()-6 && i > 0; i--)
             {
-                clsThingPresentationMesh Image = LearningImages.get(i);
+                Image = LearningImages.get(i);
                 if(Image.compareTo(TPM_Image) == 1.0)
                 {
                     LearningIntensity += (Image.getLearningWeight() * 0.2 * (i - (LearningImages.size()-6)));
@@ -191,11 +191,12 @@ public class clsShortTermMemoryEntry {
                     LearningIntensityOld += (Image.getLearningWeight() * 0.2 * (i - (LearningImages.size()-6)));
                     Image.setLearningWeightSum(LearningIntensityOld);
                 }
-                TPM_Image.setLearningWeightSum(LearningIntensity);
             }
+            Image.setLearningWeightSum(LearningIntensityOld);
+            TPM_Image.setLearningWeightSum(LearningIntensity);
             for(int i=LearningImages.size()-6; i >= 0 ; i--)
             {
-                clsThingPresentationMesh Image = LearningImages.get(i);
+                Image = LearningImages.get(i);
                 Image.setLearningWeightSum(0);
             }
             if(LearningIntensity > 1.0)
@@ -285,20 +286,20 @@ public class clsShortTermMemoryEntry {
     public String getLearningContent()
     {
         String out;
-        out= "Learning Content ++++++++++++++++++++++++++++++++++++++++++++";
-        out+="\n--> STM ++++++++++++++++++++++++++++++++++++++++++++";
-        out+="\n--------> ++++++++++++++++++++++++++++++++++++++++++++";
+        out= "Learning Content  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        out+="\n--> STM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        out+="\n--------> Images:";
         Formatter oDoubleFormatter;
 
         for(clsThingPresentationMesh LearningImage : LearningLTMImage)
         {   oDoubleFormatter = new Formatter();
             if(LearningImage.getLearningWeightSum()>0)
             {
-            out+="\n"+LearningImage.getContent() + ": LearningIntensity: ";
+            out+="\n"+LearningImage.getContent() + ": Learning intensity: ";
             out += oDoubleFormatter.format("%.3f",LearningImage.getLearningWeightSum());
             }
         }
-        out+="\n--> LTM ++++++++++++++++++++++++++++++++++++++++++++";
+        out+="\n--> LTM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
         out+="\n-------->                                                            New learned <EMOTION>         for          <IMAGE>";
 //        for(String key : LearningSTMStoreHM.keySet())
 //        {
