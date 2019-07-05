@@ -1962,6 +1962,13 @@
 		[EMOTION%3AA12_EAT_MEAT_L01_I04%3AANXIETY])
 	(weight 1.0 1.0))
 
+([ASSOCIATIONEMOTION%3AA12_EAT_MEAT_L01_I05%3AANXIETY] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AA12_EAT_MEAT_L01_I04]
+		[EMOTION%3AA12_EAT_MEAT_L01_I04_2%3AANXIETY])
+	(weight 1.0 1.0))
+
 ([ASSOCIATIONEMOTION%3AA13_GIVE_MEAT_L01%3AGUILT] of  ASSOCIATIONEMOTION
 
 	(element
@@ -3619,6 +3626,17 @@
 	(sourceLibid 0.16)
 	(sourcePleasure 0.23)
 	(sourceUnpleasure 0.16)
+	(value "ANXIETY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3AA12_EAT_MEAT_L01_I04_2%3AANXIETY] of  EMOTION
+
+	(emotionIntensity 0.70)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.38)
+	(sourceLibid 0.08)
+	(sourcePleasure 0.23)
+	(sourceUnpleasure 0.70)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
