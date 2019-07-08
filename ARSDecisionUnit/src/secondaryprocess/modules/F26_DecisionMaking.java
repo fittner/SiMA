@@ -10,13 +10,11 @@ import general.datamanipulation.PrintTools;
 import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericTimeChart;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import memorymgmt.enums.eActivationType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import memorymgmt.shorttermmemory.clsShortTermMemory;
 import memorymgmt.storage.DT3_PsychicIntensityStorage;
@@ -367,204 +365,13 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
         }
 	    
 		//Select the goals to be forwarded
-	    Importance.clear();
-	    DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        
-		for(clsWordPresentationMeshPossibleGoal Goal:moReachableGoalList_IN)
-		{
-		    String Name ="                    ";
-		    double DDCorr,Effort,SocialR,DriveA,PP,EntityV,EntityB,total;
-		    DDCorr  = Goal.getDriveDemandCorrectionImportance();
-            Effort  = Goal.getEffortImpactImportance();
-            SocialR = Goal.getSocialRulesImportance();
-            DriveA  = Goal.getDriveAimImportance();
-            PP      = Goal.getPPImportance();
-            EntityV = Goal.getEntityValuationImportance();
-            EntityB = Goal.getEntityBodystateImportance();
-            total= DDCorr+Effort+SocialR+DriveA+PP+EntityV+EntityB;
-            Name= Goal.getSupportiveDataStructure().getContent();
-            if(Name.length()>19)
-            {
-                Name=(Name).substring(0, 19);
-            }
-            int lenge = 20 - Name.length();
-            for(int i=0;i<lenge;i++)
-            {
-                Name +=" ";
-            }
-            Importance.add(Name
-                    +":Total="+df.format(total)
-                    +":DDCorr="+df.format(DDCorr)
-                    +":Effort="+df.format(Effort)
-                    +":SocialR="+df.format(SocialR)
-                    +":DriveA="+df.format(DriveA)
-                    +":PP="+df.format(PP)
-                    +":EntityV="+df.format(EntityV)
-                    +":EntityB="+df.format(EntityB)+"\n");
-		}
-//		        DDCorr  = this.getDriveDemandCorrectionImportance();
-//		        Effort  = this.getEffortImpactImportance();
-//		        SocialR = this.getSocialRulesImportance();
-//		        DriveA  = this.getDriveAimImportance();
-//		        PP      = this.getPPImportance();
-//		        EntityV= this.getEntityValuationImportance();
-//		        EntityB = this.getEntityBodystateImportance();
-//		        
-//		        
-//		        double totalImportance = DDCorr+Effort+SocialR+DriveA+PP+EntityV+EntityB;
-//		 
-//		        
-//		        return totalImportance;
-	    moDecidedGoalList_OUT = GoalHandlingFunctionality.selectSuitableReachableGoals(moReachableGoalList_IN, mnNumberOfGoalsToPass);
+		moDecidedGoalList_OUT = GoalHandlingFunctionality.selectSuitableReachableGoals(moReachableGoalList_IN, mnNumberOfGoalsToPass);
 		
 		log.info("Selectable goals sorted: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		//GoalProcessingFunctionality.initStatusOfSelectedGoals(moDecisionEngine, moDecidedGoalList_OUT);
 		log.info("Selected goals: {}", PrintTools.printArrayListWithLineBreaks(moDecidedGoalList_OUT));
 		
-		HashMap<clsThingPresentationMesh, Double> arrayObj = new HashMap<clsThingPresentationMesh, Double>();
-		ArrayList<clsPair<Double, clsThingPresentationMesh>> arrayObjPair = new ArrayList<clsPair<Double, clsThingPresentationMesh>>();
-		clsThingPresentationMesh tmpObject = null;
-		double aggregatedActivationValue = 0;
-		double embodimentActivationValue = 0;
-		
-        for (int i = 0;i<moReachableGoalList_IN.size();i++)
-        {
-           
-            if((!moReachableGoalList_IN.get(i).getGoalObject().isNullObject()) && (!((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).isNullObject()))
-            {
-                tmpObject = ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB());
-                aggregatedActivationValue = ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue();
-                embodimentActivationValue = ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION);
-                
-                log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i, tmpObject, aggregatedActivationValue+embodimentActivationValue);
-                //log.info("\nFITTNER LIST OF OBJECTS({}): {}:{}", i, moReachableGoalList_IN.get(i).getGoalObject(),((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
-            
-            }
-            if(!arrayObj.containsKey(tmpObject)) {
-                arrayObj.put(tmpObject, aggregatedActivationValue+embodimentActivationValue);
-                arrayObjPair.add(new clsPair<Double, clsThingPresentationMesh>(aggregatedActivationValue+embodimentActivationValue, tmpObject));
-            }
-
-            // .getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue());
-//            if((!moReachableGoalList_IN.get(i).getGoalObject().isNullObject()) && (!((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).isNullObject()))
-//            {
-//                log.info("\nFITTNER LIST OF OBJECTS({}): {}",i, moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB().getAggregatedActivationValue());
-//            }
-        }
-        double maxAggrActVal = 0;
-        boolean smaller = false;
-        ArrayList<clsPair<Double, clsThingPresentationMesh>> arrayObjPairSort = new ArrayList<clsPair<Double, clsThingPresentationMesh>>();;
-        
-        
-        for (int i = 0;i<arrayObjPair.size();i++)
-        {
-            if(Double.isNaN(arrayObjPair.get(i).a))
-            {
-                arrayObjPair.get(i).a = (double) 0;
-            }
-        }
-        int size = arrayObjPair.size();
-        for (int i = 0;;)
-        {
-            smaller = false;
-            double tmp_i;
-            tmp_i = arrayObjPair.get(i).a;
-            for (int j = 0;j<arrayObjPair.size();j++)
-            {
-                double tmp_j = arrayObjPair.get(j).a;
-                if(tmp_i < tmp_j)
-                {
-                    smaller = true;
-                    break;
-                }
-            }
-            if(smaller != true)
-            {
-                arrayObjPairSort.add(arrayObjPair.get(i));
-                arrayObjPair.remove(i);
-            }
-            if(arrayObjPairSort.size() >= size)
-            {
-                break;
-            }
-            if(i>=(arrayObjPair.size()-1))
-            {
-                i=0;
-            }
-            else
-            {
-                i++;
-            }
-        }
-        /* Remove double entries */
-        for (int i = 0;;i++)
-        {   String content;
-            
-        if(  (!arrayObjPairSort.isEmpty())
-          && (arrayObjPairSort.get(i).b != null)
-          && (!arrayObjPairSort.get(i).b.isNullObject())
-          )
-        {
-            content = arrayObjPairSort.get(i).b.getContent(); 
-            
-            for (int j = i+1;j < arrayObjPairSort.size();j++)
-            {   
-                String content2;
-                try {
-                    if(  (arrayObjPairSort.get(j).b != null)
-                      && (!arrayObjPairSort.get(j).b.isNullObject())
-                      )
-                    {
-                        content2 = arrayObjPairSort.get(j).b.getContent();
-                        if(content2.equals(content))
-                        {
-                            arrayObjPairSort.remove(j);
-                            j--;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                } catch (Exception e) {
-                log.info("ERROR: ", e);
-                }
-            }
-            if(i >= arrayObjPairSort.size()-1)
-            {
-                break;
-            }
-        }
-        }
-        for (int i = 0;i<1000;i++)
-        {
-            try
-            {
-                if(i >= arrayObjPairSort.size())
-                {
-                    break;
-                }
-                else
-                {
-                    if(arrayObjPairSort.get(i).b.getContent().equals("SELF"))
-                    {
-                        arrayObjPairSort.remove(i);
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                log.error("Error ", e);
-            }
-        }
-        
-        log.info("\nFITTNER HASH OF OBJECTS: {}", arrayObj);
-        log.info("\nFITTNER PAIR OF OBJECTS: {}", arrayObjPair);
-        log.info("\nFITTNER SORT OF OBJECTS: {}", arrayObjPairSort);
-        
-        moArrayObjPairSort = arrayObjPairSort;
- 
 		//Add the aim of drives goal to the mental situation
 		ShortTermMemoryFunctionality.addUsableAimOfDrivesToMentalSituation(moDriveGoalList_IN, moDecidedGoalList_OUT, this.moShortTermMemory);
 	

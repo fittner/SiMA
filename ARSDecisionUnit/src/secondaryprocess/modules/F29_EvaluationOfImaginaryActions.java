@@ -12,19 +12,16 @@ import inspector.interfaces.itfInspectorAdvancedStackedBarChart;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 import logger.clsLogger;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedMap;
 
 import org.slf4j.Logger;
 
 import properties.clsProperties;
 import properties.personality_parameter.clsPersonalityParameterContainer;
-import base.datatypes.clsDriveMesh;
 import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsThingPresentationMesh;
 //import base.datatypes.clsAssociation;
@@ -43,7 +40,6 @@ import base.tools.ElementNotFoundException;
 import base.tools.clsSingletonAnalysisAccessor;
 import base.tools.toText;
 import memorymgmt.enums.eAction;
-import memorymgmt.enums.eActivationType;
 import memorymgmt.enums.eCondition;
 //import memorymgmt.enums.eContentType;
 import memorymgmt.enums.eGoalType;
@@ -56,8 +52,6 @@ import modules.interfaces.I6_11_receive;
 import modules.interfaces.I6_11_send;
 import modules.interfaces.I6_2_receive;
 import modules.interfaces.eInterfaces;
-import secondaryprocess.datamanipulation.clsActDataStructureTools;
-import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
@@ -282,11 +276,6 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         
         log.debug("=== module {} start ===", this.getClass().getName());
 
-        // Save old and new PlanGoal to detect Goal Change
-        clsWordPresentationMeshPossibleGoal OldPlanGoal;
-        clsWordPresentationMeshPossibleGoal NewPlanGoal = null;
-        // Save Plan Goal
-        OldPlanGoal = this.moDecisionEngine.getPlanGoal(moSelectableGoals);
         // Select the best goal
         // Delete previous plan goals
         try {
@@ -296,23 +285,6 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
 
         clsWordPresentationMeshPossibleGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
-        
-//Old!!        if ( !planGoal.isEquivalentDataStructure(OldPlanGoal)
-//           )
-//        {
-//            // Create new start Emotion for Act
-//        }
-        if(!(planGoal.getSupportiveDataStructure().isEquivalentDataStructure((OldPlanGoal.getSupportiveDataStructure()))))
-        {
-            // Add new emotion 
-            if (clsActTools.checkIfConditionExists(OldPlanGoal, eCondition.SET_FOLLOW_ACT))
-//              || OldPlanGoal.isEquivalentDataStructure(clsWordPresentationMeshPossibleGoal.getNullObject()))
-           {
-               // Set Abbort emotion --> Unpleasure to last image and/or to intention
-               // Or set no Emotion to the aborted image?
-               NewPlanGoal = OldPlanGoal;
-           }
-        }
 
         if(planGoal.getTotalImportance() < mrWaitThreshold) { 
             //Create WAIT goal
@@ -327,194 +299,15 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             //Select the WAIT goal
             planGoal.setCondition(eCondition.IS_CONTINUED_GOAL);
         } 
-        
             
         logger.clsLogger.getLog("EmotionRange").info("Emotion Match on plangoal: {}", planGoal.getFeelingsMatchImportance());
-        
-        ArrayList<clsWordPresentationMeshFeeling> moFeeling_IN_F26_before = (ArrayList<clsWordPresentationMeshFeeling>) F26_DecisionMaking.moFeeling_IN.clone();
-        ArrayList<clsWordPresentationMeshFeeling> moFeeling_IN_F26 = new ArrayList<>();
-
-        for(clsWordPresentationMeshFeeling Feeling:moFeeling_IN_F26_before)
-        {
-            if (Feeling.getContent().toString().equals("ANXIETY"))
-            {
-                moFeeling_IN_F26.add(Feeling);
-            }
-        }
-        for(clsWordPresentationMeshFeeling Feeling:moFeeling_IN_F26_before)
-        {
-            if (!Feeling.getContent().toString().equals("ANXIETY"))
-            {
-                moFeeling_IN_F26.add(Feeling);
-            }
-        }
-        //ArrayList<String> moArrayFeelingsInMoments = new ArrayList<String>();
         
         try {
             this.moDecisionEngine.declareGoalAsPlanGoal(planGoal);
         } catch (Exception e1) {
             log.error("Cannot declare goal as plan goal", e1);
         }
-        clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(planGoal.getSupportiveDataStructure());
-        int Steps = clsShortTermMemoryMF.getActualStep();
-        DecimalFormat format = new DecimalFormat("##00000.##");
-        if (oMoment.isNullObject()==false) {
-            moArrayFeelingsInMoments.add("\nStep: "+format.format(Steps)+" MOMENT: " + oMoment.getContent());
-        }
-        if (!moArrayFeelingsInMomentsMap.containsKey(oMoment.getContent()))
-        {
-            for(int i=0; i < moFeeling_IN_F26.size(); i++)
-            {
-                moFeeling_IN_F26.get(i).setCounter(1);
-            }
-            moArrayFeelingsInMomentsMap.put(oMoment.getContent(), moFeeling_IN_F26);   
-        }
-        else if(oMoment.isNullObject()==false)
-        {
-            ArrayList<clsWordPresentationMeshFeeling> oOldFeelings =  moArrayFeelingsInMomentsMap.get(oMoment.getContent());
-            //Compare the feelings
-            try
-            {
-                for (clsWordPresentationMeshFeeling oOldFeeling : oOldFeelings)
-                {
-            
-                    clsWordPresentationMeshFeeling oCurrentFeeling1 = null;
-                    boolean found=false;
-                    for (clsWordPresentationMeshFeeling oCurrentFeeling : moFeeling_IN_F26)
-                    {
-                        if(oOldFeeling.getContent().contentEquals(oCurrentFeeling.getContent()))
-                        {
-                            oOldFeeling.setCounter(oOldFeeling.getCounter()+1);
-                            oOldFeeling.setIntensity(((oOldFeeling.getIntensity() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getIntensity())/oOldFeeling.getCounter()));
-                            oOldFeeling.setAggression((((oOldFeeling.getAggression() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getAggression())/oOldFeeling.getCounter())));
-                            oOldFeeling.setLibido((((oOldFeeling.getLibido() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getLibido())/oOldFeeling.getCounter())));
-                            oOldFeeling.setPleasure((((oOldFeeling.getPleasure() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getPleasure())/oOldFeeling.getCounter())));
-                            oOldFeeling.setUnpleasure((((oOldFeeling.getUnpleasure() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getUnpleasure())/oOldFeeling.getCounter())));
-                            found = true;
-                        }
-                        oCurrentFeeling1 = oCurrentFeeling;
-                    }
-                    if(found == false)
-                    {
-                    //    oOldFeelings.add(oCurrentFeeling1);
-                    }
-              
-                }
-            }
-            catch (Exception e)
-            {
-                log.error("", e);
-            }
-            moArrayFeelingsInMomentsMap.put(oMoment.getContent(),oOldFeelings);
-        }
-        clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(planGoal.getSupportiveDataStructure());
-
-        if (!moArrayFeelingsInMomentsMap.containsKey(oIntention.getContent()))
-        {
-            for(int i=0; i < moFeeling_IN_F26.size(); i++)
-            {
-                moFeeling_IN_F26.get(i).setCounter(1);
-            }
-            moArrayFeelingsInMomentsMap.put(oIntention.getContent(), moFeeling_IN_F26);   
-        }
-        else
-        {
-            ArrayList<clsWordPresentationMeshFeeling> oOldFeelings =  moArrayFeelingsInMomentsMap.get(oIntention.getContent());
-            //Compare the feelings
-            try {
-            for (clsWordPresentationMeshFeeling oOldFeeling : oOldFeelings) {
-                clsWordPresentationMeshFeeling oCurrentFeeling1 = null;
-                boolean found=false;
-                for (clsWordPresentationMeshFeeling oCurrentFeeling : moFeeling_IN_F26) {
-                    if(oOldFeeling.getContent().contentEquals(oCurrentFeeling.getContent()))
-                    {
-                        oOldFeeling.setCounter(oOldFeeling.getCounter()+1);
-                        oOldFeeling.setIntensity(((oOldFeeling.getIntensity() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getIntensity())/oOldFeeling.getCounter()));
-                        oOldFeeling.setAggression((((oOldFeeling.getAggression() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getAggression())/oOldFeeling.getCounter())));
-                        oOldFeeling.setLibido((((oOldFeeling.getLibido() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getLibido())/oOldFeeling.getCounter())));
-                        oOldFeeling.setPleasure((((oOldFeeling.getPleasure() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getPleasure())/oOldFeeling.getCounter())));
-                        oOldFeeling.setUnpleasure((((oOldFeeling.getUnpleasure() * (oOldFeeling.getCounter()-1) + oCurrentFeeling.getUnpleasure())/oOldFeeling.getCounter())));
-                        found = true;
-                    }
-                    oCurrentFeeling1 = oCurrentFeeling;
-                }
-                if(found == false)
-                {
-                //    oOldFeelings.add(oCurrentFeeling1);
-                }
-            }
-            }
-            catch (Exception e)
-            {
-                log.error("", e);
-            }
-            moArrayFeelingsInMomentsMap.put(oIntention.getContent(),oOldFeelings);
-        }
-        
-        //Better readable String
-        String ouput="";
-        for (String key :moArrayFeelingsInMomentsMap.keySet())
-        {
-            if(!(key.equals("NULLOBJECT")))
-            {   
-                ouput+= "\n";
-                for(int i = key.length()-1; i < 30;i++)
-                {
-                    ouput+=" ";    
-                }
-                ouput+= key+"=";
-                ouput+= moArrayFeelingsInMomentsMap.get(key);
-            }
-        }
-        log.info("moArrayFeelingsInMomentsMap: "+ouput);
-        log.info("moArrayFeelingsInMomentsMap: "+moArrayFeelingsInMomentsMap.toString());
-        
-        
-        //logFim.info("moArrayFeelingsInMoments: "+moArrayFeelingsInMomentsMap.toString());
-        //logFim.info("moArrayFeelingsInMoments: "+moArrayFeelingsInMoments.toString());
-        
-        moArrayFeelingsInMoments.add("FEELINGS::" + moFeeling_IN_F26.toString());
-        
-        log.info("moArrayFeelingsInMoments: "+moArrayFeelingsInMoments.toString());
-        
-        
-        moLearningLogger.debug("\nLEARNING: {}",moArrayFeelingsInMomentsMap.toString());
-        moCurrentMoment.put(oMoment.getContent(),moArrayFeelingsInMomentsMap.get(oMoment.getContent()));
-        moCurrentMoment_String ="*** ACTUAL MOMENT ***\n";
-        
-        clsThingPresentationMesh oMomentTPM = clsMeshTools.getPrimaryDataStructureOfWPM(oMoment);
-        
-       for(clsThingPresentationMesh ImageSTM : this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImage())
-       {
-            if(  oMomentTPM.compareTo(ImageSTM) == 1.0)
-            {
-                    ImageSTM.setCriterionActivationValue(eActivationType.MOMENT_ACTIVATION, ImageSTM.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION) + 1.0);
-            }
-        }
-        
-        ArrayList<clsWordPresentationMeshFeeling> List = moArrayFeelingsInMomentsMap.get(oMoment.getContent());
-        moCurrentMoment_String += oMoment.getContent() +"\n";
-        for(clsWordPresentationMeshFeeling ListElement:List)
-        {
-            moCurrentMoment_String += ListElement +"\n";
-        }
-        
-        moCurrentMoment.put(oMoment.getContent(),moArrayFeelingsInMomentsMap.get(oMoment.getContent()));
-        moCurrentMoments_String ="*** ALL MOMENTS ***\n";
-        for (@SuppressWarnings("rawtypes") Map.Entry e:moArrayFeelingsInMomentsMap.entrySet()) {
-         
-            List = moArrayFeelingsInMomentsMap.get(e.getKey());
-            moCurrentMoments_String += e.getKey().toString() +"\n";
-            for(clsWordPresentationMeshFeeling ListElement:List)
-            {
-                moCurrentMoments_String += ListElement +"\n";
-            }
-        }
-       
-        
-        
         log.debug("Selectable goals: {}", PrintTools.printArrayListWithLineBreaks(this.moSelectableGoals));
-        //log.info("\n+++++++++++++++++++++++++++++\n Feelings in Moments: " + moArrayFeelingsInMoments + "\n++++++++++++++++++++++++++++++");
         log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: "
                 + planGoal.getSupportiveDataStructure().toString() + "\n==============================");
         this.moTEMPDecisionString = setDecisionString(planGoal);
@@ -526,6 +319,11 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
         } catch (Exception e) {
             log.error("", e);
+        }
+        
+        if (moActionCommand.getContent()=="SEARCH1")
+        {
+            log.error("");
         }
 
         // Goal to STM
@@ -559,40 +357,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
         
         DataCollector.goal(moSelectableGoals.get(0)).finish();
-        moAction = moSelectableGoals.get(0).getAssociatedPlanAction();
-        try
-        {
-            if (  ( planGoal.getInternalAssociatedContent().size() > 0)
-               && !(((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).isNullObject())
-               )
-            {
-                for(int i=0;i< ((clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().size();i++)
-                {
-                    clsDriveMesh DM;
-                    DM = (clsDriveMesh)((clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(i).getAssociationElementA();
-                    String moActionString = moAction.getContent();
-                    String moDMString = DM.getActualDriveAim().getContent();
-                    if(moActionString == moDMString)
-                    {
-                        moTPM_Action = DM.getActualDriveAim();
-                        moTPM_Object = (clsThingPresentationMesh) ((clsWordPresentationMesh)planGoal.getInternalAssociatedContent().get(0).getAssociationElementB()).getExternalAssociatedContent().get(0).getAssociationElementB();
-                    }
-                    else
-                    {
-                        moActionString = null;
-                    }
-                }
-            }
-
-        }
-        catch (Exception e)
-        {
-//            log.error("", e);
-        }
-//            ((clsThingPresentationMesh)moReachableGoalList_IN.get(i).getGoalObject().getAssociationWPOfWPM().getAssociationElementB()).getAggregatedActivationValue();
-
-        //final Logger logFim = logger.clsLogger.getLog("Fim");
-        //logFim.info("\n"+setDecisionString(planGoal));
+        
         // //=== TEST ONLY ONE ACTION === //
         // if (clsTester.getTester().isActivated()) {
         // try {
@@ -607,7 +372,6 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         // Get the last 10 goals and actions for the inspector
         // clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
         // clsWordPresentationMesh oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
-
     }
 
     /**
