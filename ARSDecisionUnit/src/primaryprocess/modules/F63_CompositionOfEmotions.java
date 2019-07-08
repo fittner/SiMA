@@ -286,8 +286,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		rDrivePleasure =  moPleasureStorage.send_D4_1();
 		
 		//rSystemUnpleasure = moPleasureStorage.send_D4_3() * mrInfluenceCurrentDrives;
-		rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives;
-        rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives;
+		rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives*0.6;
+        rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives*10;
         rSystemLibid = rDriveLibid * mrInfluenceCurrentDrives;
         rSystemAggr = rDriveAggr * mrInfluenceCurrentDrives;
         
@@ -358,8 +358,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         rSystemPleasure = nonProportionalAggregation(rSystemPleasure, oMemoryExtractedValues.get("rPerceptionPleasure"));
         rSystemLibid = nonProportionalAggregation(rSystemLibid, oMemoryExtractedValues.get("rPerceptionLibid"));
         rSystemAggr = nonProportionalAggregation(rSystemAggr, oMemoryExtractedValues.get("rPerceptionAggr"));
-        
-        rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, rpain);
+        rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, oMemoryExtractedValues.get("rPerceptionUnpleasure"));
+        //rSystemUnpleasure = nonProportionalAggregation(rSystemUnpleasure, rpain);
         rSystemUnpleasure += socialRule;
         
         if(oMemoryExtractedValues.get("rPerceptionUnpleasure") < 0.1) {
@@ -1277,7 +1277,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         double rpaintemp=0;
         if(poPostfix == "Unpleasure")
         {
-            rpaintemp = rpain;
+           // rpaintemp = rpain;
         }
         double rSum = rDrive + rPerceptionDM + rPerceptionEXP + rPerceptionBS + rMemory + rpaintemp;
         
