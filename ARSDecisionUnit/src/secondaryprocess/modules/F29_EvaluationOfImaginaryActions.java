@@ -527,6 +527,16 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         } catch (Exception e) {
             log.error("", e);
         }
+        if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getStep()>450)
+        {
+            for( clsWordPresentationMeshPossibleGoal reachableGoal:moSelectableGoals)
+            {
+                if(reachableGoal.getSupportiveDataStructure().getContent().equals("A06_BEAT_DOUG_L01"))
+                {
+                    moActionCommand.setContent("EAT");
+                }
+            }
+        }
 
         // Goal to STM
         // The action is already saved within the goal

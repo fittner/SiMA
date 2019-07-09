@@ -46,6 +46,7 @@ public class clsShortTermMemoryEntry {
     private HashMap<String, clsThingPresentationMesh> LearningSTMObjectStoreHM = new HashMap<String, clsThingPresentationMesh>();
     private ArrayList<clsThingPresentationMesh> LearningSTMStore = new ArrayList<clsThingPresentationMesh>();
     private ArrayList<clsThingPresentationMesh> LearningSTMStoreRemove = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsThingPresentationMesh> LearningSTMStoreFinal = new ArrayList<clsThingPresentationMesh>();
     private ArrayList<clsThingPresentationMesh> LearningSTMObjectStore = new ArrayList<clsThingPresentationMesh>();
     
     
@@ -232,6 +233,38 @@ public class clsShortTermMemoryEntry {
                 else
                 {
                     LearningSTMStoreRemove.add(TPM_Image);
+                }
+                clsEmotion EmotionRIOrig = null;
+                for(clsAssociation Ass:TPM_Image.getExternalAssociatedContent())
+                {
+                    if (Ass instanceof clsAssociationEmotion)
+                    {
+                        EmotionRIOrig = (clsEmotion) Ass.getTheOtherElement(TPM_Image);
+                        break;
+                    }    
+                }
+                clsEmotion EmotionNew = null;
+                for(clsAssociation Ass:TPM_Image.getExternalAssociatedContent())
+                {
+                    if (Ass instanceof clsAssociationEmotion)
+                    {
+                        EmotionNew = (clsEmotion) Ass.getTheOtherElement(TPM_Image);
+                    }    
+                }
+                if(EmotionRIOrig.compareTo(EmotionNew) < 0.95)
+                {
+                    if(LearningSTMStoreFinal.size()>0)
+                    {
+                        if(TPM_Image.getContent() == LearningSTMStoreFinal.get(LearningSTMStoreFinal.size()-1).getContent())
+                        {
+                            LearningSTMStoreFinal.remove(LearningSTMStoreFinal.size()-1);
+                        }
+                        LearningSTMStoreFinal.add(TPM_Image);
+                    }
+                    else
+                    {
+                        LearningSTMStoreFinal.add(TPM_Image);
+                    }
                 }
             }
         }
