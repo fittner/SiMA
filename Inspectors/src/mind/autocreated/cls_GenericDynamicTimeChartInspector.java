@@ -39,7 +39,6 @@ public class cls_GenericDynamicTimeChartInspector extends cls_GenericTimeChartIn
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
-	 * @author deutsch
 	 * 23.04.2011, 13:02:27
 	 *
 	 * @param poObject
@@ -57,12 +56,13 @@ public class cls_GenericDynamicTimeChartInspector extends cls_GenericTimeChartIn
 	@Override
 	protected void customizePlot(XYPlot plot) {
 		// TODO (Heinrich Kemmler) - Auto-generated method stub
-		super.customizePlot(plot);
-		
 		XYSplineRenderer renderer = new XYSplineRenderer();
 		renderer.setBaseItemLabelsVisible(false);
-		
 		plot.setRenderer(renderer);
+		
+		super.customizePlot(plot);
+			
+
 	}
 
 	@Override

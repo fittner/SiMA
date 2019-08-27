@@ -9,10 +9,11 @@ package mind.autocreated;
 import inspector.interfaces.itfInspectorTimeChartBase;
 //import inspector.interfaces.itfInterfaceTimeChartHistory;
 
-
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Stroke;
 import java.util.ArrayList;
 
 import org.jfree.chart.ChartFactory;
@@ -207,11 +208,14 @@ public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartIn
         plot.setDomainGridlinePaint(Color.black);
         plot.setRangeGridlinePaint(Color.black);
         plot.setBackgroundPaint(Color.white);
-     
+        //plot.getRenderer().setAutoPopulateSeriesStroke(false);
+        //plot.getRenderer().setStroke(arg0);setDefaultStroke(new BasicStroke(3.0f));
+        Stroke test=new BasicStroke( 3.0f );
      // set line colors
         ArrayList<Color> oColors = getColorList();
         for (int i=0; i<moValueHistory.size(); i++) {
         	 plot.getRenderer().setSeriesPaint(i, oColors.get(i));
+        	 plot.getRenderer().setSeriesStroke(i, test);
         }    	
     }
     
