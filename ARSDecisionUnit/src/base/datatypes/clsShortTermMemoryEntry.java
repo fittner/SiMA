@@ -240,7 +240,7 @@ public class clsShortTermMemoryEntry {
                     if (Ass instanceof clsAssociationEmotion)
                     {
                         EmotionRIOrig = (clsEmotion) Ass.getTheOtherElement(TPM_Image);
-                        break;
+                        break; // Take first Emotion --> Original
                     }    
                 }
                 clsEmotion EmotionNew = null;
@@ -249,6 +249,7 @@ public class clsShortTermMemoryEntry {
                     if (Ass instanceof clsAssociationEmotion)
                     {
                         EmotionNew = (clsEmotion) Ass.getTheOtherElement(TPM_Image);
+                        // Take last Emotion --> New Emotion
                     }    
                 }
                 if(EmotionRIOrig.compareTo(EmotionNew) < 0.95)
@@ -333,7 +334,7 @@ public class clsShortTermMemoryEntry {
             }
         }
         out+="\n--> LTM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-        out+="\n-------->                                                            New learned <EMOTION>         for          <IMAGE>";
+        out+="\n-------->                                     New Candidate for learning   <EMOTION>         for          <IMAGE>";
 //        for(String key : LearningSTMStoreHM.keySet())
 //        {
 //
@@ -363,6 +364,38 @@ public class clsShortTermMemoryEntry {
             out += EmotionRI + " ----- ";
             out += LearningSTMStoreRem.getContent();
         }
+        out+="\n--> LTM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        out+="\n-------->                                                            New learned      <EMOTION>         for          <IMAGE>";
+//        for(String key : LearningSTMStoreHM.keySet())
+//        {
+//
+//            clsEmotion EmotionRI = null;
+//            for(clsAssociation Ass:LearningSTMStoreHM.get(key).getExternalAssociatedContent())
+//            {
+//                if (Ass instanceof clsAssociationEmotion)
+//                {
+//                    EmotionRI = (clsEmotion) Ass.getTheOtherElement(LearningSTMStoreHM.get(key));
+//                }    
+//            }
+//            out += EmotionRI + " ----- ";
+//            out += LearningSTMStoreHM.get(key).getContent();
+//        }
+//        out+="\n--> LTM ++++++";
+        for(clsThingPresentationMesh LearningSTMStoreRem : LearningSTMStoreFinal)
+        {
+
+            clsEmotion EmotionRI = null;
+            for(clsAssociation Ass:LearningSTMStoreRem.getExternalAssociatedContent())
+            {
+                if (Ass instanceof clsAssociationEmotion)
+                {
+                    EmotionRI = (clsEmotion) Ass.getTheOtherElement(LearningSTMStoreRem);
+                }    
+            }
+            out += EmotionRI + " ----- ";
+            out += LearningSTMStoreRem.getContent();
+        }
+        
         
         return out;
     }

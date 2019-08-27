@@ -200,7 +200,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		text += toText.mapToTEXT("§§§§§§§§§§§§3333333333moEnvironmentalData", moEnvironmentalData);
 		text += toText.mapToTEXT("moBodyData", moBodyData);
 		text += toText.listToTEXT("moCompleteThingPresentationMeshList", moCompleteThingPresentationMeshList);
-		text += "--- this.moSTM_Learning.getLearningObjectsString() ----\n";
+        text += "--- this.moSTM_Learning.getLearningObjectsString() ----\n";
 		text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjectsString();
 		text += "---------------------------------------------------------------------------------------------\n";
 		text += "Search pattern:\n";
@@ -753,14 +753,20 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                     for(clsAssociation oAss : oTPM.getExternalAssociatedContent()){
                         for(eEmotionExpression e :eEmotionExpression.values()){
                             if(oAss.getAssociationElementB().getContentType().toString() == e.toString()){
-                                boExpressionFound = true;                         
+                                boExpressionFound = true;
+                                break;
                             }
-                        }                      
+                        }
+                        if(boExpressionFound)
+                        {
+                            break;
+                        }
                     }
                     for(clsAssociation oAss : oTPM.getExternalAssociatedContent()){
                          if(oAss.getAssociationElementB() instanceof clsThingPresentationMesh){   
                             if(((clsThingPresentationMesh) oAss.getAssociationElementB()).getContent().equals("Bodystate")){
                                 boBodystateFound = true;
+                                break;
                             }
                         }
                     }
@@ -1106,16 +1112,17 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
         double rCurrentLibid = 0.0;
         double rCurrentAggr = 0.0;
         for(clsEmotion oCurrentEmotion : poEmotions) {
-            rCurrentPleasure += oCurrentEmotion.getSourcePleasure();
-            rCurrentUnpleasure += oCurrentEmotion.getSourceUnpleasure();
-            rCurrentLibid += oCurrentEmotion.getSourceLibid();
-            rCurrentAggr += oCurrentEmotion.getSourceAggr();
+            rCurrentPleasure = oCurrentEmotion.getSourcePleasure();
+            rCurrentUnpleasure = oCurrentEmotion.getSourceUnpleasure();
+            rCurrentLibid = oCurrentEmotion.getSourceLibid();
+            rCurrentAggr = oCurrentEmotion.getSourceAggr();
+            break;
         }
-        rCurrentPleasure /= poEmotions.size();
-        rCurrentUnpleasure /= poEmotions.size();
-        rCurrentLibid /= poEmotions.size();
-        rCurrentAggr /= poEmotions.size();
-        
+//        rCurrentPleasure /= poEmotions.size();
+//        rCurrentUnpleasure /= poEmotions.size();
+//        rCurrentLibid /= poEmotions.size();
+//        rCurrentAggr /= poEmotions.size();
+//        
         if(poEmotions.isEmpty())
             return null;
         else
