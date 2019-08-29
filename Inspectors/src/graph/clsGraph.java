@@ -142,7 +142,7 @@ public class clsGraph extends JGraph {
 	protected static final Color moColorTPMRoot = new Color(0xff99CC33); //dark green
 	protected static final Color moColorTI = new Color(0xffFF9933); //brown
 	protected static final Color moColorWPMRoot = new Color(0xff1874CD); //dark blue
-	protected static final Color moColorEmotion = new Color(0xff8B4513); //brown
+	protected static final Color moColorEmotion = new Color(0xffffa500); //orange
 	protected static final Color moColorAffect = Color.PINK;
 	protected static final Color moColorSensorIntern = new Color(0xff00E5EE); //türkis
 	protected static final Color moColorSymbolVision = new Color(0xffBEBEBE); //gray
