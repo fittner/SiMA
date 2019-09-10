@@ -175,7 +175,13 @@ public class clsShortTermMemoryEntry {
 //        LI4 = LearningImage.get(LearningImage.size()-4);
 //        LI5 = LearningImage.get(LearningImage.size()-5);
         double LearningIntensity=0;
+        double LearningIntensity0=0;
+        double LearningIntensity1=0;
+        double LearningIntensity2=0;
         double LearningIntensityOld=0;
+        double LearningIntensityOld0=0;
+        double LearningIntensityOld1=0;
+        double LearningIntensityOld2=0;
         clsThingPresentationMesh LearningImageOld = null;
         clsThingPresentationMesh LearningImageTemp = null;
         if(LearningImages.size() > 0)
@@ -192,9 +198,31 @@ public class clsShortTermMemoryEntry {
                     LearningIntensityOld += (Image.getLearningWeight() * 0.2 * (i - (LearningImages.size()-6)));
                     Image.setLearningWeightSum(LearningIntensityOld);
                 }
+                if(Image.compareTo(TPM_Image) == 1.0)
+                {
+                    LearningIntensity1 += (Image.getLearningWeight1() * 0.2 * (i - (LearningImages.size()-6)));
+                }
+                else
+                {
+                    LearningIntensityOld1 += (Image.getLearningWeight1() * 0.2 * (i - (LearningImages.size()-6)));
+                    Image.setLearningWeightSum1(LearningIntensityOld1);
+                }
+                if(Image.compareTo(TPM_Image) == 1.0)
+                {
+                    LearningIntensity2 += (Image.getLearningWeight2() * 0.2 * (i - (LearningImages.size()-6)));
+                }
+                else
+                {
+                    LearningIntensityOld2 += (Image.getLearningWeight2() * 0.2 * (i - (LearningImages.size()-6)));
+                    Image.setLearningWeightSum2(LearningIntensityOld2);
+                }
             }
             Image.setLearningWeightSum(LearningIntensityOld);
             TPM_Image.setLearningWeightSum(LearningIntensity);
+            Image.setLearningWeightSum1(LearningIntensityOld1);
+            TPM_Image.setLearningWeightSum1(LearningIntensity1);
+            Image.setLearningWeightSum2(LearningIntensityOld2);
+            TPM_Image.setLearningWeightSum2(LearningIntensity2);
             for(int i=LearningImages.size()-6; i >= 0 ; i--)
             {
                 Image = LearningImages.get(i);
@@ -331,6 +359,13 @@ public class clsShortTermMemoryEntry {
             {
             out+="\n"+LearningImage.getContent() + ": Learning intensity: ";
             out += oDoubleFormatter.format("%.3f",LearningImage.getLearningWeightSum());
+            oDoubleFormatter = new Formatter();
+            out+="\n"+LearningImage.getContent() + ": Learning intensity: ";
+            out += oDoubleFormatter.format("%.3f",LearningImage.getLearningWeightSum1());
+            oDoubleFormatter = new Formatter();
+            out+="\n"+LearningImage.getContent() + ": Learning intensity1: ";
+            out += oDoubleFormatter.format("%.3f",LearningImage.getLearningWeightSum2());
+            oDoubleFormatter = new Formatter();
             }
         }
         out+="\n--> LTM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";

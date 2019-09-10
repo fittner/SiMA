@@ -144,7 +144,9 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
 	        {
 	            double MomentActivation = STM_Image.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION);
 	            double LearningIntensity = 1.0;
-	            double TimeIntensity = 1.0;
+	            double LearningIntensity1 = 1.0;
+	            double LearningIntensity2 = 1.0;
+                double TimeIntensity = 1.0;
                 
 	            double LearningWeight;
 	            LearningWeight = MomentActivation * LearningIntensity;
@@ -217,6 +219,8 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
                     AggEm = Emotion.getSourceAggr();
                     //double Anpassungsfaktor=0.4;
                     LearningIntensity = (PleEm*PleEm+UnpEm*UnpEm)/((UnpEm+PleEm));
+                    LearningIntensity1 = PleEm + UnpEm + LibEm + AggEm;
+                    LearningIntensity2 = PleEm + UnpEm;
                     
                     EmotionMerge = clsDataStructureGenerator.generateEMOTION(
 	                        new clsTriple <eContentType, eEmotionType, Object>(
@@ -231,7 +235,9 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
                             EmotionMerge, 
                             LTM_Image));
 	                LTM_Image.setLearningWeight(LearningIntensity);
-	                if(replace)
+	                LTM_Image.setLearningWeight1(LearningIntensity1);
+	                LTM_Image.setLearningWeight2(LearningIntensity2);
+                    if(replace)
 	                {
 	                    moLTM_Learning.setLearningImage(LTM_Image); 
 	                }
@@ -331,6 +337,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
                 // Emotion des anderen Ageneten
             }
 	        moSTM_Learning.moShortTermMemoryMF.add(0,moSTM_LearningEntry);
+	        log.error(moLTM_Learning.getLearningContent());
 	    }
 	    else
 	    {

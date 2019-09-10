@@ -44,7 +44,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	private double mrCathexis;
 	private int mnActiveTime = 0;
 	private double mnLearningIntMom = 0;
-	private double mnLearningIntSum = 0;
+	private double mnLearningIntMom1 = 0;
+	private double mnLearningIntMom2 = 0;
+    private double mnLearningIntSum = 0;
+	private double mnLearningIntSum0 = 0;
+	private double mnLearningIntSum1 = 0;
+	private double mnLearningIntSum2 = 0;
     private double mrWeightPI;
 	
 	/**
@@ -840,6 +845,40 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
     public void setLearningWeight(double learningWeight) {
         mnLearningIntMom = learningWeight;
     }
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @return the learningWeight
+     */
+    public double getLearningWeight1() {
+        return mnLearningIntMom1;
+    }
+
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @param learningWeight the learningWeight to set
+     */
+    public void setLearningWeight1(double learningWeight) {
+        mnLearningIntMom1 = learningWeight;
+    }
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @return the learningWeight
+     */
+    public double getLearningWeight2() {
+        return mnLearningIntMom2;
+    }
+
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @param learningWeight the learningWeight to set
+     */
+    public void setLearningWeight2(double learningWeight) {
+        mnLearningIntMom2 = learningWeight;
+    }
     
     /**
      * @since 06.05.2019 14:37:50
@@ -858,4 +897,58 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
     public void setLearningWeightSum(double learningWeight) {
         mnLearningIntSum = learningWeight;
     }
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @return the learningWeight
+     */
+    public double getLearningWeightSum0() {
+        return mnLearningIntSum0;
+    }
+
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @param learningWeight the learningWeight to set
+     */
+    public void setLearningWeightSum0(double learningWeight) {
+        mnLearningIntSum0 = learningWeight;
+    }
+
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @return the learningWeight
+     */
+    public double getLearningWeightSum1() {
+        return mnLearningIntSum1;
+    }
+
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @param learningWeight the learningWeight to set
+     */
+    public void setLearningWeightSum1(double learningWeight) {
+        mnLearningIntSum1 = learningWeight;
+    }
+
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @return the learningWeight
+     */
+    public double getLearningWeightSum2() {
+        return mnLearningIntSum2;
+    }
+
+    /**
+     * @since 06.05.2019 14:37:50
+     * 
+     * @param learningWeight the learningWeight to set
+     */
+    public void setLearningWeightSum2(double learningWeight) {
+        mnLearningIntSum2 = learningWeight;
+    }
+
 }
