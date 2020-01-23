@@ -141,34 +141,9 @@ public class clsShortTermMemoryEntry {
         String out="";
         for(clsThingPresentationMesh LearningImage : LearningImage)
         {
-            out += LearningImage.getContent()+"::Act:"+LearningImage.getActiveTime()+"::Foc:"+LearningImage.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION)+"::PI_Weight:"+LearningImage.getMrWeightPI()+"\n";
+            out += LearningImage.getContent()+"::Act:"+LearningImage.getActiveTime()+"::Foc:"+LearningImage.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION)+"::PI_Weight:"+LearningImage.getMrWeightPI()+"\n";
         }
         return out;
-    }
-    public ArrayList<clsThingPresentationMesh> getLTMLearningImages()
-    {
-        ArrayList<clsThingPresentationMesh> LearningLTMImage = new ArrayList<clsThingPresentationMesh>();
-        clsThingPresentationMesh LearningImageOld = null;
-        String out="";
-        clsThingPresentationMesh LearningImageTemp = null;
-        for(clsThingPresentationMesh LearningImage : LearningImage)
-        {
-            if(LearningImageOld == null)
-            {
-                LearningImageOld = LearningImage;
-            }
-            else
-            {
-                if(LearningImage.compareTo(LearningImageOld) == 0)
-                {
-                    LearningLTMImage.add(LearningImageOld);               
-                }
-                LearningImageOld = LearningImage;
-            }
-            LearningImageTemp = LearningImage;
-        }
-        LearningLTMImage.add(LearningImageTemp);
-        return LearningLTMImage;
     }
 
 
@@ -222,26 +197,6 @@ public class clsShortTermMemoryEntry {
         text += this.getLearningObjectsString();
         text += "|---Images:\n";
         text += this.getLearningImagesString();
-        text += "|---Emotion:\n";
-        text += this.getEmotions();
-        
-        return text;
-    }
-    
-
-    public String PrintImageStorage()
-    {
-        String text;
-        text =  "+ Element ";
-        text += "---- Step:"+ this.step+"\n";
-        text += "|---DMParts:\n";
-        text += this.getLearningDMsString();
-        text += "|---Objects:\n";
-        text += this.getLearningObjectsString();
-        text += "|---Images:\n";
-        text += this.getLearningImagesString();
-        text += "|---Emotion:\n";
-        text += this.getEmotions();
         
         return text;
     }

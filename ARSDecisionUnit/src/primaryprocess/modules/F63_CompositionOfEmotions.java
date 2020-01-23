@@ -133,8 +133,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
     private clsEmotion moAgentEmotionValuation = null;
     private clsEmotion moAgentTransferedEmotion = null;
     
-    public static double rpain;
-    
 	// koller 
     private double mrEmotionrecognitionImpactFactor;
 	
@@ -278,8 +276,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		//get Pleasure
 		rDrivePleasure =  moPleasureStorage.send_D4_1();
 		
-		//rSystemUnpleasure = moPleasureStorage.send_D4_3() * mrInfluenceCurrentDrives;
-		rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives + rpain;
+		rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives;
         rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives;
         rSystemLibid = rDriveLibid * mrInfluenceCurrentDrives;
         rSystemAggr = rDriveAggr * mrInfluenceCurrentDrives;

@@ -20,7 +20,6 @@ import memorymgmt.enums.eDrive;
 import memorymgmt.enums.eDriveProperty;
 import memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import memorymgmt.storage.DT4_PleasureStorage;
-import modules.interfaces.D1_4_receive;
 import modules.interfaces.I2_2_receive;
 import modules.interfaces.I3_4_receive;
 import modules.interfaces.I3_4_send;
@@ -56,7 +55,7 @@ import base.tools.toText;
  * Apr 2, 2013, 1:56:16 PM
  * 
  */
-public class F65_PartialSelfPreservationDrives extends clsModuleBase implements I2_2_receive, I3_4_send, D1_4_receive, itfInspectorGenericDynamicTimeChart{
+public class F65_PartialSelfPreservationDrives extends clsModuleBase implements I2_2_receive, I3_4_send, itfInspectorGenericDynamicTimeChart{
 
 	
 	public static final String P_MODULENUMBER = "65";
@@ -95,7 +94,6 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	//charts
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData; 
-	private HashMap<eDrive, ePartialDrive> moPartialDriveMapping;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
     
@@ -128,13 +126,11 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		moHomeostaisImpactFactors.put("BLOODSUGAR",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_BLOODSUGAR).getParameterDouble());
 		moHomeostaisImpactFactors.put("RECTUM",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_RECTUM).getParameterDouble());
 		moHomeostaisImpactFactors.put("STAMINA",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_STAMINA).getParameterDouble());
-//		moHomeostaisImpactFactors.put("HEALTH",0.8);
 
 		oQoA_LastStep = new HashMap<eDrive,Double>();
 		
 		o_LastStep = new HashMap<eDrive,Double>();
 		o_LastStep.put(eDrive.STOMACH, 0.0);
-		
 
 		
 		shiftFactorLastStep = new HashMap<eDrive,Double>();
@@ -176,11 +172,11 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         moStamina.put(eDriveProperty.PERSONALITY_PARAMETERS, fillPersonalityStamina(poPersonalityParameterContainer));
         moMapping.put("STAMINA", moStamina);
         
-//        HashMap<eDriveProperty, Object> moHealth = new HashMap<eDriveProperty,Object>();
-//        moHealth.put(eDriveProperty.ORGAN, "HEALTH");
-//        moHealth.put(eDriveProperty.ORIFICE, "TRACHEA");
-//        moHealth.put(eDriveProperty.PERSONALITY_PARAMETERS, fillPersonalityStamina(poPersonalityParameterContainer));
-//        moMapping.put("HEALTH", moHealth);
+        HashMap<eDriveProperty, Object> moHealth = new HashMap<eDriveProperty,Object>();
+        moHealth.put(eDriveProperty.ORGAN, "HEALTH");
+        moHealth.put(eDriveProperty.ORIFICE, "TRACHEA");
+        moHealth.put(eDriveProperty.PERSONALITY_PARAMETERS, fillPersonalityStamina(poPersonalityParameterContainer));
+        moMapping.put("HEALTH", moHealth);
         
     }
     
@@ -278,6 +274,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		    if(moMapping.containsKey(oInputValue)){
 		        changeDriveBuffer(moMapping.get(oInputValue),oEntry.getValue() );
 		    }
+		    
         }
 		
 		log.debug("PI Buffer after processing F65:\n"+moLibidoBuffer.send_D1_5().toString());
@@ -354,139 +351,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		    moDriveChartData.put(oMesh.getChartShortString(), oMesh.getQuotaOfAffect());
 		}
 */
-		
-       
-        clsDriveMesh oAADM = CreateDriveRepresentations(eOrgan.STOMACH, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
-        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STOMACH).a);
-        moHomeostaticDriveComponents_OUT.add(oAADM);
-        oAADM = CreateDriveRepresentations(eOrgan.STOMACH, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
-        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STOMACH).b);
-        moHomeostaticDriveComponents_OUT.add(oAADM);
-        
-        oAADM = CreateDriveRepresentations(eOrgan.STAMINA, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
-        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STAMINA).a);
-        moHomeostaticDriveComponents_OUT.add(oAADM);
-        oAADM = CreateDriveRepresentations(eOrgan.STAMINA, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
-        oAADM.setQuotaOfAffect( receive_D1_4(eDrive.STAMINA).b);
-        moHomeostaticDriveComponents_OUT.add(oAADM);
-        
-//        eOrgan oOrgan = eOrgan.HEALTH;
-//        eDrive oDrive = eDrive.HEALTH;
-//        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
-//        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).a);
-//        moHomeostaticDriveComponents_OUT.add(oAADM);
-//        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
-//        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).b);
-//        moHomeostaticDriveComponents_OUT.add(oAADM);
-        
-        eOrgan oOrgan = eOrgan.RECTUM;
-        eDrive oDrive = eDrive.RECTUM;
-        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED);
-        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).a);
-        moHomeostaticDriveComponents_OUT.add(oAADM);
-        oAADM = CreateDriveRepresentations(oOrgan, eOrifice.UNDEFINED, eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED);
-        oAADM.setQuotaOfAffect( receive_D1_4(oDrive).b);
-        moHomeostaticDriveComponents_OUT.add(oAADM);
-        
-        //fill charts 
-        for (clsDriveMesh oMesh :moHomeostaticDriveComponents_OUT){
-            moDriveChartData.put(oMesh.getChartShortString(), oMesh.getQuotaOfAffect());
-        }
-        
-   	}
-    /* (non-Javadoc)
-    *
-    * @since 16.05.2013 11:54:37
-    * 
-    * @see pa._v38.interfaces.modules.D1_4_receive#receive_D1_4(pa._v38.memorymgmt.enums.eDrive)
-    */
-   @Override
-   public clsPair<Double, Double> receive_D1_4(eDrive oDrive) {
-       return moLibidoBuffer.send_D1_4(oDrive);
-   }
-	
-	   private clsDriveMesh CreateDriveRepresentations(eOrgan poOrgan, eOrifice poOrifice, eDriveComponent oComponent, ePartialDrive oPartialDrive) {
-	        clsDriveMesh oDriveCandidate  = null;
-	        
-	        String oOrgan = poOrgan.toString();
-	        String oOrifice = poOrifice.toString();
-	        
-	        try {
-	        
-	        
-	        //create a TPM for the organ
-	            clsThingPresentationMesh oOrganTPM = 
-	                (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-	                        eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oOrgan) );
-
-	        
-	        //create a TPM for the orifice
-	            clsThingPresentationMesh oOrificeTPM = 
-	                (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-	                        eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORIFICE, new ArrayList<clsThingPresentation>(), oOrifice) );
-
-	        
-	        //create the DM
-	        oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, 
-	                Object>(eContentType.DRIVEREPRESENTATION, new ArrayList<clsThingPresentationMesh>(), "") 
-	                ,eDriveComponent.UNDEFINED, ePartialDrive.UNDEFINED );
-	        
-	        //supplement the information
-	        
-	        oDriveCandidate.setDriveComponent(oComponent);
-	        oDriveCandidate.setPartialDrive(oPartialDrive);
-	        
-	        
-	        oDriveCandidate.setActualDriveSource(oOrganTPM, 1.0);
-	        
-	        
-	        oDriveCandidate.setActualBodyOrifice(oOrificeTPM, 1.0);
-	        
-	        } catch (Exception e) {
-	            // TODO (muchitsch) - Auto-generated catch block
-	            e.printStackTrace();
-	        }
-	        
-	    return oDriveCandidate;
-	    }
-    /**
-     * Creates a DM out of the entry, and adds necessary information, source, etc
-     * @throws Exception 
-     *
-     * @since 16.07.2012 15:20:26
-     *
-     */
-    private clsDriveMesh CreateDriveCandidate(eDrive poDrive, double rTension, eDriveComponent peComponent) throws Exception {
-        clsDriveMesh oDriveCandidate  = null;
-        
-        eOrgan oOrgan = moOrganMap.get(poDrive);
-        eOrifice oOrifice = moOrificeMap.get(poDrive);
-                
-        //create a TPM for the organ
-        clsThingPresentationMesh oOrganTPM = 
-            (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-                    eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oOrgan.toString()) );
-        
-        //create a TPM for the orifice
-        clsThingPresentationMesh oOrificeTPM = 
-            (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-                    eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORIFICE, new ArrayList<clsThingPresentation>(), oOrifice.toString()) );
-        
-        //create the DM
-        oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECANDIDATE, new ArrayList<clsThingPresentationMesh>(), "") 
-                ,peComponent, ePartialDrive.UNDEFINED );
-        
-        //supplement the information
-        oDriveCandidate.setActualDriveSource(oOrganTPM, 1.0);
-        
-        oDriveCandidate.setActualBodyOrifice(oOrificeTPM, 1.0);
-        
-        oDriveCandidate.setQuotaOfAffect(rTension);
-        
-        oDriveCandidate.setPartialDrive(moPartialDriveMapping.get(poDrive));
-        
-        return oDriveCandidate;
-    }
+	}
 	
 	/**
      * DOCUMENT (herret) - insert description

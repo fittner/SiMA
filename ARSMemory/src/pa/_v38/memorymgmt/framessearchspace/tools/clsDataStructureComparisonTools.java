@@ -773,10 +773,6 @@ public abstract class clsDataStructureComparisonTools {
 				
 				//Get the external associations
 				ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
-				if((((clsThingPresentationMesh)poInput).getContent()).equals("A12_EAT_MEAT_L01_I04"))
-				{
-					boolean test = true;
-				}
 				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsThingPresentationMesh)poInput));
 				
 				for (clsAssociation oAss : oAssList) {
