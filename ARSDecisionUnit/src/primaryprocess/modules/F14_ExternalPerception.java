@@ -484,7 +484,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	        }
 	        else
 	        {
-	            log.error("HEALTH");
+//	            log.error("HEALTH");
 	            // generate Unpleasure from Pain
 	            double health;
 	            double diff;

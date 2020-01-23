@@ -522,6 +522,10 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         // Get action command from goal
         try {
             moActionCommand = PlanningFunctionality.getActionCommandFromPlanGoal(planGoal);
+//            if(planGoal.getSupportiveDataStructure().getContent().toString().equals("A14_FLEE_CARL_L01") )
+//            {
+//                moActionCommand.setContent("MOVE_BACKWARD");
+//            }
             log.info("Selected Action: {}", moActionCommand);
 
         } catch (Exception e) {
