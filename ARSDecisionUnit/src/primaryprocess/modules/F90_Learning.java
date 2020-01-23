@@ -7,6 +7,11 @@
  */
 package primaryprocess.modules;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -25,6 +30,7 @@ import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsShortTermMemoryEntry;
 import base.datatypes.clsShortTermMemoryMF;
+import base.datatypes.clsThingPresentation;
 import base.datatypes.clsThingPresentationMesh;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
@@ -54,6 +60,8 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
 	private clsShortTermMemoryEntry moSTM_LearningEntry;
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData;
+	private boolean written;
+	private boolean adam;
 
 	/**
 	 * DOCUMENT (fittner) 
@@ -127,17 +135,21 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
 	@Override
 	protected void process_basic()
 	{
+	    int actualStep;
 	    // STM to LTM
 	    // STM new Step
 	    //moSTM_Learning.setActualStep(moSTM_Learning.getActualStep()+1);
 	    moSTM_LearningEntry = new clsShortTermMemoryEntry();
+	    
+	    actualStep = moSTM_Learning.getActualStep();
         
 	    if(moSTM_Learning.moShortTermMemoryMF.size()==0)
         {
             moSTM_Learning.moShortTermMemoryMF.add(0,new clsShortTermMemoryEntry());
         }
-	    if (moSTM_Learning.getActualStep() < 570)
+	    if (actualStep < 470)
 	    {
+	        written = false;
     
     	    if(moSTM_Learning.getChangedMoment())
     	    {   
@@ -353,9 +365,78 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
     	    
     	    // IMAGE + Emotions new
     	    //moSTM_Learning
+    	    int size = moSTM_Learning.moShortTermMemoryMF.size()-1;
+    	    for(int i=0; i<size; i++)
+            {
+                clsShortTermMemoryEntry STM_Entry = moSTM_Learning.moShortTermMemoryMF.get(i);
+                if(i>6)
+    	        {
+        	            moSTM_Learning.moShortTermMemoryMF.remove(i);
+        	            size--;
+                }
+            }
 	    }
+	    else
+	    {   
+	        for(clsThingPresentationMesh TPM_Object : moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects())
+	        {
+	            if(TPM_Object.getContent().equals("SELF"))
+	            {
+	                for(clsAssociation intAss : TPM_Object.getInternalAssociatedContent())
+	                {
+	                    if(intAss.getTheOtherElement(TPM_Object) instanceof clsThingPresentation)
+	                    {
+	                        clsThingPresentation TPM = (clsThingPresentation)intAss.getTheOtherElement(TPM_Object);
+	                        if(TPM.getContentType().equals(eContentType.Color))
+	                        {
+	                            if(TPM.getContent().equals("#33FF33"))
+                                {
+	                                adam=true;
+                                }
+	                            
+	                        }
+	                    }
+	                }
+	            }
+	        }
+    	    if(!written && adam)
+    	    {
+    	        try
+        	    {
+        	        String line = null;
+        	        File f1 = new File("C:/Users/nocks/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_FIM_LEARN_EMOTION/ADAM_FIM_LEARN_EMOTION.pins");
+                    //File f2 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT.pins");
+                    FileReader fr = new FileReader(f1);
+                    BufferedReader br = new BufferedReader(fr);
+                    ArrayList<String> lines = new ArrayList<String>();
+                    while ((line = br.readLine()) != null) {
+                        lines.add(line+"\n");
+                    }
+                    lines.add("\n");
+                    lines.add("([ASSOCIATIONEMOTION%3ANEW_ASSOCIATION_EMOTION%3AANXIETY] of  ASSOCIATIONEMOTION\n");
+                    lines.add("\n");
+                    lines.add("\t(element\n");
+                    lines.add("\t\t[TPM%3AIMAGE%3AA12_EAT_MEAT_L01_I04]\n");
+                    lines.add("\t\t[EMOTION%3ANEW_EMOTION%3AANXIETY])\n");
+                    lines.add("\t(weight 1.0 1.0))\n");
 
-	    
+                    fr.close();
+                    br.close();
+        
+                    FileWriter fw = new FileWriter(f1);
+                    BufferedWriter out = new BufferedWriter(fw);
+                    for(String s : lines)
+                         out.write(s);
+                    out.flush();
+                    out.close();
+                    written = true;
+                }
+    	        catch (Exception ex)
+        	    {
+    	            ex.printStackTrace();
+                }
+    	    }
+	    }
 	}
 	
     /**
