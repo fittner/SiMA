@@ -5,6 +5,7 @@
  */
 package control;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 
 import org.slf4j.Logger;
@@ -51,6 +52,7 @@ public class clsProcessor implements itfProcessor  {
 	
 	private final Logger log = logger.clsLogger.getLog("General");
 	private final Logger logtiming = logger.clsLogger.getLog("Timing");
+	private int step=0;
 		
 	/**
 	 * Creates an instance of the processor and thus the decision unit with the provided properties.
@@ -240,9 +242,21 @@ public class clsProcessor implements itfProcessor  {
 	
 	@Override
 	public void step() {
+	    NumberFormat format = NumberFormat.getInstance();
+	    Runtime runtime = Runtime.getRuntime();
+	    StringBuilder sb = new StringBuilder();
+	    long maxMemory = runtime.maxMemory();
+	    long allocatedMemory = runtime.totalMemory();
+	    long freeMemory = runtime.freeMemory();
+
+	    logtiming.info("free memory: " + format.format(freeMemory / 1024));
+	    logtiming.info("allocated memory: " + format.format(allocatedMemory / 1024));
+	    logtiming.info("max memory: " + format.format(maxMemory / 1024));
+	    logtiming.info("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024));
 	    log.info("================== START CYCLE OF ARS ===========================================================================================================================");
 	    log.info("=================== SENSING ========================");
 	    long start = System.currentTimeMillis();
+	    long substart = System.currentTimeMillis();
 		//BODY --------------------------------------------- 
 		//data preprocessing
 	    //Resets the pleasure value to 0
@@ -273,6 +287,7 @@ public class clsProcessor implements itfProcessor  {
 		//PRIMARY PROCESSES -------------------------------
 		log.info("=================== PRIMARY PROCESS ========================");
 		start = System.currentTimeMillis();
+		substart = System.currentTimeMillis();
 		//Self-PreservationDrive generation
 		moPsyApp.moF65_PartialSelfPreservationDrives.step();
 		//moPsyApp.moF03_GenerationOfSelfPreservationDrives.step(); //todo
@@ -288,12 +303,14 @@ public class clsProcessor implements itfProcessor  {
 		
 		moPsyApp.moF57_MemoryTracesForDrives.step(); 
 		 
-        		
+		logtiming.info("Duration Drives65,64,48,57: {}", System.currentTimeMillis()-substart);
+		substart = System.currentTimeMillis();		
 		//perception to memory and repression
 		moPsyApp.moF14_ExternalPerception.step();
 		moPsyApp.moF46_MemoryTracesForPerception.step();
 		moPsyApp.moF37_PrimalRepressionForPerception.step();
-		
+		logtiming.info("Duration Perception14,46,37: {}", System.currentTimeMillis()-substart);
+        substart = System.currentTimeMillis();
 		//Repression for drives
 		
 		moPsyApp.moF49_PrimalRepressionForDrives.step();
@@ -308,7 +325,8 @@ public class clsProcessor implements itfProcessor  {
 		//desexualization and emotions
 		moPsyApp.moF63_CompositionOfEmotions.step();
 		moPsyApp.moF56_Desexualization_Neutralization.step();
-
+		logtiming.info("Duration 49,54,35,45,18,63,56 {}", System.currentTimeMillis()-substart);
+        substart = System.currentTimeMillis();
 		//super-ego
 		moPsyApp.moF55_SuperEgoProactive.step(); 
 		moPsyApp.moF07_SuperEgoReactive.step(); 
@@ -316,10 +334,11 @@ public class clsProcessor implements itfProcessor  {
 		//defense mechanisms
 		moPsyApp.moF06_DefenseMechanismsForDrives.step();
 		moPsyApp.moF19_DefenseMechanismsForPerception.step();
-
+		logtiming.info("Duration Perceptionuntil 55,05,16,19 {}", System.currentTimeMillis()-substart);
+        substart = System.currentTimeMillis();
 		moPsyApp.moF71_CompositionOfExtendedEmotion.step();
 
-        logtiming.info("Duration Primary Process: {}", System.currentTimeMillis()-start);
+        logtiming.info("Duration Primary Process: (71) {}", System.currentTimeMillis()-start);
 		//SECONDARY PROCESSES ----------------------------
 		log.info("=================== SECONDARY PROCESS ========================");
 		start = System.currentTimeMillis();

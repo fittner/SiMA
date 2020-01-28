@@ -64,8 +64,8 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	
 	private Shape moAlive2D;
 	private Shape moDead2D;
-	
-	
+	private final Logger logtiming = logger.clsLogger.getLog("Timing");
+		
 	private boolean mnAlive;
 	private boolean mnImmortal;
 	
@@ -236,6 +236,8 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		Thread.currentThread().setName("ARSIN #"+uid);
 		clsShortTermMemoryMF.setActualStep(Steps++);
 		logFim.info("Step: "+Steps);
+		logtiming.info("Timing Step: "+Steps);
+		//if (this.)
 		if (isAlive()) {
 			if(executeDU){
 				log.trace("Step "+clsSimState.getSteps()+": Processing");
