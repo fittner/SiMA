@@ -56,6 +56,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private int mnTestCounter =0;
 	
 	private clsDataPoint moPreviousActiveActions = null;
+    private boolean drop=false;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -85,7 +86,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		realActionHistory = new ArrayList<String>(); 
         moActionCommandList_Output = new clsDataContainer();
         moActionQueue = new ArrayList<String>();
-        
+       
 	}
 	
 	/* (non-Javadoc)
@@ -177,6 +178,14 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
                     oAction = oActionWPM.getContent();
                     inputActionHistory.add(oAction.toString());
                     newActionAvailable = true;
+                    if(drop && oAction.equals("DROP"))
+                    {
+                        oAction="TURN_LEFT10";    
+                    }
+                    if(oAction.equals("DROP"))
+                    {
+                        drop=true;
+                    }
                     processActionCommand(oAction, moActionCommandList_Output, true);
                 }                
                 
@@ -191,6 +200,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         }
         
         log.info("ActionCommandList: "+ moActionCommandList_Output.toString());
+        if(moActionCommandList_Output.getData().size()>0)
+        {
+            newActionAvailable = false;
+        }
     }
 	
 	private void processActionCommand(String oAction, clsDataContainer oRetVal, boolean nonQueueAction){
@@ -266,13 +279,13 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	            
 	        case "MOVE_FORWARD":
 	            oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
-	            oAttributes.add(new clsDataPoint("DISTANCE","1.0"));
+	            oAttributes.add(new clsDataPoint("DISTANCE","2.0"));
 	            oNewAction = createAction("MOVE", oAttributes);
 	            break;
 
 	        case"MOVE_FORWARD_SLOW":
 	            oAttributes.add(new clsDataPoint("DIRECTION","FORWARD"));
-	            oAttributes.add(new clsDataPoint("DISTANCE","0.2"));
+	            oAttributes.add(new clsDataPoint("DISTANCE","0.4"));
 	            oNewAction = createAction("MOVE", oAttributes);
 	            break;
             
@@ -284,13 +297,13 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
             
 	        case "MOVE_BACKWARD":
 	            oAttributes.add(new clsDataPoint("DIRECTION","BACKWARD"));
-	            oAttributes.add(new clsDataPoint("DISTANCE","1.0"));
+	            oAttributes.add(new clsDataPoint("DISTANCE","2.0"));
 	            oNewAction = createAction("MOVE", oAttributes);
 	            break;
 	            
 	        case "TURN_LEFT":
 	            oAttributes.add(new clsDataPoint("DIRECTION","TURN_LEFT"));
-	            oAttributes.add(new clsDataPoint("ANGLE","5.0"));
+	            oAttributes.add(new clsDataPoint("ANGLE","7.0"));
 	            oNewAction = createAction("TURN", oAttributes);
 	            break;
             
@@ -320,7 +333,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	            
 	        case "TURN_RIGHT": 
 	            oAttributes.add(new clsDataPoint("DIRECTION","TURN_RIGHT"));
-	            oAttributes.add(new clsDataPoint("ANGLE","5.0"));
+	            oAttributes.add(new clsDataPoint("ANGLE","10.0"));
 	            oRetVal.addDataPoint(createAction("TURN",oAttributes));
 	            break;
 	            
