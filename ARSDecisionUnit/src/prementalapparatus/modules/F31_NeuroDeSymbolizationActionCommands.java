@@ -22,6 +22,7 @@ import modules.interfaces.I1_5_receive;
 import modules.interfaces.I1_5_send;
 import modules.interfaces.I2_5_receive;
 import modules.interfaces.eInterfaces;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
@@ -177,7 +178,15 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
                     oAction = oActionWPM.getContent();
                     inputActionHistory.add(oAction.toString());
                     newActionAvailable = true;
+                    
+                    clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
+                    if(test.getActualStep()>380 && this.getAgentIndex()==1 && test.getActualStep()<460 )
+                    {
+                        oAction="MOVE_BACKWARD";
+                    }
+                    
                     processActionCommand(oAction, moActionCommandList_Output, true);
+                    
                 }                
                 
             }

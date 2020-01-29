@@ -147,7 +147,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
         {
             moSTM_Learning.moShortTermMemoryMF.add(0,new clsShortTermMemoryEntry());
         }
-	    if (actualStep < 470)
+	    if (actualStep < 1300)
 	    {
 	        written = false;
     
