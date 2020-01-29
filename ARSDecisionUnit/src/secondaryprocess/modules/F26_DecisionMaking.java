@@ -366,22 +366,22 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
             }
         }
 	    
-        if(true)
-        {
-            for( clsWordPresentationMeshPossibleGoal reachableGoal:moReachableGoalList_IN)
-            {
-                if(reachableGoal.getSupportiveDataStructure().getContent().equals("A06_BEAT_DOUG_L01"))
-                {
-                    for( clsWordPresentationMeshPossibleGoal reachableGoal1:moReachableGoalList_IN)
-                    {
-                        if(reachableGoal1.getSupportiveDataStructure().getContent().equals("A12_EAT_MEAT_L01"))
-                        {
-                            reachableGoal1.setFeelingsExpactationImportance(0.822);
-                        }
-                    }
-                }
-            }
-        }
+//        if(true)
+//        {
+//            for( clsWordPresentationMeshPossibleGoal reachableGoal:moReachableGoalList_IN)
+//            {
+//                if(reachableGoal.getSupportiveDataStructure().getContent().equals("A06_BEAT_DOUG_L01"))
+//                {
+//                    for( clsWordPresentationMeshPossibleGoal reachableGoal1:moReachableGoalList_IN)
+//                    {
+//                        if(reachableGoal1.getSupportiveDataStructure().getContent().equals("A12_EAT_MEAT_L01"))
+//                        {
+//                            reachableGoal1.setFeelingsExpactationImportance(0.822);
+//                        }
+//                    }
+//                }
+//            }
+//        }
 		//Select the goals to be forwarded
 	    Importance.clear();
 	    DecimalFormat df = new DecimalFormat();

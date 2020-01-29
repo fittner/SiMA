@@ -22,6 +22,7 @@ import modules.interfaces.I1_5_receive;
 import modules.interfaces.I1_5_send;
 import modules.interfaces.I2_5_receive;
 import modules.interfaces.eInterfaces;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
@@ -177,6 +178,26 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
                     oAction = oActionWPM.getContent();
                     inputActionHistory.add(oAction.toString());
                     newActionAvailable = true;
+                    
+                    clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
+                    if(test.getActualStep()>340 && this.getAgentIndex()==1 && test.getActualStep()<410 )
+                    {
+                        oAction="MOVE_BACKWARD";
+                    }
+                    if(test.getActualStep()>409 && this.getAgentIndex()==1 && test.getActualStep()<420 )
+                    {
+                        oAction="MOVE_FORWARD_SLOW";
+                    }
+                    if(test.getActualStep()>419 && this.getAgentIndex()==1 && test.getActualStep()<470 )
+                    {
+                        oAction="EAT";
+                    }
+                    if(test.getActualStep()>469 && this.getAgentIndex()==1 && test.getActualStep()<8000 )
+                    {
+                        oAction="DROP";
+                        //PICK_UP
+                    }
+                    
                     processActionCommand(oAction, moActionCommandList_Output, true);
                 }                
                 
@@ -356,7 +377,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
             
 	        case "STRAFE_LEFT":
 	        case "STRAFE_RIGHT":
-                 
+	            break;    
 	        case "EAT":
 	            oNewAction = createAction("EAT",oAttributes);
 	            break;
@@ -398,7 +419,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	        case "FOCUS_TURN_RIGHT":
 	        case "PERFORM_BASIC_ACT_ANALYSIS":
 	        case "NULLOBJECT":
-	            
+	            break;
 	        case "PICK_UP":
 	            oNewAction = createAction("PICK_UP", null);
 	            break;
@@ -409,10 +430,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	            
 	        case "FLEE": 
 	            throw new UnknownError("Action " + oAction + " is a complex action that has not been translated into basic actions");
-
 	        case "GOTO":
                 throw new UnknownError("Action " + oAction + " is a complex action that has not been translated into basic actions");
-
             case "REQUEST":
                 oNewAction = createAction("REQUEST", oAttributes);
                 break;    
@@ -650,7 +669,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         for(int i=0;i<8;i++) moActionQueue.add("MOVE_FORWARD");
         for(int i=0;i<5;i++) moActionQueue.add("TURN_LEFT10");
   */      
-        for(int i = 0; i < 100; i++) moActionQueue.add("MOVE_BACKWARD");
+        for(int i = 0; i < 10; i++) moActionQueue.add("MOVE_BACKWARD");
         for(int i = 0; i < 1; i++) moActionQueue.add("TURN_RIGHT45");
         for(int i = 0; i < 2; i++) moActionQueue.add("TURN_LEFT45");
         for(int i = 0; i < 1; i++) moActionQueue.add("TURN_RIGHT45");

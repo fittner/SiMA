@@ -46,7 +46,6 @@ public class clsShortTermMemoryEntry {
     private HashMap<String, clsThingPresentationMesh> LearningSTMObjectStoreHM = new HashMap<String, clsThingPresentationMesh>();
     private ArrayList<clsThingPresentationMesh> LearningSTMStore = new ArrayList<clsThingPresentationMesh>();
     private ArrayList<clsThingPresentationMesh> LearningSTMStoreRemove = new ArrayList<clsThingPresentationMesh>();
-    private ArrayList<clsThingPresentationMesh> LearningSTMStoreFinal = new ArrayList<clsThingPresentationMesh>();
     private ArrayList<clsThingPresentationMesh> LearningSTMObjectStore = new ArrayList<clsThingPresentationMesh>();
     
     
@@ -262,39 +261,6 @@ public class clsShortTermMemoryEntry {
                 {
                     LearningSTMStoreRemove.add(TPM_Image);
                 }
-                clsEmotion EmotionRIOrig = null;
-                for(clsAssociation Ass:TPM_Image.getExternalAssociatedContent())
-                {
-                    if (Ass instanceof clsAssociationEmotion)
-                    {
-                        EmotionRIOrig = (clsEmotion) Ass.getTheOtherElement(TPM_Image);
-                        break; // Take first Emotion --> Original
-                    }    
-                }
-                clsEmotion EmotionNew = null;
-                for(clsAssociation Ass:TPM_Image.getExternalAssociatedContent())
-                {
-                    if (Ass instanceof clsAssociationEmotion)
-                    {
-                        EmotionNew = (clsEmotion) Ass.getTheOtherElement(TPM_Image);
-                        // Take last Emotion --> New Emotion
-                    }    
-                }
-                if(EmotionRIOrig.compareTo(EmotionNew) < 0.95)
-                {
-                    if(LearningSTMStoreFinal.size()>0)
-                    {
-                        if(TPM_Image.getContent() == LearningSTMStoreFinal.get(LearningSTMStoreFinal.size()-1).getContent())
-                        {
-                            LearningSTMStoreFinal.remove(LearningSTMStoreFinal.size()-1);
-                        }
-                        LearningSTMStoreFinal.add(TPM_Image);
-                    }
-                    else
-                    {
-                        LearningSTMStoreFinal.add(TPM_Image);
-                    }
-                }
             }
         }
     }
@@ -360,16 +326,16 @@ public class clsShortTermMemoryEntry {
             out+="\n"+LearningImage.getContent() + ": Learning intensity: ";
             out += oDoubleFormatter.format("%.3f",LearningImage.getLearningWeightSum());
             oDoubleFormatter = new Formatter();
-            out+="\n"+LearningImage.getContent() + ": Learning intensity: ";
-            out += oDoubleFormatter.format("%.3f",LearningImage.getLearningWeightSum1());
+//            out+="\n"+LearningImage.getContent() + ": Learning intensity1: ";
+//            out += oDoubleFormatter.format("%.3f",LearningImage.getLearningWeightSum1());
             oDoubleFormatter = new Formatter();
-            out+="\n"+LearningImage.getContent() + ": Learning intensity1: ";
-            out += oDoubleFormatter.format("%.3f",LearningImage.getLearningWeightSum2());
+//            out+="\n"+LearningImage.getContent() + ": Learning intensity2: ";
+//            out += oDoubleFormatter.format("%.3f",LearningImage.getLearningWeightSum2());
             oDoubleFormatter = new Formatter();
             }
         }
         out+="\n--> LTM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-        out+="\n-------->                                     New Candidate for learning   <EMOTION>         for          <IMAGE>";
+        out+="\n-------->                                                            New learned <EMOTION>         for          <IMAGE>";
 //        for(String key : LearningSTMStoreHM.keySet())
 //        {
 //
@@ -399,38 +365,6 @@ public class clsShortTermMemoryEntry {
             out += EmotionRI + " ----- ";
             out += LearningSTMStoreRem.getContent();
         }
-        out+="\n--> LTM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-        out+="\n-------->                                                            New learned      <EMOTION>         for          <IMAGE>";
-//        for(String key : LearningSTMStoreHM.keySet())
-//        {
-//
-//            clsEmotion EmotionRI = null;
-//            for(clsAssociation Ass:LearningSTMStoreHM.get(key).getExternalAssociatedContent())
-//            {
-//                if (Ass instanceof clsAssociationEmotion)
-//                {
-//                    EmotionRI = (clsEmotion) Ass.getTheOtherElement(LearningSTMStoreHM.get(key));
-//                }    
-//            }
-//            out += EmotionRI + " ----- ";
-//            out += LearningSTMStoreHM.get(key).getContent();
-//        }
-//        out+="\n--> LTM ++++++";
-        for(clsThingPresentationMesh LearningSTMStoreRem : LearningSTMStoreFinal)
-        {
-
-            clsEmotion EmotionRI = null;
-            for(clsAssociation Ass:LearningSTMStoreRem.getExternalAssociatedContent())
-            {
-                if (Ass instanceof clsAssociationEmotion)
-                {
-                    EmotionRI = (clsEmotion) Ass.getTheOtherElement(LearningSTMStoreRem);
-                }    
-            }
-            out += EmotionRI + " ----- ";
-            out += LearningSTMStoreRem.getContent();
-        }
-        
         
         return out;
     }
