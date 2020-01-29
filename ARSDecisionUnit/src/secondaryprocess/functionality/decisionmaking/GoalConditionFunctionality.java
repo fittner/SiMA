@@ -32,6 +32,15 @@ public class GoalConditionFunctionality {
      */
     public static void setCommonConditionsToGoals(ArrayList<clsWordPresentationMeshPossibleGoal> allGoals) {
         for (clsWordPresentationMeshPossibleGoal goal : allGoals) {
+        	if( goal.getSupportiveDataStructure().getContent().contains("FLEE"))
+        	{
+        		int i=0;
+        		i++;
+        		if (i >2)
+        		{ i=0;;
+        		
+        		}
+        	}
             setCommonConditionsToGoals(goal, allGoals);
         }
     }

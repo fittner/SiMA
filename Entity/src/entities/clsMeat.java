@@ -141,7 +141,7 @@ public class clsMeat extends clsOrganic implements itfGetFlesh, itfAPEatable, it
 		
 
 		if (getFlesh().getTotallyConsumed() && !mnDestroyed) {
-			mnDestroyed = true;
+			//mnDestroyed = true;
 			//This command removes the cake from the playground
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 		}

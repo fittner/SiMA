@@ -9,6 +9,9 @@ package prementalapparatus.modules;
 import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfInspectorGenericActivityTimeChart;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -54,9 +57,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private static final boolean bUSEUNREAL = false;
 	private clsWordPresentationMesh moWordingToContext;
 	private int mnTestCounter =0;
+	public static boolean share=false;
 	
 	private clsDataPoint moPreviousActiveActions = null;
     private boolean drop=false;
+    private int step;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -86,7 +91,35 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		realActionHistory = new ArrayList<String>(); 
         moActionCommandList_Output = new clsDataContainer();
         moActionQueue = new ArrayList<String>();
-       
+        
+        try
+        {
+            String line = null;
+            String lineB4 = null;
+            File f1 = new File("C:/Users/nocks/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_FIM_LEARN_EMOTION/ADAM_FIM_LEARN_EMOTION.pins");
+            FileReader fr = new FileReader(f1);
+            BufferedReader br = new BufferedReader(fr);
+            int i=0;
+            
+            while (true) {
+                lineB4=line;
+                if((line = br.readLine()) == null)
+                {
+                    break;
+                }
+                i++;
+            }
+            if (lineB4.contains("(weight 1.0 1.0))"))
+            { 
+                share=true;
+            }
+            fr.close();
+            br.close();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
 	}
 	
 	/* (non-Javadoc)
@@ -167,7 +200,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
     protected void process_basic() {
         moActionCommandList_Output = new clsDataContainer();
-
+        step++;
         boolean newActionAvailable=false;
         
         if( moActionCommands_Input.size() > 0) {
@@ -186,6 +219,22 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
                     {
                         drop=true;
                     }
+                    if(step>200 && step<207 && this.getAgentIndex()==1)
+                    {
+                        oAction="MOVE_BACKWARD";
+                    }
+                    if(step>206 && step<213 && this.getAgentIndex()==1)
+                    {
+                        oAction="EAT";
+                    }
+                    if(step>80 && this.getAgentIndex()==0 && !share)
+                    {
+                        oAction="MOVE_BACKWARD";
+                    }
+                    if(step>160 && this.getAgentIndex()==0 && share && step< 165)
+                    {
+                        oAction="MOVE_FORWARD_SLOW";
+                    }
                     processActionCommand(oAction, moActionCommandList_Output, true);
                 }                
                 
@@ -198,6 +247,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
             processActionCommand(oAction, moActionCommandList_Output, false);
             
         }
+
         
         log.info("ActionCommandList: "+ moActionCommandList_Output.toString());
         if(moActionCommandList_Output.getData().size()>0)

@@ -23,6 +23,7 @@ import memorymgmt.enums.eDataType;
 import memorymgmt.enums.eEmotionType;
 import memorymgmt.interfaces.itfModuleMemoryAccess;
 import modules.interfaces.eInterfaces;
+import prementalapparatus.modules.F31_NeuroDeSymbolizationActionCommands;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationEmotion;
@@ -62,6 +63,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
 	private HashMap<String, Double> moDriveChartData;
 	private boolean written;
 	private boolean adam;
+    private int lastLearn=670;
 
 	/**
 	 * DOCUMENT (fittner) 
@@ -140,14 +142,24 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
 	    // STM new Step
 	    //moSTM_Learning.setActualStep(moSTM_Learning.getActualStep()+1);
 	    moSTM_LearningEntry = new clsShortTermMemoryEntry();
-	    
+
+
 	    actualStep = moSTM_Learning.getActualStep();
         
 	    if(moSTM_Learning.moShortTermMemoryMF.size()==0)
         {
             moSTM_Learning.moShortTermMemoryMF.add(0,new clsShortTermMemoryEntry());
         }
-	    if (actualStep < 470)
+	    for(clsThingPresentationMesh STM_Image : moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImage())
+        {
+            double MomentActivation = STM_Image.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION);
+            if(MomentActivation>0 && STM_Image.getContent().contains("A12"))
+            {
+                lastLearn =400;
+            }
+        }
+	    
+	    if (actualStep < lastLearn)
 	    {
 	        written = false;
     
@@ -399,7 +411,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
 	                }
 	            }
 	        }
-    	    if(!written && adam)
+    	    if(!written && adam && lastLearn==400 && F31_NeuroDeSymbolizationActionCommands.share == false)
     	    {
     	        try
         	    {

@@ -347,8 +347,19 @@ public class GoalAlgorithmTools {
 //            for (clsWordPresentationMeshSelectableGoal oWPM : oTEMPLIST) {
 //                oExcludedGoalList.add((clsWordPresentationMeshSelectableGoal) oWPM);
 //            }
-             
-            oRemoveList.addAll(oTEMPLIST);
+            boolean skip=false;
+            for(clsWordPresentationMeshPossibleGoal oTemp : oTEMPLIST)
+            {
+                
+                if( oTemp.getSupportiveDataStructure().getContent().contains("FLEE_CARL"))
+                {
+                    skip=true;
+                }
+            }
+            if(!skip)
+            {
+                oRemoveList.addAll(oTEMPLIST);
+            }
         }
         //logFim.info("Excluded Goals: "+oRemoveList.toString());
         

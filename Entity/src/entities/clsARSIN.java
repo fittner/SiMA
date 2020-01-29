@@ -236,6 +236,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		Thread.currentThread().setName("ARSIN #"+uid);
 		clsShortTermMemoryMF.setActualStep(Steps++);
 		logFim.info("Step: "+Steps);
+		//if (isAlive()) {
 		if (isAlive()) {
 			if(executeDU){
 				log.trace("Step "+clsSimState.getSteps()+": Processing");

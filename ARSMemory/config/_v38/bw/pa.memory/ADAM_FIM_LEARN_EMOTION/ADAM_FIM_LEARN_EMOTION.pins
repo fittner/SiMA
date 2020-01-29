@@ -5694,10 +5694,10 @@
 
 	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.38)
+	(sourceAggr 0.32)
 	(sourceLibid 0.08)
 	(sourcePleasure 0.23)
-	(sourceUnpleasure 0.7)
+	(sourceUnpleasure 0.79)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
