@@ -63,7 +63,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
 	private HashMap<String, Double> moDriveChartData;
 	private boolean written;
 	private boolean adam;
-    private int lastLearn=670;
+    private int lastLearn=800;
 
 	/**
 	 * DOCUMENT (fittner) 

@@ -1,4 +1,4 @@
-; Thu Jun 27 13:55:53 CEST 2019
+; Thu Jan 30 08:16:39 CET 2020
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -2032,6 +2032,13 @@
 		[EMOTION%3ACARL%3ALIKE])
 	(weight 1.0 1.0))
 
+([ASSOCIATIONEMOTION%3ANEW_ASSOCIATION_EMOTION%3AANXIETY] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AA12_EAT_MEAT_L01_I04]
+		[EMOTION%3ANEW_EMOTION%3AANXIETY])
+	(weight 1.0 1.0))
+
 ([ASSOCIATIONEMOTION%3AS01_CARL_MEAT] of  ASSOCIATIONEMOTION
 
 	(element
@@ -3560,10 +3567,10 @@
 
 	(emotionIntensity 0.0)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.12)
-	(sourceLibid 0.07)
-	(sourcePleasure 0.14)
-	(sourceUnpleasure 0.02)
+	(sourceAggr 0.18)
+	(sourceLibid 0.15)
+	(sourcePleasure 0.38)
+	(sourceUnpleasure 0.18)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3764,6 +3771,17 @@
 	(sourceUnpleasure 0.1)
 	(value "ANGER")
 	(value_type "MEMORIZEDEMOTION"))
+
+([EMOTION%3ANEW_EMOTION%3AANXIETY] of  EMOTION
+
+	(emotionIntensity 0.7)
+	(intensityDeviation 0.0)
+	(sourceAggr 0.32)
+	(sourceLibid 0.08)
+	(sourcePleasure 0.23)
+	(sourceUnpleasure 0.79)
+	(value "ANXIETY")
+	(value_type "BASICEMOTION"))
 
 ([EMOTION%3ASELF%3ABODYSTATE%3AANGER] of  EMOTION
 
@@ -5689,21 +5707,3 @@
 
 	(value "S01_CARL_MEAT")
 	(value_type "RI"))
-
-([EMOTION%3ANEW_EMOTION%3AANXIETY] of  EMOTION
-
-	(emotionIntensity 0.7)
-	(intensityDeviation 0.0)
-	(sourceAggr 0.32)
-	(sourceLibid 0.08)
-	(sourcePleasure 0.23)
-	(sourceUnpleasure 0.79)
-	(value "ANXIETY")
-	(value_type "BASICEMOTION"))
-
-([ASSOCIATIONEMOTION%3ANEW_ASSOCIATION_EMOTION%3AANXIETY] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AIMAGE%3AA12_EAT_MEAT_L01_I04]
-		[EMOTION%3ANEW_EMOTION%3AANXIETY])
-	(weight 1.0 1.0))

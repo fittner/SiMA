@@ -34,6 +34,7 @@ import modules.interfaces.I5_21_receive;
 import modules.interfaces.I5_21_send;
 import modules.interfaces.I5_3_receive;
 import modules.interfaces.eInterfaces;
+import prementalapparatus.modules.F31_NeuroDeSymbolizationActionCommands;
 import base.datahandlertools.clsDataStructureGenerator;
 import base.datatypes.clsAssociation;
 import base.datatypes.clsAssociationEmotion;
@@ -286,8 +287,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		rDrivePleasure =  moPleasureStorage.send_D4_1();
 		
 		//rSystemUnpleasure = moPleasureStorage.send_D4_3() * mrInfluenceCurrentDrives;
-		rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives;
-        rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives;
+		if(F31_NeuroDeSymbolizationActionCommands.share)
+		{
+	        rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives*0.6;
+	        rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives*10;
+		}
+		else
+		{
+	        rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives;
+	        rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives;
+		}
         rSystemLibid = rDriveLibid * mrInfluenceCurrentDrives;
         rSystemAggr = rDriveAggr * mrInfluenceCurrentDrives;
         

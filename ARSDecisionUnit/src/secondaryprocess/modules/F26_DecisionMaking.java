@@ -76,6 +76,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
     private double mrModuleStrength;
     private double mrInitialRequestIntensity;
 	private static int test=0;
+	private static double expact=0.05;
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -360,9 +361,17 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	    for( clsWordPresentationMeshPossibleGoal reachableGoal:moReachableGoalList_IN)
         {
 	        if(reachableGoal.getSupportiveDataStructure().getContent().equals("A14_FLEE_CARL_L01")
-	          && test>20)
+	          && test>16)
             {
-	            reachableGoal.setFeelingsExpactationImportance(0.122);
+	            if(expact>0.08)
+	            {
+	                expact = 0.08;
+	            }
+	            else
+	            {
+	                expact=expact*1.05;
+	            }
+	            reachableGoal.setFeelingsExpactationImportance(expact);
             }
         }
 	    

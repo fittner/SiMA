@@ -25,6 +25,7 @@ import modules.interfaces.I1_5_receive;
 import modules.interfaces.I1_5_send;
 import modules.interfaces.I2_5_receive;
 import modules.interfaces.eInterfaces;
+import base.datatypes.clsShortTermMemoryMF;
 import base.datatypes.clsWordPresentationMesh;
 import base.modules.clsModuleBase;
 import base.modules.eImplementationStage;
@@ -202,12 +203,14 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         moActionCommandList_Output = new clsDataContainer();
         step++;
         boolean newActionAvailable=false;
+        clsShortTermMemoryMF test = new clsShortTermMemoryMF(null);
         
         if( moActionCommands_Input.size() > 0) {
             for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
 
                 String oAction;
                 if(oActionWPM!=null){
+                    
                     oAction = oActionWPM.getContent();
                     inputActionHistory.add(oAction.toString());
                     newActionAvailable = true;
@@ -219,22 +222,31 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
                     {
                         drop=true;
                     }
-                    if(step>200 && step<207 && this.getAgentIndex()==1)
+                    if(step>200 && step<207 && this.getAgentIndex()==1 && share)
                     {
                         oAction="MOVE_BACKWARD";
                     }
-                    if(step>206 && step<213 && this.getAgentIndex()==1)
+                    if(step>206 && step<213 && this.getAgentIndex()==1 && share)
                     {
                         oAction="EAT";
                     }
-                    if(step>80 && this.getAgentIndex()==0 && !share)
+//                    if(test.getActualStep()>360 && test.getActualStep()<420 && this.getAgentIndex()==0 && share)
+//                    {
+//                        oAction="MOVE_FORWARD_SLOW";
+//                    }
+                    
+                    if( test.getActualStep()>600 && this.getAgentIndex()==0 && !share)
                     {
                         oAction="MOVE_BACKWARD";
                     }
-                    if(step>160 && this.getAgentIndex()==0 && share && step< 165)
+                    if( test.getActualStep()>70 && test.getActualStep()<80 && this.getAgentIndex()==1 && !share)
                     {
                         oAction="MOVE_FORWARD_SLOW";
                     }
+//                    if( test.getActualStep()>10 && test.getActualStep()<40 && this.getAgentIndex()==0 && !share)
+//                    {
+//                        oAction="MOVE_FORWARD_SLOW";
+//                    }
                     processActionCommand(oAction, moActionCommandList_Output, true);
                 }                
                 
@@ -419,7 +431,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
             
 	        case "STRAFE_LEFT":
 	        case "STRAFE_RIGHT":
-                 
+            break;     
 	        case "EAT":
 	            oNewAction = createAction("EAT",oAttributes);
 	            break;
@@ -461,7 +473,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	        case "FOCUS_TURN_RIGHT":
 	        case "PERFORM_BASIC_ACT_ANALYSIS":
 	        case "NULLOBJECT":
-	            
+	        break;   
 	        case "PICK_UP":
 	            oNewAction = createAction("PICK_UP", null);
 	            break;

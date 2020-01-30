@@ -70,7 +70,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 						oOldDMEntry.getDriveComponent() == oNewDMEntry.getDriveComponent() ) {
 							//old drive is the same as the new one, found a match... calculate pleasure
 						
-							double tmpCalc = oOldDMEntry.getQuotaOfAffect() - oNewDMEntry.getQuotaOfAffect();
+							double tmpCalc = (oOldDMEntry.getQuotaOfAffect() - oNewDMEntry.getQuotaOfAffect())*2.5;
 							double newtmpCalc = ((tmpCalc*tmpCalc) + (oNewDMEntry.getQuotaOfAffect()*oNewDMEntry.getQuotaOfAffect()))/2;
 							//Pleasure cannot be negative
 							if(tmpCalc > 0)
