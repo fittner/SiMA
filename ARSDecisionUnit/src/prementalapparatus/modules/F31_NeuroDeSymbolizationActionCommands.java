@@ -109,6 +109,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
                     break;
                 }
                 i++;
+                if(line.contains("NEW_ASSOCIATION_EMOTION"))
+                {
+                    share=true;
+                }
             }
             if (lineB4.contains("(weight 1.0 1.0))"))
             { 

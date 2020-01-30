@@ -19,6 +19,7 @@ import modules.interfaces.D4_1_send;
 import modules.interfaces.D4_2_receive;
 import modules.interfaces.D4_3_send;
 import modules.interfaces.eInterfaces;
+import prementalapparatus.modules.F31_NeuroDeSymbolizationActionCommands;
 import base.datatypes.clsDriveMesh;
 import base.datatypes.enums.eDriveComponent;
 import base.datatypes.helpstructures.clsPair;
@@ -70,7 +71,16 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 						oOldDMEntry.getDriveComponent() == oNewDMEntry.getDriveComponent() ) {
 							//old drive is the same as the new one, found a match... calculate pleasure
 						
-							double tmpCalc = (oOldDMEntry.getQuotaOfAffect() - oNewDMEntry.getQuotaOfAffect())*2.5;
+							double tmpCalc;
+							if(F31_NeuroDeSymbolizationActionCommands.share)
+							{
+							    tmpCalc= (oOldDMEntry.getQuotaOfAffect() - oNewDMEntry.getQuotaOfAffect())*2.5;
+							}
+							else
+							{
+							    tmpCalc= (oOldDMEntry.getQuotaOfAffect() - oNewDMEntry.getQuotaOfAffect());
+							}
+							
 							double newtmpCalc = ((tmpCalc*tmpCalc) + (oNewDMEntry.getQuotaOfAffect()*oNewDMEntry.getQuotaOfAffect()))/2;
 							//Pleasure cannot be negative
 							if(tmpCalc > 0)

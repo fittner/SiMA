@@ -256,7 +256,8 @@ public class clsProcessor implements itfProcessor  {
 	        moPsyApp.moPleasureStorage.calculateDynamicPortionOfPleasure();
 	    }
 	    moPsyApp.moLibidoBuffer.saveOld();
-	    
+	    if(!(test.getActualStep()>110 && moPsyApp.getUid()==1))
+	    {
 	    moPsyApp.moF90_Learning.step();
         moPsyApp.moF01_SensorsMetabolism.step();
 		moPsyApp.moF02_NeurosymbolizationOfNeeds.step();
@@ -359,7 +360,7 @@ public class clsProcessor implements itfProcessor  {
 		//execution
 	      // BODILY REACTIONS ON EMOTIONS
         moPsyApp.moF67_BodilyReactionOnEmotions.step();
-		
+	    }
 		moPsyApp.moF31_NeuroDeSymbolizationActionCommands.step();
 		moPsyApp.moF32_Actuators.step();
 		
