@@ -195,13 +195,17 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.listToTEXT("§§§§§§§§§§§§§§Test", Test);
-		text += toText.listToTEXT("§§§§§§§§§§§§§§Test1", Test1);
-		text += toText.mapToTEXT("§§§§§§§§§§§§3333333333moEnvironmentalData", moEnvironmentalData);
 		text += toText.mapToTEXT("moBodyData", moBodyData);
 		text += toText.listToTEXT("moCompleteThingPresentationMeshList", moCompleteThingPresentationMeshList);
 		text += "--- this.moSTM_Learning.getLearningObjectsString() ----\n";
 		text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjectsString();
+		text += "---------------------------------------------------------------------------------------------\n";
+		if(this.getAgentIndex()==0)
+		{
+		    text += "Emotion from perceived Bodystates\n";
+		    text += "---------------------------------------------------------------------------------------------\n";
+		    text += "---------------------------------------------------------------------------------------------\n";
+		}
 		text += "---------------------------------------------------------------------------------------------\n";
 		text += "Search pattern:\n";
 		
@@ -259,6 +263,10 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    String oOwnershipText = "";
 	    for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList) {
 	        if(oEntity.getContentType().equals(eContentType.ENTITY)) {
+	            
+	            if(oEntity.getContent().contains("CARL")) {
+	                oOwnershipText = "CARL"; 
+	            }
 	            //it's an entity, now check if it has a bodystate associated
 	            for(clsAssociationAttribute oAssAttribute : clsAssociation.filterListByType(oEntity.getExternalAssociatedContent(), clsAssociationAttribute.class)) {
 	                if(oAssAttribute.getAssociationElementB().getContentType().equals(eContentType.ENTITY)

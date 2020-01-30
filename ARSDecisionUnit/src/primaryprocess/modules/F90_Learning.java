@@ -431,6 +431,14 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
                     lines.add("\t\t[TPM%3AIMAGE%3AA12_EAT_MEAT_L01_I04]\n");
                     lines.add("\t\t[EMOTION%3ANEW_EMOTION%3AANXIETY])\n");
                     lines.add("\t(weight 1.0 1.0))\n");
+                    //EMOTION RECOGNITION
+                    lines.add("\n");
+                    lines.add("([ASSOCIATIONATTRIBUTE%3ACARL_ANXIETY%3AEMOTION] of  ASSOCIATIONATTRIBUTE");
+                    lines.add("\n");
+                    lines.add("\t(element\n");
+                    lines.add("\t\t[BODYSTATE%3ACARL_ANGER]");
+                    lines.add("\t\t[EMOTION%3ACARL%3ABODYSTATE%3AANXIETY])");
+                    lines.add("\t(weight 1.0 1.0))\n");
 
                     fr.close();
                     br.close();
