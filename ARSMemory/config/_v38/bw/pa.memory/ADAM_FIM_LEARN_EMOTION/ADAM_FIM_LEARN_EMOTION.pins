@@ -5694,16 +5694,10 @@
 
 	(emotionIntensity 0.7)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.32)
-	(sourceLibid 0.08)
+	(sourceAggr 0.34)
+	(sourceLibid 0.09)
 	(sourcePleasure 0.23)
-	(sourceUnpleasure 0.79)
+	(sourceUnpleasure 0.72)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
-([ASSOCIATIONEMOTION%3ANEW_ASSOCIATION_EMOTION%3AANXIETY] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AIMAGE%3AA12_EAT_MEAT_L01_I04]
-		[EMOTION%3ANEW_EMOTION%3AANXIETY])
-	(weight 1.0 1.0))

@@ -243,9 +243,13 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
                     {
                         oAction="MOVE_BACKWARD";
                     }
-                    if( test.getActualStep()>70 && test.getActualStep()<80 && this.getAgentIndex()==1 && !share)
+                    if( test.getActualStep()>70 && test.getActualStep()<110 && this.getAgentIndex()==1 && !share)
                     {
                         oAction="MOVE_FORWARD_SLOW";
+                    }
+                    if( test.getActualStep()>109 && test.getActualStep()<130 && this.getAgentIndex()==1 && !share)
+                    {
+                        oAction="TURN_RIGHT";
                     }
 //                    if( test.getActualStep()>10 && test.getActualStep()<40 && this.getAgentIndex()==0 && !share)
 //                    {

@@ -5,6 +5,9 @@
  */
 package control;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.HashMap;
 
 import org.slf4j.Logger;
@@ -51,6 +54,7 @@ public class clsProcessor implements itfProcessor  {
 	
 	private final Logger log = logger.clsLogger.getLog("General");
 	private final Logger logtiming = logger.clsLogger.getLog("Timing");
+	private boolean share1=false;
 		
 	/**
 	 * Creates an instance of the processor and thus the decision unit with the provided properties.
@@ -65,6 +69,39 @@ public class clsProcessor implements itfProcessor  {
             itfModuleMemoryAccess poMemory) {
 	    moMemory = poMemory;
 		applyProperties(poPrefix, poProp, uid);
+		
+        try
+        {
+            String line = null;
+            String lineB4 = null;
+            File f1 = new File("C:/Users/nocks/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_FIM_LEARN_EMOTION/ADAM_FIM_LEARN_EMOTION.pins");
+            FileReader fr = new FileReader(f1);
+            BufferedReader br = new BufferedReader(fr);
+            int i=0;
+            
+            while (true) {
+                lineB4=line;
+                if((line = br.readLine()) == null)
+                {
+                    break;
+                }
+                i++;
+                if(line.contains("NEW_ASSOCIATION_EMOTION"))
+                {
+                    share1=true;
+                }
+            }
+            if (lineB4.contains("(weight 1.0 1.0))"))
+            { 
+                share1=true;
+            }
+            fr.close();
+            br.close();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
 		
 	}
 	
@@ -256,7 +293,7 @@ public class clsProcessor implements itfProcessor  {
 	        moPsyApp.moPleasureStorage.calculateDynamicPortionOfPleasure();
 	    }
 	    moPsyApp.moLibidoBuffer.saveOld();
-	    if(!(test.getActualStep()>110 && moPsyApp.getUid()==1))
+	    if(!(test.getActualStep()>110 && moPsyApp.getUid()==1 &&share1))
 	    {
 	    moPsyApp.moF90_Learning.step();
         moPsyApp.moF01_SensorsMetabolism.step();
