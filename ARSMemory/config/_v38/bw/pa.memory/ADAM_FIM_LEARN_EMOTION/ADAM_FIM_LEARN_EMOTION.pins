@@ -1,4 +1,4 @@
-; Thu Jan 30 11:31:25 CET 2020
+; Thu Jan 30 13:14:01 CET 2020
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -1535,13 +1535,6 @@
 	(predicate "HASSUPER")
 	(weight 1.0 1.0))
 
-([ASSOCIATIONATTRIBUTE%3ACARL_ANGER%3AEMOTION] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ACARL_ANGER]
-		[EMOTION%3ACARL%3ABODYSTATE%3AANGER])
-	(weight 1.0 1.0))
-
 ([ASSOCIATIONATTRIBUTE%3ACARL_ANGER%3AENTITY] of  ASSOCIATIONATTRIBUTE
 
 	(element
@@ -1589,6 +1582,13 @@
 	(element
 		[BODYSTATE%3ACARL_ANGER]
 		[EXPRESSION%3AMOUTH_STRECHINESS%3ASTRETCHED])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONATTRIBUTE%3ACARL_ANXIETY%3AEMOTION] of  ASSOCIATIONATTRIBUTE
+
+	(element
+		[BODYSTATE%3ACARL_ANGER]
+		[EMOTION%3ACARL%3ABODYSTATE%3AANXIETY])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONATTRIBUTE%3ASELF_ANGER%3AEMOTION] of  ASSOCIATIONATTRIBUTE
@@ -2030,13 +2030,6 @@
 	(element
 		[TPM%3AENTITY%3AARSIN%3ACARL]
 		[EMOTION%3ACARL%3ALIKE])
-	(weight 1.0 1.0))
-
-([ASSOCIATIONEMOTION%3ANEW_ASSOCIATION_EMOTION%3AANXIETY] of  ASSOCIATIONEMOTION
-
-	(element
-		[TPM%3AIMAGE%3AA12_EAT_MEAT_L01_I04]
-		[EMOTION%3ANEW_EMOTION%3AANXIETY])
 	(weight 1.0 1.0))
 
 ([ASSOCIATIONEMOTION%3AS01_CARL_MEAT] of  ASSOCIATIONEMOTION
@@ -3583,7 +3576,7 @@
 	(sourceAggr 0.12)
 	(sourceLibid 0.07)
 	(sourcePleasure 0.14)
-	(sourceUnpleasure 0.04)
+	(sourceUnpleasure 0.36)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3604,8 +3597,8 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.26)
 	(sourceLibid 0.15)
-	(sourcePleasure 0.23)
-	(sourceUnpleasure 0.44)
+	(sourcePleasure 0.27)
+	(sourceUnpleasure 0.28)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3615,8 +3608,8 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.27)
 	(sourceLibid 0.15)
-	(sourcePleasure 0.23)
-	(sourceUnpleasure 0.42)
+	(sourcePleasure 0.28)
+	(sourceUnpleasure 0.3)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3626,8 +3619,8 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.23)
 	(sourceLibid 0.13)
-	(sourcePleasure 0.24)
-	(sourceUnpleasure 0.37)
+	(sourcePleasure 0.28)
+	(sourceUnpleasure 0.32)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -5720,10 +5713,3 @@
 
 	(value "S01_CARL_MEAT")
 	(value_type "RI"))
-
-([ASSOCIATIONATTRIBUTE%3ACARL_ANXIETY%3AEMOTION] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[BODYSTATE%3ACARL_ANGER]
-		[EMOTION%3ACARL%3ABODYSTATE%3AANXIETY])
-	(weight 1.0 1.0))

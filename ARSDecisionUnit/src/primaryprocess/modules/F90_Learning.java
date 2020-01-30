@@ -155,7 +155,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
             double MomentActivation = STM_Image.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION);
             if(MomentActivation>0 && STM_Image.getContent().contains("A12"))
             {
-                lastLearn =400;
+                lastLearn =320;
             }
         }
 	    
@@ -433,11 +433,11 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
                     lines.add("\t(weight 1.0 1.0))\n");
                     //EMOTION RECOGNITION
                     lines.add("\n");
-                    lines.add("([ASSOCIATIONATTRIBUTE%3ACARL_ANXIETY%3AEMOTION] of  ASSOCIATIONATTRIBUTE");
+                    lines.add("([ASSOCIATIONATTRIBUTE%3ACARL_ANGER%3AEMOTION] of  ASSOCIATIONATTRIBUTE\n");
                     lines.add("\n");
                     lines.add("\t(element\n");
-                    lines.add("\t\t[BODYSTATE%3ACARL_ANGER]");
-                    lines.add("\t\t[EMOTION%3ACARL%3ABODYSTATE%3AANXIETY])");
+                    lines.add("\t\t[BODYSTATE%3ACARL_ANGER]\n");
+                    lines.add("\t\t[EMOTION%3ACARL%3ABODYSTATE%3AANGER])\n");
                     lines.add("\t(weight 1.0 1.0))\n");
 
                     fr.close();
