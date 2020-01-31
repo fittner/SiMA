@@ -150,13 +150,9 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
         {
             moSTM_Learning.moShortTermMemoryMF.add(0,new clsShortTermMemoryEntry());
         }
-	    for(clsThingPresentationMesh STM_Image : moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImage())
-        {
-            double MomentActivation = STM_Image.getCriterionActivationValue(eActivationType.MOMENT_ACTIVATION);
-            if(MomentActivation>0 && STM_Image.getContent().contains("A12"))
-            {
+	    if(!F31_NeuroDeSymbolizationActionCommands.share)
+	    {
                 lastLearn =320;
-            }
         }
 	    
 	    if (actualStep < lastLearn)
@@ -411,7 +407,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
 	                }
 	            }
 	        }
-    	    if(!written && adam && lastLearn==400 && F31_NeuroDeSymbolizationActionCommands.share == false)
+    	    if(!written && adam && F31_NeuroDeSymbolizationActionCommands.share == false)
     	    {
     	        try
         	    {

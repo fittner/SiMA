@@ -92,6 +92,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
     public static final String P_EMOTIONRECOGNITION_IMPACT_FACTOR = "EMOTIONRECOGNITION_IMPACT_FACTOR"; //koller
     public static final String P_EXPERIENCEDEMOTION_IMPACT_FACTOR = "EXPERIENCEDEMOTION_IMPACT_FACTOR";
     public static final String P_MEMORIZEDIMAGE_IMPACT_FACTOR = "MEMORIZEDIMAGE_IMPACT_FACTOR";
+    private static  ArrayList<Double> transUnpleasure = new  ArrayList<Double>();
 
 	
 	//Private members for send and recieve
@@ -295,14 +296,21 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		else
 		{
 	        rSystemUnpleasure = (rDriveLibid+rDriveAggr) * mrInfluenceCurrentDrives;
-	        rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives;
+	        rSystemPleasure = rDrivePleasure * mrInfluenceCurrentDrives*10;
 		}
         rSystemLibid = rDriveLibid * mrInfluenceCurrentDrives;
         rSystemAggr = rDriveAggr * mrInfluenceCurrentDrives;
         
 		// TEMPORARY
         oDrivesExtractedValues.put("rDriveUnpleasure", rSystemUnpleasure);
-        oDrivesExtractedValues.put("rDrivePleasure", rSystemPleasure);
+        if(F31_NeuroDeSymbolizationActionCommands.share)
+        { 
+            oDrivesExtractedValues.put("rDrivePleasure", rSystemPleasure*10);
+        }
+        else
+        {
+            oDrivesExtractedValues.put("rDrivePleasure", rSystemPleasure);
+        }
 		oDrivesExtractedValues.put("rDriveLibid", rSystemLibid);
 		oDrivesExtractedValues.put("rDriveAggr", rSystemAggr);
 		
@@ -376,12 +384,26 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         }
         
         //create the new base emotion target state
-        moTargetEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+//        if(F31_NeuroDeSymbolizationActionCommands.share)
+//        {
+            moTargetEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+//            
+//        }
+//        else
+//        {
+//            moTargetEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure/10, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+//        }
         
         if(moLastEmotion == null) {
             //if this is the first step
-            moLastEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
-            
+//            if(F31_NeuroDeSymbolizationActionCommands.share)
+//            {
+                moLastEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+//            }
+//            else
+//            {
+//                moLastEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 0.0, rSystemPleasure/10, rSystemUnpleasure, rSystemLibid, rSystemAggr);
+//            }
             //kollmann: debug code
             //moLastEmotion = clsEmotion.zeroEmotion(eContentType.BASICEMOTION, eEmotionType.UNDEFINED);
         } else {
@@ -653,7 +675,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                     double rTransferUnpleasure = (mrPerceptionUnpleasureImpactFactor*oEmotionFromBodystate.getSourceUnpleasure()) * rPleasureFactor;
                     double rTransferAggressive = (mrPerceptionAggressiveImpactFactor*oEmotionFromBodystate.getSourceAggr()) * rPleasureFactor;
                     double rTransferLibidinous = (mrPerceptionLibidinousImpactFactor*oEmotionFromBodystate.getSourceLibid()) * rPleasureFactor;
-                    
+
                     if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
 //                        moAgentAttributedEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,
 //                                mrPerceptionPleasureImpactFactor*oEmotionFromBodystate.getSourcePleasure(),
@@ -674,13 +696,20 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                     rPerceptionUnpleasure_BS = nonProportionalAggregation(rPerceptionUnpleasure_BS, mrEmotionrecognitionImpactFactor * rTransferUnpleasure);
                     rPerceptionLibid_BS = nonProportionalAggregation(rPerceptionLibid_BS, mrEmotionrecognitionImpactFactor * rTransferLibidinous);
                     rPerceptionAggr_BS = nonProportionalAggregation(rPerceptionAggr_BS, mrEmotionrecognitionImpactFactor * rTransferAggressive);
-                    
+                    if(!F31_NeuroDeSymbolizationActionCommands.share)
+                    {
+                        rPerceptionUnpleasure_BS=rPerceptionUnpleasure_BS*2;
+                    }
                     if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
                         moAgentTransferedEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,
                                 rPerceptionPleasure_BS,
                                 rPerceptionUnpleasure_BS,
                                 rPerceptionLibid_BS,
                                 rPerceptionAggr_BS);
+                    }
+                    if(this.getAgentIndex()==0)
+                    {
+                        transUnpleasure.add(rPerceptionUnpleasure_BS);
                     }
                 }
 			}
@@ -1288,6 +1317,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         {
             rpaintemp = rpain;
         }
+//        if(poPostfix == "Pleasure")
+//        {
+//            rDrive = oDrivesExtractedValues.get("rDrive" + poPostfix)*10;
+//        }
         double rSum = rDrive + rPerceptionDM + rPerceptionEXP + rPerceptionBS + rMemory + rpaintemp;
         
         rResults.add(prAggregatedValue * rDrive / rSum);
@@ -1403,7 +1436,14 @@ public class F63_CompositionOfEmotions extends clsModuleBase
         case "Transfered Emotion":
             if(moAgentTransferedEmotion != null) {
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourcePleasure())));
-                oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceUnpleasure())));
+                if(F31_NeuroDeSymbolizationActionCommands.share)
+                {
+                    oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceUnpleasure())));
+                }
+                else
+                {
+                    oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceUnpleasure()/2)));
+                }
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceAggr())));
                 oOuterData.add(new ArrayList<>(Arrays.asList(moAgentTransferedEmotion.getSourceLibid())));
             } else {

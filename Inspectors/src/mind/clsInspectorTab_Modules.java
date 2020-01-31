@@ -6,12 +6,12 @@
  */
 package mind;
 
-import graph.clsGraph;
+//import graph.clsGraph;
 import graph.clsGraphCompareInterfaces;
 import graph.clsGraphForRules;
 import graph.clsGraphForSTM;
 import graph.clsGraphInterface;
-import graph.clsGraphWindow;
+//import graph.clsGraphWindow;
 import graph.clsMeshInterface;
 import inspector.interfaces.itfGraphCompareInterfaces;
 import inspector.interfaces.itfGraphInterface;
@@ -33,7 +33,7 @@ import inspector.interfaces.itfInspectorStackedAreaChart;
 import inspector.interfaces.itfInspectorStackedBarChart;
 import inspector.interfaces.itfInterfaceDescription;
 import inspector.interfaces.itfInterfaceInterfaceData;
-import memorymgmt.enums.eContentType;
+//import memorymgmt.enums.eContentType;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -53,10 +53,10 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import primaryprocess.modules.F14_ExternalPerception;
-import base.datahandlertools.clsDataStructureGenerator;
-import base.datatypes.clsThingPresentation;
-import base.datatypes.clsThingPresentationMesh;
-import base.datatypes.helpstructures.clsTriple;
+//import base.datahandlertools.clsDataStructureGenerator;
+//import base.datatypes.clsThingPresentation;
+//import base.datatypes.clsThingPresentationMesh;
+//import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.clsPsychicApparatus;
 import control.clsProcessor;
@@ -463,28 +463,28 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 				}
 			} //end of anonymous subclass
 			,"Bodystates");
-			poTI.addInspector(new clsGraphWindow(true) {
-                /** DOCUMENT (kollmann) - insert description; @since 01.07.2019 12:52:44 */
-                private static final long serialVersionUID = -3714815609755867501L;
-                 @Override
-                 protected void createGraphes() {
-                        moGraphes = new ArrayList<clsGraph>();
-                        moSplitPanes = new ArrayList<JSplitPane>();
-                        moGraphes.add(new clsGraph(mbOrientationVertical));
-                        moGraphes.get(0).setRootNodeName("Short Term Memory (F90)");
-                        updateGraphes();                              
-                 }
-                 @Override
-                 protected void updateInspectorData() {
-                        ArrayList<Object> oMesh = new ArrayList<Object>();
-
-                        clsThingPresentationMesh test = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1"));
-
-                        oMesh.add(test);
-
-                        moGraphes.get(0).setMoMesh(oMesh);
-                }
-           }, "STM");
+//			poTI.addInspector(new clsGraphWindow(true) {
+//                /** DOCUMENT (kollmann) - insert description; @since 01.07.2019 12:52:44 */
+//                private static final long serialVersionUID = -3714815609755867501L;
+//                 @Override
+//                 protected void createGraphes() {
+//                        moGraphes = new ArrayList<clsGraph>();
+//                        moSplitPanes = new ArrayList<JSplitPane>();
+//                        moGraphes.add(new clsGraph(mbOrientationVertical));
+//                        moGraphes.get(0).setRootNodeName("Short Term Memory (F90)");
+//                        updateGraphes();                              
+//                 }
+//                 @Override
+//                 protected void updateInspectorData() {
+//                        ArrayList<Object> oMesh = new ArrayList<Object>();
+//
+//                        clsThingPresentationMesh test = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1"));
+//
+//                        oMesh.add(test);
+//
+//                        moGraphes.get(0).setMoMesh(oMesh);
+//                }
+//           }, "STM");
 		} else if(poModuleName.equals("E18_CompositionOfAffectsForPerception")) {
 		} else if(poModuleName.equals("E19_DefenseMechanismsForPerception")) {
 		} else if(poModuleName.equals("E20_InnerPerception_Affects")) {

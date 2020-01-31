@@ -8,7 +8,7 @@ package primaryprocess.modules;
 
 import inspector.interfaces.clsTimeChartPropeties;
 import inspector.interfaces.itfGraphCompareInterfaces;
-import inspector.interfaces.itfInspectorForSTM;
+//import inspector.interfaces.itfInspectorForSTM;
 import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 import java.util.ArrayList;
@@ -93,8 +93,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					I5_1_receive,
 					I5_19_receive,
 					itfInspectorGenericDynamicTimeChart,
-					itfGraphCompareInterfaces,
-					itfInspectorForSTM
+					itfGraphCompareInterfaces
+//					, itfInspectorForSTM
 					{
 	public static final String P_MODULENUMBER = "14";
 	
@@ -200,13 +200,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		text += "--- this.moSTM_Learning.getLearningObjectsString() ----\n";
 		text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjectsString();
 		text += "---------------------------------------------------------------------------------------------\n";
-		if(this.getAgentIndex()==0)
-		{
-		    text += "Emotion from perceived Bodystates\n";
-		    text += "---------------------------------------------------------------------------------------------\n";
-		    text += "---------------------------------------------------------------------------------------------\n";
-		}
-		text += "---------------------------------------------------------------------------------------------\n";
 		text += "Search pattern:\n";
 		
 		for(clsThingPresentationMesh oPattern : moSearchPattern) {
@@ -263,10 +256,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	    String oOwnershipText = "";
 	    for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList) {
 	        if(oEntity.getContentType().equals(eContentType.ENTITY)) {
-	            
-	            if(oEntity.getContent().contains("CARL")) {
-	                oOwnershipText = "CARL"; 
-	            }
 	            //it's an entity, now check if it has a bodystate associated
 	            for(clsAssociationAttribute oAssAttribute : clsAssociation.filterListByType(oEntity.getExternalAssociatedContent(), clsAssociationAttribute.class)) {
 	                if(oAssAttribute.getAssociationElementB().getContentType().equals(eContentType.ENTITY)
@@ -462,10 +451,24 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
             }
             else continue;
         }
-        boolean found=false;
-        for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList){
-            this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningObjects(oEntity);
-        }
+//        boolean found=false;
+//        for(clsThingPresentationMesh oEntity : moCompleteThingPresentationMeshList){
+//            double aggrActValue = oEntity.getAggregatedActivationValue();
+//            if(aggrActValue<1.0)
+//            {
+//                //oEntity.setMoContent("NEW_OBJECT");
+//                for(clsAssociation intAssCont: oEntity.getInternalAssociatedContent())
+//                {
+//                    clsDataStructurePA other = intAssCont.getTheOtherElement(oEntity);
+//                    if (other instanceof clsThingPresentation){
+//                       if (((clsThingPresentation)other).getContentType() == eContentType.Color){
+//                            oEntity.setMoContent("NEW_OBJECT");
+//                        }
+//                    }
+//                }
+//                this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningObjects(oEntity);
+//            }
+//        }
         
         for(clsThingPresentationMesh oEntity : this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningObjects())
         {
@@ -1329,7 +1332,28 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                 }
 								
                 oSearchResultsEnviromentalTP = this.getLongTermMemory().searchEntity(eDataType.DMTPM, poSearchPatternEnviromentalTP); //koller Suchaufruf mit neuem DMTPM eDataType
-                
+                for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult : oSearchResultsEnviromentalTP)
+                {
+                    for(clsPair<Double, clsDataStructureContainer> oSearchItem : oSearchResult)
+                    {
+                        if(oSearchItem.a < 1.0)
+                        {
+                            if((oSearchItem.b.getMoDataStructure()) instanceof clsThingPresentationMesh)
+                            {   clsThingPresentationMesh TPM = ((clsThingPresentationMesh)(oSearchItem.b.getMoDataStructure()));
+                                //TPM.setMoContent("NEW_OBJECT");
+                                for(clsThingPresentationMesh oObject : poSearchPatternEnviromentalTP)
+                                {
+                                    if(oObject.getContent().equals(TPM.getContent()))
+                                    {
+                                        oObject.setMoContent("NEW_OBJECT");
+                                        this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningObjects(oObject);
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
                 poRankingResultsEnviromentalTP = rankCandidatesTPM(oSearchResultsEnviromentalTP);
                 
                 // Zhukova
@@ -2067,15 +2091,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
      * 
      * @see inspector.interfaces.itfInspectorForSTM#getDriverules()
      */
-    @Override
-    public ArrayList<clsThingPresentationMesh> getData() {
-        ArrayList <clsThingPresentationMesh> test = new ArrayList <clsThingPresentationMesh>();
-        
-//        test.add(clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1")));
-//        test.add(clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1")));
-//        test.add(clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1")));
-        test = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects();
-        // TODO (nocks) - Auto-generated method stub
-        return test;
-    }	
+//    @Override
+//    public ArrayList<clsThingPresentationMesh> getData() {
+//        ArrayList <clsThingPresentationMesh> test = new ArrayList <clsThingPresentationMesh>();
+//        
+////        test.add(clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1")));
+////        test.add(clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1")));
+////        test.add(clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ACTION, new ArrayList<>(), "Test1")));
+//        test = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects();
+//        // TODO (nocks) - Auto-generated method stub
+//        return test;
+//    }	
 }

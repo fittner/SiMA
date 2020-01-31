@@ -60,6 +60,7 @@ public enum eEntityType {
 	SNIPER_AMMO,
 	SHOCKRIFLE_WEAPON,
 	SHOCKRIFLE_AMMO,
+	NEWOBJECT,
 
 	// ** MW
 	//PHYSICAL

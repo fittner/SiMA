@@ -101,8 +101,45 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 				if(this.moContent instanceof Boolean && oDataStructure.moContent instanceof Boolean) {
 					oRetVal = compare((Boolean)this.moContent, (Boolean)oDataStructure.moContent );
 				}
-				else if(this.moContent instanceof String && oDataStructure.moContent instanceof Color ) {
-					oRetVal = compare((String)this.moContent, (String)"#"+Integer.toString(((Color)oDataStructure.moContent).getRGB() & 0xffffff, 16).toUpperCase() );
+				else if(this.moContent instanceof String && oDataStructure.moContent instanceof Color )
+				{
+				    Integer thisR;
+                    Integer thisG;
+                    Integer thisB;
+                    Integer oDataStructureR;
+                    Integer oDataStructureG;
+                    Integer oDataStructureB;
+                    if((((String)this.moContent).length()) > 6)
+                    {
+                        thisR = (int) Long.parseUnsignedLong(((String) this.moContent).substring(1,3), 16);
+                        thisG = (int) Long.parseUnsignedLong(((String) this.moContent).substring(3,5), 16);
+                        thisB = (int) Long.parseUnsignedLong(((String) this.moContent).substring(5,7), 16);
+                        //Integer.parseUnsignedInt(((String) this.moContent).substring(1,3));
+                        oDataStructureR = (((Color)oDataStructure.moContent).getRed());
+                        oDataStructureG = (((Color)oDataStructure.moContent).getGreen());
+                        oDataStructureB = (((Color)oDataStructure.moContent).getBlue());
+                        //oDataStructureG = (int) Long.parseUnsignedLong(((String) oDataStructureR.moContent).substring(5,7), 16);
+                        //oDataStructureB = (int) Long.parseUnsignedLong(((String) oDataStructureR.moContent).substring(5,7), 16);
+                        oRetVal = Math.sqrt(Math.pow(Math.abs(thisR - oDataStructureR), 2)+Math.pow(Math.abs(thisG - oDataStructureG),2)+Math.pow(Math.abs(thisB - oDataStructureB),2));
+                        oRetVal = oRetVal/(Math.sqrt(255*255*3));
+                        oRetVal = 1-oRetVal;
+                        if(oRetVal<0.95)
+                        {
+                            oRetVal = compare((String)this.moContent, (String)"#"+Integer.toString(((Color)oDataStructure.moContent).getRGB() & 0xffffff, 16).toUpperCase() );
+                        }
+                        else
+                        {
+                            if(oRetVal<1.00)
+                            {
+                                oDataStructureR=0;
+                            }
+                        }
+                    }
+                    else
+                    {
+    				    oRetVal = 0;
+    				}
+					//oRetVal = compare((String)this.moContent, (String)"#"+Integer.toString(((Color)oDataStructure.moContent).getRGB() & 0xffffff, 16).toUpperCase() );
 				}
 				else if(this.moContent instanceof String && oDataStructure.moContent instanceof Boolean ) {
 					oRetVal = compare((Boolean) Boolean.parseBoolean(this.moContent.toString()), (Boolean)oDataStructure.moContent );
