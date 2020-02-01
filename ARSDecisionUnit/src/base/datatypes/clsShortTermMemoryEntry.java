@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
 
+import base.datatypes.helpstructures.clsPair;
 import memorymgmt.enums.eActivationType;
 
 
@@ -28,7 +29,7 @@ public class clsShortTermMemoryEntry {
     private ArrayList<clsDriveMesh> DMs;
     
     private ArrayList<clsDriveMesh> LearningPartDMs = new ArrayList<clsDriveMesh>();
-    private ArrayList<clsThingPresentationMesh> LearningObjects = new ArrayList<clsThingPresentationMesh>();
+    private ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> LearningObjects = new ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>>();
     private ArrayList<clsThingPresentationMesh> LearningImages = new ArrayList<clsThingPresentationMesh>();
     private ArrayList<clsThingPresentationMesh> LearningAction = new ArrayList<clsThingPresentationMesh>();
     private ArrayList<clsThingPresentationMesh> LearningIntention = new ArrayList<clsThingPresentationMesh>();
@@ -68,21 +69,21 @@ public class clsShortTermMemoryEntry {
         return QoAactivation;
     }
     
-    public void setLearningObjects(clsThingPresentationMesh TPM_Object)
+    public void setLearningObjects(clsPair<clsThingPresentationMesh, clsThingPresentationMesh> Pair)
     {
-        LearningObjects.add(TPM_Object);
+        LearningObjects.add(Pair);
     }
     
-    public ArrayList<clsThingPresentationMesh> getLearningObjects()
+    public ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> getLearningObjects()
     {
         return LearningObjects;
     }
     public String getLearningObjectsString()
     {
         String out="";
-        for(clsThingPresentationMesh LearningObject : LearningObjects)
+        for(clsPair<clsThingPresentationMesh, clsThingPresentationMesh> LearningObject : LearningObjects)
         {
-            out += LearningObject.getContent()+"::Act:"+LearningObject.getActiveTime()+"::Foc:"+LearningObject.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION)+"\n";
+            out += LearningObject.b.getContent()+"::Act:"+LearningObject.b.getActiveTime()+"::Foc:"+LearningObject.b.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION)+"\n";
         }
         return out;
     }
@@ -278,7 +279,7 @@ public class clsShortTermMemoryEntry {
         {
             for(int i=LearningObjects.size()-1; i > LearningObjects.size()-6 && i > 0; i--)
             {
-                clsThingPresentationMesh Object = LearningObjects.get(i);
+                clsThingPresentationMesh Object = LearningObjects.get(i).b;
                 if(Object.compareTo(TPM_Object) == 1.0)
                 {
                     LearningIntensity += (Object.getLearningWeight() * 0.2 * (i - (LearningImages.size()-6)));

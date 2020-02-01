@@ -31,8 +31,9 @@ import base.datatypes.clsDriveMesh;
 import base.datatypes.clsEmotion;
 import base.datatypes.clsShortTermMemoryEntry;
 import base.datatypes.clsShortTermMemoryMF;
-import base.datatypes.clsThingPresentation;
+
 import base.datatypes.clsThingPresentationMesh;
+import base.datatypes.helpstructures.clsPair;
 import base.datatypes.helpstructures.clsTriple;
 import base.modules.clsModuleBase;
 import base.modules.clsModuleBaseKB;
@@ -277,32 +278,32 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
     	             }
     	        }
     	            
-                for(clsThingPresentationMesh TPM_Object : moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects())
+                for(clsPair<clsThingPresentationMesh,clsThingPresentationMesh> TPM_Object : moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects())
                 {
                 
                     double LearningWeight;
                     double LearningIntensity = 1.0;
                     double TimeIntensity = 0.1;
                     
-                    double ObjectFocus = TPM_Object.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION);
+                    double ObjectFocus = TPM_Object.b.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION);
                     
                     LearningWeight = ObjectFocus * LearningIntensity;
                     
                     
                     clsThingPresentationMesh TPM_Object_LTM = null;
                     try {
-                        TPM_Object_LTM = (clsThingPresentationMesh) TPM_Object.clone();
+                        TPM_Object_LTM = (clsThingPresentationMesh) TPM_Object.b.clone();
                     } catch (CloneNotSupportedException e) {
                         // TODO (nocks) - Auto-generated catch block
                         e.printStackTrace();
                     }
                     if(LearningWeight > 0.1)
                     {
-                        for(clsThingPresentationMesh Object:moLTM_Learning.getLearningObjects())
+                        for(clsPair<clsThingPresentationMesh,clsThingPresentationMesh> Object:moLTM_Learning.getLearningObjects())
                         {
-                            if(Object.compareTo(TPM_Object) == 1.0)
+                            if(Object.b.compareTo(TPM_Object.b) == 1.0)
                             {
-                                TPM_Object = Object;
+                                TPM_Object.b = Object.b;
                             }
                         }
                         
@@ -314,11 +315,11 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
         //	                          TPM_Object));
                             //Emotion.merge(EmotionRI);
                         clsEmotion EmotionRI = null;
-                        for(clsAssociation Ass:TPM_Object.getExternalAssociatedContent())
+                        for(clsAssociation Ass:TPM_Object.b.getExternalAssociatedContent())
                         {
                             if (Ass instanceof clsAssociationEmotion)
                             {
-                                EmotionRI = (clsEmotion) Ass.getTheOtherElement(TPM_Object);
+                                EmotionRI = (clsEmotion) Ass.getTheOtherElement(TPM_Object.b);
                             }    
                         }
                         
@@ -349,7 +350,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
                                 TPM_Object_LTM));
                         }
                         
-                        moLTM_Learning.setLearningObjects(TPM_Object_LTM);
+                        moLTM_Learning.setLearningObjects(new clsPair(null,TPM_Object_LTM));
                         //moLTM_Learning.setLearningLTMStorage(TPM_Object_LTM);
         
                     }
@@ -386,27 +387,10 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
 	    }
 	    else
 	    {   
-	        for(clsThingPresentationMesh TPM_Object : moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects())
-	        {
-	            if(TPM_Object.getContent().equals("SELF"))
-	            {
-	                for(clsAssociation intAss : TPM_Object.getInternalAssociatedContent())
-	                {
-	                    if(intAss.getTheOtherElement(TPM_Object) instanceof clsThingPresentation)
-	                    {
-	                        clsThingPresentation TPM = (clsThingPresentation)intAss.getTheOtherElement(TPM_Object);
-	                        if(TPM.getContentType().equals(eContentType.Color))
-	                        {
-	                            if(TPM.getContent().equals("#33FF33"))
-                                {
-	                                adam=true;
-                                }
-	                            
-	                        }
-	                    }
-	                }
-	            }
-	        }
+	        if(this.getAgentIndex()==0)
+            {
+	            adam=true;
+            }
     	    if(!written && adam && F31_NeuroDeSymbolizationActionCommands.share == false)
     	    {
     	        try

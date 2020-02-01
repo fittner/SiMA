@@ -69,6 +69,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private HashMap<String, Double> moTimeChartData;
 	
 	private clsShortTermMemoryMF moSTM_Learning;
+	private clsPair<Double,clsDriveMesh> oBigDrive=new clsPair(0.0,null);
+	double satisfaction=0;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -132,8 +134,19 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates_IN);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
 		//text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
-		
-		
+		text += "-NEW-SATISFACTION-MEMORY-------------------------------------------------\n";
+		text += "OBJECT: \t";
+		if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
+		{
+		    text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).b;
+		}
+		text += "--[ASS:";
+        if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
+        {
+            text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).a+"]";
+        }
+		text += "\nDRIVE: \t"+oBigDrive.b;
+		text += "\nSATISFACTION:"+satisfaction;
 		return text;
 	}
 	
@@ -256,6 +269,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
         {
             this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningPartDMs(oSimulatorDM);
         }
+        ArrayList<clsPair<Double,clsDriveMesh>> DMPairs = new ArrayList<clsPair<Double,clsDriveMesh>>();
 		for(clsDriveMesh DMold : this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningPartDMs())
         {
             for(clsDriveMesh DMnew : this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningPartDMs()){
@@ -265,6 +279,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
                     if(DMnew.getQuotaOfAffect() != DMold.getQuotaOfAffect())
                     {
                         rQoA = DMnew.getQuotaOfAffect() - DMold.getQuotaOfAffect();
+                        DMPairs.add(new clsPair(rQoA,DMnew));
                         DMnew.setQoAchange(rQoA);
                         if (  (rQoA >  0.015)
                            || (rQoA < -0.015))
@@ -275,6 +290,39 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
                 }
             }
         }
+		
+		clsPair<Double,clsDriveMesh> DMPairB4 = null;
+		clsPair<Double,clsDriveMesh> DMPairBig=null;
+		for(clsPair<Double,clsDriveMesh> DMPair : DMPairs)
+		{
+		    if (DMPairB4!=null)
+            {   if(DMPairB4.a < DMPair.a )
+    		    {
+                    DMPairBig = DMPair;
+    		    }
+                else
+                {
+                    DMPairBig = DMPairB4;
+                }
+            }
+		    DMPairB4 = DMPair;
+		}
+        if(DMPairBig!=null)
+        {
+            if(oBigDrive.b.compareTo(DMPairBig.b)<1.0)
+            {
+                oBigDrive.b = DMPairBig.b;
+                oBigDrive.a += DMPairBig.b.getQuotaOfAffect();
+            }
+            satisfaction = oBigDrive.a - DMPairBig.b.getQuotaOfAffect();
+            if(satisfaction < 0)
+            {
+                satisfaction = 0;
+            }
+        }
+		//oBigDrive=null;
+		// Sortieren der Liste
+		
         // for each simulator-DM (should be 16 for now)
 		for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
 				

@@ -758,7 +758,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	@Override
 	public String toString() {
 		//Add by AW
-		String oResult = "\n";
+		String oResult = "";
 		if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.PHI)) {
 			//"::"+this.moDataStructureType+"::"; 
 		    oResult += this.moContentType + ":" + this.moContent;
@@ -805,8 +805,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 			oResult += "::"+this.moDataStructureType+"::";  
 			oResult += this.moContentType + ":" + this.moContent;
 		}
-		oResult += "*** Learning weight= "+this.mnLearningIntMom+"***";
-		oResult += "*** Learning weight Sum= "+this.mnLearningIntSum+"***";
+		//oResult += "*** Learning weight= "+this.mnLearningIntMom+"***";
+		//oResult += "*** Learning weight Sum= "+this.mnLearningIntSum+"***";
         return oResult; 
 	}
 

@@ -77,7 +77,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	protected final static Logger logFim = logger.clsLogger.getLog("Fim");
 	private ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDrives;
 	private ArrayList<clsWordPresentationMesh> ActivatedObjects = new ArrayList<clsWordPresentationMesh>();
-	
+	private ArrayList<clsThingPresentationMesh> ActivatedObjectsNew = new ArrayList<clsThingPresentationMesh>();
+    
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:35 */
 //	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
 //	//AW 20110602 New input of the module
@@ -150,6 +151,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		text += toText.valueToTEXT("Focused Objects:", ActivatedObjects);
+		text += toText.valueToTEXT("ASS_NEW_OBJECT:",ActivatedObjectsNew);
 		return text;
 	}	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -310,7 +312,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
         
         double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber);
       
-        ArrayList<clsThingPresentationMesh> STM_Objects = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects();
+        ArrayList<clsPair<clsThingPresentationMesh, clsThingPresentationMesh>> STM_Objects = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects();
         
         if(this.moSTM_Learning.getChangedMoment())
         {
@@ -329,16 +331,19 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
         }
 
         
-        for(clsThingPresentationMesh STM_Object:STM_Objects)
+        for(clsPair<clsThingPresentationMesh, clsThingPresentationMesh> STM_Object:STM_Objects)
         {
             for(clsPair<Double, clsWordPresentationMesh> oFocusOnGoal:oFocusOnGoalList)
             {
-                if(  STM_Object.getContent().equals(oFocusOnGoal.b.getContent())
+                if(  STM_Object.a.getContent().equals(oFocusOnGoal.b.getContent())
 //                  && oFocusOnGoal.b.getContent() != "EMPTYSPACE"
                   )
                 {
-                    STM_Object.setCriterionActivationValue(eActivationType.FOCUS_ACTIVATION, STM_Object.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION) + 1.0);
+                    STM_Object.b.setCriterionActivationValue(eActivationType.FOCUS_ACTIVATION, STM_Object.b.getCriterionActivationValue(eActivationType.FOCUS_ACTIVATION) + 1.0);
+                    ActivatedObjects.clear();
+                    ActivatedObjectsNew.clear();
                     ActivatedObjects.add(oFocusOnGoal.b);
+                    ActivatedObjectsNew.add(STM_Object.b);
                 }
             }
         }
@@ -465,8 +470,10 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
     public ArrayList<clsThingPresentationMesh> getData() {
         // TODO (nocks) - Auto-generated method stub
         ArrayList <clsThingPresentationMesh> test = new ArrayList <clsThingPresentationMesh>();
-        
-        test = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects();
+        for(clsPair<clsThingPresentationMesh, clsThingPresentationMesh> Pair: this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects())
+        {
+            test.add(Pair.b);
+        }
         //test = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningImage();
         
         return test;

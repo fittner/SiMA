@@ -470,18 +470,18 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 //            }
 //        }
         
-        for(clsThingPresentationMesh oEntity : this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningObjects())
-        {
-            for(clsThingPresentationMesh oLearningObject : this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects()){
-                if(  oLearningObject.compareTo(oEntity) == 1.0)
-                {
-                    //if(this.moSTM_Learning.getChangedMoment())
-                    {
-                        oLearningObject.setActiveTime(oEntity.getActiveTime()+1);
-                    }
-                }
-            }
-        }
+//        for(clsThingPresentationMesh oEntity : this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningObjects())
+//        {
+//            for(clsThingPresentationMesh oLearningObject : this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects()){
+//                if(  oLearningObject.compareTo(oEntity) == 1.0)
+//                {
+//                    //if(this.moSTM_Learning.getChangedMoment())
+//                    {
+//                        oLearningObject.setActiveTime(oEntity.getActiveTime()+1);
+//                    }
+//                }
+//            }
+//        }
 	}
 	
 	private void attachBodyPerceptionValuesToSelf(clsThingPresentationMesh oSelf){
@@ -1346,7 +1346,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                                     if(oObject.getContent().equals(TPM.getContent()))
                                     {
                                         oObject.setMoContent("NEW_OBJECT");
-                                        this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningObjects(oObject);
+                                        this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningObjects(new clsPair(TPM,oObject));
                                     }
                                 }
                             }

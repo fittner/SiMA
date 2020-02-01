@@ -79,7 +79,7 @@ public class FocusFunctionality {
                 //No supportive data structure is needed
                 
             
-            } else if (oAction.equals(eAction.FOCUS_ON)) {
+            } else if (oAction.equals(eAction.FOCUS_ON)||oAction.equals(eAction.EAT)) {
                 //All entities in an image get the highest priority
                 
                 //Use the supportive data structure
