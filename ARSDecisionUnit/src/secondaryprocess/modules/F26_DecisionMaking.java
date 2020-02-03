@@ -363,9 +363,9 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
 	        if(reachableGoal.getSupportiveDataStructure().getContent().equals("A14_FLEE_CARL_L01")
 	          && test>16)
             {
-	            if(expact>0.08)
+	            if(expact>0.05)
 	            {
-	                expact = 0.08;
+	                expact = 0.05;
 	            }
 	            else
 	            {

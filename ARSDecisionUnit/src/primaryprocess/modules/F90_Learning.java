@@ -40,8 +40,8 @@ import base.modules.clsModuleBaseKB;
 import base.modules.eImplementationStage;
 import base.modules.eProcessType;
 import base.modules.ePsychicInstances;
-import inspector.interfaces.clsTimeChartPropeties;
-import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
+//import inspector.interfaces.clsTimeChartPropeties;
+//import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
 
 /**
  * DOCUMENT (fittner)  
@@ -50,7 +50,7 @@ import inspector.interfaces.itfInspectorGenericDynamicTimeChart;
  * 05.08.2011, 10:23:13
  *  
  */
-public class F90_Learning extends clsModuleBaseKB implements itfInspectorGenericDynamicTimeChart {
+public class F90_Learning extends clsModuleBaseKB {
 
 	public static final String P_MODULENUMBER = "90";
 	private ArrayList<clsDriveMesh> moLearningStorage_DM = new ArrayList<clsDriveMesh>();
@@ -153,7 +153,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
         }
 	    if(!F31_NeuroDeSymbolizationActionCommands.share)
 	    {
-                lastLearn =600;
+                lastLearn =320;
         }
 	    
 	    if (actualStep < lastLearn)
@@ -549,116 +549,116 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
         
     }
 
-    /* (non-Javadoc)
-     *
-     * @since 24.06.2019 16:48:23
-     * 
-     * @see inspector.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
-     */
-    @Override
-    public double getTimeChartUpperLimit() {
-        // TODO (nocks) - Auto-generated method stub
-        return 1.1;
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 24.06.2019 16:48:23
-     * 
-     * @see inspector.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
-     */
-    @Override
-    public double getTimeChartLowerLimit() {
-        // TODO (nocks) - Auto-generated method stub
-        return -0.1;
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 24.06.2019 16:48:23
-     * 
-     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
-     */
-    @Override
-    public String getTimeChartAxis() {
-        // TODO (nocks) - Auto-generated method stub
-        return "0 to 1";
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 24.06.2019 16:48:23
-     * 
-     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
-     */
-    @Override
-    public String getTimeChartTitle() {
-        // TODO (nocks) - Auto-generated method stub
-        return "Learning intensity";
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 24.06.2019 16:48:23
-     * 
-     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartData()
-     */
-    @Override
-    public ArrayList<Double> getTimeChartData() {
-        // TODO (nocks) - Auto-generated method stub
-		ArrayList<Double> oResult = new ArrayList<Double>();
-		oResult.addAll(moDriveChartData.values());
-		return oResult;
-
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 24.06.2019 16:48:23
-     * 
-     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
-     */
-    @Override
-    public ArrayList<String> getTimeChartCaptions() {
-		ArrayList<String> oResult = new ArrayList<String>();
-		oResult.addAll(moDriveChartData.keySet());
-		return oResult;
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 24.06.2019 16:48:23
-     * 
-     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
-     */
-    @Override
-    public clsTimeChartPropeties getProperties() {
-        // TODO (nocks) - Auto-generated method stub
-        return new clsTimeChartPropeties(true);
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 24.06.2019 16:48:23
-     * 
-     * @see inspector.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
-     */
-    @Override
-    public boolean chartColumnsChanged() {
-        // TODO (nocks) - Auto-generated method stub
-        return mnChartColumnsChanged;
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 24.06.2019 16:48:23
-     * 
-     * @see inspector.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
-     */
-    @Override
-    public void chartColumnsUpdated() {
-        // TODO (nocks) - Auto-generated method stub
-        mnChartColumnsChanged = false;
-    }
+//    /* (non-Javadoc)
+//     *
+//     * @since 24.06.2019 16:48:23
+//     * 
+//     * @see inspector.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+//     */
+//    @Override
+//    public double getTimeChartUpperLimit() {
+//        // TODO (nocks) - Auto-generated method stub
+//        return 1.1;
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 24.06.2019 16:48:23
+//     * 
+//     * @see inspector.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+//     */
+//    @Override
+//    public double getTimeChartLowerLimit() {
+//        // TODO (nocks) - Auto-generated method stub
+//        return -0.1;
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 24.06.2019 16:48:23
+//     * 
+//     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+//     */
+//    @Override
+//    public String getTimeChartAxis() {
+//        // TODO (nocks) - Auto-generated method stub
+//        return "0 to 1";
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 24.06.2019 16:48:23
+//     * 
+//     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+//     */
+//    @Override
+//    public String getTimeChartTitle() {
+//        // TODO (nocks) - Auto-generated method stub
+//        return "Learning intensity";
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 24.06.2019 16:48:23
+//     * 
+//     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+//     */
+//    @Override
+//    public ArrayList<Double> getTimeChartData() {
+//        // TODO (nocks) - Auto-generated method stub
+//		ArrayList<Double> oResult = new ArrayList<Double>();
+//		oResult.addAll(moDriveChartData.values());
+//		return oResult;
+//
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 24.06.2019 16:48:23
+//     * 
+//     * @see inspector.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+//     */
+//    @Override
+//    public ArrayList<String> getTimeChartCaptions() {
+//		ArrayList<String> oResult = new ArrayList<String>();
+//		oResult.addAll(moDriveChartData.keySet());
+//		return oResult;
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 24.06.2019 16:48:23
+//     * 
+//     * @see inspector.interfaces.itfInspectorTimeChartBase#getProperties()
+//     */
+//    @Override
+//    public clsTimeChartPropeties getProperties() {
+//        // TODO (nocks) - Auto-generated method stub
+//        return new clsTimeChartPropeties(true);
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 24.06.2019 16:48:23
+//     * 
+//     * @see inspector.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
+//     */
+//    @Override
+//    public boolean chartColumnsChanged() {
+//        // TODO (nocks) - Auto-generated method stub
+//        return mnChartColumnsChanged;
+//    }
+//
+//    /* (non-Javadoc)
+//     *
+//     * @since 24.06.2019 16:48:23
+//     * 
+//     * @see inspector.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
+//     */
+//    @Override
+//    public void chartColumnsUpdated() {
+//        // TODO (nocks) - Auto-generated method stub
+//        mnChartColumnsChanged = false;
+//    }
 
 }
