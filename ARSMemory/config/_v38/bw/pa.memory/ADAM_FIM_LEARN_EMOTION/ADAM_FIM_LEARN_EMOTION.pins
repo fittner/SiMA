@@ -3784,7 +3784,7 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.34)
 	(sourceLibid 0.09)
-	(sourcePleasure 0.34)
+	(sourcePleasure 0.33)
 	(sourceUnpleasure 0.79)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
@@ -5713,3 +5713,17 @@
 
 	(value "S01_CARL_MEAT")
 	(value_type "RI"))
+
+([ASSOCIATIONEMOTION%3ANEW_ASSOCIATION_EMOTION%3AANXIETY] of  ASSOCIATIONEMOTION
+
+	(element
+		[TPM%3AIMAGE%3AA12_EAT_MEAT_L01_I04]
+		[EMOTION%3ANEW_EMOTION%3AANXIETY])
+	(weight 1.0 1.0))
+
+([ASSOCIATIONATTRIBUTE%3ACARL_ANGER%3AEMOTION] of  ASSOCIATIONATTRIBUTE
+
+	(element
+		[BODYSTATE%3ACARL_ANGER]
+		[EMOTION%3ACARL%3ABODYSTATE%3AANGER])
+	(weight 1.0 1.0))
