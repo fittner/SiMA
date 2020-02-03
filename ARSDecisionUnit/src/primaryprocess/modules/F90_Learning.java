@@ -153,7 +153,7 @@ public class F90_Learning extends clsModuleBaseKB implements itfInspectorGeneric
         }
 	    if(!F31_NeuroDeSymbolizationActionCommands.share)
 	    {
-                lastLearn =320;
+                lastLearn =600;
         }
 	    
 	    if (actualStep < lastLearn)

@@ -698,7 +698,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
                     rPerceptionAggr_BS = nonProportionalAggregation(rPerceptionAggr_BS, mrEmotionrecognitionImpactFactor * rTransferAggressive);
                     if(!F31_NeuroDeSymbolizationActionCommands.share)
                     {
-                        rPerceptionUnpleasure_BS=rPerceptionUnpleasure_BS*2;
+                        rPerceptionUnpleasure_BS=rPerceptionUnpleasure_BS;
                     }
                     if(!((clsThingPresentationMesh)oPIINtAss.getAssociationElementB()).getContent().equals("SELF")) {
                         moAgentTransferedEmotion = clsDataStructureGenerator.generateEMOTION(eContentType.BASICEMOTION, eEmotionType.UNDEFINED, 1.0,

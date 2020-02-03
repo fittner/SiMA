@@ -76,7 +76,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
     private double mrModuleStrength;
     private double mrInitialRequestIntensity;
 	private static int test=0;
-	private static double expact=0.05;
+	private static double expact=0.02;
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	

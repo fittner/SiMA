@@ -1,4 +1,4 @@
-; Thu Jan 30 13:14:01 CET 2020
+; Mon Feb 03 11:30:59 CET 2020
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3576,7 +3576,7 @@
 	(sourceAggr 0.12)
 	(sourceLibid 0.07)
 	(sourcePleasure 0.14)
-	(sourceUnpleasure 0.04)
+	(sourceUnpleasure 0.36)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3597,8 +3597,8 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.26)
 	(sourceLibid 0.15)
-	(sourcePleasure 0.23)
-	(sourceUnpleasure 0.44)
+	(sourcePleasure 0.27)
+	(sourceUnpleasure 0.5)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3608,8 +3608,8 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.27)
 	(sourceLibid 0.15)
-	(sourcePleasure 0.23)
-	(sourceUnpleasure 0.42)
+	(sourcePleasure 0.28)
+	(sourceUnpleasure 0.62)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3619,8 +3619,8 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.23)
 	(sourceLibid 0.13)
-	(sourcePleasure 0.24)
-	(sourceUnpleasure 0.37)
+	(sourcePleasure 0.28)
+	(sourceUnpleasure 0.68)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3631,7 +3631,7 @@
 	(sourceAggr 0.26)
 	(sourceLibid 0.16)
 	(sourcePleasure 0.23)
-	(sourceUnpleasure 0.16)
+	(sourceUnpleasure 0.3)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 

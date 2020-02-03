@@ -136,14 +136,32 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		//text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
 		text += "-NEW-SATISFACTION-MEMORY-------------------------------------------------\n";
 		text += "OBJECT: \t";
+		if(this.moSTM_Learning.getActualStep()>229)
+		{
+		    text += "f";
+		}
 		if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
 		{
-		    text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).b;
+		    if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
+	        {
+		        text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).b;
+	        }
+		    else
+		    {
+		        text += "#+#";
+		    }
 		}
+        else
+        {
+            text += "#-#";
+        }
 		text += "--[ASS:";
         if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
         {
-            text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).a+"]";
+            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
+            {
+                text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).a+"]";
+            }
         }
 		text += "\nDRIVE: \t"+oBigDrive.b;
 		text += "\nSATISFACTION:"+satisfaction;
@@ -308,8 +326,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		    DMPairB4 = DMPair;
 		}
         if(DMPairBig!=null)
-        {
-            if(oBigDrive.b.compareTo(DMPairBig.b)<1.0)
+        {   
+            if(oBigDrive.b==null || oBigDrive.b.compareTo(DMPairBig.b)<1.0)
             {
                 oBigDrive.b = DMPairBig.b;
                 oBigDrive.a += DMPairBig.b.getQuotaOfAffect();
