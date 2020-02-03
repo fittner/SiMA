@@ -3474,9 +3474,9 @@
 
 	(emotionIntensity 0.37)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.24)
-	(sourceLibid 0.23)
-	(sourcePleasure 0.29)
+	(sourceAggr 0.3)
+	(sourceLibid 0.14)
+	(sourcePleasure 0.36)
 	(sourceUnpleasure 0.5)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
@@ -3576,7 +3576,7 @@
 	(sourceAggr 0.12)
 	(sourceLibid 0.07)
 	(sourcePleasure 0.14)
-	(sourceUnpleasure 0.22)
+	(sourceUnpleasure 0.12)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
