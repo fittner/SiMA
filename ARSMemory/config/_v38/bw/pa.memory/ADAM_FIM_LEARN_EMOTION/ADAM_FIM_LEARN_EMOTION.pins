@@ -3476,8 +3476,8 @@
 	(intensityDeviation 0.0)
 	(sourceAggr 0.3)
 	(sourceLibid 0.14)
-	(sourcePleasure 0.36)
-	(sourceUnpleasure 0.5)
+	(sourcePleasure 0.37)
+	(sourceUnpleasure 0.49)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3507,10 +3507,10 @@
 
 	(emotionIntensity 0.41)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.24)
-	(sourceLibid 0.23)
-	(sourcePleasure 0.35)
-	(sourceUnpleasure 0.51)
+	(sourceAggr 0.33)
+	(sourceLibid 0.17)
+	(sourcePleasure 0.41)
+	(sourceUnpleasure 0.50)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3529,10 +3529,10 @@
 
 	(emotionIntensity 0.28)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.24)
-	(sourceLibid 0.25)
-	(sourcePleasure 0.29)
-	(sourceUnpleasure 0.53)
+	(sourceAggr 0.33)
+	(sourceLibid 0.18)
+	(sourcePleasure 0.46)
+	(sourceUnpleasure 0.51)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3540,10 +3540,10 @@
 
 	(emotionIntensity 0.48)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.26)
-	(sourceLibid 0.22)
-	(sourcePleasure 0.25)
-	(sourceUnpleasure 0.62)
+	(sourceAggr 0.31)
+	(sourceLibid 0.17)
+	(sourcePleasure 0.36)
+	(sourceUnpleasure 0.41)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3551,10 +3551,10 @@
 
 	(emotionIntensity 0.49)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.24)
-	(sourceLibid 0.24)
-	(sourcePleasure 0.24)
-	(sourceUnpleasure 0.63)
+	(sourceAggr 0.33)
+	(sourceLibid 0.22)
+	(sourcePleasure 0.43)
+	(sourceUnpleasure 0.42)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3562,10 +3562,10 @@
 
 	(emotionIntensity 0.2)
 	(intensityDeviation 0.0)
-	(sourceAggr 0.18)
-	(sourceLibid 0.15)
-	(sourcePleasure 0.17)
-	(sourceUnpleasure 0.27)
+	(sourceAggr 0.22)
+	(sourceLibid 0.16)
+	(sourcePleasure 0.45)
+	(sourceUnpleasure 0.21)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
