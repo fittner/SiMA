@@ -1,4 +1,4 @@
-; Mon Feb 03 11:30:59 CET 2020
+; Mon Feb 03 14:37:12 CET 2020
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -3477,7 +3477,7 @@
 	(sourceAggr 0.24)
 	(sourceLibid 0.23)
 	(sourcePleasure 0.29)
-	(sourceUnpleasure 0.36)
+	(sourceUnpleasure 0.5)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3488,7 +3488,7 @@
 	(sourceAggr 0.24)
 	(sourceLibid 0.24)
 	(sourcePleasure 0.28)
-	(sourceUnpleasure 0.38)
+	(sourceUnpleasure 0.52)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3499,7 +3499,7 @@
 	(sourceAggr 0.24)
 	(sourceLibid 0.24)
 	(sourcePleasure 0.29)
-	(sourceUnpleasure 0.38)
+	(sourceUnpleasure 0.52)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3510,7 +3510,7 @@
 	(sourceAggr 0.24)
 	(sourceLibid 0.23)
 	(sourcePleasure 0.35)
-	(sourceUnpleasure 0.37)
+	(sourceUnpleasure 0.51)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3521,7 +3521,7 @@
 	(sourceAggr 0.24)
 	(sourceLibid 0.27)
 	(sourcePleasure 0.31)
-	(sourceUnpleasure 0.41)
+	(sourceUnpleasure 0.55)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3532,7 +3532,7 @@
 	(sourceAggr 0.24)
 	(sourceLibid 0.25)
 	(sourcePleasure 0.29)
-	(sourceUnpleasure 0.39)
+	(sourceUnpleasure 0.53)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3543,7 +3543,7 @@
 	(sourceAggr 0.26)
 	(sourceLibid 0.22)
 	(sourcePleasure 0.25)
-	(sourceUnpleasure 0.48)
+	(sourceUnpleasure 0.62)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3554,7 +3554,7 @@
 	(sourceAggr 0.24)
 	(sourceLibid 0.24)
 	(sourcePleasure 0.24)
-	(sourceUnpleasure 0.49)
+	(sourceUnpleasure 0.63)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -3576,7 +3576,7 @@
 	(sourceAggr 0.12)
 	(sourceLibid 0.07)
 	(sourcePleasure 0.14)
-	(sourceUnpleasure 0.36)
+	(sourceUnpleasure 0.22)
 	(value "ANXIETY")
 	(value_type "BASICEMOTION"))
 
@@ -5713,7 +5713,6 @@
 
 	(value "S01_CARL_MEAT")
 	(value_type "RI"))
-
 
 ([ASSOCIATIONEMOTION%3ANEW_ASSOCIATION_EMOTION%3AANXIETY] of  ASSOCIATIONEMOTION
 
