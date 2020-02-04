@@ -287,6 +287,30 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
         {
             this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningPartDMs(oSimulatorDM);
         }
+        ArrayList<clsDriveMesh> poDriveCandidatesSorted=new ArrayList<clsDriveMesh>();;
+        boolean greater;
+        int index;
+        for (clsDriveMesh oSimulatorDM : poDriveCandidates)
+        {
+            if (poDriveCandidatesSorted.size()>0)
+            {   index=poDriveCandidatesSorted.size();
+                for (clsDriveMesh oSimulatorDMSort : poDriveCandidatesSorted)
+                {
+                    if(oSimulatorDM.getQuotaOfAffect()>oSimulatorDMSort.getQuotaOfAffect())
+                    {
+                        index=poDriveCandidatesSorted.indexOf(oSimulatorDMSort);
+                        break;
+                    }
+                }
+                poDriveCandidatesSorted.add(index,oSimulatorDM);
+            }
+            else
+            {
+                poDriveCandidatesSorted.add(0,oSimulatorDM);
+            }
+        }
+        
+        
         ArrayList<clsPair<Double,clsDriveMesh>> DMPairs = new ArrayList<clsPair<Double,clsDriveMesh>>();
 		for(clsDriveMesh DMold : this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningPartDMs())
         {
@@ -313,26 +337,58 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		clsPair<Double,clsDriveMesh> DMPairBig=null;
 		for(clsPair<Double,clsDriveMesh> DMPair : DMPairs)
 		{
-		    if (DMPairB4!=null)
-            {   if(DMPairB4.a < DMPair.a )
-    		    {
+		    if( this.moSTM_Learning.getActualStep() > 100 && this.moSTM_Learning.getActualStep()<400)
+            {
+                if( DMPair.b.getChartShortString().contains("L.-.STOMACH"))
+                {   
                     DMPairBig = DMPair;
-    		    }
-                else
-                {
-                    DMPairBig = DMPairB4;
+                    break;
                 }
             }
-		    DMPairB4 = DMPair;
+            else
+            {
+    		    if (DMPairB4!=null)
+                {   if(DMPairB4.a < DMPair.a )
+        		    {
+                        if(DMPairBig.a < DMPair.a )
+                        {
+                            DMPairBig = DMPair;
+                        }
+        		    }
+                    else
+                    {
+                        if(DMPairBig.a < DMPairB4.a )
+                        {
+                            DMPairBig = DMPairB4;
+                        }
+                    }
+                }
+    		    else {
+    		        DMPairBig = DMPair;
+    		    }
+    		    DMPairB4 = DMPair;
+            }
+		}
+		if(this.getAgentIndex()==0)
+		{
+		    if(DMPairBig!=null)
+		    {
+		        log.error(DMPairBig.toString());
+		    }
 		}
         if(DMPairBig!=null)
         {   
-            if(oBigDrive.b==null || oBigDrive.b.compareTo(DMPairBig.b)<1.0)
+            if(oBigDrive.b==null || oBigDrive.b.compareTo(DMPairBig.b)==0.0)
             {
                 oBigDrive.b = DMPairBig.b;
-                oBigDrive.a += DMPairBig.b.getQuotaOfAffect();
+                oBigDrive.a = DMPairBig.b.getQuotaOfAffect();
+                log.error("\nCHANGE TO:"+DMPairBig);
+                satisfaction=0;
             }
+            log.error("\noBigDrive.a:                   "+oBigDrive.a);
+            log.error("\nDMPairBig.b.getQuotaOfAffect():"+DMPairBig.b.getQuotaOfAffect());
             satisfaction = oBigDrive.a - DMPairBig.b.getQuotaOfAffect();
+            log.error("\nsatisfaction:"+satisfaction);
             if(satisfaction < 0)
             {
                 satisfaction = 0;
