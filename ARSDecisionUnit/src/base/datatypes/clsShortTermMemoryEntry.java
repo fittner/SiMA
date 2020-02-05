@@ -315,9 +315,7 @@ public class clsShortTermMemoryEntry {
     public String getLearningContent()
     {
         String out;
-        out= "Learning Content  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-        out+="\n--> STM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-        out+="\n--------> Images:";
+        out="\n--> Images -------------------------------------------------------------------------------------------------------------------------------------------------------";
         Formatter oDoubleFormatter;
 
         for(clsThingPresentationMesh LearningImage : LearningLTMImage)
@@ -335,7 +333,13 @@ public class clsShortTermMemoryEntry {
             oDoubleFormatter = new Formatter();
             }
         }
-        out+="\n--> LTM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+      
+        return out;
+    }
+    public String getLearningContentLTM()
+    {
+        String out;
+        out="\n--> Images -------------------------------------------------------------------------------------------------------------------------------------------------------";
         out+="\n-------->                                                            New learned <EMOTION>         for          <IMAGE>";
 //        for(String key : LearningSTMStoreHM.keySet())
 //        {

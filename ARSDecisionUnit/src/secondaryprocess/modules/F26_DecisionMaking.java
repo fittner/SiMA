@@ -464,115 +464,115 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements I6_2_receive,
         }
         double maxAggrActVal = 0;
         boolean smaller = false;
-        ArrayList<clsPair<Double, clsThingPresentationMesh>> arrayObjPairSort = new ArrayList<clsPair<Double, clsThingPresentationMesh>>();;
-        
-        
-        for (int i = 0;i<arrayObjPair.size();i++)
-        {
-            if(Double.isNaN(arrayObjPair.get(i).a))
-            {
-                arrayObjPair.get(i).a = (double) 0;
-            }
-        }
-        int size = arrayObjPair.size();
-        for (int i = 0;;)
-        {
-            smaller = false;
-            double tmp_i;
-            tmp_i = arrayObjPair.get(i).a;
-            for (int j = 0;j<arrayObjPair.size();j++)
-            {
-                double tmp_j = arrayObjPair.get(j).a;
-                if(tmp_i < tmp_j)
-                {
-                    smaller = true;
-                    break;
-                }
-            }
-            if(smaller != true)
-            {
-                arrayObjPairSort.add(arrayObjPair.get(i));
-                arrayObjPair.remove(i);
-            }
-            if(arrayObjPairSort.size() >= size)
-            {
-                break;
-            }
-            if(i>=(arrayObjPair.size()-1))
-            {
-                i=0;
-            }
-            else
-            {
-                i++;
-            }
-        }
-        /* Remove double entries */
-        for (int i = 0;;i++)
-        {   String content;
-            
-        if(  (!arrayObjPairSort.isEmpty())
-          && (arrayObjPairSort.get(i).b != null)
-          && (!arrayObjPairSort.get(i).b.isNullObject())
-          )
-        {
-            content = arrayObjPairSort.get(i).b.getContent(); 
-            
-            for (int j = i+1;j < arrayObjPairSort.size();j++)
-            {   
-                String content2;
-                try {
-                    if(  (arrayObjPairSort.get(j).b != null)
-                      && (!arrayObjPairSort.get(j).b.isNullObject())
-                      )
-                    {
-                        content2 = arrayObjPairSort.get(j).b.getContent();
-                        if(content2.equals(content))
-                        {
-                            arrayObjPairSort.remove(j);
-                            j--;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                } catch (Exception e) {
-                log.info("ERROR: ", e);
-                }
-            }
-            if(i >= arrayObjPairSort.size()-1)
-            {
-                break;
-            }
-        }
-        }
-        for (int i = 0;i<1000;i++)
-        {
-            try
-            {
-                if(i >= arrayObjPairSort.size())
-                {
-                    break;
-                }
-                else
-                {
-                    if(arrayObjPairSort.get(i).b.getContent().equals("SELF"))
-                    {
-                        arrayObjPairSort.remove(i);
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                log.error("Error ", e);
-            }
-        }
-        
-        log.info("\nFITTNER HASH OF OBJECTS: {}", arrayObj);
-        log.info("\nFITTNER PAIR OF OBJECTS: {}", arrayObjPair);
-        log.info("\nFITTNER SORT OF OBJECTS: {}", arrayObjPairSort);
-        
-        moArrayObjPairSort = arrayObjPairSort;
+//        ArrayList<clsPair<Double, clsThingPresentationMesh>> arrayObjPairSort = new ArrayList<clsPair<Double, clsThingPresentationMesh>>();;
+//        
+//        
+//        for (int i = 0;i<arrayObjPair.size();i++)
+//        {
+//            if(Double.isNaN(arrayObjPair.get(i).a))
+//            {
+//                arrayObjPair.get(i).a = (double) 0;
+//            }
+//        }
+//        int size = arrayObjPair.size();
+//        for (int i = 0;;)
+//        {
+//            smaller = false;
+//            double tmp_i;
+//            tmp_i = arrayObjPair.get(i).a;
+//            for (int j = 0;j<arrayObjPair.size();j++)
+//            {
+//                double tmp_j = arrayObjPair.get(j).a;
+//                if(tmp_i < tmp_j)
+//                {
+//                    smaller = true;
+//                    break;
+//                }
+//            }
+//            if(smaller != true)
+//            {
+//                arrayObjPairSort.add(arrayObjPair.get(i));
+//                arrayObjPair.remove(i);
+//            }
+//            if(arrayObjPairSort.size() >= size)
+//            {
+//                break;
+//            }
+//            if(i>=(arrayObjPair.size()-1))
+//            {
+//                i=0;
+//            }
+//            else
+//            {
+//                i++;
+//            }
+//        }
+//        /* Remove double entries */
+//        for (int i = 0;;i++)
+//        {   String content;
+//            
+//        if(  (!arrayObjPairSort.isEmpty())
+//          && (arrayObjPairSort.get(i).b != null)
+//          && (!arrayObjPairSort.get(i).b.isNullObject())
+//          )
+//        {
+//            content = arrayObjPairSort.get(i).b.getContent(); 
+//            
+//            for (int j = i+1;j < arrayObjPairSort.size();j++)
+//            {   
+//                String content2;
+//                try {
+//                    if(  (arrayObjPairSort.get(j).b != null)
+//                      && (!arrayObjPairSort.get(j).b.isNullObject())
+//                      )
+//                    {
+//                        content2 = arrayObjPairSort.get(j).b.getContent();
+//                        if(content2.equals(content))
+//                        {
+//                            arrayObjPairSort.remove(j);
+//                            j--;
+//                        }
+//                    }
+//                    else
+//                    {
+//                        break;
+//                    }
+//                } catch (Exception e) {
+//                log.info("ERROR: ", e);
+//                }
+//            }
+//            if(i >= arrayObjPairSort.size()-1)
+//            {
+//                break;
+//            }
+//        }
+//        }
+//        for (int i = 0;i<1000;i++)
+//        {
+//            try
+//            {
+//                if(i >= arrayObjPairSort.size())
+//                {
+//                    break;
+//                }
+//                else
+//                {
+//                    if(arrayObjPairSort.get(i).b.getContent().equals("SELF"))
+//                    {
+//                        arrayObjPairSort.remove(i);
+//                        break;
+//                    }
+//                }
+//            } catch (Exception e) {
+//                log.error("Error ", e);
+//            }
+//        }
+//        
+//        log.info("\nFITTNER HASH OF OBJECTS: {}", arrayObj);
+//        log.info("\nFITTNER PAIR OF OBJECTS: {}", arrayObjPair);
+//        log.info("\nFITTNER SORT OF OBJECTS: {}", arrayObjPairSort);
+//        
+//        moArrayObjPairSort = arrayObjPairSort;
  
 		//Add the aim of drives goal to the mental situation
 		ShortTermMemoryFunctionality.addUsableAimOfDrivesToMentalSituation(moDriveGoalList_IN, moDecidedGoalList_OUT, this.moShortTermMemory);

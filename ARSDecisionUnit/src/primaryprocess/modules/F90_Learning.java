@@ -122,28 +122,53 @@ public class F90_Learning extends clsModuleBaseKB {
 	 */
 	@Override
 	public String stateToTEXT() {
-		String text = "";
-		//text ="Step: "+moSTM_Learning.getActualStep()+"\n";
-		//text += moLTM_Learning.getLTMLearningImages();
-		text += moLTM_Learning.getLearningContent();
-		//text += moSTM_Learning.toString();
-        double li=this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).getQoAchange()
-                +this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningDMs().get(0).getQoAchange()*4/5
-                +this.moSTM_Learning.moShortTermMemoryMF.get(2).getLearningDMs().get(0).getQoAchange()*3/5
-                +this.moSTM_Learning.moShortTermMemoryMF.get(3).getLearningDMs().get(0).getQoAchange()*2/5
-                +this.moSTM_Learning.moShortTermMemoryMF.get(4).getLearningDMs().get(0).getQoAchange()/5;
-       
-        clsEmotion Emotion = moSTM_Learning.moShortTermMemoryMF.get(0).getEmotions().get(0);
-        //li = li * Emotion.getSourcePleasure()+Emotion.getSourceUnpleasure();
+      double li=0;
+        if(this.moSTM_Learning.moShortTermMemoryMF.size()>4)
+        {
+            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().size()>0)
+            {
+                li=this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).getQoAchange();
+            }
+            if(this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningDMs().size()>0)
+            {
+                li+=this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningDMs().get(0).getQoAchange()*4/5;
+            }
+            if(this.moSTM_Learning.moShortTermMemoryMF.get(2).getLearningDMs().size()>0)
+            {
+                li+=this.moSTM_Learning.moShortTermMemoryMF.get(2).getLearningDMs().get(0).getQoAchange()*3/5;
+            }
+            if(this.moSTM_Learning.moShortTermMemoryMF.get(3).getLearningDMs().size()>0)
+            {
+                li+=this.moSTM_Learning.moShortTermMemoryMF.get(3).getLearningDMs().get(0).getQoAchange()*2/5;
+            }
+            if(this.moSTM_Learning.moShortTermMemoryMF.get(4).getLearningDMs().size()>0)
+            {
+                li+=this.moSTM_Learning.moShortTermMemoryMF.get(4).getLearningDMs().get(0).getQoAchange()/5;
+            }
+        }
+//      if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
+//        {
+//            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getEmotions().size()>0)
+//            {
+//                clsEmotion Emotion = moSTM_Learning.moShortTermMemoryMF.get(0).getEmotions().get(0);
+//                li = li * Emotion.getSourcePleasure()+Emotion.getSourceUnpleasure();
+//            }
+//        }
+// 
         if(li>0.4)
         {
             this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).setLearning();
         }
-		text += "\n";
-		text += "\nLearning Content  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-		text+="\n--> NEW OBJECT STM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+	    
+	    String text = "";
+		//text ="Step: "+moSTM_Learning.getActualStep()+"\n";
+		//text += moLTM_Learning.getLTMLearningImages();
+		text= "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+		text+="\n++  Short-Term Memory (STM)  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+		text+="\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        text+="\n--> New Objects ------------------------------------------------------------------------------------------------------------------------------------------------\n";
         Formatter oDoubleFormatter;
-        if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
+        if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
         {
             if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
             {
@@ -159,100 +184,117 @@ public class F90_Learning extends clsModuleBaseKB {
             text += "#-#";
         }
         text += "--[ASS:";
-        if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
+        if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
         {
             if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
             {
                 text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).a+"]";
             }
         }
-        text+="\n--> NEW OBJECT LTM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-        if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).getLearning())
-        {   
-            if(this.moSTM_Learning.getActualStep()<280 && !F31_NeuroDeSymbolizationActionCommands.share)
+        text+="\n--> New Satisfaction-Memory -------------------------------------------------------------------------------------------------------------------------------\n";
+        if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
+        {
+            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().size()>0)
             {
-                text1="";
-                if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
+                text += "OBJECT: \t";
+                if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
                 {
                     if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
                     {
-                        text1 = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).b.toString();
+                        text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).b;
                     }
                     else
                     {
-                        text1 = "#+#";
+                        text += "#+#";
                     }
                 }
                 else
                 {
-                    text1 += "#-#";
+                    text += "#-#";
                 }
-                text1 += "--[ASS:";
-                if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
+                text += "--[ASS:";
+                if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
                 {
                     if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
                     {
-                        text1 += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).a+"]";
+                        text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).a+"]";
                     }
                 }
-            }
-            text += text1;
-        }
-        text+="\n--> NEW SATISFACTION MEMORY STM +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-        text += "OBJECT: \t";
-        if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
-        {
-            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
-            {
-                text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).b;
-            }
-            else
-            {
-                text += "#+#";
-            }
-        }
-        else
-        {
-            text += "#-#";
-        }
-        text += "--[ASS:";
-        if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
-        {
-            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
-            {
-                text += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).a+"]";
-            }
-        }
-        text += "\nDRIVE: \t"+(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0));
-        text += "\nSATISFACTION:"+this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).getQoAchange();
-
-        text += "\nLEARNING INTENSITY:"+li;
+                text += "\nDRIVE: \t"+(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0));
+                text += "\nSATISFACTION:"+this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).getQoAchange();
         
-        text+="\n--> NEW SATISFACTION MEMORY LTM +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-        text += "OBJECT: \t";
-        if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).getLearning())
-        {   if(this.moSTM_Learning.getActualStep()<280 && !F31_NeuroDeSymbolizationActionCommands.share)
-            {   text2="";
-                if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
-                {
-                    if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
-                    {
-                        text2 = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).b.toString();
-                    }
-                }
-                text2 += "--[ASS:";
-                if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
-                {
-                    if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
-                    {
-                        text2 += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).a+"]";
-                    }
-                }
-                text2 += "\nDRIVE: \t"+(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0));
-                text2 += "\nSATISFACTION:"+this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).getQoAchange();
+                text += "\nLEARNING INTENSITY:"+li;
             }
-            text+=text2;
         }
+        text += moLTM_Learning.getLearningContent();
+        text+="\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        text+="\n++  Long-Term Memory (LTM)   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        text+="\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+		text+="\n--> New Objects ------------------------------------------------------------------------------------------------------------------------------------------------\n";
+        if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
+        {
+            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().size()>0)
+            {
+                if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).getLearning())
+                {   
+                    if(this.moSTM_Learning.getActualStep()<280 && !F31_NeuroDeSymbolizationActionCommands.share)
+                    {
+                        text1="";
+                        if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
+                        {
+                            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
+                            {
+                                text1 = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).b.toString();
+                            }
+                            else
+                            {
+                                text1 = "#+#";
+                            }
+                        }
+                        else
+                        {
+                            text1 += "#-#";
+                        }
+                        text1 += "--[ASS:";
+                        if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
+                        {
+                            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
+                            {
+                                text1 += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).a+"]";
+                            }
+                        }
+                    }
+                    text += text1;
+                }
+                text+="\n--> New Satisfaction-Memory -------------------------------------------------------------------------------------------------------------------------------\n";
+                if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).getLearning())
+                {   if(this.moSTM_Learning.getActualStep()<280 && !F31_NeuroDeSymbolizationActionCommands.share)
+                    {   
+                        text2="OBJECT: \t";
+                        if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
+                        {
+                            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
+                            {
+                                text2 = this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).b.toString();
+                            }
+                        }
+                        text2 += "--[ASS:";
+                        if(this.moSTM_Learning.moShortTermMemoryMF.size()>0)
+                        {
+                            if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()>0)
+                            {
+                                text2 += this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().get(0).a+"]";
+                            }
+                        }
+                        text2 += "\nDRIVE: \t"+(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0));
+                        text2 += "\nSATISFACTION:"+this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningDMs().get(0).getQoAchange();
+                    }
+                    text+=text2;
+                }
+            }
+        }
+        text += moLTM_Learning.getLearningContentLTM();
+        
         return text;
 	}
 	
