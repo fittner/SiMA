@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 
+import prementalapparatus.modules.F31_NeuroDeSymbolizationActionCommands;
 import prementalapparatus.symbolization.eSymbolExtType;
 import prementalapparatus.symbolization.representationsymbol.itfSymbol;
 import properties.clsProperties;
@@ -1353,6 +1354,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
                         }
                         break;
                     }
+                }
+                if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()==0 && this.moSTM_Learning.getActualStep()<670 && F31_NeuroDeSymbolizationActionCommands.share)
+                {
+                    this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningObjects(this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningObjects().get(0));
+                }
+                
+                if(this.moSTM_Learning.moShortTermMemoryMF.get(0).getLearningObjects().size()==0 && this.moSTM_Learning.getActualStep()<280 && !F31_NeuroDeSymbolizationActionCommands.share)
+                {
+                    this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningObjects(this.moSTM_Learning.moShortTermMemoryMF.get(1).getLearningObjects().get(0));
                 }
                 poRankingResultsEnviromentalTP = rankCandidatesTPM(oSearchResultsEnviromentalTP);
                 

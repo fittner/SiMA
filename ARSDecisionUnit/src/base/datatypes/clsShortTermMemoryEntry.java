@@ -369,6 +369,53 @@ public class clsShortTermMemoryEntry {
         
         return out;
     }
+    
+    public String getLearningDM()
+    {
+        String out;
+        out= "\nLearning Content  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        out+="\n--> NEW OBJECT STM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+        Formatter oDoubleFormatter;
+        if(this!=null)
+        {
+            if(this.getLearningObjects().size()>0)
+            {
+                out += this.getLearningObjects().get(0).b;
+            }
+        }
+        out += "--[ASS:";
+        if(this!=null)
+        {
+            if(this.getLearningObjects().size()>0)
+            {
+                out += this.getLearningObjects().get(0).a+"]";
+            }
+        }
+        
+        out+="\n--> NEW SATISFACTION MEMORY STM +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+        for(clsDriveMesh DM : LearningDMs)
+        {   oDoubleFormatter = new Formatter();
+
+            if(this!=null)
+            {
+                if(this.getLearningObjects().size()>0)
+                {
+                    out += this.getLearningObjects().get(0).b;
+                }
+            }
+            out += "--[ASS:";
+            if(this!=null)
+            {
+                if(this.getLearningObjects().size()>0)
+                {
+                    out += this.getLearningObjects().get(0).a+"]";
+                }
+            }
+            out += "\nDRIVE: \t"+this.getLearningDMs().get(0);
+            out += "\nSATISFACTION:"+this.getLearningDMs().get(0).getQoAchange();
+        }
+        return out;
+    }
 
 
     /**

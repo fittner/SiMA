@@ -138,7 +138,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		text += "OBJECT: \t";
 		if(this.moSTM_Learning.getActualStep()>229)
 		{
-		    text += "f";
+//		    text += "f";
 		}
 		if(this.moSTM_Learning.moShortTermMemoryMF.get(0)!=null)
 		{
@@ -248,6 +248,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	/**
 	 * DOCUMENT (schaat) - Search for TPMs that are associated with the different drive candidates. 
 	 * @param <clsPhysicalDataStructure>
+	 * @throws CloneNotSupportedException 
 	 *
 	 * @since 01.07.2011 10:24:34
 	 *
@@ -320,7 +321,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
                     DMnew.setActiveTime(DMold.getActiveTime()+1);
                     if(DMnew.getQuotaOfAffect() != DMold.getQuotaOfAffect())
                     {
-                        rQoA = DMnew.getQuotaOfAffect() - DMold.getQuotaOfAffect();
+                        rQoA = DMold.getQuotaOfAffect()- DMnew.getQuotaOfAffect();
                         DMPairs.add(new clsPair(rQoA,DMnew));
                         DMnew.setQoAchange(rQoA);
                         if (  (rQoA >  0.015)
@@ -333,66 +334,99 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
             }
         }
 		
-		clsPair<Double,clsDriveMesh> DMPairB4 = null;
+		ArrayList<clsPair<Double,clsDriveMesh>> DMPairSort = new ArrayList<clsPair<Double,clsDriveMesh>>();
 		clsPair<Double,clsDriveMesh> DMPairBig=null;
 		for(clsPair<Double,clsDriveMesh> DMPair : DMPairs)
-		{
-		    if( this.moSTM_Learning.getActualStep() > 100 && this.moSTM_Learning.getActualStep()<400)
-            {
-                if( DMPair.b.getChartShortString().contains("L.-.STOMACH"))
-                {   
-                    DMPairBig = DMPair;
-                    break;
+        {
+            if (DMPairSort.size()>0)
+            {   index=DMPairSort.size();
+                for (clsPair<Double,clsDriveMesh> DMPairSortElem : DMPairSort)
+                {
+                    if(DMPair.a > DMPairSortElem.a)
+                    {
+                        index=DMPairSort.indexOf(DMPairSortElem);
+                        break;
+                    }
                 }
+                DMPairSort.add(index,DMPair);
             }
             else
             {
-    		    if (DMPairB4!=null)
-                {   if(DMPairB4.a < DMPair.a )
-        		    {
-                        if(DMPairBig.a < DMPair.a )
-                        {
-                            DMPairBig = DMPair;
-                        }
-        		    }
-                    else
-                    {
-                        if(DMPairBig.a < DMPairB4.a )
-                        {
-                            DMPairBig = DMPairB4;
-                        }
-                    }
-                }
-    		    else {
-    		        DMPairBig = DMPair;
-    		    }
-    		    DMPairB4 = DMPair;
+                DMPairSort.add(0,DMPair);
             }
-		}
-		if(this.getAgentIndex()==0)
-		{
-		    if(DMPairBig!=null)
-		    {
-		        log.error(DMPairBig.toString());
-		    }
-		}
-        if(DMPairBig!=null)
+        }
+		
+//		for(clsPair<Double,clsDriveMesh> DMPair : DMPairs)
+//		{
+//		    if( this.moSTM_Learning.getActualStep() > 100 && this.moSTM_Learning.getActualStep()<400)
+//            {
+//                if( DMPair.b.getChartShortString().contains("L.-.STOMACH"))
+//                {   
+//                    DMPairBig = DMPair;
+//                    break;
+//                }
+//            }
+//            else
+//            {
+//    		    if (DMPairB4!=null)
+//                {   if(DMPairB4.a < DMPair.a )
+//        		    {
+//                        if(DMPairBig.a < DMPair.a )
+//                        {
+//                            DMPairBig = DMPair;
+//                        }
+//        		    }
+//                    else
+//                    {
+//                        if(DMPairBig.a < DMPairB4.a )
+//                        {
+//                            DMPairBig = DMPairB4;
+//                        }
+//                    }
+//                }
+//    		    else {
+//    		        DMPairBig = DMPair;
+//    		    }
+//    		    DMPairB4 = DMPair;
+//            }
+//		}
+//		if(this.getAgentIndex()==0)
+//		{
+//		    if(DMPairBig!=null)
+//		    {
+//		        log.error(DMPairBig.toString());
+//		    }
+//		}
+        if(DMPairSort.size()>0)
         {   
-            if(oBigDrive.b==null || oBigDrive.b.compareTo(DMPairBig.b)==0.0)
+            if(oBigDrive.b==null || oBigDrive.b.compareTo(DMPairSort.get(0).b)==0.0)
             {
-                oBigDrive.b = DMPairBig.b;
-                oBigDrive.a = DMPairBig.b.getQuotaOfAffect();
-                log.error("\nCHANGE TO:"+DMPairBig);
+                oBigDrive.b = DMPairSort.get(0).b;
+                oBigDrive.a = DMPairSort.get(0).b.getQuotaOfAffect();
+                log.error("\nCHANGE TO:"+DMPairSort.get(0));
                 satisfaction=0;
             }
             log.error("\noBigDrive.a:                   "+oBigDrive.a);
-            log.error("\nDMPairBig.b.getQuotaOfAffect():"+DMPairBig.b.getQuotaOfAffect());
-            satisfaction = oBigDrive.a - DMPairBig.b.getQuotaOfAffect();
+            log.error("\nDMPairBig.b.getQuotaOfAffect():"+DMPairSort.get(0).b.getQuotaOfAffect());
+            satisfaction += DMPairSort.get(0).b.getQoAchange();
+            satisfaction = oBigDrive.a - DMPairSort.get(0).b.getQuotaOfAffect();
             log.error("\nsatisfaction:"+satisfaction);
             if(satisfaction < 0)
             {
                 satisfaction = 0;
             }
+        }
+        clsDriveMesh CloneDM;
+        try {
+            if(DMPairSort.size()>0)
+            {
+                CloneDM = (clsDriveMesh) DMPairSort.get(0).b.clone();
+                CloneDM.setQoAchange(satisfaction);
+                this.moSTM_Learning.moShortTermMemoryMF.get(0).setLearningDMs(CloneDM);
+            }
+        } catch (CloneNotSupportedException e1) {
+            // TODO (nocks) - Auto-generated catch block
+            e1.printStackTrace();
         }
 		//oBigDrive=null;
 		// Sortieren der Liste
