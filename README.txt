@@ -3,12 +3,12 @@ README
 
 1. Changelog
 ------------
-  - 2010-10-28 ... Initial File (Tobias Deutsch)
+  - 2022-02-11 ... Initial github setup (Martin Fittner)
   
-2. What is ARSIN-World
+2. What is SiMA-World
 ----------------------
-ARSIN-World is an alife simulation which is developed to provide a test-bed for the artificial general intelligence control unit /decision unit developed by project ARS (Artificial Recognition System). It is based on the multi-agent simulation platform MASON.
+SiMA-World is an alife simulation which is developed to provide a test-bed for the artificial general intelligence control unit /decision unit developed by project SiMA (Simulation of the Mental Apparatus & Applications). It is based on the multi-agent simulation platform MASON.
 
 3. Links
 --------
-	http://ars.ict.tuwien.ac.at/ (project main page)
+	http://sima.ict.tuwien.ac.at/ (project main page)
