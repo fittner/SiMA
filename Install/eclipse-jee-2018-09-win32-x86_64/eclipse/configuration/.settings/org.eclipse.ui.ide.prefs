@@ -1,6 +1,6 @@
 MAX_RECENT_WORKSPACES=10
-RECENT_WORKSPACES=C\:\\workspace\\SiMA\\Install\\eclipse-jee-2018-09-win32-x86_64\\eclipse_workspace
+RECENT_WORKSPACES=C\:\\workspace\\SiMA\\Install\\eclipse-jee-2018-09-win32-x86_64\\eclipse-workspace
 RECENT_WORKSPACES_PROTOCOL=3
 SHOW_RECENT_WORKSPACES=false
-SHOW_WORKSPACE_SELECTION_DIALOG=true
+SHOW_WORKSPACE_SELECTION_DIALOG=false
 eclipse.preferences.version=1

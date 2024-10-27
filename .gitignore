@@ -1,6 +1,3 @@
-.metadata
-*.class
-
 /ARSDecisionUnit/bin
 /ARSMemory/bin
 /CommunicationInterface/bin
@@ -11,9 +8,7 @@
 /MasonExtentions/bin
 /Simulation/bin
 /TestApps/bin
-
 /Simulator/config/config.save
-
 /Simulation/config/config.save
 /log/*.log
 /log
