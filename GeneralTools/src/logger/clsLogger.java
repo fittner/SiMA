@@ -52,7 +52,7 @@ public class clsLogger {
     public static Logger getLog(String loggerName) {
         if (ansiSet==false) {
             setSystemPropertyForANSI();
-            PropertyConfigurator.configure(clsGetARSPath.getArsPath() + clsGetARSPath.getSeperator() + "Simulation" + clsGetARSPath.getSeperator() + "log4j_" + getCurrentUser() + ".properties");
+            PropertyConfigurator.configure(clsGetARSPath.getArsPath() + clsGetARSPath.getSeperator() + "Simulation" + clsGetARSPath.getSeperator() + "log4j.properties");
             ansiSet=true;
         }
         

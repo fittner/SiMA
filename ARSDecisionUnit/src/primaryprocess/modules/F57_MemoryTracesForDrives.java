@@ -403,14 +403,14 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
             {
                 oBigDrive.b = DMPairSort.get(0).b;
                 oBigDrive.a = DMPairSort.get(0).b.getQuotaOfAffect();
-                log.error("\nCHANGE TO:"+DMPairSort.get(0));
+                //log.error("\nCHANGE TO:"+DMPairSort.get(0));
                 satisfaction=0;
             }
-            log.error("\noBigDrive.a:                   "+oBigDrive.a);
-            log.error("\nDMPairBig.b.getQuotaOfAffect():"+DMPairSort.get(0).b.getQuotaOfAffect());
+            //log.error("\noBigDrive.a:                   "+oBigDrive.a);
+            //log.error("\nDMPairBig.b.getQuotaOfAffect():"+DMPairSort.get(0).b.getQuotaOfAffect());
             satisfaction += DMPairSort.get(0).b.getQoAchange();
             satisfaction = oBigDrive.a - DMPairSort.get(0).b.getQuotaOfAffect();
-            log.error("\nsatisfaction:"+satisfaction);
+            //log.error("\nsatisfaction:"+satisfaction);
             if(satisfaction < 0)
             {
                 satisfaction = 0;

@@ -74,7 +74,7 @@ public class clsProcessor implements itfProcessor  {
         {
             String line = null;
             String lineB4 = null;
-            File f1 = new File("C:/Users/nocks/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_FIM_LEARN_EMOTION/ADAM_FIM_LEARN_EMOTION.pins");
+            File f1 = new File("./../ARSMemory/config/_v38/bw/pa.memory/ADAM_FIM_LEARN_EMOTION/ADAM_FIM_LEARN_EMOTION.pins");
             FileReader fr = new FileReader(f1);
             BufferedReader br = new BufferedReader(fr);
             int i=0;

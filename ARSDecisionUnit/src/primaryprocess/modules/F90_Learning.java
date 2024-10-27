@@ -531,7 +531,7 @@ public class F90_Learning extends clsModuleBaseKB {
                     // Emotion des anderen Ageneten
                 }
     	        moSTM_Learning.moShortTermMemoryMF.add(0,moSTM_LearningEntry);
-    	        log.error(moLTM_Learning.getLearningContent());
+    	        //log.error(moLTM_Learning.getLearningContent());
     	    }
     	    else
     	    {
@@ -566,7 +566,7 @@ public class F90_Learning extends clsModuleBaseKB {
     	        try
         	    {
         	        String line = null;
-        	        File f1 = new File("C:/Users/nocks/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_FIM_LEARN_EMOTION/ADAM_FIM_LEARN_EMOTION.pins");
+        	        File f1 = new File("./../ARSMemory/config/_v38/bw/pa.memory/ADAM_FIM_LEARN_EMOTION/ADAM_FIM_LEARN_EMOTION.pins");
                     //File f2 = new File("C:/Users/noName/Dropbox/workspace/ARSIN_V02/ARSMemory/config/_v38/bw/pa.memory/ADAM_EC2SC2_BEAT/ADAM_EC2SC2_BEAT.pins");
                     FileReader fr = new FileReader(f1);
                     BufferedReader br = new BufferedReader(fr);
