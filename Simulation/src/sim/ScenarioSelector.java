@@ -12,6 +12,10 @@ package sim;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,7 +25,7 @@ import properties.clsProperties;
 
 import singeltons.clsSingletonMasonGetter;
 import utils.clsGetARSPath;
-import utils.PropertiesInspector.clsPropertiesInspector;
+
 
 /**
  * GUI to select a scenario and start the simulation with the corresponding runtime arguments.
@@ -265,7 +269,7 @@ public class ScenarioSelector extends javax.swing.JFrame {
             }
         });
         
-        btnEdit.setText("Edit");
+        btnEdit.setText("Erase_Memory");
         btnEdit.setActionCommand("");
         btnEdit.setName(""); // NOI18N
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -295,9 +299,9 @@ public class ScenarioSelector extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnStartScenario, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(pnlScenarios, javax.swing.GroupLayout.Alignment.LEADING, 0, 567, Short.MAX_VALUE)
                         .addComponent(pnlDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -331,20 +335,13 @@ public class ScenarioSelector extends javax.swing.JFrame {
     }
     
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {
-    	int selectedIndex= lstScenarioList.getSelectedIndex();
-
-        if(selectedIndex != -1)
-        {
-	    	ScenarioEntry oSelectedScenarioEntry = (ScenarioEntry) lstScenarioList.getModel().getElementAt(selectedIndex);
-	    	String oPropertyPathname = clsGetARSPath.getConfigPath();
-	    	String oPropertyFilenameLocal = oSelectedScenarioEntry.getFileName();
-	    	
-	    	//load the Property Editor in a modal window and hold there till the user is finished
-	    	clsPropertiesInspector oPI = new clsPropertiesInspector(this, oSelectedScenarioEntry.getName(), true, oPropertyPathname, oPropertyFilenameLocal);
-
-	    	//refresh the Infro from all Scenarios
-	    	FillScenarioList();
-        }
+    	File source = new File("./../ARSMemory/config/_v38/bw/pa.memory/ADAM_FIM_LEARN_EMOTION/ADAM_FIM_LEARN_EMOTION_RESET.pins");
+    	File dest = new File("./../ARSMemory/config/_v38/bw/pa.memory/ADAM_FIM_LEARN_EMOTION/ADAM_FIM_LEARN_EMOTION.pins");
+    	try {
+    		Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    	} catch (IOException e) {
+    	    e.printStackTrace();
+    	}
     }
     
     /**
